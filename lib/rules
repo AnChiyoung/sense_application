@@ -1,6 +1,6 @@
 1. folder, file
  - lowercase with underscores를 사용한다.
-   ex) app_init.dart, flutter_initialize.dart, models/kakao_auth_model.dart
+   ex) app_init.dart, flutter_initialize.dart, models/kakao_auth_model.dart, models_temp/magazine_model.dart
  - MVVM에 기반을 두는 파일들은 후미에 attention 메커니즘을 붙인다.
    ex) user_info_model.dart, user_info_view.dart, user_info_screen.dart
    
