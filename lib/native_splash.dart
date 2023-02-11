@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:sense_flutter_application/screens/home/home_screen.dart';
+import 'package:sense_flutter_application/screens/login/kakao_login_screen.dart';
 
 class NativeSplash extends StatefulWidget {
   const NativeSplash({super.key});
@@ -27,10 +29,12 @@ class _NativeSplash extends State<NativeSplash> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        child: const Center(
-          child: Text('SENSE APPLICATION'),
-        )
-      )
+        child: HomeScreen(),
+        // child: KakaoLoginScreen(),
+        // child: const Center(
+        //   child: Text('SENSE APPLICATION'),
+
+      ),
     );
   }
 }
