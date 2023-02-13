@@ -13,4 +13,6 @@ class StaticColor {
   static Color notifyError = const Color(0xFFFF2323);
   static Color notifyWarning = const Color(0xFFFFBC57);
   static Color notifySuccess = const Color(0xFF00C366);
+  // home menu color
+  static Color unselectedColor = const Color(0xFFC1C1C1);
 }

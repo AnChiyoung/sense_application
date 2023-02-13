@@ -25,29 +25,42 @@ class BottomMenu extends StatefulWidget {
 }
 
 class _BottomMenuState extends State<BottomMenu> {
-  
-  List<BottomNavigationBarItem> bottomNavigationMenu = [
-    BottomNavigationBarItem(icon: Image.asset('assets/home/home.png', width: 18, height: 18.77), label: 'feed'),
-    BottomNavigationBarItem(icon: Image.asset('assets/home/calendar.png', width: 18, height: 19.5), label: 'calendar'),
-    BottomNavigationBarItem(icon: Image.asset('assets/home/add_schedule.png', width: 14, height: 14), label: 'add_schedule'),
-    BottomNavigationBarItem(icon: Image.asset('assets/home/contact.png', width: 23.06, height: 13.51), label: 'contact'),
-    BottomNavigationBarItem(icon: Image.asset('assets/home/mypage.png', width: 12, height: 18), label: 'mypage'),
-  ];
 
+  String feedIcon = '', calendarIcon = '', add_scheduleIcon = '', contactIcon = '', mypageIcon = '';
   int pageIndex = 0;
 
   @override
+  void initState() {
+    feedIcon = 'feed.png'; calendarIcon = 'calendar.png'; add_scheduleIcon = 'add_schedule.png'; contactIcon = 'contact.png'; mypageIcon = 'mypage.png';
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: bottomNavigationMenu,
-      currentIndex: pageIndex,
-      selectedItemColor: StaticColor.mainSoft,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      onTap: (index) {
-        widget.selectCallback(index);
-        pageIndex = index;
-      }
+
+
+    List<BottomNavigationBarItem> bottomNavigationMenu = [
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 18), label: 'feed'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/calendar.png'), size: 18), label: 'calendar'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/add_schedule.png'), size: 14), label: 'feed'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/contact.png'), size: 23), label: 'feed'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/mypage.png'), size: 18), label: 'feed'),
+    ];
+
+    return Container(
+      height: 80,
+      child: BottomNavigationBar(
+        items: bottomNavigationMenu,
+        currentIndex: pageIndex,
+        selectedItemColor: StaticColor.mainSoft,
+        unselectedItemColor: StaticColor.unselectedColor,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        onTap: (index) {
+          widget.selectCallback(index);
+          pageIndex = index;
+        }
+      ),
     );
   }
 }
