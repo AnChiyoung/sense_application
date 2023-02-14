@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_home_view.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_utils.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({Key? key}) : super(key: key);
@@ -8,12 +11,11 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.blue,
+    return const SafeArea(
+      child: CalendarBase(),
     );
   }
 }

@@ -10,10 +10,8 @@ class MypageScreen extends StatefulWidget {
 class _MypageScreenState extends State<MypageScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.grey,
+    return const Center(
+      child: Text('mypage area'),
     );
   }
 }

@@ -10,10 +10,8 @@ class ContactScreen extends StatefulWidget {
 class _ContactScreenState extends State<ContactScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.yellow,
+    return const Center(
+      child: Text('contact area'),
     );
   }
 }

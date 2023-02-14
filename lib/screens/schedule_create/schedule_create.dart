@@ -10,10 +10,8 @@ class ScheduleCreateScreen extends StatefulWidget {
 class _ScheduleCreateScreenState extends State<ScheduleCreateScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.green,
+    return const Center(
+      child: Text('schedule add area'),
     );
   }
 }

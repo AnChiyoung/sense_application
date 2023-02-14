@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
-
 import 'native_splash.dart';
 
 void main() {
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: NativeSplash()
+      home: const NativeSplash(),
     );
   }
 }
