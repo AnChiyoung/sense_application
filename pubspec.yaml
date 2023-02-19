@@ -39,6 +39,11 @@ dependencies:
   flutter_native_splash: ^2.2.17
   provider: ^6.0.5
   http: ^0.13.5
+  mask_text_input_formatter: ^2.4.0
+  eosdart: ^0.4.8
+  email_validator: ^2.1.17
+  kakao_flutter_sdk: ^1.4.0
+  flutter_secure_storage: ^8.0.0
   table_calendar: ^3.0.9
   intl: ^0.18.0
   draggable_bottom_sheet: ^1.0.2
