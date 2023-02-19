@@ -126,16 +126,71 @@ class _CalendarBaseState extends State<CalendarBase> {
   }
 
   Widget DayEventCollection() {
+    Map<DateTime, List<Event>> eventList = sampleEvent;
+    List<Event>? aa = eventList[sampleEvent.keys.elementAt(0)];
+    int? eventLength = aa?.length;
+    List<Widget> cc = [];
+    var ee = aa?.asMap().entries.map((e) {
+      return EventElement(e.key);
+    });
+    for(int i = 0; i < aa!.length; i++) {
+      cc.add(ee!.elementAt(i));
+    }
+
     return Column(
       children: [
         Row(
           children: [
             Text('$selectday일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-            Text('2', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
+            Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
             Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
           ]
+        ),
+        SizedBox(height: 8),
+        Column(
+          children: cc
         )
       ]
+    );
+  }
+
+  Widget EventElement(int e) {
+    List<Color> eventColorList = [
+      Color(0xFFBE6E24),
+      Color(0xFFFF7B8B),
+      Color(0xFF91C300),
+      Color(0xFF6E79DD),
+    ];
+
+    Map<DateTime, List<Event>> eventList = sampleEvent;
+    List<Event>? aa = eventList[sampleEvent.keys.elementAt(0)];
+
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: eventColorList.elementAt(e),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Image.asset('assets/calendar/event_header_bar.png', width: 4, height: 40),
+              SizedBox(width: 10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(alignment: Alignment.centerLeft, child: Text(aa!.elementAt(e).title, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
+                  Align(alignment: Alignment.centerLeft, child: Text(aa!.elementAt(e).location, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
+                  Align(alignment: Alignment.centerLeft, child: Text(aa!.elementAt(e).time, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
+                ]
+              )
+            ]
+          )
+        ),
+        SizedBox(height: 26),
+      ],
     );
   }
 
@@ -174,9 +229,9 @@ class _CalendarBaseState extends State<CalendarBase> {
               // rangeStartDay: _rangeStart,
               // rangeEndDay: _rangeEnd,
               calendarFormat: _calendarFormat,
-              // rangeSelectionMode: _rangeSelectionMode,
+              rangeSelectionMode: _rangeSelectionMode,
               eventLoader: _getEventsForDay,
-              startingDayOfWeek: StartingDayOfWeek.monday,
+              startingDayOfWeek: StartingDayOfWeek.sunday,
               calendarStyle: CalendarStyle(
                 // Use `CalendarStyle` to customize the UI
                 outsideDaysVisible: true,
@@ -187,6 +242,14 @@ class _CalendarBaseState extends State<CalendarBase> {
                 selectedDecoration: BoxDecoration(
                   color: StaticColor.selectDayColor,
                   shape: BoxShape.circle,
+                ),
+                markerSize: 8.0,
+                markersMaxCount: 8,
+                markerMargin: EdgeInsets.symmetric(horizontal: 2),
+                markersAutoAligned: true,
+                markerDecoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle
                 ),
               ),
               calendarBuilders: CalendarBuilders(
@@ -271,6 +334,8 @@ class _CalendarBaseState extends State<CalendarBase> {
       ),
     );
   }
+
+
 }
 
 class DateProvider with ChangeNotifier {

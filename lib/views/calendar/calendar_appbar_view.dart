@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../public_widget/alert_dialog.dart';
+
 class CalendarAppBar extends StatefulWidget {
   const CalendarAppBar({Key? key}) : super(key: key);
 
@@ -15,7 +17,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
     for (int i = 1; i < 13; i++) {
       monthList.add('$i월');
     }
-    selectMonth = monthList.first;
+    selectMonth = monthList.elementAt(1);
   }
 
   @override
@@ -63,7 +65,15 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                       height: 24,
                       child: Image.asset('assets/calendar/action_blank.png', width: 24, height: 24),
                     ),
-                    onTap: () {print('tap the blank calendar');}
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return CustomDialog();
+                          });
+                      print('tap the blank calendar');}
                   ),
                 ),
                 SizedBox(width: 16),
@@ -75,7 +85,15 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                         height: 24,
                         child: Image.asset('assets/calendar/action_search.png', width: 24, height: 24),
                       ),
-                      onTap: () {print('tap the search');}
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return CustomDialog();
+                            });
+                        print('tap the search');}
                   ),
                 ),
                 SizedBox(width: 16),
@@ -87,7 +105,15 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                         height: 24,
                         child: Image.asset('assets/calendar/action_bell.png', width: 24, height: 24),
                       ),
-                      onTap: () {print('tap the alarm');}
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return const CustomDialog();
+                            });
+                        print('tap the alarm');}
                   ),
                 ),
               ]

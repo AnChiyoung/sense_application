@@ -3,41 +3,42 @@
 
 import 'dart:collection';
 
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
 class Event {
   final String title;
-  final String time;
   final String location;
-  const Event(this.title, this.time, this.location);
+  final String time;
+  const Event(this.title, this.location, this.time);
   @override
   String toString() => title;
 }
 
-String aa = DateTime.utc(2023,2,18).toString();
-Map<String, List<Event>> sampleEvent = {
-  aa : [
+String eventKey = DateFormat('yyyy-MM-dd').format(DateTime.utc(2023,2,18)).toString();
+Map<DateTime, List<Event>> sampleEvent = {
+  DateTime.utc(2023,2,18) : [
     Event('SENSE LAUNCHING', '경기도 성남시 분당구 판교', '하루종일'),
-    Event('SENSE 매출 10억', '경기도 성남시 분당구 판교', '하루종일'),
-    Event('SENSE 매출 100억', '경기도 성남시 분당구 판교', '하루종일'),
-    Event('SENSE 매출 로또 1등 10회 분', '경기도 성남시 분당구 판교', '하루종일')],
+    Event('SENSE 회의', '경기도 성남시 분당구 판교', '10am - 11am'),
+    Event('RUNNERS 회의', '경기도 성남시 분당구 판교', '3pm - 7pm'),
+    Event('퇴근', '경기도 성남시 분당구 판교', '8pm')],
 };
 
-// final kEvents = LinkedHashMap<DateTime, List<Event>>(
-//   equals: isSameDay,
-//   hashCode: getHashCode,
-// )..addAll(_kEventSource);
+final kEvents = LinkedHashMap<DateTime, List<Event>>(
+  equals: isSameDay,
+  hashCode: getHashCode,
+)..addAll(_kEventSource);
 
-// final _kEventSource = {
-//   for (var item in List.generate(50, (index) => index)) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
-//         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) }
-//   ..addAll({
-//     kToday: [
-//       const Event('Today\'s Event 1'),
-//       const Event('Today\'s Event 2'),
-//     ],
-//   });
+final _kEventSource = {
+  for (var item in List.generate(50, (index) => index)) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
+        item % 4 + 1, (index) => Event('Event $item | ${index + 1}', '', '')) }
+  ..addAll({
+    kToday: [
+      const Event('Today\'s Event 1', '', ''),
+      const Event('Today\'s Event 2', '', ''),
+    ],
+  });
 
 // final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
 //     key: (item) => DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5),

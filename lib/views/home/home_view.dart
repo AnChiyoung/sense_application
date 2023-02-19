@@ -6,6 +6,8 @@ import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
 import 'package:sense_flutter_application/screens/schedule_create/schedule_create.dart';
 
+import '../../public_widget/alert_dialog.dart';
+
 class MovePageList {
   List<Widget> pageList = [
     FeedScreen(),
@@ -49,18 +51,31 @@ class _BottomMenuState extends State<BottomMenu> {
 
     return Container(
       height: 80,
-      child: BottomNavigationBar(
-        items: bottomNavigationMenu,
-        currentIndex: pageIndex,
-        selectedItemColor: StaticColor.mainSoft,
-        unselectedItemColor: StaticColor.unselectedColor,
+      child: Wrap(
+        children: [
+          BottomNavigationBar(
+            items: bottomNavigationMenu,
+            currentIndex: pageIndex,
+            selectedItemColor: StaticColor.mainSoft,
+            unselectedItemColor: StaticColor.unselectedColor,
 
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: (index) {
-          widget.selectCallback(index);
-          pageIndex = index;
-        }
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            onTap: (index) {
+              widget.selectCallback(index);
+              pageIndex = index;
+              if(index == 2 || index == 3 || index == 4) {
+                showDialog(
+                    context: context,
+                    //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return const CustomDialog();
+                    });
+              }
+            }
+          ),
+        ]
       ),
     );
   }
