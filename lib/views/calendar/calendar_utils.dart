@@ -8,29 +8,36 @@ import 'package:table_calendar/table_calendar.dart';
 /// Example event class.
 class Event {
   final String title;
-  const Event(this.title);
+  final String time;
+  final String location;
+  const Event(this.title, this.time, this.location);
   @override
   String toString() => title;
 }
 
-final kEvents = LinkedHashMap<DateTime, List<Event>>(
-  equals: isSameDay,
-  hashCode: getHashCode,
-)..addAll(_kEventSource);
-
-final _kEventSource = {
-  for (var item in List.generate(50, (index) => index)) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) }
-  ..addAll({
-    kToday: [
-      const Event('Today\'s Event 1'),
-      const Event('Today\'s Event 2'),
-    ],
-  });
-
-Map<DateTime, List<Event>> sampleEvent = {
-  DateTime.utc(2023,2,18) : [const Event('첫번째'), Event('두번째'), Event('세번째'), Event('네번째')],
+String aa = DateTime.utc(2023,2,18).toString();
+Map<String, List<Event>> sampleEvent = {
+  aa : [
+    Event('SENSE LAUNCHING', '경기도 성남시 분당구 판교', '하루종일'),
+    Event('SENSE 매출 10억', '경기도 성남시 분당구 판교', '하루종일'),
+    Event('SENSE 매출 100억', '경기도 성남시 분당구 판교', '하루종일'),
+    Event('SENSE 매출 로또 1등 10회 분', '경기도 성남시 분당구 판교', '하루종일')],
 };
+
+// final kEvents = LinkedHashMap<DateTime, List<Event>>(
+//   equals: isSameDay,
+//   hashCode: getHashCode,
+// )..addAll(_kEventSource);
+
+// final _kEventSource = {
+//   for (var item in List.generate(50, (index) => index)) DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5) : List.generate(
+//         item % 4 + 1, (index) => Event('Event $item | ${index + 1}')) }
+//   ..addAll({
+//     kToday: [
+//       const Event('Today\'s Event 1'),
+//       const Event('Today\'s Event 2'),
+//     ],
+//   });
 
 // final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
 //     key: (item) => DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5),

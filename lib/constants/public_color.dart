@@ -11,6 +11,8 @@ class StaticColor {
   static Color subEtc = const Color(0xFF6E79DD);
   static Color selectDayColor = const Color(0xFF3E97FF);
   static Color selectMonthColor = const Color(0xFF797979);
+  static Color eventDayColor = const Color(0xFF34363E);
+  static Color eventCountColor = const Color(0xFF3E97FF);
   // notify color
   static Color notifyError = const Color(0xFFFF2323);
   static Color notifyWarning = const Color(0xFFFFBC57);

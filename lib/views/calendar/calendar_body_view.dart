@@ -22,6 +22,12 @@ class _CalendarBaseState extends State<CalendarBase> {
 
   List<String> days = ['_', '월', '화', '수', '목', '금', '토', '일'];
 
+  int selectYear = 0;
+  int selectMonth = 0;
+  int selectday = 0;
+  int selectWeekDayNumber = 0;
+  String selectWeekDay = '';
+
   @override
   void initState() {
     super.initState();
@@ -53,11 +59,10 @@ class _CalendarBaseState extends State<CalendarBase> {
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     // 임시 데이터, request로 받아야하는 부분
-    int selectYear = selectedDay.year;
-    int selectMonth = selectedDay.month;
-    int selectday = selectedDay.day;
-    int selectWeekDayNumber = selectedDay.weekday;
-    String selectWeekDay = '';
+    selectYear = selectedDay.year;
+    selectMonth = selectedDay.month;
+    selectday = selectedDay.day;
+    selectWeekDayNumber = selectedDay.weekday;
     if(selectWeekDayNumber == 0) {
       selectWeekDay = '일';
     } else if(selectWeekDayNumber == 1) {
@@ -76,7 +81,7 @@ class _CalendarBaseState extends State<CalendarBase> {
 
 
     if (!isSameDay(_selectedDay, selectedDay)) {
-      Map<DateTime, List<Event>> selectDayEvent = sampleEvent;
+      // Map<DateTime, List<Event>> selectDayEvent = sampleEvent;
       // 특정 날짜 이벤트가 없다면, 가장 빠른 날짜나 오늘로 이동. 어느쪽??
       setState(() {
         _selectedDay = selectedDay;
@@ -89,7 +94,7 @@ class _CalendarBaseState extends State<CalendarBase> {
       showModalBottomSheet(
           context: context,
           isScrollControlled: true,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.0),
               topRight: Radius.circular(20.0),
@@ -97,73 +102,41 @@ class _CalendarBaseState extends State<CalendarBase> {
           ),
           builder: (BuildContext context) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 21.0),
+              padding: const EdgeInsets.symmetric(horizontal: 21.0),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.8,
                 child: Column(
                   children: [
                     SizedBox(width: double.infinity, height: 40, child: Align(alignment: Alignment.topCenter, child: Padding(padding: EdgeInsets.only(top: 10), child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
                     Align(alignment: Alignment.centerLeft, child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
-                    Text('$selectday/$selectWeekDay'),
+                    SizedBox(height: 8),
                     SingleChildScrollView(child: Column(
                       children: [
-                        
+                        DayEventCollection(),
                         // 이벤트 트리거
                         // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
                       ]
                     )),
-                    // SingleChildScrollView(
-                    //   child: ListView.builder(
-                    //     itemCount: sampleEvent.length,
-                    //     itemBuilder: (context, index) {
-                    //       return Container(
-                    //       );
-                    //     }
-                    //   )
-                    // )
-                    // ListView.builder(
-                    //   itemCount: sampleEvent.length,
-                    //   itemBuilder: (context, index) {
-                    //     // 일단위 리스트 생성 중
-                    //     return Container(
-                    //       child: Column(
-                    //         children: [
-                    //           Text('$selectday/$selectWeekDay'),
-                    //         ]
-                    //       )
-                    //     );
-                    //   }
-                    // )
-                    // ValueListenableBuilder<List<Event>>(
-                    //   valueListenable: _selectedEvents,
-                    //   builder: (context, value, _) {
-                    //     return ListView.builder(
-                    //       itemCount: value.length,
-                    //       itemBuilder: (context, index) {
-                    //         return Container(
-                    //           margin: const EdgeInsets.symmetric(
-                    //             horizontal: 12.0,
-                    //             vertical: 4.0,
-                    //           ),
-                    //           decoration: BoxDecoration(
-                    //             border: Border.all(),
-                    //             borderRadius: BorderRadius.circular(12.0),
-                    //           ),
-                    //           child: ListTile(
-                    //             onTap: () => print('${value[index]}'),
-                    //             title: Text('${value[index]}'),
-                    //           ),
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    // ),
                 ]
               ),
               ),
             );
           });
     }
+  }
+
+  Widget DayEventCollection() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text('$selectday일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+            Text('2', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
+            Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+          ]
+        )
+      ]
+    );
   }
 
   void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
