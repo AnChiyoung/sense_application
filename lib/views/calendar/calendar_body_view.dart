@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../constants/public_color.dart';
+import '../../models/calendar/calendar_home_model.dart';
 
 class CalendarBase extends StatefulWidget {
   const CalendarBase({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class _CalendarBaseState extends State<CalendarBase> {
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+
+  String af = '';
 
   List<String> days = ['_', '월', '화', '수', '목', '금', '토', '일'];
 
@@ -59,8 +62,10 @@ class _CalendarBaseState extends State<CalendarBase> {
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     // 임시 데이터, request로 받아야하는 부분
+    af = focusedDay.month.toString();
     selectYear = selectedDay.year;
     selectMonth = selectedDay.month;
+    PublicVariable.ab = selectMonth.toString() + '월';
     selectday = selectedDay.day;
     selectWeekDayNumber = selectedDay.weekday;
     if(selectWeekDayNumber == 0) {
@@ -112,7 +117,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                     SizedBox(height: 8),
                     SingleChildScrollView(child: Column(
                       children: [
-                        DayEventCollection(),
+                        selectMonth == 2 ? DayEventCollection() : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
                         // 이벤트 트리거
                         // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
                       ]
@@ -128,6 +133,8 @@ class _CalendarBaseState extends State<CalendarBase> {
   Widget DayEventCollection() {
     Map<DateTime, List<Event>> eventList = sampleEvent;
     List<Event>? aa = eventList[sampleEvent.keys.elementAt(0)];
+    String days = sampleEvent.keys.elementAt(0).toString();
+    print('asdf: $eventKey');
     int? eventLength = aa?.length;
     List<Widget> cc = [];
     var ee = aa?.asMap().entries.map((e) {
@@ -141,7 +148,7 @@ class _CalendarBaseState extends State<CalendarBase> {
       children: [
         Row(
           children: [
-            Text('$selectday일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+            Text('18일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
             Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
             Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
           ]
