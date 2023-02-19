@@ -28,6 +28,10 @@ final _kEventSource = {
     ],
   });
 
+Map<DateTime, List<Event>> sampleEvent = {
+  DateTime.utc(2023,2,18) : [const Event('첫번째'), Event('두번째'), Event('세번째'), Event('네번째')],
+};
+
 // final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
 //     key: (item) => DateTime.utc(kFirstDay.year, kFirstDay.month, item * 5),
 //     value: (item) => List.generate(

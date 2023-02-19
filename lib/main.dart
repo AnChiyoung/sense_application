@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
 import 'native_splash.dart';
 
 void main() {
@@ -12,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeMenuProvider()),
+        ChangeNotifierProvider(create: (_) => DateProvider()),
         // 여기에 추가하시면 되여
       ],
       child: const MyApp(),

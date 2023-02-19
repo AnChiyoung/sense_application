@@ -9,6 +9,8 @@ class StaticColor {
   static Color subLover = const Color(0xFFFF7B8B);
   static Color subFriend = const Color(0xFF91C300);
   static Color subEtc = const Color(0xFF6E79DD);
+  static Color selectDayColor = const Color(0xFF3E97FF);
+  static Color selectMonthColor = const Color(0xFF797979);
   // notify color
   static Color notifyError = const Color(0xFFFF2323);
   static Color notifyWarning = const Color(0xFFFFBC57);
