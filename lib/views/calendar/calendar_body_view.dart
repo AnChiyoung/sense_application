@@ -134,7 +134,6 @@ class _CalendarBaseState extends State<CalendarBase> {
     Map<DateTime, List<Event>> eventList = sampleEvent;
     List<Event>? aa = eventList[sampleEvent.keys.elementAt(0)];
     String days = sampleEvent.keys.elementAt(0).toString();
-    print('asdf: $eventKey');
     int? eventLength = aa?.length;
     List<Widget> cc = [];
     var ee = aa?.asMap().entries.map((e) {
@@ -233,14 +232,11 @@ class _CalendarBaseState extends State<CalendarBase> {
               lastDay: kLastDay,
               focusedDay: _focusedDay,
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              // rangeStartDay: _rangeStart,
-              // rangeEndDay: _rangeEnd,
               calendarFormat: _calendarFormat,
               rangeSelectionMode: _rangeSelectionMode,
               eventLoader: _getEventsForDay,
               startingDayOfWeek: StartingDayOfWeek.sunday,
               calendarStyle: CalendarStyle(
-                // Use `CalendarStyle` to customize the UI
                 outsideDaysVisible: true,
                 todayDecoration: BoxDecoration(
                   color: StaticColor.unselectedColor,
@@ -252,7 +248,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                 ),
                 markerSize: 8.0,
                 markersMaxCount: 8,
-                markerMargin: EdgeInsets.symmetric(horizontal: 2),
+                markerMargin: const EdgeInsets.symmetric(horizontal: 2),
                 markersAutoAligned: true,
                 markerDecoration: const BoxDecoration(
                     color: Colors.red,
