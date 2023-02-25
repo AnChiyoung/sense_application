@@ -44,7 +44,7 @@ dependencies:
   email_validator: ^2.1.17
   kakao_flutter_sdk: ^1.4.0
   flutter_secure_storage: ^8.0.0
-  table_calendar: ^3.0.9
+  simple_gesture_detector: ^0.2.0
   intl: ^0.18.0
   draggable_bottom_sheet: ^1.0.2
   card_swiper: ^2.0.4

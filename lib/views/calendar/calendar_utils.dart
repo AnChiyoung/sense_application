@@ -4,7 +4,8 @@
 import 'dart:collection';
 
 import 'package:intl/intl.dart';
-import 'package:table_calendar/table_calendar.dart';
+
+import '../../internal_libraries/calendar/src/shared/utils.dart';
 
 /// Example event class.
 class Event {
