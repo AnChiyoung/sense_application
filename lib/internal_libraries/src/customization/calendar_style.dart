@@ -176,7 +176,7 @@ class CalendarStyle {
     ),
     this.todayTextStyle = const TextStyle(
       color: const Color(0xFFFAFAFA),
-      fontSize: 16.0,
+      fontSize: 14.0,
     ), //
     this.todayDecoration = const BoxDecoration(
       color: const Color(0xFF9FA8DA),

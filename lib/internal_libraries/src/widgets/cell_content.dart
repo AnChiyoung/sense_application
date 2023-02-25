@@ -84,7 +84,7 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: calendarStyle.selectedDecoration,
             alignment: alignment,
-            width: 24,
+            width: 26,
             child: Text(text, style: calendarStyle.selectedTextStyle),
           );
     } else if (isRangeStart) {
@@ -116,6 +116,7 @@ class CellContent extends StatelessWidget {
             padding: padding,
             decoration: calendarStyle.todayDecoration,
             alignment: alignment,
+            width: 26,
             child: Text(text, style: calendarStyle.todayTextStyle),
           );
     } else if (isHoliday) {
