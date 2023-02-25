@@ -13,6 +13,9 @@ class StaticColor {
   static Color selectMonthColor = const Color(0xFF797979);
   static Color eventDayColor = const Color(0xFF34363E);
   static Color eventCountColor = const Color(0xFF3E97FF);
+  static Color bottomSheetGradientTop = const Color(0xFFD4DCE9);
+  static Color bottomSheetGradientBottom = const Color(0xFFFFFFFF);
+  static Color bottomSheetHeaderMain = const Color(0xFFD4DCE9);
   // notify color
   static Color notifyError = const Color(0xFFFF2323);
   static Color notifyWarning = const Color(0xFFFFBC57);

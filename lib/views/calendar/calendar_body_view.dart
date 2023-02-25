@@ -294,14 +294,54 @@ class _CalendarBaseState extends State<CalendarBase> {
                 minChildSize: 0.05,
                 builder: (BuildContext context, ScrollController controller) {
                   return Container(
-                      color: Colors.blue,
-                      child: ListView.builder(
-                          controller: controller,
-                          itemCount: 25,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(title: Text('item'));
-                          }
-                      )
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                      border: Border.all(
+                          width: 1,
+                          color: StaticColor.bottomSheetHeaderMain,
+                      ),
+                    ),
+                    child: ListView.builder(
+                        controller: controller,
+                        itemCount: 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 21.0),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.8,
+                              child: Column(
+                                children: [
+                                  // 헤더
+                                  SizedBox(
+                                      width: double.infinity,
+                                      height: 40,
+                                      child: Align(
+                                          alignment: Alignment.topCenter,
+                                          child: Padding(
+                                              padding: EdgeInsets.only(top: 10),
+                                              child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
+                                  // 달
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
+                                  SizedBox(height: 8),
+                                  // 데이터 영역
+                                  SingleChildScrollView(
+                                    child: Column(children: [
+                                      selectMonth == 2
+                                          ? DayEventCollection()
+                                          : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
+                                      // 이벤트 트리거
+                                      // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
+                                    ]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                    ),
                   );
                 },
               ),
