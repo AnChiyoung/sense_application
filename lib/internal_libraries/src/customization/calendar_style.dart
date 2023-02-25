@@ -166,7 +166,8 @@ class CalendarStyle {
     this.markersMaxCount = 4,
     this.cellMargin = const EdgeInsets.all(6.0),
     this.cellPadding = const EdgeInsets.all(0),
-    this.cellAlignment = Alignment.center,
+    this.cellAlignment = Alignment.center, // 셀 텍스트 위치
+    // this.cellAlignment = Alignment.topCenter,
     this.markersOffset = const PositionedOffset(),
     this.rangeHighlightColor = const Color(0xFFBBDDFF),
     this.markerDecoration = const BoxDecoration(
@@ -183,7 +184,7 @@ class CalendarStyle {
     ),
     this.selectedTextStyle = const TextStyle(
       color: const Color(0xFFFAFAFA),
-      fontSize: 16.0,
+      fontSize: 14.0,
     ),
     this.selectedDecoration = const BoxDecoration(
       color: const Color(0xFF5C6BC0),
@@ -222,8 +223,8 @@ class CalendarStyle {
     this.weekendDecoration = const BoxDecoration(shape: BoxShape.circle),
     this.weekNumberTextStyle =
         const TextStyle(fontSize: 12, color: const Color(0xFFBFBFBF)),
-    this.defaultTextStyle = const TextStyle(),
-    this.defaultDecoration = const BoxDecoration(shape: BoxShape.circle),
+    this.defaultTextStyle = const TextStyle(fontSize: 14),
+    this.defaultDecoration = const BoxDecoration(shape: BoxShape.circle), // 기본 셀
     this.rowDecoration = const BoxDecoration(),
     this.tableBorder = const TableBorder(),
     this.tablePadding = const EdgeInsets.all(0),

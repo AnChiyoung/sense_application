@@ -70,22 +70,21 @@ class _CalendarBaseState extends State<CalendarBase> {
     PublicVariable.ab = selectMonth.toString() + '월';
     selectday = selectedDay.day;
     selectWeekDayNumber = selectedDay.weekday;
-    if(selectWeekDayNumber == 0) {
+    if (selectWeekDayNumber == 0) {
       selectWeekDay = '일';
-    } else if(selectWeekDayNumber == 1) {
+    } else if (selectWeekDayNumber == 1) {
       selectWeekDay = '월';
-    } else if(selectWeekDayNumber == 2) {
+    } else if (selectWeekDayNumber == 2) {
       selectWeekDay = '화';
-    } else if(selectWeekDayNumber == 3) {
+    } else if (selectWeekDayNumber == 3) {
       selectWeekDay = '수';
-    } else if(selectWeekDayNumber == 4) {
+    } else if (selectWeekDayNumber == 4) {
       selectWeekDay = '목';
-    } else if(selectWeekDayNumber == 5) {
+    } else if (selectWeekDayNumber == 5) {
       selectWeekDay = '금';
-    } else if(selectWeekDayNumber == 6) {
+    } else if (selectWeekDayNumber == 6) {
       selectWeekDay = '토';
     }
-
 
     if (!isSameDay(_selectedDay, selectedDay)) {
       // Map<DateTime, List<Event>> selectDayEvent = sampleEvent;
@@ -98,37 +97,58 @@ class _CalendarBaseState extends State<CalendarBase> {
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
       _selectedEvents.value = _getEventsForDay(selectedDay);
-      showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0),
-            )
-          ),
-          builder: (BuildContext context) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 21.0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.8,
-                child: Column(
-                  children: [
-                    SizedBox(width: double.infinity, height: 40, child: Align(alignment: Alignment.topCenter, child: Padding(padding: EdgeInsets.only(top: 10), child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
-                    Align(alignment: Alignment.centerLeft, child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
-                    SizedBox(height: 8),
-                    SingleChildScrollView(child: Column(
-                      children: [
-                        selectMonth == 2 ? DayEventCollection() : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
-                        // 이벤트 트리거
-                        // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
-                      ]
-                    )),
-                ]
-              ),
-              ),
-            );
-          });
+
+      // showModalBottomSheet(
+      //   context: context,
+      //   isScrollControlled: true,
+      //   builder: (_) {
+      //     return SizedBox.expand(
+      //       child:
+      //     );
+      //   },
+      // );
+      // showModalBottomSheet(
+      //   context: context,
+      //   isScrollControlled: true,
+      //   shape: const RoundedRectangleBorder(
+      //       borderRadius: BorderRadius.only(
+      //     topLeft: Radius.circular(20.0),
+      //     topRight: Radius.circular(20.0),
+      //   )),
+      //   builder: (BuildContext context) {
+      //     return Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 21.0),
+      //       child: SizedBox(
+      //         height: MediaQuery.of(context).size.height * 0.8,
+      //         child: Column(
+      //           children: [
+      //             SizedBox(
+      //                 width: double.infinity,
+      //                 height: 40,
+      //                 child: Align(
+      //                     alignment: Alignment.topCenter,
+      //                     child: Padding(
+      //                         padding: EdgeInsets.only(top: 10),
+      //                         child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
+      //             Align(
+      //                 alignment: Alignment.centerLeft,
+      //                 child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
+      //             SizedBox(height: 8),
+      //             SingleChildScrollView(
+      //               child: Column(children: [
+      //                 selectMonth == 2
+      //                     ? DayEventCollection()
+      //                     : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
+      //                 // 이벤트 트리거
+      //                 // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
+      //               ]),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     );
+      //   },
+      // );
     }
   }
 
@@ -141,25 +161,19 @@ class _CalendarBaseState extends State<CalendarBase> {
     var ee = aa?.asMap().entries.map((e) {
       return EventElement(e.key);
     });
-    for(int i = 0; i < aa!.length; i++) {
+    for (int i = 0; i < aa!.length; i++) {
       cc.add(ee!.elementAt(i));
     }
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text('18일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-            Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
-            Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-          ]
-        ),
-        SizedBox(height: 8),
-        Column(
-          children: cc
-        )
-      ]
-    );
+    return Column(children: [
+      Row(children: [
+        Text('18일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+        Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
+        Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+      ]),
+      SizedBox(height: 8),
+      Column(children: cc)
+    ]);
   }
 
   Widget EventElement(int e) {
@@ -176,27 +190,27 @@ class _CalendarBaseState extends State<CalendarBase> {
     return Column(
       children: [
         Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: eventColorList.elementAt(e),
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-          child: Row(
-            children: [
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: eventColorList.elementAt(e),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+            child: Row(children: [
               Image.asset('assets/calendar/event_header_bar.png', width: 4, height: 40),
               SizedBox(width: 10.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(alignment: Alignment.centerLeft, child: Text(aa!.elementAt(e).title, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
-                  Align(alignment: Alignment.centerLeft, child: Text(aa!.elementAt(e).location, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-                  Align(alignment: Alignment.centerLeft, child: Text(aa!.elementAt(e).time, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-                ]
-              )
-            ]
-          )
-        ),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(aa!.elementAt(e).title, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(aa!.elementAt(e).location, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(aa!.elementAt(e).time, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
+              ])
+            ])),
         SizedBox(height: 26),
       ],
     );
@@ -227,6 +241,7 @@ class _CalendarBaseState extends State<CalendarBase> {
       child: Scaffold(
         body: Stack(
           children: [
+
             TableCalendar<Event>(
               daysOfWeekHeight: 40,
               headerVisible: false,
@@ -252,10 +267,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                 markersMaxCount: 8,
                 markerMargin: const EdgeInsets.symmetric(horizontal: 2),
                 markersAutoAligned: true,
-                markerDecoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle
-                ),
+                markerDecoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
               ),
               calendarBuilders: CalendarBuilders(
                 dowBuilder: (context, day) {
@@ -274,53 +286,78 @@ class _CalendarBaseState extends State<CalendarBase> {
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
               },
-        ),
+            ),
+            SizedBox.expand(
+              child: DraggableScrollableSheet(
+                initialChildSize: 0.1,
+                maxChildSize: 1.0,
+                minChildSize: 0.05,
+                builder: (BuildContext context, ScrollController controller) {
+                  return Container(
+                      color: Colors.blue,
+                      child: ListView.builder(
+                          controller: controller,
+                          itemCount: 25,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(title: Text('item'));
+                          }
+                      )
+                  );
+                },
+              ),
+            ),
 
 
 
-              // daysOfWeekHeight: 40,
-              // headerVisible: false,
-              // firstDay: kFirstDay,
-              // lastDay: kLastDay,
-              // focusedDay: _focusedDay,
-              //
-              // selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              // calendarFormat: _calendarFormat,
-              // rangeSelectionMode: _rangeSelectionMode,
-              // eventLoader: _getEventsForDay,
-              // // startingDayOfWeek: StartingDayOfWeek.monday,
-              // calendarStyle: CalendarStyle(
-                // Use `CalendarStyle` to customize the UI
-                // todayDecoration: BoxDecoration(
-                // ),
-                // markerSize: 7,
-                // outsideDaysVisible: true,
-                // selectedDecoration: BoxDecoration(
-                //   color: StaticColor.selectDayColor,
-                //   shape: BoxShape.circle,
-                // ),
-              // ),
-              // onDaySelected: _onDaySelected,
-              // // onRangeSelected: _onRangeSelected,
-              // onFormatChanged: (format) {
-              //   if (_calendarFormat != format) {
-              //     setState(() {
-              //       _calendarFormat = format;
-              //     });
-              //   }
-              // },
-              // onPageChanged: (focusedDay) {
-              //   _focusedDay = focusedDay;
-              // },
-              // calendarBuilders: CalendarBuilders(
-              //   dowBuilder: (context, day) {
-              //     return Center(child: Text(days[day.weekday]));
-              //   },
-              //   markerBuilder: (context, date, events) {
-              //     DateTime _date = DateTime(date.year, date.month, date.day);
-              //     // if(isSameDay(_date,))
-              //   }
-              // ),
+
+
+
+
+
+
+            // daysOfWeekHeight: 40,
+            // headerVisible: false,
+            // firstDay: kFirstDay,
+            // lastDay: kLastDay,
+            // focusedDay: _focusedDay,
+            //
+            // selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+            // calendarFormat: _calendarFormat,
+            // rangeSelectionMode: _rangeSelectionMode,
+            // eventLoader: _getEventsForDay,
+            // // startingDayOfWeek: StartingDayOfWeek.monday,
+            // calendarStyle: CalendarStyle(
+            // Use `CalendarStyle` to customize the UI
+            // todayDecoration: BoxDecoration(
+            // ),
+            // markerSize: 7,
+            // outsideDaysVisible: true,
+            // selectedDecoration: BoxDecoration(
+            //   color: StaticColor.selectDayColor,
+            //   shape: BoxShape.circle,
+            // ),
+            // ),
+            // onDaySelected: _onDaySelected,
+            // // onRangeSelected: _onRangeSelected,
+            // onFormatChanged: (format) {
+            //   if (_calendarFormat != format) {
+            //     setState(() {
+            //       _calendarFormat = format;
+            //     });
+            //   }
+            // },
+            // onPageChanged: (focusedDay) {
+            //   _focusedDay = focusedDay;
+            // },
+            // calendarBuilders: CalendarBuilders(
+            //   dowBuilder: (context, day) {
+            //     return Center(child: Text(days[day.weekday]));
+            //   },
+            //   markerBuilder: (context, date, events) {
+            //     DateTime _date = DateTime(date.year, date.month, date.day);
+            //     // if(isSameDay(_date,))
+            //   }
+            // ),
             // ),
             const SizedBox(height: 8.0),
 
@@ -339,8 +376,6 @@ class _CalendarBaseState extends State<CalendarBase> {
       ),
     );
   }
-
-
 }
 
 class DateProvider with ChangeNotifier {

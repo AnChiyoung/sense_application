@@ -77,13 +77,14 @@ class CellContent extends StatelessWidget {
             child: Text(text, style: calendarStyle.disabledTextStyle),
           );
     } else if (isSelected) {
-      cell = calendarBuilders.selectedBuilder?.call(context, day, focusedDay) ??
+      cell = calendarBuilders.selectedBuilder?.call(context, day, focusedDay) ?? // today
           AnimatedContainer(
             duration: duration,
             margin: margin,
             padding: padding,
             decoration: calendarStyle.selectedDecoration,
             alignment: alignment,
+            width: 24,
             child: Text(text, style: calendarStyle.selectedTextStyle),
           );
     } else if (isRangeStart) {
@@ -149,7 +150,7 @@ class CellContent extends StatelessWidget {
             child: Text(text, style: calendarStyle.outsideTextStyle),
           );
     } else {
-      cell = calendarBuilders.defaultBuilder?.call(context, day, focusedDay) ??
+      cell = calendarBuilders.defaultBuilder?.call(context, day, focusedDay) ?? // 일 셀 하나
           AnimatedContainer(
             duration: duration,
             margin: margin,
