@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_utils.dart';
 import '../../constants/public_color.dart';
 import '../../internal_libraries/src/customization/calendar_builders.dart';
@@ -32,6 +33,8 @@ class _CalendarBaseState extends State<CalendarBase> {
   int selectday = 0;
   int selectWeekDayNumber = 0;
   String selectWeekDay = '';
+
+  bool? FAB_visibility = true;
 
   @override
   void initState() {
@@ -239,7 +242,8 @@ class _CalendarBaseState extends State<CalendarBase> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(
+        body: context.watch<PageProvider>().pageBuilder ? AA() :
+        Stack(
           children: [
             TableCalendar<Event>(
               daysOfWeekHeight: 40,
@@ -287,63 +291,83 @@ class _CalendarBaseState extends State<CalendarBase> {
                 _focusedDay = focusedDay;
               },
             ),
+            // notification listener -> modal bottom sheet live height call
             SizedBox.expand(
-              child: DraggableScrollableSheet(
-                initialChildSize: 0.1,
-                maxChildSize: 1.0,
-                minChildSize: 0.05,
-                builder: (BuildContext context, ScrollController controller) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                      border: Border.all(
-                          width: 1,
-                          color: StaticColor.bottomSheetHeaderMain,
-                      ),
-                    ),
-                    child: ListView.builder(
-                        controller: controller,
-                        itemCount: 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 21.0),
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.8,
-                              child: Column(
-                                children: [
-                                  // 헤더
-                                  SizedBox(
-                                      width: double.infinity,
-                                      height: 40,
-                                      child: Align(
-                                          alignment: Alignment.topCenter,
-                                          child: Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
-                                  // 달
-                                  Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
-                                  SizedBox(height: 8),
-                                  // 데이터 영역
-                                  SingleChildScrollView(
-                                    child: Column(children: [
-                                      selectMonth == 2
-                                          ? DayEventCollection()
-                                          : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
-                                      // 이벤트 트리거
-                                      // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
-                                    ]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                    ),
-                  );
+              child: NotificationListener<DraggableScrollableNotification> (
+                onNotification: (DraggableScrollableNotification dsNotify) {
+                  if(dsNotify.extent>=0.8){
+                    setState(() {
+                      _calendarFormat = CalendarFormat.week;
+                    });
+
+                    if(dsNotify.extent>=1.0) {
+                      context.read<PageProvider>().pageChangeBuilder(true);
+                    }
+                  }
+                  else if(dsNotify.extent<0.8){
+                    setState(() {
+                      _calendarFormat = CalendarFormat.month;
+                    });
+                  }
+                  return true;
                 },
+                child: DraggableScrollableSheet(
+                  initialChildSize: FAB_visibility == true ? 0.1 : 0.75,
+                  maxChildSize: 1.0,
+                  minChildSize: 0.05,
+                  builder: (BuildContext context, ScrollController controller) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                        border: Border.all(
+                            width: 1,
+                            color: StaticColor.bottomSheetHeaderMain,
+                        ),
+                      ),
+                      child: ListView.builder(
+                          controller: controller,
+                          itemCount: 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 21.0),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.8,
+                                child: Column(
+                                  children: [
+                                    // 헤더
+                                    SizedBox(
+                                        width: double.infinity,
+                                        height: 40,
+                                        child: Align(
+                                            alignment: Alignment.topCenter,
+                                            child: Padding(
+                                                padding: EdgeInsets.only(top: 10),
+                                                child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
+                                    // 달
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
+                                    SizedBox(height: 8),
+                                    // 데이터 영역
+                                    SingleChildScrollView(
+                                      child: Column(children: [
+                                        selectMonth == 2
+                                            ? DayEventCollection()
+                                            : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
+                                        // 이벤트 트리거
+                                        // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
+                                      ]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
 
@@ -418,11 +442,36 @@ class _CalendarBaseState extends State<CalendarBase> {
   }
 }
 
+class AA extends StatefulWidget {
+  const AA({Key? key}) : super(key: key);
+
+  @override
+  State<AA> createState() => _AAState();
+}
+
+class _AAState extends State<AA> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 class DateProvider with ChangeNotifier {
   String _selectMonth = '';
   String get selectMonth => _selectMonth;
   void MonthChange(String month) {
     _selectMonth = month;
+    notifyListeners();
+  }
+}
+
+class PageProvider with ChangeNotifier {
+  bool _pageBuilder = false;
+  bool get pageBuilder => _pageBuilder;
+
+  void pageChangeBuilder(bool state) {
+    _pageBuilder = state;
     notifyListeners();
   }
 }

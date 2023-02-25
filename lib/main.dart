@@ -20,6 +20,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => TermProvider()),
         ChangeNotifierProvider(create: (_) => StepProvider()),
         ChangeNotifierProvider(create: (_) => DateProvider()),
+        ChangeNotifierProvider(create: (_) => PageProvider()),
         // 여기에 추가하시면 되여
       ],
       child: const MyApp(),

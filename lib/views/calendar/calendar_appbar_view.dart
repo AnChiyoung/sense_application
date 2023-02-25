@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../public_widget/alert_dialog.dart';
+import 'calendar_body_view.dart';
 
 class CalendarAppBar extends StatefulWidget {
   const CalendarAppBar({Key? key}) : super(key: key);
@@ -38,22 +40,46 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(children: [
-              DropdownButton(
-                iconSize: 20,
-                icon: const Visibility(visible: false, child: Icon(Icons.arrow_downward)),
-                underline: Container(),
-                value: selectMonth,
-                items: monthList
-                    .map((String e) => DropdownMenuItem<String>(value: e, child: Text(e, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))))
-                    .toList(),
-                onChanged: (changeValue) {
-                  setState(() {
-                    selectMonth = monthList.elementAt(monthList.indexOf(changeValue!));
-                  });
-                },
+
+              // DropdownButton(
+              //   iconSize: 20,
+              //   icon: const Visibility(visible: false, child: Icon(Icons.arrow_downward)),
+              //   underline: Container(),
+              //   value: selectMonth,
+              //   items: monthList
+              //       .map((String e) => DropdownMenuItem<String>(value: e, child: Text(e, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))))
+              //       .toList(),
+              //   onChanged: (changeValue) {
+              //     setState(() {
+              //       selectMonth = monthList.elementAt(monthList.indexOf(changeValue!));
+              //     });
+              //   },
+              // ),
+              Visibility(
+                visible: context.watch<PageProvider>().pageBuilder,
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<PageProvider>().pageChangeBuilder(false);
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset('assets/calendar/only_schedule_page_backbutton.png', width: 10.85, height: 18.95),
+                      SizedBox(width: 14.73),
+                    ],
+                  ),
+                ),
               ),
-              Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
-            ]),
+              GestureDetector(
+                onTap: () {},
+                child: Row(
+                  children: [
+                    Text(selectMonth, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    const SizedBox(width: 8),
+                    Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
+                  ],
+                ),
+              ),
+            ],),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
