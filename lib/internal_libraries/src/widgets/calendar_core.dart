@@ -215,7 +215,7 @@ class CalendarCore extends StatelessWidget {
     return day;
   }
 
-  DateTimeRange _getVisibleRange(CalendarFormat format, DateTime focusedDay) {
+  DateTimeRange _getVisibleRange(CalendarFormat format, DateTime focusedDay) { // 포맷
     switch (format) {
       case CalendarFormat.month:
         return _daysInMonth(focusedDay);

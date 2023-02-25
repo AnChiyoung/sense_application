@@ -58,7 +58,7 @@ class _BottomMenuState extends State<BottomMenu> {
             currentIndex: pageIndex,
             selectedItemColor: StaticColor.mainSoft,
             unselectedItemColor: StaticColor.unselectedColor,
-
+            type: BottomNavigationBarType.fixed,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             onTap: (index) {

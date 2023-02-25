@@ -241,7 +241,6 @@ class _CalendarBaseState extends State<CalendarBase> {
       child: Scaffold(
         body: Stack(
           children: [
-
             TableCalendar<Event>(
               daysOfWeekHeight: 40,
               headerVisible: false,
@@ -277,11 +276,12 @@ class _CalendarBaseState extends State<CalendarBase> {
               onDaySelected: _onDaySelected,
               onRangeSelected: _onRangeSelected,
               onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
+                // CalendarFormat.month;
+                // if (_calendarFormat != format) {
+                //   setState(() {
+                //     _calendarFormat = format;
+                //   });
+                // }
               },
               onPageChanged: (focusedDay) {
                 _focusedDay = focusedDay;
@@ -426,3 +426,11 @@ class DateProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+// CalendarFormat _nextFormat() {
+//   final formats = availableCalendarFormats.keys.toList();
+//   int id = formats.indexOf(calendarFormat);
+//   id = (id + 1) % formats.length;
+//
+//   return formats[id];
+// }

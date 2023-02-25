@@ -17,6 +17,7 @@ class StaticColor {
   static Color bottomSheetGradientBottom = const Color(0xFFFFFFFF);
   static Color bottomSheetHeaderMain = const Color(0xFFD4DCE9);
   static Color selectScreenDevider = const Color(0xFFEEEEEE);
+  static Color selectScreenYear = const Color(0xFF3E97FF);
   // notify color
   static Color notifyError = const Color(0xFFFF2323);
   static Color notifyWarning = const Color(0xFFFFBC57);
