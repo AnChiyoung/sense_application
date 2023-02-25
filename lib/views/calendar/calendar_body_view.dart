@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_utils.dart';
 import '../../constants/public_color.dart';
-import '../../internal_libraries/calendar/src/customization/calendar_builders.dart';
-import '../../internal_libraries/calendar/src/customization/calendar_style.dart';
-import '../../internal_libraries/calendar/src/shared/utils.dart';
-import '../../internal_libraries/calendar/src/table_calendar.dart';
+import '../../internal_libraries/src/customization/calendar_builders.dart';
+import '../../internal_libraries/src/customization/calendar_style.dart';
+import '../../internal_libraries/src/shared/utils.dart';
+import '../../internal_libraries/src/table_calendar.dart';
 import '../../models/calendar/calendar_home_model.dart';
 
 class CalendarBase extends StatefulWidget {

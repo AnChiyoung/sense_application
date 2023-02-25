@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'dart:collection';
-
 import 'package:intl/intl.dart';
+import '../../internal_libraries/src/shared/utils.dart';
 
-import '../../internal_libraries/calendar/src/shared/utils.dart';
 
 /// Example event class.
 class Event {
