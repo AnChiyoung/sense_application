@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../internal_libraries/src/shared/utils.dart';
 import '../../public_widget/alert_dialog.dart';
 import 'calendar_body_view.dart';
 
@@ -40,26 +41,13 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(children: [
-
-              // DropdownButton(
-              //   iconSize: 20,
-              //   icon: const Visibility(visible: false, child: Icon(Icons.arrow_downward)),
-              //   underline: Container(),
-              //   value: selectMonth,
-              //   items: monthList
-              //       .map((String e) => DropdownMenuItem<String>(value: e, child: Text(e, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))))
-              //       .toList(),
-              //   onChanged: (changeValue) {
-              //     setState(() {
-              //       selectMonth = monthList.elementAt(monthList.indexOf(changeValue!));
-              //     });
-              //   },
-              // ),
+              // bottom sheet full drag up -> page release -> button visible
               Visibility(
-                visible: context.watch<PageProvider>().pageBuilder,
+                visible: context.watch<PageProvider>().isBuilderPage,
                 child: GestureDetector(
                   onTap: () {
-                    context.read<PageProvider>().pageChangeBuilder(false);
+                    context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
+                    context.read<PageProvider>().bottomSheetHeightController(false);
                   },
                   child: Row(
                     children: [
@@ -73,7 +61,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                 onTap: () {},
                 child: Row(
                   children: [
-                    Text(selectMonth, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                    Text('${context.watch<DateProvider>().selectMonth}월', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
                     const SizedBox(width: 8),
                     Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
                   ],

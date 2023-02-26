@@ -21,7 +21,7 @@ Map<DateTime, List<Event>> sampleEvent = {
   DateTime.utc(2023,2,18) : [
     Event('SENSE LAUNCHING', '경기도 성남시 분당구 판교', '하루종일'),
     Event('SENSE 회의', '경기도 성남시 분당구 판교', '10am - 11am'),
-    Event('RUNNERS 회의', '경기도 성남시 분당구 판교', '3pm - 7pm'),
+    // Event('RUNNERS 회의', '경기도 성남시 분당구 판교', '3pm - 7pm'),
     Event('퇴근', '경기도 성남시 분당구 판교', '8pm')],
 };
 
@@ -64,5 +64,5 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 }
 
 final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+final kFirstDay = DateTime(kToday.year, 1, 1);
+final kLastDay = DateTime(kToday.year + 3, 12, 31);

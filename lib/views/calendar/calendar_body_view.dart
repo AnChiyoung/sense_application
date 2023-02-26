@@ -8,6 +8,10 @@ import '../../internal_libraries/src/shared/utils.dart';
 import '../../internal_libraries/src/table_calendar.dart';
 import '../../models/calendar/calendar_home_model.dart';
 
+class DUMMY {
+  static int currentMonth = DateTime.now().month;
+}
+
 class CalendarBase extends StatefulWidget {
   const CalendarBase({Key? key}) : super(key: key);
 
@@ -30,16 +34,17 @@ class _CalendarBaseState extends State<CalendarBase> {
 
   int selectYear = 0;
   int selectMonth = 0;
-  int selectday = 0;
+  int selectDay = 0;
   int selectWeekDayNumber = 0;
   String selectWeekDay = '';
-
-  bool? FAB_visibility = true;
 
   @override
   void initState() {
     super.initState();
 
+    selectYear = DateTime.now().year;
+    selectMonth = DateTime.now().month;
+    selectDay = DateTime.now().day;
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
@@ -66,12 +71,20 @@ class _CalendarBaseState extends State<CalendarBase> {
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    // bottom sheet 높이 조정
+    if(context.read<PageProvider>().bottomSheetHeight != 0.5) {
+      print('aa');
+      context.read<PageProvider>().bottomSheetHeightController(true);
+    }
+    context.read<DateProvider>().monthChange(selectedDay.month);
+
     // 임시 데이터, request로 받아야하는 부분
     af = focusedDay.month.toString();
     selectYear = selectedDay.year;
     selectMonth = selectedDay.month;
+    DUMMY.currentMonth = selectedDay.month;
     PublicVariable.ab = selectMonth.toString() + '월';
-    selectday = selectedDay.day;
+    selectDay = selectedDay.day;
     selectWeekDayNumber = selectedDay.weekday;
     if (selectWeekDayNumber == 0) {
       selectWeekDay = '일';
@@ -100,123 +113,7 @@ class _CalendarBaseState extends State<CalendarBase> {
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
       _selectedEvents.value = _getEventsForDay(selectedDay);
-
-      // showModalBottomSheet(
-      //   context: context,
-      //   isScrollControlled: true,
-      //   builder: (_) {
-      //     return SizedBox.expand(
-      //       child:
-      //     );
-      //   },
-      // );
-      // showModalBottomSheet(
-      //   context: context,
-      //   isScrollControlled: true,
-      //   shape: const RoundedRectangleBorder(
-      //       borderRadius: BorderRadius.only(
-      //     topLeft: Radius.circular(20.0),
-      //     topRight: Radius.circular(20.0),
-      //   )),
-      //   builder: (BuildContext context) {
-      //     return Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 21.0),
-      //       child: SizedBox(
-      //         height: MediaQuery.of(context).size.height * 0.8,
-      //         child: Column(
-      //           children: [
-      //             SizedBox(
-      //                 width: double.infinity,
-      //                 height: 40,
-      //                 child: Align(
-      //                     alignment: Alignment.topCenter,
-      //                     child: Padding(
-      //                         padding: EdgeInsets.only(top: 10),
-      //                         child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
-      //             Align(
-      //                 alignment: Alignment.centerLeft,
-      //                 child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
-      //             SizedBox(height: 8),
-      //             SingleChildScrollView(
-      //               child: Column(children: [
-      //                 selectMonth == 2
-      //                     ? DayEventCollection()
-      //                     : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
-      //                 // 이벤트 트리거
-      //                 // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
-      //               ]),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     );
-      //   },
-      // );
     }
-  }
-
-  Widget DayEventCollection() {
-    Map<DateTime, List<Event>> eventList = sampleEvent;
-    List<Event>? aa = eventList[sampleEvent.keys.elementAt(0)];
-    String days = sampleEvent.keys.elementAt(0).toString();
-    int? eventLength = aa?.length;
-    List<Widget> cc = [];
-    var ee = aa?.asMap().entries.map((e) {
-      return EventElement(e.key);
-    });
-    for (int i = 0; i < aa!.length; i++) {
-      cc.add(ee!.elementAt(i));
-    }
-
-    return Column(children: [
-      Row(children: [
-        Text('18일 $selectWeekDay요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-        Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
-        Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-      ]),
-      SizedBox(height: 8),
-      Column(children: cc)
-    ]);
-  }
-
-  Widget EventElement(int e) {
-    List<Color> eventColorList = [
-      Color(0xFFBE6E24),
-      Color(0xFFFF7B8B),
-      Color(0xFF91C300),
-      Color(0xFF6E79DD),
-    ];
-
-    Map<DateTime, List<Event>> eventList = sampleEvent;
-    List<Event>? aa = eventList[sampleEvent.keys.elementAt(0)];
-
-    return Column(
-      children: [
-        Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: eventColorList.elementAt(e),
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-            child: Row(children: [
-              Image.asset('assets/calendar/event_header_bar.png', width: 4, height: 40),
-              SizedBox(width: 10.0),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(aa!.elementAt(e).title, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(aa!.elementAt(e).location, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(aa!.elementAt(e).time, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-              ])
-            ])),
-        SizedBox(height: 26),
-      ],
-    );
   }
 
   void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
@@ -240,24 +137,28 @@ class _CalendarBaseState extends State<CalendarBase> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
-        body: context.watch<PageProvider>().pageBuilder ? AA() :
+        body: context.watch<PageProvider>().isBuilderPage ? const FullDragUpPage() :
         Stack(
           children: [
             TableCalendar<Event>(
+              rowHeight: 80,
               daysOfWeekHeight: 40,
               headerVisible: false,
               firstDay: kFirstDay,
               lastDay: kLastDay,
               focusedDay: _focusedDay,
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              calendarFormat: _calendarFormat,
-              rangeSelectionMode: _rangeSelectionMode,
+              calendarFormat: context.watch<PageProvider>().formatBuilder,
               eventLoader: _getEventsForDay,
               startingDayOfWeek: StartingDayOfWeek.sunday,
               calendarStyle: CalendarStyle(
-                outsideDaysVisible: true,
+                cellPadding: const EdgeInsets.only(top: 20),
+                cellMargin: const EdgeInsets.only(bottom: 25)
+                cellAlignment: Alignment.topCenter,
+                outsideDaysVisible: false,
                 todayDecoration: BoxDecoration(
                   color: StaticColor.unselectedColor,
                   shape: BoxShape.circle,
@@ -266,15 +167,23 @@ class _CalendarBaseState extends State<CalendarBase> {
                   color: StaticColor.selectDayColor,
                   shape: BoxShape.circle,
                 ),
+                rowDecoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: StaticColor.rowDevider, width: 1)),
+                ),
                 markerSize: 8.0,
                 markersMaxCount: 8,
-                markerMargin: const EdgeInsets.symmetric(horizontal: 2),
+                // markerMargin: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                markersOffset: PositionedOffset(start: -1.0),
                 markersAutoAligned: true,
                 markerDecoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
               ),
               calendarBuilders: CalendarBuilders(
                 dowBuilder: (context, day) {
-                  return Center(child: Text(days[day.weekday]));
+                  return Container(
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: StaticColor.rowDevider, width: 1)),
+                      ),
+                      child: Center(child: Text(days[day.weekday])));
                 },
               ),
               onDaySelected: _onDaySelected,
@@ -297,22 +206,23 @@ class _CalendarBaseState extends State<CalendarBase> {
                 onNotification: (DraggableScrollableNotification dsNotify) {
                   if(dsNotify.extent>=0.8){
                     setState(() {
-                      _calendarFormat = CalendarFormat.week;
+                      context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.week);
                     });
 
                     if(dsNotify.extent>=1.0) {
-                      context.read<PageProvider>().pageChangeBuilder(true);
+                      context.read<PageProvider>().pageChangeBuilder(true, CalendarFormat.month);
                     }
                   }
                   else if(dsNotify.extent<0.8){
                     setState(() {
-                      _calendarFormat = CalendarFormat.month;
+                      context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
                     });
                   }
                   return true;
                 },
+                // drag able bottom sheet
                 child: DraggableScrollableSheet(
-                  initialChildSize: FAB_visibility == true ? 0.1 : 0.75,
+                  initialChildSize: context.watch<PageProvider>().bottomSheetHeight,
                   maxChildSize: 1.0,
                   minChildSize: 0.05,
                   builder: (BuildContext context, ScrollController controller) {
@@ -342,7 +252,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                                         child: Align(
                                             alignment: Alignment.topCenter,
                                             child: Padding(
-                                                padding: EdgeInsets.only(top: 10),
+                                                padding: const EdgeInsets.only(top: 10),
                                                 child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
                                     // 달
                                     Align(
@@ -354,7 +264,8 @@ class _CalendarBaseState extends State<CalendarBase> {
                                       child: Column(children: [
                                         selectMonth == 2
                                             ? DayEventCollection()
-                                            : Container(height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.center, child: Text('등록된 일정이 없습니다'))),
+                                            : Container(
+                                            padding: const EdgeInsets.only(top: 70), height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.topCenter, child: Text('등록된 일정이 없습니다'))),
                                         // 이벤트 트리거
                                         // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
                                       ]),
@@ -370,71 +281,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                 ),
               ),
             ),
-
-
-
-
-
-
-
-
-
-            // daysOfWeekHeight: 40,
-            // headerVisible: false,
-            // firstDay: kFirstDay,
-            // lastDay: kLastDay,
-            // focusedDay: _focusedDay,
-            //
-            // selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            // calendarFormat: _calendarFormat,
-            // rangeSelectionMode: _rangeSelectionMode,
-            // eventLoader: _getEventsForDay,
-            // // startingDayOfWeek: StartingDayOfWeek.monday,
-            // calendarStyle: CalendarStyle(
-            // Use `CalendarStyle` to customize the UI
-            // todayDecoration: BoxDecoration(
-            // ),
-            // markerSize: 7,
-            // outsideDaysVisible: true,
-            // selectedDecoration: BoxDecoration(
-            //   color: StaticColor.selectDayColor,
-            //   shape: BoxShape.circle,
-            // ),
-            // ),
-            // onDaySelected: _onDaySelected,
-            // // onRangeSelected: _onRangeSelected,
-            // onFormatChanged: (format) {
-            //   if (_calendarFormat != format) {
-            //     setState(() {
-            //       _calendarFormat = format;
-            //     });
-            //   }
-            // },
-            // onPageChanged: (focusedDay) {
-            //   _focusedDay = focusedDay;
-            // },
-            // calendarBuilders: CalendarBuilders(
-            //   dowBuilder: (context, day) {
-            //     return Center(child: Text(days[day.weekday]));
-            //   },
-            //   markerBuilder: (context, date, events) {
-            //     DateTime _date = DateTime(date.year, date.month, date.day);
-            //     // if(isSameDay(_date,))
-            //   }
-            // ),
-            // ),
             const SizedBox(height: 8.0),
-
-            // Bottomsheet area
-            // Container(
-            //   width: double.infinity,
-            //   height: 200,
-            //   color: Colors.red,
-            //   child:
-            // )
-            // Expanded(
-            //   child:
-            // ),
           ],
         ),
       ),
@@ -442,44 +289,161 @@ class _CalendarBaseState extends State<CalendarBase> {
   }
 }
 
-class AA extends StatefulWidget {
-  const AA({Key? key}) : super(key: key);
+class FullDragUpPage extends StatefulWidget {
+  const FullDragUpPage({Key? key}) : super(key: key);
 
   @override
-  State<AA> createState() => _AAState();
+  State<FullDragUpPage> createState() => _FullDragUpPageState();
 }
 
-class _AAState extends State<AA> {
+class _FullDragUpPageState extends State<FullDragUpPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      child: Column(
+        children: [
+          DayEventCollection(),
+        ]
+      ),
+    );
   }
 }
 
+class DayEventCollection extends StatefulWidget {
+  const DayEventCollection({Key? key}) : super(key: key);
+
+  @override
+  State<DayEventCollection> createState() => _DayEventCollectionState();
+}
+
+class _DayEventCollectionState extends State<DayEventCollection> {
+
+  Map<DateTime, List<Event>>? eventList;
+  List<Event>? aa;
+  String? days;
+  int? eventLength;
+  List<Widget> cc = [];
+  var ee;
+
+  @override
+  void initState() {
+    eventList = sampleEvent;
+    aa = eventList![sampleEvent.keys.elementAt(0)];
+    days = sampleEvent.keys.elementAt(0).toString();
+    eventLength = aa?.length;
+    ee = aa?.asMap().entries.map((e) {
+      return EventElement(e: e.key);
+    });
+    for (int i = 0; i < aa!.length; i++) {
+      cc.add(ee!.elementAt(i));
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        child: DUMMY.currentMonth == DateTime.now().month ? Column(children: [
+          Row(children: [
+            Text('18일 토요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+            Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
+            Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+          ]),
+          SizedBox(height: 8),
+          Column(children: cc)
+        ]) : Container(width: double.infinity, height: 500, child: Center(child: Text('등록된 일정이 없습니다.'))),
+      ),
+    );
+  }
+}
+
+class EventElement extends StatefulWidget {
+  int e;
+  EventElement({Key? key, required this.e}) : super(key: key);
+
+  @override
+  State<EventElement> createState() => _EventElementState();
+}
+
+class _EventElementState extends State<EventElement> {
+
+  List<Color> eventColorList = [
+    Color(0xFFBE6E24),
+    Color(0xFFFF7B8B),
+    Color(0xFF91C300),
+    Color(0xFF6E79DD),
+  ];
+
+  Map<DateTime, List<Event>>? eventList;
+  List<Event>? aa;
+
+  @override
+  void initState() {
+    eventList = sampleEvent;
+    aa = eventList![sampleEvent.keys.elementAt(0)];
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: eventColorList.elementAt(widget.e),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+            child: Row(children: [
+              Image.asset('assets/calendar/event_header_bar.png', width: 4, height: 40),
+              SizedBox(width: 10.0),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(aa!.elementAt(widget.e).title, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(aa!.elementAt(widget.e).location, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(aa!.elementAt(widget.e).time, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
+              ])
+            ])),
+        SizedBox(height: 26),
+      ],
+    );
+  }
+}
 
 class DateProvider with ChangeNotifier {
-  String _selectMonth = '';
-  String get selectMonth => _selectMonth;
-  void MonthChange(String month) {
+  int _selectMonth = DateTime.now().month;
+  int get selectMonth => _selectMonth;
+  void monthChange(int month) {
     _selectMonth = month;
     notifyListeners();
   }
 }
 
 class PageProvider with ChangeNotifier {
-  bool _pageBuilder = false;
-  bool get pageBuilder => _pageBuilder;
+  bool _isBuilderPage = false;
+  bool get isBuilderPage => _isBuilderPage;
+  CalendarFormat _format = CalendarFormat.month;
+  CalendarFormat get formatBuilder => _format;
+  double _bottomSheetHeight = 0.05;
+  double get bottomSheetHeight => _bottomSheetHeight;
 
-  void pageChangeBuilder(bool state) {
-    _pageBuilder = state;
+  void pageChangeBuilder(bool state, CalendarFormat state02) {
+    _isBuilderPage = state;
+    _format = state02;
+    notifyListeners();
+  }
+
+  void bottomSheetHeightController(bool isFocus) {
+    // isFocus ? _bottomSheetHeight = 0.4 : _bottomSheetHeight = 0.05;
+    _bottomSheetHeight = 0.35;
     notifyListeners();
   }
 }
-
-// CalendarFormat _nextFormat() {
-//   final formats = availableCalendarFormats.keys.toList();
-//   int id = formats.indexOf(calendarFormat);
-//   id = (id + 1) % formats.length;
-//
-//   return formats[id];
-// }

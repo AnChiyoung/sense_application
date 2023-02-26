@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
+import '../../views/calendar/calendar_body_view.dart';
 import 'shared/utils.dart';
 import 'widgets/calendar_core.dart';
 
@@ -228,6 +230,7 @@ class _TableCalendarBaseState extends State<TableCalendarBase> {
               tableBorder: widget.tableBorder,
               tablePadding: widget.tablePadding,
               onPageChanged: (index, focusedMonth) {
+                // context.read<DateProvider>().MonthChange(focusedMonth.month);
                 if (!_pageCallbackDisabled) {
                   if (!isSameDay(_focusedDay, focusedMonth)) {
                     _focusedDay = focusedMonth;
