@@ -10,6 +10,7 @@ import '../../models/calendar/calendar_home_model.dart';
 
 class DUMMY {
   static int currentMonth = DateTime.now().month;
+  static int currentYear = DateTime.now().year;
 }
 
 class CalendarBase extends StatefulWidget {
@@ -156,7 +157,7 @@ class _CalendarBaseState extends State<CalendarBase> {
               startingDayOfWeek: StartingDayOfWeek.sunday,
               calendarStyle: CalendarStyle(
                 cellPadding: const EdgeInsets.only(top: 20),
-                cellMargin: const EdgeInsets.only(bottom: 25)
+                cellMargin: const EdgeInsets.only(bottom: 25),
                 cellAlignment: Alignment.topCenter,
                 outsideDaysVisible: false,
                 todayDecoration: BoxDecoration(
@@ -260,15 +261,17 @@ class _CalendarBaseState extends State<CalendarBase> {
                                         child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
                                     SizedBox(height: 8),
                                     // 데이터 영역
-                                    SingleChildScrollView(
-                                      child: Column(children: [
-                                        selectMonth == 2
-                                            ? DayEventCollection()
-                                            : Container(
-                                            padding: const EdgeInsets.only(top: 70), height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.topCenter, child: Text('등록된 일정이 없습니다'))),
-                                        // 이벤트 트리거
-                                        // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
-                                      ]),
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(children: [
+                                          selectMonth == 2
+                                              ? DayEventCollection()
+                                              : Container(
+                                              padding: const EdgeInsets.only(top: 70), height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.topCenter, child: Text('등록된 일정이 없습니다'))),
+                                          // 이벤트 트리거
+                                          // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
+                                        ]),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -300,10 +303,11 @@ class _FullDragUpPageState extends State<FullDragUpPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 40, bottom: 150,),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          DayEventCollection(),
+          SingleChildScrollView(child: Expanded(child: DayEventCollection())),
         ]
       ),
     );
@@ -325,43 +329,61 @@ class _DayEventCollectionState extends State<DayEventCollection> {
   int? eventLength;
   List<Widget> cc = [];
   var ee;
+  Map<String, List<Event>> temperatureEvent = {};
 
   @override
   void initState() {
     eventList = sampleEvent;
-    aa = eventList![sampleEvent.keys.elementAt(0)];
+    // aa = eventList![sampleEvent.keys.elementAt(0)];
     days = sampleEvent.keys.elementAt(0).toString();
     eventLength = aa?.length;
-    ee = aa?.asMap().entries.map((e) {
-      return EventElement(e: e.key);
-    });
-    for (int i = 0; i < aa!.length; i++) {
-      cc.add(ee!.elementAt(i));
+
+    for(int i = 0; i < sampleEvent.length; i++) {
+      if(sampleEvent.keys.elementAt(i).year.toString() == DUMMY.currentYear.toString()) {
+        if(sampleEvent.keys.elementAt(i).month.toString() == DUMMY.currentMonth.toString()) {
+          temperatureEvent![sampleEvent.keys.elementAt(i).day.toString()] = sampleEvent![sampleEvent.keys.elementAt(i)] ?? [];
+        }
+      }
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: DUMMY.currentMonth == DateTime.now().month ? Column(children: [
-          Row(children: [
-            Text('18일 토요일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-            Text('$eventLength', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
-            Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: temperatureEvent.length,
+      itemBuilder: (BuildContext context, int index) {
+        aa = temperatureEvent![temperatureEvent.keys.elementAt(index)];
+        ee = aa?.asMap().entries.map((e) {
+          return EventElement(eventList: aa!, e: e.key);
+        });
+
+        for (int i = 0; i < aa!.length; i++) {
+          cc.add(ee!.elementAt(i));
+        }
+
+        return Center(
+          child: Column(children: [
+            Row(children: [
+              Text('${temperatureEvent.keys.elementAt(index).toString()}일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+              Text('${temperatureEvent[temperatureEvent.keys.elementAt(index)]!.length}', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
+              Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+            ]),
+            SizedBox(height: 8),
+            Column(children: cc)
           ]),
-          SizedBox(height: 8),
-          Column(children: cc)
-        ]) : Container(width: double.infinity, height: 500, child: Center(child: Text('등록된 일정이 없습니다.'))),
-      ),
+        );
+      }
     );
   }
 }
 
 class EventElement extends StatefulWidget {
+  List<Event> eventList;
   int e;
-  EventElement({Key? key, required this.e}) : super(key: key);
+  EventElement({Key? key, required this.eventList, required this.e}) : super(key: key);
 
   @override
   State<EventElement> createState() => _EventElementState();
@@ -381,8 +403,7 @@ class _EventElementState extends State<EventElement> {
 
   @override
   void initState() {
-    eventList = sampleEvent;
-    aa = eventList![sampleEvent.keys.elementAt(0)];
+    aa = widget.eventList;
     super.initState();
   }
 

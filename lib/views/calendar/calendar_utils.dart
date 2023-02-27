@@ -18,10 +18,16 @@ class Event {
 
 String eventKey = DateFormat('yyyy-MM-dd').format(DateTime.utc(2023,2,18)).toString();
 Map<DateTime, List<Event>> sampleEvent = {
-  DateTime.utc(2023,2,18) : [
+  DateTime.utc(2023,2,14) : [
     Event('SENSE LAUNCHING', '경기도 성남시 분당구 판교', '하루종일'),
     Event('SENSE 회의', '경기도 성남시 분당구 판교', '10am - 11am'),
-    // Event('RUNNERS 회의', '경기도 성남시 분당구 판교', '3pm - 7pm'),
+    Event('퇴근', '경기도 성남시 분당구 판교', '8pm')],
+  DateTime.utc(2023,2,18) : [
+    Event('생일', '스타벅스 강남점', '3pm - 6pm'),
+    Event('걷기', '서현 - 구성 탄천', '9pm - 10pm')],
+  DateTime.utc(2023,3,18) : [
+    Event('PUDDING 회의', '경기도 성남시 분당구 판교', '하루종일'),
+    Event('SENSE 회의', '경기도 성남시 분당구 판교', '10am - 11am'),
     Event('퇴근', '경기도 성남시 분당구 판교', '8pm')],
 };
 

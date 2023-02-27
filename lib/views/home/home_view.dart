@@ -54,6 +54,7 @@ class _BottomMenuState extends State<BottomMenu> {
       child: Wrap(
         children: [
           BottomNavigationBar(
+            elevation: 0.0,
             items: bottomNavigationMenu,
             currentIndex: pageIndex,
             selectedItemColor: StaticColor.mainSoft,
