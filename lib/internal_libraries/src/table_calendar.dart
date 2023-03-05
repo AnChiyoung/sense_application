@@ -5,8 +5,10 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_gesture_detector/simple_gesture_detector.dart';
 
+import '../../views/calendar/calendar_body_view.dart';
 import 'customization/calendar_builders.dart';
 import 'customization/calendar_style.dart';
 import 'customization/days_of_week_style.dart';
@@ -506,6 +508,8 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
             sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
             onVerticalSwipe: _swipeCalendarFormat,
             onPageChanged: (focusedDay) {
+              // 페이지 변경 될 때 month provider
+              context.read<DateProvider>().monthChange(focusedDay.month);
               _focusedDay.value = focusedDay;
               widget.onPageChanged?.call(focusedDay);
             },

@@ -117,6 +117,7 @@ class CalendarCore extends StatelessWidget {
       },
       onPageChanged: (index) {
         // 스와이프 될 때
+        print('스와이프');
         DateTime baseDay;
         final previousFocusedDay = focusedDay;
         if (previousFocusedDay == null || previousIndex == null) {

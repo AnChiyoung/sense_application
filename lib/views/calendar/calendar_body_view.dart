@@ -147,6 +147,7 @@ class _CalendarBaseState extends State<CalendarBase> {
             TableCalendar<Event>(
               rowHeight: 80,
               daysOfWeekHeight: 40,
+
               headerVisible: false,
               firstDay: kFirstDay,
               lastDay: kLastDay,
