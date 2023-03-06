@@ -39,15 +39,17 @@ class _CalendarBaseState extends State<CalendarBase> {
   int selectWeekDayNumber = 0;
   String selectWeekDay = '';
 
+
+
   @override
   void initState() {
-    super.initState();
-
     selectYear = DateTime.now().year;
     selectMonth = DateTime.now().month;
     selectDay = DateTime.now().day;
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+
+    super.initState();
   }
 
   @override
@@ -145,9 +147,9 @@ class _CalendarBaseState extends State<CalendarBase> {
         Stack(
           children: [
             TableCalendar<Event>(
+
               rowHeight: 80,
               daysOfWeekHeight: 40,
-
               headerVisible: false,
               firstDay: kFirstDay,
               lastDay: kLastDay,
@@ -170,6 +172,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                   shape: BoxShape.circle,
                 ),
                 rowDecoration: BoxDecoration(
+                  color: Colors.green,
                   border: Border(bottom: BorderSide(color: StaticColor.rowDevider, width: 1)),
                 ),
                 markerSize: 8.0,
@@ -180,6 +183,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                 markerDecoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
               ),
               calendarBuilders: CalendarBuilders(
+
                 dowBuilder: (context, day) {
                   return Container(
                       decoration: BoxDecoration(
@@ -203,87 +207,51 @@ class _CalendarBaseState extends State<CalendarBase> {
               },
             ),
             // notification listener -> modal bottom sheet live height call
-            SizedBox.expand(
-              child: NotificationListener<DraggableScrollableNotification> (
-                onNotification: (DraggableScrollableNotification dsNotify) {
-                  if(dsNotify.extent>=0.8){
-                    setState(() {
-                      context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.week);
-                    });
+            StatefulBuilder(
+              builder: (BuildContext bottomSheetContext, StateSetter bottomSheetSetter) {
+                return SizedBox.expand(
+                  child: NotificationListener<DraggableScrollableNotification> (
+                    onNotification: (DraggableScrollableNotification dsNotify) {
+                      if(dsNotify.extent>=0.8){
+                        setState(() {
+                          context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.week);
+                          print('위치 조정');
+                          context.read<PageProvider>().bottomSheetHeightCustom(0.8);
+                        });
 
-                    if(dsNotify.extent>=1.0) {
-                      context.read<PageProvider>().pageChangeBuilder(true, CalendarFormat.month);
-                    }
-                  }
-                  else if(dsNotify.extent<0.8){
-                    setState(() {
-                      context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
-                    });
-                  }
-                  return true;
-                },
-                // drag able bottom sheet
-                child: DraggableScrollableSheet(
-                  initialChildSize: context.watch<PageProvider>().bottomSheetHeight,
-                  maxChildSize: 1.0,
-                  minChildSize: 0.05,
-                  builder: (BuildContext context, ScrollController controller) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                        border: Border.all(
-                            width: 1,
-                            color: StaticColor.bottomSheetHeaderMain,
-                        ),
-                      ),
-                      child: ListView.builder(
-                          controller: controller,
-                          itemCount: 1,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 21.0),
-                              child: SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.8,
-                                child: Column(
-                                  children: [
-                                    // 헤더
-                                    SizedBox(
-                                        width: double.infinity,
-                                        height: 40,
-                                        child: Align(
-                                            alignment: Alignment.topCenter,
-                                            child: Padding(
-                                                padding: const EdgeInsets.only(top: 10),
-                                                child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4)))),
-                                    // 달
-                                    Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
-                                    SizedBox(height: 8),
-                                    // 데이터 영역
-                                    Expanded(
-                                      child: SingleChildScrollView(
-                                        child: Column(children: [
-                                          selectMonth == 2
-                                              ? DayEventCollection()
-                                              : Container(
-                                              padding: const EdgeInsets.only(top: 70), height: MediaQuery.of(context).size.height * 0.7, child: Align(alignment: Alignment.topCenter, child: Text('등록된 일정이 없습니다'))),
-                                          // 이벤트 트리거
-                                          // Container(height: 100, color: Colors.red), Container(height: 100, color: Colors.yellow)
-                                        ]),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                      ),
-                    );
-                  },
-                ),
-              ),
+                        if(dsNotify.extent>=1.0) {
+                          context.read<PageProvider>().pageChangeBuilder(true, CalendarFormat.month);
+                        }
+                      }
+                      else if(dsNotify.extent<0.8){
+                        setState(() {
+                          context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
+                        });
+                      }
+                      return true;
+                    },
+                    // drag able bottom sheet
+                    child: DraggableScrollableSheet(
+                      initialChildSize: context.watch<PageProvider>().bottomSheetHeight,
+                      maxChildSize: 1.0,
+                      minChildSize: 0.05,
+                      builder: (BuildContext context, ScrollController controller) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+                            border: Border.all(
+                              width: 1,
+                              color: StaticColor.bottomSheetHeaderMain,
+                            ),
+                          ),
+                          child: BottomSheetArea(controller: controller, month: selectMonth),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              }
             ),
             const SizedBox(height: 8.0),
           ],
@@ -292,6 +260,97 @@ class _CalendarBaseState extends State<CalendarBase> {
     );
   }
 }
+
+class BottomSheetArea extends StatefulWidget {
+  ScrollController controller;
+  int month;
+  BottomSheetArea({Key? key, required this.controller, required this.month}) : super(key: key);
+
+  @override
+  State<BottomSheetArea> createState() => _BottomSheetAreaState();
+}
+
+class _BottomSheetAreaState extends State<BottomSheetArea> {
+
+  // new data binding
+  Map<String, List<Event>> temperatureEvent = {};
+
+  @override
+  void initState() {
+    for(int i = 0; i < sampleEvent.length; i++) {
+      if(sampleEvent.keys.elementAt(i).year.toString() == DUMMY.currentYear.toString()) {
+        if(sampleEvent.keys.elementAt(i).month.toString() == DUMMY.currentMonth.toString()) {
+          temperatureEvent![sampleEvent.keys.elementAt(i).day.toString()] = sampleEvent![sampleEvent.keys.elementAt(i)] ?? [];
+        }
+      }
+    }
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        controller: widget.controller,
+        itemCount: temperatureEvent.length + 2,
+        itemBuilder: (BuildContext context, int index) {
+          print(temperatureEvent);
+          print('?? : ${temperatureEvent.length}');
+          print('??2 : ${DUMMY.currentMonth}');
+          if(temperatureEvent.length == 0) {
+            if(index == 0) {
+              return SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4))));
+            } else if(index == 1) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('${widget.month}월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600),),),
+                    Container(
+                        width: double.infinity,
+                        height: 300,
+                        child: Center(child: Text('등록된 일정이 없습니다')))
+                  ]
+                )
+              );
+            }
+
+          } else {
+            if(index == 0) {
+              return SizedBox(
+                  width: double.infinity,
+                  height: 40,
+                  child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4))));
+            } else if(index == 1) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('${widget.month}월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
+              );
+            } else {
+              return Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
+                  child: DayEventCollection(eventList: temperatureEvent));
+                  // child: Container(height: 10, color: Colors.black));
+            }
+          }
+        }
+    );
+  }
+}
+
 
 class FullDragUpPage extends StatefulWidget {
   const FullDragUpPage({Key? key}) : super(key: key);
@@ -308,7 +367,7 @@ class _FullDragUpPageState extends State<FullDragUpPage> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          SingleChildScrollView(child: Expanded(child: DayEventCollection())),
+          // SingleChildScrollView(child: Expanded(child: DayEventCollection())),
         ]
       ),
     );
@@ -316,7 +375,8 @@ class _FullDragUpPageState extends State<FullDragUpPage> {
 }
 
 class DayEventCollection extends StatefulWidget {
-  const DayEventCollection({Key? key}) : super(key: key);
+  Map<String, List<Event>> eventList;
+  DayEventCollection({Key? key, required this.eventList}) : super(key: key);
 
   @override
   State<DayEventCollection> createState() => _DayEventCollectionState();
@@ -330,7 +390,6 @@ class _DayEventCollectionState extends State<DayEventCollection> {
   int? eventLength;
   List<Widget> cc = [];
   var ee;
-  Map<String, List<Event>> temperatureEvent = {};
 
   @override
   void initState() {
@@ -339,13 +398,6 @@ class _DayEventCollectionState extends State<DayEventCollection> {
     days = sampleEvent.keys.elementAt(0).toString();
     eventLength = aa?.length;
 
-    for(int i = 0; i < sampleEvent.length; i++) {
-      if(sampleEvent.keys.elementAt(i).year.toString() == DUMMY.currentYear.toString()) {
-        if(sampleEvent.keys.elementAt(i).month.toString() == DUMMY.currentMonth.toString()) {
-          temperatureEvent![sampleEvent.keys.elementAt(i).day.toString()] = sampleEvent![sampleEvent.keys.elementAt(i)] ?? [];
-        }
-      }
-    }
     super.initState();
   }
 
@@ -354,9 +406,9 @@ class _DayEventCollectionState extends State<DayEventCollection> {
 
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: temperatureEvent.length,
+      itemCount: widget.eventList.length,
       itemBuilder: (BuildContext context, int index) {
-        aa = temperatureEvent![temperatureEvent.keys.elementAt(index)];
+        aa = widget.eventList![widget.eventList.keys.elementAt(index)];
         ee = aa?.asMap().entries.map((e) {
           return EventElement(eventList: aa!, e: e.key);
         });
@@ -368,8 +420,8 @@ class _DayEventCollectionState extends State<DayEventCollection> {
         return Center(
           child: Column(children: [
             Row(children: [
-              Text('${temperatureEvent.keys.elementAt(index).toString()}일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-              Text('${temperatureEvent[temperatureEvent.keys.elementAt(index)]!.length}', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
+              Text('${widget.eventList.keys.elementAt(index).toString()}일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
+              Text('${widget.eventList[widget.eventList.keys.elementAt(index)]!.length}', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
               Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
             ]),
             SizedBox(height: 8),
@@ -460,6 +512,11 @@ class PageProvider with ChangeNotifier {
   void pageChangeBuilder(bool state, CalendarFormat state02) {
     _isBuilderPage = state;
     _format = state02;
+    notifyListeners();
+  }
+
+  void bottomSheetHeightCustom(double position) {
+    _bottomSheetHeight = 0.8;
     notifyListeners();
   }
 

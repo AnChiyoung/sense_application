@@ -164,8 +164,8 @@ class CalendarStyle {
     this.markerMargin = const EdgeInsets.symmetric(horizontal: 0.3),
     this.markersAlignment = Alignment.bottomCenter,
     this.markersMaxCount = 4,
-    this.cellMargin = const EdgeInsets.all(6.0),
-    this.cellPadding = const EdgeInsets.all(0),
+    this.cellMargin = const EdgeInsets.all(0.0),
+    this.cellPadding = const EdgeInsets.all(10.0),
     this.cellAlignment = Alignment.center, // 셀 텍스트 위치
     // this.cellAlignment = Alignment.topCenter,
     this.markersOffset = const PositionedOffset(),

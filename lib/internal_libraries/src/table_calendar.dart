@@ -646,12 +646,13 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
 
         if (!isDisabled) {
           final events = widget.eventLoader?.call(day) ?? [];
+          //마커
           Widget? markerWidget =
               widget.calendarBuilders.markerBuilder?.call(context, day, events);
 
           if (events.isNotEmpty && markerWidget == null) {
             final center = constraints.maxHeight / 2;
-
+//표시
             final markerSize = widget.calendarStyle.markerSize ??
                 (shorterSide - widget.calendarStyle.cellMargin.vertical) *
                     widget.calendarStyle.markerSizeScale;
@@ -683,6 +684,7 @@ class _TableCalendarState<T> extends State<TableCalendar<T>> {
             );
           }
 
+          // 마커 위젯 리스트 생성
           if (markerWidget != null) {
             children.add(markerWidget);
           }
