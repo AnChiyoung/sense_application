@@ -7,6 +7,7 @@ import '../../internal_libraries/src/customization/calendar_style.dart';
 import '../../internal_libraries/src/shared/utils.dart';
 import '../../internal_libraries/src/table_calendar.dart';
 import '../../models/calendar/calendar_home_model.dart';
+import 'calendar_bottom_sheet.dart';
 
 class DUMMY {
   static int currentMonth = DateTime.now().month;
@@ -39,6 +40,10 @@ class _CalendarBaseState extends State<CalendarBase> {
   int selectWeekDayNumber = 0;
   String selectWeekDay = '';
 
+  DraggableScrollableController? dsController;
+
+  double bottomSheetHeight = 0.15;
+
 
 
   @override
@@ -48,6 +53,7 @@ class _CalendarBaseState extends State<CalendarBase> {
     selectDay = DateTime.now().day;
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    dsController = DraggableScrollableController();
 
     super.initState();
   }
@@ -141,13 +147,14 @@ class _CalendarBaseState extends State<CalendarBase> {
   @override
   Widget build(BuildContext context) {
 
+    double bottomHeight = context.watch<PageProvider>().bottomSheetHeight;
+
     return SafeArea(
       child: Scaffold(
         body: context.watch<PageProvider>().isBuilderPage ? const FullDragUpPage() :
         Stack(
           children: [
             TableCalendar<Event>(
-
               rowHeight: 80,
               daysOfWeekHeight: 40,
               headerVisible: false,
@@ -172,7 +179,7 @@ class _CalendarBaseState extends State<CalendarBase> {
                   shape: BoxShape.circle,
                 ),
                 rowDecoration: BoxDecoration(
-                  color: Colors.green,
+                  // color: Colors.green,
                   border: Border(bottom: BorderSide(color: StaticColor.rowDevider, width: 1)),
                 ),
                 markerSize: 8.0,
@@ -206,53 +213,52 @@ class _CalendarBaseState extends State<CalendarBase> {
                 _focusedDay = focusedDay;
               },
             ),
+            ScheduleBottomSheet(month: selectMonth),
             // notification listener -> modal bottom sheet live height call
-            StatefulBuilder(
-              builder: (BuildContext bottomSheetContext, StateSetter bottomSheetSetter) {
-                return SizedBox.expand(
-                  child: NotificationListener<DraggableScrollableNotification> (
-                    onNotification: (DraggableScrollableNotification dsNotify) {
-                      if(dsNotify.extent>=0.8){
-                        setState(() {
-                          context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.week);
-                          print('위치 조정');
-                          context.read<PageProvider>().bottomSheetHeightCustom(0.8);
-                        });
-
-                        if(dsNotify.extent>=1.0) {
-                          context.read<PageProvider>().pageChangeBuilder(true, CalendarFormat.month);
-                        }
-                      }
-                      else if(dsNotify.extent<0.8){
-                        setState(() {
-                          context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
-                        });
-                      }
-                      return true;
-                    },
-                    // drag able bottom sheet
-                    child: DraggableScrollableSheet(
-                      initialChildSize: context.watch<PageProvider>().bottomSheetHeight,
-                      maxChildSize: 1.0,
-                      minChildSize: 0.05,
-                      builder: (BuildContext context, ScrollController controller) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-                            border: Border.all(
-                              width: 1,
-                              color: StaticColor.bottomSheetHeaderMain,
-                            ),
-                          ),
-                          child: BottomSheetArea(controller: controller, month: selectMonth),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              }
-            ),
+            // SizedBox.expand(
+            //   child: NotificationListener<DraggableScrollableNotification> (
+            //     onNotification: (DraggableScrollableNotification dsNotify) {
+            //       if(dsNotify.extent>=0.8){
+            //         setState(() {
+            //           context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.week);
+            //           print('위치 조정');
+            //           context.read<PageProvider>().bottomSheetHeightCustom(0.8);
+            //         });
+            //
+            //         if(dsNotify.extent>=1.0) {
+            //           context.read<PageProvider>().pageChangeBuilder(true, CalendarFormat.month);
+            //         }
+            //       }
+            //       else if(dsNotify.extent<0.8){
+            //         setState(() {
+            //           context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
+            //         });
+            //       }
+            //       return true;
+            //     },
+            //     // drag able bottom sheet
+            //     child: DraggableScrollableSheet(
+            //       controller: dsController,
+            //       initialChildSize: bottomHeight,
+            //       maxChildSize: 1.0,
+            //       minChildSize: 0.05,
+            //       builder: (BuildContext context, ScrollController controller) {
+            //         return Container(
+            //           height: MediaQuery.of(context).size.height * 0.7,
+            //           decoration: BoxDecoration(
+            //             color: Colors.white,
+            //             borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+            //             border: Border.all(
+            //               width: 1,
+            //               color: StaticColor.bottomSheetHeaderMain,
+            //             ),
+            //           ),
+            //           child: BottomSheetArea(controller: controller, month: selectMonth),
+            //         );
+            //       },
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 8.0),
           ],
         ),
