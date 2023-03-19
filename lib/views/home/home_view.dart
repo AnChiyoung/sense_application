@@ -34,20 +34,35 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   void initState() {
-    feedIcon = 'feed.png'; calendarIcon = 'calendar.png'; add_scheduleIcon = 'add_schedule.png'; contactIcon = 'contact.png'; mypageIcon = 'mypage.png';
+    feedIcon = 'feed.png'; calendarIcon = 'calendar_old.png'; add_scheduleIcon = 'add_schedule_old.png'; contactIcon = 'contact_old.png'; mypageIcon = 'mypage_old.png';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
 
+    Widget addEvent() {
+      return Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: StaticColor.mainSoft,
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: SizedBox(
+              width: 24,
+              height: 24,
+              child: Image.asset('assets/home/add_event.png'))),
+      );
+    }
 
     List<BottomNavigationBarItem> bottomNavigationMenu = [
       const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 18), label: 'feed'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/calendar.png'), size: 18), label: 'calendar'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/add_schedule.png'), size: 14), label: 'feed'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/contact.png'), size: 23), label: 'feed'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/mypage.png'), size: 18), label: 'feed'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/event.png'), size: 18), label: 'calendar'),
+      BottomNavigationBarItem(icon: addEvent(), label: 'add_event'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/contact.png'), size: 21), label: 'contact'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/mypage.png'), size: 24), label: 'mypage'),
     ];
 
     return Container(
