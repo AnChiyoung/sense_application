@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/screens/add_event/add_event.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_home_screen.dart';
 import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
-import 'package:sense_flutter_application/screens/schedule_create/schedule_create.dart';
+
 
 import '../../public_widget/alert_dialog.dart';
 
@@ -12,7 +13,7 @@ class MovePageList {
   List<Widget> pageList = [
     FeedScreen(),
     CalendarScreen(),
-    ScheduleCreateScreen(),
+    AddEventScreen(),
     ContactScreen(),
     MypageScreen(),
   ];
