@@ -79,7 +79,12 @@ class _BottomMenuState extends State<BottomMenu> {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             onTap: (index) {
-              widget.selectCallback(index);
+              // 이벤트 생성만 다른 페이지로 변경
+              if(index == 2) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEventScreen()));
+              } else {
+                widget.selectCallback(index);
+              }
               pageIndex = index;
               if(index == 3 || index == 4) {
                 showDialog(
