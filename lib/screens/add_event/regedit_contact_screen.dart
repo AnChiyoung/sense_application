@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/views/add_event/regedit_contact_view.dart';
 
 class RegeditContactScreen extends StatefulWidget {
   const RegeditContactScreen({Key? key}) : super(key: key);
@@ -27,6 +28,6 @@ class _RegeditContactScreenState extends State<RegeditContactScreen> {
           ],
         )
       )
-    )
+    );
   }
 }

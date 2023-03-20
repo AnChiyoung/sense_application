@@ -3,48 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
+import 'package:sense_flutter_application/screens/add_event/regedit_contact_screen.dart';
 import 'package:sense_flutter_application/screens/add_event/share_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_view.dart';
-
-class ContactListNextButton extends StatefulWidget {
-  const ContactListNextButton({Key? key}) : super(key: key);
-
-  @override
-  State<ContactListNextButton> createState() => _ContactListNextButtonState();
-}
-
-class _ContactListNextButtonState extends State<ContactListNextButton> {
-  @override
-  Widget build(BuildContext context) {
-
-    // final buttonEnabled = context.watch<AddEventProvider>().buttonState;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        width: double.infinity,
-        height: 56,
-        decoration: BoxDecoration(
-          color: StaticColor.categoryUnselectedColor,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: ElevatedButton(
-            onPressed: () {
-              setState(() {
-              });
-            },
-            // style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)),
-                ]
-            )
-        ),
-      ),
-    );
-  }
-}
 
 class ContactListHeader extends StatefulWidget {
   const ContactListHeader({Key? key}) : super(key: key);
@@ -60,7 +21,7 @@ class _ContactListHeaderState extends State<ContactListHeader> {
   }
 
   void jumpCallback() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const ShareEventScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegeditContactScreen()));
   }
 
   void closeCallback() {
