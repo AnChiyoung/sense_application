@@ -25,4 +25,9 @@ class StaticColor {
   static Color notifySuccess = const Color(0xFF00C366);
   // home menu color
   static Color unselectedColor = const Color(0xFF000000);
+  // add event color
+  static Color categoryUnselectedColor = const Color(0xFFEEEEEE);
+  static Color addEventFontColor = const Color(0xFF555555);
+  static Color addEventTitleColor = const Color(0xFF333333);
+  static Color categorySelectedColor = const Color(0xFF2288FF);
 }

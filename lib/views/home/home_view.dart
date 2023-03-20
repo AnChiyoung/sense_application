@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/screens/add_event/add_event.dart';
+import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_home_screen.dart';
 import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
@@ -81,7 +81,7 @@ class _BottomMenuState extends State<BottomMenu> {
             onTap: (index) {
               widget.selectCallback(index);
               pageIndex = index;
-              if(index == 2 || index == 3 || index == 4) {
+              if(index == 3 || index == 4) {
                 showDialog(
                     context: context,
                     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
