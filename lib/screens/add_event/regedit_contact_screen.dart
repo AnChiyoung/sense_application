@@ -18,7 +18,7 @@ class _RegeditContactScreenState extends State<RegeditContactScreen> {
             Column(
               children: [
                 RegeditContactHeader(),
-                // RegeditContactImage(),
+                RegeditContactImage(),
                 // RegeditContactBaseInfo(),
                 // RegeditContactSex(),
                 // RegeditContactRelation(),

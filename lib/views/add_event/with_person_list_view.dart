@@ -108,7 +108,7 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
             Container(
               width: double.infinity,
               // mediaquery.height - safearea - header - title - tab으로 수정?
-              height: 500,
+              height: 300,
               child: TabBarView(
                 controller: contactTabController,
                   children: [
