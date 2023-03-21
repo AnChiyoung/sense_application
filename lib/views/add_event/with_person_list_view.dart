@@ -71,6 +71,9 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
   /// 렌더 전 context 부재로 mediaquery를 사용할 수 없기에 [build] 내부에서 tab widget 생성
   List<Widget> tabs = [];
 
+  /// server response용 widget
+  List<String> tabCategory = ['전체(0)', '친구(0)', '가족(0)', '연인(0)', '직장(0)'];
+
   @override
   void initState() {
     contactTabController = TabController(length: 5, vsync: this);
@@ -84,13 +87,9 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
   }
 
   void publicWidthSet(double value) {
-    tabs = [
-      SizedBox(width: value, child: Tab(icon: Text('전체(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
-      SizedBox(width: value, child: Tab(icon: Text('친구(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
-      SizedBox(width: value, child: Tab(icon: Text('가족(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
-      SizedBox(width: value, child: Tab(icon: Text('연인(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
-      SizedBox(width: value, child: Tab(icon: Text('직장(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
-    ];
+    tabs = tabCategory.map((e) {
+      return SizedBox(width: value, child: Tab(icon: Text(e.toString(), overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700))));
+    }).toList();
   }
 
   @override
