@@ -65,13 +65,11 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
 
   late TabController contactTabController;
 
-  List<Tab> tabs = [
-    Tab(icon: Text('전체(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700))),
-    Tab(icon: Text('친구(0)', overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700))),
-    Tab(icon: Text('가족(0)', overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700))),
-    Tab(icon: Text('연인(0)', overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700))),
-    Tab(icon: Text('직장(0)', overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700))),
-  ];
+  /// none used List<Tab>
+  /// used List<Widget>
+  /// none used Expanded
+  /// 렌더 전 context 부재로 mediaquery를 사용할 수 없기에 [build] 내부에서 tab widget 생성
+  List<Widget> tabs = [];
 
   @override
   void initState() {
@@ -85,8 +83,22 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
     super.dispose();
   }
 
+  void publicWidthSet(double value) {
+    tabs = [
+      SizedBox(width: value, child: Tab(icon: Text('전체(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
+      SizedBox(width: value, child: Tab(icon: Text('친구(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
+      SizedBox(width: value, child: Tab(icon: Text('가족(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
+      SizedBox(width: value, child: Tab(icon: Text('연인(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
+      SizedBox(width: value, child: Tab(icon: Text('직장(0)', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700)))),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    var publicWidth = MediaQuery.of(context).size.width / 5;
+    publicWidthSet(publicWidth);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: DefaultTabController(

@@ -65,28 +65,53 @@ class RegeditContactImage extends StatefulWidget {
 }
 
 class _RegeditContactImageState extends State<RegeditContactImage> {
+
   @override
   Widget build(BuildContext context) {
-    File dummyFile = File('');
+    File? profileImage;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: GestureDetector(
-        onTap: () async {
-          PickedFile? f = await ImagePicker().getImage(source: ImageSource.gallery);
-          dummyFile = File(f!.path);
+      child: ElevatedButton(
+        onPressed: () async {
+          var f = await ImagePicker().pickImage(source: ImageSource.gallery);
+          profileImage = File(f!.path);
+          setState(() {});
         },
-          // dummyFile.length() != 0 ?
-          child: Container(
-          width: 88,
-          height: 88,
-          decoration: BoxDecoration(
-            color: StaticColor.categoryUnselectedColor,
-            borderRadius: BorderRadius.circular(44.0),
-            // shape: BoxShape.circle,
-          ),
-          child: Image.asset('assets/add_event/empty_image.png', width: 10, height: 32),
-        )
-      )
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(88, 88),
+          shape: const CircleBorder(),
+          backgroundColor: StaticColor.categoryUnselectedColor,
+          elevation: 0.0
+        ),
+        child: profileImage == null ? Image.asset('assets/add_event/empty_image.png', width: 32, height: 32) : Image.file(profileImage),
+      ),
+    );
+  }
+}
+
+class RegeditContactBaseInfo extends StatefulWidget {
+  const RegeditContactBaseInfo({Key? key}) : super(key: key);
+
+  @override
+  State<RegeditContactBaseInfo> createState() => _RegeditContactBaseInfoState();
+}
+
+class _RegeditContactBaseInfoState extends State<RegeditContactBaseInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Text('기본정보', style: TextStyle(fontSize: 16, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w700))),
+          const SizedBox(height: 8),
+          TextFormField(
+
+          )
+        ],
+      ),
     );
   }
 }
