@@ -17,11 +17,12 @@ class ContactListHeader extends StatefulWidget {
 class _ContactListHeaderState extends State<ContactListHeader> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(jumpCallback: jumpCallback, closeCallback: closeCallback);
+    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
   }
 
-  void jumpCallback() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const RegeditContactScreen()));
+  void backCallback() {
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => const RegeditContactScreen()));
+    Navigator.of(context).pop();
   }
 
   void closeCallback() {
@@ -46,9 +47,28 @@ class _ContactListTitleState extends State<ContactListTitle> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 30, bottom: 40),
-        child: Center(
-          child: Text('함께 할\n사람을 선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500), textAlign: TextAlign.center),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 40),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text('함께 할\n사람을 선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500)),
+            Container(
+              width: 81,
+              height: 32,
+              decoration: BoxDecoration(
+                color: StaticColor.categoryUnselectedColor,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ShareEventScreen()));
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                child: Text('건너뛰기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+              ),
+            ),
+          ],
         )
     );
   }
@@ -277,26 +297,28 @@ class ContactNextButton extends StatefulWidget {
 
 class _ContactNextButtonState extends State<ContactNextButton> {
 
+  Future backButtonAction(BuildContext context) async {
+    context.read<AddEventProvider>().nextButtonReset();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     final buttonEnabled = context.watch<AddEventProvider>().contactListButtonState;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 52),
-      child: Container(
+    return WillPopScope(
+      onWillPop: () async {
+        await backButtonAction(context);
+        return true;
+      },
+      child: SizedBox(
         width: double.infinity,
         height: 56,
-        decoration: BoxDecoration(
-          color: StaticColor.categoryUnselectedColor,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => ShareEventScreen())) : showToastAddEvent();
-
+              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RegeditContactScreen())) : (){};
             },
-            style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
+            style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

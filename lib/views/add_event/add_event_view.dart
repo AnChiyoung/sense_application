@@ -5,9 +5,10 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/screens/add_event/with_person_list_screen.dart';
 
 class HeaderMenu extends StatefulWidget {
-  Function? jumpCallback;
+  Function? backCallback;
+  String? title;
   Function? closeCallback;
-  HeaderMenu({Key? key, this.jumpCallback, this.closeCallback}) : super(key: key);
+  HeaderMenu({Key? key, this.backCallback, this.title, this.closeCallback}) : super(key: key);
 
   @override
   State<HeaderMenu> createState() => _HeaderMenuState();
@@ -16,33 +17,37 @@ class HeaderMenu extends StatefulWidget {
 class _HeaderMenuState extends State<HeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      height: 60,
+      child: Stack(
         children: [
-          Container(
-            width: 81,
-            height: 32,
-            decoration: BoxDecoration(
-              color: StaticColor.categoryUnselectedColor,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: ElevatedButton(
-              onPressed: () {
-                print('a');
-                widget.jumpCallback?.call();
+          widget.backCallback == null ? Container() : Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: GestureDetector(
+                onTap: () {
+                  widget.backCallback?.call();
                 },
-              style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-              child: Text('건너뛰기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                child: Image.asset('assets/add_event/button_back.png', width: 24, height: 24),
+              ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              print('b');
-              widget.closeCallback?.call();
-            },
-            child: Image.asset('assets/add_event/button_close.png', width: 15.01, height: 14.96)
+          Align(
+            alignment: Alignment.center,
+            child: Text(widget.title!, style: TextStyle(fontSize: 16, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500)),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 18),
+              child: GestureDetector(
+                onTap: () {
+                  widget.closeCallback?.call();
+                },
+                child: Image.asset('assets/add_event/button_close.png', width: 15.01, height: 14.96)
+              ),
+            ),
           )
         ],
       ),
@@ -60,15 +65,12 @@ class CategoryHeaderMenu extends StatefulWidget {
 class _CategoryHeaderMenuState extends State<CategoryHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(jumpCallback: jumpCallback, closeCallback: closeCallback); // 왜 miss?
-  }
-
-  void jumpCallback() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const WithPersonScreen()));
+    return HeaderMenu(title: '이벤트 생성', closeCallback: closeCallback); // 왜 miss?
   }
 
   void closeCallback() {
     Navigator.of(context).pop();
+    context.read<AddEventProvider>().nextButtonReset();
   }
 }
 
@@ -84,9 +86,28 @@ class _CategorySelectTitleState extends State<CategorySelectTitle> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30, bottom: 40),
-      child: Center(
-        child: Text('유형을\n선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500), textAlign: TextAlign.center),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text('유형을\n선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500), textAlign: TextAlign.left),
+          Container(
+            width: 81,
+            height: 32,
+            decoration: BoxDecoration(
+              color: StaticColor.categoryUnselectedColor,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const WithPersonScreen()));
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+              child: Text('건너뛰기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+            ),
+          ),
+        ],
       )
     );
   }
@@ -327,26 +348,28 @@ class NextButton extends StatefulWidget {
 
 class _NextButtonState extends State<NextButton> {
 
+  Future backButtonAction(BuildContext context) async {
+    context.read<AddEventProvider>().nextButtonReset();
+  }
+
   @override
   Widget build(BuildContext context) {
 
     final buttonEnabled = context.watch<AddEventProvider>().buttonState;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 52),
-      child: Container(
+    return WillPopScope(
+      onWillPop: () async {
+        await backButtonAction(context);
+        return true;
+      },
+      child: SizedBox(
         width: double.infinity,
         height: 56,
-        decoration: BoxDecoration(
-          color: StaticColor.categoryUnselectedColor,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => WithPersonScreen())) : showToastAddEvent();
-
+              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => WithPersonScreen())) : (){};
             },
-            style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
+            style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
@@ -358,6 +381,7 @@ class _NextButtonState extends State<NextButton> {
     );
   }
 
+  /// 현재 미사용, toast message
   void showToastAddEvent() {
     Fluttertoast.showToast(
       msg: '유형을 선택해주세요',
@@ -379,6 +403,11 @@ class AddEventProvider with ChangeNotifier {
 
   void nextButtonState(bool state) {
     _buttonState = state;
+    notifyListeners();
+  }
+
+  void nextButtonReset() {
+    _buttonState = false;
     notifyListeners();
   }
 

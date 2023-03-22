@@ -34,4 +34,5 @@ class StaticColor {
   static Color tabbarIndicatorColor = const Color(0xFF151515);
   static Color contactLoadTextColor = const Color(0xFF999999);
   static Color addEventCancelTitle = const Color(0xFF333333);
+  static Color unSelectedColor = const Color(0xFFBBBBBB);
 }
