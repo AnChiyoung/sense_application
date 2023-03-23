@@ -313,16 +313,16 @@ class _ContactNextButtonState extends State<ContactNextButton> {
       },
       child: SizedBox(
         width: double.infinity,
-        height: 56,
+        height: 76,
         child: ElevatedButton(
             onPressed: () {
               buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RegeditContactScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)),
+                  SizedBox(height: 56, child: Center(child: Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
                 ]
             )
         ),

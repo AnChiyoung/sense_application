@@ -11,9 +11,10 @@ class WithPersonScreen extends StatefulWidget {
 class _WithPersonState extends State<WithPersonScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
           children: [
             Column(
               children: const [

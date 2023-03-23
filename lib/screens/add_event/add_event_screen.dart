@@ -11,9 +11,10 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
           children: [
             // 버튼 제외 상단
             Column(
