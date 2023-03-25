@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
@@ -95,12 +95,18 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
   /// server response용 widget
   List<String> tabCategory = ['전체(0)', '친구(0)', '가족(0)', '연인(0)', '직장(0)'];
 
+  // List<ContactModel>? contactModel;
   ContactModel? contactModel;
 
   @override
   void initState() {
     contactTabController = TabController(length: 5, vsync: this);
     contactModel = ContactModel.fromJson(contactDummyModel);
+    // contactModel = contactDummyModel.map((e) {
+    //   int index = contactDummyModel.indexOf(e);
+    //
+    //   ContactModel.fromJson(contactDummyModel)
+    // });
     super.initState();
   }
 
@@ -139,157 +145,166 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
                 indicatorColor: StaticColor.tabbarIndicatorColor,
               ),
             ),
-            Container(
-              width: double.infinity,
-              // mediaquery.height - safearea - header - title - tab으로 수정?
-              height: 300,
-              child: TabBarView(
-                controller: contactTabController,
-                  children: [
-                    ContactListAll(),
-                    Container(
-                      width: double.infinity,
-                      height: 300,
-                      child: Center(
-                        child: Text(contactModel!.name),
+            Expanded(
+              child: SizedBox(
+                width: double.infinity,
+                // mediaquery.height - safearea - header - title - tab으로 수정?
+                height: 300,
+                child: TabBarView(
+                  controller: contactTabController,
+                    children: [
+                      // ContactListAll(),
+                      Column(
+                        children: [
+                          SearchBox(),
+                          // ContactListBox(),
+                          // Center(
+                          //   child: Column(
+                          //     children: [
+                          //       Text(contactModel!.name),
+                          //       Text(contactModel!.phoneNumber),
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
                       ),
-                    ),
-                    // Container(
-                    //   child: Column(
-                    //     children: [
-                    //       const SizedBox(
-                    //         height: 56
-                    //       ),
-                    //       Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                    //       const SizedBox(
-                    //         height: 30
-                    //       ),
-                    //       Container(
-                    //         width: 81,
-                    //         height: 32,
-                    //         decoration: BoxDecoration(
-                    //           color: StaticColor.categoryUnselectedColor,
-                    //           borderRadius: BorderRadius.circular(8.0),
-                    //         ),
-                    //         child: ElevatedButton(
-                    //           onPressed: () {
-                    //           },
-                    //           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                    //           child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
-                    //         ),
-                    //       ),
-                    //     ]
-                    //   )
-                    // ),
-                    Container(
-                        child: Column(
-                            children: [
-                              const SizedBox(
-                                  height: 56
-                              ),
-                              Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                              const SizedBox(
-                                  height: 30
-                              ),
-                              Container(
-                                width: 81,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: StaticColor.categoryUnselectedColor,
-                                  borderRadius: BorderRadius.circular(8.0),
+                      // Container(
+                      //   child: Column(
+                      //     children: [
+                      //       const SizedBox(
+                      //         height: 56
+                      //       ),
+                      //       Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                      //       const SizedBox(
+                      //         height: 30
+                      //       ),
+                      //       Container(
+                      //         width: 81,
+                      //         height: 32,
+                      //         decoration: BoxDecoration(
+                      //           color: StaticColor.categoryUnselectedColor,
+                      //           borderRadius: BorderRadius.circular(8.0),
+                      //         ),
+                      //         child: ElevatedButton(
+                      //           onPressed: () {
+                      //           },
+                      //           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                      //           child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                      //         ),
+                      //       ),
+                      //     ]
+                      //   )
+                      // ),
+                      Container(
+                          child: Column(
+                              children: [
+                                const SizedBox(
+                                    height: 56
                                 ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                  },
-                                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                                  child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                                const SizedBox(
+                                    height: 30
                                 ),
-                              ),
-                            ]
-                        )
-                    ),
-                    Container(
-                        child: Column(
-                            children: [
-                              const SizedBox(
-                                  height: 56
-                              ),
-                              Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                              const SizedBox(
-                                  height: 30
-                              ),
-                              Container(
-                                width: 81,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: StaticColor.categoryUnselectedColor,
-                                  borderRadius: BorderRadius.circular(8.0),
+                                Container(
+                                  width: 81,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: StaticColor.categoryUnselectedColor,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                    },
+                                    style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                                    child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                  ),
                                 ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                  },
-                                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                                  child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                              ]
+                          )
+                      ),
+                      Container(
+                          child: Column(
+                              children: [
+                                const SizedBox(
+                                    height: 56
                                 ),
-                              ),
-                            ]
-                        )
-                    ),
-                    Container(
-                        child: Column(
-                            children: [
-                              const SizedBox(
-                                  height: 56
-                              ),
-                              Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                              const SizedBox(
-                                  height: 30
-                              ),
-                              Container(
-                                width: 81,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: StaticColor.categoryUnselectedColor,
-                                  borderRadius: BorderRadius.circular(8.0),
+                                Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                                const SizedBox(
+                                    height: 30
                                 ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                  },
-                                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                                  child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                Container(
+                                  width: 81,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: StaticColor.categoryUnselectedColor,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                    },
+                                    style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                                    child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                  ),
                                 ),
-                              ),
-                            ]
-                        )
-                    ),
-                    Container(
-                        child: Column(
-                            children: [
-                              const SizedBox(
-                                  height: 56
-                              ),
-                              Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                              const SizedBox(
-                                  height: 30
-                              ),
-                              Container(
-                                width: 81,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: StaticColor.categoryUnselectedColor,
-                                  borderRadius: BorderRadius.circular(8.0),
+                              ]
+                          )
+                      ),
+                      Container(
+                          child: Column(
+                              children: [
+                                const SizedBox(
+                                    height: 56
                                 ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                  },
-                                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                                  child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                                const SizedBox(
+                                    height: 30
                                 ),
-                              ),
-                            ]
-                        )
-                    ),
-                  ]
+                                Container(
+                                  width: 81,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: StaticColor.categoryUnselectedColor,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                    },
+                                    style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                                    child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+                      Container(
+                          child: Column(
+                              children: [
+                                const SizedBox(
+                                    height: 56
+                                ),
+                                Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                                const SizedBox(
+                                    height: 30
+                                ),
+                                Container(
+                                  width: 81,
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    color: StaticColor.categoryUnselectedColor,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                    },
+                                    style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                                    child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                                  ),
+                                ),
+                              ]
+                          )
+                      ),
+                    ]
+                ),
               ),
             )
           ],
@@ -327,7 +342,7 @@ class _ContactNextButtonState extends State<ContactNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RegeditContactScreen())) : (){};
+              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const ShareEventScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
@@ -341,17 +356,46 @@ class _ContactNextButtonState extends State<ContactNextButton> {
     );
   }
 
-  void showToastAddEvent() {
-    Fluttertoast.showToast(
-      msg: '함께 할 사람이 선택되지 않았습니다',
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.redAccent,
-      fontSize: 20,
-      textColor: Colors.white,
-      toastLength: Toast.LENGTH_SHORT,
+  // void showToastAddEvent() {
+  //   Fluttertoast.showToast(
+  //     msg: '함께 할 사람이 선택되지 않았습니다',
+  //     gravity: ToastGravity.BOTTOM,
+  //     backgroundColor: Colors.redAccent,
+  //     fontSize: 20,
+  //     textColor: Colors.white,
+  //     toastLength: Toast.LENGTH_SHORT,
+  //   );
+  // }
+}
+
+class SearchBox extends StatefulWidget {
+  const SearchBox({Key? key}) : super(key: key);
+
+  @override
+  State<SearchBox> createState() => _SearchBoxState();
+}
+
+class _SearchBoxState extends State<SearchBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: TextFormField(
+        onChanged: null,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: StaticColor.textFormFieldFillColor,
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(width: 3.0, color: Colors.green),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          // icon:
+        )
+      )
     );
   }
 }
+
 
 class ContactListAll extends StatefulWidget {
   const ContactListAll({Key? key}) : super(key: key);

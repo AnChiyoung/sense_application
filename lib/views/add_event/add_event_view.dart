@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/screens/add_event/with_person_list_screen.dart';
@@ -382,16 +382,16 @@ class _NextButtonState extends State<NextButton> {
   }
 
   /// 현재 미사용, toast message
-  void showToastAddEvent() {
-    Fluttertoast.showToast(
-      msg: '유형을 선택해주세요',
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.redAccent,
-      fontSize: 20,
-      textColor: Colors.white,
-      toastLength: Toast.LENGTH_SHORT,
-    );
-  }
+  // void showToastAddEvent() {
+  //   Fluttertoast.showToast(
+  //     msg: '유형을 선택해주세요',
+  //     gravity: ToastGravity.BOTTOM,
+  //     backgroundColor: Colors.redAccent,
+  //     fontSize: 20,
+  //     textColor: Colors.white,
+  //     toastLength: Toast.LENGTH_SHORT,
+  //   );
+  // }
 }
 
 class AddEventProvider with ChangeNotifier {

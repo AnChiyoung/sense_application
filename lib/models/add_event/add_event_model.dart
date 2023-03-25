@@ -39,8 +39,16 @@ Map testMap = jsonDecode(contactDummyModel);
 var testContactModel = ContactModel.fromJson(testMap);
  */
 
-var contactDummyModel = {
+var contactDummyModel =
+// [
+  {
   'phoneNumber': '010-6630-0387',
   'name': '안치영',
   'category': 1,
 };
+// {
+//   'phoneNumber': '010-1111-2222',
+//   'name': '김씨요',
+//   'category': 1,
+// }
+// ];

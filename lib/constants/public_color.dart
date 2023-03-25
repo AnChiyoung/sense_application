@@ -35,4 +35,5 @@ class StaticColor {
   static Color contactLoadTextColor = const Color(0xFF999999);
   static Color addEventCancelTitle = const Color(0xFF333333);
   static Color unSelectedColor = const Color(0xFFBBBBBB);
+  static Color textFormFieldFillColor = const Color(0xFFF6F6F6);
 }
