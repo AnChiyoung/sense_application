@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/screens/add_event/regedit_contact_screen.dart';
 import 'package:sense_flutter_application/screens/add_event/share_event_screen.dart';
@@ -94,9 +95,12 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
   /// server response용 widget
   List<String> tabCategory = ['전체(0)', '친구(0)', '가족(0)', '연인(0)', '직장(0)'];
 
+  ContactModel? contactModel;
+
   @override
   void initState() {
     contactTabController = TabController(length: 5, vsync: this);
+    contactModel = ContactModel.fromJson(contactDummyModel);
     super.initState();
   }
 
@@ -133,7 +137,6 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
                 isScrollable: false,
                 indicatorWeight: 3.0,
                 indicatorColor: StaticColor.tabbarIndicatorColor,
-
               ),
             ),
             Container(
@@ -143,33 +146,41 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
               child: TabBarView(
                 controller: contactTabController,
                   children: [
+                    ContactListAll(),
                     Container(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 56
-                          ),
-                          Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                          const SizedBox(
-                            height: 30
-                          ),
-                          Container(
-                            width: 81,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: StaticColor.categoryUnselectedColor,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: ElevatedButton(
-                              onPressed: () {
-                              },
-                              style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                              child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
-                            ),
-                          ),
-                        ]
-                      )
+                      width: double.infinity,
+                      height: 300,
+                      child: Center(
+                        child: Text(contactModel!.name),
+                      ),
                     ),
+                    // Container(
+                    //   child: Column(
+                    //     children: [
+                    //       const SizedBox(
+                    //         height: 56
+                    //       ),
+                    //       Text('사람이 없습니다\n연락처를 불러올까요?', style: TextStyle(fontSize: 16, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                    //       const SizedBox(
+                    //         height: 30
+                    //       ),
+                    //       Container(
+                    //         width: 81,
+                    //         height: 32,
+                    //         decoration: BoxDecoration(
+                    //           color: StaticColor.categoryUnselectedColor,
+                    //           borderRadius: BorderRadius.circular(8.0),
+                    //         ),
+                    //         child: ElevatedButton(
+                    //           onPressed: () {
+                    //           },
+                    //           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                    //           child: Text('불러오기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                    //         ),
+                    //       ),
+                    //     ]
+                    //   )
+                    // ),
                     Container(
                         child: Column(
                             children: [
@@ -340,4 +351,46 @@ class _ContactNextButtonState extends State<ContactNextButton> {
       toastLength: Toast.LENGTH_SHORT,
     );
   }
+}
+
+class ContactListAll extends StatefulWidget {
+  const ContactListAll({Key? key}) : super(key: key);
+
+  @override
+  State<ContactListAll> createState() => _ContactListAllState();
+}
+
+class _ContactListAllState extends State<ContactListAll> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+/// search delegate vs view rebuild?
+class ContactSearch extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+    throw UnimplementedError();
+  }
+  
 }
