@@ -404,6 +404,12 @@ class AddEventProvider with ChangeNotifier {
   bool _allCheckState = false;
   bool get allCheckState => _allCheckState;
 
+  String _selectedDay = '';
+  String get selectedDay => _selectedDay;
+
+  bool _dateSelectButtonState = false;
+  bool get dateSelectButtonState => _dateSelectButtonState;
+
   void nextButtonState(bool state) {
     _buttonState = state;
     notifyListeners();
@@ -421,6 +427,21 @@ class AddEventProvider with ChangeNotifier {
 
   void contactListAllCheckState(bool state) {
     _allCheckState = state!;
+    notifyListeners();
+  }
+
+  void dayViewUpdate(String date) {
+    _selectedDay = date;
+    notifyListeners();
+  }
+
+  void dateSelectNextButton(bool state) {
+    _dateSelectButtonState = state;
+    notifyListeners();
+  }
+
+  void dateSelectNextButtonReset() {
+    _dateSelectButtonState = false;
     notifyListeners();
   }
 }

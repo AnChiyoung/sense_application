@@ -28,7 +28,7 @@ class _WithPersonState extends State<WithPersonScreen> {
                 child: ContactNextButton()
             ),
           ]
-        )
+        ),
       ),
     );
   }

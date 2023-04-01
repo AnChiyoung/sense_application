@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/views/add_event/date_select_view.dart';
 
 class DateSelectScreen extends StatefulWidget {
   const DateSelectScreen({Key? key}) : super(key: key);
@@ -12,7 +13,23 @@ class _DateSelectScreenState extends State<DateSelectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(),
+        bottom: false,
+        child: Stack(
+          children: [
+            Column(
+              children: const [
+                DateSelectHeader(),
+                DateSelectTitle(),
+                DateViewSection(),
+                DateSelectSection(),
+              ]
+            ),
+            const Align(
+              alignment: Alignment.bottomCenter,
+              child: DateSelectNextButton()
+            ),
+          ]
+        ),
       ),
     );
   }

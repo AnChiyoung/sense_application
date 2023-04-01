@@ -42,4 +42,8 @@ class StaticColor {
   static Color contactListBoxTextColor = const Color(0xFF777777);
   static Color nonAllCheck = const Color(0xFFE0E0E0);
   static Color allCheck = const Color(0xFF2288FF);
+  static Color dateViewBoxColor = const Color(0xFFF6F6F6);
+  static Color calendarArrowColor = const Color(0xFF999999);
+  static Color calendarDowColor = const Color(0xFFBBBBBB);
+  // recommended event color
 }
