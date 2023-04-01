@@ -51,6 +51,7 @@ dependencies:
   stacked_card_carousel: ^0.0.4
 #  fluttertoast: ^8.2.1
   image_picker: ^0.8.7
+  flutter_switch: ^0.3.2
 
 dev_dependencies:
   flutter_test:

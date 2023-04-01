@@ -401,6 +401,9 @@ class AddEventProvider with ChangeNotifier {
   bool _contactListButtonState = false;
   bool get contactListButtonState => _contactListButtonState;
 
+  bool _allCheckState = false;
+  bool get allCheckState => _allCheckState;
+
   void nextButtonState(bool state) {
     _buttonState = state;
     notifyListeners();
@@ -413,6 +416,11 @@ class AddEventProvider with ChangeNotifier {
 
   void contactListNextButtonState(bool state) {
     _contactListButtonState = state;
+    notifyListeners();
+  }
+
+  void contactListAllCheckState(bool state) {
+    _allCheckState = state!;
     notifyListeners();
   }
 }

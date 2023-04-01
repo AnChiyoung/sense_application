@@ -36,4 +36,10 @@ class StaticColor {
   static Color addEventCancelTitle = const Color(0xFF333333);
   static Color unSelectedColor = const Color(0xFFBBBBBB);
   static Color textFormFieldFillColor = const Color(0xFFF6F6F6);
+  static Color switchInactiveFillColor = const Color(0xFFE0E0E0);
+  static Color switchActiveFillColor = const Color(0xFF2288FF);
+  static Color searchBoxBorderColor = const Color(0xFFEEEEEE);
+  static Color contactListBoxTextColor = const Color(0xFF777777);
+  static Color nonAllCheck = const Color(0xFFE0E0E0);
+  static Color allCheck = const Color(0xFF2288FF);
 }

@@ -157,7 +157,7 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
                       Column(
                         children: [
                           SearchBox(),
-                          // ContactListBox(),
+                          ContactListBox(),
                           // Center(
                           //   child: Column(
                           //     children: [
@@ -379,19 +379,87 @@ class _SearchBoxState extends State<SearchBox> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: TextFormField(
-        onChanged: null,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: StaticColor.textFormFieldFillColor,
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(width: 3.0, color: Colors.green),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          // icon:
-        )
+      padding: const EdgeInsets.only(top: 16.0, bottom: 32.0),
+      child: Container(
+        height: 48,
+        child: Stack(
+          children: [
+            TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              onChanged: null,
+              cursorHeight: 22,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10), // 수정 필요함
+                filled: true,
+                fillColor: StaticColor.textFormFieldFillColor,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1.0, color: StaticColor.searchBoxBorderColor),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1.0, color: StaticColor.searchBoxBorderColor),
+                  borderRadius: BorderRadius.circular(8.0),
+                )
+              ),
+            ),
+            GestureDetector(
+                onTap: () {
+                  print('click the searchbox!!');
+                },
+                child: Padding(padding: const EdgeInsets.only(right: 12.0), child: Align(alignment: Alignment.centerRight, child: Image.asset('assets/add_event/button_search.png', width: 24, height: 24)))),
+          ]
+        ),
       )
+    );
+  }
+}
+
+class ContactListBox extends StatefulWidget {
+  const ContactListBox({Key? key}) : super(key: key);
+
+  @override
+  State<ContactListBox> createState() => _ContactListBoxState();
+}
+
+class _ContactListBoxState extends State<ContactListBox> {
+
+  late bool _allCheckState;
+
+  @override
+  void initState() {
+    _allCheckState = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    final allCheckState = context.watch<AddEventProvider>().allCheckState;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 0.0),
+      child: Column(
+        children: [
+          // 전체선택 행
+          Row(
+            children: [
+              Text('전체선택', style: TextStyle(fontSize: 14, color: StaticColor.contactListBoxTextColor, fontWeight: FontWeight.w700)),
+              const SizedBox(
+                width: 5.25,
+              ),
+              GestureDetector(
+                onTap: () {
+                  _allCheckState = _allCheckState!;
+                  context.read<AddEventProvider>().contactListAllCheckState(_allCheckState);
+                },
+                child: allCheckState == false ? Image.asset('assets/add_event/button_all_check.png', width: 20, height: 20, color: StaticColor.nonAllCheck) :
+                    Image.asset('assets/add_event/button_all_check.png', width: 20, height: 20, color: StaticColor.allCheck),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

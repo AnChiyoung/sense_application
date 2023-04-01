@@ -10,6 +10,10 @@ class DateSelectScreen extends StatefulWidget {
 class _DateSelectScreenState extends State<DateSelectScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: SafeArea(
+        child: Container(),
+      ),
+    );
   }
 }

@@ -14,8 +14,9 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: const [
+          children: [
             ShareEventHeader(),
+            ShareEventTitle(),
             ShareEventContent(),
           ],
         ),
