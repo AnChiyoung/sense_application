@@ -3,7 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
-import 'package:sense_flutter_application/views/add_event/add_event_view.dart';
+import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
 import 'models/login/login_provider.dart';
 import 'native_splash.dart';
@@ -37,6 +37,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      /// 현재 context를 가져오기 위한 global key state set
+      // navigatorKey: CandyGlobalVariable.naviagatorState,
       debugShowCheckedModeBanner: false,
       title: 'Sense flutter application',
       theme: ThemeData(
@@ -46,3 +48,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+/// 현재 context를 가져오기 위한 global key state set
+// class CandyGlobalVariable {
+//   static final GlobalKey<NavigatorState> naviagatorState =
+//   GlobalKey<NavigatorState>();
+// }

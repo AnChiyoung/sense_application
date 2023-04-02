@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/screens/add_event/with_person_list_screen.dart';
+import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 
 class HeaderMenu extends StatefulWidget {
   Function? backCallback;
@@ -392,56 +392,4 @@ class _NextButtonState extends State<NextButton> {
   //     toastLength: Toast.LENGTH_SHORT,
   //   );
   // }
-}
-
-class AddEventProvider with ChangeNotifier {
-  bool _buttonState = false;
-  bool get buttonState => _buttonState;
-
-  bool _contactListButtonState = false;
-  bool get contactListButtonState => _contactListButtonState;
-
-  bool _allCheckState = false;
-  bool get allCheckState => _allCheckState;
-
-  String _selectedDay = '';
-  String get selectedDay => _selectedDay;
-
-  bool _dateSelectButtonState = false;
-  bool get dateSelectButtonState => _dateSelectButtonState;
-
-  void nextButtonState(bool state) {
-    _buttonState = state;
-    notifyListeners();
-  }
-
-  void nextButtonReset() {
-    _buttonState = false;
-    notifyListeners();
-  }
-
-  void contactListNextButtonState(bool state) {
-    _contactListButtonState = state;
-    notifyListeners();
-  }
-
-  void contactListAllCheckState(bool state) {
-    _allCheckState = state!;
-    notifyListeners();
-  }
-
-  void dayViewUpdate(String date) {
-    _selectedDay = date;
-    notifyListeners();
-  }
-
-  void dateSelectNextButton(bool state) {
-    _dateSelectButtonState = state;
-    notifyListeners();
-  }
-
-  void dateSelectNextButtonReset() {
-    _dateSelectButtonState = false;
-    notifyListeners();
-  }
 }

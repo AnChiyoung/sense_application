@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../../constants/public_color.dart';
-import '../../internal_libraries/src/shared/utils.dart';
 import 'calendar_body_view.dart';
 import 'calendar_utils.dart';
 

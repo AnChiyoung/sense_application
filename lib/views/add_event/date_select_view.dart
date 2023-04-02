@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/internal_libraries/src/table_calendar.dart';
-import 'package:sense_flutter_application/internal_libraries/table_calendar.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
+import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_view.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class DateSelectHeader extends StatefulWidget {
   const DateSelectHeader({Key? key}) : super(key: key);
@@ -22,8 +22,14 @@ class _DateSelectHeaderState extends State<DateSelectHeader> {
   }
 
   void backCallback() {
+    /// 현재 context 가져오기 위함
+    // var context;
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
+    //   context = CandyGlobalVariable.naviagatorState.currentContext;
+    // });
     Navigator.of(context).pop();
-    context.read<AddEventProvider>().dateSelectNextButtonReset;
+    context.read<AddEventProvider>().dateSelectNextButtonReset();
+    context.read<AddEventProvider>().dayViewReset();
   }
 
   void closeCallback() {
@@ -128,6 +134,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
   late int selectedMonth;
   late int selectedDay;
   DateTime? _selectedDay;
+  late DateTime _focusedDay;
   late List<String> days;
 
   @override
@@ -135,6 +142,8 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     selectedYear = 0;
     selectedMonth = 0;
     selectedDay = 0;
+    _selectedDay = null;
+    _focusedDay = DateTime.now();
     days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     super.initState();
   }
@@ -147,6 +156,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
         rowHeight: 44,
         daysOfWeekHeight: 45,
         focusedDay: DateTime.now(), firstDay: DateTime.utc(2023, 1, 1), lastDay: DateTime.utc(2033, 1, 1),
+        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         headerVisible: true,
         headerStyle: HeaderStyle(
           titleCentered: true,
@@ -156,9 +166,20 @@ class _DateSelectSectionState extends State<DateSelectSection> {
           rightChevronIcon: ImageIcon(const AssetImage('assets/add_event/calendar_arrow_right.png'), size: 24, color: StaticColor.calendarArrowColor),
         ),
         onDaySelected: onDaySelected,
-        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         calendarStyle: CalendarStyle(
+          todayTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 14
+          ),
+          selectedTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 14
+          ),
           outsideDaysVisible: false,
+          todayDecoration: BoxDecoration(
+            color: StaticColor.unSelectedColor,
+            shape: BoxShape.circle,
+          ),
           selectedDecoration: BoxDecoration(
             color: StaticColor.selectDayColor,
             shape: BoxShape.circle,
@@ -174,7 +195,13 @@ class _DateSelectSectionState extends State<DateSelectSection> {
   }
 
   void onDaySelected(DateTime selectDay, DateTime focusedDay) {
-    setState(() {});
+    if(!isSameDay(_selectedDay, selectDay)) {
+      setState(() {
+        _selectedDay = selectDay;
+        _focusedDay = focusedDay;
+      });
+    }
+
     selectedYear = selectDay.year;
     selectedMonth = selectDay.month;
     selectedDay = selectDay.day;
@@ -195,7 +222,7 @@ class DateSelectNextButton extends StatefulWidget {
 class _DateSelectNextButtonState extends State<DateSelectNextButton> {
 
   Future backButtonAction(BuildContext context) async {
-    context.read<AddEventProvider>().nextButtonReset();
+    context.read<AddEventProvider>().dateSelectNextButtonReset();
   }
 
   @override
