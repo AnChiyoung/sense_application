@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
+import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'models/login/login_provider.dart';
 import 'native_splash.dart';
 
@@ -23,6 +24,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => DateProvider()),
         ChangeNotifierProvider(create: (_) => PageProvider()),
         ChangeNotifierProvider(create: (_) => AddEventProvider()),
+        ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
         // 여기에 추가하시면 되여
       ],
       child: const MyApp(),

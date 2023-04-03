@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
+import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/add_event/share_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/add_event/add_event_view.dart';
 
 class ContactListHeader extends StatefulWidget {
   const ContactListHeader({Key? key}) : super(key: key);
@@ -47,7 +47,7 @@ class _ContactListTitleState extends State<ContactListTitle> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 40),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,

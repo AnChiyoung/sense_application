@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
+import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/add_event/date_select_screen.dart';
-import 'package:sense_flutter_application/views/add_event/add_event_view.dart';
 
 class ShareEventHeader extends StatefulWidget {
   const ShareEventHeader({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class _ShareEventTitleState extends State<ShareEventTitle> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 40),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,

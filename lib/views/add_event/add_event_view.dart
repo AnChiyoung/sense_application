@@ -1,59 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/add_event/with_person_list_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-
-class HeaderMenu extends StatefulWidget {
-  Function? backCallback;
-  String? title;
-  Function? closeCallback;
-  HeaderMenu({Key? key, this.backCallback, this.title, this.closeCallback}) : super(key: key);
-
-  @override
-  State<HeaderMenu> createState() => _HeaderMenuState();
-}
-
-class _HeaderMenuState extends State<HeaderMenu> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      child: Stack(
-        children: [
-          widget.backCallback == null ? Container() : Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: GestureDetector(
-                onTap: () {
-                  widget.backCallback?.call();
-                },
-                child: Image.asset('assets/add_event/button_back.png', width: 24, height: 24),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(widget.title!, style: TextStyle(fontSize: 16, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500)),
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 18),
-              child: GestureDetector(
-                onTap: () {
-                  widget.closeCallback?.call();
-                },
-                child: Image.asset('assets/add_event/button_close.png', width: 15.01, height: 14.96)
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
 
 class CategoryHeaderMenu extends StatefulWidget {
   const CategoryHeaderMenu({Key? key}) : super(key: key);
@@ -86,7 +36,7 @@ class _CategorySelectTitleState extends State<CategorySelectTitle> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 40),
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 32),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,

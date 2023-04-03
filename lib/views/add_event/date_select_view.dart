@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
+import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/add_event/add_event_view.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DateSelectHeader extends StatefulWidget {
@@ -54,7 +54,7 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 40),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
