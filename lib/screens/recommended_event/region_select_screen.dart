@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/recommended_event/region_select_view.dart';
 
 class RegionSelectScreen extends StatefulWidget {
@@ -18,16 +19,21 @@ class _RegionSelectScreenState extends State<RegionSelectScreen> {
           children: [
             // 버튼 제외 상단
             Column(
-              children: const [
+              children: [
                 RegionSelectHeaderMenu(),
-                // RegionSelectTitle(),
-                // RegionSelectCategory(),
-                // RegionSelectSubCategory(),
+                RegionSelectTitle(),
+                RegionSelectCategory(),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: StaticColor.regionSectionDivideColor,
+                ),
+                RegionSelectSubCategory(),
               ],
             ),
             const Align(
               alignment: Alignment.bottomCenter,
-              // child: RegionSelectNextButton(),
+              child: RegionSelectNextButton(),
             ),
           ],
         ),

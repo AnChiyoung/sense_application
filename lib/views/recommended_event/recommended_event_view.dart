@@ -83,7 +83,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/add_event/birthday.png', width: 32, height: 32, color: present == true ? Colors.white : Colors.black),
+                              Image.asset('assets/recommended_event/present.png', width: 28, height: 32, color: present == true ? Colors.white : Colors.black),
                               const SizedBox(
                                   height: 12
                               ),
@@ -120,7 +120,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/add_event/date.png', width: 32, height: 32, color: hotel == true ? Colors.white : Colors.black),
+                              Image.asset('assets/recommended_event/hotel.png', width: 33, height: 32, color: hotel == true ? Colors.white : Colors.black),
                               const SizedBox(
                                   height: 12
                               ),
@@ -162,7 +162,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/add_event/travel.png', width: 32, height: 32, color: lunch == true ? Colors.white : Colors.black),
+                              Image.asset('assets/recommended_event/lunch.png', width: 35, height: 32, color: lunch == true ? Colors.white : Colors.black),
                               const SizedBox(
                                   height: 12
                               ),
@@ -199,7 +199,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/add_event/meet.png', width: 32, height: 32, color: dinner == true ? Colors.white : Colors.black),
+                              Image.asset('assets/recommended_event/dinner.png', width: 32, height: 32, color: dinner == true ? Colors.white : Colors.black),
                               const SizedBox(
                                   height: 12
                               ),
@@ -241,7 +241,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/add_event/business.png', width: 32, height: 32, color: activity == true ? Colors.white : Colors.black),
+                              Image.asset('assets/recommended_event/activity.png', width: 32, height: 32, color: activity == true ? Colors.white : Colors.black),
                               const SizedBox(
                                   height: 12
                               ),
@@ -278,7 +278,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/add_event/business.png', width: 32, height: 32, color: pub == true ? Colors.white : Colors.black),
+                              Image.asset('assets/recommended_event/pub.png', width: 32, height: 37, color: pub == true ? Colors.white : Colors.black),
                               const SizedBox(
                                   height: 12
                               ),

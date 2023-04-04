@@ -46,4 +46,9 @@ class StaticColor {
   static Color calendarArrowColor = const Color(0xFF999999);
   static Color calendarDowColor = const Color(0xFFBBBBBB);
   // recommended event color
+  static Color regionBoxNonSelectColor = const Color(0xFFF6F6F6);
+  static Color regionBoxSelectColor = const Color(0xFF333333);
+  static Color regionBoxTextColor = const Color(0xFF777777);
+  static Color regionSectionDivideColor = const Color(0xFFEEEEEE);
+  static Color subRegionBoxTextColor = const Color(0xFF555555);
 }

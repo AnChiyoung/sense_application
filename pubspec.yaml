@@ -83,6 +83,7 @@ flutter:
     - assets/calendar/
     - assets/login/
     - assets/add_event/
+    - assets/recommended_event/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
