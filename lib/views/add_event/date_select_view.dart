@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
@@ -69,6 +70,7 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
               ),
               child: ElevatedButton(
                 onPressed: () {
+                  AddEventModel.eventDateModel = '';
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedEventScreen()));
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -209,6 +211,8 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     final DateFormat viewFormatter = DateFormat('yyyy-MM-dd');
     context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
     context.read<AddEventProvider>().dateSelectNextButton(true);
+
+    AddEventModel.eventDateModel = viewFormatter.format(selectedDate);
   }
 }
 
@@ -246,7 +250,7 @@ class _DateSelectNextButtonState extends State<DateSelectNextButton> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
-                  SizedBox(height: 56, child: Center(child: Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
+                  SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
                 ]
             )
         ),

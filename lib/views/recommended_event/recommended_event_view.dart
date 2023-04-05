@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/price_select_screen.dart';
@@ -83,6 +84,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                             activity = false;
                             pub = false;
                             context.read<RecommendedEventProvider>().nextButtonState(true);
+                            AddEventModel.eventRecommendedModel = '선물';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: present == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -120,6 +122,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                             activity = false;
                             pub = false;
                             context.read<RecommendedEventProvider>().nextButtonState(true);
+                            AddEventModel.eventRecommendedModel = '호텔';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: hotel == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -162,6 +165,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                             activity = false;
                             pub = false;
                             context.read<RecommendedEventProvider>().nextButtonState(true);
+                            AddEventModel.eventRecommendedModel = '점심';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: lunch == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -199,6 +203,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                             activity = false;
                             pub = false;
                             context.read<RecommendedEventProvider>().nextButtonState(true);
+                            AddEventModel.eventRecommendedModel = '저녁';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: dinner == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -241,6 +246,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                             activity = true;
                             pub = false;
                             context.read<RecommendedEventProvider>().nextButtonState(true);
+                            AddEventModel.eventRecommendedModel = '액티비티';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: activity == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -278,6 +284,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                             activity = false;
                             pub = true;
                             context.read<RecommendedEventProvider>().nextButtonState(true);
+                            AddEventModel.eventRecommendedModel = '술집';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: pub == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),

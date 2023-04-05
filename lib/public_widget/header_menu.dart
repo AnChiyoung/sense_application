@@ -5,7 +5,8 @@ class HeaderMenu extends StatefulWidget {
   Function? backCallback;
   String? title;
   Function? closeCallback;
-  HeaderMenu({Key? key, this.backCallback, this.title, this.closeCallback}) : super(key: key);
+  Widget? rightMenu;
+  HeaderMenu({Key? key, this.backCallback, this.title, this.closeCallback, this.rightMenu}) : super(key: key);
 
   @override
   State<HeaderMenu> createState() => _HeaderMenuState();
@@ -34,7 +35,18 @@ class _HeaderMenuState extends State<HeaderMenu> {
             alignment: Alignment.center,
             child: Text(widget.title!, style: TextStyle(fontSize: 16, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500)),
           ),
-          Align(
+          // (widget.rightMenu != null) && (widget.closeCallback != null) ? const Align(
+          //   alignment: Alignment.centerRight,
+          //   child: Text('위젯은 하나만 사용해주세요')
+          // ) :
+          widget.rightMenu == null ? Container() : Align(
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+              onTap: () {},
+              child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
+            ),
+          ),
+          widget.closeCallback == null  ? Container() : Align(
             alignment: Alignment.centerRight,
             child: Padding(
               padding: const EdgeInsets.only(right: 18),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
@@ -57,6 +58,15 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                     context.read<RecommendedEventProvider>().regionNextButtonReset();
                     context.read<RecommendedEventProvider>().memoNextButtonStateReset();
                     context.read<RecommendedEventProvider>().regionSelectStateChange(-1);
+
+                    AddEventModel.eventModel = '';
+                    AddEventModel.peopleModel = [];
+                    AddEventModel.sharePeopleModel = [];
+                    AddEventModel.eventDateModel = '';
+                    AddEventModel.eventRecommendedModel = '';
+                    AddEventModel.priceModel = '';
+                    AddEventModel.regionModel = [];
+                    AddEventModel.memoModel = '';
 
                     /// route.isFirst는 native splash를 포함하지 않음
                     Navigator.popUntil(context, (route) => route.isFirst);

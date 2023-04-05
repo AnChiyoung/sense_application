@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
@@ -15,7 +16,7 @@ class MemoHeaderMenu extends StatefulWidget {
 class _MemoHeaderMenuState extends State<MemoHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: '선물', closeCallback: closeCallback);
+    return HeaderMenu(backCallback: backCallback, title: AddEventModel.eventRecommendedModel, closeCallback: closeCallback);
   }
 
   void backCallback() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/region_select_screen.dart';
@@ -16,7 +17,7 @@ class PriceSelectHeaderMenu extends StatefulWidget {
 class _PriceSelectHeaderMenuState extends State<PriceSelectHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: '선물', closeCallback: closeCallback);
+    return HeaderMenu(backCallback: backCallback, title: AddEventModel.eventRecommendedModel, closeCallback: closeCallback);
   }
 
   void backCallback() {
@@ -89,6 +90,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = false;
                             price07 = false;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '5만원 이하';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price01 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -123,6 +125,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = false;
                             price07 = false;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '10만원 이하';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price02 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -162,6 +165,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = false;
                             price07 = false;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '15만원 이하';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price03 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -196,6 +200,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = false;
                             price07 = false;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '20만원 이하';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price04 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -235,6 +240,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = false;
                             price07 = false;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '25만원 이하';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price05 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -269,6 +275,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = true;
                             price07 = false;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '30만원 이하';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price06 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -307,6 +314,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
                             price06 = false;
                             price07 = true;
                             context.read<RecommendedEventProvider>().priceNextButtonState(true);
+                            AddEventModel.priceModel = '제한없음';
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: price07 == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/add_event/with_person_list_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
@@ -51,6 +52,7 @@ class _CategorySelectTitleState extends State<CategorySelectTitle> {
             ),
             child: ElevatedButton(
               onPressed: () {
+                AddEventModel.eventModel = '';
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const WithPersonScreen()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -97,6 +99,7 @@ class _CategorySelectState extends State<CategorySelect> {
                         meet = false;
                         business = false;
                         context.read<AddEventProvider>().nextButtonState(true);
+                        AddEventModel.eventModel = '생일';
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: birthday == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -133,6 +136,7 @@ class _CategorySelectState extends State<CategorySelect> {
                         meet = false;
                         business = false;
                         context.read<AddEventProvider>().nextButtonState(true);
+                        AddEventModel.eventModel = '데이트';
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: date == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -174,6 +178,7 @@ class _CategorySelectState extends State<CategorySelect> {
                           meet = false;
                           business = false;
                           context.read<AddEventProvider>().nextButtonState(true);
+                          AddEventModel.eventModel = '여행';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: travel == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -210,6 +215,7 @@ class _CategorySelectState extends State<CategorySelect> {
                           meet = true;
                           business = false;
                           context.read<AddEventProvider>().nextButtonState(true);
+                          AddEventModel.eventModel = '모임';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: meet == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -251,6 +257,7 @@ class _CategorySelectState extends State<CategorySelect> {
                           meet = false;
                           business = true;
                           context.read<AddEventProvider>().nextButtonState(true);
+                          AddEventModel.eventModel = '비즈니스';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: business == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),

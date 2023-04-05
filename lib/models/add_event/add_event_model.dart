@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AddEventModel {
-
+  static String eventModel = '';
+  static List<String> peopleModel = [];
+  static List<String> sharePeopleModel = [];
+  static String eventDateModel = '';
+  static String eventRecommendedModel = '';
+  static String priceModel = '';
+  static List<String> regionModel = [];
+  static String memoModel = '';
 }
 
 class ContactModel {
