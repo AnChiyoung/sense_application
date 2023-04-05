@@ -20,6 +20,9 @@ class RecommendedEventProvider with ChangeNotifier {
   bool _memoNextButton = false;
   bool get memoNextButton => _memoNextButton;
 
+  bool _recommendedButton = false;
+  bool get recommendedButton => _recommendedButton;
+
   void nextButtonState(bool state) {
     _buttonState = state;
     notifyListeners();
@@ -73,5 +76,9 @@ class RecommendedEventProvider with ChangeNotifier {
   void memoNextButtonStateReset() {
     _memoNextButton = false;
     notifyListeners();
+  }
+
+  void recommendedButtonState() {
+
   }
 }

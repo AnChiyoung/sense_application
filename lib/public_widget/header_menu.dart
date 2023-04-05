@@ -41,9 +41,12 @@ class _HeaderMenuState extends State<HeaderMenu> {
           // ) :
           widget.rightMenu == null ? Container() : Align(
             alignment: Alignment.centerRight,
-            child: GestureDetector(
-              onTap: () {},
-              child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
+            child: Padding(
+              padding: const EdgeInsets.only(right: 18),
+              child: GestureDetector(
+                onTap: () {},
+                child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
+              ),
             ),
           ),
           widget.closeCallback == null  ? Container() : Align(

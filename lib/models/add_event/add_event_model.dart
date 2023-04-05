@@ -9,6 +9,9 @@ class AddEventModel {
   static String priceModel = '';
   static List<String> regionModel = [];
   static String memoModel = '';
+
+  static String eventInfoTitle = '';
+  static String eventInfoName = '';
 }
 
 class ContactModel {

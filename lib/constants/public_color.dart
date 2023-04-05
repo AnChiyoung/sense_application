@@ -54,4 +54,11 @@ class StaticColor {
   static Color memoHintColor = const Color(0xFF999999);
   static Color subRegionBoxSelectColor = const Color(0xFF2288FF);
   static Color subRegionBoxNonSelectColor = const Color(0xFFF6F6F6);
+  static Color eventInfoNameColor = const Color(0xFF999999);
+  static Color eventInfoPersonSectionDividerColor = const Color(0xFFE0E0E0);
+  static Color eventInfoEventModelTitleColor = const Color(0xFF555555);
+  static Color eventInfoEventModelTextColor = const Color(0xFF999999);
+  static Color eventInfoPersonNameColor = const Color(0xFF151515);
+  static Color eventInfoRecommendedBoxColor = const Color(0xFFF6F6F6);
+  static Color eventInfoRecommendedBoxArrowColor = const Color(0xFF000022);
 }

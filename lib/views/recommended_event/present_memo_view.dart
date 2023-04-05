@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
+import 'package:sense_flutter_application/models/recommended_event/memo_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/screens/recommended_event/event_info_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class MemoHeaderMenu extends StatefulWidget {
@@ -86,6 +88,9 @@ class _MemoDescriptionState extends State<MemoDescription> {
           } else if(text.isEmpty) {
             context.read<RecommendedEventProvider>().memoNextButtonState(false);
           }
+          // AddEventModel.memoModel = teController.text;
+          // 메모 더미 모델
+          AddEventModel.memoModel = memoDummyModel;
         },
         cursorHeight: 22,
         cursorColor: Colors.black,
@@ -138,7 +143,7 @@ class _MemoNextButtonState extends State<MemoNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => Container())) : (){};
+              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => EventInfoScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(

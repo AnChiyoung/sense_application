@@ -111,7 +111,7 @@ class _AllShareSwitchState extends State<AllShareSwitch> {
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Container(
         height: 24,
-        color: Colors.red,
+        // color: Colors.red,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           // mainAxisAlignment: MainAxisAlignment.start,
