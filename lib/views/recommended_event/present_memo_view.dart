@@ -95,7 +95,7 @@ class _MemoDescriptionState extends State<MemoDescription> {
         cursorHeight: 22,
         cursorColor: Colors.black,
         decoration: InputDecoration(
-            counterText: '',
+            // counterText: '',
             hintText: '예)다른 선물은 이미 준비했고 꽃다발만 사면 될 거\n같아요. 파스텔톤 분홍색이 들어간 꽃다발로\n추천해주세요.',
             hintStyle: TextStyle(fontSize: 14, color: StaticColor.memoHintColor, fontWeight: FontWeight.w400), // line height: 20
             contentPadding: const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
