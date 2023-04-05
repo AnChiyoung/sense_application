@@ -52,4 +52,6 @@ class StaticColor {
   static Color regionSectionDivideColor = const Color(0xFFEEEEEE);
   static Color subRegionBoxTextColor = const Color(0xFF555555);
   static Color memoHintColor = const Color(0xFF999999);
+  static Color subRegionBoxSelectColor = const Color(0xFF2288FF);
+  static Color subRegionBoxNonSelectColor = const Color(0xFFF6F6F6);
 }

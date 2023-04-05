@@ -54,8 +54,9 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                     context.read<AddEventProvider>().dayViewReset();
                     context.read<RecommendedEventProvider>().nextButtonReset();
                     context.read<RecommendedEventProvider>().priceNextButtonReset();
-                    // 지역선택 프로바이더 삽입
+                    context.read<RecommendedEventProvider>().regionNextButtonReset();
                     context.read<RecommendedEventProvider>().memoNextButtonStateReset();
+                    context.read<RecommendedEventProvider>().regionSelectStateChange(-1);
 
                     /// route.isFirst는 native splash를 포함하지 않음
                     Navigator.popUntil(context, (route) => route.isFirst);

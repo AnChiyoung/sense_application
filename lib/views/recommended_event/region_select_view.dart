@@ -22,6 +22,7 @@ class _RegionSelectHeaderMenuState extends State<RegionSelectHeaderMenu> {
 
   void backCallback() {
     Navigator.of(context).pop();
+    context.read<RecommendedEventProvider>().regionNextButtonReset();
   }
 
   void closeCallback() {
@@ -140,16 +141,53 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
   late List<RegionModel> regionModel;
   List<Widget> subRegionRowList = [];
   List<Widget> subRegionRow = [];
+  List<List<bool>> regionCheckState = [];
 
   @override
   void initState() {
     regionModel = regionDummyModel.map((e) => RegionModel.fromJson(e)).toList();
+    // regionCheckState.clear();
     super.initState();
+  }
+
+  void allStateChange(bool state) {
+    for(int i = 1; i < regionCheckState.length; i++) {
+      for(int j = 0; j < regionCheckState[i].length; j++) {
+        regionCheckState[i][j] = state;
+      }
+    }
+  }
+
+  bool containFalseCheck() {
+    bool result = false;
+    for(int i = 1; i < regionCheckState.length; i++) {
+      for(int j = 0; j < regionCheckState[i].length; j++) {
+        if(regionCheckState[i][j] == false) {
+          result = true;
+        }
+      }
+    }
+    return result;
+  }
+
+  bool containTrueCheck() {
+    bool result = false;
+    for(int i = 1; i < regionCheckState.length; i++) {
+      for(int j = 0; j < regionCheckState[i].length; j++) {
+        if(regionCheckState[i][j] == true) {
+          result = true;
+        }
+      }
+    }
+    return result;
   }
 
   List subRegionListWidget(List<Set<String>> model) {
     return model.map((e) { // e => Set<String>
-      subRegionRow = subRegionRowWidget(e) as List<Widget>;
+      if(regionCheckState.length <= model.length - 1) {
+        regionCheckState.add(<bool>[]);
+      }
+      subRegionRow = subRegionRowWidget(e, model.indexOf(e)) as List<Widget>;
       return Column(
         children: [
           Row(
@@ -161,20 +199,32 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
     }).toList();
   }
 
-  List subRegionRowWidget(Set<String> model) {
+  List subRegionRowWidget(Set<String> model, int rowIndex) {
     return model.map((e) { // e => String
+      if(regionCheckState[rowIndex].length <= model.length - 1) {
+        regionCheckState[rowIndex].add(false);
+      }
       return Row(
         children: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              setState(() {
+                regionCheckState[rowIndex][model.toList().indexOf(e)] = !regionCheckState[rowIndex][model.toList().indexOf(e)];
+                if(rowIndex == 0) {
+                  allStateChange(regionCheckState[rowIndex][0]);
+                } else {
+                  containFalseCheck() == true ? regionCheckState[0][0] = false : regionCheckState[0][0] = true;
+                }
+                containTrueCheck() == true ? context.read<RecommendedEventProvider>().regionNextButtonState(true) : context.read<RecommendedEventProvider>().regionNextButtonState(false);
+              });
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
               decoration: BoxDecoration(
-                // color: StaticColor.regionBoxNonSelectColor,
-                color: Colors.blue,
+                color: regionCheckState[rowIndex][model.toList().indexOf(e)] == true ? StaticColor.subRegionBoxSelectColor : StaticColor.subRegionBoxNonSelectColor,
                 borderRadius: BorderRadius.circular(4.0),
               ),
-              child: Text(e, style: TextStyle(fontSize: 14, color: StaticColor.subRegionBoxTextColor, fontWeight: FontWeight.w400)),
+              child: Text(e, style: TextStyle(fontSize: 14, color: regionCheckState[rowIndex][model.toList().indexOf(e)] == true ? Colors.white : StaticColor.subRegionBoxTextColor, fontWeight: FontWeight.w400)),
             ),
           ),
           model.toList().indexOf(e) == model.length - 1 ? const SizedBox() : const SizedBox(width: 8)
@@ -194,7 +244,7 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-      child: Column(
+      child: stateNumber == -1 ? Container() : Column(
         children: subRegionRowList,
       )
     );
@@ -216,6 +266,7 @@ class _RegionSelectNextButtonState extends State<RegionSelectNextButton> {
 
   @override
   Widget build(BuildContext context) {
+
     final buttonEnabled = context.watch<RecommendedEventProvider>().regionNextButton;
 
     return WillPopScope(
@@ -228,8 +279,7 @@ class _RegionSelectNextButtonState extends State<RegionSelectNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              // buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => PresentMemoScreen())) : (){};
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PresentMemoScreen()));
+              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => PresentMemoScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
