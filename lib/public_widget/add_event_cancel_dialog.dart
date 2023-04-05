@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
+import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
+import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class AddEventCancelDialog extends StatefulWidget {
   const AddEventCancelDialog({Key? key}) : super(key: key);
@@ -44,7 +47,18 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+
+                    context.read<AddEventProvider>().nextButtonReset();
+                    // 연락처 프로바이더 삽입
+                    context.read<AddEventProvider>().dateSelectNextButtonReset();
+                    context.read<AddEventProvider>().dayViewReset();
+                    context.read<RecommendedEventProvider>().nextButtonReset();
+                    context.read<RecommendedEventProvider>().priceNextButtonReset();
+                    // 지역선택 프로바이더 삽입
+                    context.read<RecommendedEventProvider>().memoNextButtonStateReset();
+
+                    /// route.isFirst는 native splash를 포함하지 않음
+                    Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
                   child: Text('취소하기', style: TextStyle(fontSize: 14, color: StaticColor.contactLoadTextColor, fontWeight: FontWeight.w400)),

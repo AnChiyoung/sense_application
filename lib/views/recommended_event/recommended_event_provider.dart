@@ -17,6 +17,9 @@ class RecommendedEventProvider with ChangeNotifier {
   List<bool> _subRegionList = [];
   List<bool> get subRegionList => _subRegionList;
 
+  bool _memoNextButton = false;
+  bool get memoNextButton => _memoNextButton;
+
   void nextButtonState(bool state) {
     _buttonState = state;
     notifyListeners();
@@ -59,6 +62,16 @@ class RecommendedEventProvider with ChangeNotifier {
 
   void subRegionBoolListReset() {
     _subRegionList.clear();
+    notifyListeners();
+  }
+
+  void memoNextButtonState(bool state) {
+    _memoNextButton = state;
+    notifyListeners();
+  }
+
+  void memoNextButtonStateReset() {
+    _memoNextButton = false;
     notifyListeners();
   }
 }

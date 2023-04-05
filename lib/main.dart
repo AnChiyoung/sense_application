@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
+import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
@@ -41,6 +42,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       /// 현재 context를 가져오기 위한 global key state set
       // navigatorKey: CandyGlobalVariable.naviagatorState,
+      /// 모든 기능 페이지에서 home으로 이동 시, route stack을 제거하기 위해 home만 router name을 사용
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => const HomeScreen(),
+      // },
       debugShowCheckedModeBanner: false,
       title: 'Sense flutter application',
       theme: ThemeData(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/price_select_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
@@ -19,8 +20,13 @@ class _RecommendedEventHeaderMenuState extends State<RecommendedEventHeaderMenu>
   }
 
   void closeCallback() {
-    Navigator.of(context).pop();
-    context.read<RecommendedEventProvider>().nextButtonReset();
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const AddEventCancelDialog();
+        });
   }
 }
 
