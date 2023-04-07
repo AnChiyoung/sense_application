@@ -10,7 +10,6 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  final String username = '김지안';
   late Future<List<FeedTagModel>> feedTags;
   late int selectedTagId;
   late Future<List<FeedProductModel>> feedProducts;
@@ -50,29 +49,29 @@ class _FeedScreenState extends State<FeedScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        AppBar(
-          toolbarHeight: 60,
-          elevation: 1,
-          backgroundColor: Colors.white,
-          // titleTextStyle: const TextStyle(color: Colors.lightBlue),
-          // title: const Text('Hello'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search_outlined,
-                color: Colors.black54,
-              ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.notifications_none_rounded,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
+        // AppBar(
+        //   toolbarHeight: 60,
+        //   elevation: 1,
+        //   backgroundColor: Colors.white,
+        //   // titleTextStyle: const TextStyle(color: Colors.lightBlue),
+        //   // title: const Text('Hello'),
+        //   actions: [
+        //     IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.search_outlined,
+        //         color: Colors.black54,
+        //       ),
+        //     ),
+        //     IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.notifications_none_rounded,
+        //         color: Colors.black54,
+        //       ),
+        //     ),
+        //   ],
+        // ),
         Padding(
           padding: const EdgeInsets.only(
             top: 16,
@@ -132,7 +131,7 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         ),
         const SizedBox(
-          height: 20,
+          height: 24,
         ),
         if (isFeedTagsLoaded)
           Expanded(
@@ -141,46 +140,36 @@ class _FeedScreenState extends State<FeedScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final feedProducts = snapshot.data!;
-                  List<Widget> ret = [];
-                  List<Widget> widgets = [];
+                  final temp = [
+                    ...feedProducts,
+                    ...feedProducts,
+                    ...feedProducts
+                  ];
+
+                  List<Widget> items = [];
+                  Widget feedProductsWidget;
                   // 캐로셀일때
                   if (isCarousel) {
                     final spaceBetweenItems =
                         ((MediaQuery.of(context).size.width - 60) / 7 * 10) +
                             40;
-                    for (var feedProduct in feedProducts) {
-                      widgets.add(FeedProductCarouselCard(
+                    for (var feedProduct in temp) {
+                      items.add(FeedProductCarouselCard(
                         id: feedProduct.id,
                         title: feedProduct.title,
                         imageUrl: feedProduct.imageUrl,
                       ));
                     }
-                    for (var feedProduct in feedProducts) {
-                      widgets.add(FeedProductCarouselCard(
-                        id: feedProduct.id,
-                        title: feedProduct.title,
-                        imageUrl: feedProduct.imageUrl,
-                      ));
-                    }
-                    ret.add(
-                      StackedCardCarousel(
-                        items: widgets,
-                        type: StackedCardCarouselType.fadeOutStack,
-                        initialOffset: 0,
-                        spaceBetweenItems: spaceBetweenItems,
-                      ),
+                    feedProductsWidget = StackedCardCarousel(
+                      items: items,
+                      type: StackedCardCarouselType.fadeOutStack,
+                      initialOffset: 0,
+                      spaceBetweenItems: spaceBetweenItems,
                     );
                   } else {
                     // Grid layout 일때
-                    for (var feedProduct in feedProducts) {
-                      widgets.add(FeedProductGridCard(
-                        id: feedProduct.id,
-                        title: feedProduct.title,
-                        imageUrl: feedProduct.imageUrl,
-                      ));
-                    }
-                    for (var feedProduct in feedProducts) {
-                      widgets.add(FeedProductGridCard(
+                    for (var feedProduct in temp) {
+                      items.add(FeedProductGridCard(
                         id: feedProduct.id,
                         title: feedProduct.title,
                         imageUrl: feedProduct.imageUrl,
@@ -189,28 +178,26 @@ class _FeedScreenState extends State<FeedScreen> {
 
                     double gridCardWidth =
                         (MediaQuery.of(context).size.width) / 2;
-                    ret.add(
-                      GridView(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: gridCardWidth,
-                          childAspectRatio: 0.7 / 1,
-                          crossAxisSpacing: 0,
-                          mainAxisSpacing: 0,
-                        ),
-                        children: widgets,
+                    feedProductsWidget = GridView(
+                      // padding: const EdgeInsets.symmetric(
+                      //   horizontal: 20,
+                      // ),
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: gridCardWidth,
+                        childAspectRatio: 0.7 / 1,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
                       ),
+                      children: items,
                     );
                   }
 
                   return Stack(
                     children: [
-                      ...ret,
+                      feedProductsWidget,
                       Positioned(
                         bottom: 20,
-                        right: 20,
                         child: Container(
                           width: 50,
                           height: 50,
@@ -222,11 +209,9 @@ class _FeedScreenState extends State<FeedScreen> {
                             color: Colors.grey.shade900,
                             shadowColor: Colors.grey.shade100,
                             child: IconButton(
-                              onPressed: () {
-                                switchViewMode();
-                              },
+                              onPressed: switchViewMode,
                               icon: const Icon(
-                                Icons.add,
+                                Icons.grid_view_rounded,
                                 color: Colors.white,
                               ),
                             ),
@@ -245,195 +230,315 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 }
 
-class FeedProductCarouselCard extends StatelessWidget {
+abstract class _BaseProductCard extends StatelessWidget {
   final int id;
   final String imageUrl;
   final String title;
 
-  const FeedProductCarouselCard(
-      {super.key,
-        required this.id,
-        required this.imageUrl,
-        required this.title});
+  const _BaseProductCard({
+    Key? key,
+    required this.id,
+    required this.imageUrl,
+    required this.title,
+  }) : super(key: key);
+
+  @protected
+  Widget buildImage(BuildContext context);
+
+  @protected
+  Widget buildTitle(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
-    // double halfScreenHeight = MediaQuery.of(context).size.height * 0.6;
+    return Stack(
+      children: [
+        buildImage(context),
+        buildTitle(context),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                print('tab $id');
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class FeedProductCarouselCard extends _BaseProductCard {
+  const FeedProductCarouselCard({
+    Key? key,
+    required int id,
+    required String imageUrl,
+    required String title,
+  }) : super(key: key, id: id, imageUrl: imageUrl, title: title);
+
+  @override
+  Widget buildImage(BuildContext context) {
     double halfScreenWidth = MediaQuery.of(context).size.width - 60;
-    return Stack(
-      children: [
-        Container(
-          width: halfScreenWidth,
-          // height: halfScreenHeight,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                offset: const Offset(5, 5),
-                color: Colors.black.withOpacity(0.4),
-              ),
-            ],
+    return Container(
+      width: halfScreenWidth,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+            color: Colors.black.withOpacity(0.4),
           ),
-          child: AspectRatio(
-            aspectRatio: 0.7,
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              // width: halfScreenWidth,
-              // height: halfScreenHeight,
-            ),
-          ),
+        ],
+      ),
+      child: AspectRatio(
+        aspectRatio: 0.7,
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
         ),
-        Positioned.fill(
-          child: Container(
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: const LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.center,
-                colors: [Colors.black54, Colors.transparent],
-              ),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          top: halfScreenWidth,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
-}
-
-class FeedProductGridCard extends StatelessWidget {
-  final int id;
-  final String imageUrl;
-  final String title;
-
-  const FeedProductGridCard(
-      {super.key,
-        required this.id,
-        required this.imageUrl,
-        required this.title});
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Card(
-          color: Colors.blue,
-          elevation: 2,
-          clipBehavior: Clip.hardEdge,
-          margin: const EdgeInsets.all(4),
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+  Widget buildTitle(BuildContext context) {
+    double halfScreenWidth = MediaQuery.of(context).size.width - 60;
+    return Positioned.fill(
+      top: halfScreenWidth,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
         ),
-        Container(
-          clipBehavior: Clip.hardEdge,
-          margin: const EdgeInsets.all(4),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Colors.black12,
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
-        // Container(
-        //   clipBehavior: Clip.hardEdge,
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(20),
-        //     boxShadow: [
-        //       BoxShadow(
-        //         blurRadius: 10,
-        //         offset: const Offset(5, 5),
-        //         color: Colors.black.withOpacity(0.4),
-        //       ),
-        //     ],
-        //     // gradient: const LinearGradient(
-        //     //   begin: Alignment.bottomCenter,
-        //     //   end: Alignment.center,
-        //     //   colors: [Colors.red, Colors.blue],
-        //     // ),
-        //   ),
-        //   child: AspectRatio(
-        //     aspectRatio: 0.7,
-        //     child: Image.network(
-        //       imageUrl,
-        //       fit: BoxFit.cover,
-        //       // width: halfScreenWidth,
-        //       // height: halfScreenHeight,
-        //     ),
-        //   ),
-        // ),
-        // Positioned.fill(
-        //   child: Container(
-        //     clipBehavior: Clip.hardEdge,
-        //     decoration: BoxDecoration(
-        //       borderRadius: BorderRadius.circular(20),
-        //       gradient: const LinearGradient(
-        //         begin: Alignment.bottomCenter,
-        //         end: Alignment.center,
-        //         colors: [Colors.black54, Colors.transparent],
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // Positioned.fill(
-        //   top: halfScreenWidth,
-        //   child: Padding(
-        //     padding: const EdgeInsets.symmetric(
-        //       horizontal: 20,
-        //     ),
-        //     child: Text(
-        //       title,
-        //       style: const TextStyle(
-        //         fontSize: 30,
-        //         fontWeight: FontWeight.w700,
-        //         color: Colors.white,
-        //       ),
-        //       maxLines: 2,
-        //       overflow: TextOverflow.ellipsis,
-        //     ),
-        //   ),
-        // ),
-      ],
+      ),
     );
   }
 }
+
+class FeedProductGridCard extends _BaseProductCard {
+  const FeedProductGridCard({
+    Key? key,
+    required int id,
+    required String imageUrl,
+    required String title,
+  }) : super(key: key, id: id, imageUrl: imageUrl, title: title);
+
+  @override
+  Widget buildImage(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.2),
+          ),
+        ],
+      ),
+      child: Image.network(
+        imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      ),
+    );
+  }
+
+  @override
+  Widget buildTitle(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+      ),
+      decoration: const BoxDecoration(
+        color: Colors.black12,
+      ),
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
+}
+
+// class FeedProductCarouselCard extends StatelessWidget {
+//   final int id;
+//   final String imageUrl;
+//   final String title;
+
+//   const FeedProductCarouselCard(
+//       {super.key,
+//       required this.id,
+//       required this.imageUrl,
+//       required this.title});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // double halfScreenHeight = MediaQuery.of(context).size.height * 0.6;
+//     double halfScreenWidth = MediaQuery.of(context).size.width - 60;
+//     return Container(
+//       width: halfScreenWidth,
+//       clipBehavior: Clip.hardEdge,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(20),
+//         boxShadow: [
+//           BoxShadow(
+//             blurRadius: 10,
+//             offset: const Offset(0, 4),
+//             color: Colors.black.withOpacity(0.4),
+//           ),
+//         ],
+//       ),
+//       child: Stack(
+//         children: [
+//           AspectRatio(
+//             aspectRatio: 0.7, // 비율 대충 0.7 ..
+//             child: Image.network(
+//               imageUrl,
+//               fit: BoxFit.cover,
+//               // width: halfScreenWidth,
+//               // height: halfScreenHeight,
+//             ),
+//           ),
+//           Positioned.fill(
+//             child: Container(
+//               decoration: const BoxDecoration(
+//                 gradient: LinearGradient(
+//                   begin: Alignment.bottomCenter,
+//                   end: Alignment.center,
+//                   colors: [Colors.black54, Colors.transparent],
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Positioned.fill(
+//             top: halfScreenWidth, // 포지션 대충 가로길이만큼..
+//             child: Padding(
+//               padding: const EdgeInsets.symmetric(
+//                 horizontal: 20,
+//               ),
+//               child: Text(
+//                 title,
+//                 style: const TextStyle(
+//                   fontSize: 30,
+//                   fontWeight: FontWeight.w700,
+//                   color: Colors.white,
+//                 ),
+//                 maxLines: 2,
+//                 overflow: TextOverflow.ellipsis,
+//               ),
+//             ),
+//           ),
+//           Positioned.fill(
+//             child: Material(
+//               color: Colors.transparent,
+//               child: InkWell(
+//                 onTap: () {
+//                   print('tab $id');
+//                 },
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// class FeedProductGridCard extends StatelessWidget {
+//   final int id;
+//   final String imageUrl;
+//   final String title;
+
+//   const FeedProductGridCard(
+//       {super.key,
+//       required this.id,
+//       required this.imageUrl,
+//       required this.title});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       clipBehavior: Clip.hardEdge,
+//       width: double.infinity,
+//       height: double.infinity,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(12),
+//         boxShadow: [
+//           BoxShadow(
+//             blurRadius: 4,
+//             offset: const Offset(0, 2),
+//             color: Colors.black.withOpacity(0.2),
+//           ),
+//         ],
+//       ),
+//       child: Stack(
+//         children: [
+//           Image.network(
+//             imageUrl,
+//             fit: BoxFit.cover,
+//             width: double.infinity,
+//             height: double.infinity,
+//           ),
+//           Container(
+//             padding: const EdgeInsets.symmetric(
+//               horizontal: 12,
+//             ),
+//             decoration: const BoxDecoration(
+//               color: Colors.black12,
+//             ),
+//             child: Center(
+//               child: Text(
+//                 title,
+//                 style: const TextStyle(
+//                   fontSize: 16,
+//                   fontWeight: FontWeight.w700,
+//                   color: Colors.white,
+//                 ),
+//                 maxLines: 2,
+//                 overflow: TextOverflow.ellipsis,
+//               ),
+//             ),
+//           ),
+//           Positioned.fill(
+//             child: Material(
+//               color: Colors.transparent,
+//               child: InkWell(
+//                 onTap: () {
+//                   print('tab $id');
+//                 },
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 
 // class FeedProductsSwiper extends StatefulWidget {

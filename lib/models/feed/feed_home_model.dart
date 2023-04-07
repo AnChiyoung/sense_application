@@ -74,11 +74,12 @@ class ResponseModel {
 
 class ApiService {
   static const String baseUrl = "https://dev.server.sense.runners.im/api/v1";
-  static const String baseUrlWithoutHttps = "dev.server.sense.runners.im";
-  static const String today = "today";
+  // static const String baseUrlWithoutHttps = "dev.server.sense.runners.im";
+  // static const String today = "today";
 
   static Future<List<FeedProductModel>> getRecommendProductsByTagId(
       int tagId) async {
+    print('getRecommendProductsByTagId');
     List<FeedProductModel> productInstances = [];
 
     // final url = Uri.https(baseUrlWithoutHttps, 'recommands', {'recommand_tag': tagId});
@@ -98,6 +99,7 @@ class ApiService {
   }
 
   static Future<List<FeedTagModel>> getRecommendTags() async {
+    print('getRecommendTags');
     List<FeedTagModel> tagInstances = [];
     final url = Uri.parse('$baseUrl/recommand-tags');
     final headers = {'Content-Type': 'application/json; charset=UTF-8'};
