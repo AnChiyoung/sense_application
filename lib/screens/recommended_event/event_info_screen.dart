@@ -10,9 +10,14 @@ class EventInfoScreen extends StatefulWidget {
 }
 
 class _EventInfoScreenState extends State<EventInfoScreen> {
+
+  final GlobalKey<ScaffoldState> key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: key,
+      endDrawer: EventInfoDrawer(),
       body: SafeArea(
         bottom: false,
         child: Stack(
@@ -20,7 +25,7 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
             // 버튼 제외 상단
             Column(
               children: [
-                EventInfoHeaderMenu(),
+                EventInfoHeaderMenu(drawerKey: key),
                 EventInfoTitle(),
                 EventInfoNameSection(),
                 Padding(

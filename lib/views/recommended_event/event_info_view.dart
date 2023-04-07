@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
@@ -6,7 +8,8 @@ import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
 
 class EventInfoHeaderMenu extends StatefulWidget {
-  const EventInfoHeaderMenu({Key? key}) : super(key: key);
+  Key drawerKey;
+  EventInfoHeaderMenu({Key? key, required this.drawerKey}) : super(key: key);
 
   @override
   State<EventInfoHeaderMenu> createState() => _EventInfoHeaderMenuState();
@@ -32,11 +35,301 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
   Widget menu() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Scaffold.of(context).openEndDrawer();
+      },
       child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
     );
   }
 }
+
+/*
+drawer section
+ */
+class EventInfoDrawer extends StatefulWidget {
+  const EventInfoDrawer({Key? key}) : super(key: key);
+
+  @override
+  State<EventInfoDrawer> createState() => _EventInfoDrawerState();
+}
+
+class _EventInfoDrawerState extends State<EventInfoDrawer> {
+
+  @override
+  Widget build(BuildContext context) {
+    /// safe area 상단 height
+    var safePadding = MediaQuery.of(context).padding.top;
+
+    return Drawer(
+      backgroundColor: Colors.white,
+      child: Column(
+        children: [
+          SizedBox(height: safePadding),
+          const DrawerEventAction(),
+          Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+          const Expanded(child: DrawerJoinUser()),
+          Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+          const DrawerEventDelete(),
+        ]
+      ),
+    );
+  }
+}
+
+class DrawerEventAction extends StatefulWidget {
+  const DrawerEventAction({Key? key}) : super(key: key);
+
+  @override
+  State<DrawerEventAction> createState() => _DrawerEventActionState();
+}
+
+class _DrawerEventActionState extends State<DrawerEventAction> {
+
+  bool recommend = false;
+  bool alarm = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+      child: Column(
+        children: [
+          Align(alignment: Alignment.centerLeft, child: Text('이벤트', style: TextStyle(fontSize: 18, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700))),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Text('추천받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+              const SizedBox(width: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FlutterSwitch(
+                  width: 48,
+                  height: 24,
+                  borderRadius: 12.0,
+                  padding: 3,
+                  toggleSize: 18,
+                  activeColor: StaticColor.drawerToggleActiveColor,
+                  inactiveColor: StaticColor.drawerToggleInactiveColor,
+                  value: recommend,
+                  onToggle: (bool value) {
+                    setState(() {
+                      recommend = value;
+                    });
+                },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Text('알림받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+              const SizedBox(width: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: FlutterSwitch(
+                  width: 48,
+                  height: 24,
+                  borderRadius: 12.0,
+                  padding: 3,
+                  toggleSize: 18,
+                  activeColor: StaticColor.drawerToggleActiveColor,
+                  inactiveColor: StaticColor.drawerToggleInactiveColor,
+                  value: alarm,
+                  onToggle: (bool value) {
+                    setState(() {
+                      alarm = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DrawerJoinUser extends StatefulWidget {
+  const DrawerJoinUser({Key? key}) : super(key: key);
+
+  @override
+  State<DrawerJoinUser> createState() => _DrawerJoinUserState();
+}
+
+class _DrawerJoinUserState extends State<DrawerJoinUser> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Align(alignment: Alignment.centerLeft, child: Text('참여자', style: TextStyle(fontSize: 18, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700), textDirection: TextDirection.ltr,)),
+              Container(
+                padding: const EdgeInsets.only(left: 0, right: 0),
+                width: 53,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: StaticColor.categoryUnselectedColor,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0, padding: const EdgeInsets.symmetric(horizontal: 0)),
+                  child: Text('설정', style: TextStyle(fontSize: 11, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Material(
+            color: Colors.white,
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                padding: const EdgeInsets.only(left: 0, right: 0),
+                width: double.infinity,
+                height: 40,
+                color: Colors.transparent,
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: StaticColor.drawerInviteBackgroundColor,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(child: Image.asset('assets/recommended_event/invite_icon.png', width: 24, height: 24)),
+                          ),
+                          const SizedBox(width: 12),
+                          Text('초대하기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w500)),
+                        ]
+                    ))
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          const JoinUserList(),
+        ],
+      ),
+    );
+  }
+}
+
+class JoinUserList extends StatefulWidget {
+  const JoinUserList({Key? key}) : super(key: key);
+
+  @override
+  State<JoinUserList> createState() => _JoinUserListState();
+}
+
+class _JoinUserListState extends State<JoinUserList> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: ListView.builder(
+          padding: const EdgeInsets.all(0.0),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: 1,
+          itemBuilder: (BuildContext context, int index) {
+
+            bool creator = true;
+
+            return Row(
+              children: [
+                /// profile image
+                Stack(
+                  children: [
+                    /// event creater widget
+                    creator == true ? Container(width: 43, height: 43,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: GradientBoxBorder(
+                          gradient: StaticColor.drawerUserSupervisorColor,
+                          width: 2,
+                        ),
+                      ),
+                    ) : Container(),
+
+                    Container(width: 43, height: 43,
+                      child: Center(
+                        child: Stack(
+                            children: [
+                              Image.asset('assets/recommended_event/profile_image.png', width: 39, height: 39),
+                              Container(width: 39, height: 39,
+                                child: Center(
+                                    child: Image.asset('assets/recommended_event/empty_user.png', width: 24, height: 24)
+                                ),
+                              ),
+                            ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                /// event creator widget == true
+                creator == true ? const SizedBox(width: 9) : const SizedBox(width: 12),
+                Container(
+                  padding: const EdgeInsets.only(bottom: 4),
+                    child: Center(child: Text('안치영(나)', style: TextStyle(fontSize: 16, color: StaticColor.drawerNameColor, fontWeight: FontWeight.w400)))),
+                const SizedBox(width: 6),
+                creator == true ? Image.asset('assets/recommended_event/event_creator_auth_mark.png', width: 20, height: 20) : Container(),
+              ],
+            );
+          }
+        )
+      ),
+    );
+  }
+}
+
+class DrawerEventDelete extends StatefulWidget {
+  const DrawerEventDelete({Key? key}) : super(key: key);
+
+  @override
+  State<DrawerEventDelete> createState() => _DrawerEventDeleteState();
+}
+
+class _DrawerEventDeleteState extends State<DrawerEventDelete> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          width: 109,
+          height: 32,
+          decoration: BoxDecoration(
+            color: StaticColor.categoryUnselectedColor,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: ElevatedButton(
+            onPressed: () {
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+            child: Text('이벤트 나가기', style: TextStyle(fontSize: 13, color: StaticColor.drawerEventDeleteTextColor, fontWeight: FontWeight.w400)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+/*
+drawer section end
+ */
 
 class EventInfoTitle extends StatefulWidget {
   const EventInfoTitle({Key? key}) : super(key: key);
@@ -190,7 +483,7 @@ class _EventInfoRecommendedSectionState extends State<EventInfoRecommendedSectio
         ),
         child: ElevatedButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RecommendedScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedScreen()));
             },
             style: ElevatedButton.styleFrom(backgroundColor: StaticColor.eventInfoRecommendedBoxColor, elevation: 0.0),
             child: Row(
@@ -219,47 +512,3 @@ class _EventInfoRecommendedSectionState extends State<EventInfoRecommendedSectio
     );
   }
 }
-
-// class EventInfoRecommendedButton extends StatefulWidget {
-//   const EventInfoRecommendedButton({Key? key}) : super(key: key);
-//
-//   @override
-//   State<EventInfoRecommendedButton> createState() => _EventInfoRecommendedButtonState();
-// }
-//
-// class _EventInfoRecommendedButtonState extends State<EventInfoRecommendedButton> {
-//
-//   // Future backButtonAction(BuildContext context) async {
-//   //   context.read<RecommendedEventProvider>().recommendedButtonState();
-//   // }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//
-//     // final buttonEnabled = context.watch<RecommendedEventProvider>().recommendedButton;
-//
-//     return WillPopScope(
-//       onWillPop: () async {
-//         // await backButtonAction(context);
-//         return true;
-//       },
-//       child: SizedBox(
-//         width: double.infinity,
-//         height: 76,
-//         child: ElevatedButton(
-//             onPressed: () {
-//               // buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedEventScreen())) : (){};
-//             },
-//             // style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-//             style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-//             child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 children: const [
-//                   SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
-//                 ]
-//             )
-//         ),
-//       ),
-//     );
-//   }
-// }
