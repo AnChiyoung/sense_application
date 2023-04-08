@@ -136,7 +136,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
   late int selectedMonth;
   late int selectedDay;
   DateTime? _selectedDay;
-  late DateTime _focusedDay;
+  DateTime? _focusedDay;
   late List<String> days;
 
   @override
@@ -157,7 +157,9 @@ class _DateSelectSectionState extends State<DateSelectSection> {
       child: TableCalendar(
         rowHeight: 44,
         daysOfWeekHeight: 45,
-        focusedDay: DateTime.now(), firstDay: DateTime.utc(2023, 1, 1), lastDay: DateTime.utc(2033, 1, 1),
+        focusedDay: _focusedDay!,
+        firstDay: DateTime.utc(2023, 1, 1),
+        lastDay: DateTime.utc(2033, 1, 1),
         selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         headerVisible: true,
         headerStyle: HeaderStyle(

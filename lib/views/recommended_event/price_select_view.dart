@@ -17,7 +17,7 @@ class PriceSelectHeaderMenu extends StatefulWidget {
 class _PriceSelectHeaderMenuState extends State<PriceSelectHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: AddEventModel.eventRecommendedModel, closeCallback: closeCallback);
+    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
   }
 
   void backCallback() {

@@ -17,6 +17,7 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: key,
+      backgroundColor: Colors.white,
       endDrawer: EventInfoDrawer(),
       body: SafeArea(
         bottom: false,

@@ -18,7 +18,7 @@ class MemoHeaderMenu extends StatefulWidget {
 class _MemoHeaderMenuState extends State<MemoHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: AddEventModel.eventRecommendedModel, closeCallback: closeCallback);
+    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
   }
 
   void backCallback() {

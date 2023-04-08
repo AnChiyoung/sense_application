@@ -19,7 +19,7 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
   @override
   void initState() {
-    AddEventModel.eventInfoTitle = '님과의 ' + AddEventModel.eventModel + '(1)';
+    AddEventModel.eventInfoTitle = AddEventModel.eventModel.isEmpty ? '미지정(1)' : AddEventModel.eventModel + '(1)';
     AddEventModel.eventInfoName = '님과의 ' + AddEventModel.eventModel;
     super.initState();
   }

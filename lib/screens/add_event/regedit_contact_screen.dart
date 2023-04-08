@@ -11,9 +11,10 @@ class RegeditContactScreen extends StatefulWidget {
 class _RegeditContactScreenState extends State<RegeditContactScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Stack(
           children: [
             Column(
               children: [

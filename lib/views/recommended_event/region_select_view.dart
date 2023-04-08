@@ -18,7 +18,7 @@ class RegionSelectHeaderMenu extends StatefulWidget {
 class _RegionSelectHeaderMenuState extends State<RegionSelectHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: AddEventModel.eventRecommendedModel, closeCallback: closeCallback);
+    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
   }
 
   void backCallback() {
@@ -73,6 +73,7 @@ class _RegionSelectCategoryState extends State<RegionSelectCategory> {
   void initState() {
     regionModel = regionDummyModel.map((e) => RegionModel.fromJson(e)).toList();
     regionClickReset();
+    state[0] = true;
     super.initState();
   }
 
@@ -143,6 +144,8 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
   List<Widget> subRegionRowList = [];
   List<Widget> subRegionRow = [];
   List<List<bool>> regionCheckState = [];
+  int lastIndex = -1;
+  int presentIndex = -1;
 
   @override
   void initState() {
@@ -200,6 +203,17 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
     }).toList();
   }
 
+  void listReset(int e) {
+    /// 위 가로 슬라이드 지역셀이 변경되면 아래는 초기화되도록 변경
+    if(lastIndex != presentIndex) {
+      subRegionRowList.clear();
+      subRegionRow.clear();
+      regionCheckState.clear();
+      lastIndex = presentIndex;
+    }
+    subRegionRowList = subRegionListWidget(regionModel.elementAt(e).subRegionList) as List<Widget>;
+  }
+
   List subRegionRowWidget(Set<String> model, int rowIndex) {
     return model.map((e) { // e => String
       if(regionCheckState[rowIndex].length <= model.length - 1) {
@@ -217,6 +231,9 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
                   containFalseCheck() == true ? regionCheckState[0][0] = false : regionCheckState[0][0] = true;
                 }
                 containTrueCheck() == true ? context.read<RecommendedEventProvider>().regionNextButtonState(true) : context.read<RecommendedEventProvider>().regionNextButtonState(false);
+
+                /// 리스트 버그 fix 후 테스트
+                print(regionCheckState);
               });
             },
             child: Container(
@@ -238,14 +255,22 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
   Widget build(BuildContext context) {
 
     final stateNumber = context.watch<RecommendedEventProvider>().regionSelectState;
+    presentIndex = stateNumber;
 
     if(stateNumber != -1) {
-      subRegionRowList = subRegionListWidget(regionModel.elementAt(stateNumber).subRegionList) as List<Widget>;
+      // subRegionRowList = subRegionListWidget(regionModel.elementAt(stateNumber).subRegionList) as List<Widget>;
+      listReset(stateNumber);
+    }
+    /// 초기 진입 시, 서울 선택이 디폴트
+    else if(stateNumber == -1) {
+      listReset(0);
     }
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-      child: stateNumber == -1 ? Container() : Column(
+      /// 아래 주석 줄은 초기 진입 시 빈 컨테이너 노출
+      // child: stateNumber == -1 ? Container() : Column(
+      child: Column(
         children: subRegionRowList,
       )
     );

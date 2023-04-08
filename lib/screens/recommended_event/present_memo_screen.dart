@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sense_flutter_application/views/recommended_event/present_memo_view.dart';
+import 'package:sense_flutter_application/views/recommended_event/memo_view.dart';
 
 class PresentMemoScreen extends StatefulWidget {
   const PresentMemoScreen({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class _PresentMemoScreenState extends State<PresentMemoScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           bottom: false,
           child: Stack(

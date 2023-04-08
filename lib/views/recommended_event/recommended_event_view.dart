@@ -17,7 +17,7 @@ class RecommendedEventHeaderMenu extends StatefulWidget {
 class _RecommendedEventHeaderMenuState extends State<RecommendedEventHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(title: '이벤트 추천받기', closeCallback: closeCallback);
+    return HeaderMenu(title: '이벤트 생성', closeCallback: closeCallback);
   }
 
   void closeCallback() {
@@ -58,6 +58,11 @@ class RecommendedEventCategory extends StatefulWidget {
 
 class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
   bool present = false, hotel = false, lunch = false, dinner = false, activity = false, pub = false;
+
+  bool buttonStateCheck() {
+    return present || hotel || lunch || dinner || activity || pub;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -77,14 +82,8 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            present = true;
-                            hotel = false;
-                            lunch = false;
-                            dinner = false;
-                            activity = false;
-                            pub = false;
-                            context.read<RecommendedEventProvider>().nextButtonState(true);
-                            AddEventModel.eventRecommendedModel = '선물';
+                            present = !present;
+                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '선물'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: present == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -115,14 +114,8 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            present = false;
-                            hotel = true;
-                            lunch = false;
-                            dinner = false;
-                            activity = false;
-                            pub = false;
-                            context.read<RecommendedEventProvider>().nextButtonState(true);
-                            AddEventModel.eventRecommendedModel = '호텔';
+                            hotel = !hotel;
+                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '호텔'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: hotel == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -158,14 +151,8 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            present = false;
-                            hotel = false;
-                            lunch = true;
-                            dinner = false;
-                            activity = false;
-                            pub = false;
-                            context.read<RecommendedEventProvider>().nextButtonState(true);
-                            AddEventModel.eventRecommendedModel = '점심';
+                            lunch = !lunch;
+                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '점심'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: lunch == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -196,14 +183,8 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            present = false;
-                            hotel = false;
-                            lunch = false;
-                            dinner = true;
-                            activity = false;
-                            pub = false;
-                            context.read<RecommendedEventProvider>().nextButtonState(true);
-                            AddEventModel.eventRecommendedModel = '저녁';
+                            dinner = !dinner;
+                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '저녁'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: dinner == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -239,14 +220,8 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            present = false;
-                            hotel = false;
-                            lunch = false;
-                            dinner = false;
-                            activity = true;
-                            pub = false;
-                            context.read<RecommendedEventProvider>().nextButtonState(true);
-                            AddEventModel.eventRecommendedModel = '액티비티';
+                            activity = !activity;
+                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '액티비티'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: activity == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -277,14 +252,8 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                     child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            present = false;
-                            hotel = false;
-                            lunch = false;
-                            dinner = false;
-                            activity = false;
-                            pub = true;
-                            context.read<RecommendedEventProvider>().nextButtonState(true);
-                            AddEventModel.eventRecommendedModel = '술집';
+                            pub = !pub;
+                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '술집'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: pub == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
