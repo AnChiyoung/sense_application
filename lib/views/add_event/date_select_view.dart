@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
+import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DateSelectHeader extends StatefulWidget {
@@ -19,7 +20,7 @@ class DateSelectHeader extends StatefulWidget {
 class _DateSelectHeaderState extends State<DateSelectHeader> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
+    return HeaderMenu(backCallback: AddEventModel.editorMode == true ? null : backCallback, title: '이벤트 생성', closeCallback: closeCallback);
   }
 
   void backCallback() {
@@ -34,7 +35,7 @@ class _DateSelectHeaderState extends State<DateSelectHeader> {
   }
 
   void closeCallback() {
-    showDialog(
+    AddEventModel.editorMode == true ? Navigator.of(context).pop() : showDialog(
         context: context,
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
@@ -61,7 +62,7 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text('날짜를\n선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500)),
-            Container(
+            AddEventModel.editorMode == true ? Container() : Container(
               width: 81,
               height: 32,
               decoration: BoxDecoration(
@@ -246,6 +247,7 @@ class _DateSelectNextButtonState extends State<DateSelectNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
+              AddEventModel.editorMode == true ? {AddEventModel.editorMode = false, Navigator.of(context).pop(), context.read<RecommendedEventProvider>().titleChange()} :
               buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedEventScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),

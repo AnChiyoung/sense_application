@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/models/add_event/add_event_model.dart'
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/add_event/with_person_list_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
+import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class CategoryHeaderMenu extends StatefulWidget {
   const CategoryHeaderMenu({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _CategorySelectTitleState extends State<CategorySelectTitle> {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text('유형을\n선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500), textAlign: TextAlign.left),
-          Container(
+          AddEventModel.editorMode == true ? Container() : Container(
             width: 81,
             height: 32,
             decoration: BoxDecoration(
@@ -100,8 +101,8 @@ class _CategorySelectState extends State<CategorySelect> {
                         business = false;
                         context.read<AddEventProvider>().nextButtonState(true);
                         AddEventModel.eventModel = '생일';
-                        AddEventModel.eventInfoTitle = '생일';
-                        AddEventModel.eventInfoName = '생일';
+                        // AddEventModel.eventInfoTitle = '생일';
+                        // AddEventModel.eventInfoName = '생일';
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: birthday == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -139,8 +140,8 @@ class _CategorySelectState extends State<CategorySelect> {
                         business = false;
                         context.read<AddEventProvider>().nextButtonState(true);
                         AddEventModel.eventModel = '데이트';
-                        AddEventModel.eventInfoTitle = '데이트';
-                        AddEventModel.eventInfoName = '데이트';
+                        // AddEventModel.eventInfoTitle = '데이트';
+                        // AddEventModel.eventInfoName = '데이트';
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: date == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -183,8 +184,8 @@ class _CategorySelectState extends State<CategorySelect> {
                           business = false;
                           context.read<AddEventProvider>().nextButtonState(true);
                           AddEventModel.eventModel = '여행';
-                          AddEventModel.eventInfoTitle = '여행';
-                          AddEventModel.eventInfoName = '여행';
+                          // AddEventModel.eventInfoTitle = '여행';
+                          // AddEventModel.eventInfoName = '여행';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: travel == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -222,8 +223,8 @@ class _CategorySelectState extends State<CategorySelect> {
                           business = false;
                           context.read<AddEventProvider>().nextButtonState(true);
                           AddEventModel.eventModel = '모임';
-                          AddEventModel.eventInfoTitle = '모임';
-                          AddEventModel.eventInfoName = '모임';
+                          // AddEventModel.eventInfoTitle = '모임';
+                          // AddEventModel.eventInfoName = '모임';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: meet == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -266,8 +267,8 @@ class _CategorySelectState extends State<CategorySelect> {
                           business = true;
                           context.read<AddEventProvider>().nextButtonState(true);
                           AddEventModel.eventModel = '비즈니스';
-                          AddEventModel.eventInfoTitle = '비즈니스';
-                          AddEventModel.eventInfoName = '비즈니스';
+                          // AddEventModel.eventInfoTitle = '비즈니스';
+                          // AddEventModel.eventInfoName = '비즈니스';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: business == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -334,13 +335,14 @@ class _NextButtonState extends State<NextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
+              AddEventModel.editorMode == true ? {AddEventModel.editorMode = false, Navigator.of(context).pop(), context.read<RecommendedEventProvider>().titleChange()} :
               buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => WithPersonScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  SizedBox(height: 56, child: Center(child: Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
+                children: [
+                  SizedBox(height: 56, child: Center(child: Text(AddEventModel.editorMode == true ? '완료' : '다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
                 ]
             )
         ),

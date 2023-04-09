@@ -18,7 +18,7 @@ class MemoHeaderMenu extends StatefulWidget {
 class _MemoHeaderMenuState extends State<MemoHeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
+    return HeaderMenu(backCallback: AddEventModel.editorMode == true ? null : backCallback, title: '이벤트 생성', closeCallback: closeCallback);
   }
 
   void backCallback() {
@@ -27,7 +27,7 @@ class _MemoHeaderMenuState extends State<MemoHeaderMenu> {
   }
 
   void closeCallback() {
-    showDialog(
+    AddEventModel.editorMode == true ? Navigator.of(context).pop() : showDialog(
         context: context,
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
@@ -143,6 +143,7 @@ class _MemoNextButtonState extends State<MemoNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
+              AddEventModel.editorMode == true ? {AddEventModel.editorMode = false, Navigator.of(context).pop(), context.read<RecommendedEventProvider>().titleChange()} :
               buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => EventInfoScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),

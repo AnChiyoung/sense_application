@@ -6,6 +6,8 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
+import 'package:sense_flutter_application/screens/add_event/date_select_screen.dart';
+import 'package:sense_flutter_application/screens/recommended_event/present_memo_screen.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:toast/toast.dart';
@@ -22,7 +24,6 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
   @override
   void initState() {
-    AddEventModel.eventInfoTitle = AddEventModel.eventModel;
     print('aasdfsdf ${AddEventModel.eventInfoTitle}');
     super.initState();
   }
@@ -32,7 +33,7 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
     final eventTitle = context.watch<RecommendedEventProvider>().editTitle;
 
-    return HeaderMenu(backCallback: backCallback, title: AddEventModel.eventInfoTitle == '' ? '미지정(1)' : eventTitle + '(1)', rightMenu: menu());
+    return HeaderMenu(backCallback: backCallback, title: eventTitle.isEmpty ? '미지정(1)' : eventTitle + '(1)', rightMenu: menu());
   }
 
   void backCallback() {
@@ -666,6 +667,8 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
   Widget build(BuildContext context) {
 
     final editMode = context.watch<RecommendedEventProvider>().editMode;
+    final editCategory = context.watch<RecommendedEventProvider>().editCategory;
+    final editMemo = context.watch<RecommendedEventProvider>().editMemo;
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 48),
@@ -703,7 +706,7 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
                         children: [
                           Text('유형', style: TextStyle(fontSize: 14, color: StaticColor.editModeInfoTitleColor, fontWeight: FontWeight.w700)),
                           const SizedBox(width: 12),
-                          Text(AddEventModel.eventModel.isEmpty ? '미지정' : AddEventModel.eventModel, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
+                          Text(editCategory.isEmpty ? '미지정' : editCategory, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),
@@ -720,6 +723,8 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
+                        AddEventModel.editorMode = true;
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => DateSelectScreen()));
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
                       child: Row(
@@ -739,6 +744,8 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
             Align(alignment: Alignment.centerLeft, child: Text(AddEventModel.memoModel.isEmpty ? '메모 없음' : AddEventModel.memoModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500))) :
             ElevatedButton(
               onPressed: () {
+                AddEventModel.editorMode = true;
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => PresentMemoScreen()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
               child: Container(
