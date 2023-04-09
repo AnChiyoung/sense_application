@@ -35,6 +35,11 @@ abstract class _BasePostCard extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 debugPrint('tab $id');
+                // Navigator.pushNamed(
+                //   context,
+                //   '/feed/post',
+                //   arguments: FeedPostArguments(id: id),
+                // );
               },
             ),
           ),
@@ -186,7 +191,6 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
 
   @override
   Widget build(BuildContext context) {
-    final temp = [...widget.feedPosts, ...widget.feedPosts, ...widget.feedPosts];
     List<Widget> items = [];
     Widget feedPostsWidget;
     IconData switchButtonIcon;
@@ -194,7 +198,7 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
 
     if (isCarousel) {
       final spaceBetweenItems = ((MediaQuery.of(context).size.width - 60) / 7 * 10) + 40;
-      for (var feedPost in temp) {
+      for (var feedPost in widget.feedPosts) {
         items.add(FeedPostCarouselCard(
           id: feedPost.id,
           title: feedPost.title,
@@ -211,7 +215,7 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
       switchButtonIcon = Icons.grid_view_rounded;
       switchButtonText = '모아보기';
     } else {
-      for (var feedPost in temp) {
+      for (var feedPost in widget.feedPosts) {
         items.add(FeedPostGridCard(
           id: feedPost.id,
           title: feedPost.title,

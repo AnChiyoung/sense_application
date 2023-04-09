@@ -1,5 +1,3 @@
-// import 'package:flutter/material.dart';
-
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_view.dart';
 

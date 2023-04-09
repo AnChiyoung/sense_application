@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+///
+///
+///
+/// 서버 리스폰트 모델
 class ResponseModel {
   final int code;
   final String message;
@@ -20,6 +24,10 @@ class ResponseModel {
         data = json['data'];
 }
 
+///
+///
+///
+/// 피드 태그 모델
 class FeedTagModel {
   final int id;
   final String title;
@@ -34,6 +42,10 @@ class FeedTagModel {
         title = json['title'];
 }
 
+///
+///
+///
+/// 피드 포스트 썸네일 모델
 class FeedPostModel {
   final int id;
   final String title;
@@ -59,6 +71,10 @@ class FeedPostModel {
 
 enum FeedProductType { GIFT, BOOKING }
 
+///
+///
+///
+/// 피드 상품 썸네일 모델
 class FeedProductModel {
   final int id;
   final String title;
@@ -99,6 +115,48 @@ class FeedProductModel {
         address = json['address'],
         purchaseUrl = json['purchase_url'],
         created = json['created'];
+}
+
+class FeedPostDetailModel {
+//   id	integer
+// title: ID
+// readOnly: true
+// user	integer
+// title: 사용자
+// x-nullable: true
+// user_data	User Data{
+
+// x-nullable	true
+// }
+// title	string
+// title: Title
+// maxLength: 100
+// x-nullable: true
+// origin_price	string($decimal)
+// title: Origin Price
+// x-nullable: true
+// sale_price	string($decimal)
+// title: Sale Price
+// x-nullable: true
+// start_date	string($date-time)
+// title: Start Date
+// x-nullable: true
+// end_date	string($date-time)
+// title: End Date
+// x-nullable: true
+// banner_image_url	string($uri)
+// title: Banner Image Url
+// maxLength: 200
+// x-nullable: true
+// created	string($date-time)
+// title: 생성됨
+// readOnly: true
+// tags	string
+// title: Tags
+// readOnly: true
+
+  // final int id;
+  // final int? userId;
 }
 
 class ApiService {
