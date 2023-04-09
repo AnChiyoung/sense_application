@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
+import 'package:sense_flutter_application/views/feed/feed_post_detail.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
 abstract class _BasePostCard extends StatelessWidget {
@@ -34,12 +35,12 @@ abstract class _BasePostCard extends StatelessWidget {
             shadowColor: Colors.transparent,
             child: InkWell(
               onTap: () {
-                debugPrint('tab $id');
-                // Navigator.pushNamed(
-                //   context,
-                //   '/feed/post',
-                //   arguments: FeedPostArguments(id: id),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedPostDetail(postId: id),
+                  ),
+                );
               },
             ),
           ),
