@@ -168,6 +168,9 @@ class DrawerJoinUser extends StatefulWidget {
 class _DrawerJoinUserState extends State<DrawerJoinUser> {
   @override
   Widget build(BuildContext context) {
+
+    ToastContext().init(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
       child: Column(
@@ -197,7 +200,9 @@ class _DrawerJoinUserState extends State<DrawerJoinUser> {
           Material(
             color: Colors.white,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                showToast('현재는 등록가능한 친구 목록이 없습니다', Toast.lengthLong, Toast.bottom);
+              },
               child: Container(
                 padding: const EdgeInsets.only(left: 0, right: 0),
                 width: double.infinity,
@@ -228,6 +233,10 @@ class _DrawerJoinUserState extends State<DrawerJoinUser> {
         ],
       ),
     );
+  }
+
+  void showToast(String msg, int? duration, int? gravity) {
+    Toast.show(msg, duration: duration, gravity: gravity, backgroundColor: Colors.grey);
   }
 }
 
