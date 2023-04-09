@@ -60,7 +60,11 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('날짜를\n선택해주세요', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500)),
+            Text('날짜를\n선택해주세요',
+                style: TextStyle(
+                    fontSize: 24,
+                    color: StaticColor.addEventTitleColor,
+                    fontWeight: FontWeight.w500)),
             Container(
               width: 81,
               height: 32,
@@ -71,15 +75,20 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
               child: ElevatedButton(
                 onPressed: () {
                   AddEventModel.eventDateModel = '';
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedEventScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const RecommendedEventScreen()));
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                child: Text('건너뛰기', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                child: Text('건너뛰기',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: StaticColor.addEventFontColor,
+                        fontWeight: FontWeight.w400)),
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }
 
@@ -93,7 +102,6 @@ class DateViewSection extends StatefulWidget {
 class _DateViewSectionState extends State<DateViewSection> {
   @override
   Widget build(BuildContext context) {
-
     final dayView = context.watch<AddEventProvider>().selectedDay;
 
     return Padding(
@@ -107,16 +115,15 @@ class _DateViewSectionState extends State<DateViewSection> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset('assets/add_event/date_view_icon.png', width: 24, height: 24),
-              const SizedBox(
-                width: 8
-              ),
-              Text(dayView, style: TextStyle(fontSize: 14, color: StaticColor.tabbarIndicatorColor, fontWeight: FontWeight.w500)),
-            ]
-          ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Image.asset('assets/add_event/date_view_icon.png', width: 24, height: 24),
+            const SizedBox(width: 8),
+            Text(dayView,
+                style: TextStyle(
+                    fontSize: 14,
+                    color: StaticColor.tabbarIndicatorColor,
+                    fontWeight: FontWeight.w500)),
+          ]),
         ),
       ),
     );
@@ -131,7 +138,6 @@ class DateSelectSection extends StatefulWidget {
 }
 
 class _DateSelectSectionState extends State<DateSelectSection> {
-
   late int selectedYear;
   late int selectedMonth;
   late int selectedDay;
@@ -155,49 +161,51 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TableCalendar(
-        rowHeight: 44,
-        daysOfWeekHeight: 45,
-        focusedDay: DateTime.now(), firstDay: DateTime.utc(2023, 1, 1), lastDay: DateTime.utc(2033, 1, 1),
-        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-        headerVisible: true,
-        headerStyle: HeaderStyle(
-          titleCentered: true,
-          headerPadding: const EdgeInsets.only(left: 20, right: 20),
-          formatButtonVisible: false,
-          leftChevronIcon: ImageIcon(const AssetImage('assets/add_event/calendar_arrow_left.png'), size: 24, color: StaticColor.calendarArrowColor), // image.asset can't build
-          rightChevronIcon: ImageIcon(const AssetImage('assets/add_event/calendar_arrow_right.png'), size: 24, color: StaticColor.calendarArrowColor),
-        ),
-        onDaySelected: onDaySelected,
-        calendarStyle: CalendarStyle(
-          todayTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 14
+          rowHeight: 44,
+          daysOfWeekHeight: 45,
+          focusedDay: DateTime.now(),
+          firstDay: DateTime.utc(2023, 1, 1),
+          lastDay: DateTime.utc(2033, 1, 1),
+          selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+          headerVisible: true,
+          headerStyle: HeaderStyle(
+            titleCentered: true,
+            headerPadding: const EdgeInsets.only(left: 20, right: 20),
+            formatButtonVisible: false,
+            leftChevronIcon: ImageIcon(const AssetImage('assets/add_event/calendar_arrow_left.png'),
+                size: 24, color: StaticColor.calendarArrowColor), // image.asset can't build
+            rightChevronIcon: ImageIcon(
+                const AssetImage('assets/add_event/calendar_arrow_right.png'),
+                size: 24,
+                color: StaticColor.calendarArrowColor),
           ),
-          selectedTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 14
+          onDaySelected: onDaySelected,
+          calendarStyle: CalendarStyle(
+            todayTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
+            selectedTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
+            outsideDaysVisible: false,
+            todayDecoration: BoxDecoration(
+              color: StaticColor.unSelectedColor,
+              shape: BoxShape.circle,
+            ),
+            selectedDecoration: BoxDecoration(
+              color: StaticColor.selectDayColor,
+              shape: BoxShape.circle,
+            ),
           ),
-          outsideDaysVisible: false,
-          todayDecoration: BoxDecoration(
-            color: StaticColor.unSelectedColor,
-            shape: BoxShape.circle,
-          ),
-          selectedDecoration: BoxDecoration(
-            color: StaticColor.selectDayColor,
-            shape: BoxShape.circle,
-          ),
-        ),
-        calendarBuilders: CalendarBuilders(
-          dowBuilder: (context, day) {
-            return Center(child: Text(days[day.weekday - 1], style: TextStyle(fontSize: 14, color: StaticColor.calendarDowColor, fontWeight: FontWeight.w700)));
-          }
-        )
-      ),
+          calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
+            return Center(
+                child: Text(days[day.weekday - 1],
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: StaticColor.calendarDowColor,
+                        fontWeight: FontWeight.w700)));
+          })),
     );
   }
 
   void onDaySelected(DateTime selectDay, DateTime focusedDay) {
-    if(!isSameDay(_selectedDay, selectDay)) {
+    if (!isSameDay(_selectedDay, selectDay)) {
       setState(() {
         _selectedDay = selectDay;
         _focusedDay = focusedDay;
@@ -224,14 +232,12 @@ class DateSelectNextButton extends StatefulWidget {
 }
 
 class _DateSelectNextButtonState extends State<DateSelectNextButton> {
-
   Future backButtonAction(BuildContext context) async {
     context.read<AddEventProvider>().dateSelectNextButtonReset();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final buttonEnabled = context.watch<AddEventProvider>().dateSelectButtonState;
 
     return WillPopScope(
@@ -244,18 +250,25 @@ class _DateSelectNextButtonState extends State<DateSelectNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedEventScreen())) : (){};
+              buttonEnabled == true
+                  ? Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const RecommendedEventScreen()))
+                  : () {};
             },
-            style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
-                ]
-            )
-        ),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: buttonEnabled == true
+                    ? StaticColor.categorySelectedColor
+                    : StaticColor.unSelectedColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: const [
+              SizedBox(
+                  height: 56,
+                  child: Center(
+                      child: Text('완료',
+                          style: TextStyle(
+                              fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
+            ])),
       ),
     );
   }
 }
-
