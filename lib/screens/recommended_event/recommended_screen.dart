@@ -21,8 +21,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
             Column(
               children: [
                 RecommendedTitle(),
-                // RecommendedTagSection(),
-                // RecommendedItemSection(),
+                RecommendedTagSection(),
+                RecommendedItemSection(),
               ],
             ),
           ],

@@ -100,6 +100,8 @@ class _CategorySelectState extends State<CategorySelect> {
                         business = false;
                         context.read<AddEventProvider>().nextButtonState(true);
                         AddEventModel.eventModel = '생일';
+                        AddEventModel.eventInfoTitle = '생일';
+                        AddEventModel.eventInfoName = '생일';
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: birthday == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -137,6 +139,8 @@ class _CategorySelectState extends State<CategorySelect> {
                         business = false;
                         context.read<AddEventProvider>().nextButtonState(true);
                         AddEventModel.eventModel = '데이트';
+                        AddEventModel.eventInfoTitle = '데이트';
+                        AddEventModel.eventInfoName = '데이트';
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: date == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -179,6 +183,8 @@ class _CategorySelectState extends State<CategorySelect> {
                           business = false;
                           context.read<AddEventProvider>().nextButtonState(true);
                           AddEventModel.eventModel = '여행';
+                          AddEventModel.eventInfoTitle = '여행';
+                          AddEventModel.eventInfoName = '여행';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: travel == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -216,6 +222,8 @@ class _CategorySelectState extends State<CategorySelect> {
                           business = false;
                           context.read<AddEventProvider>().nextButtonState(true);
                           AddEventModel.eventModel = '모임';
+                          AddEventModel.eventInfoTitle = '모임';
+                          AddEventModel.eventInfoName = '모임';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: meet == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -258,6 +266,8 @@ class _CategorySelectState extends State<CategorySelect> {
                           business = true;
                           context.read<AddEventProvider>().nextButtonState(true);
                           AddEventModel.eventModel = '비즈니스';
+                          AddEventModel.eventInfoTitle = '비즈니스';
+                          AddEventModel.eventInfoName = '비즈니스';
                         });
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: business == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),

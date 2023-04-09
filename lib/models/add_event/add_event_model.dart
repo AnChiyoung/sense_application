@@ -5,13 +5,15 @@ class AddEventModel {
   static List<String> peopleModel = [];
   static List<String> sharePeopleModel = [];
   static String eventDateModel = '';
-  static String eventRecommendedModel = '';
+  static List<String> eventRecommendedModel = ['', '', '', '', '', ''];
   static String priceModel = '';
   static List<String> regionModel = [];
   static String memoModel = '';
 
   static String eventInfoTitle = '';
   static String eventInfoName = '';
+
+  static bool editorMode = false;
 }
 
 class ContactModel {

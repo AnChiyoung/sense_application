@@ -16,6 +16,7 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: key,
       backgroundColor: Colors.white,
       endDrawer: EventInfoDrawer(),
@@ -29,23 +30,7 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
                 EventInfoHeaderMenu(drawerKey: key),
                 EventInfoTitle(),
                 EventInfoNameSection(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Container(
-                    width: double.infinity,
-                    height: 1,
-                    color: StaticColor.eventInfoPersonSectionDividerColor,
-                  )
-                ),
                 EventInfoPersonSection(),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      width: double.infinity,
-                      height: 1,
-                      color: StaticColor.eventInfoPersonSectionDividerColor,
-                    )
-                ),
                 EventInfoEtcSection(),
                 EventInfoRecommendedSection(),
                 // EventInfoMyChoiceSection(),

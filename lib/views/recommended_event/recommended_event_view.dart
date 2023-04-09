@@ -83,7 +83,9 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         onPressed: () {
                           setState(() {
                             present = !present;
-                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '선물'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
+                            buttonStateCheck() == true ?
+                              {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel[0] = '선물'} :
+                              {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel[0] = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: present == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -115,7 +117,9 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         onPressed: () {
                           setState(() {
                             hotel = !hotel;
-                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '호텔'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
+                            buttonStateCheck() == true ?
+                              {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel[1] = '호텔'} :
+                              {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel[1] = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: hotel == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -152,7 +156,9 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         onPressed: () {
                           setState(() {
                             lunch = !lunch;
-                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '점심'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
+                            buttonStateCheck() == true ?
+                              {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel[2] = '점심'} :
+                              {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel[2] = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: lunch == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -184,7 +190,9 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         onPressed: () {
                           setState(() {
                             dinner = !dinner;
-                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '저녁'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
+                            buttonStateCheck() == true ?
+                              {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel[3] = '저녁'} :
+                              {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel[3] = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: dinner == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -198,7 +206,6 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                               Text('저녁', style: TextStyle(fontSize: 13, color: dinner == true ? Colors.white : StaticColor.addEventFontColor, fontWeight: FontWeight.w700)),
                             ]
                         )
-
                     ),
                   ),
                 ),
@@ -221,7 +228,9 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         onPressed: () {
                           setState(() {
                             activity = !activity;
-                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '액티비티'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
+                            buttonStateCheck() == true ?
+                              {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel[4] = '액티비티'} :
+                              {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel[4] = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: activity == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),
@@ -253,7 +262,9 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
                         onPressed: () {
                           setState(() {
                             pub = !pub;
-                            buttonStateCheck() == true ? {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel = '술집'} : {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel = ''};
+                            buttonStateCheck() == true ?
+                              {context.read<RecommendedEventProvider>().nextButtonState(true), AddEventModel.eventRecommendedModel[5] = '술집'} :
+                              {context.read<RecommendedEventProvider>().nextButtonState(false), AddEventModel.eventRecommendedModel[5] = ''};
                           });
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: pub == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor, elevation: 0.0),

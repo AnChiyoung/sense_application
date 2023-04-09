@@ -68,7 +68,7 @@ class _MemoDescriptionState extends State<MemoDescription> {
 
   @override
   void initState() {
-    teController = TextEditingController();
+    teController = TextEditingController(text: memoDummyModel);
     super.initState();
   }
 
@@ -88,9 +88,9 @@ class _MemoDescriptionState extends State<MemoDescription> {
           } else if(text.isEmpty) {
             context.read<RecommendedEventProvider>().memoNextButtonState(false);
           }
-          // AddEventModel.memoModel = teController.text;
+          AddEventModel.memoModel = teController.text;
           // 메모 더미 모델
-          AddEventModel.memoModel = memoDummyModel;
+
         },
         cursorHeight: 22,
         cursorColor: Colors.black,
