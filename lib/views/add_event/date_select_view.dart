@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
+import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DateSelectHeader extends StatefulWidget {
@@ -19,7 +20,10 @@ class DateSelectHeader extends StatefulWidget {
 class _DateSelectHeaderState extends State<DateSelectHeader> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', closeCallback: closeCallback);
+    return HeaderMenu(
+        backCallback: AddEventModel.editorMode == true ? null : backCallback,
+        title: '이벤트 생성',
+        closeCallback: closeCallback);
   }
 
   void backCallback() {
@@ -34,13 +38,15 @@ class _DateSelectHeaderState extends State<DateSelectHeader> {
   }
 
   void closeCallback() {
-    showDialog(
-        context: context,
-        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const AddEventCancelDialog();
-        });
+    AddEventModel.editorMode == true
+        ? Navigator.of(context).pop()
+        : showDialog(
+            context: context,
+            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return const AddEventCancelDialog();
+            });
   }
 }
 
@@ -65,28 +71,32 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
                     fontSize: 24,
                     color: StaticColor.addEventTitleColor,
                     fontWeight: FontWeight.w500)),
-            Container(
-              width: 81,
-              height: 32,
-              decoration: BoxDecoration(
-                color: StaticColor.categoryUnselectedColor,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: ElevatedButton(
-                onPressed: () {
-                  AddEventModel.eventDateModel = '';
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const RecommendedEventScreen()));
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                child: Text('건너뛰기',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: StaticColor.addEventFontColor,
-                        fontWeight: FontWeight.w400)),
-              ),
-            ),
+            AddEventModel.editorMode == true
+                ? Container()
+                : Container(
+                    width: 81,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: StaticColor.categoryUnselectedColor,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        AddEventModel.eventDateModel = '';
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RecommendedEventScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                      child: Text('건너뛰기',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: StaticColor.addEventFontColor,
+                              fontWeight: FontWeight.w400)),
+                    ),
+                  ),
           ],
         ));
   }
@@ -142,7 +152,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
   late int selectedMonth;
   late int selectedDay;
   DateTime? _selectedDay;
-  late DateTime _focusedDay;
+  DateTime? _focusedDay;
   late List<String> days;
 
   @override
@@ -163,7 +173,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
       child: TableCalendar(
           rowHeight: 44,
           daysOfWeekHeight: 45,
-          focusedDay: DateTime.now(),
+          focusedDay: _focusedDay!,
           firstDay: DateTime.utc(2023, 1, 1),
           lastDay: DateTime.utc(2033, 1, 1),
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
@@ -254,6 +264,16 @@ class _DateSelectNextButtonState extends State<DateSelectNextButton> {
                   ? Navigator.push(context,
                       MaterialPageRoute(builder: (context) => const RecommendedEventScreen()))
                   : () {};
+              AddEventModel.editorMode == true
+                  ? {
+                      AddEventModel.editorMode = false,
+                      Navigator.of(context).pop(),
+                      context.read<RecommendedEventProvider>().titleChange()
+                    }
+                  : buttonEnabled == true
+                      ? Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const RecommendedEventScreen()))
+                      : () {};
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonEnabled == true

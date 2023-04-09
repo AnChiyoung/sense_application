@@ -63,7 +63,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                     AddEventModel.peopleModel = [];
                     AddEventModel.sharePeopleModel = [];
                     AddEventModel.eventDateModel = '';
-                    AddEventModel.eventRecommendedModel = '';
+                    AddEventModel.eventRecommendedModel = ['', '', '', '', '', ''];
                     AddEventModel.priceModel = '';
                     AddEventModel.regionModel = [];
                     AddEventModel.memoModel = '';

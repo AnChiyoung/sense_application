@@ -48,10 +48,11 @@ dependencies:
   draggable_bottom_sheet: ^1.0.2
   card_swiper: ^2.0.4
   stacked_card_carousel: ^0.0.4
-  #  fluttertoast: ^8.2.1
   image_picker: ^0.8.7
   flutter_switch: ^0.3.2
   table_calendar: ^3.0.9
+  gradient_borders: ^1.0.0
+  toast: ^0.3.0
 
 dev_dependencies:
   flutter_test:

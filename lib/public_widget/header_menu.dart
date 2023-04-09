@@ -39,16 +39,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
           //   alignment: Alignment.centerRight,
           //   child: Text('위젯은 하나만 사용해주세요')
           // ) :
-          widget.rightMenu == null ? Container() : Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 18),
-              child: GestureDetector(
-                onTap: () {},
-                child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
-              ),
-            ),
-          ),
+          widget.rightMenu == null ? Container() : Align(alignment: Alignment.centerRight, child: Padding(padding: const EdgeInsets.only(right: 18), child: widget.rightMenu!)),
           widget.closeCallback == null  ? Container() : Align(
             alignment: Alignment.centerRight,
             child: Padding(

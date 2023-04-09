@@ -12,6 +12,7 @@ class _PriceSelectScreenState extends State<PriceSelectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         bottom: false,
         child: Stack(

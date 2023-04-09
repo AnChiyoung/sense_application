@@ -10,9 +10,16 @@ class EventInfoScreen extends StatefulWidget {
 }
 
 class _EventInfoScreenState extends State<EventInfoScreen> {
+
+  final GlobalKey<ScaffoldState> key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      key: key,
+      backgroundColor: Colors.white,
+      endDrawer: EventInfoDrawer(),
       body: SafeArea(
         bottom: false,
         child: Stack(
@@ -20,26 +27,10 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
             // 버튼 제외 상단
             Column(
               children: [
-                EventInfoHeaderMenu(),
+                EventInfoHeaderMenu(drawerKey: key),
                 EventInfoTitle(),
                 EventInfoNameSection(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Container(
-                    width: double.infinity,
-                    height: 1,
-                    color: StaticColor.eventInfoPersonSectionDividerColor,
-                  )
-                ),
                 EventInfoPersonSection(),
-                Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      width: double.infinity,
-                      height: 1,
-                      color: StaticColor.eventInfoPersonSectionDividerColor,
-                    )
-                ),
                 EventInfoEtcSection(),
                 EventInfoRecommendedSection(),
                 // EventInfoMyChoiceSection(),

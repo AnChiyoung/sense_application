@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 
 class RecommendedEventProvider with ChangeNotifier {
   bool _buttonState = false;
@@ -22,6 +23,24 @@ class RecommendedEventProvider with ChangeNotifier {
 
   bool _recommendedButton = false;
   bool get recommendedButton => _recommendedButton;
+
+  bool _editMode = false;
+  bool get editMode => _editMode;
+
+  String _editName = AddEventModel.eventInfoName;
+  String get editName => _editName;
+
+  String _editTitle = AddEventModel.eventInfoTitle;
+  String get editTitle => _editTitle;
+
+  String _editCategory = AddEventModel.eventModel;
+  String get editCategory => _editCategory;
+
+  String _editDate = AddEventModel.eventDateModel;
+  String get editDate => _editDate;
+
+  String _editMemo = AddEventModel.memoModel;
+  String get editMemo => _editMemo;
 
   void nextButtonState(bool state) {
     _buttonState = state;
@@ -80,5 +99,21 @@ class RecommendedEventProvider with ChangeNotifier {
 
   void recommendedButtonState() {
 
+  }
+
+  void isEditMode(bool state) {
+    _editMode = state;
+    notifyListeners();
+  }
+
+  void titleChange() {
+    _editTitle = AddEventModel.eventInfoTitle;
+    _editName = AddEventModel.eventInfoName;
+    _editCategory = AddEventModel.eventModel;
+    _editDate = AddEventModel.eventDateModel;
+    _editMemo = AddEventModel.memoModel;
+
+    print(_editTitle + '/' + _editName);
+    notifyListeners();
   }
 }

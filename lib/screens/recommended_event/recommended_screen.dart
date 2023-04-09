@@ -12,6 +12,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         bottom: false,
         child: Stack(
@@ -20,8 +21,8 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
             Column(
               children: [
                 RecommendedTitle(),
-                // RecommendedTagSection(),
-                // RecommendedItemSection(),
+                RecommendedTagSection(),
+                RecommendedItemSection(),
               ],
             ),
           ],

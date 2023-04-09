@@ -61,4 +61,25 @@ class StaticColor {
   static Color eventInfoPersonNameColor = const Color(0xFF151515);
   static Color eventInfoRecommendedBoxColor = const Color(0xFFF6F6F6);
   static Color eventInfoRecommendedBoxArrowColor = const Color(0xFF000022);
+  // drawer color
+  static Color drawerTextColor = const Color(0xFF555555);
+  static Color drawerToggleActiveColor = const Color(0xFF2288FF);
+  static Color drawerToggleInactiveColor = const Color(0xFFE0E0E0);
+  static Color drawerDividerColor = const Color(0xFFEEEEEE);
+  static Color drawerEventDeleteTextColor = const Color(0xFFD82020);
+  static Color drawerInviteBackgroundColor = const Color(0xFFF6F6F6);
+  static LinearGradient drawerUserSupervisorColor = const LinearGradient(colors: [Color(0xFF3E97FF), Color(0xFF2288FF)]);
+  static Color drawerNameColor = const Color(0xFF333333);
+  // event info color
+  static Color editModeInputBorderColor = const Color(0xFFEEEEEE);
+  static Color editModeInfoNameColor = const Color(0xFF151515);
+  static Color editModeInviteBackgroundColor = const Color(0xFFF6F6F6);
+  static Color editModeTextColor = const Color(0xFF555555);
+  static Color editModeInviteIconColor = const Color(0xFFBBBBBB);
+  static Color editModeInfoTitleColor = const Color(0xFF999999);
+  // recommended color
+  static Color recommendedCategorySelectColor = const Color(0xFF333333);
+  static Color recommendedCategoryNonSelectColor = const Color(0xFFF6F6F6);
+  static Color recommendedCategoryNonSelectTextColor = const Color(0xFF777777);
+  static Color recommendedSearchingTextColor = const Color(0xFFBBBBBB);
 }
