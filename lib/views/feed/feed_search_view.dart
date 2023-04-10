@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 
@@ -18,10 +19,10 @@ class _FeedSearchHeaderState extends State<FeedSearchHeader> {
 
   @override
   void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _searchController.text = context.read<FeedSearchProvider>().searchTerm;
     });
+    super.initState();
   }
 
   @override
@@ -235,8 +236,16 @@ class _SearchPostListState extends State<SearchPostList> {
                     ),
                   );
                 } else {
+                  // todo: recommend api 없애고 posts 로 변경
+                  final hello = feedPosts
+                      .map((e) => FeedPostModel(
+                            id: e.id,
+                            title: e.title ?? '',
+                            imageUrl: e.bannerImageUrl ?? '',
+                          ))
+                      .toList();
                   return FeedPostListPresenter(
-                    feedPosts: context.read<FeedSearchProvider>().feedPosts,
+                    feedPosts: hello,
                   );
                 }
               },

@@ -14,11 +14,6 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
   late Future<FeedPostDetailModel> postDetail;
 
   @override
-  initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -836,8 +831,8 @@ class _LikeButtonState extends State<LikeButton> {
 
   @override
   void initState() {
-    super.initState();
     isLiked = widget.isLiked;
+    super.initState();
   }
 
   void toggleLike() {

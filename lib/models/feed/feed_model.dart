@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 ///
 ///
-///
 /// 서버 리스폰트 모델
 class ResponseModel {
   final int code;
@@ -24,7 +23,6 @@ class ResponseModel {
         data = json['data'];
 }
 
-///
 ///
 ///
 /// 유져 모델
@@ -59,7 +57,6 @@ class UserModel {
 
 ///
 ///
-///
 /// 피드 태그 모델
 class FeedTagModel {
   final int id;
@@ -77,34 +74,24 @@ class FeedTagModel {
 
 ///
 ///
-///
 /// 피드 포스트 썸네일 모델
 class FeedPostModel {
   final int id;
   final String title;
-  final int? tagId;
-  final int? sectionId;
   final String imageUrl;
 
   FeedPostModel({
     required this.id,
     required this.title,
-    required this.tagId,
-    required this.sectionId,
     required this.imageUrl,
   });
 
   FeedPostModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         title = json['title'],
-        tagId = json['recommand_tag'],
-        sectionId = json['recommand_section'],
         imageUrl = json['image_url'];
 }
 
-enum FeedProductType { GIFT, BOOKING }
-
-///
 ///
 ///
 /// 피드 상품 썸네일 모델
@@ -158,7 +145,8 @@ class FeedProductModel {
   }
 }
 
-///
+enum FeedProductType { GIFT, BOOKING }
+
 ///
 ///
 /// 피드 포스트 상세 모델
@@ -208,7 +196,6 @@ class FeedPostDetailModel {
 
 ///
 ///
-///
 /// 피드 상품 상세 컨텐트 프로덕트 모델
 class FeedPostDetailStoreContentData {
   final String title;
@@ -236,7 +223,6 @@ class FeedPostDetailStoreContentData {
   }
 }
 
-///
 ///
 ///
 /// 피드 상품 상세에서 관련 게시글 썸네일 모델
@@ -300,11 +286,12 @@ class ApiService {
     throw Error();
   }
 
-  static Future<List<FeedPostModel>> getPosts(
+// FeedPostDetailModel
+  static Future<List<FeedPostDetailModel>> getPosts(
       {String? searchTerm, String? tagTitle, String? ordering}) async {
     debugPrint('API call getPosts');
 
-    List<FeedPostModel> postInstances = [];
+    List<FeedPostDetailModel> postInstances = [];
 
     final Map<String, String> queryParams = {};
     if (searchTerm != null) {
@@ -325,7 +312,7 @@ class ApiService {
       final responseBody = ResponseModel.fromJson(jsonDecode(response.body));
       final posts = responseBody.data;
       for (var post in posts) {
-        final instance = FeedPostModel.fromJson(post);
+        final instance = FeedPostDetailModel.fromJson(post);
         postInstances.add(instance);
       }
       return postInstances;
@@ -334,7 +321,7 @@ class ApiService {
   }
 
   static Future<FeedPostDetailModel> getPostById(int postId) async {
-    debugPrint('API call getPosts');
+    debugPrint('API call getPostById');
 
     FeedPostDetailModel post;
 

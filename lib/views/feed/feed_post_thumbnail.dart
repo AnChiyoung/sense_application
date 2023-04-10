@@ -183,6 +183,19 @@ class FeedPostListPresenter extends StatefulWidget {
 class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
   // late final feedPosts = context.read<FeedProvider>().feedPosts;
   bool isCarousel = true;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    _pageController = PageController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void toggleCarousel() {
     setState(() {
@@ -207,6 +220,7 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
         ));
       }
       feedPostsWidget = StackedCardCarousel(
+        pageController: _pageController,
         items: items,
         type: StackedCardCarouselType.fadeOutStack,
         initialOffset: 0,

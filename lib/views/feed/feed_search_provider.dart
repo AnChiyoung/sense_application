@@ -7,8 +7,8 @@ class FeedSearchProvider with ChangeNotifier {
   String _searchTerm = '';
   String get searchTerm => _searchTerm;
 
-  List<FeedPostModel> _feedPosts = [];
-  List<FeedPostModel> get feedPosts => _feedPosts;
+  List<FeedPostDetailModel> _feedPosts = [];
+  List<FeedPostDetailModel> get feedPosts => _feedPosts;
 
   final List<FeedProductModel> _feedProducts = [];
   List<FeedProductModel> get feedProducts => _feedProducts;
@@ -26,7 +26,6 @@ class FeedSearchProvider with ChangeNotifier {
   Future<void> searchPost() async {
     debugPrint('searchPost()');
     _feedPosts = await ApiService.getPosts(searchTerm: _searchTerm);
-    debugPrint('_feedPosts: $_feedPosts');
     notifyListeners();
   }
 }
