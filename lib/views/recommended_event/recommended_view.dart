@@ -47,80 +47,74 @@ class _RecommendedTagSectionState extends State<RecommendedTagSection> {
 
   List<Widget> categoryWidget = [];
   List<bool> categoryState = [];
+  List<List<RecommendedModel>> allRecommendedModels = [];
   List<RecommendedModel> recommendedModels = [];
 
-  List<Widget> dataSet() {
-    categoryWidget = AddEventModel.recommendedModel.map((e) {
+  // List<Widget> dataSet() {
+  //   categoryWidget = AddEventModel.recommendedModel.map((e) {
+  //
+  //     AddEventModel.recommendedModel.length == categoryState.length ? {} : categoryState.add(false);
+  //
+  //     String tabName = '';
+  //     if(e == 'GIFT') {
+  //       tabName = '선물';
+  //     } else if(e == 'HOTEL') {
+  //       tabName = '호텔';
+  //     } else if(e == 'LUNCH') {
+  //       tabName = '점심';
+  //     } else if(e == 'DINNER') {
+  //       tabName = '저녁';
+  //     } else if(e == 'ACTIVITY') {
+  //       tabName = '액티비티';
+  //     } else if(e == 'BAR') {
+  //       tabName = '술집';
+  //     }
+  //
+  //     return FutureBuilder(
+  //         future: oneBuildFuture(RecommendedApi().getRecommendList(e)),
+  //         builder: (BuildContext context, AsyncSnapshot snapshot) {
+  //           if(snapshot.connectionState == ConnectionState.waiting) {
+  //             return Container();
+  //           } else if(snapshot.connectionState == ConnectionState.done) {
+  //
+  //
+  //
+  //             return Row(
+  //               children: [
+  //                 GestureDetector(
+  //                     onTap: () {
+  //                       setState(() {
+  //                         for(int i = 0; i < categoryState.length; i++) {
+  //                           categoryState[i] = false;
+  //                         }
+  //                         categoryState[AddEventModel.recommendedModel.indexOf(e)] = true;
+  //                       });
+  //                       print(categoryState);
+  //                       // context.read<RecommendedEventProvider>().categoryChange(e);
+  //                     },
+  //                     child: Container(
+  //                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+  //                       height: 36,
+  //                       decoration: BoxDecoration(
+  //                         color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
+  //                         borderRadius: BorderRadius.circular(18.0),
+  //                       ),
+  //                       child: Center(child: Text('$tabName(${recommendedModels.length})', style: TextStyle(fontSize: 14, color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
+  //                     )
+  //                 ),
+  //                 AddEventModel.recommendedModel.indexOf(e) == e.length - 1 || AddEventModel.recommendedModel[AddEventModel.recommendedModel.indexOf(e)] == '' ? const SizedBox() : const SizedBox(width: 4),
+  //               ],
+  //             );
+  //           } else {
+  //             return Container();
+  //           }
+  //         }
+  //     );
+  //   }).toList();
+  //   return categoryWidget;
+  // }
+  //
 
-      AddEventModel.recommendedModel.length == categoryState.length ? {} : categoryState.add(false);
-
-      String tabName = '';
-      if(e == 'GIFT') {
-        tabName = '선물';
-      } else if(e == 'HOTEL') {
-        tabName = '호텔';
-      } else if(e == 'LUNCH') {
-        tabName = '점심';
-      } else if(e == 'DINNER') {
-        tabName = '저녁';
-      } else if(e == 'ACTIVITY') {
-        tabName = '액티비티';
-      } else if(e == 'BAR') {
-        tabName = '술집';
-      }
-
-      return FutureBuilder(
-          future: oneBuildFuture(RecommendedApi().getRecommendList(e)),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if(snapshot.connectionState == ConnectionState.waiting) {
-              return Container();
-            } else if(snapshot.connectionState == ConnectionState.done) {
-
-
-
-              return Row(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          for(int i = 0; i < categoryState.length; i++) {
-                            categoryState[i] = false;
-                          }
-                          categoryState[AddEventModel.recommendedModel.indexOf(e)] = true;
-                        });
-                        print(categoryState);
-                        // context.read<RecommendedEventProvider>().categoryChange(e);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                        height: 36,
-                        decoration: BoxDecoration(
-                          color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
-                          borderRadius: BorderRadius.circular(18.0),
-                        ),
-                        child: Center(child: Text('$tabName(${recommendedModels.length})', style: TextStyle(fontSize: 14, color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
-                      )
-                  ),
-                  AddEventModel.recommendedModel.indexOf(e) == e.length - 1 || AddEventModel.recommendedModel[AddEventModel.recommendedModel.indexOf(e)] == '' ? const SizedBox() : const SizedBox(width: 4),
-                ],
-              );
-            } else {
-              return Container();
-            }
-          }
-      );
-    }).toList();
-    return categoryWidget;
-  }
-
-  oneBuildFuture(Future future) {
-    return this.memoizer.runOnce(() async {
-      await future.then((value) {
-        recommendedModels = value.data();
-      });
-      await Future.delayed(Duration(milliseconds: 1500));
-    });
-  }
 
   // List<Widget> tabSet() {
   //   categoryWidget = List.generate(AddEventModel.recommendedModel.length, (i) {
@@ -154,18 +148,72 @@ class _RecommendedTagSectionState extends State<RecommendedTagSection> {
   //   return categoryWidget;
   // }
 
+
+
   @override
   Widget build(BuildContext context) {
 
-    dataSet();
+    return FutureBuilder(
+      future: oneBuildFuture(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting) {
+          return Container();
+        } else if(snapshot.connectionState == ConnectionState.done) {
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 0),
-      child: Row(
-        children: categoryWidget
-      )
+          // List<RecommendedModel> recommendedModels = snapshot.data;
+          // print(recommendedModels.elementAt(0).recommendType);
+          recommendedModels.map((e) => {
+            /// 모델 분리
+          }).toList();
+
+          /// 선택한 카테고리 별 모델 카운트 로직
+          categoryWidget = AddEventModel.recommendedModel.map((e) {
+            categoryState.add(false);
+            int a = 0;
+            for(int i = 0; i < recommendedModels.length; i++) {
+              recommendedModels[i].recommendType == e ? a++ : {};
+            }
+            return Row(
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        for(int i = 0; i < categoryState.length; i++) {
+                          categoryState[i] = false;
+                        }
+                        categoryState[AddEventModel.recommendedModel.indexOf(e)] = true;
+                      });
+                      print(categoryState);
+                      // context.read<RecommendedEventProvider>().categoryChange(e);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      child: Center(child: Text('$e(${a})', style: TextStyle(fontSize: 14, color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
+                    )
+                ),
+                AddEventModel.recommendedModel.length - 1 == AddEventModel.recommendedModel.indexOf(e) ? const SizedBox() : const SizedBox(width: 4),
+              ],
+            );
+          }).toList();
+
+          return Row(
+            children: categoryWidget,
+          );
+        } else {
+          return Container();
+        }
+      }
     );
   }
+  Future oneBuildFuture() => memoizer.runOnce(() async => {
+    recommendedModels = await RecommendedApi().getRecommendList(''),
+    await Future.delayed(Duration(milliseconds: 1500))
+  });
 }
 
 class RecommendedItemSection extends StatefulWidget {
