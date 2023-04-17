@@ -22,7 +22,7 @@ class _RecommendedScreenState extends State<RecommendedScreen> {
               children: [
                 RecommendedTitle(),
                 RecommendedTagSection(),
-                RecommendedItemSection(),
+                // RecommendedItemSection(),
               ],
             ),
           ],

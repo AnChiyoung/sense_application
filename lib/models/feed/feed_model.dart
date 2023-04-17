@@ -275,6 +275,7 @@ class ApiService {
     final response = await http.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
+      print('success');
       final responseBody = ResponseModel.fromJson(jsonDecode(response.body));
       final tags = responseBody.data;
       for (var tag in tags) {

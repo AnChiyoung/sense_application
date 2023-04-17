@@ -59,13 +59,13 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                     context.read<RecommendedEventProvider>().memoNextButtonStateReset();
                     context.read<RecommendedEventProvider>().regionSelectStateChange(-1);
 
-                    AddEventModel.eventModel = '';
-                    AddEventModel.peopleModel = [];
-                    AddEventModel.sharePeopleModel = [];
-                    AddEventModel.eventDateModel = '';
-                    AddEventModel.eventRecommendedModel = ['', '', '', '', '', ''];
-                    AddEventModel.priceModel = '';
-                    AddEventModel.regionModel = [];
+                    AddEventModel.eventTypeModel = '';
+                    AddEventModel.userModel.clear();
+                    AddEventModel.shareUserModel.clear();
+                    AddEventModel.dateModel = '';
+                    AddEventModel.recommendedModel.clear();
+                    AddEventModel.costModel = '';
+                    AddEventModel.regionModel.clear();
                     AddEventModel.memoModel = '';
 
                     /// route.isFirst는 native splash를 포함하지 않음

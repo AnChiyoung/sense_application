@@ -33,14 +33,20 @@ class RecommendedEventProvider with ChangeNotifier {
   String _editTitle = AddEventModel.eventInfoTitle;
   String get editTitle => _editTitle;
 
-  String _editCategory = AddEventModel.eventModel;
+  String _editCategory = AddEventModel.eventTypeModel;
   String get editCategory => _editCategory;
 
-  String _editDate = AddEventModel.eventDateModel;
+  String _editDate = AddEventModel.dateModel;
   String get editDate => _editDate;
 
   String _editMemo = AddEventModel.memoModel;
   String get editMemo => _editMemo;
+
+  String _selectCategory = '';
+  String get selectCategory => _selectCategory;
+
+  bool _select = false;
+  bool get select => _select;
 
   void nextButtonState(bool state) {
     _buttonState = state;
@@ -109,11 +115,21 @@ class RecommendedEventProvider with ChangeNotifier {
   void titleChange() {
     _editTitle = AddEventModel.eventInfoTitle;
     _editName = AddEventModel.eventInfoName;
-    _editCategory = AddEventModel.eventModel;
-    _editDate = AddEventModel.eventDateModel;
+    _editCategory = AddEventModel.eventTypeModel;
+    _editDate = AddEventModel.dateModel;
     _editMemo = AddEventModel.memoModel;
 
     print(_editTitle + '/' + _editName);
+    notifyListeners();
+  }
+
+  void categoryChange(String category) {
+    _selectCategory = category;
+    notifyListeners();
+  }
+
+  void productSelectState(bool state) {
+    _select = state;
     notifyListeners();
   }
 }

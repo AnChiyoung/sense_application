@@ -82,7 +82,7 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        AddEventModel.eventDateModel = '';
+                        AddEventModel.dateModel = '';
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -230,7 +230,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
     context.read<AddEventProvider>().dateSelectNextButton(true);
 
-    AddEventModel.eventDateModel = viewFormatter.format(selectedDate);
+    AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
   }
 }
 

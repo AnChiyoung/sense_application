@@ -91,6 +91,7 @@ class _RegionSelectCategoryState extends State<RegionSelectCategory> {
           GestureDetector(
             onTap: () {
               setState(() {
+                AddEventModel.regionModel.clear();
                 regionClickReset();
                 state[model.indexOf(e)] = true;
                 context.read<RecommendedEventProvider>().regionSelectStateChange(model.indexOf(e));
@@ -232,8 +233,8 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
                 }
                 containTrueCheck() == true ? context.read<RecommendedEventProvider>().regionNextButtonState(true) : context.read<RecommendedEventProvider>().regionNextButtonState(false);
 
-                /// 리스트 버그 fix 후 테스트
-                print(regionCheckState);
+                /// region model add
+                regionCheckState[rowIndex][model.toList().indexOf(e)] == true ? (AddEventModel.regionModel.contains(e) ? {} : AddEventModel.regionModel.add(e)) : (AddEventModel.regionModel.contains(e) ? AddEventModel.regionModel.remove(e) : {});
               });
             },
             child: Container(

@@ -402,7 +402,7 @@ class _EventInfoNameSectionState extends State<EventInfoNameSection> {
 
   @override
   void initState() {
-    AddEventModel.eventInfoName = AddEventModel.eventModel;
+    AddEventModel.eventInfoName = AddEventModel.eventTypeModel;
     super.initState();
   }
 
@@ -688,11 +688,11 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
               children: [
                 Text('유형', style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTitleColor, fontWeight: FontWeight.w700)),
                 const SizedBox(width: 12),
-                Text(AddEventModel.eventModel.isEmpty ? '미지정' : AddEventModel.eventModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500)),
+                Text(AddEventModel.eventTypeModel.isEmpty ? '미지정' : AddEventModel.eventTypeModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500)),
                 const SizedBox(width: 28),
                 Text('날짜', style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTitleColor, fontWeight: FontWeight.w700)),
                 const SizedBox(width: 12),
-                Text(AddEventModel.eventDateModel.isEmpty ? '미지정' : AddEventModel.eventDateModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500)),
+                Text(AddEventModel.dateModel.isEmpty ? '미지정' : AddEventModel.dateModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500)),
               ],
             ) :
             Row(
@@ -740,7 +740,7 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
                         children: [
                           Text('날짜', style: TextStyle(fontSize: 14, color: StaticColor.editModeInfoTitleColor, fontWeight: FontWeight.w700)),
                           const SizedBox(width: 12),
-                          Text(AddEventModel.eventDateModel.isEmpty ? '미지정' : AddEventModel.eventDateModel, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
+                          Text(AddEventModel.dateModel.isEmpty ? '미지정' : AddEventModel.dateModel, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),
@@ -822,7 +822,7 @@ class _EventInfoRecommendedSectionState extends State<EventInfoRecommendedSectio
           ),
           child: ElevatedButton(
               onPressed: () {
-                print(AddEventModel.eventRecommendedModel);
+                print(AddEventModel.recommendedModel);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedScreen()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: StaticColor.eventInfoRecommendedBoxColor, elevation: 0.0),

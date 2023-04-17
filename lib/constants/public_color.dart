@@ -82,4 +82,6 @@ class StaticColor {
   static Color recommendedCategoryNonSelectColor = const Color(0xFFF6F6F6);
   static Color recommendedCategoryNonSelectTextColor = const Color(0xFF777777);
   static Color recommendedSearchingTextColor = const Color(0xFFBBBBBB);
+  static Color recommendedTextColor = const Color(0xFF151515);
+  static Color recommendedBoxColor = const Color(0xFF2288FF);
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
+import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
 import 'package:sense_flutter_application/models/recommended_event/memo_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/public_widget/show_loading.dart';
 import 'package:sense_flutter_application/screens/recommended_event/event_info_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
@@ -68,7 +71,8 @@ class _MemoDescriptionState extends State<MemoDescription> {
 
   @override
   void initState() {
-    teController = TextEditingController(text: memoDummyModel);
+    // teController = TextEditingController(text: memoDummyModel);
+    teController = TextEditingController();
     super.initState();
   }
 
@@ -122,10 +126,17 @@ class MemoNextButton extends StatefulWidget {
   State<MemoNextButton> createState() => _MemoNextButtonState();
 }
 
-class _MemoNextButtonState extends State<MemoNextButton> {
+class _MemoNextButtonState extends State<MemoNextButton> with SingleTickerProviderStateMixin {
 
+  late AnimationController controller;
   Future backButtonAction(BuildContext context) async {
     context.read<RecommendedEventProvider>().nextButtonReset();
+  }
+
+  @override
+  void initState() {
+    controller = AnimationController(vsync: this);
+    super.initState();
   }
 
   @override
@@ -143,8 +154,47 @@ class _MemoNextButtonState extends State<MemoNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              AddEventModel.editorMode == true ? {AddEventModel.editorMode = false, Navigator.of(context).pop(), context.read<RecommendedEventProvider>().titleChange()} :
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => EventInfoScreen())) : (){};
+              // FutureBuilder<bool>(
+              //     future: RecommendedApi().getRecommendList(AddEventModel.recommendedModel.elementAt(0)),
+              //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+              //       if(snapshot.hasData) {
+              //         return Container();
+              //       } else if(snapshot.hasError){
+              //         return Container();
+              //       } else {
+              //         return Container();
+              //       }
+              //     }
+              // );
+
+
+
+              // var aa = {
+              //   "title": "test",
+              //   "type": "BIRTHDAY",
+              //   // "recommend_type": AddEventModel.recommendedModel.elementAt(0),
+              //   "recommend_type": "ACTIVITY",
+              //   "start_date": "2023-04-15T17:25:03.903Z",
+              //   "max_cost": "25",
+              //   "description": "test",
+              //   "address": ["일산", "대구"],
+              //   "event_users": [1,2,3]
+              // };
+              // var createEventModel = CreateEventModel(
+              //   title: AddEventModel.eventTypeModel,
+              //   eventType: AddEventModel.eventTypeModel,
+              //   recommendedType: AddEventModel.recommendedModel.toString(),
+              //   date: AddEventModel.dateModel,
+              //   cost: AddEventModel.costModel,
+              //   description: AddEventModel.memoModel,
+              //   region: AddEventModel.regionModel.toString(),
+              //   // user: [1],
+              // ).toJson();
+              // print(aa);
+
+              Loading().showLoading(EventInfoScreen(), context, controller, null);
+              // AddEventModel.editorMode == true ? {AddEventModel.editorMode = false, Navigator.of(context).pop(), context.read<RecommendedEventProvider>().titleChange()} :
+              // buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => EventInfoScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(
@@ -157,4 +207,6 @@ class _MemoNextButtonState extends State<MemoNextButton> {
       ),
     );
   }
+
+
 }
