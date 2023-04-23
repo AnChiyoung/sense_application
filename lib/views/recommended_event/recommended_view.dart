@@ -155,6 +155,9 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
       );
     }).toList();
 
+    /// 화면 진입 시, 태그 하나 활성화
+    tagState[0] = true;
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20, top: 12),
       child: Column(
@@ -177,26 +180,20 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
             ),
           ),
           const SizedBox(height: 24),
-          selectModels.isEmpty ? const SizedBox.shrink() : Align(
-              alignment: Alignment.centerLeft,
-              child: Text('나의 선택', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700))),
-          const SizedBox(height: 8),
+
           Consumer<RecommendedEventProvider>(
-            builder: (context, product, child) => modelListSection(selectModels[product.index], product.index)),
-          recommendModels.isEmpty ? const SizedBox.shrink() : Align(
-            alignment: Alignment.centerLeft,
-            child: Text('받은 추천', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700))),
-          const SizedBox(height: 8),
+            builder: (context, product, child) => modelListSection(selectModels[product.index], product.index, 'mine')),
           /// 하위 추천
           Consumer<RecommendedEventProvider>(
-            builder: (context, product, child) => modelListSection(product.selectCategory, product.index)),
+            builder: (context, product, child) => modelListSection(product.selectCategory, product.index, 'recommend')),
           // recommendItemSection!,
         ],
       ),
     );
   }
 
-  Widget modelListSection(List<RecommendedModel> models, [int? index]) {
+  /// 나중에 아이템 모델 새로 만들 것, like, remove, select, data 관련 모델 생성
+  Widget modelListSection(List<RecommendedModel> models, [int? index, String? listType]) {
     /// make model panel list
     modelWidgets = models.map((e) {
       return Column(
@@ -311,7 +308,12 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
                       child: InkWell(
                         onTap: () {
                           selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
-                          selectModels.contains(e) == false ? selectModels[index].add(e) : {};
+                          selectModels[index].contains(e) == false ? {
+                            selectModels[index].add(e),
+                            recommendModels[index].remove(e),
+                            // selectState[index].removeAt(models.indexOf(e)),
+                            // likeState[index].removeAt(models.indexOf(e)),
+                          } : {};
                           context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
                           },
                         child: Center(child: Text('선택하기', style: TextStyle(fontSize: 12, color: StaticColor.recommendedBoxColor, fontWeight: FontWeight.w500))),
@@ -337,7 +339,7 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
                   child: InkWell(
                     onTap: () {
                       selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
-                      selectModels.contains(e) == true ? selectModels.remove(e) : {};
+                      selectModels[index].contains(e) == true ? selectModels[index].remove(e) : {};
                       context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
                     },
                     child: Center(child: Text('취소하기', style: TextStyle(fontSize: 12, color: StaticColor.errorColor, fontWeight: FontWeight.w400))),
@@ -351,7 +353,29 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
     }).toList();
 
     return Column(
-      children: modelWidgets,
+      children: [
+        listType == 'mine' && selectModels[index!].isNotEmpty ? Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              children: [
+                Text('나의 선택', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700)),
+                const SizedBox(height: 8),
+              ],
+            ),
+        ) : const SizedBox.shrink(),
+        listType == 'recommend' && recommendModels[index!].isNotEmpty ? Align(
+          alignment: Alignment.centerLeft,
+          child: Column(
+            children: [
+              Text('받은 추천', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 8),
+            ],
+          ),
+        ) : const SizedBox.shrink(),
+        Column(
+          children: modelWidgets,
+        ),
+      ],
     );
   }
 
