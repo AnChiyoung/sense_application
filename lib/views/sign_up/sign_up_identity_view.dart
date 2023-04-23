@@ -12,6 +12,8 @@ class LoginIdentityVeiw extends StatefulWidget {
 
 class _LoginIdentityVeiw extends State<LoginIdentityVeiw> {
   final certificationController = TextEditingController();
+
+  String aa = 'tt';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +50,7 @@ class _LoginIdentityVeiw extends State<LoginIdentityVeiw> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(20, 16, 0, 24),
                 child: Text(
-                  '010-****-4367로 보내드린\n 인증번호를 입력해주세요.',
+                  '010-****-4367로 보내드린 인증번호를 입력해주세요.',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 24,

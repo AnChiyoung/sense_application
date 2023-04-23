@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import 'dart:collection';
-
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -18,11 +17,16 @@ class Event {
 
 String eventKey = DateFormat('yyyy-MM-dd').format(DateTime.utc(2023,2,18)).toString();
 Map<DateTime, List<Event>> sampleEvent = {
-  DateTime.utc(2023,2,18) : [
+  DateTime.utc(2023,3,1) : [
     Event('SENSE LAUNCHING', '경기도 성남시 분당구 판교', '하루종일'),
     Event('SENSE 회의', '경기도 성남시 분당구 판교', '10am - 11am'),
-    Event('RUNNERS 회의', '경기도 성남시 분당구 판교', '3pm - 7pm'),
     Event('퇴근', '경기도 성남시 분당구 판교', '8pm')],
+  DateTime.utc(2023,3,12) : [
+    Event('생일', '스타벅스 강남점', '3pm - 6pm')],
+  DateTime.utc(2023,3,18) : [
+    Event('탄천 걷기', '서현역 - 죽전역', '6am - 8am'),
+    Event('광장시장 빈대떡', '을지로 3가 광장시장', '12pm - 2pm'),
+    Event('이건희 일대기', '서울 현대미술관', '4pm - 5pm')],
 };
 
 final kEvents = LinkedHashMap<DateTime, List<Event>>(
@@ -64,5 +68,5 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 }
 
 final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+final kFirstDay = DateTime(kToday.year, 1, 1);
+final kLastDay = DateTime(kToday.year + 3, 12, 31);
