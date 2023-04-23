@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../public_widget/alert_dialog.dart';
+import '../../public_widget/alert_dialog_miss_content.dart';
 
 class CalendarAppBar extends StatefulWidget {
   const CalendarAppBar({Key? key}) : super(key: key);

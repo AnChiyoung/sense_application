@@ -4,6 +4,8 @@ class StaticColor {
   // main color
   static Color mainSoft = const Color(0xFF3E97FF);
   static Color mainHard = const Color(0xFF2454FF);
+  static Color errorColor = const Color(0xFFD82020);
+  static Color errorBackgroundColor = const Color(0xFFFFD8D8);
   // calendar sub color
   static Color subFamily = const Color(0xFFFFB45B);
   static Color subLover = const Color(0xFFFF7B8B);
@@ -84,4 +86,6 @@ class StaticColor {
   static Color recommendedSearchingTextColor = const Color(0xFFBBBBBB);
   static Color recommendedTextColor = const Color(0xFF151515);
   static Color recommendedBoxColor = const Color(0xFF2288FF);
+  static Color recommendedLikeBorderColor = const Color(0xFFBBBBBB);
+  static Color recommendedTextColor01 = const Color(0xFF555555);
 }

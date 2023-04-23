@@ -7,7 +7,7 @@ import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
 
 
-import '../../public_widget/alert_dialog.dart';
+import '../../public_widget/alert_dialog_miss_content.dart';
 
 class MovePageList {
   List<Widget> pageList = [

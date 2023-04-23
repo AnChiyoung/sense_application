@@ -1,10 +1,12 @@
 import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
+import 'package:sense_flutter_application/public_widget/alert_dialog_miss_content.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
@@ -28,192 +30,16 @@ class _RecommendedTitleState extends State<RecommendedTitle> {
   Widget menu() {
     return GestureDetector(
         onTap: () {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return const CustomDialog();
+              });
         },
         child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
     );
   }
-}
-
-class RecommendedTagSection extends StatefulWidget {
-  const RecommendedTagSection({Key? key}) : super(key: key);
-
-  @override
-  State<RecommendedTagSection> createState() => _RecommendedTagSectionState();
-}
-
-class _RecommendedTagSectionState extends State<RecommendedTagSection> {
-
-  final AsyncMemoizer memoizer = AsyncMemoizer();
-
-  List<Widget> categoryWidget = [];
-  List<bool> categoryState = [];
-  List<List<RecommendedModel>> allRecommendedModels = [];
-  List<RecommendedModel> recommendedModels = [];
-
-  // List<Widget> dataSet() {
-  //   categoryWidget = AddEventModel.recommendedModel.map((e) {
-  //
-  //     AddEventModel.recommendedModel.length == categoryState.length ? {} : categoryState.add(false);
-  //
-  //     String tabName = '';
-  //     if(e == 'GIFT') {
-  //       tabName = '선물';
-  //     } else if(e == 'HOTEL') {
-  //       tabName = '호텔';
-  //     } else if(e == 'LUNCH') {
-  //       tabName = '점심';
-  //     } else if(e == 'DINNER') {
-  //       tabName = '저녁';
-  //     } else if(e == 'ACTIVITY') {
-  //       tabName = '액티비티';
-  //     } else if(e == 'BAR') {
-  //       tabName = '술집';
-  //     }
-  //
-  //     return FutureBuilder(
-  //         future: oneBuildFuture(RecommendedApi().getRecommendList(e)),
-  //         builder: (BuildContext context, AsyncSnapshot snapshot) {
-  //           if(snapshot.connectionState == ConnectionState.waiting) {
-  //             return Container();
-  //           } else if(snapshot.connectionState == ConnectionState.done) {
-  //
-  //
-  //
-  //             return Row(
-  //               children: [
-  //                 GestureDetector(
-  //                     onTap: () {
-  //                       setState(() {
-  //                         for(int i = 0; i < categoryState.length; i++) {
-  //                           categoryState[i] = false;
-  //                         }
-  //                         categoryState[AddEventModel.recommendedModel.indexOf(e)] = true;
-  //                       });
-  //                       print(categoryState);
-  //                       // context.read<RecommendedEventProvider>().categoryChange(e);
-  //                     },
-  //                     child: Container(
-  //                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-  //                       height: 36,
-  //                       decoration: BoxDecoration(
-  //                         color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
-  //                         borderRadius: BorderRadius.circular(18.0),
-  //                       ),
-  //                       child: Center(child: Text('$tabName(${recommendedModels.length})', style: TextStyle(fontSize: 14, color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
-  //                     )
-  //                 ),
-  //                 AddEventModel.recommendedModel.indexOf(e) == e.length - 1 || AddEventModel.recommendedModel[AddEventModel.recommendedModel.indexOf(e)] == '' ? const SizedBox() : const SizedBox(width: 4),
-  //               ],
-  //             );
-  //           } else {
-  //             return Container();
-  //           }
-  //         }
-  //     );
-  //   }).toList();
-  //   return categoryWidget;
-  // }
-  //
-
-
-  // List<Widget> tabSet() {
-  //   categoryWidget = List.generate(AddEventModel.recommendedModel.length, (i) {
-  //     return Row(
-  //       children: [
-  //         GestureDetector(
-  //             onTap: () {
-  //               setState(() {
-  //                 for(int i = 0; i < categoryState.length; i++) {
-  //                   categoryState[i] = false;
-  //                 }
-  //                 categoryState[i] = true;
-  //               });
-  //               print(categoryState);
-  //               // context.read<RecommendedEventProvider>().categoryChange(e);
-  //             },
-  //             child: Container(
-  //               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-  //               height: 36,
-  //               decoration: BoxDecoration(
-  //                 color: categoryState[i] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
-  //                 borderRadius: BorderRadius.circular(18.0),
-  //               ),
-  //               child: Center(child: Text('${categoryName.elementAt(i)}(${recommendedModels.length})', style: TextStyle(fontSize: 14, color: categoryState[i] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
-  //             )
-  //         ),
-  //         AddEventModel.recommendedModel.length == i ? const SizedBox() : const SizedBox(width: 4),
-  //       ],
-  //     );
-  //   }).toList();
-  //   return categoryWidget;
-  // }
-
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    return FutureBuilder(
-      future: oneBuildFuture(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting) {
-          return Container();
-        } else if(snapshot.connectionState == ConnectionState.done) {
-
-          // List<RecommendedModel> recommendedModels = snapshot.data;
-          // print(recommendedModels.elementAt(0).recommendType);
-          recommendedModels.map((e) => {
-            /// 모델 분리
-          }).toList();
-
-          /// 선택한 카테고리 별 모델 카운트 로직
-          categoryWidget = AddEventModel.recommendedModel.map((e) {
-            categoryState.add(false);
-            int a = 0;
-            for(int i = 0; i < recommendedModels.length; i++) {
-              recommendedModels[i].recommendType == e ? a++ : {};
-            }
-            return Row(
-              children: [
-                GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        for(int i = 0; i < categoryState.length; i++) {
-                          categoryState[i] = false;
-                        }
-                        categoryState[AddEventModel.recommendedModel.indexOf(e)] = true;
-                      });
-                      print(categoryState);
-                      // context.read<RecommendedEventProvider>().categoryChange(e);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      child: Center(child: Text('$e(${a})', style: TextStyle(fontSize: 14, color: categoryState[AddEventModel.recommendedModel.indexOf(e)] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
-                    )
-                ),
-                AddEventModel.recommendedModel.length - 1 == AddEventModel.recommendedModel.indexOf(e) ? const SizedBox() : const SizedBox(width: 4),
-              ],
-            );
-          }).toList();
-
-          return Row(
-            children: categoryWidget,
-          );
-        } else {
-          return Container();
-        }
-      }
-    );
-  }
-  Future oneBuildFuture() => memoizer.runOnce(() async => {
-    recommendedModels = await RecommendedApi().getRecommendList(''),
-    await Future.delayed(Duration(milliseconds: 1500))
-  });
 }
 
 class RecommendedItemSection extends StatefulWidget {
@@ -223,138 +49,391 @@ class RecommendedItemSection extends StatefulWidget {
   State<RecommendedItemSection> createState() => _RecommendedItemSectionState();
 }
 
-class _RecommendedItemSectionState extends State<RecommendedItemSection> with AutomaticKeepAliveClientMixin<RecommendedItemSection> {
+class _RecommendedItemSectionState extends State<RecommendedItemSection> {
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
+  final AsyncMemoizer futureMemoizer = AsyncMemoizer();
 
-    final selectCategory = context.watch<RecommendedEventProvider>().selectCategory;
-    print(selectCategory);
+  /// server response model
+  List<RecommendedModel> serverRecommendModels = [];
 
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-        child: Column(
+  /// server response model tag에 맞게 분리
+  List<List<RecommendedModel>> recommendModels = [];
+
+  /// tag state
+  List<bool> tagState = [];
+
+  /// like state
+  List<List<bool>> likeState = [];
+
+  /// select state
+  List<List<bool>> selectState = [];
+
+  /// tag widget
+  List<Widget> tagWidgets = [];
+
+  /// model widget
+  List<Widget> modelWidgets = [];
+
+  /// select widget
+  List<List<RecommendedModel>> selectModels = [];
+
+  Widget itemSection() {
+    recommendModels.clear();
+
+    /// 태그 별로 모델 삽입할 빈 리스트 생성
+    AddEventModel.recommendedModel.map((e) {
+      recommendModels.length == AddEventModel.recommendedModel.length ? {} :
+          {
+            recommendModels.add([]),
+            likeState.add([]),
+            selectState.add([]),
+            selectModels.add([]),
+          };
+    }).toList();
+
+    /// 모델, 관련 리스트 분리
+    serverRecommendModels.map((e) {
+      for(String element in AddEventModel.recommendedModel) {
+        e.recommendType == element ? {
+          recommendModels[AddEventModel.recommendedModel.indexOf(element)].add(e),
+          likeState[AddEventModel.recommendedModel.indexOf(element)].add(false),
+          selectState[AddEventModel.recommendedModel.indexOf(element)].add(false),
+        } : {};
+      }
+    }).toList();
+
+    /// 태그 위젯 생성
+    tagWidgets = AddEventModel.recommendedModel.map((e) {
+      AddEventModel.recommendedModel.length == tagState.length ? {} : tagState.add(false);
+      String tabName = '';
+      if(e == 'GIFT') {
+        tabName = '선물';
+      } else if(e == 'HOTEL') {
+        tabName = '호텔';
+      } else if(e == 'LUNCH') {
+        tabName = '점심';
+      } else if(e == 'DINNER') {
+        tabName = '저녁';
+      } else if(e == 'ACTIVITY') {
+        tabName = '액티비티';
+      } else if(e == 'BAR') {
+        tabName = '술집';
+      }
+      int a = 0;
+      for(int i = 0; i < serverRecommendModels.length; i++) {
+        serverRecommendModels[i].recommendType == e ? a++ : {};
+      }
+
+      return Consumer<RecommendedEventProvider>(
+        builder: (context, product, child) => Row(
           children: [
-            Align(alignment: Alignment.centerLeft, child: Text('받은 추천', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700))),
-            const SizedBox(height: 8),
-            FutureBuilder(
-              future: RecommendedApi().getRecommendList(selectCategory),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if(snapshot.connectionState == ConnectionState.done) {
-                  List<RecommendedModel> recommendedModels = snapshot.data;
-                  // print(aa.elementAt(0).product!.description);
-                  // List<RecommendedModel> models = snapshot.data;s
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: recommendedModels.length,
-                    itemBuilder: (BuildContext context, int index) {
-
-                      return Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 92,
-                                height: 112,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.0),
-                                  child: CachedNetworkImage(
-                                    progressIndicatorBuilder: (context, url, progress) => Center(
-                                      child: CircularProgressIndicator(
-                                        value: progress.progress,
-                                      ),
-                                    ),
-                                    imageUrl: recommendedModels.elementAt(index).product!.imageUrl!
-                                  ),
-                                ),
-                              )
-                            ]
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                  flex: 1,
-                                  child: Container(
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      color: StaticColor.categoryUnselectedColor,
-                                      borderRadius: BorderRadius.circular(4.0),
-                                    ),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                      },
-                                      style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0, padding: const EdgeInsets.symmetric(horizontal: 0)),
-                                      child: Text('그만보기', style: TextStyle(fontSize: 12, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                                    ),
-                                  ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                flex: 1,
-                                child: Builder(
-                                  builder: (BuildContext buttonContext) {
-                                    bool presentState = false;
-                                    return Container(
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        color: presentState == true ? StaticColor.recommendedBoxColor : Colors.white,
-                                        borderRadius: BorderRadius.circular(4.0),
-                                        border: Border.all(color: StaticColor.recommendedBoxColor, width: 1),
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        shadowColor: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: () {
-                                            presentState = !presentState;
-                                            setState(() {
-
-                                              print(presentState);
-                                            });
-                                          },
-                                          child: Center(child: Text('선택하기', style: TextStyle(fontSize: 12, color: presentState == true ? Colors.white : StaticColor.recommendedBoxColor, fontWeight: FontWeight.w500))),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                ),
-                              )
-                            ]
-                          )
-                        ]
-                      );
-                    }
-                  );
-                } else if(snapshot.connectionState == ConnectionState.waiting) {
-                  // return const CircularProgressIndicator();
-                  return Container();
-                } else {
-                  return Container(
-                      width: double.infinity,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            SizedBox(height: 250),
-                            Image.asset('assets/recommended_event/searching.png', width: 40, height: 40),
-                            SizedBox(height: 24),
-                            Text('플래너가 추천 할 상품을 찾는 중이예요.', style: TextStyle(fontSize: 14, color: StaticColor.recommendedSearchingTextColor, fontWeight: FontWeight.w700)),
-                          ],
-                        ),
-                      )
-                  );
+            GestureDetector(
+              onTap: () {
+                for(int i = 0; i < tagState.length; i++) {
+                  tagState[i] = false;
                 }
-              }
+                tagState[AddEventModel.recommendedModel.indexOf(e)] = true;
+                print('tap index?? : ${AddEventModel.recommendedModel.indexOf(e)}');
+                context.read<RecommendedEventProvider>().tagSelect(recommendModels[AddEventModel.recommendedModel.indexOf(e)], AddEventModel.recommendedModel.indexOf(e));
+                // setState(() {});
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                height: 36,
+                decoration: BoxDecoration(
+                  color: tagState[AddEventModel.recommendedModel.indexOf(e)] == true ? StaticColor.recommendedCategorySelectColor : StaticColor.recommendedCategoryNonSelectColor,
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                child: Center(
+                  child: Text('$tabName(${a})',
+                    style: TextStyle(fontSize: 14, color: tagState[AddEventModel.recommendedModel.indexOf(e)] == true ? Colors.white : StaticColor.recommendedCategoryNonSelectTextColor, fontWeight: FontWeight.w500))),
+              ),
             ),
+            AddEventModel.recommendedModel.length - 1 == AddEventModel.recommendedModel.indexOf(e) ? const SizedBox() : const SizedBox(width: 4),
           ],
         ),
-      )
+      );
+    }).toList();
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 12),
+      child: Column(
+        children: [
+          /// 태그 위젯
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: tagWidgets,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          selectModels.isEmpty ? const SizedBox.shrink() : Align(
+              alignment: Alignment.centerLeft,
+              child: Text('나의 선택', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700))),
+          const SizedBox(height: 8),
+          Consumer<RecommendedEventProvider>(
+            builder: (context, product, child) => modelListSection(selectModels[product.index], product.index)),
+          recommendModels.isEmpty ? const SizedBox.shrink() : Align(
+            alignment: Alignment.centerLeft,
+            child: Text('받은 추천', style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700))),
+          const SizedBox(height: 8),
+          /// 하위 추천
+          Consumer<RecommendedEventProvider>(
+            builder: (context, product, child) => modelListSection(product.selectCategory, product.index)),
+          // recommendItemSection!,
+        ],
+      ),
+    );
+  }
+
+  Widget modelListSection(List<RecommendedModel> models, [int? index]) {
+    /// make model panel list
+    modelWidgets = models.map((e) {
+      return Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4.0),
+                  child: CachedNetworkImage(
+                      progressIndicatorBuilder: (context, url, progress) => Center(
+                        child: CircularProgressIndicator(
+                          value: progress.progress,
+                        ),
+                      ),
+                      imageUrl: e.product!.imageUrl!,
+                      width: 92,
+                      height: 112,
+                      fit: BoxFit.cover
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: SizedBox(
+                    height: 112,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(e.product!.vendor.toString(),
+                                style: TextStyle(fontSize: 12, color: StaticColor.recommendedTextColor01, fontWeight: FontWeight.w400)),
+                            const SizedBox(height: 6),
+                            Text(e.product!.discountRate.toString() == '' ? '해당 상품에 대한 설명이 없습니다' : e.product!.discountRate.toString(),
+                                style: TextStyle(fontSize: 18, color: StaticColor.recommendedTextColor, fontWeight: FontWeight.w700),
+                                overflow: TextOverflow.ellipsis),
+                            /// 반올림 처리, 천의자리 쉼표 구분, 추후 변경
+                            Text(NumberFormat('###,###,###,###').format(double.parse(e.product!.originPrice!).round()) + '원',
+                                style: TextStyle(fontSize: 16, color: StaticColor.recommendedTextColor01, fontWeight: FontWeight.w400)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Image.asset('assets/recommended_event/empty_image_planner.png', width: 20, height: 20),
+                            const SizedBox(width: 4),
+                            Text(e.planner.toString() == '' || e.planner == null ? '플래너 미상' : e.planner.toString(), style: TextStyle(fontSize: 12, color: StaticColor.recommendedTextColor01, fontWeight: FontWeight.w400)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
+                    width: 24.01,
+                    height: 23.99,
+                    child: GestureDetector(
+                      onTap: () {
+                        likeState[index!][models.indexOf(e)] = !likeState[index][models.indexOf(e)];
+                        context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
+                      },
+                      child: SizedBox(
+                          width: 24.01,
+                          height: 23.99,
+                          child: Icon(
+                            likeState[index!][models.indexOf(e)] ? Icons.favorite : Icons.favorite_border,
+                            color: likeState[index][models.indexOf(e)] ? Colors.red : StaticColor.recommendedLikeBorderColor,
+                            size: 18.01,
+                          ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            selectState[index][models.indexOf(e)] == false ?
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: StaticColor.categoryUnselectedColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0, padding: const EdgeInsets.symmetric(horizontal: 0)),
+                      child: Text('그만보기', style: TextStyle(fontSize: 12, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(color: StaticColor.recommendedBoxColor, width: 1),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
+                          selectModels.contains(e) == false ? selectModels[index].add(e) : {};
+                          context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
+                          },
+                        child: Center(child: Text('선택하기', style: TextStyle(fontSize: 12, color: StaticColor.recommendedBoxColor, fontWeight: FontWeight.w500))),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ) :
+            Material(
+              color: Colors.transparent,
+              shadowColor: Colors.transparent,
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: StaticColor.errorBackgroundColor,
+                  borderRadius: BorderRadius.circular(4.0),
+                  // border: Border.all(color: StaticColor.recommendedBoxColor, width: 0),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
+                      selectModels.contains(e) == true ? selectModels.remove(e) : {};
+                      context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
+                    },
+                    child: Center(child: Text('취소하기', style: TextStyle(fontSize: 12, color: StaticColor.errorColor, fontWeight: FontWeight.w400))),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+          ],
+      );
+    }).toList();
+
+    return Column(
+      children: modelWidgets,
+    );
+  }
+
+  Widget Loading() {
+    return SizedBox(
+        width: double.infinity,
+        child: Align(
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              const SizedBox(height: 250),
+              Image.asset('assets/recommended_event/searching.png', width: 40, height: 40),
+              const SizedBox(height: 24),
+              Text('플래너가 추천 할 상품을 찾는 중이예요.', style: TextStyle(fontSize: 14, color: StaticColor.recommendedSearchingTextColor, fontWeight: FontWeight.w700)),
+            ],
+          ),
+        ),
     );
   }
 
   @override
-  bool get wantKeepAlive => true;
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: oneBuildFuture(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting) {
+          return Loading();
+        } else if(snapshot.connectionState == ConnectionState.done) {
+          print('rebuild!!');
+          /// init view
+          return itemSection();
+        } else {
+          return Loading();
+        }
+      },
+    );
+  }
+
+  Future oneBuildFuture() => futureMemoizer.runOnce(() async => {
+    serverRecommendModels = await RecommendedApi().getRecommendList(''),
+    await Future.delayed(const Duration(milliseconds: 1500))
+  });
+}
+
+class LikeButton extends StatefulWidget {
+  final bool isLiked;
+
+  const LikeButton({Key? key, required this.isLiked}) : super(key: key);
+
+  @override
+  State<LikeButton> createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    isLiked = widget.isLiked;
+    super.initState();
+  }
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+    });
+  }
+
+  /// 기존 like button -> ripple effect wipe & tap range change
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: toggleLike,
+      child: Container(
+        width: 24.01,
+        height: 23.99,
+        child: Icon(
+          isLiked ? Icons.favorite : Icons.favorite_border,
+          color: isLiked ? Colors.red : StaticColor.recommendedLikeBorderColor,
+          size: 18.01,
+        ),
+      ),
+    );
+  }
 }

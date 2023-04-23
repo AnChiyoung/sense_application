@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
+import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
 
 class RecommendedEventProvider with ChangeNotifier {
   bool _buttonState = false;
@@ -42,11 +43,23 @@ class RecommendedEventProvider with ChangeNotifier {
   String _editMemo = AddEventModel.memoModel;
   String get editMemo => _editMemo;
 
-  String _selectCategory = '';
-  String get selectCategory => _selectCategory;
+  List<RecommendedModel> _selectCategory = [];
+  List<RecommendedModel> get selectCategory => _selectCategory;
+
+  int _index = 0;
+  int get index => _index;
+
+  List<bool> _likeStateModel = [];
+  List<bool> get likeStateModel => _likeStateModel;
 
   bool _select = false;
   bool get select => _select;
+
+  bool _likeState = false;
+  bool get likeState => _likeState;
+
+  bool _selectState = false;
+  bool get selectState => _selectState;
 
   void nextButtonState(bool state) {
     _buttonState = state;
@@ -123,13 +136,24 @@ class RecommendedEventProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void categoryChange(String category) {
-    _selectCategory = category;
+  void productSelectState(bool state) {
+    _select = state;
     notifyListeners();
   }
 
-  void productSelectState(bool state) {
-    _select = state;
+  void tagSelect(List<RecommendedModel> model, int index) {
+    _selectCategory = model;
+    _index = index;
+    notifyListeners();
+  }
+
+  void likeStateChange(bool state) {
+    _likeState = state;
+    notifyListeners();
+  }
+
+  void selectStateChange(bool state) {
+    _selectState = state;
     notifyListeners();
   }
 }
