@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/views/add_event/add_event_provider.dar
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
+import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'models/login/login_provider.dart';
 import 'native_splash.dart';
@@ -20,6 +21,7 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (_) => LoginProvider()),
       ChangeNotifierProvider(create: (_) => HomeMenuProvider()),
       ChangeNotifierProvider(create: (_) => CalendarProvider()),
       ChangeNotifierProvider(create: (_) => TermProvider()),

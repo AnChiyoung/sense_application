@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LogoImageView extends StatefulWidget {
+class Logo extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
   _LogoPageState createState() => _LogoPageState();
 }
 
-class _LogoPageState extends State<LogoImageView> {
+class _LogoPageState extends State<Logo> {
 
   @override
   Widget build(BuildContext context) {

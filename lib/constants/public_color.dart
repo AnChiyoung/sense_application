@@ -93,4 +93,12 @@ class StaticColor {
   static Color recommendedBoxColor = const Color(0xFF2288FF);
   static Color recommendedLikeBorderColor = const Color(0xFFBBBBBB);
   static Color recommendedTextColor01 = const Color(0xFF555555);
+  // login color
+  static Color loginBackgroundColor = const Color(0xFFF6F6F6);
+  static Color loginTextColor01 = const Color(0xFF999999);
+  static Color loginKakaoColor = const Color(0xFFFEE500);
+  static Color loginTextColor02 = const Color(0xFF333333);
+  static Color loginHintTextColor = const Color(0xFFBBBBBB);
+  static Color loginInputBoxColor = const Color(0xFFF6F6F6);
+  static Color loginTextColor03 = const Color(0xFF555555);
 }

@@ -33,7 +33,7 @@ class _LoginCheck extends State<LoginCheck> {
           MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => LoginPage()));
+          MaterialPageRoute(builder: (context) => LoginScreen()));
     }
   }
 
