@@ -30,8 +30,8 @@ class _NativeSplash extends State<NativeSplash> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        child: const HomeScreen(),
-        // child: const LoginCheck(),
+        // child: const HomeScreen(),
+        child: const LoginCheck(),
         // child: const Center(
         //   child: Text('SENSE APPLICATION'),
 

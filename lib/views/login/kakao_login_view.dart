@@ -18,19 +18,20 @@ class KakaoLoginView extends StatefulWidget {
 class _KakaoLoginPageState extends State<KakaoLoginView> {
   @override
   Widget build(BuildContext context) {
+    print('카카오 로그인 페이지 진입!');
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: CupertinoButton(
           onPressed: () async {
             try {
               OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-              print('카카오톡으로 로그인 성공 ${token}');
-              kakaoLogin(param: token);
+              print('카카오톡으로 로그인 성공! : ${token}');
+              kakaoLoginSequence(param: token);
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LoginPageSrceen()));
               context.read<StepProvider>().resetStep();
             } catch (error) {
-              print('카카오톡으로 로그인 실패 $error');
+              print('카카오톡으로 로그인 실패! : $error');
             }
           },
           color: Colors.yellow,

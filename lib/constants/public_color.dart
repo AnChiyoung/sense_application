@@ -21,6 +21,11 @@ class StaticColor {
   static Color selectScreenDevider = const Color(0xFFEEEEEE);
   static Color selectScreenYear = const Color(0xFF3E97FF);
   static Color rowDevider = const Color(0xFFF8F9FC);
+  static Color shadowColor = const Color(0x2288FF78);
+  static Color headerDevider = const Color(0xFFD2DAE8);
+  static Color dayTextColor = const Color(0xFF555555);
+  static Color dayHighlightColor = const Color(0xFFD6D6D6);
+
   // notify color
   static Color notifyError = const Color(0xFFFF2323);
   static Color notifyWarning = const Color(0xFFFFBC57);

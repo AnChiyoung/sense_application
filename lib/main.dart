@@ -4,14 +4,16 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'models/login/login_provider.dart';
 import 'native_splash.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   KakaoSdk.init(nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd');
@@ -19,11 +21,9 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HomeMenuProvider()),
-      ChangeNotifierProvider(create: (_) => DateProvider()),
+      ChangeNotifierProvider(create: (_) => CalendarProvider()),
       ChangeNotifierProvider(create: (_) => TermProvider()),
       ChangeNotifierProvider(create: (_) => StepProvider()),
-      ChangeNotifierProvider(create: (_) => DateProvider()),
-      ChangeNotifierProvider(create: (_) => PageProvider()),
       ChangeNotifierProvider(create: (_) => AddEventProvider()),
       ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
       ChangeNotifierProvider(create: (_) => FeedProvider()),

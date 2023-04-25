@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../public_widget/alert_dialog_miss_content.dart';
 
@@ -22,6 +23,8 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
     selectMonth = monthList.elementAt(1);
   }
 
+
+
   @override
   void initState() {
     monthListCreate();
@@ -41,28 +44,29 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
           children: [
             Row(children: [
               // bottom sheet full drag up -> page release -> button visible
-              Visibility(
-                visible: context.watch<PageProvider>().isBuilderPage,
-                child: GestureDetector(
-                  onTap: () {
-                    context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
-                    context.read<PageProvider>().bottomSheetHeightController(false);
-                  },
-                  child: Row(
-                    children: [
-                      Image.asset('assets/calendar/only_schedule_page_backbutton.png', width: 10.85, height: 18.95),
-                      SizedBox(width: 14.73),
-                    ],
-                  ),
-                ),
-              ),
+              // Visibility(
+              //   // visible: context.watch<PageProvider>().isBuilderPage,
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       // context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
+              //       // context.read<PageProvider>().bottomSheetHeightController(false);
+              //     },
+              //     child: Row(
+              //       children: [
+              //         Image.asset('assets/calendar/only_schedule_page_backbutton.png', width: 10.85, height: 18.95),
+              //         SizedBox(width: 14.73),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               GestureDetector(
                 onTap: () {},
                 child: Row(
                   children: [
-                    Text('${context.watch<DateProvider>().selectMonth}월', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-                    const SizedBox(width: 8),
-                    Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
+                    Consumer<CalendarProvider>(
+                        builder: (context, data, child) => Text('${data.selectMonth}월', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
+                    // const SizedBox(width: 8),
+                    // Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
                   ],
                 ),
               ),
@@ -76,7 +80,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                     child: Container(
                       width: 24,
                       height: 24,
-                      child: Image.asset('assets/calendar/action_blank.png', width: 24, height: 24),
+                      child: Image.asset('assets/calendar/action_blank.png', color: Colors.black, width: 24, height: 24),
                     ),
                     onTap: () {
                       showDialog(
@@ -96,7 +100,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                       child: Container(
                         width: 24,
                         height: 24,
-                        child: Image.asset('assets/calendar/action_search.png', width: 24, height: 24),
+                        child: Image.asset('assets/calendar/action_search.png', color: Colors.black, width: 24, height: 24),
                       ),
                       onTap: () {
                         showDialog(
@@ -116,7 +120,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                       child: Container(
                         width: 24,
                         height: 24,
-                        child: Image.asset('assets/calendar/action_bell.png', width: 24, height: 24),
+                        child: Image.asset('assets/calendar/action_bell.png', color: Colors.black, width: 24, height: 24),
                       ),
                       onTap: () {
                         showDialog(
@@ -136,4 +140,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
       ),
     );
   }
+}
+
+class PageProvider {
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
-import 'package:sense_flutter_application/screens/calendar/calendar_home_screen.dart';
+import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
 import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
@@ -50,16 +50,26 @@ class _BottomMenuState extends State<BottomMenu> {
           shape: BoxShape.circle,
         ),
         child: Center(
-          child: SizedBox(
+          child: Container(
               width: 24,
               height: 24,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: StaticColor.shadowColor,
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
               child: Image.asset('assets/home/add_event.png'))),
       );
     }
 
     List<BottomNavigationBarItem> bottomNavigationMenu = [
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 18), label: 'feed'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/event.png'), size: 18), label: 'calendar'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 24), label: 'feed'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/event.png'), size: 24), label: 'calendar'),
       BottomNavigationBarItem(icon: addEvent(), label: 'add_event'),
       const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/contact.png'), size: 21), label: 'contact'),
       const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/mypage.png'), size: 24), label: 'mypage'),

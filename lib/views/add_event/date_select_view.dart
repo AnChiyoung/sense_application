@@ -171,6 +171,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TableCalendar(
+          locale: 'ko_KR',
           rowHeight: 44,
           daysOfWeekHeight: 45,
           focusedDay: _focusedDay!,
@@ -203,14 +204,15 @@ class _DateSelectSectionState extends State<DateSelectSection> {
               shape: BoxShape.circle,
             ),
           ),
-          calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
-            return Center(
-                child: Text(days[day.weekday - 1],
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: StaticColor.calendarDowColor,
-                        fontWeight: FontWeight.w700)));
-          })),
+          // calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
+          //   return Center(
+          //       child: Text(days[day.weekday - 1],
+          //           style: TextStyle(
+          //               fontSize: 14,
+          //               color: StaticColor.calendarDowColor,
+          //               fontWeight: FontWeight.w700)));
+          // })
+      ),
     );
   }
 
