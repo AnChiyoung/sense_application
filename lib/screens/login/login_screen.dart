@@ -10,20 +10,26 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      backgroundColor: StaticColor.loginBackgroundColor,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Expanded(child: LogoView()),
-            LoginFormView(),
-            KakaoLoginButton(),
-            SizedBox(height: 8),
-            SigninView(),
-          ],
+    /// when touch for area of another keyboard area, hide to keyboard, into app
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: StaticColor.loginBackgroundColor,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: const [
+              Expanded(child: LogoView()),
+              LoginFormView(),
+              KakaoLoginButton(),
+              SizedBox(height: 8),
+              SigninView(),
+            ],
+          ),
         ),
       ),
     );
