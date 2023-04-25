@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/main_login_screen.dart';
+import 'package:sense_flutter_application/screens/login/login_screen.dart';
 
 class LoginCheck extends StatefulWidget {
   const LoginCheck({super.key});

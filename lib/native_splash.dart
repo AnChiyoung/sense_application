@@ -3,7 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sense_flutter_application/login_check.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_month_select_screen.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/main_login_screen.dart';
+import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/screens/sign_up/sign_up_home_screen.dart';
 
 class NativeSplash extends StatefulWidget {
