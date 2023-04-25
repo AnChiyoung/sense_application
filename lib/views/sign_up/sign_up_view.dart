@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 
 import '../../models/sign_up/sign_up_home_model.dart';
 
-class LoginBodyView extends StatefulWidget {
+class LoginBody extends StatefulWidget {
   @override
   _LoginBodyView createState() => _LoginBodyView();
 }
 
-class _LoginBodyView extends State<LoginBodyView> {
+class _LoginBodyView extends State<LoginBody> {
   final nameController = TextEditingController();
   final socialController = TextEditingController();
   final phoneController = TextEditingController();

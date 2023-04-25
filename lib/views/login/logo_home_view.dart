@@ -17,7 +17,7 @@ class _LogoPageState extends State<LogoImageView> {
       width: MediaQuery.of(context).size.width ,
       child:  Padding(
         padding: EdgeInsets.only(bottom: 40, left:80, right: 80), //apply padding to some sides only
-        child: Image.asset('assets/login/logo_image.png', ),
+        child: Image.asset('assets/login/temperature_logo.png', ),
       ),
     );
   }

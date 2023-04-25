@@ -28,7 +28,7 @@ class _KakaoLoginPageState extends State<KakaoLoginView> {
               print('카카오톡으로 로그인 성공! : ${token}');
               kakaoLoginSequence(param: token);
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPageSrceen()));
+                  MaterialPageRoute(builder: (context) => LoginPageScreen()));
               context.read<StepProvider>().resetStep();
             } catch (error) {
               print('카카오톡으로 로그인 실패! : $error');
@@ -41,7 +41,7 @@ class _KakaoLoginPageState extends State<KakaoLoginView> {
               Padding(
                 padding: const EdgeInsets.only(
                     right: 4), //apply padding to some sides only
-                child: Image.asset('assets/login/simple-icons_kakaotalk.png',
+                child: Image.asset('assets/login/simpleicon_kakao.png',
                     width: 24, height: 24),
               ),
               const Text(

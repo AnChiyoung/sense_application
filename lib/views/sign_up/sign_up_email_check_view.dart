@@ -16,7 +16,7 @@ class _LoginEmailVeiw extends State<LoginEmailVeiw> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SignUpHeaderVeiw(step: '5 / 8'),
+        // appBar: SignupHeader(step: '5 / 8'),
         resizeToAvoidBottomInset: false,
         body: SafeArea(
             minimum: const EdgeInsets.symmetric(horizontal: 16),

@@ -17,7 +17,7 @@ class _LoginIdentityVeiw extends State<LoginIdentityVeiw> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SignUpHeaderVeiw(step: '6 / 6'),
+      // appBar: SignupHeader(step: '6 / 6'),
         resizeToAvoidBottomInset : false,
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 16),
