@@ -5,7 +5,7 @@ import 'package:kakao_flutter_sdk_auth/src/model/oauth_token.dart';
 
 const storage = FlutterSecureStorage();
 
-Future<void> kakaoLoginSequence({required OAuthToken param}) async {
+Future<bool> kakaoLoginSequence({required OAuthToken param}) async {
 
   String jsonData = '';
   var response = await http.post(Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login'), body: {"access_token": param.accessToken});
@@ -18,8 +18,11 @@ Future<void> kakaoLoginSequence({required OAuthToken param}) async {
     print('send token!! : $token');
     await storage.write(
         key: 'login', value: token); // login key에 SecureStorage에 담는다
+
+    return true;
   } else {
-    throw Exception('fail to kakao login');
+    // throw Exception('fail to kakao login');
+    return false;
   }
 }
 

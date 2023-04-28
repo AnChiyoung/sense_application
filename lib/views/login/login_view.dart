@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 
 class LogoView extends StatefulWidget {
@@ -156,7 +157,10 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           color: StaticColor.loginKakaoColor,
           borderRadius: BorderRadius.circular(4.0),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              /// 카카오 로그인 로직 삽입해야 함
+              Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+            },
             borderRadius: BorderRadius.circular(4.0), // inkwell effect's borderradius
             child: SizedBox(
               height: 50,

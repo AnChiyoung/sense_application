@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class StaticColor {
+
+
+  ////////////////////
   // main color
   static Color mainSoft = const Color(0xFF3E97FF);
   static Color mainHard = const Color(0xFF2454FF);
-  static Color errorColor = const Color(0xFFD82020);
+  static Color errorColor = const Color(0xFFF96249);
   static Color errorBackgroundColor = const Color(0xFFFFD8D8);
   // calendar sub color
   static Color subFamily = const Color(0xFFFFB45B);
@@ -101,4 +104,10 @@ class StaticColor {
   static Color loginHintTextColor = const Color(0xFFBBBBBB);
   static Color loginInputBoxColor = const Color(0xFFF6F6F6);
   static Color loginTextColor03 = const Color(0xFF555555);
+  // signin color
+  static Color signinTotalPageColor = const Color(0xFFB5C0D2);
+  static Color signinDescriptionColor = const Color(0xFF333333);
+  static Color signinPolicyColor = const Color(0xFF555555);
+  static Color signinPolicyAddTextColor = const Color(0xFFBBBBBB);
+  static Color signinlabelColor = const Color(0xFF777777);
 }
