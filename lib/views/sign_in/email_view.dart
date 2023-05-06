@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
+import 'package:sense_flutter_application/screens/sign_in/basic_info_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -15,14 +17,9 @@ class EmailHeader extends StatelessWidget {
   }
 }
 
-class EmailDescription extends StatefulWidget {
+class EmailDescription extends StatelessWidget {
   const EmailDescription({Key? key}) : super(key: key);
 
-  @override
-  State<EmailDescription> createState() => _EmailDescriptionState();
-}
-
-class _EmailDescriptionState extends State<EmailDescription> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,7 +30,8 @@ class _EmailDescriptionState extends State<EmailDescription> {
 }
 
 class EmailPasswordInputField extends StatefulWidget {
-  const EmailPasswordInputField({Key? key}) : super(key: key);
+  KakaoUserModel? presetInfo;
+  EmailPasswordInputField({Key? key, this.presetInfo}) : super(key: key);
 
   @override
   State<EmailPasswordInputField> createState() => _EmailPasswordInputFieldState();
@@ -41,7 +39,7 @@ class EmailPasswordInputField extends StatefulWidget {
 
 class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
 
-  TextEditingController emailInputController = TextEditingController();
+  late TextEditingController emailInputController;
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordReinputController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -52,6 +50,17 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
   bool emailState = false;
   bool passwordState = false;
   bool passwordRepeatState = false;
+
+  KakaoUserModel kakaoUserModel = KakaoUserModel();
+
+  @override
+  void initState() {
+    kakaoUserModel = widget.presetInfo!;
+    print('email??????? : ${kakaoUserModel.email}');
+    String email = kakaoUserModel.email ?? '';
+    emailInputController = TextEditingController(text: email);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +92,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                     controller: emailInputController,
                     autofocus: true,
                     focusNode: emailFocusNode,
+                    readOnly: kakaoUserModel.email == null ? false : true,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.always,
                     maxLines: 1,
@@ -268,6 +278,7 @@ class _EmailButtonState extends State<EmailButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
+              buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true

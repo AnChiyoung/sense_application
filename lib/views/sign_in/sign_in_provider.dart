@@ -49,4 +49,39 @@ class SigninProvider with ChangeNotifier {
     _emailPasswordButtonState = state;
     notifyListeners();
   }
+
+  bool _nameValidateState = false;
+  bool get nameValidateState => _nameValidateState;
+
+  void nameValidateStateChange(bool state) {
+    _nameValidateState = state;
+    notifyListeners();
+  }
+
+  List<bool> _stepChange = [true, false, false, false];
+  List<bool> get stepChange => _stepChange;
+
+  void stepChangeState(List<bool> state) {
+    _stepChange = state;
+    notifyListeners();
+  }
+
+  List<bool> _genderChange = [false, false];
+  List<bool> get genderChange => _genderChange;
+
+  void genderChangeState(List<bool> state) {
+    _genderChange = state;
+    notifyListeners();
+  }
+
+  bool _basicInfoButtonState = false;
+  bool get basicInfoButtonState => _basicInfoButtonState;
+  String _phoneNumber = '';
+  String get phoneNumber => _phoneNumber;
+
+  void basicInfoButtonStateChange(bool state, String phoneNumber) {
+    _basicInfoButtonState = state;
+    _phoneNumber = phoneNumber;
+    notifyListeners();
+  }
 }

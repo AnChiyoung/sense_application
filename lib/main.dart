@@ -18,7 +18,9 @@ void main() async {
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  KakaoSdk.init(nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd');
+  KakaoSdk.init(
+      nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
+      javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd');
 
   runApp(MultiProvider(
     providers: [

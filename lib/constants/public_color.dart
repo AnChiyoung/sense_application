@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
 class StaticColor {
-
-
-  ////////////////////
   // main color
   static Color mainSoft = const Color(0xFF3E97FF);
   static Color mainHard = const Color(0xFF2454FF);
   static Color errorColor = const Color(0xFFF96249);
   static Color errorBackgroundColor = const Color(0xFFFFD8D8);
+
+  static Color grey300E0 = const Color(0xFFE0E0E0);
+  static Color grey80033 = const Color(0xFF333333);
+  static Color black90015 = const Color(0xFF151515);
+  static Color grey70055 = const Color(0xFF555555);
+  static Color grey100F6 = const Color(0xFFF6F6F6);
+
+
+  //////
+
   // calendar sub color
   static Color subFamily = const Color(0xFFFFB45B);
   static Color subLover = const Color(0xFFFF7B8B);

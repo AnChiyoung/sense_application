@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/login/login_home_model.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/screens/sign_in/email_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -17,14 +17,9 @@ class PolicyHeader extends StatelessWidget {
   }
 }
 
-class PolicyDescription extends StatefulWidget {
+class PolicyDescription extends StatelessWidget {
   const PolicyDescription({Key? key}) : super(key: key);
 
-  @override
-  State<PolicyDescription> createState() => _PolicyDescriptionState();
-}
-
-class _PolicyDescriptionState extends State<PolicyDescription> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -210,15 +205,31 @@ class _PolicyButtonState extends State<PolicyButton> {
   }
 
   void kakaoLoginTry(BuildContext context) async {
-    try {
-      OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-      print('kakao login success! : token is $token');
-      kakaoLoginSequence(param: token).then((value) => value == true ?
-        Navigator.push(context, MaterialPageRoute(builder: (context) => EmailScreen())) : {});
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => LoginPageScreen()));
-    } catch (error) {
-      print('kakao login fail! : $error');
+    /// 카카오톡 설치 유무 확인
+    bool isInstalled = await isKakaoTalkInstalled();
+    KakaoUserModel? userModel = KakaoUserModel();
+
+    /// auth code get
+    OAuthToken? token;
+    if(isInstalled == true) {
+      try {
+        token = await UserApi.instance.loginWithKakaoTalk();
+        print('token?? : ${token.accessToken}');
+        token == null ? print('kakao token is empty') : {
+
+          /// user info model setup
+          userModel = await KakaoUserInfoModel().getUserInfo(token),
+          print('go!! : ${userModel.email}'),
+          Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
+        };
+      } catch (error) {
+        rethrow;
+      }
+    } else if(isInstalled == false) {
+      token = await UserApi.instance.loginWithKakaoAccount();
+      token == null ? print('kakao token is empty') : {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()))
+      };
     }
   }
 }

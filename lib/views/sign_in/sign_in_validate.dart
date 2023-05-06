@@ -23,4 +23,14 @@ class SigninValidate {
       return true;
     }
   }
+
+  bool nameValidate(String value) {
+    pattern = r"^[가-힣]{2,4}$";
+    RegExp regExp = RegExp(pattern.toString());
+    if(!regExp.hasMatch(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
