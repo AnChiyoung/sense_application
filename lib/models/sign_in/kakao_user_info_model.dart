@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
 
 class KakaoUserInfoModel {
+  static KakaoUserModel? presetInfo;
+  static OAuthToken? userAccessToken;
 
   Future<KakaoUserModel> getUserInfo(OAuthToken token) async {
     final response = await http.get(
@@ -12,10 +12,10 @@ class KakaoUserInfoModel {
         headers: {
           'Authorization': 'Bearer ${token.accessToken}'
     });
-    print(response.body);
     final userInfo = json.decode(response.body)['kakao_account'];
-    print('info? : $userInfo');
     KakaoUserModel returnModel = KakaoUserModel.fromJson(userInfo);
+    /// static variable temperature save
+    presetInfo = returnModel;
 
     return returnModel;
   }

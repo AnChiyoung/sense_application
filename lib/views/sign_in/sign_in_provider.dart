@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 
 class SigninProvider with ChangeNotifier {
   List<bool> _checkState = [false, false, false, false];
@@ -42,7 +43,7 @@ class SigninProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _emailPasswordButtonState = false;
+  bool _emailPasswordButtonState = true;
   bool get emailPasswordButtonState => _emailPasswordButtonState;
 
   void emailPasswordButtonStateChange(bool state) {
@@ -82,6 +83,31 @@ class SigninProvider with ChangeNotifier {
   void basicInfoButtonStateChange(bool state, String phoneNumber) {
     _basicInfoButtonState = state;
     _phoneNumber = phoneNumber;
+    notifyListeners();
+  }
+
+  bool _timerState = false;
+  bool get timerState => _timerState;
+
+  void timerStateChange(bool state) {
+    _timerState = state;
+    notifyListeners();
+  }
+
+  /// 미사용 방식, 추후 기회가 된다면 fit to model about provider 방식으로 구현해볼 것
+  // KakaoUserModel? _kakaoUserModel;
+  // KakaoUserModel? get kakaoUserModel => _kakaoUserModel;
+  //
+  // void kakaoUserPreset(KakaoUserModel model) {
+  //   _kakaoUserModel = model;
+  //   notifyListeners();
+  // }
+
+  bool _timeValidate = false;
+  bool get timeValidate => _timeValidate;
+
+  void timeValidateChange(bool state) {
+    _timeValidate = state;
     notifyListeners();
   }
 }

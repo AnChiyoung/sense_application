@@ -59,6 +59,7 @@ dependencies:
   flutter_swipe_detector: ^2.0.0
   calendar_date_picker2: ^0.5.2
   multi_masked_formatter: ^1.0.0
+  quiver: ^3.2.1
 
 dev_dependencies:
   flutter_test:

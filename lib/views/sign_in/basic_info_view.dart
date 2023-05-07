@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/screens/sign_in/phone_auth_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -44,6 +45,8 @@ class BasicInfoInputField extends StatefulWidget {
 }
 
 class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
+  KakaoUserModel? presetModel = KakaoUserInfoModel.presetInfo;
+  String gender = '';
 
   List<bool> widgetManagement = [true, false, false, false];
   List<bool> genderManagement = [true, false];
@@ -62,6 +65,22 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
   bool birthdayState = false;
   bool genderState = false;
   bool phoneNumberState = false;
+
+  @override
+  void initState() {
+    if(presetModel?.gender == 'mail') {
+      genderManagement = [true, false];
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        context.read<SigninProvider>().genderChangeState(genderManagement);
+      });
+    } else if(presetModel?.gender == 'femail') {
+      genderManagement = [false, true];
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        context.read<SigninProvider>().genderChangeState(genderManagement);
+      });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -290,20 +309,6 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                     alignLabelWithHint: true,
                     errorText: null,
                   ),
-                  validator: (value) {
-                    if (value!.length > 0 && SigninValidate().nameValidate(value!) == false) {
-                      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                        context.read<SigninProvider>().nameValidateStateChange(true);
-                      });
-                      return null;
-                    } else {
-                      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                        context.read<SigninProvider>().nameValidateStateChange(false);
-                      });
-                      return null;
-                    }
-
-                  },
                   onTap: () async {
                     final date = await showDatePicker(
                         initialEntryMode: DatePickerEntryMode.calendarOnly,
@@ -342,7 +347,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                       color: StaticColor.loginInputBoxColor,
                       // color: Colors.red,
                       borderRadius: data.stepChange[1] == true ? BorderRadius.only(bottomLeft: Radius.circular(8.0), bottomRight: Radius.circular(8.0)) : BorderRadius.circular(8.0),
-                      border: Border.all(color: data.emailValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
+                      border: Border.all(color: data.nameValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
                     ),
                   ),
                 ),

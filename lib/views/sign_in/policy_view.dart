@@ -215,6 +215,8 @@ class _PolicyButtonState extends State<PolicyButton> {
       try {
         token = await UserApi.instance.loginWithKakaoTalk();
         print('token?? : ${token.accessToken}');
+        /// saved token for static variable
+        KakaoUserInfoModel.userAccessToken = token;
         token == null ? print('kakao token is empty') : {
 
           /// user info model setup

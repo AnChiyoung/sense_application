@@ -51,13 +51,13 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
   bool passwordState = false;
   bool passwordRepeatState = false;
 
-  KakaoUserModel kakaoUserModel = KakaoUserModel();
+  KakaoUserModel? kakaoUserModel;
 
   @override
   void initState() {
-    kakaoUserModel = widget.presetInfo!;
-    print('email??????? : ${kakaoUserModel.email}');
-    String email = kakaoUserModel.email ?? '';
+    kakaoUserModel = widget.presetInfo;
+    print('email??????? : ${kakaoUserModel?.email}');
+    String email = kakaoUserModel?.email ?? '';
     emailInputController = TextEditingController(text: email);
     super.initState();
   }
@@ -92,7 +92,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                     controller: emailInputController,
                     autofocus: true,
                     focusNode: emailFocusNode,
-                    readOnly: kakaoUserModel.email == null ? false : true,
+                    readOnly: kakaoUserModel?.email == null ? false : true,
                     textInputAction: TextInputAction.next,
                     autovalidateMode: AutovalidateMode.always,
                     maxLines: 1,
@@ -164,20 +164,20 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                       alignLabelWithHint: true,
                     ),
                     validator: (value) {
-                      passwordState = false;
-                      if (value!.length > 0 && SigninValidate().passwordValidate(value) == false) {
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().passwordValidateStateChange(true);
-                        });
-                        return '영문 소문자, 숫자 포함 6~16글자로 입력해주세요';
-                      } else {
-                        value.length > 0 ? passwordState = true : passwordState = false;
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().passwordValidateStateChange(false);
-                          context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
-                        });
-                        return null;
-                      }
+                      // passwordState = false;
+                      // if (value!.length > 0 && SigninValidate().passwordValidate(value) == false) {
+                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                      //     context.read<SigninProvider>().passwordValidateStateChange(true);
+                      //   });
+                      //   return '영문 소문자, 숫자 포함 6~16글자로 입력해주세요';
+                      // } else {
+                      //   value.length > 0 ? passwordState = true : passwordState = false;
+                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                      //     context.read<SigninProvider>().passwordValidateStateChange(false);
+                      //     context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
+                      //   });
+                      //   return null;
+                      // }
                     },
                     onFieldSubmitted: (f) {
                       FocusScope.of(context).requestFocus(passwordRepeatFocusNode);
@@ -224,20 +224,20 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                       alignLabelWithHint: true,
                     ),
                     validator: (value) {
-                      if (value!.length > 0 && inputPassword != value) {
-                        passwordRepeatState = false;
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().repeatPasswordValidateStateChange(true);
-                        });
-                        return '비밀번호가 일치하지 않아요';
-                      } else {
-                        value.length > 0 ? passwordRepeatState = true : passwordRepeatState = false;
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().repeatPasswordValidateStateChange(false);
-                          context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
-                        });
-                        return null;
-                      }
+                      // if (value!.length > 0 && inputPassword != value) {
+                      //   passwordRepeatState = false;
+                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                      //     context.read<SigninProvider>().repeatPasswordValidateStateChange(true);
+                      //   });
+                      //   return '비밀번호가 일치하지 않아요';
+                      // } else {
+                      //   value.length > 0 ? passwordRepeatState = true : passwordRepeatState = false;
+                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                      //     // context.read<SigninProvider>().repeatPasswordValidateStateChange(false);
+                      //     // context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
+                      //   });
+                      //   return null;
+                      // }
                     },
                   ),
                 ),
@@ -278,7 +278,8 @@ class _EmailButtonState extends State<EmailButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
+              // buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
+              Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen()));
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true
