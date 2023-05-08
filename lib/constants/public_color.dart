@@ -6,12 +6,16 @@ class StaticColor {
   static Color mainHard = const Color(0xFF2454FF);
   static Color errorColor = const Color(0xFFF96249);
   static Color errorBackgroundColor = const Color(0xFFFFD8D8);
+  static Color textErrorColor = const Color(0xFFD82020);
 
   static Color grey300E0 = const Color(0xFFE0E0E0);
   static Color grey80033 = const Color(0xFF333333);
   static Color black90015 = const Color(0xFF151515);
   static Color grey70055 = const Color(0xFF555555);
   static Color grey100F6 = const Color(0xFFF6F6F6);
+  static Color grey400BB = const Color(0xFFBBBBBB);
+  static Color grey60077 = const Color(0xFF777777);
+  static Color grey200EE = const Color(0xFFEEEEEE);
 
 
   //////

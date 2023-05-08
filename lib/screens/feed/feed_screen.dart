@@ -11,13 +11,18 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: const [
-        FeedHeader(),
-        FeedTagList(),
-        FeedPostList(),
-      ],
+    return Scaffold(
+      body: SafeArea(
+        bottom: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: const [
+            FeedHeader(),
+            FeedTagList(),
+            FeedPostList(),
+          ],
+        ),
+      ),
     );
   }
 }

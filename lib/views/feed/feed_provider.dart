@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/models/feed/comment_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 
 class FeedProvider with ChangeNotifier {
@@ -30,4 +31,41 @@ class FeedProvider with ChangeNotifier {
   }
 
   void searchFeed(String searchTerm) {}
+
+
+  /// 2023.05.08.
+  List<bool> _sortState = [false, true];
+  List<bool> get sortState => _sortState;
+
+  void sortStateChange(List<bool> state) {
+    _sortState = state;
+    notifyListeners();
+  }
+
+  bool _commentState = false;
+  bool get commentState => _commentState;
+
+  void commentStateChange(bool state) {
+    _commentState = state;
+    notifyListeners();
+  }
+
+  bool _commentFieldUpdate = false;
+  bool get commentFieldUpdate => _commentFieldUpdate;
+  int _commentCount = CommentModel.description.length;
+  int get commentCount => _commentCount;
+
+  void commentFieldUpdateChange(bool state) {
+    _commentFieldUpdate = state;
+    _commentCount = CommentModel.description.length;
+    notifyListeners();
+  }
+
+  List<bool> _reportReason = [false, false, false, false, false];
+  List<bool> get reportReason => _reportReason;
+
+  void reportReasonStateChange(List<bool> state) {
+    _reportReason = state;
+    notifyListeners();
+  }
 }

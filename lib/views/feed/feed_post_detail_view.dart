@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/feed/comment_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
+import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
+import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
 class FeedPostDetail extends StatefulWidget {
   final int postId;
@@ -15,6 +20,9 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
 
   @override
   Widget build(BuildContext context) {
+
+    final safeAreaTopPadding = MediaQuery.of(context).padding.top;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -97,70 +105,131 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
 
                 const tags = ['힐링스팟', '카페', '투어', '한정판', '클래스', '데이트 코스'];
 
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PostDetailBanner(
-                        imageUrl: post.bannerImageUrl ?? '',
-                        title: bannerTitle,
-                        desc: bannerDesc,
-                        created: created,
-                        likeCount: likeCount,
-                        isLiked: isLiked,
-                      ),
-                      const PostDetailTitle(
-                        title: title,
-                        eventPeriodLabel: eventPeriodLabel,
-                        eventPeriod: eventPeriod,
-                      ),
-                      const Divider(
-                        indent: 20,
-                        endIndent: 20,
-                        height: 1,
-                        thickness: 1,
-                        color: Color(0xFFEEEEEE),
-                      ),
-                      const PostDetailParagraph(text: p1),
-                      const PostDetailParagraph(text: p2),
-                      const PostDetailTitleParagraph(
-                        title: tpTitle1,
-                        desc: tpDecs1,
-                      ),
-                      const PostDetailImageParagraph(
-                        title: ipTitle1,
-                        imageUrl: ipSrc1,
-                        desc: ipDecs1,
-                        tmi: ipTmi,
-                      ),
-                      const PostDetailParagraph(text: p3),
-                      const SizedBox(height: 24),
-                      Column(
+                final commentCount = context.watch<FeedProvider>().commentCount;
+
+                return Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FeedPostDetailStoreContent(content: product1),
-                          FeedPostDetailStoreContent(content: product2),
+                          PostDetailBanner(
+                            imageUrl: post.bannerImageUrl ?? '',
+                            title: bannerTitle,
+                            desc: bannerDesc,
+                            created: created,
+                            likeCount: likeCount,
+                            isLiked: isLiked,
+                          ),
+                          const PostDetailTitle(
+                            title: title,
+                            eventPeriodLabel: eventPeriodLabel,
+                            eventPeriod: eventPeriod,
+                          ),
+                          const Divider(
+                            indent: 20,
+                            endIndent: 20,
+                            height: 1,
+                            thickness: 1,
+                            color: Color(0xFFEEEEEE),
+                          ),
+                          const PostDetailParagraph(text: p1),
+                          const PostDetailParagraph(text: p2),
+                          const PostDetailTitleParagraph(
+                            title: tpTitle1,
+                            desc: tpDecs1,
+                          ),
+                          const PostDetailImageParagraph(
+                            title: ipTitle1,
+                            imageUrl: ipSrc1,
+                            desc: ipDecs1,
+                            tmi: ipTmi,
+                          ),
+                          const PostDetailParagraph(text: p3),
+                          const SizedBox(height: 24),
+                          Column(
+                            children: [
+                              FeedPostDetailStoreContent(content: product1),
+                              FeedPostDetailStoreContent(content: product2),
+                            ],
+                          ),
+                          const PostDetailImageParagraph(
+                            title: ipTitle2,
+                            subtitle: ipSubtitle2,
+                            imageUrl: ipSrc2,
+                            desc: ipDecs2,
+                          ),
+                          Column(
+                            children: [
+                              FeedPostDetailStoreContent(content: product3),
+                              FeedPostDetailStoreContent(content: product4),
+                            ],
+                          ),
+                          const PostDetailParagraph(text: p4),
+                          const PostDetailTags(tags: tags),
+                          const SizedBox(height: 40),
+                          const RelatedPosts(),
+                          const Notice(),
+                          const SizedBox(height: 80),
                         ],
                       ),
-                      const PostDetailImageParagraph(
-                        title: ipTitle2,
-                        subtitle: ipSubtitle2,
-                        imageUrl: ipSrc2,
-                        desc: ipDecs2,
+                    ),
+                    Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: StaticColor.grey400BB,
+                            blurRadius: 1,
+                            offset: const Offset(0, -1),
+                          )
+                        ]
                       ),
-                      Column(
-                        children: [
-                          FeedPostDetailStoreContent(content: product3),
-                          FeedPostDetailStoreContent(content: product4),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                showBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return CommentView(topPadding: safeAreaTopPadding);
+                                  }
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Image.asset('assets/feed/comment_icon.png', width: 24, height: 24, color: StaticColor.grey400BB),
+                                  const SizedBox(width: 4),
+                                  Text(commentCount.toString(), style: TextStyle(fontSize: 16, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                                ]
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                LikeButton(isLiked: isLiked),
+                                Text('4.8M', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                                const SizedBox(width: 4),
+                                IconRippleButton(
+                                  icon: Icons.share_rounded,
+                                  color: StaticColor.grey400BB,
+                                  size: 24,
+                                  padding: 8,
+                                  onPressed: () => {},
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      const PostDetailParagraph(text: p4),
-                      const PostDetailTags(tags: tags),
-                      const SizedBox(height: 40),
-                      const RelatedPosts(),
-                      const Notice(),
-                      const SizedBox(height: 80),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
@@ -845,7 +914,7 @@ class _LikeButtonState extends State<LikeButton> {
   Widget build(BuildContext context) {
     return IconRippleButton(
       icon: isLiked ? Icons.favorite : Icons.favorite_border,
-      color: isLiked ? Colors.red : Colors.white,
+      color: isLiked ? Colors.red : StaticColor.grey400BB,
       size: 24,
       padding: 8,
       onPressed: toggleLike,
@@ -973,20 +1042,20 @@ class PostDetailBanner extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          LikeButton(isLiked: isLiked),
-                          const SizedBox(width: 4),
-                          IconRippleButton(
-                            icon: Icons.share_rounded,
-                            color: Colors.white,
-                            size: 24,
-                            padding: 8,
-                            onPressed: () => {},
-                          )
-                        ],
-                      ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   children: [
+                      //     LikeButton(isLiked: isLiked),
+                      //     const SizedBox(width: 4),
+                      //     IconRippleButton(
+                      //       icon: Icons.share_rounded,
+                      //       color: Colors.white,
+                      //       size: 24,
+                      //       padding: 8,
+                      //       onPressed: () => {},
+                      //     )
+                      //   ],
+                      // ),
                     ],
                   )
                 ],
