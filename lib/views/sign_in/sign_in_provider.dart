@@ -43,7 +43,7 @@ class SigninProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _emailPasswordButtonState = true;
+  bool _emailPasswordButtonState = false;
   bool get emailPasswordButtonState => _emailPasswordButtonState;
 
   void emailPasswordButtonStateChange(bool state) {
@@ -108,6 +108,14 @@ class SigninProvider with ChangeNotifier {
 
   void timeValidateChange(bool state) {
     _timeValidate = state;
+    notifyListeners();
+  }
+
+  bool _resendButton = false;
+  bool get resendButton => _resendButton;
+
+  void resendButtonState(bool state) {
+    _resendButton = state;
     notifyListeners();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
+import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/screens/sign_in/basic_info_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -65,183 +66,157 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
   @override
   Widget build(BuildContext context) {
 
-    String inputPassword = '';
-
     return Form(
       key: formKey,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            Stack(
-              children: [
-                Consumer<SigninProvider>(
-                  builder: (context, data, child) => Container(
-                    height: 68,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: StaticColor.loginInputBoxColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: data.emailValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    controller: emailInputController,
-                    autofocus: true,
-                    focusNode: emailFocusNode,
-                    readOnly: kakaoUserModel?.email == null ? false : true,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.always,
-                    maxLines: 1,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      labelText: '이메일 주소',
-                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                      hintText: '이메일 주소를 입력해 주세요',
-                      hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                      border: InputBorder.none,
-                      alignLabelWithHint: true,
-                    ),
-                    validator: (value) {
-                      if (value!.length > 0 && SigninValidate().emailValidate(value!) == false) {
-                        emailState = false;
-                        /// validate의 렌더링이 완료되지 않은 시점에 provider로 재빌드를 시도하면 marks needs build 에러 송출. 렌더링 프레임 종료 후 실행되도록 변경
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().emailValidateStateChange(true);
-                        });
-                        return '이메일 형식을 확인해 주세요';
-                      } else {
-                        value.length > 0 ? emailState = true : emailState = false;
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().emailValidateStateChange(false);
-                          context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
-                        });
-                        return null;
-                      }
-                    },
-                    onFieldSubmitted: (f) {
-                      FocusScope.of(context).requestFocus(passwordFocusNode);
-                    },
-                  ),
-                ),
-              ],
+            TextFormField(
+              controller: emailInputController,
+              autofocus: true,
+              focusNode: emailFocusNode,
+              readOnly: kakaoUserModel?.email == null ? false : true,
+              textInputAction: TextInputAction.next,
+              autovalidateMode: AutovalidateMode.always,
+              maxLines: 1,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                filled: true,
+                fillColor: StaticColor.loginInputBoxColor,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                alignLabelWithHint: false,
+                labelText: '이메일 주소',
+                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                hintText: '이메일 주소를 입력해 주세요',
+                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if(value!.isNotEmpty) {
+                  if(SigninValidate().emailValidate(value!) == false) {
+                    emailState = false;
+                    return '이메일 형식을 확인해 주세요';
+                  } else {
+                    emailState = true;
+                    return null;
+                  }
+                } else {
+                  emailState = false;
+                  return null;
+                }
+              },
+              onFieldSubmitted: (f) {
+                FocusScope.of(context).requestFocus(passwordFocusNode);
+              },
+              onChanged: (_) {
+                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                  emailState && passwordState && passwordRepeatState == true
+                      ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
+                      : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                });
+              }
             ),
             const SizedBox(height: 8),
-            Stack(
-              children: [
-                Consumer<SigninProvider>(
-                  builder: (context, data, child) => Container(
-                    height: 68,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: StaticColor.loginInputBoxColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: data.passwordValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    controller: passwordController,
-                    focusNode: passwordFocusNode,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.always,
-                    obscureText: true,
-                    maxLines: 1,
-                    maxLength: 16,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      labelText: '비밀번호',
-                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                      hintText: '비밀번호를 입력해 주세요',
-                      hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                      border: InputBorder.none,
-                      alignLabelWithHint: true,
-                    ),
-                    validator: (value) {
-                      // passwordState = false;
-                      // if (value!.length > 0 && SigninValidate().passwordValidate(value) == false) {
-                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                      //     context.read<SigninProvider>().passwordValidateStateChange(true);
-                      //   });
-                      //   return '영문 소문자, 숫자 포함 6~16글자로 입력해주세요';
-                      // } else {
-                      //   value.length > 0 ? passwordState = true : passwordState = false;
-                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                      //     context.read<SigninProvider>().passwordValidateStateChange(false);
-                      //     context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
-                      //   });
-                      //   return null;
-                      // }
-                    },
-                    onFieldSubmitted: (f) {
-                      FocusScope.of(context).requestFocus(passwordRepeatFocusNode);
-                    },
-                    onChanged: (value) {
-                      inputPassword = value;
-                    },
-                  ),
-                ),
-              ],
+            TextFormField(
+              controller: passwordController,
+              focusNode: passwordFocusNode,
+              textInputAction: TextInputAction.next,
+              autovalidateMode: AutovalidateMode.always,
+              obscureText: true,
+              maxLines: 1,
+              maxLength: 16,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                filled: true,
+                fillColor: StaticColor.loginInputBoxColor,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                alignLabelWithHint: false,
+                counterText: '',
+                labelText: '비밀번호',
+                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                hintText: '비밀번호를 입력해 주세요',
+                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if(value!.isNotEmpty) {
+                  if(SigninValidate().passwordValidate(value!) == false) {
+                    passwordState = false;
+                    return '영문 소문자, 숫자 포함 6~16글자로 입력해 주세요';
+                  } else {
+                    SigninInfoModel.password = value;
+                    passwordState = true;
+                    return null;
+                  }
+                } else {
+                  passwordState = false;
+                  return null;
+                }
+              },
+              onFieldSubmitted: (f) {
+                FocusScope.of(context).requestFocus(passwordRepeatFocusNode);
+              },
+              onChanged: (_) {
+                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                  emailState && passwordState && passwordRepeatState == true
+                      ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
+                      : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                });
+              }
             ),
             const SizedBox(height: 8),
-            Stack(
-              children: [
-                Consumer<SigninProvider>(
-                  builder: (context, data, child) => Container(
-                    height: 68,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: StaticColor.loginInputBoxColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                      border: Border.all(color: data.repeatPasswordValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    controller: passwordReinputController,
-                    focusNode: passwordRepeatFocusNode,
-                    textInputAction: TextInputAction.done,
-                    autovalidateMode: AutovalidateMode.always,
-                    obscureText: true,
-                    maxLines: 1,
-                    maxLength: 16,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      counterText: '',
-                      labelText: '비밀번호 확인',
-                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                      hintText: '비밀번호를 확인해 주세요',
-                      hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                      border: InputBorder.none,
-                      alignLabelWithHint: true,
-                    ),
-                    validator: (value) {
-                      // if (value!.length > 0 && inputPassword != value) {
-                      //   passwordRepeatState = false;
-                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                      //     context.read<SigninProvider>().repeatPasswordValidateStateChange(true);
-                      //   });
-                      //   return '비밀번호가 일치하지 않아요';
-                      // } else {
-                      //   value.length > 0 ? passwordRepeatState = true : passwordRepeatState = false;
-                      //   WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                      //     // context.read<SigninProvider>().repeatPasswordValidateStateChange(false);
-                      //     // context.read<SigninProvider>().emailPasswordButtonStateChange(emailState && passwordState && passwordRepeatState);
-                      //   });
-                      //   return null;
-                      // }
-                    },
-                  ),
-                ),
-              ],
+            TextFormField(
+              controller: passwordReinputController,
+              focusNode: passwordRepeatFocusNode,
+              // textInputAction: TextInputAction.done,
+              autovalidateMode: AutovalidateMode.always,
+              obscureText: true,
+              maxLines: 1,
+              maxLength: 16,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                filled: true,
+                fillColor: StaticColor.loginInputBoxColor,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                alignLabelWithHint: false,
+                counterText: '',
+                labelText: '비밀번호 확인',
+                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                hintText: '비밀번호를 확인해 주세요',
+                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if(value!.isNotEmpty) {
+                  if(SigninInfoModel.password != value) {
+                    print('password : ${SigninInfoModel.password}');
+                    print('repeat password : $value');
+                    passwordRepeatState = false;
+                    return '비밀번호가 일치하지 않아요';
+                  } else {
+                    print(emailState.toString() + '\n' + passwordState.toString() + '\n' + passwordRepeatState.toString());
+                    passwordRepeatState = true;
+                    return null;
+                  }
+                } else {
+                  passwordRepeatState = false;
+                  return null;
+                }
+              },
+              onChanged: (_) {
+                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                  emailState && passwordState && passwordRepeatState == true
+                      ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
+                      : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                });
+              },
             ),
           ],
         ),
@@ -278,8 +253,7 @@ class _EmailButtonState extends State<EmailButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              // buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
-              Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen()));
+              buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true

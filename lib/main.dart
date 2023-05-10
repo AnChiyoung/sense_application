@@ -14,6 +14,8 @@ import 'models/login/login_provider.dart';
 import 'native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+/// 375 * 812 (include safe area..)
+
 void main() async {
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +36,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
       ChangeNotifierProvider(create: (_) => FeedProvider()),
       ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
+      ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
       // 여기에 추가하시면 되여
     ],
     child: const MyApp(),

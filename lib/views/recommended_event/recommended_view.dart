@@ -24,7 +24,8 @@ class _RecommendedTitleState extends State<RecommendedTitle> {
   }
 
   void backCallback() {
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 
   Widget menu() {
@@ -307,14 +308,14 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
                       shadowColor: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
-                          selectModels[index].contains(e) == false ? {
-                            selectModels[index].add(e),
-                            recommendModels[index].remove(e),
-                            // selectState[index].removeAt(models.indexOf(e)),
-                            // likeState[index].removeAt(models.indexOf(e)),
-                          } : {};
-                          context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
+                          // selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
+                          // selectModels[index].contains(e) == false ? {
+                          //   selectModels[index].add(e),
+                          //   recommendModels[index].remove(e),
+                          //   // selectState[index].removeAt(models.indexOf(e)),
+                          //   // likeState[index].removeAt(models.indexOf(e)),
+                          // } : {};
+                          // context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
                           },
                         child: Center(child: Text('선택하기', style: TextStyle(fontSize: 12, color: StaticColor.recommendedBoxColor, fontWeight: FontWeight.w500))),
                       ),

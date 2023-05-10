@@ -48,7 +48,8 @@ class _CalendarBodyState extends State<CalendarBody> {
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
-    return kEvents[day] ?? [];
+    // return kEvents[day] ?? [];
+    return [];
   }
 
   // List<Event> _getEventsForRange(DateTime start, DateTime end) {
@@ -87,79 +88,82 @@ class _CalendarBodyState extends State<CalendarBody> {
   @override
   Widget build(BuildContext context) {
 
-    final format = context.watch<CalendarProvider>().calendarFormat;
-
     return Column(
       children: [
-        TableCalendar<Event>(
-            locale: 'ko_KR',
-            calendarFormat: format,
-            focusedDay: _focusedDay!,
-            firstDay: DateTime.utc(DateTime.now().year, 1, 1),
-            lastDay: DateTime.utc(DateTime.now().year, 12, 31),
-            headerVisible: false,
-            daysOfWeekHeight: 40.0,
-            rowHeight: 60.0,
-            calendarStyle: CalendarStyle(
-              outsideDaysVisible: false,
-              /// marker area
-              canMarkersOverflow: false,
-              markersAutoAligned: true,
-              markerSize: 8.0,
-              markerSizeScale: 1.0,
-              markerMargin: const EdgeInsets.only(left: 0.8, right: 0.8, top: 0),
-              markersAlignment: Alignment.bottomCenter,
-              markersMaxCount: 4,
-              markerDecoration: BoxDecoration(
-                color:  StaticColor.mainSoft,
-                shape: BoxShape.circle,
-              ),
-              /// today area
-              isTodayHighlighted: true,
-              todayDecoration: BoxDecoration(
-                color: StaticColor.unSelectedColor,
-                shape: BoxShape.circle,
-              ),
-              cellAlignment: Alignment.topCenter,
-            ),
-            calendarBuilders: CalendarBuilders(
-                selectedBuilder: (context, dateTime, _) {
-                  return selectBuilder(context, dateTime, _, 0);
-                },
-                defaultBuilder: (context, dateTime, _) {
-                  return selectBuilder(context, dateTime, _, 1);
-                },
-                todayBuilder: (context, dateTime, _) {
-                  return selectBuilder(context, dateTime, _, 2);
+        Consumer<CalendarBodyProvider>(
+          builder: (context, data, child) {
+            print('여기 들어옴!');
+            return TableCalendar<Event>(
+                locale: 'ko_KR',
+                calendarFormat: data.calendarFormat,
+                focusedDay: _focusedDay!,
+                firstDay: DateTime.utc(DateTime.now().year, 1, 1),
+                lastDay: DateTime.utc(DateTime.now().year, 12, 31),
+                headerVisible: false,
+                daysOfWeekHeight: 40.0,
+                rowHeight: 60.0,
+                calendarStyle: CalendarStyle(
+                  outsideDaysVisible: false,
+                  /// marker area
+                  canMarkersOverflow: false,
+                  markersAutoAligned: true,
+                  markerSize: 8.0,
+                  markerSizeScale: 1.0,
+                  markerMargin: const EdgeInsets.only(left: 0.8, right: 0.8, top: 0),
+                  markersAlignment: Alignment.bottomCenter,
+                  markersMaxCount: 4,
+                  markerDecoration: BoxDecoration(
+                    color:  StaticColor.mainSoft,
+                    shape: BoxShape.circle,
+                  ),
+                  /// today area
+                  isTodayHighlighted: true,
+                  todayDecoration: BoxDecoration(
+                    color: StaticColor.unSelectedColor,
+                    shape: BoxShape.circle,
+                  ),
+                  cellAlignment: Alignment.topCenter,
+                ),
+                calendarBuilders: CalendarBuilders(
+                    selectedBuilder: (context, dateTime, _) {
+                      return selectBuilder(context, dateTime, _, 0);
+                    },
+                    defaultBuilder: (context, dateTime, _) {
+                      return selectBuilder(context, dateTime, _, 1);
+                    },
+                    todayBuilder: (context, dateTime, _) {
+                      return selectBuilder(context, dateTime, _, 2);
+                    }
+                ),
+                selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                onDaySelected: _onDaySelected,
+                eventLoader: _getEventsForDay,
+                onPageChanged: (date) {
+                  context.read<CalendarProvider>().monthChange(date.month);
                 }
-            ),
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            onDaySelected: _onDaySelected,
-            eventLoader: _getEventsForDay,
-            onPageChanged: (date) {
-              context.read<CalendarProvider>().monthChange(date.month);
-            }
-          // enabledDayPredicate: false,
+              // enabledDayPredicate: false,
+            );
+          },
         ),
-        SwipeDetector(
-          onSwipeUp: (offset) {
-            _addSwipe(SwipeDirection.up);
-            print('up');
-          },
-          onSwipeDown: (offset) {
-            _addSwipe(SwipeDirection.down);
-            print('down');
-          },
-          onSwipeLeft: (offset) {
-            _addSwipe(SwipeDirection.left);
-            print('left');
-          },
-          onSwipeRight: (offset) {
-            _addSwipe(SwipeDirection.right);
-            print('right');
-          },
-          child: Container(width: double.infinity, height: 100),
-        ),
+        // SwipeDetector(
+        //   onSwipeUp: (offset) {
+        //     _addSwipe(SwipeDirection.up);
+        //     print('up');
+        //   },
+        //   onSwipeDown: (offset) {
+        //     _addSwipe(SwipeDirection.down);
+        //     print('down');
+        //   },
+        //   onSwipeLeft: (offset) {
+        //     _addSwipe(SwipeDirection.left);
+        //     print('left');
+        //   },
+        //   onSwipeRight: (offset) {
+        //     _addSwipe(SwipeDirection.right);
+        //     print('right');
+        //   },
+        //   child: Container(width: double.infinity, height: 100),
+        // ),
         // GestureDetector(
         //   onVerticalDragEnd: (details) {
         //     if(details.velocity.pixelsPerSecond.dy < 0) {
@@ -177,33 +181,33 @@ class _CalendarBodyState extends State<CalendarBody> {
         //   ),
         // ),
         const SizedBox(height: 8.0),
-        Expanded(
-          child: ValueListenableBuilder<List<Event>>(
-            valueListenable: _selectedEvents,
-            builder: (context, value, _) {
-              return ListView.builder(
-                controller: scrollController,
-                itemCount: value.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: ListTile(
-                      onTap: () => print('${value[index]}'),
-                      title: Text('${value[index]}'),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
-        ),
+        // Expanded(
+        //   child: ValueListenableBuilder<List<Event>>(
+        //     valueListenable: _selectedEvents,
+        //     builder: (context, value, _) {
+        //       return ListView.builder(
+        //         controller: scrollController,
+        //         itemCount: value.length,
+        //         itemBuilder: (context, index) {
+        //           return Container(
+        //             margin: const EdgeInsets.symmetric(
+        //               horizontal: 12.0,
+        //               vertical: 4.0,
+        //             ),
+        //             decoration: BoxDecoration(
+        //               border: Border.all(),
+        //               borderRadius: BorderRadius.circular(12.0),
+        //             ),
+        //             child: ListTile(
+        //               onTap: () => print('${value[index]}'),
+        //               title: Text('${value[index]}'),
+        //             ),
+        //           );
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }

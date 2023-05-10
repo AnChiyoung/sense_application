@@ -8,6 +8,7 @@ import 'package:sense_flutter_application/screens/sign_in/basic_info_screen.dart
 import 'package:sense_flutter_application/screens/sign_in/email_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/phone_auth_screen.dart';
 import 'package:sense_flutter_application/screens/sign_up/sign_up_home_screen.dart';
+import 'package:sense_flutter_application/temperature_menu.dart';
 
 class NativeSplash extends StatefulWidget {
   const NativeSplash({super.key});
@@ -35,7 +36,8 @@ class _NativeSplash extends State<NativeSplash> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        child: LoginScreen(),
+        // child: LoginScreen(),
+        child: TemperatureMenu(),
         // child: const HomeScreen(),
         // child: const LoginCheck(),
         // child: EmailScreen(),

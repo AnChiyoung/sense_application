@@ -1,0 +1,246 @@
+
+App Thinning Size Report for All Variants of Runner
+
+Variant: sense_flutter_application-10D26FDD-1142-47A2-9099-BCE661746194.ipa
+Supported variant descriptors: [device: iPad8,1, os-version: 12.2], [device: iPad8,3, os-version: 12.2], [device: iPad7,4, os-version: 12.2], [device: iPad8,5, os-version: 12.2], [device: iPad6,4, os-version: 12.2], [device: iPad8,6, os-version: 12.2], [device: iPad8,2, os-version: 12.2], [device: iPad7,1, os-version: 12.2], [device: iPad7,2, os-version: 12.2], [device: iPad8,8, os-version: 12.2], [device: iPad6,3, os-version: 12.2], [device: iPad7,3, os-version: 12.2], [device: iPad11,2, os-version: 12.2], [device: iPad8,4, os-version: 12.2], [device: iPad8,7, os-version: 12.2], [device: iPad11,3, os-version: 12.2], [device: iPad11,1, os-version: 12.2], and [device: iPad11,4, os-version: 12.2]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-1ACC153F-7609-435E-AE44-C6EF9DD7819B.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 11.0] and [device: iPhone8,2, os-version: 11.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-2658556C-6F47-4AA2-BDA5-CD6A365FAA29.ipa
+Supported variant descriptors: [device: iPad7,3, os-version: 13.0], [device: iPad8,1, os-version: 13.0], [device: iPad8,9, os-version: 13.0], [device: iPad8,11, os-version: 13.0], [device: iPad8,2, os-version: 14.0], [device: iPad8,10, os-version: 13.0], [device: iPad8,9, os-version: 14.0], [device: iPad6,4, os-version: 13.0], [device: iPad8,8, os-version: 14.0], [device: iPad13,8, os-version: 14.0], [device: iPad8,5, os-version: 14.0], [device: iPad13,7, os-version: 14.0], [device: iPad13,2, os-version: 14.0], [device: iPad11,3, os-version: 14.0], [device: iPad7,3, os-version: 14.0], [device: iPad13,1, os-version: 14.0], [device: iPad7,1, os-version: 13.0], [device: iPad8,6, os-version: 13.0], [device: iPad11,1, os-version: 13.0], [device: iPad8,4, os-version: 13.0], [device: iPad8,8, os-version: 13.0], [device: iPad8,7, os-version: 14.0], [device: iPad7,2, os-version: 13.0], [device: iPad6,3, os-version: 13.0], [device: iPad8,1, os-version: 14.0], [device: iPad8,11, os-version: 14.0], [device: iPad8,6, os-version: 14.0], [device: iPad11,4, os-version: 14.0], [device: iPad11,4, os-version: 13.0], [device: iPad8,3, os-version: 13.0], [device: iPad8,12, os-version: 13.0], [device: iPad13,6, os-version: 14.0], [device: iPad6,3, os-version: 14.0], [device: iPad7,1, os-version: 14.0], [device: MacFamily20,1, os-version: 14.0], [device: iPad8,4, os-version: 14.0], [device: iPad6,4, os-version: 14.0], [device: iPad11,2, os-version: 14.0], [device: iPad8,5, os-version: 13.0], [device: iPad13,9, os-version: 14.0], [device: iPad7,4, os-version: 13.0], [device: iPad8,12, os-version: 14.0], [device: iPad11,1, os-version: 14.0], [device: iPad7,4, os-version: 14.0], [device: iPad13,5, os-version: 14.0], [device: iPad8,7, os-version: 13.0], [device: iPad7,2, os-version: 14.0], [device: iPad13,4, os-version: 14.0], [device: iPad13,11, os-version: 14.0], [device: iPad11,3, os-version: 13.0], [device: iPad13,10, os-version: 14.0], [device: iPad8,10, os-version: 14.0], [device: iPad8,2, os-version: 13.0], [device: iPad11,2, os-version: 13.0], and [device: iPad8,3, os-version: 14.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-29FC2340-083A-463B-868A-EC8C1C343211.ipa
+Supported variant descriptors: [device: iPad13,10, os-version: 15.0], [device: iPad8,4, os-version: 16.0], [device: iPad14,4-B, os-version: 16.0], [device: iPad14,5-B, os-version: 16.0], [device: iPad8,8, os-version: 16.0], [device: iPad13,16, os-version: 16.0], [device: iPad8,2, os-version: 16.0], [device: iPad14,3-B, os-version: 16.0], [device: iPad8,3, os-version: 15.0], [device: iPad8,5, os-version: 15.0], [device: iPad14,1, os-version: 16.0], [device: iPad11,4, os-version: 16.0], [device: iPad8,3, os-version: 16.0], [device: iPad7,1, os-version: 16.0], [device: iPad7,2, os-version: 15.0], [device: iPad13,6, os-version: 16.0], [device: iPad13,10, os-version: 16.0], [device: iPad6,4, os-version: 16.0], [device: iPad14,6-B, os-version: 16.0], [device: iPad13,17, os-version: 16.0], [device: iPad13,2, os-version: 15.0], [device: iPad8,6, os-version: 15.0], [device: iPad6,4, os-version: 15.0], [device: iPad13,11, os-version: 16.0], [device: iPad13,2, os-version: 16.0], [device: iPad8,9, os-version: 15.0], [device: iPad8,12, os-version: 16.0], [device: iPad6,3, os-version: 16.0], [device: iPad13,16, os-version: 15.0], [device: iPad13,6, os-version: 15.0], [device: iPad13,1, os-version: 16.0], [device: iPad13,8, os-version: 16.0], [device: iPad6,3, os-version: 15.0], [device: iPad13,11, os-version: 15.0], [device: iPad8,7, os-version: 16.0], [device: iPad13,8, os-version: 15.0], [device: iPad7,4, os-version: 16.0], [device: MacFamily20,1, os-version: 16.0], [device: iPad14,2, os-version: 16.0], [device: iPad14,3-A, os-version: 16.0], [device: iPad13,4, os-version: 16.0], [device: iPad7,1, os-version: 15.0], [device: iPad13,4, os-version: 15.0], [device: iPad8,11, os-version: 16.0], [device: iPad14,5-A, os-version: 16.0], [device: iPad8,10, os-version: 16.0], [device: iPad11,2, os-version: 15.0], [device: iPad13,9, os-version: 16.0], [device: iPad7,2, os-version: 16.0], [device: iPad8,5, os-version: 16.0], [device: iPad13,9, os-version: 15.0], [device: iPad11,2, os-version: 16.0], [device: iPad8,1, os-version: 15.0], [device: iPad13,5, os-version: 15.0], [device: iPad8,4, os-version: 15.0], [device: iPad8,12, os-version: 15.0], [device: iPad8,9, os-version: 16.0], [device: iPad11,3, os-version: 15.0], [device: iPad7,4, os-version: 15.0], [device: iPad11,4, os-version: 15.0], [device: iPad13,5, os-version: 16.0], [device: MacFamily20,1, os-version: 15.0], [device: iPad8,7, os-version: 15.0], [device: iPad8,1, os-version: 16.0], [device: iPad14,4-A, os-version: 16.0], [device: iPad11,1, os-version: 16.0], [device: iPad13,7, os-version: 16.0], [device: iPad8,6, os-version: 16.0], [device: iPad14,2, os-version: 15.0], [device: iPad13,7, os-version: 15.0], [device: iPad11,1, os-version: 15.0], [device: iPad13,17, os-version: 15.0], [device: iPad8,10, os-version: 15.0], [device: iPad8,2, os-version: 15.0], [device: iPad7,3, os-version: 16.0], [device: iPad14,6-A, os-version: 16.0], [device: iPad7,3, os-version: 15.0], [device: iPad8,8, os-version: 15.0], [device: iPad14,1, os-version: 15.0], [device: iPad8,11, os-version: 15.0], [device: iPad11,3, os-version: 16.0], and [device: iPad13,1, os-version: 15.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-3769B28A-2CAD-4AD8-B31D-CC2F9BCA1005.ipa
+Supported variant descriptors: [device: iPhone13,1, os-version: 14.0], [device: iPhone11,6, os-version: 13.0], [device: iPhone12,3, os-version: 14.0], [device: iPhone9,2, os-version: 14.0], [device: iPhone10,2, os-version: 14.0], [device: iPhone9,2, os-version: 13.0], [device: iPhone12,3, os-version: 13.0], [device: iPhone10,2, os-version: 13.0], [device: iPhone13,4, os-version: 14.0], [device: iPhone10,3, os-version: 13.0], [device: iPhone9,4, os-version: 14.0], [device: iPhone10,3, os-version: 14.0], [device: iPhone10,6, os-version: 14.0], [device: iPhone13,3, os-version: 14.0], [device: iPhone12,5, os-version: 13.0], [device: iPhone11,6, os-version: 14.0], [device: iPhone9,4, os-version: 13.0], [device: iPhone11,2, os-version: 14.0], [device: iPhone12,5, os-version: 14.0], [device: iPhone11,4, os-version: 13.0], [device: iPhone11,4, os-version: 14.0], [device: iPhone13,2, os-version: 14.0], [device: iPhone10,5, os-version: 13.0], [device: iPhone10,5, os-version: 14.0], [device: iPhone11,2, os-version: 13.0], and [device: iPhone10,6, os-version: 13.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-3AACE3BF-41DC-4F21-AADD-55799D03581F.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 13.0], [device: iPhone11,8, os-version: 14.0], [device: iPhone12,1, os-version: 14.0], and [device: iPhone11,8, os-version: 13.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-4ED9E28F-95B8-4187-A518-CEA7630148F1.ipa
+Supported variant descriptors: [device: iPhone12,8, os-version: 16.0], [device: iPhone9,1, os-version: 15.0], [device: iPhone9,3, os-version: 15.0], [device: iPhone10,4, os-version: 15.0], [device: iPhone10,1, os-version: 15.0], [device: iPhone10,1, os-version: 16.0], [device: iPhone10,4, os-version: 16.0], [device: iPhone12,8, os-version: 15.0], [device: iPhone14,6, os-version: 16.0], and [device: iPhone14,6, os-version: 15.0]
+App + On Demand Resources size: 9.8 MB compressed, 24.4 MB uncompressed
+App size: 9.8 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-5B67D0EF-81A0-47E9-B540-9C350C973F17.ipa
+Supported variant descriptors: [device: iPad6,12, os-version: 12.2], [device: iPad4,6, os-version: 12.2], [device: iPad5,1, os-version: 12.2], [device: iPad4,2, os-version: 12.2], [device: iPad6,8, os-version: 12.2], [device: iPad6,11, os-version: 12.2], [device: iPad4,1, os-version: 12.2], [device: iPad4,7, os-version: 12.2], [device: iPad4,9, os-version: 12.2], [device: iPad7,5, os-version: 12.2], [device: iPad7,6, os-version: 12.2], [device: iPad4,4, os-version: 12.2], [device: iPad5,2, os-version: 12.2], [device: iPad5,3, os-version: 12.2], [device: iPad4,8, os-version: 12.2], [device: iPad4,3, os-version: 12.2], [device: iPad5,4, os-version: 12.2], [device: iPad4,5, os-version: 12.2], and [device: iPad6,7, os-version: 12.2]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-5F542E50-BA90-439E-B77C-D6626181F8D8.ipa
+Supported variant descriptors: [device: iPod9,1, os-version: 15.0], [device: iPhone8,1, os-version: 15.0], and [device: iPhone8,4, os-version: 15.0]
+App + On Demand Resources size: 9.8 MB compressed, 24.4 MB uncompressed
+App size: 9.8 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-7CD3A285-D797-4B31-967C-8BA056866B44.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 12.0], [device: iPhone10,4, os-version: 12.0], [device: iPhone9,1, os-version: 12.0], and [device: iPhone9,3, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-7D949C2E-08A9-48E9-9B46-325010ECB563.ipa
+Supported variant descriptors: [device: iPad5,2, os-version: 11.0], [device: iPad5,3, os-version: 11.0], [device: iPad6,11, os-version: 11.0], [device: iPad6,12, os-version: 11.0], [device: iPad4,5, os-version: 11.0], [device: iPad4,6, os-version: 11.0], [device: iPad7,5, os-version: 11.0], [device: iPad5,1, os-version: 11.0], [device: iPad7,6, os-version: 11.0], [device: iPad5,4, os-version: 11.0], [device: iPad6,7, os-version: 11.0], [device: iPad4,1, os-version: 11.0], [device: iPad6,8, os-version: 11.0], [device: iPad4,7, os-version: 11.0], [device: iPad4,2, os-version: 11.0], [device: iPad4,3, os-version: 11.0], [device: iPad4,8, os-version: 11.0], [device: iPad4,4, os-version: 11.0], and [device: iPad4,9, os-version: 11.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-822725DB-0D39-438A-9A34-6275F675292D.ipa
+Supported variant descriptors: [device: iPad7,5, os-version: 14.0], [device: iPad6,12, os-version: 13.0], [device: iPad5,1, os-version: 13.0], [device: iPad7,5, os-version: 13.0], [device: iPad6,8, os-version: 14.0], [device: iPad7,6, os-version: 14.0], [device: iPad6,11, os-version: 14.0], [device: iPad6,7, os-version: 13.0], [device: iPad5,4, os-version: 13.0], [device: iPad6,12, os-version: 14.0], [device: iPad11,7, os-version: 14.0], [device: iPad7,11, os-version: 14.0], [device: iPad5,3, os-version: 14.0], [device: iPad6,7, os-version: 14.0], [device: iPad7,11, os-version: 13.0], [device: iPad6,8, os-version: 13.0], [device: iPad7,6, os-version: 13.0], [device: iPad5,1, os-version: 14.0], [device: iPad6,11, os-version: 13.0], [device: iPad7,12, os-version: 13.0], [device: iPad7,12, os-version: 14.0], [device: iPad5,3, os-version: 13.0], [device: iPad5,2, os-version: 14.0], [device: iPad5,2, os-version: 13.0], [device: iPad11,6, os-version: 14.0], and [device: iPad5,4, os-version: 14.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-83D1E251-25C3-4F81-A585-F85FFF8F37B0.ipa
+Supported variant descriptors: [device: iPhone9,2, os-version: 12.2], [device: iPhone9,4, os-version: 12.2], [device: iPhone11,4, os-version: 12.2], [device: iPhone10,3, os-version: 12.2], [device: iPhone11,6, os-version: 12.2], [device: iPhone10,6, os-version: 12.2], [device: iPhone10,5, os-version: 12.2], [device: iPhone11,2, os-version: 12.2], and [device: iPhone10,2, os-version: 12.2]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-84697BD3-50D0-4BC8-B728-3643E4B46072.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 15.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-85B36C66-6C7D-4AD1-8A60-A2F8CDA0F24E.ipa
+Supported variant descriptors: [device: iPad11,6, os-version: 16.0], [device: iPad12,1, os-version: 16.0], [device: iPad5,1, os-version: 15.0], [device: iPad12,1, os-version: 15.0], [device: iPad7,5, os-version: 16.0], [device: iPad12,2, os-version: 16.0], [device: iPad12,2, os-version: 15.0], [device: iPad11,7, os-version: 15.0], [device: iPad7,11, os-version: 15.0], [device: iPad6,12, os-version: 16.0], [device: iPad11,6, os-version: 15.0], [device: iPad7,6, os-version: 16.0], [device: iPad6,11, os-version: 15.0], [device: iPad11,7, os-version: 16.0], [device: iPad6,7, os-version: 16.0], [device: iPad7,6, os-version: 15.0], [device: iPad5,3, os-version: 15.0], [device: iPad7,12, os-version: 16.0], [device: iPad6,12, os-version: 15.0], [device: iPad6,7, os-version: 15.0], [device: iPad5,4, os-version: 15.0], [device: iPad6,8, os-version: 16.0], [device: iPad13,19, os-version: 16.0], [device: iPad5,2, os-version: 15.0], [device: iPad6,8, os-version: 15.0], [device: iPad7,5, os-version: 15.0], [device: iPad7,12, os-version: 15.0], [device: iPad7,11, os-version: 16.0], [device: iPad13,18, os-version: 16.0], and [device: iPad6,11, os-version: 16.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-8A42E80F-DF81-4107-94E2-6F2856FA1193.ipa
+Supported variant descriptors: [device: iPad6,11, os-version: 12.0], [device: iPad4,4, os-version: 12.0], [device: iPad7,5, os-version: 12.0], [device: iPad4,7, os-version: 12.0], [device: iPad6,8, os-version: 12.0], [device: iPad6,12, os-version: 12.0], [device: iPad5,2, os-version: 12.0], [device: iPad4,8, os-version: 12.0], [device: iPad4,9, os-version: 12.0], [device: iPad5,4, os-version: 12.0], [device: iPad6,7, os-version: 12.0], [device: iPad4,6, os-version: 12.0], [device: iPad4,5, os-version: 12.0], [device: iPad7,6, os-version: 12.0], [device: iPad5,3, os-version: 12.0], [device: iPad5,1, os-version: 12.0], [device: iPad4,1, os-version: 12.0], [device: iPad4,3, os-version: 12.0], and [device: iPad4,2, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-8A589600-7FC8-4152-B9D0-F48F6311B744.ipa
+Supported variant descriptors: [device: iPhone8,4, os-version: 11.0], [device: iPod7,1, os-version: 11.0], [device: iPhone6,1, os-version: 11.0], [device: iPhone8,1, os-version: 11.0], [device: iPhone6,2, os-version: 11.0], and [device: iPhone7,2, os-version: 11.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-931CAEF5-5ABD-44CA-AA51-F19274BE3790.ipa
+Supported variant descriptors: [device: iPod7,1, os-version: 12.2], [device: iPhone6,2, os-version: 12.2], [device: iPhone8,4, os-version: 12.2], [device: iPhone7,2, os-version: 12.2], [device: iPhone6,1, os-version: 12.2], [device: iPod9,1, os-version: 12.2], and [device: iPhone8,1, os-version: 12.2]
+App + On Demand Resources size: 9.8 MB compressed, 24.4 MB uncompressed
+App size: 9.8 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-93BEF241-DF4B-4632-A324-FD71156917FF.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 14.0], [device: iPhone12,8, os-version: 14.0], [device: iPhone10,1, os-version: 13.0], [device: iPhone10,4, os-version: 14.0], [device: iPhone9,1, os-version: 14.0], [device: iPhone9,1, os-version: 13.0], [device: iPhone9,3, os-version: 13.0], [device: iPhone10,4, os-version: 13.0], [device: iPhone9,3, os-version: 14.0], and [device: iPhone12,8, os-version: 13.0]
+App + On Demand Resources size: 9.8 MB compressed, 24.4 MB uncompressed
+App size: 9.8 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-96980982-E44B-45DE-BB4C-79BE18ECF792.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 12.2], [device: iPhone9,3, os-version: 12.2], [device: iPhone10,1, os-version: 12.2], and [device: iPhone10,4, os-version: 12.2]
+App + On Demand Resources size: 9.8 MB compressed, 24.4 MB uncompressed
+App size: 9.8 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-96B71D03-7860-4887-9566-4AD9A9197D50.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-98451AD7-2DB7-4CA1-A64A-4C30807C08A6.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 15.0], [device: iPhone12,1, os-version: 15.0], [device: iPhone12,1, os-version: 16.0], and [device: iPhone11,8, os-version: 16.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-A7D24E5A-AA97-47F5-A0D4-42B150818532.ipa
+Supported variant descriptors: [device: iPhone10,6, os-version: 11.0], [device: iPhone9,2, os-version: 11.0], [device: iPhone9,4, os-version: 11.0], [device: iPhone10,2, os-version: 11.0], [device: iPhone10,5, os-version: 11.0], and [device: iPhone10,3, os-version: 11.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-A9C51997-3313-44DB-BBA8-E812A15B587E.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 11.0], [device: iPhone9,3, os-version: 11.0], [device: iPhone9,1, os-version: 11.0], and [device: iPhone10,4, os-version: 11.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-AB96DC34-3DA6-490E-BB75-118662B7D5C1.ipa
+Supported variant descriptors: [device: iPhone11,6, os-version: 12.0], [device: iPhone9,2, os-version: 12.0], [device: iPhone10,6, os-version: 12.0], [device: iPhone11,4, os-version: 12.0], [device: iPhone11,2, os-version: 12.0], [device: iPhone10,3, os-version: 12.0], [device: iPhone9,4, os-version: 12.0], [device: iPhone10,2, os-version: 12.0], and [device: iPhone10,5, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-ABEAD7D7-DB60-4474-A2E8-AB65A9C6ACA3.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 13.0] and [device: iPhone8,2, os-version: 14.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-B10BA6E5-3353-46AD-9865-3718CA59EA30.ipa
+Supported variant descriptors: [device: iPhone8,4, os-version: 13.0], [device: iPod9,1, os-version: 14.0], [device: iPhone8,1, os-version: 13.0], [device: iPod9,1, os-version: 13.0], [device: iPhone8,4, os-version: 14.0], and [device: iPhone8,1, os-version: 14.0]
+App + On Demand Resources size: 9.8 MB compressed, 24.4 MB uncompressed
+App size: 9.8 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-B9598509-3CD9-4A4D-8071-893663661028.ipa
+Supported variant descriptors: [device: iPhone6,1, os-version: 12.0], [device: iPhone8,4, os-version: 12.0], [device: iPhone7,2, os-version: 12.0], [device: iPod7,1, os-version: 12.0], [device: iPhone6,2, os-version: 12.0], and [device: iPhone8,1, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-BD7132A8-E70B-444F-884D-A33F12AA3AE6.ipa
+Supported variant descriptors: [device: iPad8,2, os-version: 12.0], [device: iPad8,1, os-version: 12.0], [device: iPad8,3, os-version: 12.0], [device: iPad8,4, os-version: 12.0], [device: iPad8,7, os-version: 12.0], [device: iPad8,6, os-version: 12.0], [device: iPad6,4, os-version: 12.0], [device: iPad7,3, os-version: 12.0], [device: iPad7,2, os-version: 12.0], [device: iPad8,5, os-version: 12.0], [device: iPad7,4, os-version: 12.0], [device: iPad8,8, os-version: 12.0], [device: iPad6,3, os-version: 12.0], and [device: iPad7,1, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-C442C46C-A4A2-456B-8A62-BF9505851524.ipa
+Supported variant descriptors: [device: iPad7,2, os-version: 11.0], [device: iPad6,4, os-version: 11.0], [device: iPad7,3, os-version: 11.0], [device: iPad7,4, os-version: 11.0], [device: iPad6,3, os-version: 11.0], and [device: iPad7,1, os-version: 11.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-C8354A4B-69DB-4551-8529-BC23FA09DAB7.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.2]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-CC2EF58E-5D48-4406-AC32-1CB226B1B5B7.ipa
+Supported variant descriptors: [device: iPhone9,4, os-version: 15.0], [device: iPhone10,5, os-version: 15.0], [device: iPhone14,8, os-version: 16.0], [device: iPhone15,3, os-version: 16.0], [device: iPhone13,1, os-version: 15.0], [device: iPhone10,5, os-version: 16.0], [device: iPhone11,6, os-version: 15.0], [device: iPhone14,5, os-version: 16.0], [device: iPhone11,2, os-version: 16.0], [device: iPhone11,4, os-version: 16.0], [device: iPhone10,2, os-version: 16.0], [device: iPhone14,3, os-version: 15.0], [device: iPhone13,2, os-version: 16.0], [device: iPhone13,4, os-version: 15.0], [device: iPhone14,2, os-version: 15.0], [device: iPhone14,7, os-version: 16.0], [device: iPhone15,2, os-version: 16.0], [device: iPhone13,2, os-version: 15.0], [device: iPhone14,5, os-version: 15.0], [device: iPhone10,6, os-version: 15.0], [device: iPhone14,2, os-version: 16.0], [device: iPhone13,3, os-version: 15.0], [device: iPhone12,5, os-version: 16.0], [device: iPhone10,6, os-version: 16.0], [device: iPhone9,2, os-version: 15.0], [device: iPhone14,3, os-version: 16.0], [device: iPhone12,3, os-version: 15.0], [device: iPhone14,4, os-version: 16.0], [device: iPhone11,6, os-version: 16.0], [device: iPhone13,4, os-version: 16.0], [device: iPhone11,4, os-version: 15.0], [device: iPhone10,2, os-version: 15.0], [device: iPhone11,2, os-version: 15.0], [device: iPhone12,3, os-version: 16.0], [device: iPhone10,3, os-version: 15.0], [device: iPhone10,3, os-version: 16.0], [device: iPhone13,1, os-version: 16.0], [device: iPhone13,3, os-version: 16.0], [device: iPhone14,4, os-version: 15.0], and [device: iPhone12,5, os-version: 15.0]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-D3D5F773-5B9B-46D3-827F-524A755B1416.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 12.2] and [device: iPhone8,2, os-version: 12.2]
+App + On Demand Resources size: 9.9 MB compressed, 24.4 MB uncompressed
+App size: 9.9 MB compressed, 24.4 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application-D68DC013-EB20-44FF-BC64-220FFA783AD8.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 12.0] and [device: iPhone7,1, os-version: 12.0]
+App + On Demand Resources size: 12.3 MB compressed, 31.9 MB uncompressed
+App size: 12.3 MB compressed, 31.9 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: sense_flutter_application.ipa
+Supported variant descriptors: Universal
+App + On Demand Resources size: 19.4 MB compressed, 54.6 MB uncompressed
+App size: 19.4 MB compressed, 54.6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed

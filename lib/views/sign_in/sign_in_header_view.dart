@@ -5,8 +5,9 @@ class SigninHeader extends StatefulWidget {
   bool? backButton = false;
   String? title = '';
   bool? closeButton = false;
+  Function? backButtonCallback;
 
-  SigninHeader({Key? key, this.backButton, this.title, this.closeButton}) : super(key: key);
+  SigninHeader({Key? key, this.backButton, this.title, this.closeButton, this.backButtonCallback}) : super(key: key);
 
   @override
   State<SigninHeader> createState() => _SigninHeaderState();
@@ -20,6 +21,7 @@ class _SigninHeaderState extends State<SigninHeader> {
 
   void backCallback() {
     Navigator.of(context).pop();
+    widget.backButtonCallback == null ? {} : widget.backButtonCallback!.call();
   }
 
   void closeCallback() {

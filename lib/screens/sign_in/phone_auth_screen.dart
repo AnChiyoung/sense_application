@@ -31,7 +31,6 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   PhoneAuthHeader(),
                   PhoneAuthDescription(),
                   PhoneAuthInputField(phoneNumber: widget.phoneNumber),
-                  // PhoneAuthButton()
                 ],
               ),
             ),

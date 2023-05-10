@@ -69,6 +69,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                     AddEventModel.memoModel = '';
 
                     /// route.isFirst는 native splash를 포함하지 않음
+                    /// route name 쓰지 않고 화면 스택 정리
                     Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),

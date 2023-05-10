@@ -41,31 +41,30 @@ class KakaoUserModel {
   bool? genderNeedsAgreement;
   String? gender;
 
-  KakaoUserModel(
-      {this.profileNicknameNeedsAgreement,
-        this.profileImageNeedsAgreement,
-        this.profile,
-        this.hasEmail,
-        this.emailNeedsAgreement,
-        this.isEmailValid,
-        this.isEmailVerified,
-        this.email,
-        this.hasAgeRange,
-        this.ageRangeNeedsAgreement,
-        this.ageRange,
-        this.hasBirthday,
-        this.birthdayNeedsAgreement,
-        this.birthday,
-        this.birthdayType,
-        this.hasGender,
-        this.genderNeedsAgreement,
-        this.gender});
+  KakaoUserModel({
+    this.profileNicknameNeedsAgreement,
+    this.profileImageNeedsAgreement,
+    this.profile,
+    this.hasEmail,
+    this.emailNeedsAgreement,
+    this.isEmailValid,
+    this.isEmailVerified,
+    this.email,
+    this.hasAgeRange,
+    this.ageRangeNeedsAgreement,
+    this.ageRange,
+    this.hasBirthday,
+    this.birthdayNeedsAgreement,
+    this.birthday,
+    this.birthdayType,
+    this.hasGender,
+    this.genderNeedsAgreement,
+    this.gender});
 
   KakaoUserModel.fromJson(Map<String, dynamic> json) {
     profileNicknameNeedsAgreement = json['profile_nickname_needs_agreement'];
     profileImageNeedsAgreement = json['profile_image_needs_agreement'];
-    profile =
-    json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
+    profile = json['profile'] != null ? Profile.fromJson(json['profile']) : null;
     hasEmail = json['has_email'];
     emailNeedsAgreement = json['email_needs_agreement'];
     isEmailValid = json['is_email_valid'];
@@ -84,9 +83,8 @@ class KakaoUserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['profile_nickname_needs_agreement'] =
-        this.profileNicknameNeedsAgreement;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['profile_nickname_needs_agreement'] = this.profileNicknameNeedsAgreement;
     data['profile_image_needs_agreement'] = this.profileImageNeedsAgreement;
     if (this.profile != null) {
       data['profile'] = this.profile!.toJson();
@@ -116,11 +114,11 @@ class Profile {
   String? profileImageUrl;
   bool? isDefaultImage;
 
-  Profile(
-      {this.nickname,
-        this.thumbnailImageUrl,
-        this.profileImageUrl,
-        this.isDefaultImage});
+  Profile({
+    this.nickname,
+    this.thumbnailImageUrl,
+    this.profileImageUrl,
+    this.isDefaultImage});
 
   Profile.fromJson(Map<String, dynamic> json) {
     nickname = json['nickname'];
@@ -130,7 +128,7 @@ class Profile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['nickname'] = this.nickname;
     data['thumbnail_image_url'] = this.thumbnailImageUrl;
     data['profile_image_url'] = this.profileImageUrl;

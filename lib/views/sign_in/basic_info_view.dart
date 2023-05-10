@@ -99,7 +99,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         Consumer<SigninProvider>(
             builder: (context, data, child) =>
-            data.stepChange[3] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 1, color: StaticColor.grey300E0)) : const SizedBox.shrink()
+            data.stepChange[3] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 8)) : const SizedBox.shrink()
         ),
         Consumer<SigninProvider>(
           builder: (context, data, child) => AnimatedOpacity(
@@ -114,7 +114,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         Consumer<SigninProvider>(
             builder: (context, data, child) =>
-            data.stepChange[2] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 1, color: StaticColor.grey300E0)) : const SizedBox.shrink()
+            data.stepChange[2] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 8)) : const SizedBox.shrink()
         ),
         Consumer<SigninProvider>(
           builder: (context, data, child) => AnimatedOpacity(
@@ -129,8 +129,9 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         Consumer<SigninProvider>(
           builder: (context, data, child) =>
-          data.stepChange[1] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 1, color: StaticColor.grey300E0)) : const SizedBox.shrink()
+          data.stepChange[1] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 8)) : const SizedBox.shrink()
         ),
+
         Visibility(
           child: nameField(context)
         )
@@ -141,72 +142,53 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
   Widget phoneNumberField(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Consumer<SigninProvider>(
-                builder: (context, data, child) => Container(
-                  height: 68,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: StaticColor.loginInputBoxColor,
-                    // color: Colors.red,
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
-                    // border: Border.all(color: data.emailValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextFormField(
-                  controller: phoneNumberInputController,
-                  autofocus: true,
-                  focusNode: phoneNumberFocusNode,
-                  inputFormatters: [
-                    MultiMaskedTextInputFormatter(masks: ['xxx-xxxx-xxxx', 'xxx-xxx-xxxx'], separator: '-')
-                  ],
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  autovalidateMode: AutovalidateMode.always,
-                  maxLines: 1,
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    labelText: '핸드폰',
-                    labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                    hintText: '000-0000-0000',
-                    hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                    border: InputBorder.none,
-                    alignLabelWithHint: true,
-                    errorText: null,
-                  ),
-                  onTap: () async {
-
-                    // final date = await showDatePicker(
-                    //   initialEntryMode: DatePickerEntryMode.calendarOnly,
-                    //   useRootNavigator: false,
-                    //   context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
-                    // );
-                    // birthdayInputController.text = date.toString().substring(0, 10);
-                    // // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
-                  },
-                  onChanged: (value) {
-                    String sendNumber = value;
-                    if(value.length > 12) {
-                      phoneNumberState = true;
-                    } else {
-                      phoneNumberState = false;
-                    }
-                    print(nameState.toString() + '/' + birthdayState.toString() + '/' + genderState.toString() + '/' + phoneNumberState.toString());
-                    nameState && birthdayState && genderState && phoneNumberState == false ?
-                      context.read<SigninProvider>().basicInfoButtonStateChange(false, '') :
-                      context.read<SigninProvider>().basicInfoButtonStateChange(true, sendNumber.replaceAll('-', ''));
-                  },
-                ),
-              ),
-            ],
-          ),
+      child: TextFormField(
+        controller: phoneNumberInputController,
+        autofocus: true,
+        focusNode: phoneNumberFocusNode,
+        inputFormatters: [
+          MultiMaskedTextInputFormatter(masks: ['xxx-xxxx-xxxx', 'xxx-xxx-xxxx'], separator: '-')
         ],
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.done,
+        autovalidateMode: AutovalidateMode.always,
+        maxLines: 1,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+          filled: true,
+          fillColor: StaticColor.loginInputBoxColor,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          alignLabelWithHint: false,
+          labelText: '핸드폰',
+          labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          hintText: '000-0000-0000',
+          hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+          border: InputBorder.none,
+          errorText: null,
+        ),
+        onTap: () async {
+          // final date = await showDatePicker(
+          //   initialEntryMode: DatePickerEntryMode.calendarOnly,
+          //   useRootNavigator: false,
+          //   context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
+          // );
+          // birthdayInputController.text = date.toString().substring(0, 10);
+          // // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
+        },
+        onChanged: (value) {
+          String sendNumber = value;
+          if(value.length > 12) {
+            phoneNumberState = true;
+          } else {
+            phoneNumberState = false;
+          }
+          print(nameState.toString() + '/' + birthdayState.toString() + '/' + genderState.toString() + '/' + phoneNumberState.toString());
+          nameState && birthdayState && genderState && phoneNumberState == false ?
+            context.read<SigninProvider>().basicInfoButtonStateChange(false, '') :
+            context.read<SigninProvider>().basicInfoButtonStateChange(true, sendNumber.replaceAll('-', ''));
+        },
       ),
     );
   }
@@ -214,58 +196,40 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
   Widget genderField(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Consumer<SigninProvider>(
-                builder: (context, data, child) => Container(
-                  height: 68,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: StaticColor.loginInputBoxColor,
-                    // color: Colors.red,
-                    borderRadius: data.stepChange[3] == true ? BorderRadius.circular(0.0) : BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
-                    // border: Border.all(color: data.emailValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextFormField(
-                    controller: genderInputController,
-                    readOnly: true,
-                    autofocus: true,
-                    focusNode: genderFocusNode,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.always,
-                    maxLines: 1,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      labelText: '성별',
-                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                      hintText: '성별을 선택해 주세요',
-                      hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                      border: InputBorder.none,
-                      alignLabelWithHint: true,
-                      errorText: null,
-                    ),
-                    onTap: () async {
-                      showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [genderSelect(context)]);});
-
-                      // final date = await showDatePicker(
-                      //   initialEntryMode: DatePickerEntryMode.calendarOnly,
-                      //   useRootNavigator: false,
-                      //   context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
-                      // );
-                      // birthdayInputController.text = date.toString().substring(0, 10);
-                      // // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
-                    },
-                ),
-              ),
-            ],
+      child: TextFormField(
+          controller: genderInputController,
+          readOnly: true,
+          autofocus: true,
+          focusNode: genderFocusNode,
+          textInputAction: TextInputAction.next,
+          autovalidateMode: AutovalidateMode.always,
+          maxLines: 1,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+            focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+            errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+            filled: true,
+            fillColor: StaticColor.loginInputBoxColor,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            alignLabelWithHint: false,
+            labelText: '성별',
+            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            hintText: '성별을 선택해 주세요',
+            hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+            border: InputBorder.none,
+            errorText: null,
           ),
-        ],
+          onTap: () async {
+            showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [genderSelect(context)]);});
+
+            // final date = await showDatePicker(
+            //   initialEntryMode: DatePickerEntryMode.calendarOnly,
+            //   useRootNavigator: false,
+            //   context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
+            // );
+            // birthdayInputController.text = date.toString().substring(0, 10);
+            // // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
+          },
       ),
     );
   }
@@ -273,59 +237,41 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
   Widget birthdayField(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        children: [
-          Stack(
-            children: [
-              Consumer<SigninProvider>(
-                builder: (context, data, child) => Container(
-                  height: 68,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: StaticColor.loginInputBoxColor,
-                    // color: Colors.red,
-                    borderRadius: data.stepChange[2] == true ? BorderRadius.circular(0.0) : BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
-                    border: Border.all(color: data.emailValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextFormField(
-                  controller: birthdayInputController,
-                  readOnly: true,
-                  autofocus: true,
-                  focusNode: birthdayFocusNode,
-                  textInputAction: TextInputAction.next,
-                  autovalidateMode: AutovalidateMode.always,
-                  maxLines: 1,
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    labelText: '생일',
-                    labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                    hintText: 'YYYY - MM - DD',
-                    hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                    border: InputBorder.none,
-                    alignLabelWithHint: true,
-                    errorText: null,
-                  ),
-                  onTap: () async {
-                    final date = await showDatePicker(
-                        initialEntryMode: DatePickerEntryMode.calendarOnly,
-                        useRootNavigator: false,
-                        context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
-                    );
-                    date == null ? {} : birthdayState = true;
-                    birthdayInputController.text = date.toString().substring(0, 10);
-                    widgetManagement[2] = true;
-                    context.read<SigninProvider>().stepChangeState(widgetManagement);
-                    // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
-                  },
-                ),
-              ),
-            ],
-          ),
-        ],
+      child: TextFormField(
+        controller: birthdayInputController,
+        readOnly: true,
+        autofocus: true,
+        focusNode: birthdayFocusNode,
+        textInputAction: TextInputAction.next,
+        autovalidateMode: AutovalidateMode.always,
+        maxLines: 1,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+          errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+          filled: true,
+          fillColor: StaticColor.loginInputBoxColor,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          alignLabelWithHint: false,
+          labelText: '생일',
+          labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+          hintText: 'YYYY - MM - DD',
+          hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+          border: InputBorder.none,
+          errorText: null,
+        ),
+        onTap: () async {
+          final date = await showDatePicker(
+              initialEntryMode: DatePickerEntryMode.calendarOnly,
+              useRootNavigator: false,
+              context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
+          );
+          date == null ? {} : birthdayState = true;
+          birthdayInputController.text = date.toString().substring(0, 10);
+          widgetManagement[2] = true;
+          context.read<SigninProvider>().stepChangeState(widgetManagement);
+          // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
+        },
       ),
     );
   }
@@ -335,65 +281,46 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
       key: formKey,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Consumer<SigninProvider>(
-                  builder: (context, data, child) => Container(
-                    height: 68,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: StaticColor.loginInputBoxColor,
-                      // color: Colors.red,
-                      borderRadius: data.stepChange[1] == true ? BorderRadius.only(bottomLeft: Radius.circular(8.0), bottomRight: Radius.circular(8.0)) : BorderRadius.circular(8.0),
-                      border: Border.all(color: data.nameValidateState == true ? StaticColor.errorColor : Colors.transparent, width: 2),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    controller: nameInputController,
-                    autofocus: true,
-                    focusNode: nameFocusNode,
-                    textInputAction: TextInputAction.next,
-                    autovalidateMode: AutovalidateMode.always,
-                    maxLines: 1,
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      labelText: '이름',
-                      labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-                      hintText: '이름을 입력해 주세요',
-                      hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                      border: InputBorder.none,
-                      alignLabelWithHint: true,
-                    ),
-                    validator: (value) {
-                      if (value!.length > 0 && SigninValidate().nameValidate(value!) == false) {
-                        nameState = false;
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().nameValidateStateChange(true);
-                        });
-                        return '이름은 2~4자의 한글만 가능합니다';
-                      } else {
-                        value.length > 0 ? nameState = true : nameState = false;
-                        WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                          context.read<SigninProvider>().nameValidateStateChange(false);
-                        });
-                        return null;
-                      }
-                    },
-                    onFieldSubmitted: (f) {
-                      widgetManagement[1] = true;
-                      context.read<SigninProvider>().stepChangeState(widgetManagement);
-                      // FocusScope.of(context).requestFocus(passwordFocusNode);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
+        child: TextFormField(
+          controller: nameInputController,
+          autofocus: true,
+          focusNode: nameFocusNode,
+          textInputAction: TextInputAction.next,
+          autovalidateMode: AutovalidateMode.always,
+          maxLines: 1,
+          textAlignVertical: TextAlignVertical.center,
+          decoration: InputDecoration(
+            focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+            errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+            filled: true,
+            fillColor: StaticColor.loginInputBoxColor,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            alignLabelWithHint: false,
+            labelText: '이름',
+            labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+            hintText: '실명을 입력해 주세요',
+            hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+            border: InputBorder.none,
+          ),
+          validator: (value) {
+            if (value!.length > 0 && SigninValidate().nameValidate(value!) == false) {
+              nameState = false;
+              return '이름은 2~7자의 한글만 가능합니다';
+            } else {
+              value.length > 0 ? nameState = true : nameState = false;
+              return null;
+            }
+          },
+          onFieldSubmitted: (f) {
+            widgetManagement[1] = true;
+            context.read<SigninProvider>().stepChangeState(widgetManagement);
+            // FocusScope.of(context).requestFocus(passwordFocusNode);
+          },
+          onChanged: (_) {
+            nameState && birthdayState && genderState && phoneNumberState == true
+                ? context.read<SigninProvider>().basicInfoButtonStateChange(true, phoneNumberInputController.text.replaceAll('-', ''))
+                : context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
+          }
         ),
       ),
     );
