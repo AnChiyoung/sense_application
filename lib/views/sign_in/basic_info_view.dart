@@ -4,6 +4,7 @@ import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
+import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/screens/sign_in/phone_auth_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -184,7 +185,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           } else {
             phoneNumberState = false;
           }
-          print(nameState.toString() + '/' + birthdayState.toString() + '/' + genderState.toString() + '/' + phoneNumberState.toString());
+          // print(nameState.toString() + '/' + birthdayState.toString() + '/' + genderState.toString() + '/' + phoneNumberState.toString());
           nameState && birthdayState && genderState && phoneNumberState == false ?
             context.read<SigninProvider>().basicInfoButtonStateChange(false, '') :
             context.read<SigninProvider>().basicInfoButtonStateChange(true, sendNumber.replaceAll('-', ''));
@@ -266,7 +267,11 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
               useRootNavigator: false,
               context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
           );
-          date == null ? {} : birthdayState = true;
+          date == null ? {} : {
+            birthdayState = true,
+            /// data input
+            SigninModel.birthday = date.toString(),
+          };
           birthdayInputController.text = date.toString().substring(0, 10);
           widgetManagement[2] = true;
           context.read<SigninProvider>().stepChangeState(widgetManagement);
@@ -317,6 +322,9 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
             // FocusScope.of(context).requestFocus(passwordFocusNode);
           },
           onChanged: (_) {
+            /// data input
+            SigninModel.name = nameInputController.text;
+
             nameState && birthdayState && genderState && phoneNumberState == true
                 ? context.read<SigninProvider>().basicInfoButtonStateChange(true, phoneNumberInputController.text.replaceAll('-', ''))
                 : context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
@@ -358,6 +366,9 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
+                      /// data input
+                      SigninModel.gender = '남성';
+
                       genderState = true;
                       genderManagement[0] = true;
                       genderManagement[1] = false;
@@ -392,6 +403,9 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
+                      /// data input
+                      SigninModel.gender = '여성';
+
                       genderState = true;
                       genderManagement[0] = false;
                       genderManagement[1] = true;
@@ -475,6 +489,9 @@ class _BasicInfoAuthButtonState extends State<BasicInfoAuthButton> {
           height: 76,
           child: ElevatedButton(
               onPressed: () {
+                /// data input
+                SigninModel.phone = data.phoneNumber;
+
                 data.basicInfoButtonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => PhoneAuthScreen(phoneNumber: data.phoneNumber))) : {};
               },
               style: ElevatedButton.styleFrom(

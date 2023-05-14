@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 
 class KakaoUserInfoModel {
   static KakaoUserModel? presetInfo;
@@ -16,6 +17,7 @@ class KakaoUserInfoModel {
     KakaoUserModel returnModel = KakaoUserModel.fromJson(userInfo);
     /// static variable temperature save
     presetInfo = returnModel;
+    SigninModel.email = presetInfo!.email;
 
     return returnModel;
   }

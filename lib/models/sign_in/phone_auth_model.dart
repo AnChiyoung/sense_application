@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 
 class PhoneAuthModel {
   Future<bool> phoneAuthRequest(String phoneNumber) async {
@@ -37,10 +36,10 @@ class PhoneAuthModel {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      print('성공이요');
+      print('인증번호 발송 성공');
       return true;
     } else {
-      print('실패예요');
+      print('인증번호 발송에 실패했습니다');
       return false;
       if (kDebugMode) {
         print('error : $response');

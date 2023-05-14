@@ -11,11 +11,6 @@ class SigninProvider with ChangeNotifier {
   void policyCheckStateChange(List<bool> state) {
     _checkState = state;
     (state[0] == true && state[1] == true) ? _signinButtonState = true : _signinButtonState = false;
-    // int checkCount = 0;
-    // for(bool value in state) {
-    //   value == true ? checkCount++ : {};
-    // }
-    // checkCount >= 2 ? _signinButtonState = true : _signinButtonState = false;
     notifyListeners();
   }
 
@@ -111,11 +106,19 @@ class SigninProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _resendButton = false;
-  bool get resendButton => _resendButton;
+  bool _authValidate = false;
+  bool get authValidate => _authValidate;
 
-  void resendButtonState(bool state) {
-    _resendButton = state;
+  void authValidateChange(bool state) {
+    _authValidate = state;
     notifyListeners();
   }
+
+  // bool _resendButton = false;
+  // bool get resendButton => _resendButton;
+  //
+  // void resendButtonState(bool state) {
+  //   _resendButton = state;
+  //   notifyListeners();
+  // }
 }

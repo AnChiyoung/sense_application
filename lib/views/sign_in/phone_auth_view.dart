@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/async.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
+import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -53,13 +55,14 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
   FocusNode authNumberFocusNode = FocusNode();
 
   /// timer field variable
-  int startSeconds = 5;
+  int startSeconds = 180;
   Timer? timer;
   String minute = '';
   String second = '';
   String remainText = '';
 
   void startTimer() {
+    startSeconds = 180;
     timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       minute = (startSeconds.toDouble() / 60.0).toInt().toString();
       second = (startSeconds.toDouble() % 60.0).toInt() == 0
@@ -68,7 +71,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
               ? '0' + (startSeconds.toDouble() % 60.0).toInt().toString()
               : (startSeconds.toDouble() % 60.0).toInt().toString();
       remainText = '유효시간 ' + minute + ':' + second;
-      print(remainText);
+      // print(remainText);
 
       if (startSeconds == 0) {
         context.read<SigninProvider>().timeValidateChange(true);
@@ -116,6 +119,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               controller: authNumberController,
                               autofocus: true,
                               focusNode: authNumberFocusNode,
+                              keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.done,
                               autovalidateMode: AutovalidateMode.always,
                               maxLines: 1,
@@ -137,7 +141,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                 if (data.timeValidate == true) {
                                   return '유효한 시간이 만료되었어요';
                                 } else {
-                                  if (data.resendButton == true) {
+                                  if (data.authValidate == true) {
                                     return '인증번호가 달라요';
                                   } else {
                                     return null;
@@ -146,48 +150,114 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               },
                               onChanged: (value) async {
                                 if (value.length >= 4) {
-                                  await PhoneAuthModel().authNumberCheck(widget.phoneNumber, int.parse(value)) == true
-                                      ? {
-                                          context.read<SigninProvider>().resendButtonState(false),
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              behavior: SnackBarBehavior.floating,
-                                              duration: const Duration(milliseconds: 4000),
-                                              backgroundColor: Colors.white,
-                                              elevation: 0.0,
-                                              padding: const EdgeInsets.symmetric(horizontal: 30),
-                                              margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context).size.height - 130,
-                                              ),
-                                              content: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius: BorderRadius.circular(4.0),
-                                                  border: Border.all(color: StaticColor.snackbarColor, width: 1),
-                                                ),
-                                                child: Row(
-                                                  children: [
-                                                    Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
-                                                    const SizedBox(width: 8),
-                                                    Text('인증에 성공했어요, 회원가입이 완료되었습니다',
-                                                        style: TextStyle(
-                                                            fontSize: 14, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+
+                                  /// 폰 인증번호 일치할 때
+                                  if(await PhoneAuthModel().authNumberCheck(widget.phoneNumber, int.parse(value)) == true) {
+                                    context.read<SigninProvider>().authValidateChange(false);
+
+                                    /// 인증번호 일치할 때
+                                    Map<String, dynamic> signinJson = SigninRequestModel(
+                                      email: SigninModel.email.toString(),
+                                      password: SigninModel.password.toString(),
+                                      name: SigninModel.name.toString(),
+                                      birthday: SigninModel.birthday.toString(),
+                                      gender: SigninModel.gender.toString(),
+                                      phone: SigninModel.phone.toString(),
+                                      authCode: int.parse(authNumberController.text),
+                                    ).toJson();
+
+                                    print(signinJson);
+                                    // if(await SigninModel().signinRequest(authNumberController.text) == true) {
+                                    //   ScaffoldMessenger.of(context).showSnackBar(
+                                    //       SnackBar(
+                                    //         behavior: SnackBarBehavior.floating,
+                                    //         duration: const Duration(milliseconds: 4000),
+                                    //         backgroundColor: Colors.white,
+                                    //         elevation: 0.0,
+                                    //         padding: const EdgeInsets.symmetric(horizontal: 30),
+                                    //         margin: EdgeInsets.only(
+                                    //           bottom: MediaQuery.of(context).size.height - 130,
+                                    //         ),
+                                    //         content: Container(
+                                    //           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    //           decoration: BoxDecoration(
+                                    //             color: Colors.white,
+                                    //             borderRadius: BorderRadius.circular(4.0),
+                                    //             border: Border.all(color: StaticColor.snackbarColor, width: 1),
+                                    //           ),
+                                    //           child: Row(
+                                    //             children: [
+                                    //               Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
+                                    //               const SizedBox(width: 8),
+                                    //               Text('인증에 성공했어요, 회원가입이 완료되었습니다',
+                                    //                   style: TextStyle(
+                                    //                       fontSize: 14, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                    //               ),
+                                    //             ],
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //   );
+                                      // context.read<SigninProvider>().policyCheckStateChange([false, false, false, false]);
+                                      // context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                                      // context.read<SigninProvider>().stepChangeState([true, false, false, false]);
+                                      // context.read<SigninProvider>().genderChangeState([false, false]);
+                                      // Navigator.popUntil(context, (route) => route.isFirst);
+                                    /// 인증번호 일치하지 않을 때
+                                    // } else {
+                                    //   context.read<SigninProvider>().resendButtonState(true);
+                                    // }
+                                    // bool aa = await SigninModel().signinRequest(KakaoUserInfoModel.userAccessToken!.accessToken);
+                                    // print('어떻게 됏노? : ${aa.toString()}');
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        duration: const Duration(milliseconds: 4000),
+                                        backgroundColor: Colors.white,
+                                        elevation: 0.0,
+                                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                                        margin: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).size.height - 130,
+                                        ),
+                                        content: Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            border: Border.all(color: StaticColor.snackbarColor, width: 1),
                                           ),
-                                          Navigator.popUntil(context, (route) => route.isFirst),
-                                        }
-                                      : context.read<SigninProvider>().resendButtonState(true);
+                                          child: Row(
+                                            children: [
+                                              Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
+                                              const SizedBox(width: 8),
+                                              Text('인증에 성공했어요, 회원가입이 완료되었습니다',
+                                                style: TextStyle(
+                                                    fontSize: 14, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                    context.read<SigninProvider>().policyCheckStateChange([false, false, false, false]);
+                                    context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                                    context.read<SigninProvider>().stepChangeState([true, false, false, false]);
+                                    context.read<SigninProvider>().genderChangeState([false, false]);
+                                    context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
+                                    // Navigator.popUntil(context, (route) => route.isFirst);
+
+                                  /// 인증번호 일치하지 않을 때,
+                                  } else {
+                                    context.read<SigninProvider>().authValidateChange(true);
+                                  }
                                 } else {
-                                  context.read<SigninProvider>().resendButtonState(false);
+                                  // context.read<SigninProvider>().resendButtonState(false);
                                 }
                               }),
 
                           /// text form field validate 관련 height 변화에 대응한 유효시간 텍스트 위치 조정
-                          data.resendButton == true || data.timeValidate == true ? const SizedBox.shrink() : Container(height: 20),
+                          data.authValidate == true || data.timeValidate == true ? const SizedBox.shrink() : Container(height: 20),
                         ],
                       ),
                     ),
@@ -202,7 +272,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                 ],
               ),
               Consumer<SigninProvider>(
-                builder: (context, data, child) => data.timeValidate == true || data.resendButton == true
+                builder: (context, data, child) => data.timeValidate == true || data.authValidate == true
                     ? Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20, top: 32),
                         child: Material(
@@ -213,6 +283,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               await PhoneAuthModel().phoneAuthRequest(widget.phoneNumber.toString());
                               authNumberController.text = '';
                               context.read<SigninProvider>().timeValidateChange(false);
+                              context.read<SigninProvider>().authValidateChange(false);
                               startTimer();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -261,10 +332,4 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
       },
     );
   }
-
-  Widget toast = Container(
-    width: double.infinity,
-    height: 50,
-    color: Colors.red,
-  );
 }

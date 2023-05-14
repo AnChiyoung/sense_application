@@ -221,7 +221,6 @@ class _PolicyButtonState extends State<PolicyButton> {
 
           /// user info model setup
           userModel = await KakaoUserInfoModel().getUserInfo(token),
-          print('go!! : ${userModel.email}'),
           Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
         };
       } catch (error) {

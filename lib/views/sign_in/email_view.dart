@@ -112,6 +112,10 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 FocusScope.of(context).requestFocus(passwordFocusNode);
               },
               onChanged: (_) {
+                /// data input
+
+                SigninModel.email = emailInputController.text;
+
                 WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
                   emailState && passwordState && passwordRepeatState == true
                       ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
@@ -149,7 +153,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                     passwordState = false;
                     return '영문 소문자, 숫자 포함 6~16글자로 입력해 주세요';
                   } else {
-                    SigninInfoModel.password = value;
+                    SigninModel.password = value;
                     passwordState = true;
                     return null;
                   }
@@ -162,6 +166,9 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 FocusScope.of(context).requestFocus(passwordRepeatFocusNode);
               },
               onChanged: (_) {
+                /// data input
+                SigninModel.password = passwordController.text;
+
                 WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
                   emailState && passwordState && passwordRepeatState == true
                       ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
@@ -195,8 +202,8 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
               ),
               validator: (value) {
                 if(value!.isNotEmpty) {
-                  if(SigninInfoModel.password != value) {
-                    print('password : ${SigninInfoModel.password}');
+                  if(SigninModel.password != value) {
+                    print('password : ${SigninModel.password}');
                     print('repeat password : $value');
                     passwordRepeatState = false;
                     return '비밀번호가 일치하지 않아요';
