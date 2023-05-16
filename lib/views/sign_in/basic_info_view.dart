@@ -270,7 +270,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           date == null ? {} : {
             birthdayState = true,
             /// data input
-            SigninModel.birthday = date.toString(),
+            SigninModel.birthday = date.toString().substring(0, 10),
           };
           birthdayInputController.text = date.toString().substring(0, 10);
           widgetManagement[2] = true;

@@ -17,6 +17,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        bottom: false,
           child: Column(
             children: [
               const CalendarAppBar(),

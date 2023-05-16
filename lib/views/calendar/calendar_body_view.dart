@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -28,6 +29,8 @@ class _CalendarBodyState extends State<CalendarBody> {
 
   static const int _swipeHistoryLimit = 4;
   final List<SwipeDirection> _swipeHistory = [];
+
+  late double deviceHeight;
 
   @override
   void initState() {
@@ -63,6 +66,16 @@ class _CalendarBodyState extends State<CalendarBody> {
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, selectedDay)) {
+
+      // showModalBottomSheet(
+      //     backgroundColor: Colors.transparent,
+      //     context: context,
+      //     isScrollControlled: true,
+      //     builder: (context) {
+      //       return ScheduleBottomSheet();
+      //     }
+      // );
+
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
@@ -88,7 +101,10 @@ class _CalendarBodyState extends State<CalendarBody> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
+    deviceHeight = MediaQuery.of(context).size.height;
+
+    return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
         Consumer<CalendarBodyProvider>(
           builder: (context, data, child) {
@@ -145,6 +161,7 @@ class _CalendarBodyState extends State<CalendarBody> {
             );
           },
         ),
+        ScheduleBottomSheet(bodyHeight: deviceHeight),
         // SwipeDetector(
         //   onSwipeUp: (offset) {
         //     _addSwipe(SwipeDirection.up);

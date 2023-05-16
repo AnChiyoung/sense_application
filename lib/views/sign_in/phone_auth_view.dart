@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
+import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -155,18 +156,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                   if(await PhoneAuthModel().authNumberCheck(widget.phoneNumber, int.parse(value)) == true) {
                                     context.read<SigninProvider>().authValidateChange(false);
 
-                                    /// 인증번호 일치할 때
-                                    Map<String, dynamic> signinJson = SigninRequestModel(
-                                      email: SigninModel.email.toString(),
-                                      password: SigninModel.password.toString(),
-                                      name: SigninModel.name.toString(),
-                                      birthday: SigninModel.birthday.toString(),
-                                      gender: SigninModel.gender.toString(),
-                                      phone: SigninModel.phone.toString(),
-                                      authCode: int.parse(authNumberController.text),
-                                    ).toJson();
-
-                                    print(signinJson);
+                                    await SigninModel().signinRequest() == true ? {} : {};
                                     // if(await SigninModel().signinRequest(authNumberController.text) == true) {
                                     //   ScaffoldMessenger.of(context).showSnackBar(
                                     //       SnackBar(
@@ -246,6 +236,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     context.read<SigninProvider>().genderChangeState([false, false]);
                                     context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
                                     // Navigator.popUntil(context, (route) => route.isFirst);
+                                    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
 
                                   /// 인증번호 일치하지 않을 때,
                                   } else {

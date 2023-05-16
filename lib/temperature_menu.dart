@@ -32,7 +32,7 @@ class _TemperatureMenuState extends State<TemperatureMenu> {
         const SizedBox(height: 10),
         OutlinedButton(
             onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => CalendarScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => CalendarScreen()));
             },
             child: Text('달력이요')
         ),

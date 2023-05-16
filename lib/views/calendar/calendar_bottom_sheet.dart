@@ -1,3 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_event_list.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+class ScheduleBottomSheet extends StatefulWidget {
+  double? bodyHeight;
+  ScheduleBottomSheet({Key? key, this.bodyHeight}) : super(key: key);
+
+  @override
+  State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();
+}
+
+class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
+
+  bool dragDirection = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return GestureDetector(
+      onVerticalDragUpdate: (details) {
+        int sensitivity = 5;
+        setState(() {
+          if(details.delta.dy > sensitivity) {
+            print('down!!');
+            dragDirection = false;
+          } else if(details.delta.dy < -sensitivity) {
+            print('up!!');
+            dragDirection = true;
+          }
+        });
+
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.decelerate,
+        height: dragDirection ? (widget.bodyHeight! - 230.0) : 100,
+        decoration: BoxDecoration(
+          border: Border.all(color: StaticColor.bottomSheetExternalLineColor, width: 1),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+          color: Colors.white,
+        ),
+        onEnd: () {
+          dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month);
+        },
+        child: Column(
+          children: [
+            EventHeader(),
+            EventList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget EventHeader() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 26),
+      child: SizedBox(
+        width: double.infinity,
+        child: Image.asset('assets/calendar/event_header_bar.png', width: 81, height: 4))
+    );
+  }
+}
+
+
+
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
 // import 'package:table_calendar/table_calendar.dart';

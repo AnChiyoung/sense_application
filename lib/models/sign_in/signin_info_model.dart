@@ -13,7 +13,7 @@ class SigninModel {
   static String? phone;
   static int? authCode;
 
-  Future<bool> signinRequest(String authCode) async {
+  Future<bool> signinRequest() async {
 
     Map<String, dynamic> signinJson = SigninRequestModel(
       email: SigninModel.email.toString(),
@@ -22,7 +22,6 @@ class SigninModel {
       birthday: SigninModel.birthday.toString(),
       gender: SigninModel.gender.toString(),
       phone: SigninModel.phone.toString(),
-      authCode: int.parse(authCode),
     ).toJson();
 
     print(signinJson);
@@ -52,7 +51,6 @@ class SigninRequestModel {
   String? birthday;
   String? gender;
   String? phone;
-  int? authCode;
 
   SigninRequestModel({
     this.email,
@@ -61,7 +59,6 @@ class SigninRequestModel {
     this.birthday,
     this.gender,
     this.phone,
-    this.authCode,
   });
 
   Map<String, dynamic> toJson() => {
@@ -71,6 +68,5 @@ class SigninRequestModel {
     'birthday': birthday,
     'gender': gender,
     'phone': phone,
-    'code': authCode,
   };
 }
