@@ -35,9 +35,9 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
 
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
-        height: dragDirection ? (widget.bodyHeight! - 230.0) : 100,
+        height: dragDirection ? (widget.bodyHeight! - 320.0) : 100,
         decoration: BoxDecoration(
           border: Border.all(color: StaticColor.bottomSheetExternalLineColor, width: 1),
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),

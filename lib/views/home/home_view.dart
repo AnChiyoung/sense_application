@@ -96,7 +96,8 @@ class _BottomMenuState extends State<BottomMenu> {
                 widget.selectCallback(index);
               }
               pageIndex = index;
-              if(index == 3 || index == 4) {
+              // if(index == 3 || index == 4) {
+              if(index == 4) {
                 showDialog(
                     context: context,
                     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x

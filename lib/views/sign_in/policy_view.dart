@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
@@ -204,33 +205,53 @@ class _PolicyButtonState extends State<PolicyButton> {
     );
   }
 
+
   void kakaoLoginTry(BuildContext context) async {
+    /// logger setting
+    var logger = Logger(
+      printer: PrettyPrinter(
+        lineLength: 120,
+        colors: true,
+        printTime: true,
+      ),
+    );
+
     /// 카카오톡 설치 유무 확인
     bool isInstalled = await isKakaoTalkInstalled();
     KakaoUserModel? userModel = KakaoUserModel();
 
     /// auth code get
     OAuthToken? token;
-    if(isInstalled == true) {
-      try {
-        token = await UserApi.instance.loginWithKakaoTalk();
-        print('token?? : ${token.accessToken}');
-        /// saved token for static variable
-        KakaoUserInfoModel.userAccessToken = token;
-        token == null ? print('kakao token is empty') : {
 
-          /// user info model setup
-          userModel = await KakaoUserInfoModel().getUserInfo(token),
-          Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
-        };
-      } catch (error) {
-        rethrow;
-      }
-    } else if(isInstalled == false) {
-      token = await UserApi.instance.loginWithKakaoAccount();
-      token == null ? print('kakao token is empty') : {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()))
-      };
-    }
+    token = await UserApi.instance.loginWithKakaoAccount();
+    token == null ? print('kakao token is empty') : {
+      KakaoUserInfoModel.userAccessToken = token,
+      userModel = await KakaoUserInfoModel().getUserInfo(token),
+      logger.i(token.accessToken),
+      Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
+    };
+
+    // if(isInstalled == true) {
+    //   try {
+    //     // token = await UserApi.instance.loginWithKakaoTalk();
+    //     await UserApi.instance.loginWithKakaoAccount();
+    //     /// saved token for static variable
+    //     KakaoUserInfoModel.userAccessToken = token;
+    //     token == null ? print('kakao token is empty') : {
+    //
+    //       /// user info model setup
+    //       userModel = await KakaoUserInfoModel().getUserInfo(token),
+    //       Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
+    //     };
+    //   } catch (error) {
+    //     rethrow;
+    //   }
+    // } else if(isInstalled == false) {
+    //   token = await UserApi.instance.loginWithKakaoAccount();
+    //   token == null ? print('kakao token is empty') : {
+    //     KakaoUserInfoModel.userAccessToken = token,
+    //     Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
+    //   };
+    // }
   }
 }

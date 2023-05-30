@@ -61,6 +61,7 @@ dependencies:
   multi_masked_formatter: ^1.0.0
   quiver: ^3.2.1
   ftoast: ^2.0.0
+  logger: ^1.3.0
 
 dev_dependencies:
   flutter_test:

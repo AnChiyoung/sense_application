@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 
 class KakaoUserInfoModel {
@@ -14,6 +15,14 @@ class KakaoUserInfoModel {
           'Authorization': 'Bearer ${token.accessToken}'
     });
     final userInfo = json.decode(response.body)['kakao_account'];
+    var logger = Logger(
+      printer: PrettyPrinter(
+        lineLength: 120,
+        colors: true,
+        printTime: true,
+      ),
+    );
+    logger.d(userInfo);
     KakaoUserModel returnModel = KakaoUserModel.fromJson(userInfo);
     /// static variable temperature save
     presetInfo = returnModel;

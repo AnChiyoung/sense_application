@@ -11,7 +11,6 @@ class SigninModel {
   static String? birthday;
   static String? gender;
   static String? phone;
-  static int? authCode;
 
   Future<bool> signinRequest() async {
 
@@ -24,20 +23,22 @@ class SigninModel {
       phone: SigninModel.phone.toString(),
     ).toJson();
 
-    print(signinJson);
+    print('access token ?? : ${KakaoUserInfoModel.userAccessToken!.accessToken}');
 
-    final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/phone/send'),
-      body: json.encode(signinJson),
-      headers: {'Content-Type': 'application/json; charset=UTF-8'
-      // headers: {
-      //   'Authorization': 'Bearer ${KakaoUserInfoModel.userAccessToken!.accessToken}'
+    final response = await http.patch(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/signup'),
+      body: signinJson,
+      // headers: {'Content-Type': 'application/json; charset=UTF-8'
+      headers: {
+        'Authorization': 'Bearer ${KakaoUserInfoModel.userAccessToken!.idToken}'
+        // 'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJudWxsIjoiMzk2Y2VmZGY4MjkzNDkzMmI0OTE2MTk1OGUyNjQzMGQiLCJleHAiOjE2ODcxNjA5NzEsImlhdCI6MTY4NDU2ODk3MSwiYWNjb3VudF9pZCI6MjB9.VQlkE6WggLWR62xqmgzk4Y7DOHjO2dvgK6XDRZ2Nu05ZLiN-WuwokOdFw443-nWXF8mSjlfEkJ3YRgYWnAhnuMD0NFtc6H_p1eZg8wqBRhcT3P7Wz_itv7oS06WWfitbFqesir6s2daKVwmgA0xkc_U9t1RQKiHE1abdPbntpd4'
     });
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('가입 성공했음');
       return true;
     } else {
+      print(response.body);
       print('가입 실패했음');
       return false;
     }

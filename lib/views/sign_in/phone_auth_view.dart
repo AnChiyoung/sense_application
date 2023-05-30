@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/async.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
+import 'package:sense_flutter_application/public_widget/test_request.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -156,49 +158,17 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                   if(await PhoneAuthModel().authNumberCheck(widget.phoneNumber, int.parse(value)) == true) {
                                     context.read<SigninProvider>().authValidateChange(false);
 
-                                    await SigninModel().signinRequest() == true ? {} : {};
-                                    // if(await SigninModel().signinRequest(authNumberController.text) == true) {
-                                    //   ScaffoldMessenger.of(context).showSnackBar(
-                                    //       SnackBar(
-                                    //         behavior: SnackBarBehavior.floating,
-                                    //         duration: const Duration(milliseconds: 4000),
-                                    //         backgroundColor: Colors.white,
-                                    //         elevation: 0.0,
-                                    //         padding: const EdgeInsets.symmetric(horizontal: 30),
-                                    //         margin: EdgeInsets.only(
-                                    //           bottom: MediaQuery.of(context).size.height - 130,
-                                    //         ),
-                                    //         content: Container(
-                                    //           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                    //           decoration: BoxDecoration(
-                                    //             color: Colors.white,
-                                    //             borderRadius: BorderRadius.circular(4.0),
-                                    //             border: Border.all(color: StaticColor.snackbarColor, width: 1),
-                                    //           ),
-                                    //           child: Row(
-                                    //             children: [
-                                    //               Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
-                                    //               const SizedBox(width: 8),
-                                    //               Text('인증에 성공했어요, 회원가입이 완료되었습니다',
-                                    //                   style: TextStyle(
-                                    //                       fontSize: 14, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
-                                    //               ),
-                                    //             ],
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //   );
-                                      // context.read<SigninProvider>().policyCheckStateChange([false, false, false, false]);
-                                      // context.read<SigninProvider>().emailPasswordButtonStateChange(false);
-                                      // context.read<SigninProvider>().stepChangeState([true, false, false, false]);
-                                      // context.read<SigninProvider>().genderChangeState([false, false]);
-                                      // Navigator.popUntil(context, (route) => route.isFirst);
-                                    /// 인증번호 일치하지 않을 때
-                                    // } else {
-                                    //   context.read<SigninProvider>().resendButtonState(true);
-                                    // }
-                                    // bool aa = await SigninModel().signinRequest(KakaoUserInfoModel.userAccessToken!.accessToken);
-                                    // print('어떻게 됏노? : ${aa.toString()}');
+                                    bool result = await SigninModel().signinRequest();
+
+                                    // bool result = await TestRequest().signinRequestTest();
+                                    var logger = Logger(
+                                      printer: PrettyPrinter(
+                                        lineLength: 120,
+                                        colors: true,
+                                        printTime: true,
+                                      ),
+                                    );
+                                    logger.e(result);
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -235,6 +205,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     context.read<SigninProvider>().stepChangeState([true, false, false, false]);
                                     context.read<SigninProvider>().genderChangeState([false, false]);
                                     context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
+                                    /// 맨 처음 페이지로.
                                     // Navigator.popUntil(context, (route) => route.isFirst);
                                     Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
 

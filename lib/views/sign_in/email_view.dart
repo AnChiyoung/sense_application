@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
+import 'package:sense_flutter_application/public_widget/test_request.dart';
 import 'package:sense_flutter_application/screens/sign_in/basic_info_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -208,7 +210,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                     passwordRepeatState = false;
                     return '비밀번호가 일치하지 않아요';
                   } else {
-                    print(emailState.toString() + '\n' + passwordState.toString() + '\n' + passwordRepeatState.toString());
+                    // print(emailState.toString() + '\n' + passwordState.toString() + '\n' + passwordRepeatState.toString());
                     passwordRepeatState = true;
                     return null;
                   }
@@ -259,8 +261,17 @@ class _EmailButtonState extends State<EmailButton> {
         width: double.infinity,
         height: 76,
         child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
+              // bool result = await TestRequest().signinRequestTest();
+              // var logger = Logger(
+              //   printer: PrettyPrinter(
+              //     lineLength: 120,
+              //     colors: true,
+              //     printTime: true,
+              //   ),
+              // );
+              // logger.e(result);
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true
