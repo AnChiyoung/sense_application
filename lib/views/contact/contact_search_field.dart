@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
 class ContactSearchField extends StatefulWidget {
   const ContactSearchField({Key? key}) : super(key: key);
@@ -11,6 +13,23 @@ class ContactSearchField extends StatefulWidget {
 class _ContactSearchFieldState extends State<ContactSearchField> {
 
   TextEditingController searchController = TextEditingController();
+  FocusNode searchFieldFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    searchFieldFocusNodeListen();
+    super.initState();
+  }
+
+  void searchFieldFocusNodeListen() {
+    searchFieldFocusNode.addListener(() {
+      if(searchFieldFocusNode.hasFocus) {
+        context.read<ContactProvider>().isSearchState(true);
+      } else {
+        context.read<ContactProvider>().isSearchState(false);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +48,7 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
   Widget contactSearchBox() {
     return TextFormField(
       controller: searchController,
+      focusNode: searchFieldFocusNode,
       obscureText: false,
       maxLines: 1,
       maxLength: 7,
@@ -57,18 +77,34 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
   }
 
   Widget searchButton() {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        customBorder: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        onTap: () {},
-        child: SizedBox(
-          width: 36,
-          height: 36,
-          child: Center(child: Image.asset('assets/contact/search_button.png', width: 24, height: 24))),
-      )
+    return Consumer<ContactProvider>(
+      builder: (context, data, child) => data.searchState == true
+        ? Material(
+          color: Colors.transparent,
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            onTap: () {},
+            child: SizedBox(
+                width: 36,
+                height: 36,
+                child: Center(child: Image.asset('assets/contact/searchbox_delete_button.png', width: 24, height: 24, color: StaticColor.grey2))),
+          )
+        )
+        : Material(
+            color: Colors.transparent,
+            child: InkWell(
+              customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              onTap: () {},
+              child: SizedBox(
+                width: 36,
+                height: 36,
+                child: Center(child: Image.asset('assets/contact/search_button.png', width: 24, height: 24))),
+            )
+          ),
     );
   }
 }

@@ -26,7 +26,7 @@ class _CustomDialogState extends State<CustomDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const [
           Text(
-            "Ready for contents",
+            "서비스 준비중입니다.\n빠른 시일 내에 찾아뵙겠습니다.",
           ),
         ],
       ),

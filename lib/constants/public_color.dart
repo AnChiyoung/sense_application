@@ -16,6 +16,7 @@ class StaticColor {
   static Color grey400BB = const Color(0xFFBBBBBB);
   static Color grey60077 = const Color(0xFF777777);
   static Color grey200EE = const Color(0xFFEEEEEE);
+  static Color grey2 = const Color(0xFFD6D6D6);
   static Color snackbarColor = const Color(0xFF009A63);
 
   static Color bottomSheetExternalLineColor = const Color(0xFFD2DAE8);

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
+import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
@@ -37,6 +38,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => FeedProvider()),
       ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
       ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
+      ChangeNotifierProvider(create: (_) => ContactProvider()),
       // 여기에 추가하시면 되여
     ],
     child: const MyApp(),
