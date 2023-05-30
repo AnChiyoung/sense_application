@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/views/contact/contact_list_field.dart';
 import 'package:sense_flutter_application/views/contact/contact_search_field.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -26,7 +28,8 @@ class _ContactScreenState extends State<ContactScreen> {
           child: Column(
             children: [
               ContactSearchField(),
-              // ContactListField(),
+              Container(width: double.infinity, height: 1, color: StaticColor.grey200EE),
+              Expanded(child: ContactListField()),
             ],
           ),
         ),
