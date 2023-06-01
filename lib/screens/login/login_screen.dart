@@ -13,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     /// safe area height
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
+    final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
     /// when touch for area of another keyboard area, hide to keyboard, into app
     return GestureDetector(
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
             /// 묘한 패딩 어떻게?
             physics: ClampingScrollPhysics(),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height - safeAreaTopPadding,
+              height: MediaQuery.of(context).size.height - safeAreaTopPadding - safeAreaBottomPadding,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
