@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/views/sign_in/policy_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 
 class PolicyScreen extends StatefulWidget {
-  const PolicyScreen({Key? key}) : super(key: key);
+  KakaoUserModel? kakaoUserModel;
+  PolicyScreen({Key? key, this.kakaoUserModel}) : super(key: key);
 
   @override
   State<PolicyScreen> createState() => _PolicyScreenState();
@@ -23,7 +25,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
             PolicyHeader(),
             PolicyDescription(),
             PolicyCheckField(topPadding: safeAreaTopPadding),
-            PolicyButton(),
+            PolicyButton(presentInfo: widget.kakaoUserModel),
           ],
         ),
       ),

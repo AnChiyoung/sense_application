@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/login_check.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
+import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
+import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
+import 'package:sense_flutter_application/models/sign_in/token_model.dart';
+import 'package:sense_flutter_application/public_widget/alert_dialog_miss_content.dart';
+import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 
@@ -26,7 +33,6 @@ class _LogoViewState extends State<LogoView> {
   }
 }
 
-
 class LoginFormView extends StatefulWidget {
   const LoginFormView({Key? key}) : super(key: key);
 
@@ -38,6 +44,30 @@ class _LoginFormViewState extends State<LoginFormView> {
 
   TextEditingController emailFieldController = TextEditingController();
   TextEditingController passwordFieldController = TextEditingController();
+  UserInfoModel userInfoModel = UserInfoModel();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _isAutoLogin();
+    });
+  }
+
+  _isAutoLogin() async {
+
+    String? a = await LoginRequest.storage.read(key: 'id');
+    print('what is a? : $a');
+    if(a != null) {
+      PresentUserInfo.id = int.parse(a!);
+      PresentUserInfo.username = (await LoginRequest.storage.read(key: 'username'))!;
+      PresentUserInfo.profileImage = (await LoginRequest.storage.read(key: 'profileImage'))!;
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+    } else {
+      print('로그인이 필요합니다');
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +111,7 @@ class _LoginFormViewState extends State<LoginFormView> {
               ),
               child: TextField(
                 controller: passwordFieldController,
+                obscureText: true,
                 decoration: InputDecoration(
                   hintText: '비밀번호',
                   hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
@@ -94,7 +125,33 @@ class _LoginFormViewState extends State<LoginFormView> {
               color: StaticColor.mainSoft,
               borderRadius: BorderRadius.circular(4.0),
               child: InkWell(
-                onTap: () {},
+                onTap: () async {
+                  int? id;
+                  id = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
+
+                  id == -1
+                    ? showDialog(
+                        context: context,
+                        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return const LoginDialog();
+                        }
+                      )
+                    : {
+                        userInfoModel = await UserInfoRequest().userInfoRequest(id!),
+                        autoLoginState == true ? {
+                          await LoginRequest.storage.write(key: 'id', value: userInfoModel.id.toString()),
+                          await LoginRequest.storage.write(key: 'username', value: userInfoModel.userName.toString()),
+                          await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImage.toString()),
+                        }: {},
+                        PresentUserInfo.id = userInfoModel.id!,
+                        PresentUserInfo.username = userInfoModel.userName!,
+                        PresentUserInfo.profileImage = userInfoModel.profileImage!,
+                        print('id is what? : ${userInfoModel.id}'),
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()))
+                    };
+                },
                 borderRadius: BorderRadius.circular(4.0), // inkwell effect's borderradius
                 child: const SizedBox(
                   height: 50,
@@ -160,8 +217,10 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           borderRadius: BorderRadius.circular(4.0),
           child: InkWell(
             onTap: () async {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+              // Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
               // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginCheck()));
+              SigninModel.signinType = 0;
+              kakaoLoginTry(context);
             },
             borderRadius: BorderRadius.circular(4.0), // inkwell effect's borderradius
             child: SizedBox(
@@ -180,8 +239,50 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
       ),
     );
   }
-}
 
+  void kakaoLoginTry(BuildContext context) async {
+    /// logger setting
+    var logger = Logger(
+      printer: PrettyPrinter(
+        lineLength: 120,
+        colors: true,
+        printTime: true,
+      ),
+    );
+
+    /// 카카오톡 설치 유무 확인
+    bool isInstalled = await isKakaoTalkInstalled();
+    KakaoUserModel? userModel = KakaoUserModel();
+    AccessTokenResponseModel tokenModel = AccessTokenResponseModel();
+    UserInfoModel? userInfoModel = UserInfoModel();
+
+    /// auth code get
+    OAuthToken? token;
+
+    token = await UserApi.instance.loginWithKakaoAccount();
+    token == null ? print('kakao token is empty') : {
+      userModel = await KakaoUserInfoModel().getUserInfo(token),
+      print('token ?? : ${token.accessToken}'),
+      logger.i(token.accessToken),
+      tokenModel = await SigninCheckModel().tokenLoginRequest(token),
+      print('what is id?? : ${tokenModel.id}'),
+      if(tokenModel.isSignUp == false) {
+        KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
+        Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
+      } else {
+        if(tokenModel.isSignUp == true) {
+          logger.d('login success'),
+          userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
+          PresentUserInfo.id = userInfoModel.id!,
+          PresentUserInfo.username = userInfoModel.userName!,
+          PresentUserInfo.profileImage = userInfoModel.profileImage!,
+          Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
+          logger.d(userInfoModel.profileImage),
+        }
+      }
+    };
+  }
+}
 
 class SigninView extends StatefulWidget {
   const SigninView({Key? key}) : super(key: key);
@@ -222,7 +323,10 @@ class _SigninViewState extends State<SigninView> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    SigninModel.signinType = 1;
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+                  },
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
                     height: 48,

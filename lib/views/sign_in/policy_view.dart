@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
+import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 import 'package:sense_flutter_application/screens/sign_in/email_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -157,7 +158,8 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
 }
 
 class PolicyButton extends StatefulWidget {
-  const PolicyButton({Key? key}) : super(key: key);
+  KakaoUserModel? presentInfo;
+  PolicyButton({Key? key, this.presentInfo}) : super(key: key);
 
   @override
   State<PolicyButton> createState() => _PolicyButtonState();
@@ -185,7 +187,7 @@ class _PolicyButtonState extends State<PolicyButton> {
               onPressed: () async {
                 if(buttonState == false) {}
                 else if(buttonState == true) {
-                  kakaoLoginTry(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: widget.presentInfo)));
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: buttonState == true ? StaticColor.categorySelectedColor : StaticColor.signinPolicyAddTextColor, elevation: 0.0),
@@ -197,39 +199,14 @@ class _PolicyButtonState extends State<PolicyButton> {
         TextButton(
           onPressed: () {
             context.read<SigninProvider>().policyCheckStateChange([true, true, false, false]);
-            kakaoLoginTry(context);
           },
           child: Text('필수 항목만 동의하고 다음으로', style: TextStyle(fontSize: 12, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
         )
       ],
     );
-  }
 
 
-  void kakaoLoginTry(BuildContext context) async {
-    /// logger setting
-    var logger = Logger(
-      printer: PrettyPrinter(
-        lineLength: 120,
-        colors: true,
-        printTime: true,
-      ),
-    );
 
-    /// 카카오톡 설치 유무 확인
-    bool isInstalled = await isKakaoTalkInstalled();
-    KakaoUserModel? userModel = KakaoUserModel();
-
-    /// auth code get
-    OAuthToken? token;
-
-    token = await UserApi.instance.loginWithKakaoAccount();
-    token == null ? print('kakao token is empty') : {
-      KakaoUserInfoModel.userAccessToken = token,
-      userModel = await KakaoUserInfoModel().getUserInfo(token),
-      logger.i(token.accessToken),
-      Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
-    };
 
     // if(isInstalled == true) {
     //   try {

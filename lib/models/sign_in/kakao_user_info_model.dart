@@ -6,7 +6,7 @@ import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart'
 
 class KakaoUserInfoModel {
   static KakaoUserModel? presetInfo;
-  static OAuthToken? userAccessToken;
+  static String? userAccessToken;
 
   Future<KakaoUserModel> getUserInfo(OAuthToken token) async {
     final response = await http.get(

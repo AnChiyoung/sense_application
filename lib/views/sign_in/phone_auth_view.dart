@@ -158,17 +158,17 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                   if(await PhoneAuthModel().authNumberCheck(widget.phoneNumber, int.parse(value)) == true) {
                                     context.read<SigninProvider>().authValidateChange(false);
 
-                                    bool result = await SigninModel().signinRequest();
+                                    SigninModel.signinType == 0 ? await SigninModel().kakaoSigninRequest() : await SigninModel().emailSigninRequest();
 
-                                    // bool result = await TestRequest().signinRequestTest();
-                                    var logger = Logger(
-                                      printer: PrettyPrinter(
-                                        lineLength: 120,
-                                        colors: true,
-                                        printTime: true,
-                                      ),
-                                    );
-                                    logger.e(result);
+                                    // bool result = await SigninModel().kakaoSigninRequest();
+                                    // var logger = Logger(
+                                    //   printer: PrettyPrinter(
+                                    //     lineLength: 120,
+                                    //     colors: true,
+                                    //     printTime: true,
+                                    //   ),
+                                    // );
+                                    // logger.e(result);
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -206,8 +206,8 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     context.read<SigninProvider>().genderChangeState([false, false]);
                                     context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
                                     /// 맨 처음 페이지로.
-                                    // Navigator.popUntil(context, (route) => route.isFirst);
-                                    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                                    Navigator.popUntil(context, (route) => route.isFirst);
+                                    // Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
 
                                   /// 인증번호 일치하지 않을 때,
                                   } else {

@@ -91,13 +91,7 @@ class _BottomMenuState extends State<BottomMenu> {
             onTap: (index) {
               // 이벤트 생성만 다른 페이지로 변경
               if(index == 2) {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEventScreen()));
-              } else {
-                widget.selectCallback(index);
-              }
-              pageIndex = index;
-              // if(index == 3 || index == 4) {
-              if(index == 4) {
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEventScreen()));
                 showDialog(
                     context: context,
                     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
@@ -105,7 +99,20 @@ class _BottomMenuState extends State<BottomMenu> {
                     builder: (BuildContext context) {
                       return const CustomDialog();
                     });
+              } else {
+                if(index == 1 || index == 3 || index == 4) {
+                  showDialog(
+                      context: context,
+                      //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return const CustomDialog();
+                      });
+                } else {
+                  widget.selectCallback(index);
+                }
               }
+              pageIndex = index;
             }
           ),
         ]
