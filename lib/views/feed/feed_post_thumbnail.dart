@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_detail_view.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
-abstract class _BasePostCard extends StatelessWidget {
+abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련 기능, ui랑 분리가 되어있다.
   final int id;
   final String imageUrl;
   final String title;
