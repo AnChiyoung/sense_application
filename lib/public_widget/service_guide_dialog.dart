@@ -21,10 +21,10 @@ class _ServiceGuideDialogState extends State<ServiceGuideDialog> {
         ],
       ),
       //
-      content: Column(
+      content: const Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "서비스 준비 중입니다.\n빠른 시일 내에 찾아뵙겠습니다.",
           ),
