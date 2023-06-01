@@ -10,6 +10,10 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+
+    /// safe area height
+    final safeAreaTopPadding = MediaQuery.of(context).padding.top;
+
     /// when touch for area of another keyboard area, hide to keyboard, into app
     return GestureDetector(
       onTap: () {
@@ -19,16 +23,23 @@ class _LoginScreenState extends State<LoginScreen> {
         resizeToAvoidBottomInset: false,
         backgroundColor: StaticColor.loginBackgroundColor,
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              Expanded(child: LogoView()),
-              LoginFormView(),
-              KakaoLoginButton(),
-              SizedBox(height: 8),
-              SigninView(),
-            ],
+          child: SingleChildScrollView(
+            /// 묘한 패딩 어떻게?
+            physics: ClampingScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height - safeAreaTopPadding,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(child: LogoView()),
+                  LoginFormView(),
+                  KakaoLoginButton(),
+                  SizedBox(height: 8),
+                  SigninView(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

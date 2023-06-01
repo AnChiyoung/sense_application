@@ -66,7 +66,6 @@ class _LoginFormViewState extends State<LoginFormView> {
     } else {
       print('로그인이 필요합니다');
     }
-
   }
 
   @override
