@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
 import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
@@ -7,7 +8,7 @@ import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
 
 
-import '../../public_widget/alert_dialog_miss_content.dart';
+import '../../public_widget/login_dialog.dart';
 
 class MovePageList {
   List<Widget> pageList = [
@@ -34,7 +35,7 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   void initState() {
-    feedIcon = 'feed.png'; calendarIcon = 'calendar_old.png'; add_scheduleIcon = 'add_schedule_old.png'; contactIcon = 'contact_old.png'; mypageIcon = 'mypage_old.png';
+    feedIcon = 'home.png'; calendarIcon = 'calendar_old.png'; add_scheduleIcon = 'add_schedule_old.png'; contactIcon = 'contact_old.png'; mypageIcon = 'mypage_old.png';
     super.initState();
   }
 
@@ -68,11 +69,18 @@ class _BottomMenuState extends State<BottomMenu> {
     }
 
     List<BottomNavigationBarItem> bottomNavigationMenu = [
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 24), label: 'feed'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/event.png'), size: 24), label: 'calendar'),
-      BottomNavigationBarItem(icon: addEvent(), label: 'add_event'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/contact.png'), size: 21), label: 'contact'),
-      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/mypage.png'), size: 24), label: 'mypage'),
+      /// old version
+      // const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 24), label: 'feed'),
+      // const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/event.png'), size: 24), label: 'calendar'),
+      // BottomNavigationBarItem(icon: addEvent(), label: 'add_event'),
+      // const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/contact.png'), size: 21), label: 'contact'),
+      // const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/mypage.png'), size: 24), label: 'mypage'),
+
+      /// launching version
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/home.png'), size: 24), label: '홈'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/store.png'), size: 24), label: '스토어'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/feed.png'), size: 21), label: '피드'),
+      const BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/home/calendar.png'), size: 24), label: '캘린더'),
     ];
 
     return Container(
@@ -86,31 +94,32 @@ class _BottomMenuState extends State<BottomMenu> {
             selectedItemColor: StaticColor.mainSoft,
             unselectedItemColor: StaticColor.unselectedColor,
             type: BottomNavigationBarType.fixed,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
             onTap: (index) {
-              // 이벤트 생성만 다른 페이지로 변경
-              if(index == 2) {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEventScreen()));
+              /// 이벤트 생성만 다른 페이지로 변경
+              // if(index == 2) {
+              //   // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEventScreen()));
+              //   showDialog(
+              //     context: context,
+              //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+              //     barrierDismissible: false,
+              //     builder: (BuildContext context) {
+              //       return const CustomDialog();
+              //     }
+              //   );
+              // }
+              if(index == 1 || index == 2 || index == 3) {
                 showDialog(
-                    context: context,
-                    //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return const CustomDialog();
-                    });
+                  context: context,
+                  //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return const ServiceGuideDialog();
+                  }
+                );
               } else {
-                if(index == 1 || index == 3 || index == 4) {
-                  showDialog(
-                      context: context,
-                      //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return const CustomDialog();
-                      });
-                } else {
-                  widget.selectCallback(index);
-                }
+                widget.selectCallback(index);
               }
               pageIndex = index;
             }

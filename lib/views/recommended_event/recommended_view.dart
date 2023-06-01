@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
-import 'package:sense_flutter_application/public_widget/alert_dialog_miss_content.dart';
+import 'package:sense_flutter_application/public_widget/login_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class RecommendedTitle extends StatefulWidget {
@@ -35,7 +36,7 @@ class _RecommendedTitleState extends State<RecommendedTitle> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return const CustomDialog();
+                return const ServiceGuideDialog();
               });
         },
         child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)

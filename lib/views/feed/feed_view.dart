@@ -4,6 +4,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
@@ -270,37 +271,55 @@ class _FeedPostListState extends State<FeedPostList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: FutureBuilder(
-        future: context.read<FeedProvider>().getFeedPosts(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // return const Center(child: CircularProgressIndicator());
-            return Container();
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error fetching posts'));
-          } else {
-            return Consumer<FeedProvider>(
-              builder: (context, feedProvider, child) {
-                final feedPosts = feedProvider.feedPosts;
-                if (feedPosts.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '검색 결과가 없습니다.',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                } else {
-                  return FeedPostListPresenter( // 피드 뿌리는 곳
-                    feedPosts: context.read<FeedProvider>().feedPosts,
-                  );
-                }
-              },
-            );
-          }
-        },
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          FutureBuilder(
+            future: context.read<FeedProvider>().getFeedPosts(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // return const Center(child: CircularProgressIndicator());
+                return Container();
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Error fetching posts'));
+              } else {
+                return Consumer<FeedProvider>(
+                  builder: (context, feedProvider, child) {
+                    final feedPosts = feedProvider.feedPosts;
+                    if (feedPosts.isEmpty) {
+                      return Center(
+                        child: Text(
+                          '검색 결과가 없습니다.',
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return FeedPostListPresenter( // 피드 뿌리는 곳
+                        feedPosts: context.read<FeedProvider>().feedPosts,
+                      );
+                    }
+                  },
+                );
+              }
+            },
+          ),
+          /// add event button
+          IconButton(
+            icon: Image.asset('assets/home/add_event_button.png', width: 56, height: 56),
+            iconSize: 56,
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return const ServiceGuideDialog();
+                  });
+            },
+          ),
+        ],
       ),
     );
   }

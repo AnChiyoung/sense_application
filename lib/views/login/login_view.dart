@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
-import 'package:sense_flutter_application/public_widget/alert_dialog_miss_content.dart';
+import 'package:sense_flutter_application/public_widget/login_dialog.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
@@ -27,7 +27,7 @@ class _LogoViewState extends State<LogoView> {
       color: Colors.white,
       child: Align(
         alignment: Alignment.bottomCenter,
-        child: Image.asset('assets/login/temperature_logo.png', width: 197, height: 47),
+        child: Image.asset('assets/login/logo_title.png', width: 200, height: 80),
       ),
     );
   }
@@ -129,28 +129,28 @@ class _LoginFormViewState extends State<LoginFormView> {
                   int? id;
                   id = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
 
-                  id == -1
-                    ? showDialog(
+                  if(id == -1) {
+                    showDialog(
                         context: context,
                         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                         barrierDismissible: false,
                         builder: (BuildContext context) {
                           return const LoginDialog();
                         }
-                      )
-                    : {
-                        userInfoModel = await UserInfoRequest().userInfoRequest(id!),
-                        autoLoginState == true ? {
-                          await LoginRequest.storage.write(key: 'id', value: userInfoModel.id.toString()),
-                          await LoginRequest.storage.write(key: 'username', value: userInfoModel.userName.toString()),
-                          await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImage.toString()),
-                        }: {},
-                        PresentUserInfo.id = userInfoModel.id!,
-                        PresentUserInfo.username = userInfoModel.userName!,
-                        PresentUserInfo.profileImage = userInfoModel.profileImage!,
-                        print('id is what? : ${userInfoModel.id}'),
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()))
-                    };
+                    );
+                  } else {
+                    userInfoModel = await UserInfoRequest().userInfoRequest(id!);
+                    autoLoginState == true ? {
+                      await LoginRequest.storage.write(key: 'id', value: userInfoModel.id.toString()),
+                      await LoginRequest.storage.write(key: 'username', value: userInfoModel.userName.toString()),
+                      await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImage.toString()),
+                    } : {};
+                    PresentUserInfo.id = userInfoModel.id!;
+                    PresentUserInfo.username = userInfoModel.userName!;
+                    PresentUserInfo.profileImage = userInfoModel.profileImage!;
+                    print('id is what? : ${userInfoModel.id}');
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
+                  }
                 },
                 borderRadius: BorderRadius.circular(4.0), // inkwell effect's borderradius
                 child: const SizedBox(

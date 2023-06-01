@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../public_widget/alert_dialog_miss_content.dart';
+import '../../public_widget/login_dialog.dart';
 
 class CalendarAppBar extends StatefulWidget {
   const CalendarAppBar({Key? key}) : super(key: key);
@@ -88,7 +89,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                           //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                           barrierDismissible: false,
                           builder: (BuildContext context) {
-                            return CustomDialog();
+                            return ServiceGuideDialog();
                           });
                       print('tap the blank calendar');}
                   ),
@@ -108,7 +109,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                             //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                             barrierDismissible: false,
                             builder: (BuildContext context) {
-                              return CustomDialog();
+                              return const ServiceGuideDialog();
                             });
                         print('tap the search');}
                   ),
@@ -128,7 +129,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                             //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                             barrierDismissible: false,
                             builder: (BuildContext context) {
-                              return const CustomDialog();
+                              return const ServiceGuideDialog();
                             });
                         print('tap the alarm');}
                   ),
