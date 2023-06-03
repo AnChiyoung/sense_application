@@ -2,7 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 
 class SigninProvider with ChangeNotifier {
-  List<bool> _checkState = [false, false, false, false];
+  bool _allCheckState = false;
+  bool get allCheckState => _allCheckState;
+
+  void allCheckStateChange(bool state) {
+    _allCheckState = state;
+    state == true ? {_checkState = [true, true, true, true, true], _signinButtonState = true} : {_checkState = [false, false, false, false, false], _signinButtonState = false};
+    notifyListeners();
+  }
+
+  List<bool> _checkState = [false, false, false, false, false];
   List<bool> get checkState => _checkState;
 
   bool _signinButtonState = false;
@@ -10,7 +19,8 @@ class SigninProvider with ChangeNotifier {
 
   void policyCheckStateChange(List<bool> state) {
     _checkState = state;
-    (state[0] == true && state[1] == true) ? _signinButtonState = true : _signinButtonState = false;
+    (state[0] == true && state[1] == true && state[2] == true && state[3] == true) ? _signinButtonState = true : _signinButtonState = false;
+    (state[0] == false || state[1] == false || state[2] == false || state[3] == false || state[4] == false) ? _allCheckState = false : _allCheckState = true;
     notifyListeners();
   }
 

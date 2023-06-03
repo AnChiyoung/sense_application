@@ -1,21 +1,33 @@
+import 'dart:async';
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
+import 'package:sense_flutter_application/models/sign_in/policy_model.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 import 'package:sense_flutter_application/screens/sign_in/email_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 
-class PolicyHeader extends StatelessWidget {
+class PolicyHeader extends StatefulWidget {
   const PolicyHeader({Key? key}) : super(key: key);
 
   @override
+  State<PolicyHeader> createState() => _PolicyHeaderState();
+}
+
+class _PolicyHeaderState extends State<PolicyHeader> {
+  @override
   Widget build(BuildContext context) {
-    return SigninHeader(backButton: false, title: '', closeButton: false);
+    return SigninHeader(backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback);
+  }
+
+  void backButtonCallback() {
+    context.read<SigninProvider>().allCheckStateChange(false);
   }
 }
 
@@ -52,13 +64,43 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
       padding: const EdgeInsets.only(left: 20, right: 20, bottom: 51),
       child: Column(
         children: [
-          policyRow('[필수] 이용약관', 0),
+          allPolicySelectRow('전체동의'),
+          const SizedBox(height: 16),
+          Container(height: 1, color: StaticColor.dividerColor),
+          const SizedBox(height: 16),
+          policyRow('[필수] 만 14세 이상입니다', 0),
           const SizedBox(height: 24),
-          policyRow('[필수] 본인인증을 위한 개인정보 제 3자 제공', 1),
+          policyRow('[필수] 센스 이용약관', 1),
           const SizedBox(height: 24),
-          policyRow('[선택] 취향 맞춤형 서비스 제공 항목', 2),
+          policyRow('[필수] 개인정보처리 동의', 2),
           const SizedBox(height: 24),
-          policyRow('[선택] 마케팅 정보 수신 동의사항', 3),
+          policyRow('[필수] 개인정보 처리방침', 3),
+          const SizedBox(height: 24),
+          policyRow('[선택] 마케팅 정보 수신 동의', 4),
+        ],
+      ),
+    );
+  }
+
+  Widget allPolicySelectRow(String text) {
+
+    String checkState = 'policy_check_empty.png';
+    bool allCheckState = context.watch<SigninProvider>().allCheckState;
+    allCheckState == true ? checkState = 'policy_check_done.png' : checkState = 'policy_check_empty.png';
+
+    return GestureDetector(
+      onTap: () {
+        context.read<SigninProvider>().allCheckStateChange(!allCheckState);
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Image.asset('assets/signin/$checkState', width: 20, height: 20),
+          const SizedBox(width: 12),
+          Text(text,
+              style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+              softWrap: false,
+              overflow: TextOverflow.ellipsis),
         ],
       ),
     );
@@ -92,22 +134,22 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
             ),
           ),
         ),
-        GestureDetector(
+        index == 0 ? const SizedBox.shrink() : GestureDetector(
           onTap: () {
             String title = '';
             String description = '';
-            if(index == 0) {
-              title = '[필수] 이용약관';
-              description = 'for ready';
-            } else if(index == 1) {
-              title = '[필수] 본인인증을 위한 개인정보 제 3자 제공';
-              description = 'for ready';
+            if(index == 1) {
+              title = '[필수] 센스 이용약관';
+              description = PolicyDescriptionModel.needPolicy01;
             } else if(index == 2) {
-              title = '[선택] 취향 맞춤형 서비스 제공 항목';
-              description = 'for ready';
+              title = '[필수] 개인정보처리 동의';
+              description = PolicyDescriptionModel.needPolicy02;
             } else if(index == 3) {
-              title = '[선택] 마케팅 정보 수신 동의사항';
-              description = 'for ready';
+              title = '[필수] 개인정보 처리방침';
+              description = PolicyDescriptionModel.needPolicy03;
+            } else if(index == 4) {
+              title = '[선택] 마케팅 정보 수신 동의';
+              description = PolicyDescriptionModel.selectPolicy01;
             }
             showModalBottomSheet(
               context: context,
@@ -116,7 +158,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
               ),
               builder: (BuildContext context) {
-                return Container(
+                return SizedBox(
                   height: MediaQuery.of(context).size.height - widget.topPadding!,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
@@ -130,6 +172,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
                             Material(
                               color: Colors.transparent,
                               child: InkWell(
+                                borderRadius: BorderRadius.circular(25.0),
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
@@ -139,9 +182,20 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
                           ],
                         ),
                         const SizedBox(height: 32),
-                        Text(title, style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700)),
-                        const SizedBox(height: 8),
-                        Text(description, style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w400)),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            physics: const ClampingScrollPhysics(),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(title, style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700)),
+                                const SizedBox(height: 8),
+                                Text(description, style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w400)),
+                              ]
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
                       ],
                     ),
                   ),
@@ -183,7 +237,7 @@ class _PolicyButtonState extends State<PolicyButton> {
               color: StaticColor.categoryUnselectedColor,
               borderRadius: BorderRadius.circular(4.0),
             ),
-            child: ElevatedButton(
+            child: ElevatedButton(//////
               onPressed: () async {
                 if(buttonState == false) {}
                 else if(buttonState == true) {
@@ -198,37 +252,12 @@ class _PolicyButtonState extends State<PolicyButton> {
         const SizedBox(height: 40),
         TextButton(
           onPressed: () {
-            context.read<SigninProvider>().policyCheckStateChange([true, true, false, false]);
+            context.read<SigninProvider>().policyCheckStateChange([true, true, true, true, false]);
+            Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()));
           },
           child: Text('필수 항목만 동의하고 다음으로', style: TextStyle(fontSize: 12, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
         )
       ],
     );
-
-
-
-
-    // if(isInstalled == true) {
-    //   try {
-    //     // token = await UserApi.instance.loginWithKakaoTalk();
-    //     await UserApi.instance.loginWithKakaoAccount();
-    //     /// saved token for static variable
-    //     KakaoUserInfoModel.userAccessToken = token;
-    //     token == null ? print('kakao token is empty') : {
-    //
-    //       /// user info model setup
-    //       userModel = await KakaoUserInfoModel().getUserInfo(token),
-    //       Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
-    //     };
-    //   } catch (error) {
-    //     rethrow;
-    //   }
-    // } else if(isInstalled == false) {
-    //   token = await UserApi.instance.loginWithKakaoAccount();
-    //   token == null ? print('kakao token is empty') : {
-    //     KakaoUserInfoModel.userAccessToken = token,
-    //     Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen(kakaoUserModel: userModel)))
-    //   };
-    // }
   }
 }

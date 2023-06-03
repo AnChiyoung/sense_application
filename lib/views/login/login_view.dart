@@ -258,28 +258,66 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
     /// auth code get
     OAuthToken? token;
 
-    token = await UserApi.instance.loginWithKakaoAccount();
-    token == null ? print('kakao token is empty') : {
-      userModel = await KakaoUserInfoModel().getUserInfo(token),
-      print('token ?? : ${token.accessToken}'),
-      logger.i(token.accessToken),
-      tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-      print('what is id?? : ${tokenModel.id}'),
-      if(tokenModel.isSignUp == false) {
-        KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
-        Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
-      } else {
-        if(tokenModel.isSignUp == true) {
-          logger.d('login success'),
-          userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
-          PresentUserInfo.id = userInfoModel.id!,
-          PresentUserInfo.username = userInfoModel.userName!,
-          PresentUserInfo.profileImage = userInfoModel.profileImage!,
-          Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
-          logger.d(userInfoModel.profileImage),
-        }
+    if(isInstalled == true) {
+      try {
+        token = await UserApi.instance.loginWithKakaoAccount();
+        token == null ? print('kakao token is empty') : {
+          userModel = await KakaoUserInfoModel().getUserInfo(token),
+          print('token ?? : ${token.accessToken}'),
+          logger.i(token.accessToken),
+          tokenModel = await SigninCheckModel().tokenLoginRequest(token),
+          print('what is id?? : ${tokenModel.id}'),
+          if(tokenModel.isSignUp == false) {
+            KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
+            Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
+          } else {
+            if(tokenModel.isSignUp == true) {
+              logger.d('login success'),
+              userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
+              PresentUserInfo.id = userInfoModel.id!,
+              PresentUserInfo.username = userInfoModel.userName!,
+              PresentUserInfo.profileImage = userInfoModel.profileImage!,
+              Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
+              logger.d(userInfoModel.profileImage),
+            }
+          }
+        };
+      } catch (error) {
+        rethrow;
       }
-    };
+    } else if(isInstalled == false) {
+      token = await UserApi.instance.loginWithKakaoAccount();
+      token == null ? print('kakao token is empty') : {
+        userModel = await KakaoUserInfoModel().getUserInfo(token),
+        print('token ?? : ${token.accessToken}'),
+        logger.i(token.accessToken),
+        tokenModel = await SigninCheckModel().tokenLoginRequest(token),
+        print('what is id?? : ${tokenModel.id}'),
+        if(tokenModel.isSignUp == false) {
+          KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
+          Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
+        } else {
+          if(tokenModel.isSignUp == true) {
+            logger.d('login success'),
+            userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
+            PresentUserInfo.id = userInfoModel.id!,
+            PresentUserInfo.username = userInfoModel.userName!,
+            PresentUserInfo.profileImage = userInfoModel.profileImage!,
+            Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
+            logger.d(userInfoModel.profileImage),
+          }
+        }
+      };
+    }
+
+
+
+
+
+
+
+
+
   }
 }
 
