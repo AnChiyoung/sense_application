@@ -25,8 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: StaticColor.loginBackgroundColor,
         body: SafeArea(
           child: SingleChildScrollView(
-            /// 묘한 패딩 어떻게?
-            physics: ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             child: SizedBox(
               height: MediaQuery.of(context).size.height - safeAreaTopPadding - safeAreaBottomPadding,
               child: Column(

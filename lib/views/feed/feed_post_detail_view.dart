@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/comment_model.dart';
+import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
 import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
@@ -21,230 +24,437 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
   @override
   Widget build(BuildContext context) {
 
+    print('get post id : ${widget.postId.toString()}');
+
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          color: Colors.white,
-          child: FutureBuilder(
-            future: ApiService.getPostById(widget.postId),
-            builder: (BuildContext context, AsyncSnapshot<FeedPostDetailModel> snapshot) {
-              if (snapshot.hasData) {
-                final post = snapshot.data as FeedPostDetailModel;
-                debugPrint(post.toString());
-                final isLiked = post.isLiked ?? false;
+        child: FutureBuilder(
+          future: FeedContentModel().feedDetailLoad(widget.postId),
+          builder: (context, snapshot) {
+            if(snapshot.hasError) {
+              return Text('Error : ${snapshot.error}');
+            } else if(snapshot.hasData) {
 
-                const bannerTitle = "이번 여름은 \n'카캉스'어때요?";
-                const bannerDesc = '카페에서 보내는 바캉스 스팟 5곳';
-                const created = "2023.02.01";
-                const likeCount = "4.8 M";
+              FeedDetailModel feedDetailModel = snapshot.data!;
 
-                const title = '연남동 카페 투어 패스';
-                const eventPeriodLabel = '이벤트 기간';
-                const eventPeriod = '2023. 02. 10 ~ 03. 01';
-
-                // paragraph
-                const p1 =
-                    '바야흐로 여름, 무더위의 계절이 도래했다. 사람들은 각자 떠나고 미리 떠나고 싶었던 휴가를 떠올리며 즐거운 상상을 하기도 하고, 아직 계획이 없던 이들도 여름휴가를 계획하며 다시 힘차게 하루를 이어간다.';
-                const p2 =
-                    '하지만 그저 여름 휴가만을 기다리기에 우리의 일상에는 터프한 사건사고들이 많은 것도 사실. 1년에 한 두 번 정도의 휴가로 이 모든 스트레스들을 날려버리기란 사실 쉬운 일이 아니지 않은가?';
-
-                // title paragraph
-                const tpTitle1 = '“가까운데 분위기 좋은곳\n어디 없나?”';
-                const tpDecs1 =
-                    '그럴 때 눈을 돌려보면, 이제 공간의 개념을 넘어선 카페들이 보이기 시작한다. 다양하면서도 독특한 컨셉으로 무장한 카페들은 가볍게 쉬기 위한 휴식처이자 피난처로는 제격. 게다가 마실 수 있는 음료와 디저트들도 가득하니 그야말로 딱이다.';
-
-                // image paragraph
-                const ipTitle1 = '#1. 연남동 디저트 앤 타르트';
-                const ipDecs1 =
-                    '깔끔한 인테리어와 어디서나 전망좋은 자리 그리고 잔잔한 음악과 여유,자연을 좋아하는 사람이라면 이 곳 연남동 디저트 앤 타르트 잠깐 와보는것도 시원한 카캉스를 보낼 수 있을 것이다.';
-                const ipTmi = '사실 사장님이 화분을 너무 좋아하신다.';
-                const ipSrc1 = 'https://picsum.photos/id/642/1024';
-
-                const p3 =
-                    '이 곳 디저트 앤 타르트는 이름 그대로 타르트가 유명하다 여러 타르트중 에그타르트와 시나몬 땅콩 타르트가 대표 메뉴이고 스페셜 메뉴는 당근케이크다. 깔끔하면서 적당히 달달한 디저트를 원하는 사람은 한번쯤 가봐도 좋은 장소이다.';
-
-                final product1 = FeedPostDetailStoreContentData(
-                  title: '프리미엄 에그타르트(5개입)',
-                  storeName: '연남동 디저트 앤 타르트',
-                  price: '12,000원',
-                  imageUrl:
-                      'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569__480.jpg',
-                );
-
-                final product2 = FeedPostDetailStoreContentData(
-                  title: '슈가파우더 올라간 시나몬 땅콩타르트(5개입)',
-                  storeName: '연남동 디저트 앤 타르트',
-                  price: '12,000원',
-                  imageUrl: 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__480.jpg',
-                );
-
-                const ipTitle2 = '#2. 모카천국 커피 (연남점)';
-                const ipSubtitle2 = '분위기, 시원함, 디저트, 여유로움을 모두 갖춘 완벽한 카캉스는 바로 여기!';
-                const ipDecs2 =
-                    '대부분 카페에서 파는 모카커피는 대부분 초콜릿소스가 모카로 둔갑한 가짜 커피에 불과하다. 그렇지만 진짜 모카를 재료로 쓴 커피의 맛은 과연 어떨까?';
-                const ipSrc2 = 'https://picsum.photos/id/3/1024';
-
-                final product3 = FeedPostDetailStoreContentData(
-                  title: '진한 모카가 들어간 진정한 모카커피',
-                  storeName: '모카천국 커피 (연남점)',
-                  price: '12,000원',
-                  imageUrl: 'https://picsum.photos/id/102/400',
-                );
-
-                final product4 = FeedPostDetailStoreContentData(
-                  title: '마카다미아 쿠기& 딥 다크 초콜릿 쿠키',
-                  storeName: '모카천국 커피 (연남점)',
-                  price: '12,000원',
-                  imageUrl: 'https://picsum.photos/id/110/400',
-                );
-
-                const p4 =
-                    '커피가 가는 곳에 쿠키가 빠질 수 없다. 모카천국 커피(연남점)에서는 다양한 쿠키를 맛 볼 수 있다. 라즈베리쿠키,마카다미아 쿠키, 미친 초코 쿠키,오트밀 쿠키,치즈쿠키,로즈마리쿠키 등 다양하다. 커피와 잘 어울리는 쿠키들은 빠르게 매진이 되니 아침에 미리 선주문을 하는것을 추천한다.';
-
-                const tags = ['힐링스팟', '카페', '투어', '한정판', '클래스', '데이트 코스'];
-
-                final commentCount = context.watch<FeedProvider>().commentCount;
-
-                return Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PostDetailBanner(
-                            imageUrl: post.bannerImageUrl ?? '',
-                            title: bannerTitle,
-                            desc: bannerDesc,
-                            created: created,
-                            likeCount: likeCount,
-                            isLiked: isLiked,
-                          ),
-                          const PostDetailTitle(
-                            title: title,
-                            eventPeriodLabel: eventPeriodLabel,
-                            eventPeriod: eventPeriod,
-                          ),
-                          const Divider(
-                            indent: 20,
-                            endIndent: 20,
-                            height: 1,
-                            thickness: 1,
-                            color: Color(0xFFEEEEEE),
-                          ),
-                          const PostDetailParagraph(text: p1),
-                          const PostDetailParagraph(text: p2),
-                          const PostDetailTitleParagraph(
-                            title: tpTitle1,
-                            desc: tpDecs1,
-                          ),
-                          const PostDetailImageParagraph(
-                            title: ipTitle1,
-                            imageUrl: ipSrc1,
-                            desc: ipDecs1,
-                            tmi: ipTmi,
-                          ),
-                          const PostDetailParagraph(text: p3),
-                          const SizedBox(height: 24),
-                          Column(
-                            children: [
-                              FeedPostDetailStoreContent(content: product1),
-                              FeedPostDetailStoreContent(content: product2),
-                            ],
-                          ),
-                          const PostDetailImageParagraph(
-                            title: ipTitle2,
-                            subtitle: ipSubtitle2,
-                            imageUrl: ipSrc2,
-                            desc: ipDecs2,
-                          ),
-                          Column(
-                            children: [
-                              FeedPostDetailStoreContent(content: product3),
-                              FeedPostDetailStoreContent(content: product4),
-                            ],
-                          ),
-                          const PostDetailParagraph(text: p4),
-                          const PostDetailTags(tags: tags),
-                          const SizedBox(height: 40),
-                          const RelatedPosts(),
-                          const Notice(),
-                          const SizedBox(height: 80),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: StaticColor.grey400BB,
-                            blurRadius: 1,
-                            offset: const Offset(0, -1),
-                          )
-                        ]
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                showBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (context) {
-                                    return CommentView(topPadding: safeAreaTopPadding);
-                                  }
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  Image.asset('assets/feed/comment_icon.png', width: 24, height: 24, color: StaticColor.grey400BB),
-                                  const SizedBox(width: 4),
-                                  Text(commentCount.toString(), style: TextStyle(fontSize: 16, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                                ]
-                              ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                LikeButton(isLiked: isLiked),
-                                Text('4.8M', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                                const SizedBox(width: 4),
-                                IconRippleButton(
-                                  icon: Icons.share_rounded,
-                                  color: StaticColor.grey400BB,
-                                  size: 24,
-                                  padding: 8,
-                                  onPressed: () => {},
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
+              if(snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if(snapshot.connectionState == ConnectionState.done) {
+                return PostDetail(postModel: feedDetailModel);
+              } else {
+                return const CircularProgressIndicator();
               }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+            } else {
+              return const Text('unknown error');
+            }
+          }
+        )
+      )
+    );
+
+    // return Scaffold(
+    //   body: SafeArea(
+    //     child: Container(
+    //       color: Colors.white,
+    //       child: FutureBuilder(
+    //         future: ApiService.getPostById(widget.postId),
+    //         builder: (BuildContext context, AsyncSnapshot<FeedPostDetailModel> snapshot) {
+    //           if (snapshot.hasData) {
+    //             final post = snapshot.data as FeedPostDetailModel;
+    //             debugPrint(post.toString());
+    //             final isLiked = post.isLiked ?? false;
+    //
+    //             const bannerTitle = "이번 여름은 \n'카캉스'어때요?";
+    //             const bannerDesc = '카페에서 보내는 바캉스 스팟 5곳';
+    //             const created = "2023.02.01";
+    //             const likeCount = "4.8 M";
+    //
+    //             const title = '연남동 카페 투어 패스';
+    //             const eventPeriodLabel = '이벤트 기간';
+    //             const eventPeriod = '2023. 02. 10 ~ 03. 01';
+    //
+    //             // paragraph
+    //             const p1 =
+    //                 '바야흐로 여름, 무더위의 계절이 도래했다. 사람들은 각자 떠나고 미리 떠나고 싶었던 휴가를 떠올리며 즐거운 상상을 하기도 하고, 아직 계획이 없던 이들도 여름휴가를 계획하며 다시 힘차게 하루를 이어간다.';
+    //             const p2 =
+    //                 '하지만 그저 여름 휴가만을 기다리기에 우리의 일상에는 터프한 사건사고들이 많은 것도 사실. 1년에 한 두 번 정도의 휴가로 이 모든 스트레스들을 날려버리기란 사실 쉬운 일이 아니지 않은가?';
+    //
+    //             // title paragraph
+    //             const tpTitle1 = '“가까운데 분위기 좋은곳\n어디 없나?”';
+    //             const tpDecs1 =
+    //                 '그럴 때 눈을 돌려보면, 이제 공간의 개념을 넘어선 카페들이 보이기 시작한다. 다양하면서도 독특한 컨셉으로 무장한 카페들은 가볍게 쉬기 위한 휴식처이자 피난처로는 제격. 게다가 마실 수 있는 음료와 디저트들도 가득하니 그야말로 딱이다.';
+    //
+    //             // image paragraph
+    //             const ipTitle1 = '#1. 연남동 디저트 앤 타르트';
+    //             const ipDecs1 =
+    //                 '깔끔한 인테리어와 어디서나 전망좋은 자리 그리고 잔잔한 음악과 여유,자연을 좋아하는 사람이라면 이 곳 연남동 디저트 앤 타르트 잠깐 와보는것도 시원한 카캉스를 보낼 수 있을 것이다.';
+    //             const ipTmi = '사실 사장님이 화분을 너무 좋아하신다.';
+    //             const ipSrc1 = 'https://picsum.photos/id/642/1024';
+    //
+    //             const p3 =
+    //                 '이 곳 디저트 앤 타르트는 이름 그대로 타르트가 유명하다 여러 타르트중 에그타르트와 시나몬 땅콩 타르트가 대표 메뉴이고 스페셜 메뉴는 당근케이크다. 깔끔하면서 적당히 달달한 디저트를 원하는 사람은 한번쯤 가봐도 좋은 장소이다.';
+    //
+    //             final product1 = FeedPostDetailStoreContentData(
+    //               title: '프리미엄 에그타르트(5개입)',
+    //               storeName: '연남동 디저트 앤 타르트',
+    //               price: '12,000원',
+    //               imageUrl:
+    //                   'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569__480.jpg',
+    //             );
+    //
+    //             final product2 = FeedPostDetailStoreContentData(
+    //               title: '슈가파우더 올라간 시나몬 땅콩타르트(5개입)',
+    //               storeName: '연남동 디저트 앤 타르트',
+    //               price: '12,000원',
+    //               imageUrl: 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__480.jpg',
+    //             );
+    //
+    //             const ipTitle2 = '#2. 모카천국 커피 (연남점)';
+    //             const ipSubtitle2 = '분위기, 시원함, 디저트, 여유로움을 모두 갖춘 완벽한 카캉스는 바로 여기!';
+    //             const ipDecs2 =
+    //                 '대부분 카페에서 파는 모카커피는 대부분 초콜릿소스가 모카로 둔갑한 가짜 커피에 불과하다. 그렇지만 진짜 모카를 재료로 쓴 커피의 맛은 과연 어떨까?';
+    //             const ipSrc2 = 'https://picsum.photos/id/3/1024';
+    //
+    //             final product3 = FeedPostDetailStoreContentData(
+    //               title: '진한 모카가 들어간 진정한 모카커피',
+    //               storeName: '모카천국 커피 (연남점)',
+    //               price: '12,000원',
+    //               imageUrl: 'https://picsum.photos/id/102/400',
+    //             );
+    //
+    //             final product4 = FeedPostDetailStoreContentData(
+    //               title: '마카다미아 쿠기& 딥 다크 초콜릿 쿠키',
+    //               storeName: '모카천국 커피 (연남점)',
+    //               price: '12,000원',
+    //               imageUrl: 'https://picsum.photos/id/110/400',
+    //             );
+    //
+    //             const p4 =
+    //                 '커피가 가는 곳에 쿠키가 빠질 수 없다. 모카천국 커피(연남점)에서는 다양한 쿠키를 맛 볼 수 있다. 라즈베리쿠키,마카다미아 쿠키, 미친 초코 쿠키,오트밀 쿠키,치즈쿠키,로즈마리쿠키 등 다양하다. 커피와 잘 어울리는 쿠키들은 빠르게 매진이 되니 아침에 미리 선주문을 하는것을 추천한다.';
+    //
+    //             const tags = ['힐링스팟', '카페', '투어', '한정판', '클래스', '데이트 코스'];
+    //
+    //             final commentCount = context.watch<FeedProvider>().commentCount;
+    //
+    //             return Stack(
+    //               children: [
+    //                 /// contens area
+    //                 SingleChildScrollView(
+    //                   child: Container(height: 1000, color: Colors.red)),
+    //                 /// back button area
+    //                 Padding(
+    //                   padding: const EdgeInsets.only(top: 38, left: 20),
+    //                   child: Material(
+    //                     color: Colors.transparent,
+    //                     child: InkWell(
+    //                       borderRadius: BorderRadius.circular(25.0),
+    //                       onTap: () {},
+    //                       child: Image.asset('assets/feed/back_button.png', width: 40, height: 40),
+    //                     ),
+    //                   ),
+    //                 )
+    //               ]
+    //             );
+    //
+    //
+    //             // return Stack(
+    //             //   alignment: Alignment.bottomCenter,
+    //             //   children: [
+    //             //     SingleChildScrollView(
+    //             //       child: Column(
+    //             //         crossAxisAlignment: CrossAxisAlignment.start,
+    //             //         children: [
+    //             //           PostDetailBanner(
+    //             //             imageUrl: post.bannerImageUrl ?? '',
+    //             //             title: bannerTitle,
+    //             //             desc: bannerDesc,
+    //             //             created: created,
+    //             //             likeCount: likeCount,
+    //             //             isLiked: isLiked,
+    //             //           ),
+    //             //           const PostDetailTitle(
+    //             //             title: title,
+    //             //             eventPeriodLabel: eventPeriodLabel,
+    //             //             eventPeriod: eventPeriod,
+    //             //           ),
+    //             //           const Divider(
+    //             //             indent: 20,
+    //             //             endIndent: 20,
+    //             //             height: 1,
+    //             //             thickness: 1,
+    //             //             color: Color(0xFFEEEEEE),
+    //             //           ),
+    //             //           const PostDetailParagraph(text: p1),
+    //             //           const PostDetailParagraph(text: p2),
+    //             //           const PostDetailTitleParagraph(
+    //             //             title: tpTitle1,
+    //             //             desc: tpDecs1,
+    //             //           ),
+    //             //           const PostDetailImageParagraph(
+    //             //             title: ipTitle1,
+    //             //             imageUrl: ipSrc1,
+    //             //             desc: ipDecs1,
+    //             //             tmi: ipTmi,
+    //             //           ),
+    //             //           const PostDetailParagraph(text: p3),
+    //             //           const SizedBox(height: 24),
+    //             //           Column(
+    //             //             children: [
+    //             //               FeedPostDetailStoreContent(content: product1),
+    //             //               FeedPostDetailStoreContent(content: product2),
+    //             //             ],
+    //             //           ),
+    //             //           const PostDetailImageParagraph(
+    //             //             title: ipTitle2,
+    //             //             subtitle: ipSubtitle2,
+    //             //             imageUrl: ipSrc2,
+    //             //             desc: ipDecs2,
+    //             //           ),
+    //             //           Column(
+    //             //             children: [
+    //             //               FeedPostDetailStoreContent(content: product3),
+    //             //               FeedPostDetailStoreContent(content: product4),
+    //             //             ],
+    //             //           ),
+    //             //           const PostDetailParagraph(text: p4),
+    //             //           const PostDetailTags(tags: tags),
+    //             //           const SizedBox(height: 40),
+    //             //           const RelatedPosts(),
+    //             //           const Notice(),
+    //             //           const SizedBox(height: 80),
+    //             //         ],
+    //             //       ),
+    //             //     ),
+    //             //     Container(
+    //             //       height: 56,
+    //             //       decoration: BoxDecoration(
+    //             //         color: Colors.white,
+    //             //         boxShadow: [
+    //             //           BoxShadow(
+    //             //             color: StaticColor.grey400BB,
+    //             //             blurRadius: 1,
+    //             //             offset: const Offset(0, -1),
+    //             //           )
+    //             //         ]
+    //             //       ),
+    //             //       child: Padding(
+    //             //         padding: const EdgeInsets.symmetric(horizontal: 20),
+    //             //         child: Row(
+    //             //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //             //           children: [
+    //             //             GestureDetector(
+    //             //               onTap: () {
+    //             //                 showBottomSheet(
+    //             //                   backgroundColor: Colors.transparent,
+    //             //                   context: context,
+    //             //                   builder: (context) {
+    //             //                     return CommentView(topPadding: safeAreaTopPadding);
+    //             //                   }
+    //             //                 );
+    //             //               },
+    //             //               child: Row(
+    //             //                 children: [
+    //             //                   Image.asset('assets/feed/comment_icon.png', width: 24, height: 24, color: StaticColor.grey400BB),
+    //             //                   const SizedBox(width: 4),
+    //             //                   Text(commentCount.toString(), style: TextStyle(fontSize: 16, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+    //             //                 ]
+    //             //               ),
+    //             //             ),
+    //             //             Row(
+    //             //               crossAxisAlignment: CrossAxisAlignment.center,
+    //             //               children: [
+    //             //                 LikeButton(isLiked: isLiked),
+    //             //                 Text('4.8M', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+    //             //                 const SizedBox(width: 4),
+    //             //                 IconRippleButton(
+    //             //                   icon: Icons.share_rounded,
+    //             //                   color: StaticColor.grey400BB,
+    //             //                   size: 24,
+    //             //                   padding: 8,
+    //             //                   onPressed: () => {},
+    //             //                 )
+    //             //               ],
+    //             //             ),
+    //             //           ],
+    //             //         ),
+    //             //       ),
+    //             //     ),
+    //             //   ],
+    //             // );
+    //           } else if (snapshot.hasError) {
+    //             return Text('Error: ${snapshot.error}');
+    //           }
+    //           return const Center(
+    //             child: CircularProgressIndicator(),
+    //           );
+    //         },
+    //       ),
+    //     ),
+    //   ),
+    // );
+  }
+}
+
+class PostDetail extends StatefulWidget {
+  FeedDetailModel? postModel;
+  PostDetail({Key? key, this.postModel}) : super(key: key);
+
+  @override
+  State<PostDetail> createState() => _PostDetailState();
+}
+
+class _PostDetailState extends State<PostDetail> {
+
+  late FeedDetailModel model;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    model = widget.postModel!;
+    _scrollController = ScrollController()..addListener(() {
+      try {
+        if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+          if (_exposureAppBar) {
+            setState(() {
+              _exposureAppBar = false;
+            });
+          }
+        } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+          if (!_exposureAppBar) {
+            setState(() {
+              _exposureAppBar = true;
+            });
+          }
+        }
+      } catch (_) {}
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  bool _exposureAppBar = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        /// post area
+        SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          controller: _scrollController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // AnimatedCrossFade(
+              //   firstChild: PostDetailBanner(
+              //       imageUrl: model.thumbnail!,
+              //       title: model.title!,
+              //       desc: model.subTitle!,
+              //       created: model.createdTime!.substring(0, 10).replaceAll('-', '.'),
+              //       likeCount: model.likeCount.toString(),
+              //       isLiked: model.isLiked!),
+              //   secondChild: const SizedBox.shrink(),
+              //   firstCurve: const Interval(0.0, 0.6, curve: Curves.fastOutSlowIn),
+              //   secondCurve: const Interval(0.4, 1.0, curve: Curves.fastOutSlowIn),
+              //   sizeCurve: Curves.fastOutSlowIn,
+              //   crossFadeState: _exposureAppBar ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              //   duration: const Duration(milliseconds: 1000),
+              // ),
+              PostDetailBanner(
+                imageUrl: model.thumbnail!,
+                title: model.title!,
+                desc: model.subTitle!,
+                created: model.createdTime!.substring(0, 10).replaceAll('-', '.'),
+                likeCount: model.likeCount.toString(),
+                isLiked: model.isLiked!),
+              PostDetailTitle(
+                title: model.memo!,
+                eventPeriodLabel: '',
+                eventPeriod: '',),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                itemCount: model.contents!.length,
+                itemBuilder: (context, index) {
+                  // return ContentTextTypeParagraph(text: model.contents!.elementAt(index).contentUrl.toString());
+                  if(model.contents!.elementAt(index).type == 'TEXT') {
+                    return ContentTextTypeParagraph(text: model.contents!.elementAt(index).contentUrl.toString());
+                  } else if(model.contents!.elementAt(index).type == 'IMAGE') {
+                    return ContentImageTypeParagraph(imageUrl: model.contents!.elementAt(index).contentUrl.toString());
+                  }
+                }
+              ),
+              const SizedBox(height: 80.0),
+              // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
+            ],
           ),
+        ),
+        /// back button area
+        Padding(
+          padding: const EdgeInsets.only(top: 38.0, left: 20.0),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(25.0),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Image.asset('assets/feed/back_button.png', width: 40, height: 40),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ContentTextTypeParagraph extends StatelessWidget {
+  String text;
+  ContentTextTypeParagraph({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+
+    const lineHeight = 26.0 / 16.0;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24.0, left: 20.0, right: 20.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 16, color: StaticColor.grey80033, fontWeight: FontWeight.w400, height: lineHeight,
+        )
+      ),
+    );
+  }
+}
+
+class ContentImageTypeParagraph extends StatelessWidget {
+  String imageUrl;
+  ContentImageTypeParagraph({Key? key, required this.imageUrl}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0, left: 20.0, right: 20.0),
+      child: FittedBox(
+        fit: BoxFit.fitWidth,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
         ),
       ),
     );
   }
 }
 
+/// original class
 class Notice extends StatelessWidget {
   const Notice({super.key});
 
@@ -814,7 +1024,7 @@ class PostDetailTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 32, 20, 25),
+      padding: const EdgeInsets.only(top: 32.0, left: 20.0, right: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -824,15 +1034,15 @@ class PostDetailTitle extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF333333),
               )),
-          const SizedBox(height: 32),
-          Text(eventPeriodLabel,
+          eventPeriodLabel == '' ? const SizedBox.shrink() : const SizedBox(height: 32),
+          eventPeriodLabel == '' ? const SizedBox.shrink() : Text(eventPeriodLabel,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF555555),
               )),
-          const SizedBox(height: 4),
-          Text(
+          eventPeriodLabel == '' ? const SizedBox.shrink() : const SizedBox(height: 4),
+          eventPeriod == '' ? const SizedBox.shrink() : Text(
             eventPeriod,
             style: const TextStyle(
               fontSize: 14,
@@ -840,6 +1050,8 @@ class PostDetailTitle extends StatelessWidget {
               color: Color(0xFF777777),
             ),
           ),
+          const SizedBox(height: 24),
+          Container(height: 1, color: StaticColor.grey200EE),
         ],
       ),
     );
@@ -959,7 +1171,7 @@ class PostDetailBanner extends StatelessWidget {
             },
           ),
         ),
-        const PostDetailBackButton(),
+        // const PostDetailBackButton(),
         Positioned(
           left: 0,
           right: 0,

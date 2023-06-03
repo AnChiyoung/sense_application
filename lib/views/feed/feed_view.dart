@@ -70,7 +70,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        search(searchController.text);
+                        // search(searchController.text);
                       },
                       child: Image.asset('assets/feed/search_button.png', width: 24, height: 24),
                     ),
