@@ -10,7 +10,7 @@ class SigninCheckModel {
     final response = await http.post(
       Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login'),
       body: jsonEncode(tokenRequestBody),
-      headers: {'Content-Type': 'Snadfdfdfdfdfdfdfapplication/json; charset=UTF-8'},
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {

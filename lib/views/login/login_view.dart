@@ -3,12 +3,10 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/login_check.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
-import 'package:sense_flutter_application/public_widget/login_dialog.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
@@ -75,6 +73,9 @@ class _LoginFormViewState extends State<LoginFormView> {
     final autoLoginState = context.watch<LoginProvider>().autoLoginState;
     autoLoginState == true ? autoLoginImage = 'check_done.png' : autoLoginImage = 'check_empty.png';
 
+    final safeAreaTopPadding = MediaQuery.of(context).padding.top;
+    final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Container(
       color: Colors.white,
       child: Padding(
@@ -129,13 +130,47 @@ class _LoginFormViewState extends State<LoginFormView> {
                   id = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
 
                   if(id == -1) {
-                    showDialog(
-                        context: context,
-                        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return const LoginDialog();
-                        }
+
+                    // FlutterToast.showToast(child: Container(width: 100, height: 80, color: Colors.red),
+                    // gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 2));
+
+                    // showDialog(
+                    //     context: context,
+                    //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                    //     barrierDismissible: false,
+                    //     builder: (BuildContext context) {
+                    //       return const LoginDialog();
+                    //     }
+                    // );
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        duration: const Duration(milliseconds: 4000),
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height - safeAreaTopPadding - safeAreaBottomPadding - 150,
+                        ),
+                        content: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4.0),
+                            border: Border.all(color: StaticColor.textErrorColor, width: 1),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset('assets/signin/snackbar_error_icon.png', width: 24, height: 24),
+                              const SizedBox(width: 8),
+                              Text('이메일 또는 비밀번호가 일치하지 않아요.',
+                                style: TextStyle(
+                                    fontSize: 14, color: StaticColor.textErrorColor, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     );
                   } else {
                     userInfoModel = await UserInfoRequest().userInfoRequest(id!);
@@ -147,6 +182,9 @@ class _LoginFormViewState extends State<LoginFormView> {
                     PresentUserInfo.id = userInfoModel.id!;
                     PresentUserInfo.username = userInfoModel.userName!;
                     PresentUserInfo.profileImage = userInfoModel.profileImage!;
+                    /// text form field clear
+                    emailFieldController.clear();
+                    passwordFieldController.clear();
                     print('id is what? : ${userInfoModel.id}');
                     Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
                   }
@@ -216,8 +254,6 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           borderRadius: BorderRadius.circular(4.0),
           child: InkWell(
             onTap: () async {
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginCheck()));
               SigninModel.signinType = 0;
               kakaoLoginTry(context);
             },
@@ -296,8 +332,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
         if(tokenModel.isSignUp == false) {
           KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
           Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
-        } else {
-          if(tokenModel.isSignUp == true) {
+        } else if(tokenModel.isSignUp == true) {
             logger.d('login success'),
             userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
             PresentUserInfo.id = userInfoModel.id!,
@@ -306,18 +341,8 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
             Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
             logger.d(userInfoModel.profileImage),
           }
-        }
       };
     }
-
-
-
-
-
-
-
-
-
   }
 }
 

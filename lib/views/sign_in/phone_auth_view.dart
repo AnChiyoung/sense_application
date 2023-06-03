@@ -13,7 +13,6 @@ import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
-import 'package:ftoast/ftoast.dart';
 
 class PhoneAuthHeader extends StatefulWidget {
   const PhoneAuthHeader({Key? key}) : super(key: key);
