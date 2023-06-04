@@ -80,6 +80,14 @@ class SigninProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String _date = '';
+  String get date => _date;
+
+  void dateStateChange(String state) {
+    _date = state;
+    notifyListeners();
+  }
+
   bool _basicInfoButtonState = false;
   bool get basicInfoButtonState => _basicInfoButtonState;
   String _phoneNumber = '';

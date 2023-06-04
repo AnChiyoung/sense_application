@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
@@ -60,6 +61,15 @@ class MyApp extends StatelessWidget {
       // routes: {
       //   '/': (context) => const HomeScreen(),
       // },
+      /// picker localization
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('ko', ''),
+        Locale('en', ''),
+      ],
       debugShowCheckedModeBanner: false,
       title: 'Sense flutter application',
       theme: ThemeData(

@@ -11,12 +11,21 @@ import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_validate.dart';
 
-class EmailHeader extends StatelessWidget {
+class EmailHeader extends StatefulWidget {
   const EmailHeader({Key? key}) : super(key: key);
 
   @override
+  State<EmailHeader> createState() => _EmailHeaderState();
+}
+
+class _EmailHeaderState extends State<EmailHeader> {
+  @override
   Widget build(BuildContext context) {
-    return SigninHeader(backButton: true, title: '', closeButton: false);
+    return SigninHeader(backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback);
+  }
+
+  void backButtonCallback() {
+    context.read<SigninProvider>().emailPasswordButtonStateChange(false);
   }
 }
 

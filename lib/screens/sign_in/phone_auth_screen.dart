@@ -17,7 +17,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
 
     return GestureDetector(
       onTap: () {
-        // FocusScope.of(context).unfocus();
+        FocusScope.of(context).unfocus();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

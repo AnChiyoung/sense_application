@@ -60,7 +60,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                       borderSide: BorderSide(width: 0, color: Colors.transparent),
                     )
                   ),
-                  onSubmitted: search,
+                  // onSubmitted: search,
                 ),
                 /// 우측 검색 버튼
                 Padding(

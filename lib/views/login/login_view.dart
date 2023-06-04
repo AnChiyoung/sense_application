@@ -128,12 +128,8 @@ class _LoginFormViewState extends State<LoginFormView> {
                 onTap: () async {
                   int? id;
                   id = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
-
                   if(id == -1) {
-
-                    // FlutterToast.showToast(child: Container(width: 100, height: 80, color: Colors.red),
-                    // gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 2));
-
+                    /// dialog version
                     // showDialog(
                     //     context: context,
                     //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
@@ -143,6 +139,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                     //     }
                     // );
 
+                    /// snackbar version
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,

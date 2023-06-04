@@ -1,4 +1,4 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 import 'package:provider/provider.dart';
@@ -10,14 +10,24 @@ import 'package:sense_flutter_application/views/sign_in/sign_in_description_view
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_validate.dart';
-import 'package:table_calendar/table_calendar.dart';
 
-class BasicInfoHeader extends StatelessWidget {
+class BasicInfoHeader extends StatefulWidget {
   const BasicInfoHeader({Key? key}) : super(key: key);
 
   @override
+  State<BasicInfoHeader> createState() => _BasicInfoHeaderState();
+}
+
+class _BasicInfoHeaderState extends State<BasicInfoHeader> {
+  @override
   Widget build(BuildContext context) {
-    return SigninHeader(backButton: true, title: '', closeButton: false);
+    return SigninHeader(backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback,);
+  }
+
+  void backButtonCallback() {
+    context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
+    context.read<SigninProvider>().stepChangeState([true, false, false, false]);
+    context.read<SigninProvider>().genderChangeState([false, false]);
   }
 }
 
@@ -48,6 +58,7 @@ class BasicInfoInputField extends StatefulWidget {
 class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
   KakaoUserModel? presetModel = KakaoUserInfoModel.presetInfo;
   String gender = '';
+  String selectDate = DateTime.now().toString().substring(0, 10);
 
   List<bool> widgetManagement = [true, false, false, false];
   List<bool> genderManagement = [true, false];
@@ -185,10 +196,14 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           } else {
             phoneNumberState = false;
           }
+          print(nameState);
+          print(birthdayState);
+          print(genderState);
+          print(phoneNumberState);
           // print(nameState.toString() + '/' + birthdayState.toString() + '/' + genderState.toString() + '/' + phoneNumberState.toString());
-          nameState && birthdayState && genderState && phoneNumberState == false ?
-            context.read<SigninProvider>().basicInfoButtonStateChange(false, '') :
-            context.read<SigninProvider>().basicInfoButtonStateChange(true, sendNumber.replaceAll('-', ''));
+          nameState && birthdayState && genderState && phoneNumberState == true ?
+            context.read<SigninProvider>().basicInfoButtonStateChange(true, sendNumber.replaceAll('-', '')) :
+            context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
         },
       ),
     );
@@ -231,6 +246,9 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
             // birthdayInputController.text = date.toString().substring(0, 10);
             // // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
           },
+          onChanged: (value) {
+            value.isNotEmpty ? FocusScope.of(context).requestFocus(phoneNumberFocusNode) : {};
+          }
       ),
     );
   }
@@ -262,21 +280,78 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           errorText: null,
         ),
         onTap: () async {
-          final date = await showDatePicker(
-              initialEntryMode: DatePickerEntryMode.calendarOnly,
-              useRootNavigator: false,
-              context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
-          );
-          date == null ? {} : {
-            birthdayState = true,
-            /// data input
-            SigninModel.birthday = date.toString().substring(0, 10),
-          };
-          birthdayInputController.text = date.toString().substring(0, 10);
-          widgetManagement[2] = true;
-          context.read<SigninProvider>().stepChangeState(widgetManagement);
+          showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) {
+            return Wrap(children: [dateSelect(context)]);
+          });
+          //
+          // birthdayInputController.text = _dateTime.toString().substring(0, 10);
+
+          // birthdayInputController.text.isEmpty ? {
+          //   birthdayInputController.text = _dateTime.toString().substring(0, 10),
+          //   birthdayState = true,
+          //   SigninModel.birthday = _dateTime.toString().substring(0, 10),
+          //   widgetManagement[2] = true,
+          //   context.read<SigninProvider>().stepChangeState(widgetManagement),
+          // } : {};
+
+
+          // final date = await showDatePicker(
+          //     initialEntryMode: DatePickerEntryMode.calendarOnly,
+          //     useRootNavigator: false,
+          //     context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
+          // );
+          // date == null ? {} : {
+          //   birthdayState = true,
+          //   /// data input
+          //   SigninModel.birthday = date.toString().substring(0, 10),
+          // };
+          // birthdayInputController.text = date.toString().substring(0, 10);
+
           // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
         },
+      ),
+    );
+  }
+
+  Widget dateSelect(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  selectDate.isEmpty == true ? birthdayState = false : birthdayState = true;
+                  birthdayInputController.text = selectDate;
+                  widgetManagement[2] = true;
+                  context.read<SigninProvider>().stepChangeState(widgetManagement);
+                  Navigator.of(context).pop();
+                },
+                child: Text('확인'),
+              ),
+            ),
+            SizedBox(
+                width: double.infinity,
+                height: 250,
+                child: CupertinoDatePicker(
+                  minimumYear: 1900,
+                  maximumYear: DateTime.now().year,
+                  initialDateTime: DateTime.now(),
+                  onDateTimeChanged: (date) {
+                    selectDate = date.toString().substring(0, 10);
+                  },
+                  mode: CupertinoDatePickerMode.date,
+                )
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -376,6 +451,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                       context.read<SigninProvider>().genderChangeState(genderManagement);
                       widgetManagement[3] = true;
                       context.read<SigninProvider>().stepChangeState(widgetManagement);
+                      Navigator.of(context).pop();
                     },
                     child: Consumer<SigninProvider>(
                       builder: (context, data, child) => Container(
@@ -413,6 +489,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                       context.read<SigninProvider>().genderChangeState(genderManagement);
                       widgetManagement[3] = true;
                       context.read<SigninProvider>().stepChangeState(widgetManagement);
+                      Navigator.of(context).pop();
                     },
                     child: Consumer<SigninProvider>(
                       builder: (context, data, child) => Container(
@@ -443,6 +520,8 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
       ),
     );
   }
+
+
 
   // Widget birthdaySelectDialog(BuildContext context) {
   //   return Dialog(
