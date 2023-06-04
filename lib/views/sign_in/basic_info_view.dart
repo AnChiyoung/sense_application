@@ -156,7 +156,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: TextFormField(
         controller: phoneNumberInputController,
-        autofocus: true,
+        // autofocus: true,
         focusNode: phoneNumberFocusNode,
         inputFormatters: [
           MultiMaskedTextInputFormatter(masks: ['xxx-xxxx-xxxx', 'xxx-xxx-xxxx'], separator: '-')
@@ -248,7 +248,8 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           },
           onChanged: (value) {
             value.isNotEmpty ? FocusScope.of(context).requestFocus(phoneNumberFocusNode) : {};
-          }
+          },
+        onEditingComplete: () => context.nextEditableTextFocus(),
       ),
     );
   }
@@ -283,31 +284,6 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) {
             return Wrap(children: [dateSelect(context)]);
           });
-          //
-          // birthdayInputController.text = _dateTime.toString().substring(0, 10);
-
-          // birthdayInputController.text.isEmpty ? {
-          //   birthdayInputController.text = _dateTime.toString().substring(0, 10),
-          //   birthdayState = true,
-          //   SigninModel.birthday = _dateTime.toString().substring(0, 10),
-          //   widgetManagement[2] = true,
-          //   context.read<SigninProvider>().stepChangeState(widgetManagement),
-          // } : {};
-
-
-          // final date = await showDatePicker(
-          //     initialEntryMode: DatePickerEntryMode.calendarOnly,
-          //     useRootNavigator: false,
-          //     context: context, initialDate: DateTime.now(), firstDate: DateTime.utc(1900, 1, 1), lastDate: DateTime.now(),
-          // );
-          // date == null ? {} : {
-          //   birthdayState = true,
-          //   /// data input
-          //   SigninModel.birthday = date.toString().substring(0, 10),
-          // };
-          // birthdayInputController.text = date.toString().substring(0, 10);
-
-          // showDialog(barrierDismissible: false, context: context, builder: (context) {return birthdaySelectDialog(context);});
         },
       ),
     );
@@ -331,6 +307,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                   selectDate.isEmpty == true ? birthdayState = false : birthdayState = true;
                   birthdayInputController.text = selectDate;
                   widgetManagement[2] = true;
+                  SigninModel.birthday = selectDate.toString().substring(0, 10);
                   context.read<SigninProvider>().stepChangeState(widgetManagement);
                   Navigator.of(context).pop();
                 },
@@ -441,6 +418,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
+                      phoneNumberFocusNode.requestFocus();
                       /// data input
                       SigninModel.gender = '남성';
 
@@ -539,6 +517,14 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
   //     ),
   //   );
   // }
+}
+
+extension Utility on BuildContext {
+  void nextEditableTextFocus() {
+    do {
+      FocusScope.of(this).nextFocus();
+    } while (FocusScope.of(this).focusedChild!.context!.widget is! EditableText);
+  }
 }
 
 class BasicInfoAuthButton extends StatefulWidget {
