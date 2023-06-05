@@ -15,6 +15,7 @@ class SigninCheckModel {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = json.decode(response.body)['data'];
+      // print(jsonResult);
       AccessTokenResponseModel joinTokenModel = AccessTokenResponseModel.fromJson(jsonResult);
       return joinTokenModel;
     } else {
@@ -39,19 +40,47 @@ class AccessTokenResponseModel {
   int? id;
   bool? isSignUp;
   TokenModel? joinToken;
-  // String? joinToken;
+
+  String? email;
+  String? phone;
+  String? username;
+  String? kakaoNickname;
+  String? birthday;
+  String? typeBirthday;
+  String? typeGender;
+  String? typeAgeRange;
+  String? profileImageUrl;
 
   AccessTokenResponseModel({
     this.id,
     this.isSignUp,
     this.joinToken,
+
+    this.username,
+    this.email,
+    this.phone,
+    this.kakaoNickname,
+    this.birthday,
+    this.typeBirthday,
+    this.typeGender,
+    this.typeAgeRange,
+    this.profileImageUrl,
   });
 
   AccessTokenResponseModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
     isSignUp = json['is_signup'] ?? false;
     joinToken = TokenModel.fromJson(json['token']);
-    // joinToken = json['token']['access_token'] ?? '';
+
+    username = json['username'] ?? '';
+    email = json['email'] ?? '';
+    phone = json['phone'] ?? '';
+    kakaoNickname = json['kakao_nickname'] ?? '';
+    birthday = json['birthday'] ?? '';
+    typeBirthday = json['birthday_type'] ?? '';
+    typeGender = json['gender_type'] ?? '';
+    typeAgeRange = json['age_range_type'] ?? '';
+    profileImageUrl = json['profile_image_url'] ?? '';
   }
 }
 

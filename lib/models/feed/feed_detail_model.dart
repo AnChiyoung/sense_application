@@ -13,9 +13,9 @@ class FeedContentModel {
     if(response.statusCode == 200 || response.statusCode == 201) {
       // final jsonResult = json.decode(response.body)['data'];
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      print(jsonResult);
+      // print('json result ? : $jsonResult');
       FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
-      print(feedDetailModel.thumbnail);
+      // print(feedDetailModel.thumbnail);
       return feedDetailModel;
     } else {
       throw Exception;
@@ -38,7 +38,7 @@ class FeedDetailModel {
   int? commentCount;
   int? shareCount;
   List<Tag>? tags = [];
-  bool? isLiked;
+  String? isLiked;
   // pervpost, nextpost non active
   List<Content>? contents = [];
   String? createdTime;
@@ -80,7 +80,7 @@ class FeedDetailModel {
     json['tags'].forEach((v) {
       tags!.add(Tag.fromJson(v));
     }) ?? [];
-    isLiked = json['is_liked'] ?? false;
+    isLiked = json['is_liked'] ?? 'false';
     json['contents'].forEach((v) {
       contents!.add(Content.fromJson(v));
     }) ?? [];

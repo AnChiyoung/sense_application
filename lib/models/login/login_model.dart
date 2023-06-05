@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 
 class PresentUserInfo {
   static int id = 0;
   static String username = '';
   static String profileImage = '';
+  static String loginToken = '';
 }
 
 class UserInfoRequest {
@@ -31,18 +33,48 @@ class UserInfoRequest {
 class UserInfoModel {
   int? id;
   String? userName;
-  String? profileImage;
+  TokenModel? joinToken;
+
+  String? email;
+  String? phone;
+  String? username;
+  String? kakaoNickname;
+  String? birthday;
+  String? typeBirthday;
+  String? typeGender;
+  String? typeAgeRange;
+  String? profileImageUrl;
 
   UserInfoModel({
     this.id,
     this.userName,
-    this.profileImage,
+    this.joinToken,
+
+    this.username,
+    this.email,
+    this.phone,
+    this.kakaoNickname,
+    this.birthday,
+    this.typeBirthday,
+    this.typeGender,
+    this.typeAgeRange,
+    this.profileImageUrl,
   });
 
   UserInfoModel.fromJson(dynamic json) {
     id = json['id'] ?? '';
     userName = json['username'] ?? ('user-' + id.toString());
-    profileImage = json['profile_image_url'] ?? '';
+    joinToken = TokenModel.fromJson(json['token']);
+
+    username = json['username'] ?? '';
+    email = json['email'] ?? '';
+    phone = json['phone'] ?? '';
+    kakaoNickname = json['kakao_nickname'] ?? '';
+    birthday = json['birthday'] ?? '';
+    typeBirthday = json['birthday_type'] ?? '';
+    typeGender = json['gender_type'] ?? '';
+    typeAgeRange = json['age_range_type'] ?? '';
+    profileImageUrl = json['profile_image_url'] ?? '';
   }
 }
 
@@ -50,7 +82,7 @@ class LoginRequest {
 
   static FlutterSecureStorage storage = FlutterSecureStorage();
 
-  Future<int?> emailLoginReqeust(String email, String password) async {
+  Future<UserInfoModel?> emailLoginReqeust(String email, String password) async {
 
     // dynamic emptyModel = {'id': -1, 'username': '', 'profile_image_url': ''};
 
@@ -65,9 +97,9 @@ class LoginRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = json.decode(response.body)['data'];
       UserInfoModel userInfoModel = UserInfoModel.fromJson(jsonResult);
-      return userInfoModel.id;
+      return userInfoModel;
     } else {
-      return -1;
+      return null;
     }
   }
 }

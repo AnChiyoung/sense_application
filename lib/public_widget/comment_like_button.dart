@@ -23,10 +23,10 @@ class _CommentLikeButtonState extends State<CommentLikeButton> {
   }
 
   void toggleLike() {
-    likeState = !likeState;
-    CommentModel.likeState[widget.index] = likeState;
-    CommentModel.likeState[widget.index] == true ? CommentModel.likeCount[widget.index] = 1 : CommentModel.likeCount[widget.index] = 0;
-    context.read<FeedProvider>().commentStateChange(likeState);
+    // likeState = !likeState;
+    // CommentModel.likeState[widget.index] = likeState;
+    // CommentModel.likeState[widget.index] == true ? CommentModel.likeCount[widget.index] = 1 : CommentModel.likeCount[widget.index] = 0;
+    // context.read<FeedProvider>().commentStateChange(likeState);
   }
 
   @override

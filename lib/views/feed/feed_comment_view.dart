@@ -30,10 +30,9 @@ class _CommentViewState extends State<CommentView> {
   Widget build(BuildContext context) {
 
     double bottomSheetMaxHeight = getBottomSheetMaxHeight(context, widget.topPadding!);
-    print('how?? : $bottomSheetMaxHeight');
 
     return DraggableScrollableSheet(
-      initialChildSize: 0.3,
+      initialChildSize: 0.45,
       maxChildSize: bottomSheetMaxHeight,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
@@ -47,50 +46,41 @@ class _CommentViewState extends State<CommentView> {
             builder: (context, data, child) => Stack(
               children: [
                 bottomSheetHeader(),
-                Padding(
-                  padding: EdgeInsets.only(top: 60),
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: CommentModel.description.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          commentField(context, index),
-                          Divider(height: 0.1, color: Colors.grey),
-                        ],
-                      );
-                    },
-                  ),
+
+                /// comment request
+                FutureBuilder(
+                  future: CommentRequest().commentRequest(15),
+                  builder: (context, snapshot) {
+                    List<CommentResponseModel>? commentModels = snapshot.data;
+                    return Padding(
+                      padding: EdgeInsets.only(top: 60),
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: commentModels!.length ?? 0,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            children: [
+                              commentField(context, commentModels, index),
+                              Divider(height: 0.1, color: Colors.grey),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  }
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: commentInputField(context, commentInputController)),
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: commentInputField(context, commentInputController)),
               ],
             ),
           ),
-          // child: ListView.builder(
-          //   itemCount: 2,
-          //   itemBuilder: (context, index) {
-          //     if(index == 0) {
-          //       return bottomSheetHeader();
-          //     } else {
-          //       return ListView.builder(
-          //         controller: scrollController,
-          //         itemCount: 25,
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return ListTile(title: Text('Item $index'));
-          //         },
-          //       );
-          //     }
-          //   }
-          // )
         );
       },
-
     );
   }
 
-  Widget commentField(BuildContext context, int index) {
+  Widget commentField(BuildContext context, List<CommentResponseModel> model, int index) {
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, index)]);});
@@ -108,11 +98,11 @@ class _CommentViewState extends State<CommentView> {
                   children: [
                     EmptyUserProfile(),
                     const SizedBox(width: 8),
-                    Text(CommentModel.name[index], style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+                    Text(model.elementAt(index).commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
                     const SizedBox(width: 4),
                     Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
                     const SizedBox(width: 4),
-                    Text(CommentModel.writeDateTime[index], style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
+                    Text('지금', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
                   ],
                 ),
                 Material(
@@ -130,7 +120,7 @@ class _CommentViewState extends State<CommentView> {
             /// personal comment description
             Padding(
               padding: const EdgeInsets.only(left: 40),
-              child: Text(CommentModel.description[index]),
+              child: Text(model.elementAt(index).content!),
             ),
             // Padding(
             //   padding: const EdgeInsets.only(left: 40),
@@ -138,35 +128,35 @@ class _CommentViewState extends State<CommentView> {
             //       text: CommentModel.description[index], maxLength: 10)
             // ),
             /// personal comment like, subcomment field
-            Consumer<FeedProvider>(
-              builder: (context, data, child) => data.commentState == CommentModel.likeState[index] ? Padding(
-                padding: const EdgeInsets.only(left: 40, top: 10, bottom: 12),
-                child: Row(
-                  children: [
-                    CommentLikeButton(state: CommentModel.likeState[index], index: index),
-                    const SizedBox(width: 4),
-                    Text(CommentModel.likeCount[index].toString()),
-                    const SizedBox(width: 16),
-                    CommentButton(state: false),
-                    const SizedBox(width: 4),
-                    Text('0'),
-                  ],
-                ),
-              ) : Padding(
-                padding: const EdgeInsets.only(left: 40, top: 10, bottom: 12),
-                child: Row(
-                  children: [
-                    CommentLikeButton(state: CommentModel.likeState[index], index: index),
-                    const SizedBox(width: 4),
-                    Text(CommentModel.likeCount[index].toString()),
-                    const SizedBox(width: 16),
-                    CommentButton(state: false),
-                    const SizedBox(width: 4),
-                    Text('0'),
-                  ],
-                ),
-              ),
-            )
+            // Consumer<FeedProvider>(
+            //   builder: (context, data, child) => data.commentState == CommentModel.likeState[index] ? Padding(
+            //     padding: const EdgeInsets.only(left: 40, top: 10, bottom: 12),
+            //     child: Row(
+            //       children: [
+            //         CommentLikeButton(state: CommentModel.likeState[index], index: index),
+            //         const SizedBox(width: 4),
+            //         Text(CommentModel.likeCount[index].toString()),
+            //         const SizedBox(width: 16),
+            //         CommentButton(state: false),
+            //         const SizedBox(width: 4),
+            //         Text('0'),
+            //       ],
+            //     ),
+            //   ) : Padding(
+            //     padding: const EdgeInsets.only(left: 40, top: 10, bottom: 12),
+            //     child: Row(
+            //       children: [
+            //         CommentLikeButton(state: CommentModel.likeState[index], index: index),
+            //         const SizedBox(width: 4),
+            //         Text(CommentModel.likeCount[index].toString()),
+            //         const SizedBox(width: 16),
+            //         CommentButton(state: false),
+            //         const SizedBox(width: 4),
+            //         Text('0'),
+            //       ],
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
@@ -504,7 +494,7 @@ class _CommentViewState extends State<CommentView> {
                   children: [
                     Text('댓글', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
                     const SizedBox(width: 4),
-                    Text(CommentModel.description.length.toString(), style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+                    // Text(CommentModel.description.length.toString(), style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
                   ],
                 ),
                 Consumer<FeedProvider>(
@@ -550,7 +540,7 @@ class _CommentViewState extends State<CommentView> {
 
   Widget commentInputField(BuildContext context, TextEditingController controller) {
     return Container(
-      height: 76,
+      height: 85,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -561,45 +551,53 @@ class _CommentViewState extends State<CommentView> {
           ),
         ],
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              EmptyUserProfile(),
-              const SizedBox(width: 8),
-              Expanded(
-                  child: Container(
-                    height: 32,
-                    color: StaticColor.grey100F6,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: TextFormField(
-                      controller: commentInputController,
-                      autofocus: true,
-                      textInputAction: TextInputAction.done,
-                      maxLines: 1,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        hintText: '댓글 입력',
-                        hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                        border: InputBorder.none,
-                        alignLabelWithHint: true,
-                      ),
-                      onFieldSubmitted: (value) {
-                        CommentModel.description.add(commentInputController.text);
-                        CommentModel.profileImage.add('');
-                        CommentModel.name.add('엘리예요');
-                        CommentModel.writeDateTime.add('방금');
-                        CommentModel.likeCount.add(0);
-                        CommentModel.likeState.add(false);
-                        CommentModel.subCommentCount.add(0);
-                        context.read<FeedProvider>().commentFieldUpdateChange(true);
-                      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+        child: Row(
+          children: [
+            EmptyUserProfile(),
+            const SizedBox(width: 8),
+            Expanded(
+                child: Container(
+                  height: 32,
+                  color: StaticColor.grey100F6,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    controller: commentInputController,
+                    autofocus: true,
+                    textInputAction: TextInputAction.done,
+                    maxLines: 1,
+                    textAlignVertical: TextAlignVertical.center,
+                    decoration: InputDecoration(
+                      hintText: '댓글 입력',
+                      hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                      border: InputBorder.none,
+                      alignLabelWithHint: true,
                     ),
+                    // onFieldSubmitted: (value) {
+                    //   CommentModel.description.add(commentInputController.text);
+                    //   CommentModel.profileImage.add('');
+                    //   CommentModel.name.add('엘리예요');
+                    //   CommentModel.writeDateTime.add('방금');
+                    //   CommentModel.likeCount.add(0);
+                    //   CommentModel.likeState.add(false);
+                    //   CommentModel.subCommentCount.add(0);
+                    //   context.read<FeedProvider>().commentFieldUpdateChange(true);
+                    // },
                   ),
-              ),
-            ],
-          ),
+                ),
+            ),
+            const SizedBox(width: 8),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(25.0),
+                onTap: () async {
+                  await CommentRequest().commentWriteRequest(15, commentInputController.text);
+                },
+                child: Center(child: Image.asset('assets/feed/comment_regedit.png', width: 24, height: 24))),
+            )
+          ],
         ),
       ),
     );

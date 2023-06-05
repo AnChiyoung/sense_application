@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/models/feed/comment_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
@@ -28,30 +29,37 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
 
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
 
-    return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder(
-          future: FeedContentModel().feedDetailLoad(widget.postId),
-          builder: (context, snapshot) {
-            if(snapshot.hasError) {
-              return Text('Error : ${snapshot.error}');
-            } else if(snapshot.hasData) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Consumer<FeedProvider>(
+            builder: (context, data, child) => FutureBuilder(
+              future: FeedContentModel().feedDetailLoad(widget.postId),
+              builder: (context, snapshot) {
+                if(snapshot.hasError) {
+                  return Text('Error : ${snapshot.error}');
+                } else if(snapshot.hasData) {
 
-              FeedDetailModel feedDetailModel = snapshot.data!;
+                  FeedDetailModel feedDetailModel = snapshot.data!;
 
-              if(snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if(snapshot.connectionState == ConnectionState.done) {
-                return PostDetail(postModel: feedDetailModel);
-              } else {
-                return const CircularProgressIndicator();
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if(snapshot.connectionState == ConnectionState.done) {
+                    return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding);
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                } else {
+                  return const Text('unknown error');
+                }
               }
-            } else {
-              return const Text('unknown error');
-            }
-          }
+            ),
+          )
         )
-      )
+      ),
     );
 
     // return Scaffold(
@@ -227,60 +235,60 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
     //             //         ],
     //             //       ),
     //             //     ),
-    //             //     Container(
-    //             //       height: 56,
-    //             //       decoration: BoxDecoration(
-    //             //         color: Colors.white,
-    //             //         boxShadow: [
-    //             //           BoxShadow(
-    //             //             color: StaticColor.grey400BB,
-    //             //             blurRadius: 1,
-    //             //             offset: const Offset(0, -1),
-    //             //           )
-    //             //         ]
-    //             //       ),
-    //             //       child: Padding(
-    //             //         padding: const EdgeInsets.symmetric(horizontal: 20),
-    //             //         child: Row(
-    //             //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             //           children: [
-    //             //             GestureDetector(
-    //             //               onTap: () {
-    //             //                 showBottomSheet(
-    //             //                   backgroundColor: Colors.transparent,
-    //             //                   context: context,
-    //             //                   builder: (context) {
-    //             //                     return CommentView(topPadding: safeAreaTopPadding);
-    //             //                   }
-    //             //                 );
-    //             //               },
-    //             //               child: Row(
-    //             //                 children: [
-    //             //                   Image.asset('assets/feed/comment_icon.png', width: 24, height: 24, color: StaticColor.grey400BB),
-    //             //                   const SizedBox(width: 4),
-    //             //                   Text(commentCount.toString(), style: TextStyle(fontSize: 16, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-    //             //                 ]
-    //             //               ),
-    //             //             ),
-    //             //             Row(
-    //             //               crossAxisAlignment: CrossAxisAlignment.center,
-    //             //               children: [
-    //             //                 LikeButton(isLiked: isLiked),
-    //             //                 Text('4.8M', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-    //             //                 const SizedBox(width: 4),
-    //             //                 IconRippleButton(
-    //             //                   icon: Icons.share_rounded,
-    //             //                   color: StaticColor.grey400BB,
-    //             //                   size: 24,
-    //             //                   padding: 8,
-    //             //                   onPressed: () => {},
-    //             //                 )
-    //             //               ],
-    //             //             ),
-    //             //           ],
-    //             //         ),
-    //             //       ),
-    //             //     ),
+    //                 Container(
+    //                   height: 56,
+    //                   decoration: BoxDecoration(
+    //                     color: Colors.white,
+    //                     boxShadow: [
+    //                       BoxShadow(
+    //                         color: StaticColor.grey400BB,
+    //                         blurRadius: 1,
+    //                         offset: const Offset(0, -1),
+    //                       )
+    //                     ]
+    //                   ),
+    //                   child: Padding(
+    //                     padding: const EdgeInsets.symmetric(horizontal: 20),
+    //                     child: Row(
+    //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                       children: [
+    //                         GestureDetector(
+    //                           onTap: () {
+    //                             showBottomSheet(
+    //                               backgroundColor: Colors.transparent,
+    //                               context: context,
+    //                               builder: (context) {
+    //                                 return CommentView(topPadding: safeAreaTopPadding);
+    //                               }
+    //                             );
+    //                           },
+    //                           child: Row(
+    //                             children: [
+    //                               Image.asset('assets/feed/comment_icon.png', width: 24, height: 24, color: StaticColor.grey400BB),
+    //                               const SizedBox(width: 4),
+    //                               Text(commentCount.toString(), style: TextStyle(fontSize: 16, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+    //                             ]
+    //                           ),
+    //                         ),
+    //                         Row(
+    //                           crossAxisAlignment: CrossAxisAlignment.center,
+    //                           children: [
+    //                             LikeButton(isLiked: isLiked),
+    //                             Text('4.8M', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+    //                             const SizedBox(width: 4),
+    //                             IconRippleButton(
+    //                               icon: Icons.share_rounded,
+    //                               color: StaticColor.grey400BB,
+    //                               size: 24,
+    //                               padding: 8,
+    //                               onPressed: () => {},
+    //                             )
+    //                           ],
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
     //             //   ],
     //             // );
     //           } else if (snapshot.hasError) {
@@ -299,7 +307,8 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
 
 class PostDetail extends StatefulWidget {
   FeedDetailModel? postModel;
-  PostDetail({Key? key, this.postModel}) : super(key: key);
+  double? topPadding;
+  PostDetail({Key? key, this.postModel, this.topPadding}) : super(key: key);
 
   @override
   State<PostDetail> createState() => _PostDetailState();
@@ -343,6 +352,7 @@ class _PostDetailState extends State<PostDetail> {
 
   @override
   Widget build(BuildContext context) {
+
     return Stack(
       children: [
         /// post area
@@ -373,7 +383,7 @@ class _PostDetailState extends State<PostDetail> {
                 desc: model.subTitle!,
                 created: model.createdTime!.substring(0, 10).replaceAll('-', '.'),
                 likeCount: model.likeCount.toString(),
-                isLiked: model.isLiked!),
+                isLiked: stringToBoolean(model.isLiked!)),
               PostDetailTitle(
                 title: model.memo!,
                 eventPeriodLabel: '',
@@ -383,7 +393,6 @@ class _PostDetailState extends State<PostDetail> {
                 physics: const ClampingScrollPhysics(),
                 itemCount: model.contents!.length,
                 itemBuilder: (context, index) {
-                  // return ContentTextTypeParagraph(text: model.contents!.elementAt(index).contentUrl.toString());
                   if(model.contents!.elementAt(index).type == 'TEXT') {
                     return ContentTextTypeParagraph(text: model.contents!.elementAt(index).contentUrl.toString());
                   } else if(model.contents!.elementAt(index).type == 'IMAGE') {
@@ -410,8 +419,91 @@ class _PostDetailState extends State<PostDetail> {
             ),
           ),
         ),
+        /// comment area
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 56,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: StaticColor.grey400BB,
+                    blurRadius: 1,
+                    offset: const Offset(0, -1),
+                  )
+                ]
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) {
+                            return CommentView(topPadding: widget.topPadding);
+                          }
+                      );
+                    },
+                    /// container로 gesture detector 영역 확장
+                    child: Container(
+                      height: double.infinity,
+                      color: Colors.transparent,
+                      child: Row(
+                          children: [
+                            Image.asset('assets/feed/comment_icon.png', width: 24, height: 24, color: StaticColor.grey400BB),
+                            const SizedBox(width: 4),
+                            Text(model.commentCount.toString(), style: TextStyle(fontSize: 16, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                          ]
+                      ),
+                    ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Consumer<FeedProvider>(
+                        builder: (context, data, child) =>
+                            LikeButton(isLiked: stringToBoolean(model.isLiked!))),
+                      Text(model.likeCount.toString(), style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                      const SizedBox(width: 4),
+                      IconRippleButton(
+                        icon: Icons.share_rounded,
+                        color: StaticColor.grey400BB,
+                        size: 24,
+                        padding: 8,
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                              barrierDismissible: false,
+                              builder: (BuildContext context) {
+                                return const ServiceGuideDialog();
+                              });
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
+  }
+
+  bool stringToBoolean(String value) {
+    bool convertResult = false;
+    if(value.toLowerCase() == 'true') {
+      convertResult = true;
+    } else if(value.toLowerCase() == 'false') {
+      convertResult = false;
+    }
+    return convertResult;
   }
 }
 
@@ -1116,10 +1208,18 @@ class _LikeButtonState extends State<LikeButton> {
     super.initState();
   }
 
-  void toggleLike() {
-    setState(() {
-      isLiked = !isLiked;
-    });
+  void toggleLike() async {
+    isLiked = !isLiked;
+    if(isLiked == true) {
+      await LikedRequest().likedRequest(15);
+      // context.read<FeedProvider>().likeFieldUpdateState(true);
+      print('aa');
+    } else if(isLiked == false) {
+      await LikedRequest().unlikedRequest(15);
+      // context.read<FeedProvider>().likeFieldUpdateState(false);
+      print('bb');
+    }
+
   }
 
   @override

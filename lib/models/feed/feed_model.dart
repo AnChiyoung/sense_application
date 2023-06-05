@@ -3,6 +3,44 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+class LikedRequest {
+  Future<bool> likedRequest(int postId) async {
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login/15/like'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> unlikedRequest(int postId) async {
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login/15/unlike'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class LikedModel {
+  bool? isLiked;
+
+  LikedModel({
+    this.isLiked,
+  });
+
+
+}
+
 ///
 ///
 /// 서버 리스폰트 모델

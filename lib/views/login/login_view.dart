@@ -126,9 +126,9 @@ class _LoginFormViewState extends State<LoginFormView> {
               borderRadius: BorderRadius.circular(4.0),
               child: InkWell(
                 onTap: () async {
-                  int? id;
-                  id = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
-                  if(id == -1) {
+                  UserInfoModel? userInfoModel;
+                  userInfoModel = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
+                  if(userInfoModel == null) {
                     /// dialog version
                     // showDialog(
                     //     context: context,
@@ -170,15 +170,17 @@ class _LoginFormViewState extends State<LoginFormView> {
                       ),
                     );
                   } else {
-                    userInfoModel = await UserInfoRequest().userInfoRequest(id!);
                     autoLoginState == true ? {
                       await LoginRequest.storage.write(key: 'id', value: userInfoModel.id.toString()),
                       await LoginRequest.storage.write(key: 'username', value: userInfoModel.userName.toString()),
-                      await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImage.toString()),
+                      await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImageUrl.toString()),
+                      await LoginRequest.storage.write(key: 'loginToken', value: userInfoModel.joinToken!.accessToken.toString()),
+                      // await LoginRequest.storage.write(key: 'loginToken', value: userInfoModel.loginToken!.accessToken.toString()),
                     } : {};
                     PresentUserInfo.id = userInfoModel.id!;
                     PresentUserInfo.username = userInfoModel.userName!;
-                    PresentUserInfo.profileImage = userInfoModel.profileImage!;
+                    PresentUserInfo.profileImage = userInfoModel.profileImageUrl!;
+                    PresentUserInfo.loginToken = userInfoModel.joinToken!.accessToken!;
                     /// text form field clear
                     emailFieldController.clear();
                     passwordFieldController.clear();
@@ -306,12 +308,11 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           } else {
             if(tokenModel.isSignUp == true) {
               logger.d('login success'),
-              userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
-              PresentUserInfo.id = userInfoModel.id!,
-              PresentUserInfo.username = userInfoModel.userName!,
-              PresentUserInfo.profileImage = userInfoModel.profileImage!,
+              PresentUserInfo.id = tokenModel.id!,
+              PresentUserInfo.username = tokenModel.username!,
+              PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
+              PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
               Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
-              logger.d(userInfoModel.profileImage),
             }
           }
         };
@@ -331,12 +332,13 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
         } else if(tokenModel.isSignUp == true) {
             logger.d('login success'),
-            userInfoModel = await UserInfoRequest().userInfoRequest(tokenModel.id!),
-            PresentUserInfo.id = userInfoModel.id!,
-            PresentUserInfo.username = userInfoModel.userName!,
-            PresentUserInfo.profileImage = userInfoModel.profileImage!,
+            PresentUserInfo.id = tokenModel.id!,
+            PresentUserInfo.username = tokenModel.username!,
+            PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
+            PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
+            logger.d(PresentUserInfo.loginToken),
+            // PresentUserInfo.loginToken = userInfoModel.loginToken!.accessToken!,
             Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
-            logger.d(userInfoModel.profileImage),
           }
       };
     }

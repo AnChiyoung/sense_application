@@ -50,22 +50,30 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _commentFieldUpdate = false;
-  bool get commentFieldUpdate => _commentFieldUpdate;
-  int _commentCount = CommentModel.description.length;
-  int get commentCount => _commentCount;
-
-  void commentFieldUpdateChange(bool state) {
-    _commentFieldUpdate = state;
-    _commentCount = CommentModel.description.length;
-    notifyListeners();
-  }
+  // bool _commentFieldUpdate = false;
+  // bool get commentFieldUpdate => _commentFieldUpdate;
+  // int _commentCount = CommentModel.description.length;
+  // int get commentCount => _commentCount;
+  //
+  // void commentFieldUpdateChange(bool state) {
+  //   _commentFieldUpdate = state;
+  //   _commentCount = CommentModel.description.length;
+  //   notifyListeners();
+  // }
 
   List<bool> _reportReason = [false, false, false, false, false];
   List<bool> get reportReason => _reportReason;
 
   void reportReasonStateChange(List<bool> state) {
     _reportReason = state;
+    notifyListeners();
+  }
+
+  bool _likeFieldUpdate = false;
+  bool get likeFieldUpdate => _likeFieldUpdate;
+
+  void likeFieldUpdateState(bool state) {
+    _likeFieldUpdate = state;
     notifyListeners();
   }
 }
