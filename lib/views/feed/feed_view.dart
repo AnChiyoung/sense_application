@@ -325,7 +325,8 @@ class _FeedPostListState extends State<FeedPostList> {
         alignment: Alignment.bottomRight,
         children: [
           FutureBuilder(
-            future: context.read<FeedProvider>().getFeedPosts(),
+            // future: context.read<FeedProvider>().getFeedPosts(),
+            future: FeedRequest().feedPreviewRequestByLabelId(-1),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // return const Center(child: CircularProgressIndicator());
@@ -333,26 +334,33 @@ class _FeedPostListState extends State<FeedPostList> {
               } else if (snapshot.hasError) {
                 return const Center(child: Text('Error fetching posts'));
               } else {
-                return Consumer<FeedProvider>(
-                  builder: (context, feedProvider, child) {
-                    final feedPosts = feedProvider.feedPosts;
-                    if (feedPosts.isEmpty) {
-                      return Center(
-                        child: Text(
-                          '검색 결과가 없습니다.',
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return FeedPostListPresenter( // 피드 뿌리는 곳
-                        feedPosts: context.read<FeedProvider>().feedPosts,
-                      );
-                    }
-                  },
+                List<FeedPreviewModel>? model = snapshot.data;
+                // return Container();
+                return FeedPostListPresenter( // 피드 뿌리는 곳
+                  feedPosts: model!,
+                  // feedPosts: context.read<FeedProvider>().feedPosts,
                 );
+                // return Consumer<FeedProvider>(
+                //   builder: (context, feedProvider, child) {
+                //     final feedPosts = feedProvider.feedPosts;
+                //     if (feedPosts.isEmpty) {
+                //       return Center(
+                //         child: Text(
+                //           '검색 결과가 없습니다.',
+                //           style: TextStyle(
+                //             color: Colors.grey.shade600,
+                //             fontSize: 16,
+                //           ),
+                //         ),
+                //       );
+                //     } else {
+                //       return FeedPostListPresenter( // 피드 뿌리는 곳
+                //         feedPosts: model!,
+                //         // feedPosts: context.read<FeedProvider>().feedPosts,
+                //       );
+                //     }
+                //   },
+                // );
               }
             },
           ),

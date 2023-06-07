@@ -1,7 +1,55 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+class FeedRequest {
+  Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
+    String query;
+    labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
+    final response = await http.get(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/posts$query'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
+      return modelList;
+    } else {
+      throw Exception;
+    }
+  }
+}
+
+class FeedPreviewModel {
+  int? id;
+  String? thumbnailUrl;
+  String? title;
+  String? subTitle;
+  String? startDate;
+  String? endDate;
+  bool? isLiked;
+
+  FeedPreviewModel({
+    this.id,
+    this.thumbnailUrl,
+    this.title,
+    this.subTitle,
+    this.startDate,
+    this.endDate,
+    this.isLiked,
+  });
+
+  FeedPreviewModel.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    thumbnailUrl = json['thumbnail_media_url'] ?? '';
+    title = json['title'] ?? '';
+    subTitle = json['sub_title'] ?? '';
+    startDate = json['start_date'] ?? '';
+    endDate = json['end_date'] ?? '';
+    isLiked = json['is_liked'] ?? false;
+  }
+}
 
 class LikedRequest {
   Future<bool> likedRequest(int postId) async {

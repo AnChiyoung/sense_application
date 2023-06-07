@@ -170,7 +170,7 @@ class _FeedSearchTabState extends State<FeedSearchTab> {
                   children: [
                     Column(
                       children: const [
-                        SearchPostList(),
+                        // SearchPostList(),
                       ],
                     ),
                     Column(
@@ -202,57 +202,57 @@ class _FeedSearchTabState extends State<FeedSearchTab> {
 ///
 ///
 /// 피드 검색 게시글 리스트
-class SearchPostList extends StatefulWidget {
-  const SearchPostList({Key? key}) : super(key: key);
-
-  @override
-  State<SearchPostList> createState() => _SearchPostListState();
-}
-
-class _SearchPostListState extends State<SearchPostList> {
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: FutureBuilder(
-        future: context.read<FeedSearchProvider>().searchPost(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // return const Center(child: CircularProgressIndicator());
-            return Container();
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error fetching posts'));
-          } else {
-            return Consumer<FeedSearchProvider>(
-              builder: (context, feedSearchProvider, child) {
-                final feedPosts = feedSearchProvider.feedPosts;
-                if (feedPosts.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '검색 결과가 없습니다.',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                } else {
-                  // todo: recommend api 없애고 posts 로 변경
-                  final hello = feedPosts
-                      .map((e) => FeedPostModel(
-                            id: e.id,
-                            title: e.title ?? '',
-                            imageUrl: e.bannerImageUrl ?? '',
-                          ))
-                      .toList();
-                  return FeedPostListPresenter(
-                    feedPosts: hello,
-                  );
-                }
-              },
-            );
-          }
-        },
-      ),
-    );
-  }
-}
+// class SearchPostList extends StatefulWidget {
+//   const SearchPostList({Key? key}) : super(key: key);
+//
+//   @override
+//   State<SearchPostList> createState() => _SearchPostListState();
+// }
+//
+// class _SearchPostListState extends State<SearchPostList> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//       child: FutureBuilder(
+//         future: context.read<FeedSearchProvider>().searchPost(),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             // return const Center(child: CircularProgressIndicator());
+//             return Container();
+//           } else if (snapshot.hasError) {
+//             return const Center(child: Text('Error fetching posts'));
+//           } else {
+//             return Consumer<FeedSearchProvider>(
+//               builder: (context, feedSearchProvider, child) {
+//                 final feedPosts = feedSearchProvider.feedPosts;
+//                 if (feedPosts.isEmpty) {
+//                   return Center(
+//                     child: Text(
+//                       '검색 결과가 없습니다.',
+//                       style: TextStyle(
+//                         color: Colors.grey.shade600,
+//                         fontSize: 16,
+//                       ),
+//                     ),
+//                   );
+//                 } else {
+//                   // todo: recommend api 없애고 posts 로 변경
+//                   final hello = feedPosts
+//                       .map((e) => FeedPostModel(
+//                             id: e.id,
+//                             title: e.title ?? '',
+//                             imageUrl: e.bannerImageUrl ?? '',
+//                           ))
+//                       .toList();
+//                   return FeedPostListPresenter(
+//                     feedPosts: hello,
+//                   );
+//                 }
+//               },
+//             );
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }

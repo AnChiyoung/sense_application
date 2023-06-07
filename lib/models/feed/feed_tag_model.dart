@@ -9,14 +9,10 @@ class FeedTagLoad {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      print('댓글 불러오기 성공');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<TagModel> tagModelList = body.map((e) => TagModel.fromJson(e)).toList();
-
-      print(tagModelList.elementAt(0).title);
       return tagModelList;
     } else {
-      print('댓글 불러오기 실패');
       throw Exception;
     }
   }

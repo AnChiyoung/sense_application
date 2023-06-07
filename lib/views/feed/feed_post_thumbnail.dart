@@ -7,12 +7,14 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
   final int id;
   final String imageUrl;
   final String title;
+  String? subTitle;
 
-  const _BasePostCard({
+  _BasePostCard({
     Key? key,
     required this.id,
     required this.imageUrl,
     required this.title,
+    this.subTitle,
   }) : super(key: key);
 
   @protected
@@ -51,12 +53,14 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
 }
 
 class FeedPostCarouselCard extends _BasePostCard {
-  const FeedPostCarouselCard({
+  FeedPostCarouselCard({
     Key? key,
     required int id,
     required String imageUrl,
     required String title,
-  }) : super(key: key, id: id, imageUrl: imageUrl, title: title);
+    String? subTitle,
+
+  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle,);
 
   @override
   Widget buildImage(BuildContext context) {
@@ -109,12 +113,13 @@ class FeedPostCarouselCard extends _BasePostCard {
 }
 
 class FeedPostGridCard extends _BasePostCard {
-  const FeedPostGridCard({
+  FeedPostGridCard({
     Key? key,
     required int id,
     required String imageUrl,
     required String title,
-  }) : super(key: key, id: id, imageUrl: imageUrl, title: title);
+    String? subTitle,
+  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle,);
 
   @override
   Widget buildImage(BuildContext context) {
@@ -173,7 +178,8 @@ class FeedPostGridCard extends _BasePostCard {
 ///
 /// 피드에서 포스트 리스트를 보여주는 위젯
 class FeedPostListPresenter extends StatefulWidget {
-  final List<FeedPostModel> feedPosts;
+  // final List<FeedPostModel> feedPosts;
+  final List<FeedPreviewModel> feedPosts;
   const FeedPostListPresenter({Key? key, required this.feedPosts}) : super(key: key);
 
   @override
@@ -214,9 +220,10 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
       final spaceBetweenItems = ((MediaQuery.of(context).size.width - 60) / 7 * 10) + 40;
       for (var feedPost in widget.feedPosts) {
         items.add(FeedPostCarouselCard(
-          id: feedPost.id,
-          title: feedPost.title,
-          imageUrl: feedPost.imageUrl,
+          id: feedPost.id!,
+          title: feedPost.title!,
+          subTitle: feedPost.subTitle!,
+          imageUrl: feedPost.thumbnailUrl!,
         ));
       }
       feedPostsWidget = StackedCardCarousel(
@@ -231,10 +238,12 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
       switchButtonText = '모아보기';
     } else {
       for (var feedPost in widget.feedPosts) {
-        items.add(FeedPostGridCard(
-          id: feedPost.id,
-          title: feedPost.title,
-          imageUrl: feedPost.imageUrl,
+        /// when imageUrl is empty, non add. 20230607
+        feedPost.thumbnailUrl == '' ? {} : items.add(FeedPostGridCard(
+          id: feedPost.id!,
+          title: feedPost.title!,
+          subTitle: feedPost.subTitle!,
+          imageUrl: feedPost.thumbnailUrl!,
         ));
       }
 

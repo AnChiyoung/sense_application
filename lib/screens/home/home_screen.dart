@@ -21,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    /// safe area height
+    final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
+
     return WillPopScope(
       /// onWillPop: null은 android back button에만 대응된다. 하단의 방법으로 처리
       onWillPop: () async => false,
@@ -28,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
           child: MovePageList().pageList.elementAt(pageIndex),
         ),
-        bottomNavigationBar: BottomMenu(selectCallback: movePage),
+        bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding),
       ),
     );
   }
