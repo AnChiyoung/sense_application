@@ -6,7 +6,7 @@ class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     final response = await http.get(
         // Uri.parse('https://dev.server.sense.runners.im/api/v1/post/' + feedId.toString()),
-        Uri.parse('https://dev.server.sense.runners.im/api/v1/post/15'),
+        Uri.parse('https://stg.server.sense.runners.im/api/v1/post/15'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'
         });

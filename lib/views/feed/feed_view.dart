@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
+import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
+import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
@@ -200,58 +202,106 @@ class _FeedTagListState extends State<FeedTagList> {
       child: SizedBox(
         height: 36,
         child: FutureBuilder(
-          future: context.read<FeedProvider>().initializeFeed(),
+          // future: context.read<FeedProvider>().initializeFeed(),
+          future: FeedTagLoad().tagRequest(),
           // Provider.of<FeedProvider>(context, listen: false).initializeFeed(),
           builder: (context, snapshot) {
+            List<TagModel>? tagModels = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error fetching posts'));
             } else {
-              return Consumer<FeedProvider>(
-                builder: (context, feedProvider, child) {
-                  List<FeedTagModel> feedTags = feedProvider.feedTags;
-                  return ListView.separated(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                    ),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: feedTags.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final tagId = feedTags[index].id;
-                      final isSelected = context.read<FeedProvider>().selectedTagId == tagId;
-                      return Material(
-                        borderRadius: BorderRadius.circular(18),
-                        color: isSelected ? Colors.grey.shade800 : Colors.grey.shade200,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(16),
-                          onTap: () {
-                            context.read<FeedProvider>().changeTagId(tagId);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 7,
-                            ),
-                            child: Center(
-                              child: Text(
-                                feedTags[index].title,
-                                style: TextStyle(
-                                  color: isSelected ? Colors.white : Colors.grey.shade700,
-                                  fontSize: 14,
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: tagModels!.length,
+                  itemBuilder: (context, index) {
+
+                    final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
+
+                    return Row(
+                      children: [
+                        Material(
+                          borderRadius: BorderRadius.circular(18),
+                          color: index == selectTagNumber ? Colors.grey.shade800 : Colors.grey.shade200,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(16),
+                            onTap: () {
+                              context.read<FeedProvider>().selectTagNumberChange(index);
+                              },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 7,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  tagModels.elementAt(index).title!,
+                                  style: TextStyle(
+                                    color: index == selectTagNumber ? Colors.white : Colors.grey.shade700,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(width: 6);
-                    },
-                  );
-                },
+                        const SizedBox(width: 6),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(width: 6);
+                  }
+                ),
               );
+              // return Consumer<FeedProvider>(
+              //   builder: (context, feedProvider, child) {
+              //     List<TagModel> tags =
+              //     // List<FeedTagModel> feedTags = feedProvider.feedTags;
+              //     return ListView.separated(
+              //       padding: const EdgeInsets.symmetric(
+              //         horizontal: 30,
+              //       ),
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: feedTags.length,
+              //       itemBuilder: (BuildContext context, int index) {
+              //         final tagId = feedTags[index].id;
+              //         final isSelected = context.read<FeedProvider>().selectedTagId == tagId;
+              //         return Material(
+              //           borderRadius: BorderRadius.circular(18),
+              //           color: isSelected ? Colors.grey.shade800 : Colors.grey.shade200,
+              //           child: InkWell(
+              //             borderRadius: BorderRadius.circular(16),
+              //             onTap: () {
+              //               context.read<FeedProvider>().changeTagId(tagId);
+              //             },
+              //             child: Padding(
+              //               padding: const EdgeInsets.symmetric(
+              //                 horizontal: 12,
+              //                 vertical: 7,
+              //               ),
+              //               child: Center(
+              //                 child: Text(
+              //                   feedTags[index].title,
+              //                   style: TextStyle(
+              //                     color: isSelected ? Colors.white : Colors.grey.shade700,
+              //                     fontSize: 14,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //         );
+              //       },
+              //       separatorBuilder: (BuildContext context, int index) {
+              //         return const SizedBox(width: 6);
+              //       },
+              //     );
+              //   },
+              // );
             }
           },
         ),
@@ -311,6 +361,7 @@ class _FeedPostListState extends State<FeedPostList> {
             icon: Image.asset('assets/home/add_event_button.png', width: 56, height: 56),
             iconSize: 56,
             onPressed: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (_) => AddEventScreen()));
               showDialog(
                   context: context,
                   barrierDismissible: false,

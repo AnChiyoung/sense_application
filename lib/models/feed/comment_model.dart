@@ -32,7 +32,8 @@ class CommentRequest {
       final response = await http.post(
          Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/comment'),
          body: jsonEncode(commentRequestBody),
-         headers: {'Content-Type': 'application/json; charset=UTF-8'},
+         headers: {'Authorization': 'Bearer ${PresentUserInfo.loginToken}'},
+         // headers: {'Content-Type': 'application/json; charset=UTF-8'},
       );
 
       if(response.statusCode == 200 || response.statusCode == 201) {

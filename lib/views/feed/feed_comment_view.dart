@@ -69,9 +69,9 @@ class _CommentViewState extends State<CommentView> {
                     );
                   }
                 ),
-                // Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: commentInputField(context, commentInputController)),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: commentInputField(context, commentInputController)),
               ],
             ),
           ),
@@ -96,7 +96,7 @@ class _CommentViewState extends State<CommentView> {
               children: [
                 Row(
                   children: [
-                    EmptyUserProfile(),
+                    UserProfileImage(profileImageUrl: model.elementAt(index).commentUser!.profileImageUrl),
                     const SizedBox(width: 8),
                     Text(model.elementAt(index).commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
                     const SizedBox(width: 4),
@@ -555,7 +555,7 @@ class _CommentViewState extends State<CommentView> {
         padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
         child: Row(
           children: [
-            EmptyUserProfile(),
+            UserProfileImage(),
             const SizedBox(width: 8),
             Expanded(
                 child: Container(

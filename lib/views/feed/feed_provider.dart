@@ -76,4 +76,13 @@ class FeedProvider with ChangeNotifier {
     _likeFieldUpdate = state;
     notifyListeners();
   }
+
+  /// select tag number provider
+  int _selectTagNumber = 0;
+  int get selectTagNumber => _selectTagNumber;
+
+  void selectTagNumberChange(int number) {
+    _selectTagNumber = number;
+    notifyListeners();
+  }
 }

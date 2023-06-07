@@ -7,7 +7,6 @@ import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
 
-
 import '../../public_widget/login_dialog.dart';
 
 class MovePageList {

@@ -282,7 +282,7 @@ class FeedRelatedPostThumbnailModel {
 }
 
 class ApiService {
-  static const String baseUrl = "https://dev.server.sense.runners.im/api/v1";
+  static const String baseUrl = "https://stg.server.sense.runners.im/api/v1";
   // static const String baseUrlWithoutHttps = "dev.server.sense.runners.im";
   // static const String today = "today";
 
@@ -290,7 +290,8 @@ class ApiService {
     debugPrint('API call getRecommendPostsByTagId');
     List<FeedPostModel> postInstances = [];
 
-    final uri = Uri.parse('$baseUrl/recommands?recommand_tag=$tagId');
+    // final uri = Uri.parse('$baseUrl/recommands?recommand_tag=$tagId');
+    final uri = Uri.parse('$baseUrl/posts?label_id=$tagId');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -308,7 +309,8 @@ class ApiService {
   static Future<List<FeedTagModel>> getRecommendTags() async {
     debugPrint('API call getRecommendTags');
     List<FeedTagModel> tagInstances = [];
-    final uri = Uri.parse('$baseUrl/recommand-tags');
+    // final uri = Uri.parse('$baseUrl/recommand-tags');
+    final uri = Uri.parse('$baseUrl/labels');
     final headers = {'Content-Type': 'application/json; charset=UTF-8'}; // ???
     final response = await http.get(uri, headers: headers);
 
