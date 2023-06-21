@@ -2,9 +2,89 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/feed/comment_model.dart';
+import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 
 class FeedProvider with ChangeNotifier {
+
+  /// feed bottom field change
+  bool _commentVisibility = false;
+  bool get commentVisibility => _commentVisibility;
+
+  void commentVisibilityChange(bool state) {
+    _commentVisibility = state;
+    notifyListeners();
+  }
+
+  /// feed bottom field initialize
+  void feedBottomFieldInitialize() {
+    _commentVisibility = false;
+    notifyListeners();
+  }
+
+  /// comment model request( + post id + sort state)
+  /// list [0] = comment models
+  /// list [1] = comment count
+  List<CommentResponseModel> _commentModels = [];
+  List<CommentResponseModel> get commentModels => _commentModels;
+
+  void commentModelRequest(int postId, [String? sort]) async {
+    _commentModels = await CommentRequest().commentRequest(postId, sort!);
+    sort == null ? {} : _sortState = sort;
+    notifyListeners();
+  }
+
+  /// feed back button click! => info & data init
+  void feedInfoInit() {
+    _commentModels = [];
+    _sortState = '-created';
+    notifyListeners();
+  }
+
+  // FeedDetailModel _feedDetailModel = FeedDetailModel();
+  // FeedDetailModel get getFeedDetailModel => _feedDetailModel;
+  /// 피드 상세 하단 댓글 및 좋아요 영역 업데이트 관련 추가 로직
+  bool? _isCommented;
+  bool get isCommented => _isCommented!;
+  int _commentCount = -1;
+  int get commentCount => _commentCount;
+  bool? _isLiked;
+  bool get isLiked => _isLiked!;
+  int _likeCount = -1;
+  int get likeCount => _likeCount;
+
+  void feedDetailModelInitialize(bool? isCommented, int? commentCount, bool? isLiked, int? likeCount) {
+    // print('notify!!');
+    // model == null ? {} : _feedDetailModel = model;
+    // model == null
+    //     ? {_isCommented = isCommented!, _commentCount = commentCount!, _isLiked = isLiked!, _likeCount = likeCount!}
+    //     : {_isCommented = _feedDetailModel.myComment!, _commentCount = _feedDetailModel.commentCount!, _isLiked = _feedDetailModel.isLiked!, _likeCount = _feedDetailModel.likeCount!};
+    _isCommented = isCommented!; _commentCount = commentCount!; _isLiked = isLiked!; _likeCount = likeCount!;
+    notifyListeners();
+  }
+
+  /// 답글로 변형
+  void recommentModeChange(int state, int commentId) {
+
+    notifyListeners();
+  }
+
+
+
+
+
+
+
+
+
+
+
+  void feedCommentCountUpdate(int? commentCount) {
+    _commentCount = commentCount!;
+    notifyListeners();
+  }
+
+
   List<FeedTagModel> _feedTags = [];
   List<FeedTagModel> get feedTags => _feedTags;
 
@@ -36,10 +116,10 @@ class FeedProvider with ChangeNotifier {
 
 
   /// 2023.05.08.
-  List<bool> _sortState = [false, true];
-  List<bool> get sortState => _sortState;
+  String _sortState = '-created';
+  String get sortState => _sortState;
 
-  void sortStateChange(List<bool> state) {
+  void sortStateChange(String state) {
     _sortState = state;
     notifyListeners();
   }
@@ -52,16 +132,27 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // bool _commentFieldUpdate = false;
-  // bool get commentFieldUpdate => _commentFieldUpdate;
+  bool _commentFieldUpdate = false;
+  bool get commentFieldUpdate => _commentFieldUpdate;
   // int _commentCount = CommentModel.description.length;
   // int get commentCount => _commentCount;
   //
-  // void commentFieldUpdateChange(bool state) {
-  //   _commentFieldUpdate = state;
-  //   _commentCount = CommentModel.description.length;
-  //   notifyListeners();
-  // }
+  void commentFieldUpdateChange(bool state) {
+    _commentFieldUpdate = state;
+    // _commentCount = CommentModel.description.length;
+    notifyListeners();
+  }
+
+  bool _recommentFieldUpdate = false;
+  bool get recommentFieldUpdate => _recommentFieldUpdate;
+  // int _commentCount = CommentModel.description.length;
+  // int get commentCount => _commentCount;
+  //
+  void recommentFieldUpdateChange(bool state) {
+    _recommentFieldUpdate = state;
+    // _commentCount = CommentModel.description.length;
+    notifyListeners();
+  }
 
   List<bool> _reportReason = [false, false, false, false, false];
   List<bool> get reportReason => _reportReason;
@@ -85,6 +176,39 @@ class FeedProvider with ChangeNotifier {
 
   void selectTagNumberChange(int number) {
     _selectTagNumber = number;
+    notifyListeners();
+  }
+
+  // int _commentCount = -1;
+  // int get commentCount => _commentCount;
+
+  void commentCountUpdate(int state) {
+    _commentCount = state;
+    notifyListeners();
+  }
+
+
+  /// inputMode change => 0: comment, 1: recomment, 2: comment update
+  int _inputMode = 0;
+  int get inputMode => _inputMode;
+  int _selectCommentId = 0;
+  int get selectCommentId => _selectCommentId;
+  CommentResponseModel? _selectComment = CommentResponseModel();
+  CommentResponseModel? get selectComment => _selectComment;
+
+  void inputModeChange(int state, [int? selectCommentId]) {
+    _inputMode = state;
+    if(state == 2) {
+      _selectCommentId = selectCommentId!;
+    }
+    notifyListeners();
+  }
+
+  bool _inputButton = false;
+  bool get inputButton => _inputButton;
+
+  void inputButtonStateChange(bool state) {
+    _inputButton = state;
     notifyListeners();
   }
 }

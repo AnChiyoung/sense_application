@@ -66,6 +66,7 @@ dependencies:
   permission_handler: ^10.2.0
   contacts_service: ^0.6.3
   fast_contacts: ^3.0.3
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,7 @@ import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.d
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
+import 'package:sense_flutter_application/screens/login/password_search_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 
@@ -172,19 +173,18 @@ class _LoginFormViewState extends State<LoginFormView> {
                   } else {
                     autoLoginState == true ? {
                       await LoginRequest.storage.write(key: 'id', value: userInfoModel.id.toString()),
-                      await LoginRequest.storage.write(key: 'username', value: userInfoModel.userName.toString()),
+                      await LoginRequest.storage.write(key: 'username', value: userInfoModel.username ?? '${userInfoModel.id}user'),
                       await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImageUrl.toString()),
                       await LoginRequest.storage.write(key: 'loginToken', value: userInfoModel.joinToken!.accessToken.toString()),
                       // await LoginRequest.storage.write(key: 'loginToken', value: userInfoModel.loginToken!.accessToken.toString()),
                     } : {};
                     PresentUserInfo.id = userInfoModel.id!;
-                    PresentUserInfo.username = userInfoModel.userName!;
+                    PresentUserInfo.username = userInfoModel.username ?? '${userInfoModel.id}user';
                     PresentUserInfo.profileImage = userInfoModel.profileImageUrl!;
                     PresentUserInfo.loginToken = userInfoModel.joinToken!.accessToken!;
                     /// text form field clear
                     emailFieldController.clear();
                     passwordFieldController.clear();
-                    print('id is what? : ${userInfoModel.id}');
                     Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
                   }
                 },
@@ -195,34 +195,45 @@ class _LoginFormViewState extends State<LoginFormView> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            /// 자동 로그인 및 비밀번호 찾기 터치 범위 개선을 위해 margin대신 content padding 사용
+            // const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    context.read<LoginProvider>().autoLoginBoxState(!autoLoginState);
-                  },
-                  child: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/login/$autoLoginImage', width: 20, height: 20),
-                        const SizedBox(width: 8),
-                        Text('자동로그인', style: TextStyle(fontSize: 12, color: StaticColor.loginTextColor03, fontWeight: FontWeight.w500)),
-                      ],
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10.0),
+                    onTap: () {
+                      context.read<LoginProvider>().autoLoginBoxState(!autoLoginState);
+                    },
+                    child: SizedBox(
+                      height: 35,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/login/$autoLoginImage', width: 20, height: 20),
+                          const SizedBox(width: 8),
+                          Text('자동로그인', style: TextStyle(fontSize: 12, color: StaticColor.loginTextColor03, fontWeight: FontWeight.w500)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: 80,
-                    height: 20,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text('비밀번호 찾기', style: TextStyle(fontSize: 12, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)))
-                  )
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(10.0),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => PasswordSearchScreen()));
+                    },
+                    child: SizedBox(
+                      height: 35,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text('비밀번호 찾기', style: TextStyle(fontSize: 12, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500))),
+                    )
+                  ),
                 )
               ],
             ),
@@ -298,10 +309,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
         token = await UserApi.instance.loginWithKakaoAccount();
         token == null ? print('kakao token is empty') : {
           userModel = await KakaoUserInfoModel().getUserInfo(token),
-          print('token ?? : ${token.accessToken}'),
-          logger.i(token.accessToken),
           tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-          print('what is id?? : ${tokenModel.id}'),
           if(tokenModel.isSignUp == false) {
             KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
             Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
@@ -323,21 +331,16 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
       token = await UserApi.instance.loginWithKakaoAccount();
       token == null ? print('kakao token is empty') : {
         userModel = await KakaoUserInfoModel().getUserInfo(token),
-        print('token ?? : ${token.accessToken}'),
-        logger.i(token.accessToken),
         tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-        print('what is id?? : ${tokenModel.id}'),
         if(tokenModel.isSignUp == false) {
           KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
           Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
         } else if(tokenModel.isSignUp == true) {
             logger.d('login success'),
             PresentUserInfo.id = tokenModel.id!,
-            PresentUserInfo.username = tokenModel.username!,
+            PresentUserInfo.username = tokenModel.username ?? '${userInfoModel.id}user',
             PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
             PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
-            logger.d(PresentUserInfo.loginToken),
-            // PresentUserInfo.loginToken = userInfoModel.loginToken!.accessToken!,
             Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen())),
           }
       };

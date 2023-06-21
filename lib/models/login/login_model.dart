@@ -32,12 +32,11 @@ class UserInfoRequest {
 
 class UserInfoModel {
   int? id;
-  String? userName;
+  String? username;
   TokenModel? joinToken;
 
   String? email;
   String? phone;
-  String? username;
   String? kakaoNickname;
   String? birthday;
   String? typeBirthday;
@@ -47,10 +46,8 @@ class UserInfoModel {
 
   UserInfoModel({
     this.id,
-    this.userName,
-    this.joinToken,
-
     this.username,
+    this.joinToken,
     this.email,
     this.phone,
     this.kakaoNickname,
@@ -63,10 +60,8 @@ class UserInfoModel {
 
   UserInfoModel.fromJson(dynamic json) {
     id = json['id'] ?? '';
-    userName = json['username'] ?? ('user-' + id.toString());
+    username = json['name'] ?? ('user-' + id.toString());
     joinToken = TokenModel.fromJson(json['token']);
-
-    username = json['username'] ?? '';
     email = json['email'] ?? '';
     phone = json['phone'] ?? '';
     kakaoNickname = json['kakao_nickname'] ?? '';

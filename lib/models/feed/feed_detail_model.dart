@@ -1,21 +1,30 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     final response = await http.get(
-        // Uri.parse('https://dev.server.sense.runners.im/api/v1/post/' + feedId.toString()),
-        Uri.parse('https://stg.server.sense.runners.im/api/v1/post/15'),
+        Uri.parse('https://dev.server.sense.runners.im/api/v1/post/' + feedId.toString()),
         headers: {
+          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'
         });
     if(response.statusCode == 200 || response.statusCode == 201) {
       // final jsonResult = json.decode(response.body)['data'];
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      // print('json result ? : $jsonResult');
+      /// logger setting
+      var logger = Logger(
+        printer: PrettyPrinter(
+          lineLength: 120,
+          colors: true,
+          printTime: true,
+        ),
+      );
+      logger.d(jsonResult);
       FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
-      // print(feedDetailModel.thumbnail);
+      print(feedDetailModel.commentCount);
       return feedDetailModel;
     } else {
       throw Exception;
@@ -26,64 +35,58 @@ class FeedContentModel {
 class FeedDetailModel {
   int? id;
   String? thumbnail;
-  int? label;
-  String? labelTitle;
   String? title;
   String? subTitle;
   String? startDate;
   String? endDate;
-  String? content;
-  String? memo;
+  List<Content>? content = [];
+  String? contentTitle;
   int? likeCount;
+  bool? isCommented;
   int? commentCount;
   int? shareCount;
   List<Tag>? tags = [];
-  String? isLiked;
+  bool? isLiked;
   // pervpost, nextpost non active
-  List<Content>? contents = [];
   String? createdTime;
 
   FeedDetailModel({
     this.id,
     this.thumbnail,
-    this.label,
-    this.labelTitle,
     this.title,
     this.subTitle,
     this.startDate,
     this.endDate,
     this.content,
-    this.memo,
+    this.contentTitle,
     this.likeCount,
+    this.isCommented,
     this.commentCount,
     this.shareCount,
     this.tags,
     this.isLiked,
-    this.contents,
     this.createdTime,
   });
 
   FeedDetailModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
-    thumbnail = json['thumbnail_image_url'] ?? '';
-    label = json['label'] ?? -1;
-    labelTitle = json['label_title'] ?? '';
+    thumbnail = json['thumbnail_media_url'] ?? '';
     title = json['title'] ?? '';
     subTitle = json['sub_title'] ?? '';
     startDate = json['start_date'] ?? '';
     endDate = json['end_date'] ?? '';
-    content = json['content'] ?? '';
-    memo = json['memo'] ?? '';
+    json['content'].forEach((v) {
+      content!.add(Content.fromJson(v));
+    }) ?? [];
+    contentTitle = json['content_title'] ?? '';
     likeCount = json['like_count'] ?? -1;
+    isCommented = json['is_commented'] ?? false;
     commentCount = json['comment_count'] ?? -1;
     shareCount = json['share_count'] ?? -1;
     json['tags'].forEach((v) {
       tags!.add(Tag.fromJson(v));
     }) ?? [];
-    isLiked = json['is_liked'] ?? 'false';
-    json['contents'].forEach((v) {
-      contents!.add(Content.fromJson(v));
-    }) ?? [];
+    isLiked = json['is_liked'] ?? false;
     createdTime = json['created'] ?? '';
   }
 }

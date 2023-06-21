@@ -37,6 +37,7 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
             shadowColor: Colors.transparent,
             child: InkWell(
               onTap: () {
+                /// post detail load, 포스트 상세 불러오기
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -97,15 +98,30 @@ class FeedPostCarouselCard extends _BasePostCard {
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              subTitle!,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );
@@ -221,6 +237,7 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
       for (var feedPost in widget.feedPosts) {
         items.add(FeedPostCarouselCard(
           id: feedPost.id!,
+          // id: 5, // 여기 수정해야 함
           title: feedPost.title!,
           subTitle: feedPost.subTitle!,
           imageUrl: feedPost.thumbnailUrl!,

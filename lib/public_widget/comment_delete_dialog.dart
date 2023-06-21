@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/feed/comment_model.dart';
+import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
-class LogoutDialog extends StatefulWidget {
+class CommentDeleteDialog extends StatefulWidget {
   Function? action;
-  LogoutDialog({Key? key, this.action}) : super(key: key);
+  int? postId;
+  int? index;
+  CommentDeleteDialog({Key? key, this.action, this.postId, this.index}) : super(key: key);
 
   @override
-  State<LogoutDialog> createState() => _LogoutDialog();
+  State<CommentDeleteDialog> createState() => _CommentDeleteDialog();
 }
 
-class _LogoutDialog extends State<LogoutDialog> {
+class _CommentDeleteDialog extends State<CommentDeleteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      insetPadding: EdgeInsets.all(10),
+      insetPadding: const EdgeInsets.all(10),
       contentPadding: EdgeInsets.zero,
       // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
       shape: RoundedRectangleBorder(
@@ -21,7 +26,7 @@ class _LogoutDialog extends State<LogoutDialog> {
       //Dialog Main Title
       title: Column(
         children: [
-          Text('로그아웃 하시겠습니까?', style: TextStyle(fontSize: 18, color: StaticColor.addEventCancelTitle, fontWeight: FontWeight.w700)),
+          Text('댓글을 완전히 삭제할까요?', style: TextStyle(fontSize: 18, color: StaticColor.addEventCancelTitle, fontWeight: FontWeight.w700)),
         ],
       ),
       //
@@ -59,11 +64,14 @@ class _LogoutDialog extends State<LogoutDialog> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {
-                    widget.action!.call();
+                  onPressed: () async {
+                    // widget.action!.call();
+                    Navigator.of(context).pop();
+                    CommentResponseModel model = await CommentRequest().commentDeleteRequest(widget.index!);
+                    context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
-                  child: Text('로그아웃', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
+                  child: Text('삭제하기', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
                 ),
               ),
             ),

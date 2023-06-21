@@ -8,4 +8,15 @@ class LoginProvider with ChangeNotifier {
     _autoLoginState = state;
     notifyListeners();
   }
+
+  bool _passwordSearchButtonState = false;
+  bool get passwordSearchButtonState => _passwordSearchButtonState;
+  String _authPhoneNumber = '';
+  String get authPhoneNumber => _authPhoneNumber;
+
+  void passwordSearchButtonStateChange(bool state, [String? phoneNumber]) {
+    _passwordSearchButtonState = state;
+    phoneNumber == null ? {} : _authPhoneNumber = phoneNumber;
+    notifyListeners();
+  }
 }

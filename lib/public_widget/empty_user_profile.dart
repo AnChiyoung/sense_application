@@ -8,22 +8,15 @@ class UserProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: StaticColor.grey200EE,
-        shape: BoxShape.circle,
-      ),
-      child: profileImageUrl == '' ? Image.asset('assets/feed/empty_user_inner.png', width: 20, height: 20)
-          : Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: CachedNetworkImage(imageUrl: profileImageUrl.toString())),
-    );
+    return profileImageUrl == null || profileImageUrl == '' ? Image.asset('assets/feed/empty_user_profile.png', width: 32, height: 32)
+          : CachedNetworkImage(
+              imageUrl: profileImageUrl.toString(),
+              fit: BoxFit.fitHeight,
+              imageBuilder: (context, imageProvider) => Container(
+                width: 35.0,
+                height: 35.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(image: imageProvider, fit: BoxFit.cover))));
   }
 }

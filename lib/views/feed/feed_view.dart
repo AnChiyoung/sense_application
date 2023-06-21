@@ -214,47 +214,53 @@ class _FeedTagListState extends State<FeedTagList> {
             } else {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: tagModels!.length,
-                  itemBuilder: (context, index) {
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: tagModels!.length,
+                      itemBuilder: (context, index) {
 
-                    final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
+                        final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
 
-                    return Row(
-                      children: [
-                        Material(
-                          borderRadius: BorderRadius.circular(18),
-                          color: index == selectTagNumber ? Colors.grey.shade800 : Colors.grey.shade200,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(16),
-                            onTap: () {
-                              context.read<FeedProvider>().selectTagNumberChange(index);
-                              },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 7,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  tagModels.elementAt(index).title!,
-                                  style: TextStyle(
-                                    color: index == selectTagNumber ? Colors.white : Colors.grey.shade700,
-                                    fontSize: 14,
+                        return Row(
+                          children: [
+                            Material(
+                              borderRadius: BorderRadius.circular(18),
+                              color: index == selectTagNumber ? Colors.grey.shade800 : Colors.grey.shade200,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(16),
+                                onTap: () {
+                                  context.read<FeedProvider>().selectTagNumberChange(index);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 7,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      tagModels.elementAt(index).title!,
+                                      style: TextStyle(
+                                        color: index == selectTagNumber ? Colors.white : Colors.grey.shade700,
+                                        fontSize: 14,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(width: 6);
-                  }
+                            const SizedBox(width: 6),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const SizedBox(width: 6);
+                      }
+                    ),
+                  ],
                 ),
               );
               // return Consumer<FeedProvider>(
@@ -320,13 +326,16 @@ class FeedPostList extends StatefulWidget {
 class _FeedPostListState extends State<FeedPostList> {
   @override
   Widget build(BuildContext context) {
+
+    final selectTagNumber = context.read<FeedProvider>().selectTagNumber;
+
     return Expanded(
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
           FutureBuilder(
             // future: context.read<FeedProvider>().getFeedPosts(),
-            future: FeedRequest().feedPreviewRequestByLabelId(-1),
+            future: FeedRequest().feedPreviewRequestByLabelId(1),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // return const Center(child: CircularProgressIndicator());

@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedRequest {
   Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
@@ -16,6 +19,62 @@ class FeedRequest {
       List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
       return modelList;
     } else {
+      throw Exception;
+    }
+  }
+
+  Future<FeedDetailModel> postDetailLiked(int postId) async {
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/like'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('post detail like button call success');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      /// logger setting
+      var logger = Logger(
+        printer: PrettyPrinter(
+          lineLength: 120,
+          colors: true,
+          printTime: true,
+        ),
+      );
+      logger.d(jsonResult);
+      FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
+      return feedDetailModel;
+    } else {
+      print('post detail like button call fail');
+      throw Exception;
+    }
+  }
+
+  Future<FeedDetailModel> postDetailUnliked(int postId) async {
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/unlike'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('post detail like button call success');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      /// logger setting
+      var logger = Logger(
+        printer: PrettyPrinter(
+          lineLength: 120,
+          colors: true,
+          printTime: true,
+        ),
+      );
+      logger.d(jsonResult);
+      FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
+      return feedDetailModel;
+    } else {
+      print('post detail like button call fail');
       throw Exception;
     }
   }

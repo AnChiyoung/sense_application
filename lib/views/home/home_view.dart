@@ -52,8 +52,6 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   void initState() {
-    widget.selectCallback(0);
-    pageIndex = 0;
     super.initState();
   }
 

@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: MovePageList().pageList.elementAt(pageIndex),
         ),
         bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding),
+        // bottomNavigationBar: Container(height: 100),
       ),
     );
   }
