@@ -15,13 +15,13 @@ class _ServiceGuideDialogState extends State<ServiceGuideDialog> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0)),
       //Dialog Main Title
-      title: const Column(
+      title: Column(
         children: [
           // Align(alignment: Alignment.centerLeft, child: Text("Sense TEAM")),
         ],
       ),
       //
-      content: const Column(
+      content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

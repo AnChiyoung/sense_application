@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/contact/contact_list_field.dart';
+import 'package:sense_flutter_application/views/contact/contact_list_view.dart';
 import 'package:sense_flutter_application/views/contact/contact_search_field.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
@@ -33,7 +33,7 @@ class _ContactScreenState extends State<ContactScreen> {
               Container(width: double.infinity, height: 1, color: StaticColor.grey200EE),
               Consumer<ContactProvider>(
                 builder: (context, data, child) => data.searchState == true ?
-                  SearchResultField() : Expanded(child: ContactListField())),
+                  SearchResultField() : Expanded(child: ContactListView())),
             ],
           ),
         ),

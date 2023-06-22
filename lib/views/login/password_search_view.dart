@@ -189,7 +189,7 @@ class _PasswordSearchInfoInputButtonState extends State<PasswordSearchInfoInputB
                     ? StaticColor.categorySelectedColor
                     : StaticColor.unSelectedColor,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: const Column(
+            child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
