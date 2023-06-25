@@ -96,18 +96,18 @@ class _BottomMenuState extends State<BottomMenu> {
                     child: InkWell(
                         borderRadius: BorderRadius.circular(30.0),
                         onTap: () {
-                          widget.selectCallback(1);
-                          pageIndex = 1;
-                          // showDialog(
-                          //   context: context,
-                          //   //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                          //   barrierDismissible: false,
-                          //   builder: (BuildContext context) {
-                          //     return const ServiceGuideDialog();
-                          //   }
-                          // );
+                          // widget.selectCallback(1);
+                          // pageIndex = 1;
+                          showDialog(
+                            context: context,
+                            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return const ServiceGuideDialog();
+                            }
+                          );
                         },
-                        child: bottomNavigationBarItem('assets/home/store.png', 24.0, '친구 임시', 1))),
+                        child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
               ),
             ),
             Expanded(

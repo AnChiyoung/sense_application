@@ -76,9 +76,9 @@ class _PasswordSearchInfoInputFieldState extends State<PasswordSearchInfoInputFi
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 alignLabelWithHint: false,
                 labelText: '이메일 주소',
-                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 hintText: '이메일 주소를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {

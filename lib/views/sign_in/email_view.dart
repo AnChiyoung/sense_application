@@ -100,9 +100,9 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 alignLabelWithHint: false,
                 labelText: '이메일 주소',
-                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 hintText: '이메일 주소를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
@@ -153,9 +153,9 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 alignLabelWithHint: false,
                 counterText: '',
                 labelText: '비밀번호',
-                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 hintText: '비밀번호를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
@@ -206,9 +206,9 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 alignLabelWithHint: false,
                 counterText: '',
                 labelText: '비밀번호 확인',
-                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                 hintText: '비밀번호를 확인해 주세요',
-                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
@@ -293,7 +293,7 @@ class _EmailButtonState extends State<EmailButton> {
                   child: Center(
                       child: Text('다음',
                           style: TextStyle(
-                              fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
+                              fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
             ])),
       ),
     );

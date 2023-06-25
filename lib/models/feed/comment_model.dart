@@ -22,12 +22,13 @@ class CommentRequest {
          List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
          var logger = Logger(
             printer: PrettyPrinter(
-               lineLength: 120,
-               colors: true,
+               lineLength: 50,
+               colors: false,
                printTime: true,
             ),
          );
-         logger.i('댓글 리스폰스 : ${jsonDecode(utf8.decode(response.bodyBytes))['data']}');
+         body.map((e) => logger.e('댓글 리스폰스 : $e'));
+         // logger.e('댓글 리스폰스 : $body');
          List<CommentResponseModel> commentModels = body.isEmpty ? [] : body.map((e) => CommentResponseModel.fromJson(e)).toList();
          return commentModels;
       } else {
@@ -61,7 +62,7 @@ class CommentRequest {
    }
 
    /// 댓글 업데이트
-   Future<bool> commentUpdateRequest(int commentId, String comment) async {
+   Future<CommentResponseModel> commentUpdateRequest(int commentId, String comment) async {
 
       print('comment update id : $commentId');
 
@@ -78,10 +79,11 @@ class CommentRequest {
 
       if(response.statusCode == 200 || response.statusCode == 201) {
          print('댓글 수정 성공');
-         return true;
+         CommentResponseModel model = CommentResponseModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+         return model;
       } else {
          print('댓글 수정 실패');
-         return false;
+         return CommentResponseModel();
       }
    }
 
@@ -116,15 +118,12 @@ class CommentRequest {
       }
    }
 
-   Future<bool> recommentWriteRequest(int postId, String comment) async {
-
-      print(postId);
-      print(comment);
+   Future<CommentResponseModel> recommentWriteRequest(int parentCommentId, String comment) async {
 
       Map<String, dynamic> commentRequestBody = CommentRequestModel(comment: comment).toJson();
 
       final response = await http.post(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${postId.toString()}/comment'),
+         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${parentCommentId.toString()}/comment'),
          body: jsonEncode(commentRequestBody),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -134,11 +133,11 @@ class CommentRequest {
 
       if(response.statusCode == 200 || response.statusCode == 201) {
          print('대댓글 입력 성공');
-
-         return true;
+         CommentResponseModel model = CommentResponseModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+         return model;
       } else {
          print('대댓글 입력 실패');
-         return false;
+         return CommentResponseModel();
       }
    }
 
@@ -216,6 +215,7 @@ class CommentResponseModel {
    bool? isActive;
    bool? isDelete;
    bool? isLiked;
+   bool? isCommented;
    List<ChildComment>? childCommentList = [];
 
    CommentResponseModel({
@@ -231,6 +231,7 @@ class CommentResponseModel {
       this.isActive,
       this.isDelete,
       this.isLiked,
+      this.isCommented,
       this.childCommentList,
    });
 
@@ -242,11 +243,12 @@ class CommentResponseModel {
       content = json['content'] ?? '';
       likeCount = json['like_count'] ?? -1;
       point = json['point'] ?? -1;
-      created = json['created'] ?? DateTime.now();
-      modified = json['modified'] ?? DateTime.now();
+      created = json['created'] ?? DateTime.now().toString();
+      modified = json['modified'] ?? DateTime.now().toString();
       isActive = json['is_active'] ?? false;
       isDelete = json['is_deleted'] ?? false;
       isLiked = json['is_liked'] ?? false;
+      isCommented = json['is_commented'] ?? false;
       json['child_comments'] == [] || json['child_comments'] == null ? childCommentList = []
       : json['child_comments'].forEach((v) {
          childCommentList!.add(ChildComment.fromJson(v));

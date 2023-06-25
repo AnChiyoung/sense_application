@@ -98,7 +98,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
           Image.asset('assets/signin/$checkState', width: 20, height: 20),
           const SizedBox(width: 12),
           Text(text,
-              style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 16, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
               softWrap: false,
               overflow: TextOverflow.ellipsis),
         ],
@@ -107,7 +107,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
   }
 
   Widget policyRow(String text, int index) {
-    List<bool> state;
+    List<bool> state = [];
     String checkState = 'policy_check_empty.png';
     state = context.watch<SigninProvider>().checkState;
     state[index] == true ? checkState = 'policy_check_done.png' : checkState = 'policy_check_empty.png';
@@ -127,7 +127,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
                 Image.asset('assets/signin/$checkState', width: 20, height: 20),
                 const SizedBox(width: 12),
                 Text(text,
-                  style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 16, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
                   softWrap: false,
                   overflow: TextOverflow.ellipsis),
               ],
@@ -204,7 +204,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
             );
           },
           child: Align(
-              alignment: Alignment.bottomCenter, child: Text('더보기', style: TextStyle(fontSize: 12, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w700))),
+              alignment: Alignment.bottomCenter, child: Text('더보기', style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w700))),
         ),
       ],
     );
@@ -245,7 +245,7 @@ class _PolicyButtonState extends State<PolicyButton> {
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: buttonState == true ? StaticColor.categorySelectedColor : StaticColor.signinPolicyAddTextColor, elevation: 0.0),
-              child: Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
+              child: Text('다음', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w400)),
             ),
           ),
         ),
@@ -255,7 +255,7 @@ class _PolicyButtonState extends State<PolicyButton> {
             context.read<SigninProvider>().policyCheckStateChange([true, true, true, true, false]);
             // Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()));
           },
-          child: Text('필수 항목만 동의', style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
+          child: Text('필수 항목만 동의', style: TextStyle(fontSize: 16, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
         )
       ],
     );

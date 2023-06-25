@@ -67,8 +67,49 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                   onPressed: () async {
                     // widget.action!.call();
                     Navigator.of(context).pop();
-                    CommentResponseModel model = await CommentRequest().commentDeleteRequest(widget.index!);
-                    context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
+                    CommentResponseModel deleteResponseModel = await CommentRequest().commentDeleteRequest(widget.index!);
+                    if(deleteResponseModel == CommentResponseModel() || deleteResponseModel == null) {
+
+                    } else {
+                      context.read<FeedProvider>().commentDeleteResult(widget.postId!, context.read<FeedProvider>().sortState, deleteResponseModel.postBottomInfo!.commentCount!);
+
+                      /// 삭제 snackbar 추가
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          behavior: SnackBarBehavior.floating,
+                          duration: const Duration(milliseconds: 2000),
+                          backgroundColor: Colors.transparent,
+                          elevation: 0.0,
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height - 150,
+                          ),
+                          content: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4.0),
+                              border: Border.all(color: StaticColor.snackbarColor, width: 1),
+                            ),
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                children: [
+                                  Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
+                                  const SizedBox(width: 8),
+                                  Text(context.read<FeedProvider>().isRecommentOption == true ? '답글이 삭제 됐습니다' : '댓글이 삭제 됐습니다',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    // context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('삭제하기', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),

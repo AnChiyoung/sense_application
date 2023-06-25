@@ -24,8 +24,8 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   KakaoSdk.init(
       nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
-      javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd');
-
+      javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd'
+  );
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => LoginProvider()),

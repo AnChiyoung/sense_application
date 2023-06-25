@@ -134,9 +134,9 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                                 alignLabelWithHint: false,
                                 labelText: '인증번호',
-                                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                                labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                                 hintText: '번호를 입력하세요',
-                                hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
@@ -172,7 +172,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         behavior: SnackBarBehavior.floating,
-                                        duration: const Duration(milliseconds: 4000),
+                                        duration: const Duration(milliseconds: 2000),
                                         backgroundColor: Colors.white,
                                         elevation: 0.0,
                                         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -182,7 +182,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                         content: Container(
                                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: Colors.transparent,
                                             borderRadius: BorderRadius.circular(4.0),
                                             border: Border.all(color: StaticColor.snackbarColor, width: 1),
                                           ),
@@ -191,15 +191,16 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                               Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
                                               const SizedBox(width: 8),
                                               Text('인증에 성공했어요, 회원가입이 완료되었습니다',
+                                                overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                    fontSize: 14, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                                    fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
                                     );
-                                    context.read<SigninProvider>().policyCheckStateChange([false, false, false, false]);
+                                    context.read<SigninProvider>().policyCheckStateChange([false, false, false, false, false]);
                                     context.read<SigninProvider>().emailPasswordButtonStateChange(false);
                                     context.read<SigninProvider>().stepChangeState([true, false, false, false]);
                                     context.read<SigninProvider>().genderChangeState([false, false]);
@@ -268,8 +269,9 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                           Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
                                           const SizedBox(width: 8),
                                           Text('인증번호를 재발송 해드렸어요',
+                                              overflow: TextOverflow.ellipsis,
                                               style:
-                                                  TextStyle(fontSize: 14, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500)),
+                                                  TextStyle(fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500)),
                                         ]))),
                               );
                             },

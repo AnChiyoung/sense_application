@@ -20,13 +20,15 @@ class _PolicyScreenState extends State<PolicyScreen> {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            PolicyHeader(),
-            PolicyDescription(),
-            PolicyCheckField(topPadding: safeAreaTopPadding),
-            PolicyButton(presentInfo: widget.kakaoUserModel),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              PolicyHeader(),
+              PolicyDescription(),
+              PolicyCheckField(topPadding: safeAreaTopPadding),
+              PolicyButton(presentInfo: widget.kakaoUserModel),
+            ],
+          ),
         ),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
+import 'package:sense_flutter_application/public_widget/password_search_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/login/password_search_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
@@ -61,6 +62,7 @@ class _LoginFormViewState extends State<LoginFormView> {
       PresentUserInfo.id = int.parse(a!);
       PresentUserInfo.username = (await LoginRequest.storage.read(key: 'username'))!;
       PresentUserInfo.profileImage = (await LoginRequest.storage.read(key: 'profileImage'))!;
+      PresentUserInfo.loginToken = (await LoginRequest.storage.read(key: 'loginToken'))!;
       Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
     } else {
       print('로그인이 필요합니다');
@@ -85,7 +87,7 @@ class _LoginFormViewState extends State<LoginFormView> {
           children: [
             /// email input field
             Container(
-              height: 40,
+              height: 50,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: StaticColor.loginInputBoxColor,
@@ -95,16 +97,16 @@ class _LoginFormViewState extends State<LoginFormView> {
                 controller: emailFieldController,
                 decoration: InputDecoration(
                   hintText: '이메일 주소',
-                  hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                  hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                   border: InputBorder.none,
                 ),
-                onTap: () {print('tap!');},
+                onTap: () {},
               ),
             ),
             const SizedBox(height: 8),
             /// password input field
             Container(
-              height: 40,
+              height: 50,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: StaticColor.loginInputBoxColor,
@@ -115,7 +117,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: '비밀번호',
-                  hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                  hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                   border: InputBorder.none,
                 ),
                 onTap: () {},
@@ -144,7 +146,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
-                        duration: const Duration(milliseconds: 4000),
+                        duration: const Duration(milliseconds: 2000),
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
                         margin: EdgeInsets.only(
@@ -162,8 +164,9 @@ class _LoginFormViewState extends State<LoginFormView> {
                               Image.asset('assets/signin/snackbar_error_icon.png', width: 24, height: 24),
                               const SizedBox(width: 8),
                               Text('이메일 또는 비밀번호가 일치하지 않아요.',
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                    fontSize: 14, color: StaticColor.textErrorColor, fontWeight: FontWeight.w500),
+                                    fontSize: 16, color: StaticColor.textErrorColor, fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -191,7 +194,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                 borderRadius: BorderRadius.circular(4.0), // inkwell effect's borderradius
                 child: const SizedBox(
                   height: 50,
-                  child: Center(child: Text('로그인', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600))),
+                  child: Center(child: Text('로그인', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
                 ),
               ),
             ),
@@ -214,7 +217,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                         children: [
                           Image.asset('assets/login/$autoLoginImage', width: 20, height: 20),
                           const SizedBox(width: 8),
-                          Text('자동로그인', style: TextStyle(fontSize: 12, color: StaticColor.loginTextColor03, fontWeight: FontWeight.w500)),
+                          Text('자동로그인', style: TextStyle(fontSize: 14, color: StaticColor.loginTextColor03, fontWeight: FontWeight.w500)),
                         ],
                       ),
                     ),
@@ -225,13 +228,20 @@ class _LoginFormViewState extends State<LoginFormView> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10.0),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => PasswordSearchScreen()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (_) => PasswordSearchScreen()));
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          return const PasswordSearchGuideDialog();
+                        }
+                      );
                     },
                     child: SizedBox(
                       height: 35,
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text('비밀번호 찾기', style: TextStyle(fontSize: 12, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500))),
+                        child: Text('비밀번호 찾기', style: TextStyle(fontSize: 14, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500))),
                     )
                   ),
                 )
@@ -275,7 +285,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
                 children: [
                   Image.asset('assets/login/kakao_simple_icon.png', width: 24, height: 24),
                   const SizedBox(width: 4),
-                  Text('카카오로 로그인', style: TextStyle(fontSize: 14, color: StaticColor.loginTextColor02, fontWeight: FontWeight.w600)),
+                  Text('카카오로 로그인', style: TextStyle(fontSize: 16, color: StaticColor.loginTextColor02, fontWeight: FontWeight.w600)),
                 ],
               ),
             ),
@@ -372,11 +382,11 @@ class _SigninViewState extends State<SigninView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('아직 ', style: TextStyle(fontSize: 14, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)),
+                    Text('아직 ', style: TextStyle(fontSize: 16, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)),
                     Align(
                       alignment: Alignment.center,
-                      child: Text('SENSE', style: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500))),
-                    Text(' 회원이 아니신가요?', style: TextStyle(fontSize: 14, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)),
+                      child: Text('SENSE', style: TextStyle(fontSize: 16, color: StaticColor.mainSoft, fontWeight: FontWeight.w500))),
+                    Text(' 회원이 아니신가요?', style: TextStyle(fontSize: 16, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)),
                   ],
                 ),
               ),
@@ -399,7 +409,7 @@ class _SigninViewState extends State<SigninView> {
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                     child: Center(
-                      child: Text('회원가입', style: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500)),
+                      child: Text('회원가입', style: TextStyle(fontSize: 16, color: StaticColor.mainSoft, fontWeight: FontWeight.w500)),
                     )
                   ),
                 ),

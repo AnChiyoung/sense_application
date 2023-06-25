@@ -7,6 +7,26 @@ import 'package:sense_flutter_application/models/feed/feed_model.dart';
 
 class FeedProvider with ChangeNotifier {
 
+  bool _isRecommentOption = false;
+  bool get isRecommentOption => _isRecommentOption;
+
+  /// use view update
+  int _restCallCount = 0;
+  int get restCallCount => _restCallCount;
+
+  ChildComment _childModel = ChildComment();
+  ChildComment get childModel => _childModel;
+
+  /// last input mode view
+  Widget _lastHeader = Container();
+  Widget get lastHeader => _lastHeader;
+  Widget _lastCommentField = Container();
+  Widget get lastCommentField => _lastCommentField;
+
+  /// text editing contorller
+  TextEditingController _inputController = TextEditingController();
+  TextEditingController get inputController => _inputController;
+
   /// feed bottom field change
   bool _commentVisibility = false;
   bool get commentVisibility => _commentVisibility;
@@ -19,6 +39,7 @@ class FeedProvider with ChangeNotifier {
   /// feed bottom field initialize
   void feedBottomFieldInitialize() {
     _commentVisibility = false;
+    _commentCount = -1;
     notifyListeners();
   }
 
@@ -29,15 +50,27 @@ class FeedProvider with ChangeNotifier {
   List<CommentResponseModel> get commentModels => _commentModels;
 
   void commentModelRequest(int postId, [String? sort]) async {
+    /// 왜. 와이. 왜. 왜.왜.왜.왜왜왜ㅗ애ㅗ애ㅗ애ㅗ대돼왜오애ㅗ애ㅗ대조애조애왜왜오애왜 새로고침이 안되누??
+    /// 아마도.. consumer로 받은 데이터 임시로 변수에 저장했다가 그거 ㄹ뿌리던가, 아니면 상단에서 컨슈머 써서 모델을 받던가.
+    _commentModels.clear();
+    // _restCallCount++;
     _commentModels = await CommentRequest().commentRequest(postId, sort!);
     sort == null ? {} : _sortState = sort;
     notifyListeners();
+  }
+
+  void updateSuccess(int postId, String sort) async {
+    _updateMode = false;
+    _commentModels = await CommentRequest().commentRequest(postId, sort);
   }
 
   /// feed back button click! => info & data init
   void feedInfoInit() {
     _commentModels = [];
     _sortState = '-created';
+    _commentCount = -1;
+    _commentVisibility = false;
+
     notifyListeners();
   }
 
@@ -64,8 +97,74 @@ class FeedProvider with ChangeNotifier {
   }
 
   /// 답글로 변형
-  void recommentModeChange(int state, int commentId) {
+  bool _recommentMode = false;
+  bool get recommentMode => _recommentMode;
+  bool _updateMode = false;
+  bool get updateMode => _updateMode;
+  CommentResponseModel _selectCommentModel = CommentResponseModel();
+  CommentResponseModel get selectCommentModel => _selectCommentModel;
 
+  void selectCommentModelChange(CommentResponseModel commentResponseModel) {
+    _selectCommentModel = commentResponseModel;
+    notifyListeners();
+  }
+
+  void recommentModeChange(bool state, [CommentResponseModel? commentModel]) {
+    _recommentMode = state;
+    _inputController.clear();
+    commentModel == CommentResponseModel() ? {} : _selectCommentModel = commentModel!;
+    notifyListeners();
+  }
+
+  void recommentModeToCommentMode(int postId, String sort) async {
+    _recommentMode = false;
+    _commentModels = await CommentRequest().commentRequest(postId, sort!);
+    _sortState = sort;
+    _inputController.clear();
+    notifyListeners();
+  }
+
+  void commentUpdateMode(CommentResponseModel model) {
+    _selectCommentModel = model;
+    _updateMode = true;
+    notifyListeners();
+  }
+
+  void recommentUpdateMode(ChildComment childModel) {
+    _childModel = childModel;
+    _updateMode = true;
+    _isRecommentOption = true;
+    notifyListeners();
+  }
+
+  void isRecommentOptionInit() {
+    _isRecommentOption = false;
+    notifyListeners();
+  }
+
+  void lastHeaderWidgetSet(Widget headerType) {
+    _lastHeader = headerType;
+    notifyListeners();
+  }
+
+  void lastCommentWidgetSet(Widget commentType) {
+    _lastCommentField = commentType;
+    notifyListeners();
+  }
+
+  void commentInputResult(int postId, String sort, bool isCommented, int commentCount, bool isLiked, int likeCount) async {
+    _inputButton = false;
+    _isCommented = isCommented;
+    _commentCount = commentCount;
+    _isLiked = isLiked;
+    _likeCount = likeCount;
+    _commentModels = await CommentRequest().commentRequest(postId, sort);
+    notifyListeners();
+  }
+
+  void commentDeleteResult(int postId, String sort, int commentCount) async {
+    _commentModels = await CommentRequest().commentRequest(postId, sort);
+    _commentCount = commentCount;
     notifyListeners();
   }
 
@@ -189,20 +288,20 @@ class FeedProvider with ChangeNotifier {
 
 
   /// inputMode change => 0: comment, 1: recomment, 2: comment update
-  int _inputMode = 0;
-  int get inputMode => _inputMode;
-  int _selectCommentId = 0;
-  int get selectCommentId => _selectCommentId;
-  CommentResponseModel? _selectComment = CommentResponseModel();
-  CommentResponseModel? get selectComment => _selectComment;
-
-  void inputModeChange(int state, [int? selectCommentId]) {
-    _inputMode = state;
-    if(state == 2) {
-      _selectCommentId = selectCommentId!;
-    }
-    notifyListeners();
-  }
+  // int _inputMode = 0;
+  // int get inputMode => _inputMode;
+  // // int _selectCommentId = 0;
+  // // int get selectCommentId => _selectCommentId;
+  // CommentResponseModel? _selectComment = CommentResponseModel();
+  // CommentResponseModel? get selectComment => _selectComment;
+  //
+  // void inputModeChange(int state, [int? selectCommentId]) {
+  //   _inputMode = state;
+  //   if(state == 2) {
+  //     // _selectCommentId = selectCommentId!;
+  //   }
+  //   notifyListeners();
+  // }
 
   bool _inputButton = false;
   bool get inputButton => _inputButton;

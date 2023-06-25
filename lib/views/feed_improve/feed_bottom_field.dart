@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/feed/comment_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
@@ -139,7 +140,8 @@ class _FeedBottomFieldState extends State<FeedBottomField> {
 }
 
 class CommentInputField extends StatefulWidget {
-  const CommentInputField({Key? key}) : super(key: key);
+  int postId;
+  CommentInputField({Key? key, required this.postId}) : super(key: key);
 
   @override
   State<CommentInputField> createState() => _CommentInputFieldState();
@@ -151,121 +153,180 @@ class _CommentInputFieldState extends State<CommentInputField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: StaticColor.grey400BB,
-            blurRadius: 1,
-            offset: const Offset(0, -1),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: Row(
-          children: [
-            UserProfileImage(profileImageUrl: PresentUserInfo.profileImage ?? ''),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Container(
-                height: 32,
-                color: StaticColor.grey100F6,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextFormField(
-                  // controller: commentInputController,
-                  autofocus: true,
-                  cursorColor: Colors.black,
-                  cursorHeight: 15,
-                  textInputAction: TextInputAction.done,
-                  maxLines: 1,
-                  textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
-                    // hintText: data.inputMode == 0 ? '댓글 입력' : '답글 입력',
-                    hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                    border: InputBorder.none,
-                    alignLabelWithHint: true,
-                  ),
-                  onChanged: (value) {
-                    if(value.isNotEmpty) {
-                      if(value.trim() == '') {
-                      } else {
-                        isRegedit = true;
-                        context.read<FeedProvider>().inputButtonStateChange(true);
-                      }
-                    } else {
-                      isRegedit = false;
-                      context.read<FeedProvider>().inputButtonStateChange(false);
-                    }
-                  },
-                ),
+
+    final controller = context.read<FeedProvider>().inputController;
+
+    return Consumer<FeedProvider>(
+      builder: (context, data, child) {
+
+        String sortState = data.sortState;
+        CommentResponseModel selectModel = data.selectCommentModel;
+        ChildComment childModel = data.childModel;
+
+        return Container(
+          height: 60,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: StaticColor.grey400BB,
+                blurRadius: 1,
+                offset: const Offset(0, -1),
               ),
-            ),
-            const SizedBox(width: 8),
-            Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(25.0),
-                  // onTap: () {
-                  onTap: () async {
-                    // CommentResponseModel responseModel = CommentResponseModel();
-                    // bool updateResult = false;
-                    // /// 댓글
-                    // if(data.inputMode == 0) {
-                    //   /// 공백이나 스페이스 입력 시에는 등록 x
-                    //   if(isRegedit == true) {
-                    //     responseModel = await CommentRequest().commentWriteRequest(widget.postId!, commentInputController.text);
-                    //   }
-                    //
-                    //   if(responseModel == CommentResponseModel() || responseModel == null) {}
-                    //   else {
-                    //     context.read<FeedProvider>().inputButtonStateChange(false);
-                    //     context.read<FeedProvider>().feedDetailModelInitialize(
-                    //         responseModel.postBottomInfo!.isCommented,
-                    //         responseModel.postBottomInfo!.commentCount,
-                    //         responseModel.postBottomInfo!.isLiked,
-                    //         responseModel.postBottomInfo!.likeCount
-                    //     );
-                    //     context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
-                    //     commentInputController.text = '';
-                    //     isRegedit = false;
-                    //   }
-                    // }
-                    // /// 답글
-                    // else if(data.inputMode == 1) {
-                    //
-                    // }
-                    // /// 수정
-                    // else if(data.inputMode == 2) {
-                    //   if(isRegedit == true) {
-                    //     updateResult = await CommentRequest().commentUpdateRequest(widget.postId!, commentInputController.text);
-                    //   }
-                    //   if(updateResult == true) {
-                    //     context.read<FeedProvider>().inputButtonStateChange(false);
-                    //     context.read<FeedProvider>().commentModelRequest(context.read<FeedProvider>().selectCommentId, context.read<FeedProvider>().sortState);
-                    //     context.read<FeedProvider>().inputModeChange(0);
-                    //     commentInputController.text = '';
-                    //     isRegedit = false;
-                    //   } else {
-                    //     context.read<FeedProvider>().inputButtonStateChange(false);
-                    //     context.read<FeedProvider>().inputModeChange(0);
-                    //     commentInputController.text = '';
-                    //     isRegedit = false;
-                    //   }
-                    // }
-                  },
-                  child: Consumer<FeedProvider>(
-                    builder: (context, data, child) {
-                      return Center(child: Image.asset('assets/feed/comment_regedit.png', width: 24, height: 24, color: data.inputButton == true ? StaticColor.mainSoft : StaticColor.grey400BB));
-                    }
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Row(
+              children: [
+                UserProfileImage(profileImageUrl: PresentUserInfo.profileImage ?? ''),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Container(
+                    height: 50,
+                    color: StaticColor.grey100F6,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: TextFormField(
+                      controller: controller,
+                      autofocus: true,
+                      cursorColor: Colors.black,
+                      // cursorHeight: 15,
+                      textInputAction: TextInputAction.done,
+                      maxLines: null,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        hintText: data.recommentMode == false ? '댓글 입력' : '답글 입력',
+                        hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                        border: InputBorder.none,
+                        alignLabelWithHint: true,
+                      ),
+                      onChanged: (value) {
+                        if(value.isNotEmpty) {
+                          if(value.trim() == '') {
+                            isRegedit = false;
+                            context.read<FeedProvider>().inputButtonStateChange(false);
+                          } else {
+                            isRegedit = true;
+                            context.read<FeedProvider>().inputButtonStateChange(true);
+                          }
+                        } else {
+                          isRegedit = false;
+                          context.read<FeedProvider>().inputButtonStateChange(false);
+                        }
+                      },
+                    ),
                   ),
                 ),
+                const SizedBox(width: 8),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(25.0),
+                    onTap: () async {
+                      CommentResponseModel responseModel = CommentResponseModel();
+
+                      if (data.recommentMode == false) {
+                        /// 댓글상태일때
+
+                        if (data.updateMode == false) {
+                          /// 댓글상태 -> 비수정(추가)일때
+
+                          responseModel = await CommentRequest().commentWriteRequest(widget.postId!, controller.text);
+
+                          if (responseModel == CommentResponseModel() || responseModel == null) {
+                            /// write fail
+                          } else {
+                            /// write success
+                            context.read<FeedProvider>().commentInputResult(
+                                widget.postId,
+                                sortState,
+                                responseModel.postBottomInfo!.isCommented!,
+                                responseModel.postBottomInfo!.commentCount!,
+                                responseModel.postBottomInfo!.isLiked!,
+                                responseModel.postBottomInfo!.likeCount!
+                            );
+                            controller.clear();
+                            isRegedit == false;
+                          }
+                        } else {
+                          /// 댓글상태 -> 수정일때
+
+                          if (isRegedit == true) {
+                            responseModel = await CommentRequest().commentUpdateRequest(selectModel.id!, controller.text);
+                            if (responseModel == CommentResponseModel() || responseModel == null) {
+                              /// update fail
+                            } else {
+                              /// update success
+                              controller.clear();
+                              isRegedit == false;
+                              context.read<FeedProvider>().updateSuccess(widget.postId!, sortState);
+                            }
+                          }
+                        }
+                      } else {
+                        /// 답글상태일때
+
+                        if(data.updateMode == false) {
+                          /// 답글상태 -> 비수정(추가)일때
+
+                          responseModel = await CommentRequest().recommentWriteRequest(data.selectCommentModel.id!, controller.text);
+
+                          if (responseModel == CommentResponseModel() || responseModel == null) {
+                            /// write fail
+                          } else {
+                            /// write success
+                            context.read<FeedProvider>().commentInputResult(
+                                widget.postId,
+                                sortState,
+                                responseModel.postBottomInfo!.isCommented!,
+                                responseModel.postBottomInfo!.commentCount!,
+                                responseModel.postBottomInfo!.isLiked!,
+                                responseModel.postBottomInfo!.likeCount!
+                            );
+                            controller.clear();
+                            isRegedit == false;
+                          }
+                        } else { /// 답글상태 -> 수정일때
+                          if (isRegedit == true) {
+
+                            if(context.read<FeedProvider>().isRecommentOption == true) { /// 답글상태 -> 답글 수정
+                              responseModel = await CommentRequest().commentUpdateRequest(childModel.childCommentId!, controller.text);
+                              if (responseModel == CommentResponseModel() || responseModel == null) {
+                                /// update fail
+                              } else {
+                                /// update success
+                                controller.clear();
+                                isRegedit == false;
+                                context.read<FeedProvider>().isRecommentOptionInit(); /// 답글 옵션 선택 초기화
+                                context.read<FeedProvider>().updateSuccess(widget.postId!, sortState);
+                              }
+                            } else if(context.read<FeedProvider>().isRecommentOption == false) { /// 답글상태 -> 댓글 수정
+                              responseModel = await CommentRequest().commentUpdateRequest(selectModel.id!, controller.text);
+                              if (responseModel == CommentResponseModel() || responseModel == null) {
+                                /// update fail
+                              } else {
+                                /// update success
+                                controller.clear();
+                                isRegedit == false;
+                                context.read<FeedProvider>().updateSuccess(widget.postId!, sortState);
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    child: Consumer<FeedProvider>(
+                        builder: (context, data, child) {
+                          return Center(child: Image.asset('assets/feed/comment_regedit.png', width: 24, height: 24, color: data.inputButton == true ? StaticColor.mainSoft : StaticColor.grey400BB));
+                        }
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 }

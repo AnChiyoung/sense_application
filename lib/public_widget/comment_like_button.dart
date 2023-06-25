@@ -4,11 +4,11 @@ import 'package:sense_flutter_application/models/feed/comment_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
 class CommentLikeButton extends StatefulWidget {
+  final bool active;
   final bool state;
-  final int index;
-  final int postId;
+  final int? postId;
   final int id;
-  const CommentLikeButton({Key? key, required this.state, required this.index, required this.postId, required this.id}) : super(key: key);
+  const CommentLikeButton({Key? key, required this.active, required this.state, this.postId, required this.id}) : super(key: key);
 
   @override
   State<CommentLikeButton> createState() => _CommentLikeButtonState();
@@ -30,20 +30,24 @@ class _CommentLikeButtonState extends State<CommentLikeButton> {
     // CommentModel.likeState[widget.index] == true ? CommentModel.likeCount[widget.index] = 1 : CommentModel.likeCount[widget.index] = 0;
     // context.read<FeedProvider>().commentStateChange(likeState);
 
-    setState(() {
-      isLiked = !isLiked!;
-    });
+    if(widget.active == false) {
 
-    if(isLiked == true) {
-      CommentResponseModel model = await CommentRequest().commentLikeRequest(widget.id);
-      // setState(() {});
-      // FeedDetailModel responseModel = await FeedRequest().postDetailLiked(widget.feedId);
-      context.read<FeedProvider>().commentModelRequest(widget.postId, context.read<FeedProvider>().sortState);
-    } else if(isLiked == false) {
-      CommentResponseModel model = await CommentRequest().commentUnlikeRequest(widget.id);
-      // setState(() {});
-      // FeedDetailModel responseModel = await FeedRequest().postDetailUnliked(widget.feedId);
-      context.read<FeedProvider>().commentModelRequest(widget.postId, context.read<FeedProvider>().sortState);
+    } else if(widget.active == true) {
+      setState(() {
+        isLiked = !isLiked!;
+      });
+
+      if(isLiked == true) {
+        CommentResponseModel model = await CommentRequest().commentLikeRequest(widget.id);
+        // setState(() {});
+        // FeedDetailModel responseModel = await FeedRequest().postDetailLiked(widget.feedId);
+        // context.read<FeedProvider>().commentModelRequest(widget.postId, context.read<FeedProvider>().sortState);
+      } else if(isLiked == false) {
+        CommentResponseModel model = await CommentRequest().commentUnlikeRequest(widget.id);
+        // setState(() {});
+        // FeedDetailModel responseModel = await FeedRequest().postDetailUnliked(widget.feedId);
+        // context.read<FeedProvider>().commentModelRequest(widget.postId, context.read<FeedProvider>().sortState);
+      }
     }
   }
 

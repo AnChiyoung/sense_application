@@ -33,7 +33,7 @@ class _LogoutDialog extends State<LogoutDialog> {
             Expanded(
               flex: 1,
               child: Container(
-                height: 32,
+                height: 40,
                 decoration: BoxDecoration(
                   color: StaticColor.categoryUnselectedColor,
                   borderRadius: BorderRadius.circular(8.0),
@@ -53,7 +53,7 @@ class _LogoutDialog extends State<LogoutDialog> {
             Expanded(
               flex: 1,
               child: Container(
-                height: 32,
+                height: 40,
                 decoration: BoxDecoration(
                   color: StaticColor.categoryUnselectedColor,
                   borderRadius: BorderRadius.circular(8.0),

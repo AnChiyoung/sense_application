@@ -39,29 +39,12 @@ class _CommentHeaderState extends State<CommentHeader> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      data.inputMode == 1 ?
-                      Row(
-                        children: [
-                          Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(25.0),
-                              onTap: () {
-                                /// 댓글로 전환
-                                context.read<FeedProvider>().inputModeChange(0);
-                              },
-                              child: Image.asset('assets/feed/back_arrow.png', width: 22, height: 22),
-                            ),
-                          ),
-                          const SizedBox(width: 4.0),
-                        ],
-                      ) : const SizedBox.shrink(),
-                      Text(data.inputMode == 1 ? '답글' : '댓글', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
+                      Text('댓글', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
                       const SizedBox(width: 4),
-                      Text(data.inputMode == 1 ? '' : (widget.commentCount == -1 ? '0' : widget.commentCount.toString()), style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+                      Text(widget.commentCount.toString(), style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
                     ],
                   ),
-                  data.inputMode == 1 ? const SizedBox.shrink() : Row(
+                  Row(
                     children: [
                       // data.sortState[0] == false ? const SizedBox.shrink() : Image.asset('assets/feed/comment_sort_check_icon.png', width: 16, height: 16),
                       const SizedBox(width: 4),

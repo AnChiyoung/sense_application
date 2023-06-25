@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
+import 'package:sense_flutter_application/public_widget/show_loading.dart';
 import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_bottom_field.dart';
@@ -65,14 +67,17 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
                   FeedDetailModel feedDetailModel = snapshot.data!;
 
                   if(snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: Text('data loading..'));
+                    // return const Center(child: Text('data loading..'));
+                    return Center(child: Lottie.asset('assets/lottie/loading.json'));
                   } else if(snapshot.connectionState == ConnectionState.done) {
                     return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
+                    // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                   } else {
                     return const CircularProgressIndicator();
                   }
                 } else {
-                  return const Center(child: Text('data loading..'));
+                  // return const Center(child: Text('data loading..'));
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }
               }
             )
@@ -96,6 +101,7 @@ class PostDetail extends StatefulWidget {
 class _PostDetailState extends State<PostDetail> {
 
   FeedDetailModel? model;
+  List<Widget> contentsWidget = [];
 
   bool stringToBoolean(String value) {
     bool convertResult = false;
@@ -107,9 +113,22 @@ class _PostDetailState extends State<PostDetail> {
     return convertResult;
   }
 
+  void makeContentsWidget(FeedDetailModel model) {
+    model.content!.map((e) {
+      if(e.type == 'TEXT') {
+        contentsWidget.add(ContentTextTypeParagraph(text: e.contentUrl.toString()));
+      } else if(e.type == 'IMAGE') {
+        contentsWidget.add(ContentImageTypeParagraph(imageUrl: e.contentUrl.toString()));
+      } else if(e.type == 'URL') {
+        contentsWidget.add(ContentURLTypeParagraph(text: e.contentUrl.toString()));
+      }
+    }).toList();
+  }
+
   @override
   void initState() {
     model = widget.postModel;
+    makeContentsWidget(model!);
     super.initState();
   }
 
@@ -121,58 +140,45 @@ class _PostDetailState extends State<PostDetail> {
   @override
   Widget build(BuildContext context) {
 
+    /// 디테일 화면 구성 변경 2023 06 23
     return Stack(
       children: [
-        /// post area
         SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Consumer<FeedProvider>(
-                builder: (context, data, child) {
-                  int likeCount = 0;
-                  if(data.commentCount == -1) {
-                    likeCount = model!.likeCount!;
-                  } else if(data.commentCount != -1) {
-                    likeCount = data.likeCount;
+                  builder: (context, data, child) {
+                    int likeCount = 0;
+                    if(data.commentCount == -1) {
+                      likeCount = model!.likeCount!;
+                    } else if(data.commentCount != -1) {
+                      likeCount = data.likeCount;
+                    }
+                    return PostDetailBanner(
+                        imageUrl: model!.thumbnail!,
+                        title: model!.title!,
+                        desc: model!.subTitle!,
+                        created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
+                        likeCount: likeCount.toString(),
+                        isLiked: model!.isLiked!
+                    );
                   }
-                  return PostDetailBanner(
-                      imageUrl: model!.thumbnail!,
-                      title: model!.title!,
-                      desc: model!.subTitle!,
-                      created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
-                      likeCount: likeCount.toString(),
-                      isLiked: model!.isLiked!
-                  );
-                }
               ),
               model!.contentTitle == '' ? const SizedBox.shrink()
-              : PostDetailTitle(
+                  : PostDetailTitle(
                 title: model!.contentTitle!,
                 eventPeriodLabel: '',
                 eventPeriod: '',),
               model!.content!.isEmpty ? const SizedBox.shrink()
-              : ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: model!.content!.length,
-                  itemBuilder: (context, index) {
-                    if(model!.content!.elementAt(index).type == 'TEXT') {
-                      return ContentTextTypeParagraph(text: model!.content!.elementAt(index).contentUrl.toString());
-                    } else if(model!.content!.elementAt(index).type == 'IMAGE') {
-                      return ContentImageTypeParagraph(imageUrl: model!.content!.elementAt(index).contentUrl.toString());
-                    } else if(model!.content!.elementAt(index).type == 'URL') {
-                      return ContentURLTypeParagraph(text: model!.content!.elementAt(index).contentUrl.toString());
-                    }
-                  }
-              ),
+                  : Column(
+                      children: contentsWidget
+                    ),
               const SizedBox(height: 80.0),
               // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
             ],
           ),
         ),
-        /// back button area
         Padding(
           padding: const EdgeInsets.only(top: 38.0, left: 20.0),
           child: Material(
@@ -180,8 +186,6 @@ class _PostDetailState extends State<PostDetail> {
             child: InkWell(
               borderRadius: BorderRadius.circular(25.0),
               onTap: () {
-                // context.read<FeedProvider>().feedBottomFieldInitialize();
-                // context.read<FeedProvider>().feedCommentCountUpdate(-1);
                 context.read<FeedProvider>().feedInfoInit();
                 Navigator.of(context).pop();
               },
@@ -189,13 +193,92 @@ class _PostDetailState extends State<PostDetail> {
             ),
           ),
         ),
-        /// comment area
         Align(
           alignment: Alignment.bottomCenter,
           child: FeedBottomField(feedModel: model, bottomPadding: widget.bottomPadding),
-        )
+        ),
       ],
     );
+
+    /// old version
+    // return Stack(
+    //   children: [
+    //     /// post area
+    //     SingleChildScrollView(
+    //       physics: const ClampingScrollPhysics(),
+    //       child: Expanded(
+    //         child: Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             Consumer<FeedProvider>(
+    //               builder: (context, data, child) {
+    //                 int likeCount = 0;
+    //                 if(data.commentCount == -1) {
+    //                   likeCount = model!.likeCount!;
+    //                 } else if(data.commentCount != -1) {
+    //                   likeCount = data.likeCount;
+    //                 }
+    //                 return PostDetailBanner(
+    //                     imageUrl: model!.thumbnail!,
+    //                     title: model!.title!,
+    //                     desc: model!.subTitle!,
+    //                     created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
+    //                     likeCount: likeCount.toString(),
+    //                     isLiked: model!.isLiked!
+    //                 );
+    //               }
+    //             ),
+    //             model!.contentTitle == '' ? const SizedBox.shrink()
+    //             : PostDetailTitle(
+    //               title: model!.contentTitle!,
+    //               eventPeriodLabel: '',
+    //               eventPeriod: '',),
+    //             model!.content!.isEmpty ? const SizedBox.shrink()
+    //             : ListView.builder(
+    //                 shrinkWrap: true,
+    //                 physics: const ClampingScrollPhysics(),
+    //                 itemCount: model!.content!.length,
+    //                 itemBuilder: (context, index) {
+    //                   if(model!.content!.elementAt(index).type == 'TEXT') {
+    //                     return ContentTextTypeParagraph(text: model!.content!.elementAt(index).contentUrl.toString());
+    //                   } else if(model!.content!.elementAt(index).type == 'IMAGE') {
+    //                     return ContentImageTypeParagraph(imageUrl: model!.content!.elementAt(index).contentUrl.toString());
+    //                   } else if(model!.content!.elementAt(index).type == 'URL') {
+    //                     return ContentURLTypeParagraph(text: model!.content!.elementAt(index).contentUrl.toString());
+    //                   }
+    //                 }
+    //             ),
+    //             const SizedBox(height: 80.0),
+    //             // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //     /// back button area
+    //     Padding(
+    //       padding: const EdgeInsets.only(top: 38.0, left: 20.0),
+    //       child: Material(
+    //         color: Colors.transparent,
+    //         child: InkWell(
+    //           borderRadius: BorderRadius.circular(25.0),
+    //           onTap: () {
+    //             // context.read<FeedProvider>().feedBottomFieldInitialize();
+    //             // context.read<FeedProvider>().feedCommentCountUpdate(-1);
+    //             context.read<FeedProvider>().feedInfoInit();
+    //             Navigator.of(context).pop();
+    //           },
+    //           child: Image.asset('assets/feed/back_button.png', width: 40, height: 40),
+    //         ),
+    //       ),
+    //     ),
+    //     /// comment area
+    //     Align(
+    //       alignment: Alignment.bottomCenter,
+    //       child: FeedBottomField(feedModel: model, bottomPadding: widget.bottomPadding),
+    //     )
+    //   ],
+    // );
   }
 
 
