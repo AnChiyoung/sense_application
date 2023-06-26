@@ -17,6 +17,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       insetPadding: EdgeInsets.all(10),
       contentPadding: EdgeInsets.zero,
       // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절

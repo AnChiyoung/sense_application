@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -19,6 +23,7 @@ import 'package:intl/date_symbol_data_local.dart';
 /// 375 * 812 (include safe area..)
 
 void main() async {
+  // bool isDarkMode;
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -26,23 +31,36 @@ void main() async {
       nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
       javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd'
   );
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => LoginProvider()),
-      ChangeNotifierProvider(create: (_) => SigninProvider()),
-      ChangeNotifierProvider(create: (_) => HomeMenuProvider()),
-      ChangeNotifierProvider(create: (_) => CalendarProvider()),
-      ChangeNotifierProvider(create: (_) => TermProvider()),
-      ChangeNotifierProvider(create: (_) => StepProvider()),
-      ChangeNotifierProvider(create: (_) => AddEventProvider()),
-      ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
-      ChangeNotifierProvider(create: (_) => FeedProvider()),
-      ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
-      ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
-      ChangeNotifierProvider(create: (_) => ContactProvider()),
-      // 여기에 추가하시면 되여
-    ],
-    child: const MyApp(),
+  runApp(
+      // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      //     statusBarColor: Colors.white, // Color for Android
+      //     statusBarIconBrightness:
+      //     isDarkMode ? Brightness.light : Brightness.dark,
+      //     statusBarBrightness: isDarkMode
+      //         ? Platform.isIOS
+      //         ? Brightness.dark
+      //         : Brightness.light
+      //         : Platform.isIOS
+      //         ? Brightness.light
+      //         : Brightness.dark
+      // ));
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => LoginProvider()),
+          ChangeNotifierProvider(create: (_) => SigninProvider()),
+          ChangeNotifierProvider(create: (_) => HomeMenuProvider()),
+          ChangeNotifierProvider(create: (_) => CalendarProvider()),
+          ChangeNotifierProvider(create: (_) => TermProvider()),
+          ChangeNotifierProvider(create: (_) => StepProvider()),
+          ChangeNotifierProvider(create: (_) => AddEventProvider()),
+          ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
+          ChangeNotifierProvider(create: (_) => FeedProvider()),
+          ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
+          ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
+          ChangeNotifierProvider(create: (_) => ContactProvider()),
+          // 여기에 추가하시면 되여
+        ],
+        child: const MyApp(),
   ));
 }
 
@@ -73,8 +91,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sense flutter application',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
       ),
+      /* light theme settings */
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode.dark,
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blue,
+      // ),
       home: const NativeSplash(),
     );
   }

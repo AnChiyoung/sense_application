@@ -19,6 +19,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

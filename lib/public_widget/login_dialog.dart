@@ -11,6 +11,7 @@ class _LoginDialog extends State<LoginDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0)),

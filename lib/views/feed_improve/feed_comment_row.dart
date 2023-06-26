@@ -88,9 +88,9 @@ class _CommentPersonalRowState extends State<CommentPersonalRow> {
                 model.content == '삭제된 댓글입니다.'
                 ? const SizedBox.shrink()
                 : Padding(
-                  padding: const EdgeInsets.only(left: 42),
-                  child: Text(model.content!),
-                ),
+                    padding: const EdgeInsets.only(left: 42),
+                    child: Text(model.content!, style: const TextStyle(color: Colors.red)),
+                  ),
                 /// personal comment like, subcomment field
                 Padding(
                   padding: const EdgeInsets.only(left: 40, top: 10, bottom: 2),

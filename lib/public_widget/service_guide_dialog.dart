@@ -12,6 +12,7 @@ class _ServiceGuideDialogState extends State<ServiceGuideDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.all(40.0),
       contentPadding: EdgeInsets.zero,
       // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절

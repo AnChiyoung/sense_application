@@ -62,100 +62,102 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
 
     return Consumer<FeedProvider>(
       builder: (context, data, child) {
-
-        CommentResponseModel currentModel = data.commentModels.elementAt(data.currentCommentListIndex);
-
         commentCreatedTimeString = commentCreatedTime(data.selectCommentModel.created!);
-
-        return Column(
-          children: [
-            /// 부모 댓글
-            Container(
-              color: StaticColor.grey100F6,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// personal comment header
-                    currentModel.content == '삭제된 댓글입니다.'
-                    ? Row(
-                      children: [
-                        UserProfileImage(profileImageUrl: currentModel.commentUser!.profileImageUrl),
-                        const SizedBox(width: 8),
-                        Text('삭제된 댓글입니다.', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                      ]
-                    )
-                    : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+        CommentResponseModel currentModel = CommentResponseModel();
+        if(data.commentModels.isEmpty) {
+          return Container();
+        } else {
+          currentModel = data.commentModels.elementAt(data.currentCommentListIndex);
+          return Column(
+            children: [
+              /// 부모 댓글
+              Container(
+                color: StaticColor.grey100F6,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /// personal comment header
+                      currentModel.content == '삭제된 댓글입니다.'
+                          ? Row(
                           children: [
-                            UserProfileImage(profileImageUrl: currentModel!.commentUser!.profileImageUrl),
+                            UserProfileImage(profileImageUrl: currentModel.commentUser!.profileImageUrl),
                             const SizedBox(width: 8),
-                            Text(currentModel!.commentUser!.username! == '' ? 'user-${currentModel!.commentUser!.id}' : data.selectCommentModel!.commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
-                            const SizedBox(width: 4),
-                            Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
-                            const SizedBox(width: 4),
-                            Text(commentCreatedTimeString, style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
-                          ],
-                        ),
-                        Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {
-                                currentModel!.commentUser!.id == PresentUserInfo.id
-                                    ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, currentModel!)]);})
-                                    : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [reportBottomSheet(context, currentModel!.id!)]);});
-                              },
-                              customBorder: const CircleBorder(),
-                              child: Image.asset('assets/feed/comment_etc_icon.png', width: 24, height: 24),
-                            )
-                        )
-                      ],
-                    ),
-                    /// personal comment description
-                    currentModel.content == '삭제된 댓글입니다.'
-                    ? const SizedBox.shrink()
-                    : Padding(
-                      padding: const EdgeInsets.only(left: 42),
-                      child: Text(currentModel!.content!),
-                    ),
-                    /// personal comment like, subcomment field
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40, top: 10, bottom: 12),
-                      child: Row(
+                            Text('삭제된 댓글입니다.', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                          ]
+                      )
+                          : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          currentModel.content == '삭제된 댓글입니다.'
-                          ? CommentLikeButton(active: false, postId: currentModel.postBottomInfo!.id!, state: currentModel.isLiked!, id: currentModel.id!)
-                          : CommentLikeButton(active: true, postId: currentModel.postBottomInfo!.id!, state: currentModel.isLiked!, id: currentModel.id!),
-                          const SizedBox(width: 4),
-                          Text(currentModel!.likeCount.toString(), style: TextStyle(fontSize: 13, color: currentModel.isLiked == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                          const SizedBox(width: 16),
-                          CommentButton(state: currentModel.isCommented),
-                          const SizedBox(width: 4),
-                          Text(currentModel!.childCommentList!.length.toString(), style: TextStyle(fontSize: 13, color: currentModel.isCommented == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                          Row(
+                            children: [
+                              UserProfileImage(profileImageUrl: currentModel!.commentUser!.profileImageUrl),
+                              const SizedBox(width: 8),
+                              Text(currentModel!.commentUser!.username! == '' ? 'user-${currentModel!.commentUser!.id}' : data.selectCommentModel!.commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+                              const SizedBox(width: 4),
+                              Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
+                              const SizedBox(width: 4),
+                              Text(commentCreatedTimeString, style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                          Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  currentModel!.commentUser!.id == PresentUserInfo.id
+                                      ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, currentModel!)]);})
+                                      : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [reportBottomSheet(context, currentModel!.id!)]);});
+                                },
+                                customBorder: const CircleBorder(),
+                                child: Image.asset('assets/feed/comment_etc_icon.png', width: 24, height: 24),
+                              )
+                          )
                         ],
                       ),
-                    ),
-                  ],
+                      /// personal comment description
+                      currentModel.content == '삭제된 댓글입니다.'
+                          ? const SizedBox.shrink()
+                          : Padding(
+                        padding: const EdgeInsets.only(left: 42),
+                        child: Text(currentModel!.content!, style: TextStyle(color: Colors.black)),
+                      ),
+                      /// personal comment like, subcomment field
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40, top: 10, bottom: 12),
+                        child: Row(
+                          children: [
+                            currentModel.content == '삭제된 댓글입니다.'
+                                ? CommentLikeButton(active: false, postId: currentModel.postBottomInfo!.id!, state: currentModel.isLiked!, id: currentModel.id!)
+                                : CommentLikeButton(active: true, postId: currentModel.postBottomInfo!.id!, state: currentModel.isLiked!, id: currentModel.id!),
+                            const SizedBox(width: 4),
+                            Text(currentModel!.likeCount.toString(), style: TextStyle(fontSize: 13, color: currentModel.isLiked == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                            const SizedBox(width: 16),
+                            CommentButton(state: currentModel.isCommented),
+                            const SizedBox(width: 4),
+                            Text(currentModel!.childCommentList!.length.toString(), style: TextStyle(fontSize: 13, color: currentModel.isCommented == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            /// 대댓글
-            currentModel!.childCommentList!.isEmpty
-                ? const SizedBox.shrink()
-                : Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: currentModel!.childCommentList!.length,
-                      itemBuilder: (context, index) {
-                        return recommentField(currentModel!.childCommentList!.elementAt(index), currentModel.content == '삭제된 댓글입니다.' ? false : true, widget.postId!);
-                      }
-                    ),
+              /// 대댓글
+              currentModel!.childCommentList!.isEmpty
+                  ? const SizedBox.shrink()
+                  : Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: currentModel!.childCommentList!.length,
+                    itemBuilder: (context, index) {
+                      return recommentField(currentModel!.childCommentList!.elementAt(index), currentModel.content == '삭제된 댓글입니다.' ? false : true, widget.postId!);
+                    }
                 ),
-          ],
-        );
+              ),
+            ],
+          );
+        }
       }
     );
   }
@@ -204,7 +206,7 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
           /// personal comment description
           Padding(
             padding: const EdgeInsets.only(left: 42),
-            child: Text(model!.content!),
+            child: Text(model!.content!, style: TextStyle(color: Colors.black)),
           ),
           // Padding(
           //   padding: const EdgeInsets.only(left: 40),

@@ -192,7 +192,7 @@ class _CommentViewState extends State<CommentView> {
                     ? const SizedBox.shrink()
                     : Padding(
                         padding: const EdgeInsets.only(left: 42),
-                        child: Text(model.content!),
+                        child: Text(model.content!, style: TextStyle(color: Colors.black)),
                       ),
                 /// personal comment like, subcomment field
                 Padding(

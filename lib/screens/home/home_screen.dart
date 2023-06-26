@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       /// onWillPop: null은 android back button에만 대응된다. 하단의 방법으로 처리
       onWillPop: () async => false,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: MovePageList().pageList.elementAt(pageIndex),
         ),

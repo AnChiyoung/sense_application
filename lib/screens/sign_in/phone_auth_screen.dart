@@ -20,6 +20,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           bottom: false,

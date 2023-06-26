@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSContactsUsageDescription</key>
-    <string>연락처 목록을 불러오기 위해 권한이 필요합니다.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -43,14 +41,14 @@
 	<string>1fc38e74f272a85e46bc10b37fdbebcd</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>kakao0123456789abcdefghijklmn</string>
-		<string>kakaokompassauth</string>
-		<string>storykompassauth</string>
-		<string>kakaolink</string>
-		<string>storylink</string>
+		<string>https</string>
+		<string>sms</string>
+		<string>tel</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>연락처 목록을 불러오기 위해 권한이 필요합니다.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -63,11 +61,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>https</string>
-        <string>sms</string>
-        <string>tel</string>
-    </array>
 </dict>
 </plist>

@@ -17,6 +17,7 @@ class _FeedScreenState extends State<FeedScreen> {
     print('login access token ?? : ${PresentUserInfo.loginToken}');
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         bottom: true,
         child: Column(

@@ -18,6 +18,7 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: Colors.white,
       insetPadding: const EdgeInsets.all(10),
       contentPadding: EdgeInsets.zero,
       // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절

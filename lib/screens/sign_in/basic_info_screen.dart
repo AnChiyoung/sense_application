@@ -19,6 +19,7 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           bottom: false,

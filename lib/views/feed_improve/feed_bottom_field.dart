@@ -187,6 +187,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
                     color: StaticColor.grey100F6,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: TextFormField(
+                      style: TextStyle(color: Colors.black),
                       controller: controller,
                       autofocus: true,
                       cursorColor: Colors.black,
