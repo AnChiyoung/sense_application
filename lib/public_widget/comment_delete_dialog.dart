@@ -71,7 +71,14 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                     if(deleteResponseModel == CommentResponseModel() || deleteResponseModel == null) {
 
                     } else {
-                      context.read<FeedProvider>().commentDeleteResult(widget.postId!, context.read<FeedProvider>().sortState, deleteResponseModel.postBottomInfo!.commentCount!);
+                      context.read<FeedProvider>().commentInputResult(
+                          widget.postId!,
+                          context.read<FeedProvider>().sortState,
+                          deleteResponseModel.postBottomInfo!.isCommented!,
+                          deleteResponseModel.postBottomInfo!.commentCount!,
+                          deleteResponseModel.postBottomInfo!.isLiked!,
+                          deleteResponseModel.postBottomInfo!.likeCount!
+                      );
 
                       /// 삭제 snackbar 추가
                       ScaffoldMessenger.of(context).showSnackBar(

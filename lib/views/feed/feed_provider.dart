@@ -161,9 +161,14 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void commentDeleteResult(int postId, String sort, int commentCount) async {
-    _commentModels = await CommentRequest().commentRequest(postId, sort);
+  void commentDeleteResult(int postId, String sort, bool isCommented, int commentCount, bool isLiked, int likeCount) async {
+    _inputButton = false;
+    _isCommented = isCommented;
     _commentCount = commentCount;
+    _isLiked = isLiked;
+    _likeCount = likeCount;
+    _commentModels = await CommentRequest().commentRequest(postId, sort);
+
     notifyListeners();
   }
 
