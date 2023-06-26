@@ -45,7 +45,9 @@ class _CommentViewState extends State<CommentView> {
                     builder: (context, data, child) {
 
                       bool isRecommentMode = data.recommentMode;
-                      List<CommentResponseModel> models = data.commentModels;
+                      List<CommentResponseModel> models = [];
+                      models.clear();
+                      models = data.commentModels;
                       print('reload');
 
                       return DraggableScrollableSheet(
@@ -79,33 +81,37 @@ class _CommentViewState extends State<CommentView> {
 
                                   /// comment list
                                   isRecommentMode == true
-                                      ? Expanded(child: ParentCommentField())
+                                      ? Expanded(child: ParentCommentField(postId: widget.postId))
                                   // : Text(models.elementAt(0).content.toString()), // 뷰 재빌드 테스트용
-                                      : Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 100),
-                                        // child: Text(models.elementAt(0).content.toString()),
-                                        child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: const ClampingScrollPhysics(),
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: models!.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return Material(
-                                                color: Colors.transparent,
-                                                child: GestureDetector(
-                                                    onTap: () {
-                                                      /// 답글로 전환
-                                                      context.read<FeedProvider>().recommentModeChange(
-                                                          true, models!.elementAt(index));
-                                                    },
-                                                    // child: Text(models.elementAt(index).content.toString())));
-                                                    child: commentPersonalRow(models!.elementAt(index), index)));
-                                          },
-                                        ),
+                                      : models.length == 0
+                                        ? Expanded(
+                                            child: Center(child: Text('댓글이 없습니다.'))
+                                          )
+                                        : Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 100),
+                                            // child: Text(models.elementAt(0).content.toString()),
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: const ClampingScrollPhysics(),
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: models!.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                return Material(
+                                                    color: Colors.transparent,
+                                                    child: GestureDetector(
+                                                        onTap: () {
+                                                          /// 답글로 전환
+                                                          context.read<FeedProvider>().recommentModeChange(
+                                                              true, index, models!.elementAt(index));
+                                                        },
+                                                        // child: Text(models.elementAt(index).content.toString())));
+                                                        child: commentPersonalRow(models!.elementAt(index), index)));
+                                              },
+                                            ),
+                                          )
+                                        // child: Container(color: Colors.red),
                                       )
-                                    // child: Container(color: Colors.red),
-                                  )
                                 ],
                               ),
                             );
@@ -128,7 +134,12 @@ class _CommentViewState extends State<CommentView> {
 
   Widget commentPersonalRow(CommentResponseModel model, int index) {
 
+    print('----');
+    print(model.isLiked.toString() + '/' + model.likeCount.toString());
+
     String gap = commentGap(model.created!);
+    bool active = false;
+    model.content == '삭제된 댓글입니다.' ? active = false : active = true;
 
     return Column(
       children: [
@@ -140,55 +151,55 @@ class _CommentViewState extends State<CommentView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// personal comment header
-                model.content == '삭제된 댓글입니다.'
+                active == false
                     ? Row(
-                  children: [
-                    UserProfileImage(profileImageUrl: model.commentUser!.profileImageUrl),
-                    const SizedBox(width: 8),
-                    Text('삭제된 댓글입니다.', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                  ],
-                )
-                    : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
                       children: [
                         UserProfileImage(profileImageUrl: model.commentUser!.profileImageUrl),
                         const SizedBox(width: 8),
-                        Text(model.commentUser!.username! == '' ? 'user-${model.commentUser!.id}' : model.commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
-                        const SizedBox(width: 4),
-                        Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
-                        const SizedBox(width: 4),
-                        Text(gap, style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
+                        Text('삭제된 댓글입니다.', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
                       ],
-                    ),
-                    Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            model.commentUser!.id == PresentUserInfo.id
-                                ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, model)]);})
-                                : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [reportBottomSheet(context, model.id!)]);});
-                          },
-                          customBorder: const CircleBorder(),
-                          child: Image.asset('assets/feed/comment_etc_icon.png', width: 24, height: 24),
-                        )
                     )
-                  ],
-                ),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              UserProfileImage(profileImageUrl: model.commentUser!.profileImageUrl),
+                              const SizedBox(width: 8),
+                              Text(model.commentUser!.username! == '' ? 'user-${model.commentUser!.id}' : model.commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+                              const SizedBox(width: 4),
+                              Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
+                              const SizedBox(width: 4),
+                              Text(gap, style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                          Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  model.commentUser!.id == PresentUserInfo.id
+                                      ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, model)]);})
+                                      : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [reportBottomSheet(context, model.id!)]);});
+                                },
+                                customBorder: const CircleBorder(),
+                                child: Image.asset('assets/feed/comment_etc_icon.png', width: 24, height: 24),
+                              )
+                          )
+                        ],
+                      ),
                 /// personal comment description
-                model.content == '삭제된 댓글입니다.'
+                active == false
                     ? const SizedBox.shrink()
                     : Padding(
-                  padding: const EdgeInsets.only(left: 42),
-                  child: Text(model.content!),
-                ),
+                        padding: const EdgeInsets.only(left: 42),
+                        child: Text(model.content!),
+                      ),
                 /// personal comment like, subcomment field
                 Padding(
                   padding: const EdgeInsets.only(left: 40, top: 10, bottom: 2),
                   child: Row(
                     children: [
-                      model.content == '삭제된 댓글입니다.'
+                      active == false
                           ? CommentLikeButton(active: false, state: model.isLiked!, postId: model.postBottomInfo!.id!, id: model.id!)
                           : CommentLikeButton(active: true, state: model.isLiked!, postId: model.postBottomInfo!.id!, id: model.id!),
                       const SizedBox(width: 4),

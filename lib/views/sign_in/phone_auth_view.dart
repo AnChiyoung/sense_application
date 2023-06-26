@@ -190,10 +190,12 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                             children: [
                                               Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
                                               const SizedBox(width: 8),
-                                              Text('인증에 성공했어요, 회원가입이 완료되었습니다',
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                              Expanded(
+                                                child: Text('인증에 성공했어요, 회원가입이 완료되었습니다',
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                                ),
                                               ),
                                             ],
                                           ),

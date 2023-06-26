@@ -104,10 +104,12 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                                 children: [
                                   Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
                                   const SizedBox(width: 8),
-                                  Text(context.read<FeedProvider>().isRecommentOption == true ? '답글이 삭제 됐습니다' : '댓글이 삭제 됐습니다',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                  Expanded(
+                                    child: Text(context.read<FeedProvider>().isRecommentOption == true ? '답글이 삭제 됐습니다' : '댓글이 삭제 됐습니다',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ],
                               ),

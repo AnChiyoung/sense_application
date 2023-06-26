@@ -7,12 +7,11 @@ import 'package:sense_flutter_application/models/feed/feed_model.dart';
 
 class FeedProvider with ChangeNotifier {
 
+  int _currentCommentListIndex = 0;
+  int get currentCommentListIndex => _currentCommentListIndex;
+
   bool _isRecommentOption = false;
   bool get isRecommentOption => _isRecommentOption;
-
-  /// use view update
-  int _restCallCount = 0;
-  int get restCallCount => _restCallCount;
 
   ChildComment _childModel = ChildComment();
   ChildComment get childModel => _childModel;
@@ -50,9 +49,7 @@ class FeedProvider with ChangeNotifier {
   List<CommentResponseModel> get commentModels => _commentModels;
 
   void commentModelRequest(int postId, [String? sort]) async {
-    /// 왜. 와이. 왜. 왜.왜.왜.왜왜왜ㅗ애ㅗ애ㅗ애ㅗ대돼왜오애ㅗ애ㅗ대조애조애왜왜오애왜 새로고침이 안되누??
     _commentModels.clear();
-    // _restCallCount++;
     _commentModels = await CommentRequest().commentRequest(postId, sort!);
     sort == null ? {} : _sortState = sort;
     notifyListeners();
@@ -61,6 +58,7 @@ class FeedProvider with ChangeNotifier {
   void updateSuccess(int postId, String sort) async {
     _updateMode = false;
     _commentModels = await CommentRequest().commentRequest(postId, sort);
+    notifyListeners();
   }
 
   /// feed back button click! => info & data init
@@ -108,7 +106,8 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void recommentModeChange(bool state, [CommentResponseModel? commentModel]) {
+  void recommentModeChange(bool state, int index, [CommentResponseModel? commentModel]) {
+    _currentCommentListIndex = index;
     _recommentMode = state;
     _inputController.clear();
     commentModel == CommentResponseModel() ? {} : _selectCommentModel = commentModel!;
@@ -168,7 +167,11 @@ class FeedProvider with ChangeNotifier {
     _isLiked = isLiked;
     _likeCount = likeCount;
     _commentModels = await CommentRequest().commentRequest(postId, sort);
+    notifyListeners();
+  }
 
+  void commentUpdateResult(int postId, String sort) async {
+    _commentModels = await CommentRequest().commentRequest(postId, sort);
     notifyListeners();
   }
 

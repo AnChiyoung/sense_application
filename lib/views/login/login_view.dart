@@ -163,10 +163,12 @@ class _LoginFormViewState extends State<LoginFormView> {
                             children: [
                               Image.asset('assets/signin/snackbar_error_icon.png', width: 24, height: 24),
                               const SizedBox(width: 8),
-                              Text('이메일 또는 비밀번호가 일치하지 않아요.',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 16, color: StaticColor.textErrorColor, fontWeight: FontWeight.w500),
+                              Expanded(
+                                child: Text('이메일 또는 비밀번호가 일치하지 않아요.',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 16, color: StaticColor.textErrorColor, fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ],
                           ),
