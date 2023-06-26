@@ -51,7 +51,6 @@ class FeedProvider with ChangeNotifier {
 
   void commentModelRequest(int postId, [String? sort]) async {
     /// 왜. 와이. 왜. 왜.왜.왜.왜왜왜ㅗ애ㅗ애ㅗ애ㅗ대돼왜오애ㅗ애ㅗ대조애조애왜왜오애왜 새로고침이 안되누??
-    /// 아마도.. consumer로 받은 데이터 임시로 변수에 저장했다가 그거 ㄹ뿌리던가, 아니면 상단에서 컨슈머 써서 모델을 받던가.
     _commentModels.clear();
     // _restCallCount++;
     _commentModels = await CommentRequest().commentRequest(postId, sort!);

@@ -38,81 +38,69 @@ class _CommentViewState extends State<CommentView> {
           bottom: false,
           child: Stack(
               children: [
-                DraggableScrollableSheet(
-                  expand: true,
-                  initialChildSize: 0.6,
-                  maxChildSize: 1.0,
-                  builder: (BuildContext context, ScrollController scrollController) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
-                        border: Border.all(color: StaticColor.grey400BB, width: 1),
-                      ),
-                      child: Column(
-                        children: [
-                          /// comment header
-                          Consumer<FeedProvider>(
-                            builder: (context, data, child) {
-                              return SingleChildScrollView(
-                                physics: const ClampingScrollPhysics(),
-                                controller: scrollController,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    // headerType,
-                                    data.recommentMode == false
-                                        ? CommentHeader(commentCount: data.commentModels.length, postId: widget.postId!)
-                                        : RecommentHeader(postId: widget.postId!),
-                                  ],
+                Consumer<FeedProvider>(
+                  builder: (context, data, child) {
+
+                    List<CommentResponseModel> models = data.commentModels;
+
+                    return DraggableScrollableSheet(
+                        expand: true,
+                        initialChildSize: 0.6,
+                        maxChildSize: 1.0,
+                        builder: (BuildContext context, ScrollController scrollController) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
+                              border: Border.all(color: StaticColor.grey400BB, width: 1),
+                            ),
+                            child: Column(
+                              children: [
+                                /// comment header
+                                SingleChildScrollView(
+                                  physics: const ClampingScrollPhysics(),
+                                  controller: scrollController,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // headerType,
+                                      data.recommentMode == false
+                                          ? CommentHeader(commentCount: data.commentModels.length, postId: widget.postId!)
+                                          : RecommentHeader(postId: widget.postId!),
+                                    ],
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
 
-                          /// comment list
-                          Consumer<FeedProvider>(
-                            builder: (context, data, child) {
-                              if (data.recommentMode == true) {
-                                return Expanded(
-                                  child: ParentCommentField());
-                              } else {
-                                return Consumer<FeedProvider>(
-                                  builder: (context, data, child) {
-
-                                    List<CommentResponseModel> models = data.commentModels;
-                                    print('reload');
-
-                                    return Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(bottom: 100),
-                                        child: ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: const ClampingScrollPhysics(),
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: models!.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return Material(
-                                                color: Colors.transparent,
-                                                child: GestureDetector(
-                                                    onTap: () {
-                                                      /// 답글로 전환
-                                                      context.read<FeedProvider>().recommentModeChange(
-                                                          true, models!.elementAt(index));
-                                                    },
-                                                    child: CommentPersonalRow(model: models!.elementAt(index), index: index)));
-                                          },
-                                        ),
-                                      )
-                                      // child: Container(color: Colors.red),
-                                    );
-                                  }
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                                /// comment list
+                                data.recommentMode == true
+                                    ? Expanded(child: ParentCommentField())
+                                    : Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 100),
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const ClampingScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: models!.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return Material(
+                                              color: Colors.transparent,
+                                              child: GestureDetector(
+                                                  onTap: () {
+                                                    /// 답글로 전환
+                                                    context.read<FeedProvider>().recommentModeChange(
+                                                        true, models!.elementAt(index));
+                                                  },
+                                                  child: CommentPersonalRow(model: models!.elementAt(index), index: index)));
+                                        },
+                                      ),
+                                    )
+                                  // child: Container(color: Colors.red),
+                                )
+                              ],
+                            ),
+                          );
+                        }
                     );
                   }
                 ),
