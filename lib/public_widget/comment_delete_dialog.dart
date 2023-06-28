@@ -118,6 +118,9 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                           ),
                         ),
                       );
+                      if(deleteResponseModel.isDelete == false) {
+                        context.read<FeedProvider>().recommentModeToCommentMode(widget.postId!, context.read<FeedProvider>().sortState);
+                      }
                     }
                     // context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
                   },
