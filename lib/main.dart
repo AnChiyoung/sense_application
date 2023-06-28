@@ -28,8 +28,9 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   KakaoSdk.init(
-      nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
-      javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd'
+    nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
+    javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
+    loggingEnabled: true,
   );
   runApp(
       // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
@@ -57,7 +58,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => FeedProvider()),
           ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
           ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
-          ChangeNotifierProvider(create: (_) => ContactProvider()),
+          // ChangeNotifierProvider(create: (_) => ContactProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),
@@ -80,11 +81,11 @@ class MyApp extends StatelessWidget {
       //   '/': (context) => const HomeScreen(),
       // },
       /// picker localization
-      localizationsDelegates: [
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: [
+      supportedLocales: const [
         Locale('ko', ''),
         Locale('en', ''),
       ],

@@ -61,14 +61,14 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
               future: activeFuture,
               builder: (context, snapshot) {
                 if(snapshot.hasError) {
-                  return Text('Error : ${snapshot.error}');
+                  return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
                 } else if(snapshot.hasData) {
 
                   FeedDetailModel feedDetailModel = snapshot.data!;
 
                   if(snapshot.connectionState == ConnectionState.waiting) {
                     // return const Center(child: Text('data loading..'));
-                    return Center(child: Lottie.asset('assets/lottie/loading.json'));
+                    return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                   } else if(snapshot.connectionState == ConnectionState.done) {
                     return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
                     // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
@@ -77,7 +77,7 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
                   }
                 } else {
                   // return const Center(child: Text('data loading..'));
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
                 }
               }
             )

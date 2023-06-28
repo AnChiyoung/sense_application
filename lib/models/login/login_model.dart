@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 
 class PresentUserInfo {
@@ -16,7 +17,7 @@ class UserInfoRequest {
   Future<UserInfoModel> userInfoRequest(int requestId) async {
 
     final response = await http.get(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/' + requestId.toString()),
+      Uri.parse('${ApiUrl.devUrl}$requestId'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 

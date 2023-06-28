@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/constants/api_path.dart';
 
 class PhoneAuthModel {
   Future<bool> phoneAuthRequest(String phoneNumber) async {
@@ -9,7 +10,7 @@ class PhoneAuthModel {
     Map<String, dynamic> sendNumberModel = SendNumberModel(phoneNumber: phoneNumber.toString()).toJson();
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/phone/send'),
+      Uri.parse('${ApiUrl.devUrl}user/phone/send'),
       body: sendNumberModel,
     );
 
@@ -30,7 +31,7 @@ class PhoneAuthModel {
     print(authNumberModel);
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/phone/auth'),
+      Uri.parse('${ApiUrl.devUrl}user/phone/auth'),
       body: json.encode(authNumberModel),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );

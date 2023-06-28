@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
@@ -208,7 +209,7 @@ class _FeedTagListState extends State<FeedTagList> {
           builder: (context, snapshot) {
             List<TagModel>? tagModels = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
             } else if (snapshot.hasError) {
               return const Center(child: Text('Error fetching posts'));
             } else {
@@ -217,48 +218,51 @@ class _FeedTagListState extends State<FeedTagList> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: tagModels!.length,
-                      itemBuilder: (context, index) {
+                    Expanded(
+                      child: ListView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: tagModels!.length,
+                        itemBuilder: (context, index) {
 
-                        final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
+                          final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
 
-                        return Row(
-                          children: [
-                            Material(
-                              borderRadius: BorderRadius.circular(18),
-                              color: index == selectTagNumber ? Colors.grey.shade800 : Colors.grey.shade200,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(16),
-                                onTap: () {
-                                  context.read<FeedProvider>().selectTagNumberChange(index);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 7,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      tagModels.elementAt(index).title!,
-                                      style: TextStyle(
-                                        color: index == selectTagNumber ? Colors.white : Colors.grey.shade700,
-                                        fontSize: 14,
+                          return Row(
+                            children: [
+                              Material(
+                                borderRadius: BorderRadius.circular(18),
+                                color: index == selectTagNumber ? Colors.grey.shade800 : Colors.grey.shade200,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(16),
+                                  onTap: () {
+                                    context.read<FeedProvider>().selectTagNumberChange(index);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 7,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        tagModels.elementAt(index).title!,
+                                        style: TextStyle(
+                                          color: index == selectTagNumber ? Colors.white : Colors.grey.shade700,
+                                          fontSize: 14,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 6),
-                          ],
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(width: 6);
-                      }
+                              const SizedBox(width: 6),
+                            ],
+                          );
+                        },
+                        // separatorBuilder: (BuildContext context, int index) {
+                        //   return const SizedBox(width: 6);
+                        // }
+                      ),
                     ),
                   ],
                 ),
@@ -327,7 +331,7 @@ class _FeedPostListState extends State<FeedPostList> {
   @override
   Widget build(BuildContext context) {
 
-    final selectTagNumber = context.read<FeedProvider>().selectTagNumber;
+    final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
 
     return Expanded(
       child: Stack(
@@ -335,42 +339,70 @@ class _FeedPostListState extends State<FeedPostList> {
         children: [
           FutureBuilder(
             // future: context.read<FeedProvider>().getFeedPosts(),
-            future: FeedRequest().feedPreviewRequestByLabelId(1),
+            future: FeedRequest().feedPreviewRequestByLabelId(selectTagNumber),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // return const Center(child: CircularProgressIndicator());
-                return Container();
-              } else if (snapshot.hasError) {
-                return const Center(child: Text('Error fetching posts'));
+
+              if(snapshot.hasError) {
+                return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
+              } else if(snapshot.hasData) {
+                if(snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                } else if(snapshot.connectionState == ConnectionState.done) {
+
+                  /// 데이터 뿌리자
+                  List<FeedPreviewModel>? model = snapshot.data;
+
+                  if(model!.isEmpty) {
+                    return Center(child: Text('피드가 존재하지 않습니다', style: TextStyle(color: StaticColor.grey60077)));
+                  } else {
+                    return FeedPostListPresenter( // 피드 뿌리는 곳
+                      feedPosts: model!,
+                    );
+                  }
+
+
+                } else {
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                }
               } else {
-                List<FeedPreviewModel>? model = snapshot.data;
-                // return Container();
-                return FeedPostListPresenter( // 피드 뿌리는 곳
-                  feedPosts: model!,
-                  // feedPosts: context.read<FeedProvider>().feedPosts,
-                );
-                // return Consumer<FeedProvider>(
-                //   builder: (context, feedProvider, child) {
-                //     final feedPosts = feedProvider.feedPosts;
-                //     if (feedPosts.isEmpty) {
-                //       return Center(
-                //         child: Text(
-                //           '검색 결과가 없습니다.',
-                //           style: TextStyle(
-                //             color: Colors.grey.shade600,
-                //             fontSize: 16,
-                //           ),
-                //         ),
-                //       );
-                //     } else {
-                //       return FeedPostListPresenter( // 피드 뿌리는 곳
-                //         feedPosts: model!,
-                //         // feedPosts: context.read<FeedProvider>().feedPosts,
-                //       );
-                //     }
-                //   },
-                // );
+                return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
               }
+
+
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              //   // return const Center(child: CircularProgressIndicator());
+              //   return Container();
+              // } else if (snapshot.hasError) {
+              //   return const Center(child: Text('Error fetching posts'));
+              // } else {
+              //   List<FeedPreviewModel>? model = snapshot.data;
+              //   // return Container();
+              //   return FeedPostListPresenter( // 피드 뿌리는 곳
+              //     feedPosts: model!,
+              //     // feedPosts: context.read<FeedProvider>().feedPosts,
+              //   );
+              //   // return Consumer<FeedProvider>(
+              //   //   builder: (context, feedProvider, child) {
+              //   //     final feedPosts = feedProvider.feedPosts;
+              //   //     if (feedPosts.isEmpty) {
+              //   //       return Center(
+              //   //         child: Text(
+              //   //           '검색 결과가 없습니다.',
+              //   //           style: TextStyle(
+              //   //             color: Colors.grey.shade600,
+              //   //             fontSize: 16,
+              //   //           ),
+              //   //         ),
+              //   //       );
+              //   //     } else {
+              //   //       return FeedPostListPresenter( // 피드 뿌리는 곳
+              //   //         feedPosts: model!,
+              //   //         // feedPosts: context.read<FeedProvider>().feedPosts,
+              //   //       );
+              //   //     }
+              //   //   },
+              //   // );
+              // }
             },
           ),
           /// add event button

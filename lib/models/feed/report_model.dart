@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class ReportRequest {
@@ -7,11 +8,11 @@ class ReportRequest {
 
     Map<String, dynamic> sendReport = ReportModel(reportChoiceId: selectReportIndex, description: description).toJson();
 
-    print('https://dev.server.sense.runners.im/api/v1/comment/${commentId.toString()}/report');
+    print('${ApiUrl.devUrl}comment/${commentId.toString()}/report');
     print(jsonEncode(sendReport));
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${commentId.toString()}/report'),
+      Uri.parse('${ApiUrl.devUrl}comment/${commentId.toString()}/report'),
       body: jsonEncode(sendReport),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',

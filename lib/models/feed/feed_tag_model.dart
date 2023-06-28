@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/constants/api_path.dart';
 
 class FeedTagLoad {
   Future<List<TagModel>> tagRequest() async {
     final response = await http.get(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/labels'),
+      Uri.parse('${ApiUrl.devUrl}labels'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 

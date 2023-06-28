@@ -121,6 +121,7 @@ class SigninProvider with ChangeNotifier {
 
   void timeValidateChange(bool state) {
     _timeValidate = state;
+    _authValidate = state;
     notifyListeners();
   }
 

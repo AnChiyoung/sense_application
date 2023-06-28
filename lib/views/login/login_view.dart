@@ -95,6 +95,7 @@ class _LoginFormViewState extends State<LoginFormView> {
               ),
               child: TextField(
                 controller: emailFieldController,
+                style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: '이메일 주소',
                   hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
@@ -115,6 +116,7 @@ class _LoginFormViewState extends State<LoginFormView> {
               child: TextField(
                 controller: passwordFieldController,
                 obscureText: true,
+                style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: '비밀번호',
                   hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
@@ -318,7 +320,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
 
     if(isInstalled == true) {
       try {
-        token = await UserApi.instance.loginWithKakaoAccount();
+        token = await UserApi.instance.loginWithKakaoTalk();
         token == null ? print('kakao token is empty') : {
           userModel = await KakaoUserInfoModel().getUserInfo(token),
           tokenModel = await SigninCheckModel().tokenLoginRequest(token),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
@@ -10,7 +11,7 @@ class FeedRequest {
     String query;
     labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
     final response = await http.get(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/posts$query'),
+      Uri.parse('${ApiUrl.devUrl}posts$query'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
@@ -19,13 +20,13 @@ class FeedRequest {
       List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
       return modelList;
     } else {
-      throw Exception;
+      return [];
     }
   }
 
   Future<FeedDetailModel> postDetailLiked(int postId) async {
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/like'),
+      Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/like'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'},
@@ -53,7 +54,7 @@ class FeedRequest {
 
   Future<FeedDetailModel> postDetailUnliked(int postId) async {
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/unlike'),
+      Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/unlike'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'},

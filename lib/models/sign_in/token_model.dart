@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/constants/api_path.dart';
 
 class SigninCheckModel {
   Future<AccessTokenResponseModel> tokenLoginRequest(OAuthToken token) async {
     Map<String, dynamic> tokenRequestBody = AccessTokenModel(accessToken: token.accessToken).toJson();
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login'),
+      Uri.parse('${ApiUrl.devUrl}kakao/login'),
       body: jsonEncode(tokenRequestBody),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );

@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     final response = await http.get(
-        Uri.parse('https://dev.server.sense.runners.im/api/v1/post/' + feedId.toString()),
+        Uri.parse('${ApiUrl.devUrl}post/${feedId.toString()}'),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'

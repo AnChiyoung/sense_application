@@ -126,6 +126,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               autovalidateMode: AutovalidateMode.always,
                               maxLines: 1,
                               textAlignVertical: TextAlignVertical.center,
+                              style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                 focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
                                 errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
@@ -134,7 +135,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                                 alignLabelWithHint: false,
                                 labelText: '인증번호',
-                                labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                                labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                                 hintText: '번호를 입력하세요',
                                 hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                                 border: InputBorder.none,

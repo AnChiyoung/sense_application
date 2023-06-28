@@ -21,7 +21,7 @@ class _PasswordSearchGuideDialogState extends State<PasswordSearchGuideDialog> {
       //Dialog Main Title
       title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: Center(child: Text('dev@runners.im으로 문의해 주세요', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)))),
+          child: Center(child: Text('admin@sens.im으로 문의해 주세요', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)))),
       content: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 28, bottom: 18),
         child: Container(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class CommentRequest {
@@ -10,7 +11,7 @@ class CommentRequest {
    Future<List<CommentResponseModel>> commentRequest(int postId, String sort) async {
 
       final response = await http.get(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/comments?ordering=$sort'),
+         Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/comments?ordering=$sort'),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
             'Content-Type': 'application/json; charset=UTF-8'
@@ -42,7 +43,7 @@ class CommentRequest {
       Map<String, dynamic> commentRequestBody = CommentRequestModel(comment: comment).toJson();
 
       final response = await http.post(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/post/${postId.toString()}/comment'),
+         Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/comment'),
          body: jsonEncode(commentRequestBody),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -69,7 +70,7 @@ class CommentRequest {
       Map<String, dynamic> commentRequestBody = CommentRequestModel(comment: comment).toJson();
 
       final response = await http.patch(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${commentId.toString()}'),
+         Uri.parse('${ApiUrl.devUrl}comment/${commentId.toString()}'),
          body: jsonEncode(commentRequestBody),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -93,7 +94,7 @@ class CommentRequest {
       print('delete comment id : ${commentId.toString()}');
 
       final response = await http.delete(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${commentId.toString()}'),
+         Uri.parse('${ApiUrl.devUrl}comment/${commentId.toString()}'),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
             'Content-Type': 'application/json; charset=UTF-8'
@@ -123,7 +124,7 @@ class CommentRequest {
       Map<String, dynamic> commentRequestBody = CommentRequestModel(comment: comment).toJson();
 
       final response = await http.post(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${parentCommentId.toString()}/comment'),
+         Uri.parse('${ApiUrl.devUrl}comment/${parentCommentId.toString()}/comment'),
          body: jsonEncode(commentRequestBody),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -146,7 +147,7 @@ class CommentRequest {
       print('comment id : ${commentId.toString()}');
 
       final response = await http.post(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${commentId.toString()}/like'),
+         Uri.parse('${ApiUrl.devUrl}comment/${commentId.toString()}/like'),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
             'Content-Type': 'application/json; charset=UTF-8'
@@ -176,7 +177,7 @@ class CommentRequest {
       print('comment id : ${commentId.toString()}');
 
       final response = await http.post(
-         Uri.parse('https://dev.server.sense.runners.im/api/v1/comment/${commentId.toString()}/unlike'),
+         Uri.parse('${ApiUrl.devUrl}comment/${commentId.toString()}/unlike'),
          headers: {
             'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
             'Content-Type': 'application/json; charset=UTF-8'

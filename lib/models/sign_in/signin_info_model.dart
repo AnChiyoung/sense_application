@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 
 class SigninModel {
@@ -30,7 +31,7 @@ class SigninModel {
     print('sign in token : ${KakaoUserInfoModel.userAccessToken}');
 
     final response = await http.patch(
-        Uri.parse('https://dev.server.sense.runners.im/api/v1/user/signup'),
+        Uri.parse('${ApiUrl.devUrl}user/signup'),
         body: json.encode(signinJson),
         headers: {
           'Authorization': 'Bearer ${KakaoUserInfoModel.userAccessToken!}',
@@ -62,7 +63,7 @@ class SigninModel {
     print(signinJson);
 
     final response = await http.post(
-        Uri.parse('https://dev.server.sense.runners.im/api/v1/user/signup'),
+        Uri.parse('${ApiUrl.devUrl}user/signup'),
         body: json.encode(signinJson),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'
