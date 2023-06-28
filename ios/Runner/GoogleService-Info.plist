@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>288629191516-kn55br3v12sran48fgv48ph483tum8iv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.288629191516-kn55br3v12sran48fgv48ph483tum8iv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyChCMkap7l6l_1ywRH1ojYz9pyw5l-ZpTE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>288629191516</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.runners.sense.senseFlutterApplication</string>
+	<key>PROJECT_ID</key>
+	<string>sense-main</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sense-main.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:288629191516:ios:dcae9be6e5e12e163f0799</string>
+</dict>
+</plist>
