@@ -118,8 +118,17 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                           ),
                         ),
                       );
-                      if(deleteResponseModel.isDelete == false) {
+
+                      if(deleteResponseModel.parentCommentId == -1) { /// 댓글일 때,
                         context.read<FeedProvider>().recommentModeToCommentMode(widget.postId!, context.read<FeedProvider>().sortState);
+
+                        // if(deleteResponseModel.isDelete == false) {
+                        //   print('is deleted => false');
+                        //   context.read<FeedProvider>().recommentModeToCommentMode(widget.postId!, context.read<FeedProvider>().sortState);
+                        // } else {
+                        //   print('etc');
+                        // }
+                      } else { /// 답글일 때,
                       }
                     }
                     // context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
