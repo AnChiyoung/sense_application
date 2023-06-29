@@ -16,31 +16,32 @@ class _ContactScreenState extends State<ContactScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return Container();
-  }
-
-  //   /// safe area height
-  //   final safeAreaTopPadding = MediaQuery.of(context).padding.top;
-  //
-  //   return GestureDetector(
-  //     onTap: () {
-  //       FocusScope.of(context).unfocus();
-  //     },
-  //     child: Scaffold(
-  //       resizeToAvoidBottomInset: false,
-  //       body: SizedBox(
-  //         height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-  //         child: Column(
-  //           children: [
-  //             ContactSearchField(),
-  //             Container(width: double.infinity, height: 1, color: StaticColor.grey200EE),
-  //             Consumer<ContactProvider>(
-  //               builder: (context, data, child) => data.searchState == true ?
-  //                 SearchResultField() : Expanded(child: ContactListView())),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
+  //   return Container();
   // }
+
+    /// safe area height
+    final safeAreaTopPadding = MediaQuery.of(context).padding.top;
+
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height - safeAreaTopPadding,
+          child: Column(
+            children: [
+              const ContactSearchField(),
+              Container(width: double.infinity, height: 1, color: StaticColor.grey200EE),
+              Consumer<ContactProvider>(
+                builder: (context, data, child) => data.searchState == true ?
+                  SearchResultField() : Expanded(child: ContactListView())),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

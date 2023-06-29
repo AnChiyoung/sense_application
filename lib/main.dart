@@ -58,7 +58,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => FeedProvider()),
           ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
           ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
-          // ChangeNotifierProvider(create: (_) => ContactProvider()),
+          ChangeNotifierProvider(create: (_) => ContactProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),
