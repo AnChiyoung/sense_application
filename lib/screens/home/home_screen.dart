@@ -21,11 +21,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: MovePageList().pageList.elementAt(pageIndex),
+
+    /// safe area height
+    final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
+
+    return WillPopScope(
+      /// onWillPop: null은 android back button에만 대응된다. 하단의 방법으로 처리
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: MovePageList().pageList.elementAt(pageIndex),
+        ),
+        bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding),
+        // bottomNavigationBar: Container(height: 100),
       ),
-      bottomNavigationBar: BottomMenu(selectCallback: movePage),
     );
   }
 }

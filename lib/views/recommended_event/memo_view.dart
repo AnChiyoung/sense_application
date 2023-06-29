@@ -9,6 +9,7 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/public_widget/show_loading.dart';
 import 'package:sense_flutter_application/screens/recommended_event/event_info_screen.dart';
+import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class MemoHeaderMenu extends StatefulWidget {
@@ -192,7 +193,7 @@ class _MemoNextButtonState extends State<MemoNextButton> with SingleTickerProvid
               // ).toJson();
               // print(aa);
 
-              Loading().showLoading(EventInfoScreen(), context, controller, null);
+              Loading().showLoading(RecommendedScreen(), context, controller, null);
               // AddEventModel.editorMode == true ? {AddEventModel.editorMode = false, Navigator.of(context).pop(), context.read<RecommendedEventProvider>().titleChange()} :
               // buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => EventInfoScreen())) : (){};
             },

@@ -1,58 +1,46 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/views/calendar/calendar_utils.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_bottom_sheet.dart';
+import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../constants/public_color.dart';
+
 import '../../models/calendar/calendar_home_model.dart';
-import 'calendar_bottom_sheet.dart';
 
-class DUMMY {
-  static int currentMonth = DateTime.now().month;
-  static int currentYear = DateTime.now().year;
-}
-
-class CalendarBase extends StatefulWidget {
-  const CalendarBase({Key? key}) : super(key: key);
-
+class CalendarBody extends StatefulWidget {
   @override
-  State<CalendarBase> createState() => _CalendarBaseState();
+  _CalendarBodyState createState() => _CalendarBodyState();
 }
 
-class _CalendarBaseState extends State<CalendarBase> {
+class _CalendarBodyState extends State<CalendarBody> {
+  // CalendarFormat _calendarFormat = CalendarFormat.month;
+  // RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
+  //     .toggledOff; // Can be toggled on/off by longpressing a date
+  // DateTime? _rangeStart;
+  // DateTime? _rangeEnd;
+
   late final ValueNotifier<List<Event>> _selectedEvents;
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff; // Can be toggled on/off by longpressing a date
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  DateTime? _rangeStart;
-  DateTime? _rangeEnd;
 
-  String af = '';
+  late final ScrollController scrollController = ScrollController();
 
-  List<String> days = ['_', '월', '화', '수', '목', '금', '토', '일'];
+  static const int _swipeHistoryLimit = 4;
+  final List<SwipeDirection> _swipeHistory = [];
 
-  int selectYear = 0;
-  int selectMonth = 0;
-  int selectDay = 0;
-  int selectWeekDayNumber = 0;
-  String selectWeekDay = '';
-
-  DraggableScrollableController? dsController;
-
-  double bottomSheetHeight = 0.15;
-
-
+  late double deviceHeight;
 
   @override
   void initState() {
-    selectYear = DateTime.now().year;
-    selectMonth = DateTime.now().month;
-    selectDay = DateTime.now().day;
+    super.initState();
+
+    scrollController.addListener(() {
+      scrollListeners();
+    });
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-    dsController = DraggableScrollableController();
-
-    super.initState();
   }
 
   @override
@@ -64,468 +52,227 @@ class _CalendarBaseState extends State<CalendarBase> {
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
     // return kEvents[day] ?? [];
-    return sampleEvent[day] ?? [];
+    return [];
   }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    // Implementation example
-    final days = daysInRange(start, end);
-
-    return [
-      for (final d in days) ..._getEventsForDay(d),
-    ];
-  }
+  // List<Event> _getEventsForRange(DateTime start, DateTime end) {
+  //   // Implementation example
+  //   final days = daysInRange(start, end);
+  //
+  //   return [
+  //     for (final d in days) ..._getEventsForDay(d),
+  //   ];
+  // }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    // bottom sheet 높이 조정
-    if(context.read<PageProvider>().bottomSheetHeight != 0.5) {
-      print('aa');
-      context.read<PageProvider>().bottomSheetHeightController(true);
-    }
-    context.read<DateProvider>().monthChange(selectedDay.month);
-
-    // 임시 데이터, request로 받아야하는 부분
-    af = focusedDay.month.toString();
-    selectYear = selectedDay.year;
-    selectMonth = selectedDay.month;
-    DUMMY.currentMonth = selectedDay.month;
-    PublicVariable.ab = selectMonth.toString() + '월';
-    selectDay = selectedDay.day;
-    selectWeekDayNumber = selectedDay.weekday;
-    if (selectWeekDayNumber == 0) {
-      selectWeekDay = '일';
-    } else if (selectWeekDayNumber == 1) {
-      selectWeekDay = '월';
-    } else if (selectWeekDayNumber == 2) {
-      selectWeekDay = '화';
-    } else if (selectWeekDayNumber == 3) {
-      selectWeekDay = '수';
-    } else if (selectWeekDayNumber == 4) {
-      selectWeekDay = '목';
-    } else if (selectWeekDayNumber == 5) {
-      selectWeekDay = '금';
-    } else if (selectWeekDayNumber == 6) {
-      selectWeekDay = '토';
-    }
-
     if (!isSameDay(_selectedDay, selectedDay)) {
-      // Map<DateTime, List<Event>> selectDayEvent = sampleEvent;
-      // 특정 날짜 이벤트가 없다면, 가장 빠른 날짜나 오늘로 이동. 어느쪽??
+
+      // showModalBottomSheet(
+      //     backgroundColor: Colors.transparent,
+      //     context: context,
+      //     isScrollControlled: true,
+      //     builder: (context) {
+      //       return ScheduleBottomSheet();
+      //     }
+      // );
+
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
-        _rangeEnd = null;
-        _rangeSelectionMode = RangeSelectionMode.toggledOff;
+        // _rangeStart = null; // Important to clean those
+        // _rangeEnd = null;
+        // _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
+
       _selectedEvents.value = _getEventsForDay(selectedDay);
     }
   }
 
-  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
-    setState(() {
-      _selectedDay = null;
-      _focusedDay = focusedDay;
-      _rangeStart = start;
-      _rangeEnd = end;
-      _rangeSelectionMode = RangeSelectionMode.toggledOn;
-    });
-
-    // `start` or `end` could be null
-    if (start != null && end != null) {
-      _selectedEvents.value = _getEventsForRange(start, end);
-    } else if (start != null) {
-      _selectedEvents.value = _getEventsForDay(start);
-    } else if (end != null) {
-      _selectedEvents.value = _getEventsForDay(end);
+  scrollListeners() async {
+    if (scrollController.offset == scrollController.position.maxScrollExtent
+        && !scrollController.position.outOfRange) {
+      print('스크롤이 맨 바닥에 위치해 있습니다');
+    } else if (scrollController.offset == scrollController.position.minScrollExtent
+        && !scrollController.position.outOfRange) {
+      print('스크롤이 맨 위에 위치해 있습니다');
     }
   }
 
   @override
   Widget build(BuildContext context) {
 
-    double bottomHeight = context.watch<PageProvider>().bottomSheetHeight;
+    deviceHeight = MediaQuery.of(context).size.height;
 
-    return SafeArea(
-      child: Scaffold(
-        body: context.watch<PageProvider>().isBuilderPage ? const FullDragUpPage() :
-        Stack(
-          children: [
-            TableCalendar<Event>(
-              rowHeight: 80,
-              daysOfWeekHeight: 40,
-              headerVisible: false,
-              firstDay: kFirstDay,
-              lastDay: kLastDay,
-              focusedDay: _focusedDay,
-              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              calendarFormat: context.watch<PageProvider>().formatBuilder,
-              eventLoader: _getEventsForDay,
-              startingDayOfWeek: StartingDayOfWeek.sunday,
-              calendarStyle: CalendarStyle(
-                cellPadding: const EdgeInsets.only(top: 20),
-                cellMargin: const EdgeInsets.only(bottom: 25),
-                cellAlignment: Alignment.topCenter,
-                outsideDaysVisible: false,
-                todayDecoration: BoxDecoration(
-                  color: StaticColor.unselectedColor,
-                  shape: BoxShape.circle,
-                ),
-                selectedDecoration: BoxDecoration(
-                  color: StaticColor.selectDayColor,
-                  shape: BoxShape.circle,
-                ),
-                rowDecoration: BoxDecoration(
-                  // color: Colors.green,
-                  border: Border(bottom: BorderSide(color: StaticColor.rowDevider, width: 1)),
-                ),
-                markerSize: 8.0,
-                markersMaxCount: 8,
-                // markerMargin: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                markersOffset: PositionedOffset(start: -1.0),
-                markersAutoAligned: true,
-                markerDecoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-              ),
-              calendarBuilders: CalendarBuilders(
-
-                dowBuilder: (context, day) {
-                  return Container(
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: StaticColor.rowDevider, width: 1)),
-                      ),
-                      child: Center(child: Text(days[day.weekday])));
-                },
-              ),
-              onDaySelected: _onDaySelected,
-              onRangeSelected: _onRangeSelected,
-              onFormatChanged: (format) {
-                // CalendarFormat.month;
-                // if (_calendarFormat != format) {
-                //   setState(() {
-                //     _calendarFormat = format;
-                //   });
-                // }
-              },
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-            ),
-            ScheduleBottomSheet(month: selectMonth),
-            // notification listener -> modal bottom sheet live height call
-            // SizedBox.expand(
-            //   child: NotificationListener<DraggableScrollableNotification> (
-            //     onNotification: (DraggableScrollableNotification dsNotify) {
-            //       if(dsNotify.extent>=0.8){
-            //         setState(() {
-            //           context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.week);
-            //           print('위치 조정');
-            //           context.read<PageProvider>().bottomSheetHeightCustom(0.8);
-            //         });
-            //
-            //         if(dsNotify.extent>=1.0) {
-            //           context.read<PageProvider>().pageChangeBuilder(true, CalendarFormat.month);
-            //         }
-            //       }
-            //       else if(dsNotify.extent<0.8){
-            //         setState(() {
-            //           context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
-            //         });
-            //       }
-            //       return true;
-            //     },
-            //     // drag able bottom sheet
-            //     child: DraggableScrollableSheet(
-            //       controller: dsController,
-            //       initialChildSize: bottomHeight,
-            //       maxChildSize: 1.0,
-            //       minChildSize: 0.05,
-            //       builder: (BuildContext context, ScrollController controller) {
-            //         return Container(
-            //           height: MediaQuery.of(context).size.height * 0.7,
-            //           decoration: BoxDecoration(
-            //             color: Colors.white,
-            //             borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-            //             border: Border.all(
-            //               width: 1,
-            //               color: StaticColor.bottomSheetHeaderMain,
-            //             ),
-            //           ),
-            //           child: BottomSheetArea(controller: controller, month: selectMonth),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(height: 8.0),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class BottomSheetArea extends StatefulWidget {
-  ScrollController controller;
-  int month;
-  BottomSheetArea({Key? key, required this.controller, required this.month}) : super(key: key);
-
-  @override
-  State<BottomSheetArea> createState() => _BottomSheetAreaState();
-}
-
-class _BottomSheetAreaState extends State<BottomSheetArea> {
-
-  // new data binding
-  Map<String, List<Event>> temperatureEvent = {};
-
-  @override
-  void initState() {
-    for(int i = 0; i < sampleEvent.length; i++) {
-      if(sampleEvent.keys.elementAt(i).year.toString() == DUMMY.currentYear.toString()) {
-        if(sampleEvent.keys.elementAt(i).month.toString() == DUMMY.currentMonth.toString()) {
-          temperatureEvent![sampleEvent.keys.elementAt(i).day.toString()] = sampleEvent![sampleEvent.keys.elementAt(i)] ?? [];
-        }
-      }
-    }
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        controller: widget.controller,
-        itemCount: temperatureEvent.length + 2,
-        itemBuilder: (BuildContext context, int index) {
-          print(temperatureEvent);
-          print('?? : ${temperatureEvent.length}');
-          print('??2 : ${DUMMY.currentMonth}');
-          if(temperatureEvent.length == 0) {
-            if(index == 0) {
-              return SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4))));
-            } else if(index == 1) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('${widget.month}월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600),),),
-                    Container(
-                        width: double.infinity,
-                        height: 300,
-                        child: Center(child: Text('등록된 일정이 없습니다')))
-                  ]
-                )
-              );
-            }
-
-          } else {
-            if(index == 0) {
-              return SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Image.asset('assets/calendar/modal_bottom_sheet_headerline.png', width: 81, height: 4))));
-            } else if(index == 1) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('${widget.month}월', style: TextStyle(fontSize: 20, color: StaticColor.selectMonthColor, fontWeight: FontWeight.w600))),
-              );
-            } else {
-              return Padding(
-                  padding: const EdgeInsets.only(top: 8, left: 20, right: 20),
-                  child: DayEventCollection(eventList: temperatureEvent));
-                  // child: Container(height: 10, color: Colors.black));
-            }
-          }
-        }
-    );
-  }
-}
-
-
-class FullDragUpPage extends StatefulWidget {
-  const FullDragUpPage({Key? key}) : super(key: key);
-
-  @override
-  State<FullDragUpPage> createState() => _FullDragUpPageState();
-}
-
-class _FullDragUpPageState extends State<FullDragUpPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 40, bottom: 150,),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          // SingleChildScrollView(child: Expanded(child: DayEventCollection())),
-        ]
-      ),
-    );
-  }
-}
-
-class DayEventCollection extends StatefulWidget {
-  Map<String, List<Event>> eventList;
-  DayEventCollection({Key? key, required this.eventList}) : super(key: key);
-
-  @override
-  State<DayEventCollection> createState() => _DayEventCollectionState();
-}
-
-class _DayEventCollectionState extends State<DayEventCollection> {
-
-  Map<DateTime, List<Event>>? eventList;
-  List<Event>? aa;
-  String? days;
-  int? eventLength;
-  List<Widget> cc = [];
-  var ee;
-
-  @override
-  void initState() {
-    eventList = sampleEvent;
-    // aa = eventList![sampleEvent.keys.elementAt(0)];
-    days = sampleEvent.keys.elementAt(0).toString();
-    eventLength = aa?.length;
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: widget.eventList.length,
-      itemBuilder: (BuildContext context, int index) {
-        aa = widget.eventList![widget.eventList.keys.elementAt(index)];
-        ee = aa?.asMap().entries.map((e) {
-          return EventElement(eventList: aa!, e: e.key);
-        });
-
-        for (int i = 0; i < aa!.length; i++) {
-          cc.add(ee!.elementAt(i));
-        }
-
-        return Center(
-          child: Column(children: [
-            Row(children: [
-              Text('${widget.eventList.keys.elementAt(index).toString()}일 일정 ', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-              Text('${widget.eventList[widget.eventList.keys.elementAt(index)]!.length}', style: TextStyle(fontSize: 14, color: StaticColor.eventCountColor, fontWeight: FontWeight.w600)),
-              Text('건', style: TextStyle(fontSize: 14, color: StaticColor.eventDayColor, fontWeight: FontWeight.w600)),
-            ]),
-            SizedBox(height: 8),
-            Column(children: cc)
-          ]),
-        );
-      }
-    );
-  }
-}
-
-class EventElement extends StatefulWidget {
-  List<Event> eventList;
-  int e;
-  EventElement({Key? key, required this.eventList, required this.e}) : super(key: key);
-
-  @override
-  State<EventElement> createState() => _EventElementState();
-}
-
-class _EventElementState extends State<EventElement> {
-
-  List<Color> eventColorList = [
-    Color(0xFFBE6E24),
-    Color(0xFFFF7B8B),
-    Color(0xFF91C300),
-    Color(0xFF6E79DD),
-  ];
-
-  Map<DateTime, List<Event>>? eventList;
-  List<Event>? aa;
-
-  @override
-  void initState() {
-    aa = widget.eventList;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
+    return Stack(
+      alignment: Alignment.bottomCenter,
       children: [
-        Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: eventColorList.elementAt(widget.e),
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-            child: Row(children: [
-              Image.asset('assets/calendar/event_header_bar.png', width: 4, height: 40),
-              SizedBox(width: 10.0),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(aa!.elementAt(widget.e).title, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600))),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(aa!.elementAt(widget.e).location, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(aa!.elementAt(widget.e).time, style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-              ])
-            ])),
-        SizedBox(height: 26),
+        Consumer<CalendarBodyProvider>(
+          builder: (context, data, child) {
+            print('여기 들어옴!');
+            return TableCalendar<Event>(
+                locale: 'ko_KR',
+                calendarFormat: data.calendarFormat,
+                focusedDay: _focusedDay!,
+                firstDay: DateTime.utc(DateTime.now().year, 1, 1),
+                lastDay: DateTime.utc(DateTime.now().year, 12, 31),
+                headerVisible: false,
+                daysOfWeekHeight: 40.0,
+                rowHeight: 60.0,
+                calendarStyle: CalendarStyle(
+                  outsideDaysVisible: false,
+                  /// marker area
+                  canMarkersOverflow: false,
+                  markersAutoAligned: true,
+                  markerSize: 8.0,
+                  markerSizeScale: 1.0,
+                  markerMargin: const EdgeInsets.only(left: 0.8, right: 0.8, top: 0),
+                  markersAlignment: Alignment.bottomCenter,
+                  markersMaxCount: 4,
+                  markerDecoration: BoxDecoration(
+                    color:  StaticColor.mainSoft,
+                    shape: BoxShape.circle,
+                  ),
+                  /// today area
+                  isTodayHighlighted: true,
+                  todayDecoration: BoxDecoration(
+                    color: StaticColor.unSelectedColor,
+                    shape: BoxShape.circle,
+                  ),
+                  cellAlignment: Alignment.topCenter,
+                ),
+                calendarBuilders: CalendarBuilders(
+                    selectedBuilder: (context, dateTime, _) {
+                      return selectBuilder(context, dateTime, _, 0);
+                    },
+                    defaultBuilder: (context, dateTime, _) {
+                      return selectBuilder(context, dateTime, _, 1);
+                    },
+                    todayBuilder: (context, dateTime, _) {
+                      return selectBuilder(context, dateTime, _, 2);
+                    }
+                ),
+                selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                onDaySelected: _onDaySelected,
+                eventLoader: _getEventsForDay,
+                onPageChanged: (date) {
+                  context.read<CalendarProvider>().monthChange(date.month);
+                }
+              // enabledDayPredicate: false,
+            );
+          },
+        ),
+        ScheduleBottomSheet(bodyHeight: deviceHeight),
+        // SwipeDetector(
+        //   onSwipeUp: (offset) {
+        //     _addSwipe(SwipeDirection.up);
+        //     print('up');
+        //   },
+        //   onSwipeDown: (offset) {
+        //     _addSwipe(SwipeDirection.down);
+        //     print('down');
+        //   },
+        //   onSwipeLeft: (offset) {
+        //     _addSwipe(SwipeDirection.left);
+        //     print('left');
+        //   },
+        //   onSwipeRight: (offset) {
+        //     _addSwipe(SwipeDirection.right);
+        //     print('right');
+        //   },
+        //   child: Container(width: double.infinity, height: 100),
+        // ),
+        // GestureDetector(
+        //   onVerticalDragEnd: (details) {
+        //     if(details.velocity.pixelsPerSecond.dy < 0) {
+        //       print('up!');
+        //       context.read<CalendarProvider>().calendarFormatChange(CalendarFormat.month);
+        //     } else if(details.velocity.pixelsPerSecond.dy > 0) {
+        //       print('down!');
+        //       context.read<CalendarProvider>().calendarFormatChange(CalendarFormat.week);
+        //     }
+        //   },
+        //   child: Container(
+        //     width: double.infinity,
+        //     height: 50,
+        //     color: Colors.white,
+        //   ),
+        // ),
+        const SizedBox(height: 8.0),
+        // Expanded(
+        //   child: ValueListenableBuilder<List<Event>>(
+        //     valueListenable: _selectedEvents,
+        //     builder: (context, value, _) {
+        //       return ListView.builder(
+        //         controller: scrollController,
+        //         itemCount: value.length,
+        //         itemBuilder: (context, index) {
+        //           return Container(
+        //             margin: const EdgeInsets.symmetric(
+        //               horizontal: 12.0,
+        //               vertical: 4.0,
+        //             ),
+        //             decoration: BoxDecoration(
+        //               border: Border.all(),
+        //               borderRadius: BorderRadius.circular(12.0),
+        //             ),
+        //             child: ListTile(
+        //               onTap: () => print('${value[index]}'),
+        //               title: Text('${value[index]}'),
+        //             ),
+        //           );
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }
-}
 
-class DateProvider with ChangeNotifier {
-  int _selectMonth = DateTime.now().month;
-  int get selectMonth => _selectMonth;
-  void monthChange(int month) {
-    _selectMonth = month;
-    notifyListeners();
-  }
-}
-
-class PageProvider with ChangeNotifier {
-  bool _isBuilderPage = false;
-  bool get isBuilderPage => _isBuilderPage;
-  CalendarFormat _format = CalendarFormat.month;
-  CalendarFormat get formatBuilder => _format;
-  double _bottomSheetHeight = 0.05;
-  double get bottomSheetHeight => _bottomSheetHeight;
-
-  void pageChangeBuilder(bool state, CalendarFormat state02) {
-    _isBuilderPage = state;
-    _format = state02;
-    notifyListeners();
+  void _addSwipe(
+      SwipeDirection direction,
+      ) {
+    setState(() {
+      _swipeHistory.insert(0, direction);
+      if (_swipeHistory.length > _swipeHistoryLimit) {
+        _swipeHistory.removeLast();
+      }
+    });
   }
 
-  void bottomSheetHeightCustom(double position) {
-    _bottomSheetHeight = 0.8;
-    notifyListeners();
-  }
-
-  void bottomSheetHeightController(bool isFocus) {
-    // isFocus ? _bottomSheetHeight = 0.4 : _bottomSheetHeight = 0.05;
-    _bottomSheetHeight = 0.35;
-    notifyListeners();
+  Widget selectBuilder(BuildContext context, DateTime dateTime, _, int type) {
+    var dayHighlightColor;
+    if(type == 0) {
+      dayHighlightColor = StaticColor.mainSoft;
+    } else if(type == 1) {
+      dayHighlightColor = Colors.white;
+    } else if(type == 2) {
+      dayHighlightColor = StaticColor.dayHighlightColor;
+    }
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Stack(
+            children: [
+              Positioned(
+                top: 5,
+                left: 13,
+                right: 13,
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: dayHighlightColor,
+                  ),
+                  child: Center(child: Text(dateTime.day.toString(), style: TextStyle(fontSize: 14, color: type == 0 || type == 2 ? Colors.white : StaticColor.dayTextColor, fontWeight: FontWeight.w600))),
+                ),
+              ),
+            ]
+        ),
+      ),
+    );
   }
 }

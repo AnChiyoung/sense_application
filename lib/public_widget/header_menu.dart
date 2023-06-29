@@ -15,8 +15,8 @@ class HeaderMenu extends StatefulWidget {
 class _HeaderMenuState extends State<HeaderMenu> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60,
+    return SizedBox(
+      height: 56,
       child: Stack(
         children: [
           widget.backCallback == null ? Container() : Align(
@@ -35,10 +35,6 @@ class _HeaderMenuState extends State<HeaderMenu> {
             alignment: Alignment.center,
             child: Text(widget.title!, style: TextStyle(fontSize: 16, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500)),
           ),
-          // (widget.rightMenu != null) && (widget.closeCallback != null) ? const Align(
-          //   alignment: Alignment.centerRight,
-          //   child: Text('위젯은 하나만 사용해주세요')
-          // ) :
           widget.rightMenu == null ? Container() : Align(alignment: Alignment.centerRight, child: Padding(padding: const EdgeInsets.only(right: 18), child: widget.rightMenu!)),
           widget.closeCallback == null  ? Container() : Align(
             alignment: Alignment.centerRight,
@@ -51,7 +47,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                   child: Image.asset('assets/add_event/button_close.png', width: 15.01, height: 14.96)
               ),
             ),
-          )
+          ),
         ],
       ),
     );

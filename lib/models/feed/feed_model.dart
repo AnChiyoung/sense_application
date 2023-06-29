@@ -1,7 +1,153 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
+
+class FeedRequest {
+  Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
+    String query;
+    labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
+    final response = await http.get(
+      Uri.parse('${ApiUrl.devUrl}posts$query'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
+      return modelList;
+    } else {
+      return [];
+    }
+  }
+
+  Future<FeedDetailModel> postDetailLiked(int postId) async {
+    final response = await http.post(
+      Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/like'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('post detail like button call success');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      /// logger setting
+      var logger = Logger(
+        printer: PrettyPrinter(
+          lineLength: 120,
+          colors: true,
+          printTime: true,
+        ),
+      );
+      logger.d(jsonResult);
+      FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
+      return feedDetailModel;
+    } else {
+      print('post detail like button call fail');
+      throw Exception;
+    }
+  }
+
+  Future<FeedDetailModel> postDetailUnliked(int postId) async {
+    final response = await http.post(
+      Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/unlike'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('post detail like button call success');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      /// logger setting
+      var logger = Logger(
+        printer: PrettyPrinter(
+          lineLength: 120,
+          colors: true,
+          printTime: true,
+        ),
+      );
+      logger.d(jsonResult);
+      FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
+      return feedDetailModel;
+    } else {
+      print('post detail like button call fail');
+      throw Exception;
+    }
+  }
+}
+
+class FeedPreviewModel {
+  int? id;
+  String? thumbnailUrl;
+  String? title;
+  String? subTitle;
+  String? startDate;
+  String? endDate;
+  bool? isLiked;
+
+  FeedPreviewModel({
+    this.id,
+    this.thumbnailUrl,
+    this.title,
+    this.subTitle,
+    this.startDate,
+    this.endDate,
+    this.isLiked,
+  });
+
+  FeedPreviewModel.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    thumbnailUrl = json['thumbnail_media_url'] ?? '';
+    title = json['title'] ?? '';
+    subTitle = json['sub_title'] ?? '';
+    startDate = json['start_date'] ?? '';
+    endDate = json['end_date'] ?? '';
+    isLiked = json['is_liked'] ?? false;
+  }
+}
+
+class LikedRequest {
+  Future<bool> likedRequest(int postId) async {
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login/15/like'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> unlikedRequest(int postId) async {
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login/15/unlike'),
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+}
+
+class LikedModel {
+  bool? isLiked;
+
+  LikedModel({
+    this.isLiked,
+  });
+
+
+}
 
 ///
 ///
@@ -244,7 +390,7 @@ class FeedRelatedPostThumbnailModel {
 }
 
 class ApiService {
-  static const String baseUrl = "https://dev.server.sense.runners.im/api/v1";
+  static const String baseUrl = "https://stg.server.sense.runners.im/api/v1";
   // static const String baseUrlWithoutHttps = "dev.server.sense.runners.im";
   // static const String today = "today";
 
@@ -252,7 +398,8 @@ class ApiService {
     debugPrint('API call getRecommendPostsByTagId');
     List<FeedPostModel> postInstances = [];
 
-    final uri = Uri.parse('$baseUrl/recommands?recommand_tag=$tagId');
+    // final uri = Uri.parse('$baseUrl/recommands?recommand_tag=$tagId');
+    final uri = Uri.parse('$baseUrl/posts?label_id=$tagId');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -270,7 +417,8 @@ class ApiService {
   static Future<List<FeedTagModel>> getRecommendTags() async {
     debugPrint('API call getRecommendTags');
     List<FeedTagModel> tagInstances = [];
-    final uri = Uri.parse('$baseUrl/recommand-tags');
+    // final uri = Uri.parse('$baseUrl/recommand-tags');
+    final uri = Uri.parse('$baseUrl/labels');
     final headers = {'Content-Type': 'application/json; charset=UTF-8'}; // ???
     final response = await http.get(uri, headers: headers);
 

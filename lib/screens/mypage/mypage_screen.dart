@@ -18,7 +18,7 @@ class _MypageScreenState extends State<MypageScreen> {
         color: Colors.grey,
         child: TextButton(
           onPressed: () {
-            LogOut();
+            kakaoLogout();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => MyApp()));
           },

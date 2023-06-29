@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/main_login_screen.dart';
+import 'package:sense_flutter_application/screens/login/login_screen.dart';
+import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 
 class LoginCheck extends StatefulWidget {
   const LoginCheck({super.key});
@@ -29,22 +30,16 @@ class _LoginCheck extends State<LoginCheck> {
 
     // user의 정보가 있다면 로그인 후 들어가는 첫 페이지로 넘어가게 합니다.
     if (userInfo != null) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => LoginPage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => PolicyScreen()));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-
-
-      ),
+      body: Container(),
     );
   }
 }

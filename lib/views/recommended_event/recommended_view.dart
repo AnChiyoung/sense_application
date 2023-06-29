@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
-import 'package:sense_flutter_application/public_widget/alert_dialog_miss_content.dart';
+import 'package:sense_flutter_application/public_widget/login_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class RecommendedTitle extends StatefulWidget {
@@ -24,7 +25,8 @@ class _RecommendedTitleState extends State<RecommendedTitle> {
   }
 
   void backCallback() {
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 
   Widget menu() {
@@ -34,7 +36,7 @@ class _RecommendedTitleState extends State<RecommendedTitle> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
-                return const CustomDialog();
+                return const ServiceGuideDialog();
               });
         },
         child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
@@ -307,14 +309,14 @@ class _RecommendedItemSectionState extends State<RecommendedItemSection> {
                       shadowColor: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
-                          selectModels[index].contains(e) == false ? {
-                            selectModels[index].add(e),
-                            recommendModels[index].remove(e),
-                            // selectState[index].removeAt(models.indexOf(e)),
-                            // likeState[index].removeAt(models.indexOf(e)),
-                          } : {};
-                          context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
+                          // selectState[index][models.indexOf(e)] = !selectState[index][models.indexOf(e)];
+                          // selectModels[index].contains(e) == false ? {
+                          //   selectModels[index].add(e),
+                          //   recommendModels[index].remove(e),
+                          //   // selectState[index].removeAt(models.indexOf(e)),
+                          //   // likeState[index].removeAt(models.indexOf(e)),
+                          // } : {};
+                          // context.read<RecommendedEventProvider>().tagSelect(recommendModels[index], index);
                           },
                         child: Center(child: Text('선택하기', style: TextStyle(fontSize: 12, color: StaticColor.recommendedBoxColor, fontWeight: FontWeight.w500))),
                       ),
