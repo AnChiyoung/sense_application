@@ -2,8 +2,9 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/contact/contact_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
-import 'package:sense_flutter_application/screens/contact/contact_friend_screen.dart';
+import 'package:sense_flutter_application/screens/contact/contact_detail_screen.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
 class ContactListField extends StatefulWidget {
@@ -82,7 +83,7 @@ class _ContactListFieldState extends State<ContactListField> {
 }
 
 class ContactBasicField extends StatefulWidget {
-  List<Contact> callContact;
+  List<ContactModel> callContact;
   ContactBasicField({super.key, required this.callContact});
 
   @override
@@ -117,9 +118,7 @@ class _ContactBasicFieldState extends State<ContactBasicField> {
                     children: [
                       Image.asset('assets/contact/empty_profile.png', width: 40, height: 40),
                       const SizedBox(width: 8),
-                      Text(widget.callContact
-                          .elementAt(index)
-                          .familyName!,
+                      Text(widget.callContact.elementAt(index).name!,
                           style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
                     ],
                   ),

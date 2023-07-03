@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
-import 'package:sense_flutter_application/screens/contact/contact_friend_screen.dart';
+import 'package:sense_flutter_application/screens/contact/contact_detail_screen.dart';
 import 'package:sense_flutter_application/views/contact/contact_call_field.dart';
 import 'package:sense_flutter_application/views/contact/contact_list_field.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
@@ -119,29 +119,32 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
             controller: contactTabController,
             children: [
               /// 전체 페이지
-              Consumer<ContactProvider>(
-                builder: (context, data, child) {
-                  return FutureBuilder(
-                      future: ContactRequest().contactListRequest(),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasError) {
-                          return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                        } else if(snapshot.hasData) {
-                          if(snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                          } else if(snapshot.connectionState == ConnectionState.done) {
-                            List<ContactModel>? model = snapshot.data;
-                            // return model!.isEmpty ? ContactCallField() : ContactListField();
-                            return data.callContact.isEmpty ? ContactCallField() : ContactListField();
-                          } else {
-                            return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                          }
+              FutureBuilder(
+                  future: ContactRequest().contactListRequest(),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasError) {
+                      return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                    } else if(snapshot.hasData) {
+                      if(snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                      } else if(snapshot.connectionState == ConnectionState.done) {
+
+                        List<ContactModel>? model = snapshot.data;
+                        context.read<ContactProvider>().isCallContact(model!);
+
+                        if(model!.isEmpty) {
+                          return ContactCallField();
                         } else {
-                          return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                          return SingleChildScrollView(child: Expanded(child: ContactListField()));
                         }
+
+                      } else {
+                        return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                       }
-                  );
-                }
+                    } else {
+                      return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                    }
+                  }
               ),
               Container(child: Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'))),
               Container(child: Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'))),

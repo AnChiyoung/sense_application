@@ -35,21 +35,44 @@ class _ContactCallFieldState extends State<ContactCallField> {
       //연락처 권한 줬는지 여부
       setState(() {});
 
+      List<ContactModel> initContactList = [];
       ContactRequest.contacts = await ContactsService.getContacts();
-      List<String> nameList = [];
-      ContactRequest.contacts.map((e) {
-        if (e.givenName == '') {
-          nameList.add(e.familyName.toString());
-          print(e.familyName.toString());
+      for(int i=0; i< ContactRequest.contacts.length; i++) {
+        print(ContactRequest.contacts.elementAt(i).familyName);
+        String name = '';
+        if(ContactRequest.contacts.elementAt(i).givenName == '') {
+          name = ContactRequest.contacts.elementAt(i).familyName.toString();
         } else {
-          nameList.add(e.givenName.toString());
+          name = ContactRequest.contacts.elementAt(i).givenName.toString();
         }
-      });
+
+        initContactList.add(
+          ContactModel(
+            contactCategory: 1,
+            name: name,
+            // phone: ContactRequest.contacts.elementAt(i).phones!.toString(),
+            phone: '',
+            birthday: '',
+            gender: '남성',
+            profileImage: '',
+          )
+        );
+      }
+
+      // ContactRequest.contacts.map((e) {
+      //   if (e.givenName == null) {
+      //     nameList.add(e.familyName.toString());
+      //     print(e.familyName.toString());
+      //   } else {
+      //     nameList.add(e.givenName.toString());
+      //   }
+      // });
 
 
-      List<ContactModel> models = await ContactRequest().contactListCreateRequest(nameList);
+      List<ContactModel> models = await ContactRequest().contactListCreateRequest(initContactList);
+      // print(nameList);
 
-      context.read<ContactProvider>().isCallContact(ContactRequest.contacts);
+      // context.read<ContactProvider>().isCallContact(ContactRequest.contacts);
 
       for (int i = 0; i < ContactRequest.contacts.length; i++) {
         if (ContactRequest.contacts[i].givenName == '') {
