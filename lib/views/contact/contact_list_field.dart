@@ -104,7 +104,7 @@ class _ContactBasicFieldState extends State<ContactBasicField> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => ContactFriendScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => ContactFriendScreen(contactModel: widget.callContact.elementAt(index))));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),

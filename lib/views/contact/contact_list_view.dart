@@ -119,33 +119,49 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
             controller: contactTabController,
             children: [
               /// 전체 페이지
-              FutureBuilder(
-                  future: ContactRequest().contactListRequest(),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasError) {
-                      return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                    } else if(snapshot.hasData) {
-                      if(snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                      } else if(snapshot.connectionState == ConnectionState.done) {
-
-                        List<ContactModel>? model = snapshot.data;
-                        context.read<ContactProvider>().isCallContact(model!);
-
-                        if(model!.isEmpty) {
-                          return ContactCallField();
-                        } else {
-                          return SingleChildScrollView(child: Expanded(child: ContactListField()));
-                        }
-
-                      } else {
-                        return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                      }
-                    } else {
-                      return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                    }
+              Consumer<ContactProvider>(
+                builder: (context, data, child) {
+                  if(data.callContact.isEmpty) {
+                    return const ContactCallField();
+                  } else {
+                    return const SingleChildScrollView(
+                      child: Expanded(
+                        child: ContactListField()
+                      ),
+                    );
                   }
+                }
               ),
+
+
+
+              // FutureBuilder(
+              //     future: ContactRequest().contactListRequest(),
+              //     builder: (context, snapshot) {
+              //       if(snapshot.hasError) {
+              //         return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              //       } else if(snapshot.hasData) {
+              //         if(snapshot.connectionState == ConnectionState.waiting) {
+              //           return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              //         } else if(snapshot.connectionState == ConnectionState.done) {
+              //
+              //           List<ContactModel>? model = snapshot.data;
+              //           context.read<ContactProvider>().isCallContact(model!);
+              //
+              //           if(model!.isEmpty) {
+              //             return ContactCallField();
+              //           } else {
+              //             return SingleChildScrollView(child: Expanded(child: ContactListField()));
+              //           }
+              //
+              //         } else {
+              //           return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              //         }
+              //       } else {
+              //         return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              //       }
+              //     }
+              // ),
               Container(child: Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'))),
               Container(child: Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'))),
               Container(child: Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'))),

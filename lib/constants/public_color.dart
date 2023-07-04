@@ -21,6 +21,7 @@ class StaticColor {
   static Color dividerColor = const Color(0xFFD9D9D9);
 
   static Color bottomSheetExternalLineColor = const Color(0xFFD2DAE8);
+  static Color bottomButtonColor = const Color(0xFF2288FF);
 
 
   //////

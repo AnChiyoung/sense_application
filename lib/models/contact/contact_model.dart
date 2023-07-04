@@ -93,6 +93,99 @@ class ContactRequest {
       return [];
     }
   }
+
+  /// contact detail request
+  Future<ContactModel> contactDetailRequest(int contactId) async {
+
+    var logger = Logger(
+      printer: PrettyPrinter(
+        lineLength: 120,
+        colors: true,
+        printTime: true,
+      ),
+    );
+
+    logger.i('contact id : ${contactId.toString()}');
+
+    final response = await http.get(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('연락처 상세 불러오기 성공');
+      ContactModel model = ContactModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return model;
+    } else {
+      print('연락처 상세 불러오기 실패');
+      return ContactModel();
+    }
+  }
+
+  /// contact bookmarked request
+  Future<ContactModel> bookmarkedRequest(int contactId) async {
+
+    var logger = Logger(
+      printer: PrettyPrinter(
+        lineLength: 120,
+        colors: true,
+        printTime: true,
+      ),
+    );
+
+    logger.i('contact id : ${contactId.toString()}');
+
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}/bookmark'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('연락처 북마크 성공');
+      ContactModel model = ContactModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return model;
+    } else {
+      print('연락처 북마크 실패');
+      return ContactModel();
+    }
+  }
+
+  /// contact unbookmarked request
+  Future<ContactModel> unBookmarkedRequest(int contactId) async {
+
+    var logger = Logger(
+      printer: PrettyPrinter(
+        lineLength: 120,
+        colors: true,
+        printTime: true,
+      ),
+    );
+
+    logger.i('contact id : ${contactId.toString()}');
+
+    final response = await http.post(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}/unbookmark'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('연락처 언북마크 성공');
+      ContactModel model = ContactModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return model;
+    } else {
+      print('연락처 언북마크 실패');
+      return ContactModel();
+    }
+  }
 }
 
 class ContactModel {
