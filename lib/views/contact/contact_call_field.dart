@@ -35,6 +35,7 @@ class _ContactCallFieldState extends State<ContactCallField> {
       //연락처 권한 줬는지 여부
       setState(() {});
 
+      /// save contact list
       List<ContactModel> initContactList = [];
       ContactRequest.contacts = await ContactsService.getContacts();
       for(int i=0; i< ContactRequest.contacts.length; i++) {
@@ -59,29 +60,21 @@ class _ContactCallFieldState extends State<ContactCallField> {
         );
       }
 
-      // ContactRequest.contacts.map((e) {
-      //   if (e.givenName == null) {
-      //     nameList.add(e.familyName.toString());
-      //     print(e.familyName.toString());
-      //   } else {
-      //     nameList.add(e.givenName.toString());
-      //   }
-      // });
+      bool result = await ContactRequest().contactListCreateRequest(initContactList);
 
-
-      List<ContactModel> models = await ContactRequest().contactListCreateRequest(initContactList);
-      // print(nameList);
-
-      // context.read<ContactProvider>().isCallContact(ContactRequest.contacts);
-
-      for (int i = 0; i < ContactRequest.contacts.length; i++) {
-        if (ContactRequest.contacts[i].givenName == '') {
-          // print(ContactRequest.contacts[i].familyName);
-        } else {
-          // print(ContactRequest.contacts[i].givenName);
-        }
-        setState(() {});
+      /// 연락처 불러오기 성공하면 저장하고, 저장한걸 불러오자
+      if(result == true) {
+        context.read<ContactProvider>().contactListLoad();
       }
+
+      // for (int i = 0; i < ContactRequest.contacts.length; i++) {
+      //   if (ContactRequest.contacts[i].givenName == '') {
+      //     // print(ContactRequest.contacts[i].familyName);
+      //   } else {
+      //     // print(ContactRequest.contacts[i].givenName);
+      //   }
+      //   setState(() {});
+      // }
     } else if (status.isDenied) {
       print('거절됨');
       Permission.contacts.request(); //허락해달라고 팝업띄우는 코드

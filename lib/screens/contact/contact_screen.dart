@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/contact/contact_list_view.dart';
+import 'package:sense_flutter_application/views/contact/contact_view.dart';
 import 'package:sense_flutter_application/views/contact/contact_search_field.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 

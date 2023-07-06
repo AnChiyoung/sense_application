@@ -1,9 +1,30 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
+import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
+
+class ContactTabModel {
+  int? count;
+  List<ContactModel>? contactModelList = []; /// **** 중요
+
+  ContactTabModel({
+    this.count,
+    this.contactModelList,
+  });
+
+  ContactTabModel.fromJson(dynamic json) {
+    count = json['count'] ?? -1;
+    json['data'].forEach((v) {
+      contactModelList!.add(ContactModel.fromJson(v));
+    }) ?? [];
+  }
+}
 
 class ContactRequest {
   static List<Contact> contacts = [];
@@ -16,18 +37,26 @@ class ContactRequest {
     ),
   );
 
-  Future<List<ContactModel>> contactListRequest() async {
+  Future<ContactTabModel> contactListRequest([int? category]) async {
 
-    var logger = Logger(
-      printer: PrettyPrinter(
-        lineLength: 120,
-        colors: true,
-        printTime: true,
-      ),
-    );
+    String orderbyParams = '';
+
+    if(category == null) {
+      orderbyParams = '';
+    } else {
+      if(category == 1) {
+        orderbyParams = '?contact_category=친구';
+      } else if(category == 2) {
+        orderbyParams = '?contact_category=가족';
+      } else if(category == 3) {
+        orderbyParams = '?contact_category=연인';
+      } else if(category == 4) {
+        orderbyParams = '?contact_category=직장';
+      }
+    }
 
     final response = await http.get(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/contacts'),
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/contacts$orderbyParams'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -36,20 +65,23 @@ class ContactRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 불러오기 성공');
-      List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      print(body);
-      List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
 
-      print('contact models : ${contactModels}');
+      ContactTabModel model = ContactTabModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
-      return contactModels;
+      logger.i(model.count);
+      logger.i(model.contactModelList!.elementAt(0).id);
+
+      // List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      // List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
+
+      return model;
     } else {
       print('연락처 불러오기 실패');
-      return [];
+      return ContactTabModel();
     }
   }
 
-  Future<List<ContactModel>> contactListCreateRequest(List<ContactModel> list) async {
+  Future<bool> contactListCreateRequest(List<ContactModel> list) async {
 
     List<ContactModel> initList = list;
     final sendContactModels =
@@ -57,14 +89,6 @@ class ContactRequest {
       "contacts": initList
     };
 
-    // var sendTest = {
-    //   'contacts' : [
-    //     ''
-    //   ]
-    // };
-    print(jsonEncode(sendContactModels));
-    // return [];
-    //
     final response = await http.post(
       Uri.parse('https://dev.server.sense.runners.im/api/v1/user/contacts'),
       body: jsonEncode(sendContactModels),
@@ -86,24 +110,15 @@ class ContactRequest {
       // );
       // logger.i('연락처 리스폰스 : ${jsonDecode(utf8.decode(response.bodyBytes))['data']}');
       // List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
-      // return contactModels;
-      return [];
+      return true;
     } else {
       print('연락처 저장 실패');
-      return [];
+      return false;
     }
   }
 
   /// contact detail request
   Future<ContactModel> contactDetailRequest(int contactId) async {
-
-    var logger = Logger(
-      printer: PrettyPrinter(
-        lineLength: 120,
-        colors: true,
-        printTime: true,
-      ),
-    );
 
     logger.i('contact id : ${contactId.toString()}');
 
@@ -128,14 +143,6 @@ class ContactRequest {
   /// contact bookmarked request
   Future<ContactModel> bookmarkedRequest(int contactId) async {
 
-    var logger = Logger(
-      printer: PrettyPrinter(
-        lineLength: 120,
-        colors: true,
-        printTime: true,
-      ),
-    );
-
     logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.post(
@@ -159,14 +166,6 @@ class ContactRequest {
   /// contact unbookmarked request
   Future<ContactModel> unBookmarkedRequest(int contactId) async {
 
-    var logger = Logger(
-      printer: PrettyPrinter(
-        lineLength: 120,
-        colors: true,
-        printTime: true,
-      ),
-    );
-
     logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.post(
@@ -183,6 +182,50 @@ class ContactRequest {
       return model;
     } else {
       print('연락처 언북마크 실패');
+      return ContactModel();
+    }
+  }
+
+  /// contact update
+  Future<ContactModel> contactUpdateRequest(int contactId, int category, String name, String phone, String birthday, String gender, String profileImage) async {
+
+    Map<String, dynamic> updateRequestBody = ContactModel(
+      contactCategory: category,
+      name: name,
+      phone: phone,
+      birthday: birthday,
+      gender: gender,
+      profileImage: profileImage, /// multi partform으로 변환
+    ).updateJson();
+
+    final response = await http.patch(
+      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
+      body: jsonEncode(updateRequestBody),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    // final responseMetaData = http.MultipartRequest(
+    //   'PATCH',
+    //   Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
+    // );
+    // responseMetaData.files.add(
+    //   http.MultipartFile(
+    //     //,
+    //     File(filename).readAsBytes().asStream(),
+    //     File(filename).lengthSync(),
+    //     filename: filename.split("/").last;
+    //   )
+    // );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      print('연락처 수정 성공');
+      ContactModel model = ContactModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return model;
+    } else {
+      print('연락처 수정 실패');
       return ContactModel();
     }
   }
@@ -236,6 +279,15 @@ class ContactModel {
     'contact_category': contactCategory,
     'name': name,
     'phone': phone,
+    'gender': gender,
+    'image': profileImage,
+  };
+
+  Map<String, dynamic> updateJson() => {
+    'contact_category': contactCategory,
+    'name': name,
+    'phone': phone,
+    'birthday': birthday,
     'gender': gender,
     'image': profileImage,
   };

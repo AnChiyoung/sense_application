@@ -24,7 +24,10 @@ class _AiAnalyticsViewState extends State<AiAnalyticsView> {
               borderRadius: BorderRadius.circular(8.0),
               color: StaticColor.grey100F6,
             ),
-            child: Text('dd', overflow: TextOverflow.ellipsis, ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: Center(child: Text('분석되지 않았습니다', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400))),
+            ),
           ),
         ],
       ),

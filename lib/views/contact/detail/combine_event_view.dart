@@ -25,7 +25,7 @@ class _CombineEventViewState extends State<CombineEventView> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(8.0),
                   onTap: () {
-                    showDialog(context: context, builder: (context) => AlertDialog(icon: Container(color: Colors.white)));
+                    // showDialog(context: context, builder: (context) => AlertDialog(icon: Container(color: Colors.white)));
                   },
                   child: Row(
                     children: [
@@ -45,7 +45,34 @@ class _CombineEventViewState extends State<CombineEventView> {
               borderRadius: BorderRadius.circular(8.0),
               color: StaticColor.grey100F6,
             ),
-            child: Text('dd', overflow: TextOverflow.ellipsis, ),
+            child: EmptyEvent(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EmptyEvent extends StatefulWidget {
+  const EmptyEvent({super.key});
+
+  @override
+  State<EmptyEvent> createState() => _EmptyEventState();
+}
+
+class _EmptyEventState extends State<EmptyEvent> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      child: Column(
+        children: [
+          Text('아직 친구와 함께 하는 이벤트가 없어요', style: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+          const SizedBox(height: 16.0),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(elevation: 0.0),
+            onPressed: () {},
+            child: const Text('이벤트 추가하기', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500)),
           ),
         ],
       ),
