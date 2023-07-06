@@ -195,8 +195,10 @@ class ContactRequest {
       phone: phone,
       birthday: birthday,
       gender: gender,
-      profileImage: profileImage, /// multi partform으로 변환
+      profileImage: profileImage, /// base 64 string focused
     ).updateJson();
+
+
 
     final response = await http.patch(
       Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),

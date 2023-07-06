@@ -13,7 +13,8 @@ class _ReportFinishState extends State<ReportFinish> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      insetPadding: EdgeInsets.all(10),
+      backgroundColor: Colors.white,
+      insetPadding: const EdgeInsets.all(10.0),
       contentPadding: EdgeInsets.zero,
       // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
       shape: RoundedRectangleBorder(

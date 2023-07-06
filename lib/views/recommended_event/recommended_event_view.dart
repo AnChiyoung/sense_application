@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
+import 'package:sense_flutter_application/models/event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/price_select_screen.dart';

@@ -150,9 +150,9 @@ class _ContactInfoBasicState extends State<ContactInfoBasic> {
               hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
               border: InputBorder.none,
               errorText: null,
+              counterText: '',
             ),
-            onTap: () async {
-            },
+            onTap: () {},
             onChanged: (value) {
               context.read<ContactProvider>().updateNameData(value);
             },
@@ -178,8 +178,9 @@ class _ContactInfoBasicState extends State<ContactInfoBasic> {
               hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
               border: InputBorder.none,
               errorText: null,
+              counterText: '',
             ),
-            onTap: () async {
+            onTap: () {
             },
             onChanged: (value) {
               context.read<ContactProvider>().updatePhoneData(value);
@@ -207,6 +208,7 @@ class _ContactInfoBasicState extends State<ContactInfoBasic> {
                 hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
                 errorText: null,
+                counterText: '',
               ),
               onTap: () {
                 showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) {

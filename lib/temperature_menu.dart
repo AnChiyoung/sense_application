@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
+import 'package:sense_flutter_application/screens/event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 
 class TemperatureMenu extends StatefulWidget {

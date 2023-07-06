@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/add_event/share_event_screen.dart';
+import 'package:sense_flutter_application/screens/event/share_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 
 class ContactListHeader extends StatefulWidget {
@@ -95,12 +94,12 @@ class _ContactListState extends State<ContactList> with TickerProviderStateMixin
   List<String> tabCategory = ['전체(0)', '친구(0)', '가족(0)', '연인(0)', '직장(0)'];
 
   // List<ContactModel>? contactModel;
-  ContactModel? contactModel;
+  // ContactModel? contactModel;
 
   @override
   void initState() {
-    contactTabController = TabController(length: 5, vsync: this);
-    contactModel = ContactModel.fromJson(contactDummyModel);
+    // contactTabController = TabController(length: 5, vsync: this);
+    // contactModel = ContactModel.fromJson(contactDummyModel);
     // contactModel = contactDummyModel.map((e) {
     //   int index = contactDummyModel.indexOf(e);
     //

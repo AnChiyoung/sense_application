@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sense_flutter_application/models/add_event/add_event_model.dart';
+import 'package:sense_flutter_application/models/event/add_event_model.dart';
 import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
 
 class RecommendedEventProvider with ChangeNotifier {

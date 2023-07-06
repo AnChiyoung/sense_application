@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
-import 'package:sense_flutter_application/screens/add_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
 import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
+import 'package:sense_flutter_application/screens/event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
 
@@ -141,16 +141,16 @@ class _BottomMenuState extends State<BottomMenu> {
                     child: InkWell(
                         borderRadius: BorderRadius.circular(30.0),
                         onTap: () {
-                          // widget.selectCallback(3);
-                          // pageIndex = 3;
-                          showDialog(
-                              context: context,
-                              //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return const ServiceGuideDialog();
-                              }
-                          );
+                          widget.selectCallback(3);
+                          pageIndex = 3;
+                          // showDialog(
+                          //     context: context,
+                          //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          //     barrierDismissible: false,
+                          //     builder: (BuildContext context) {
+                          //       return const ServiceGuideDialog();
+                          //     }
+                          // );
                         },
                         child: bottomNavigationBarItem('assets/home/calendar.png', 24.0, '캘린더', 3))),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_body_view.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
@@ -65,7 +66,7 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                 child: Row(
                   children: [
                     Consumer<CalendarProvider>(
-                        builder: (context, data, child) => Text('${data.selectMonth}월', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600))),
+                        builder: (context, data, child) => Text('${data.selectMonth}월', style: TextStyle(fontSize: 20, color: StaticColor.grey70055, fontWeight: FontWeight.w600))),
                     // const SizedBox(width: 8),
                     // Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
                   ],
