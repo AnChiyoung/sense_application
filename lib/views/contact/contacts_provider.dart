@@ -133,6 +133,11 @@ class ContactProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void xfileStateClear() {
+    _selectImage = null;
+    notifyListeners();
+  }
+
   void xfileStateInit() {
     _selectImage = null;
     /// non notify!!

@@ -32,6 +32,7 @@ class _ContactInfoHeaderState extends State<ContactInfoHeader> {
 
   void backCallback() {
     context.read<ContactProvider>().contactModelInit();
+    context.read<ContactProvider>().xfileStateClear();
     Navigator.of(context).pop();
   }
 }
