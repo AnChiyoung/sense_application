@@ -76,6 +76,8 @@ class _CalendarBodyState extends State<CalendarBody> {
       //     }
       // );
 
+      context.read<CalendarProvider>().dayChange(_selectedDay!.day);
+
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;

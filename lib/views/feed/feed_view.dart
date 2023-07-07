@@ -345,7 +345,7 @@ class _FeedPostListState extends State<FeedPostList> {
                 return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
               } else if(snapshot.hasData) {
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return Center(child: Lottie.asset('assets/lottie/test.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   /// 데이터 뿌리자

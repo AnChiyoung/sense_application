@@ -5,8 +5,16 @@ class CalendarProvider with ChangeNotifier {
   int _selectMonth = DateTime.now().month;
   int get selectMonth => _selectMonth;
 
+  int _selectDay = DateTime.now().day;
+  int get selectDay => _selectDay;
+
   void monthChange(int month) {
     _selectMonth = month;
+    notifyListeners();
+  }
+
+  void dayChange(int day) {
+    _selectDay = day;
     notifyListeners();
   }
 }
