@@ -46,13 +46,48 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         onEnd: () {
           dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month);
         },
+        /// bottom sheet screen area
         child: Column(
           children: [
             EventHeader(),
+            EventHeaderMenu(),
+            const SizedBox(height: 24.0),
             EventList(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget EventHeaderMenu() {
+    return Consumer<CalendarProvider>(
+      builder: (context, data, child) {
+        
+        String selectMonth = data.selectMonth.toString();
+        
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.black90015, fontWeight: FontWeight.w700)),
+              Material(
+                color: Colors.transparent,
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(25.0),
+                    onTap: () {
+                    },
+                    child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
+                  ),
+                ),
+              ),
+            ]
+          ),
+        );
+      }
     );
   }
 
@@ -61,7 +96,8 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
       padding: const EdgeInsets.only(top: 10, bottom: 26),
       child: SizedBox(
         width: double.infinity,
-        child: Image.asset('assets/calendar/event_header_bar.png', width: 81, height: 4))
+        // child: Image.asset('assets/calendar/event_header_bar.png', width: 81, height: 4),
+      ),
     );
   }
 }
