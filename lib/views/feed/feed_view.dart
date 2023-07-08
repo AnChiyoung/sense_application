@@ -7,6 +7,8 @@ import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
+import 'package:sense_flutter_application/screens/event/add_event_screen.dart';
+import 'package:sense_flutter_application/screens/event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
@@ -404,18 +406,19 @@ class _FeedPostListState extends State<FeedPostList> {
               // }
             },
           ),
-          /// add event button
+          /// create event button
           IconButton(
             icon: Image.asset('assets/home/add_event_button.png', width: 56, height: 56),
             iconSize: 56,
             onPressed: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => AddEventScreen()));
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return const ServiceGuideDialog();
-                  });
+              Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+              // showDialog(
+              //   context: context,
+              //   barrierDismissible: false,
+              //   builder: (BuildContext context) {
+              //     return const ServiceGuideDialog();
+              //   }
+              // );
             },
           ),
         ],
