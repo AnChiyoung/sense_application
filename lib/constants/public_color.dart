@@ -16,12 +16,20 @@ class StaticColor {
   static Color grey400BB = const Color(0xFFBBBBBB);
   static Color grey60077 = const Color(0xFF777777);
   static Color grey200EE = const Color(0xFFEEEEEE);
+  static Color grey50099 = const Color(0xFF999999);
   static Color grey2 = const Color(0xFFD6D6D6);
   static Color snackbarColor = const Color(0xFF009A63);
   static Color dividerColor = const Color(0xFFD9D9D9);
 
   static Color bottomSheetExternalLineColor = const Color(0xFFD2DAE8);
   static Color bottomButtonColor = const Color(0xFF2288FF);
+
+  static Color eventBoxColor = const Color(0xFFF6F6F6);
+  static Color birthdayLabelColor = const Color(0xFFFFB45B);
+  static Color dateLabelColor = const Color(0xFFFF7B8B);
+  static Color travelLabelColor = const Color(0xFF000000);
+  static Color meetLabelColor = const Color(0xFF91C300);
+  static Color businessLabelColor = const Color(0xFF6E79DD);
 
 
   //////

@@ -53,8 +53,10 @@ class EventModel {
   String? recommendStatus;
   String? eventTitle;
   EventHost? eventHost;
-  List<String>? eventUsers; /// 추후 user id : pk로 변경
-  List<int>? address; /// 현재는 이벤트 리스폰스에 존재하지 않음. 추후 생성 by andy
+  List<int>? eventUsers; /// 추후 user id : pk로 변경
+  City? city;
+  SubCity? subCity;
+  EventCategory? eventCategory;
   int? maxCost;
   String? eventDate;
   int? visitCount;
@@ -67,7 +69,9 @@ class EventModel {
     this.eventTitle,
     this.eventHost,
     this.eventUsers,
-    this.address,
+    this.city,
+    this.subCity,
+    this.eventCategory,
     this.maxCost,
     this.eventDate,
     this.visitCount,
@@ -80,8 +84,13 @@ class EventModel {
     recommendStatus = json['recommend_status'] ?? '진행전';
     eventTitle = json['title'] ?? '';
     eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
-    // eventUsers
-    // address
+    json['event_users'] == [] || json['event_users'] == null ? eventUsers = []
+        : json['event_users'].forEach((v) {
+      eventUsers!.add(v);
+    });
+    city = json['city'] != null ? City.fromJson(json['city']) : null;
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
+    eventCategory = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
     // maxCost
     eventDate = json['date'] ?? '';
     // visitCount
@@ -110,5 +119,50 @@ class EventHost {
     email = json['email'] ?? '';
     username = json['username'] ?? '';
     profileImage = json['profile_image_url'] ?? '';
+  }
+}
+
+class EventCategory {
+  int? id;
+  String? title;
+
+  EventCategory({
+    this.id,
+    this.title,
+  });
+
+  EventCategory.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
+  }
+}
+
+class City {
+  int? id;
+  String? title;
+
+  City({
+    this.id,
+    this.title,
+  });
+
+  City.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
+  }
+}
+
+class SubCity {
+  int? id;
+  String? title;
+
+  SubCity({
+    this.id,
+    this.title,
+  });
+
+  SubCity.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
   }
 }
