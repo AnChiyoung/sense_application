@@ -51,8 +51,9 @@ class _CalendarBodyState extends State<CalendarBody> {
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
-    // return kEvents[day] ?? [];
-    return [];
+    return kEvents[day] ?? [];
+    // return kEvents[DateTime.utc(2023, 7, 4)]!;
+    // return [Event('aa'), Event('bb')];
   }
 
   // List<Event> _getEventsForRange(DateTime start, DateTime end) {
@@ -79,6 +80,7 @@ class _CalendarBodyState extends State<CalendarBody> {
       context.read<CalendarProvider>().dayChange(_selectedDay!.day);
 
       setState(() {
+
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
         // _rangeStart = null; // Important to clean those

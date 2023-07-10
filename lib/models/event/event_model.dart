@@ -36,8 +36,11 @@ class EventRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('이벤트 불러오기 성공');
+
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      print(body);
       List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromJson(e)).toList();
+
       // CommentResponseModel model = CommentResponseModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
       return models;
     } else {
@@ -49,11 +52,11 @@ class EventRequest {
 
 class EventModel {
   int? id;
-  String? status;
-  String? recommendStatus;
+  // String? status;
+  // String? recommendStatus;
   String? eventTitle;
   EventHost? eventHost;
-  List<int>? eventUsers; /// 추후 user id : pk로 변경
+  List<EventUser>? eventUser; /// 추후 user id : pk로 변경
   City? city;
   SubCity? subCity;
   EventCategory? eventCategory;
@@ -64,11 +67,11 @@ class EventModel {
 
   EventModel({
     this.id,
-    this.status,
-    this.recommendStatus,
+    // this.status,
+    // this.recommendStatus,
     this.eventTitle,
     this.eventHost,
-    this.eventUsers,
+    this.eventUser,
     this.city,
     this.subCity,
     this.eventCategory,
@@ -80,14 +83,15 @@ class EventModel {
 
   EventModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
-    status = json['status'] ?? '진행전';
-    recommendStatus = json['recommend_status'] ?? '진행전';
+    // status = json['status'] ?? '진행전';
+    // recommendStatus = json['recommend_status'] ?? '진행전';
     eventTitle = json['title'] ?? '';
     eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
-    json['event_users'] == [] || json['event_users'] == null ? eventUsers = []
-        : json['event_users'].forEach((v) {
-      eventUsers!.add(v);
-    });
+    /// 여기가 문제
+    // json['event_users'] == [] || json['event_users'] == null ? eventUser = []
+    //     : json['event_users'].forEach((v) {
+    //   eventUser!.add(EventUser.fromJson(v));
+    // });
     city = json['city'] != null ? City.fromJson(json['city']) : null;
     subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
     eventCategory = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
@@ -164,5 +168,44 @@ class SubCity {
   SubCity.fromJson(dynamic json) {
     id = json['id'] ?? -1;
     title = json['title'] ?? '';
+  }
+}
+
+class EventUser {
+  int? id;
+  UserData? userData;
+
+  EventUser({
+    this.id,
+    this.userData,
+  });
+
+  EventUser.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    userData = json['user_data'] != null ? UserData.fromJson(json['user_data']) : null;
+  }
+}
+
+class UserData {
+  int? id;
+  String? name;
+  String? email;
+  String? username;
+  String? profileImage;
+
+  UserData({
+    this.id,
+    this.name,
+    this.email,
+    this.username,
+    this.profileImage,
+  });
+
+  UserData.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    name = json['name'] ?? '';
+    email = json['email'] ?? '';
+    username = json['username'] ?? '';
+    profileImage = json['profile_image_url'] ?? '';
   }
 }

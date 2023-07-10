@@ -61,7 +61,7 @@ class _EventListState extends State<EventList> {
 
                   if(snapshot.data!.isEmpty) {
                     print('없는곳');
-                    return Center(child: Text('이벤트가 없습니다', style: TextStyle(color: Colors.black)));
+                    return const Center(child: Text('이벤트가 없습니다', style: TextStyle(color: Colors.black)));
                   } else {
                     print('있는곳');
                     /// month total data variable
@@ -115,6 +115,7 @@ class _EventListState extends State<EventList> {
                       print('why?? : $monthEventMap');
                     }
 
+                    // return Container(height: 30, width: 30, color: Colors.red);
                     return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
@@ -157,6 +158,7 @@ class _EventListState extends State<EventList> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25.0),
                       onTap: () {
+                        showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [EventListSettingBottomSheet()]);});
                       },
                       child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
                     ),
@@ -253,6 +255,13 @@ class DayEventList extends StatefulWidget {
 }
 
 class _DayEventListState extends State<DayEventList> {
+
+  // @override
+  // void initState() {
+  //   context.read
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -362,7 +371,10 @@ class _DayEventsListState extends State<DayEventsList> {
         // return Container();
         return Column(
           children: [
-            EventRow(model: model.elementAt(index)),
+            GestureDetector(
+                onTap: () {
+                  widget.controller.jumpTo(100);
+                },child: EventRow(model: model.elementAt(index))),
             const Divider(height: 12.0, color: Colors.transparent),
           ],
         );
@@ -428,6 +440,132 @@ class _EventRowState extends State<EventRow> {
               Text('${model.city!.title!} ${model.subCity!.title!}', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
               /// 시간 없음. 백 수정
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EventListSettingBottomSheet extends StatefulWidget {
+  const EventListSettingBottomSheet({super.key});
+
+  @override
+  State<EventListSettingBottomSheet> createState() => _EventListSettingBottomSheetState();
+}
+
+class _EventListSettingBottomSheetState extends State<EventListSettingBottomSheet> {
+
+  bool check01 = false, check02 = false, check03 = false, check04 = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
+      ),
+      child: Column(
+        children: [
+          /// title section
+          Padding(
+            padding: const EdgeInsets.only(left: 24, right: 26, top: 24, bottom: 32),
+            child: Text('대상', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 64),
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      check01 = !check01;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                    decoration: BoxDecoration(
+                      color: StaticColor.grey100F6,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Row(
+                      children: [
+                        check01 == true ? Image.asset('assets/signin/policy_check_done.png', width: 20, height: 20) : Image.asset('assets/signin/policy_check_empty.png', width: 20, height: 20),
+                        const SizedBox(width: 8.0),
+                        Text('친구', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                      ]
+                    )
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      check02 = !check02;
+                    });
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                      decoration: BoxDecoration(
+                        color: StaticColor.grey100F6,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Row(
+                          children: [
+                            check02 == true ? Image.asset('assets/signin/policy_check_done.png', width: 20, height: 20) : Image.asset('assets/signin/policy_check_empty.png', width: 20, height: 20),
+                            const SizedBox(width: 8.0),
+                            Text('가족', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                          ]
+                      )
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      check03 = !check03;
+                    });
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                      decoration: BoxDecoration(
+                        color: StaticColor.grey100F6,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Row(
+                          children: [
+                            check03 == true ? Image.asset('assets/signin/policy_check_done.png', width: 20, height: 20) : Image.asset('assets/signin/policy_check_empty.png', width: 20, height: 20),
+                            const SizedBox(width: 8.0),
+                            Text('연인', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                          ]
+                      )
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      check04 = !check04;
+                    });
+                  },
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                      decoration: BoxDecoration(
+                        color: StaticColor.grey100F6,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Row(
+                          children: [
+                            check04 == true ? Image.asset('assets/signin/policy_check_done.png', width: 20, height: 20) : Image.asset('assets/signin/policy_check_empty.png', width: 20, height: 20),
+                            const SizedBox(width: 8.0),
+                            Text('직장', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                          ]
+                      )
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -17,6 +17,13 @@ class CalendarProvider with ChangeNotifier {
     _selectDay = day;
     notifyListeners();
   }
+
+  ScrollController _monthListController = ScrollController();
+  ScrollController get monthListController => _monthListController;
+
+  void controllerSet(ScrollController state) {
+    _monthListController = state;
+  }
 }
 
 class CalendarBodyProvider with ChangeNotifier {
