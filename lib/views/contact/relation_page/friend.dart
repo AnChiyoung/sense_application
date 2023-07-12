@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
+import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/screens/contact/contact_detail_screen.dart';
 
 class FriendView extends StatefulWidget {
@@ -66,10 +67,9 @@ class _FriendListState extends State<FriendList> {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
+                // context.read<ContactProvider>().contactModelLoad(widget.callContact.elementAt(index).id!);
                 Navigator.push(context, MaterialPageRoute(builder: (_) =>
                     ContactDetailScreen(contactModel: widget.contactListModel.elementAt(index))));
-
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -81,7 +81,9 @@ class _FriendListState extends State<FriendList> {
                   color: Colors.transparent,
                   child: Row(
                     children: [
-                      Image.asset('assets/contact/empty_profile.png', width: 40, height: 40),
+                      widget.contactListModel.elementAt(index).profileImage! == ''
+                          ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
+                          : UserProfileImage(profileImageUrl: widget.contactListModel.elementAt(index).profileImage!),
                       const SizedBox(width: 8),
                       Text(widget.contactListModel.elementAt(index).name!,
                           style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),

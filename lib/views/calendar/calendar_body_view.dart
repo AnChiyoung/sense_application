@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
@@ -41,6 +42,22 @@ class _CalendarBodyState extends State<CalendarBody> {
     });
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   showModalBottomSheet(
+    //       isScrollControlled: true,
+    //       useSafeArea: true,
+    //       enableDrag: true,
+    //       backgroundColor: Colors.transparent,
+    //       context: context,
+    //       builder: (context) {
+    //         // return Container(height: 500, color: Colors.red,
+    //         // child: Expanded(child: Container(color: Colors.white)));
+    //         // return CommentView(postId: feedModel!.id);
+    //         return ScheduleBottomSheet();
+    //       }
+    //   );
+    // });
   }
 
   @override
@@ -112,7 +129,6 @@ class _CalendarBodyState extends State<CalendarBody> {
       children: [
         Consumer<CalendarBodyProvider>(
           builder: (context, data, child) {
-            print('여기 들어옴!');
             return TableCalendar<Event>(
                 locale: 'ko_KR',
                 calendarFormat: data.calendarFormat,

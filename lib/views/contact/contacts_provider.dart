@@ -50,6 +50,14 @@ class ContactProvider with ChangeNotifier {
   String _base64String = '';
   String get base64String => _base64String;
 
+  String _searchText = '';
+  String get searchText => _searchText;
+
+  void searchTextChange(String state) {
+    _searchText = state;
+    notifyListeners();
+  }
+
   void isCallContact(List<ContactModel> state) {
     _callContact = state;
     notifyListeners();

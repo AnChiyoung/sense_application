@@ -198,7 +198,8 @@ class ContactRequest {
       profileImage: profileImage, /// base 64 string focused
     ).updateJson();
 
-
+    print(jsonEncode(updateRequestBody));
+    print('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}');
 
     final response = await http.patch(
       Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
@@ -264,9 +265,8 @@ class ContactModel {
 
   ContactModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
-    // owner = json['owner'] ?? -1;
-    partnerId = json['partner_id'] ?? -1;
-    // contactCategory = json['contact_category'] ?? '';
+    owner = json['owner'] ?? -1;
+    partnerId = json['partner'] ?? -1;
     contactCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
     name = json['name'] ?? '';
     phone = json['phone'] ?? '';

@@ -52,53 +52,42 @@ class EventRequest {
 
 class EventModel {
   int? id;
-  // String? status;
-  // String? recommendStatus;
   String? eventTitle;
   EventHost? eventHost;
-  List<EventUser>? eventUser; /// 추후 user id : pk로 변경
+  String? eventDate;
   City? city;
   SubCity? subCity;
   EventCategory? eventCategory;
-  int? maxCost;
-  String? eventDate;
-  int? visitCount;
   String? created;
+  List<EventUser>? eventUser = [];
 
   EventModel({
     this.id,
-    // this.status,
-    // this.recommendStatus,
     this.eventTitle,
     this.eventHost,
-    this.eventUser,
+    this.eventDate,
     this.city,
     this.subCity,
     this.eventCategory,
-    this.maxCost,
-    this.eventDate,
-    this.visitCount,
     this.created,
+    this.eventUser,
   });
 
   EventModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
-    // status = json['status'] ?? '진행전';
-    // recommendStatus = json['recommend_status'] ?? '진행전';
     eventTitle = json['title'] ?? '';
     eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
-    /// 여기가 문제
-    // json['event_users'] == [] || json['event_users'] == null ? eventUser = []
-    //     : json['event_users'].forEach((v) {
-    //   eventUser!.add(EventUser.fromJson(v));
-    // });
+    eventDate = json['date'] ?? '';
     city = json['city'] != null ? City.fromJson(json['city']) : null;
     subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
     eventCategory = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
-    // maxCost
-    eventDate = json['date'] ?? '';
-    // visitCount
     created = json['created'] ?? '';
+    json['event_users'] == [] || json['event_users'] == null
+        ? eventUser = []
+        : json['event_users'].forEach((v) {
+          eventUser!.add(EventUser.fromJson(v));
+        }
+    );
   }
 }
 
@@ -209,3 +198,4 @@ class UserData {
     profileImage = json['profile_image_url'] ?? '';
   }
 }
+

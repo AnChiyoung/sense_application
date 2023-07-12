@@ -24,6 +24,14 @@ class CalendarProvider with ChangeNotifier {
   void controllerSet(ScrollController state) {
     _monthListController = state;
   }
+
+  bool _dragDirection = false;
+  bool get dragDirection => _dragDirection;
+
+  void dragDirectionChange(bool state) {
+    _dragDirection = state;
+    notifyListeners();
+  }
 }
 
 class CalendarBodyProvider with ChangeNotifier {

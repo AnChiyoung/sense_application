@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
+import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/screens/contact/contact_detail_screen.dart';
 import 'package:sense_flutter_application/views/contact/contact_call_field.dart';
 import 'package:sense_flutter_application/views/contact/contact_list_field.dart';
@@ -108,26 +109,131 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
     return Column(
       children: [
         /// tabbar
-        Padding(
-          padding: const EdgeInsets.only(top: 4.0, left: 20.0, right: 20.0),
-          child: DefaultTabController(
-            initialIndex: 1,
-            length: 5,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                  child: TabBar(
-                    controller: contactTabController,
-                    tabs: tabs,
-                    isScrollable: false,
-                    indicatorWeight: 3.0,
-                    indicatorColor: StaticColor.tabbarIndicatorColor,
-                  ),
+        Consumer<ContactProvider>(
+          builder: (context, data, child) {
+            return Padding(
+              padding: const EdgeInsets.only(top: 4.0, left: 20.0, right: 20.0),
+              child: DefaultTabController(
+                initialIndex: 1,
+                length: 5,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: TabBar(
+                        controller: contactTabController,
+                        // tabs: tabs,
+                        tabs: [
+                          Tab(
+                            icon: Row(
+                              children: [
+                                /// 연락처 섹션 이름
+                                Text(
+                                  '전체',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                                /// 연락처 섹션 별 카운트
+                                Expanded(
+                                  child: Text(
+                                    // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                    '(10)',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Tab(
+                            icon: Row(
+                              children: [
+                                /// 연락처 섹션 이름
+                                Text(
+                                  '친구',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                                /// 연락처 섹션 별 카운트
+                                Expanded(
+                                  child: Text(
+                                    // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                    '(10)',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Tab(
+                            icon: Row(
+                              children: [
+                                /// 연락처 섹션 이름
+                                Text(
+                                  '가족',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                                /// 연락처 섹션 별 카운트
+                                Text(
+                                  // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                  '(1)',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Tab(
+                            icon: Row(
+                              children: [
+                                /// 연락처 섹션 이름
+                                Text(
+                                  '연인',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                                /// 연락처 섹션 별 카운트
+                                Text(
+                                  // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                  '(0)',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Tab(
+                            icon: Row(
+                              children: [
+                                /// 연락처 섹션 이름
+                                Text(
+                                  '직장',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                                /// 연락처 섹션 별 카운트
+                                Text(
+                                  // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                  '(2)',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                        isScrollable: false,
+                        indicatorWeight: 3.0,
+                        indicatorColor: StaticColor.tabbarIndicatorColor,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }
         ),
 
         /// tabbar view
@@ -248,8 +354,106 @@ class SearchResultField extends StatefulWidget {
 }
 
 class _SearchResultFieldState extends State<SearchResultField> {
+
+  late Future onceRunFuture;
+  List<ContactModel> searchResultList = [];
+
+  @override
+  void initState() {
+    onceRunFuture = _fetchData();
+    super.initState();
+  }
+
+  Future<ContactTabModel> _fetchData() async {
+    ContactTabModel result = await ContactRequest().contactListRequest();
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Consumer<ContactProvider>(
+      builder: (context, data, child) {
+
+        searchResultList.clear();
+        String searchText = data.searchText;
+
+        return Expanded(
+          child: FutureBuilder(
+              future: onceRunFuture,
+              builder: (context, snapshot) {
+                if(snapshot.hasError) {
+                  return Text('fetching error..');
+                } else if(snapshot.hasData) {
+
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  } else if(snapshot.connectionState == ConnectionState.done) {
+
+                    /// fetching data
+                    List<ContactModel> model = snapshot.data.contactModelList;
+                    int modelCount = snapshot.data.count;
+
+
+
+                    /// search result : intenal listview
+                    /// 대소문자 구분? 구분x?
+                    for(int i = 0; i < model.length; i++) {
+                      /// 소문자 조져보자.
+                      if(model.elementAt(i).name!.toLowerCase().contains(searchText.toLowerCase())) {
+                        searchResultList.add(model.elementAt(i));
+                      }
+                    }
+
+                    print('---');
+                    print(searchText);
+                    print(searchResultList);
+                    print('---');
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+                      child: ListView.builder(
+                        itemCount: searchResultList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              // context.read<ContactProvider>().contactModelLoad(widget.callContact.elementAt(index).id!);
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => ContactDetailScreen(contactModel: searchResultList.elementAt(index))));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+
+                              /// gesture detector press용 color bug 해소를 위한 container
+                              child: Container(
+                                width: double.infinity,
+                                height: 50,
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    searchResultList.elementAt(index).profileImage! == ''
+                                        ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
+                                        : UserProfileImage(profileImageUrl: searchResultList.elementAt(index).profileImage!),
+                                    const SizedBox(width: 8),
+                                    Text(searchResultList.elementAt(index).name!,
+                                        style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      ),
+                    );
+
+                  } else {
+                    return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  }
+                } else {
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                }
+              }
+          ),
+        );
+      }
+    );
   }
 }

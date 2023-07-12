@@ -119,6 +119,7 @@ class _ContactInfoBasicState extends State<ContactInfoBasic> {
     context.read<ContactProvider>().updateNameData(widget.contactModel.name!);
     context.read<ContactProvider>().updatePhoneData(widget.contactModel.phone!);
     context.read<ContactProvider>().updateBirthdayData(widget.contactModel.birthday!);
+    context.read<ContactProvider>().updateImageData('');
 
     super.initState();
   }
@@ -578,7 +579,7 @@ class CustomSnackbar extends SnackBar {
             Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
             const SizedBox(width: 8),
             Expanded(
-              child: Text('연락처가 변경되었습니다',
+              child: Text(message,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),

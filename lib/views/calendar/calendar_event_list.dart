@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/calendar/calendar_home_model.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
+import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 
@@ -23,6 +25,7 @@ class _EventListState extends State<EventList> {
   Widget build(BuildContext context) {
     return Consumer<CalendarProvider>(
       builder: (context, data, child) {
+        print('event 조회 리빌드');
 
         int selectMonth = data.selectMonth;
         int selectDay = data.selectDay;
@@ -56,11 +59,11 @@ class _EventListState extends State<EventList> {
               } else if(snapshot.hasData) {
 
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return Container();
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   if(snapshot.data!.isEmpty) {
-                    print('없는곳');
                     return const Center(child: Text('이벤트가 없습니다', style: TextStyle(color: Colors.black)));
                   } else {
                     print('있는곳');
@@ -78,6 +81,11 @@ class _EventListState extends State<EventList> {
                       } else if(snapshot.data!.isNotEmpty) {
                         models = snapshot.data;
                       }
+                    }
+
+                    /// calendar event source insert
+                    for(int i = 0; i < models!.length; i++) {
+                      EventSource.eventSource[DateTime.parse(models.elementAt(i).eventDate.toString())] = [Event('event source!!')];
                     }
 
                     if(models != null) {
@@ -127,11 +135,14 @@ class _EventListState extends State<EventList> {
                         ));
                   }
                 } else {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return Container();
                 }
 
               } else {
-                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                // return const SizedBox.shrink();
+                return Container();
               }
             }
           )
@@ -365,6 +376,7 @@ class _DayEventsListState extends State<DayEventsList> {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       controller: widget.controller,
       itemCount: int.parse(eventCount),
       itemBuilder: (context, index) {
@@ -373,7 +385,7 @@ class _DayEventsListState extends State<DayEventsList> {
           children: [
             GestureDetector(
                 onTap: () {
-                  widget.controller.jumpTo(100);
+                  // widget.controller.jumpTo(100);
                 },child: EventRow(model: model.elementAt(index))),
             const Divider(height: 12.0, color: Colors.transparent),
           ],
@@ -434,6 +446,7 @@ class _EventRowState extends State<EventRow> {
               categoryWidget
             ]
           ),
+          const SizedBox(height: 2.0),
           /// location + time range
           Row(
             children: [
@@ -441,11 +454,111 @@ class _EventRowState extends State<EventRow> {
               /// 시간 없음. 백 수정
             ],
           ),
+          const SizedBox(height: 8.0),
+          /// with users
+          EventUsers(userModelList: model.eventUser!),
         ],
       ),
     );
   }
 }
+
+class EventUsers extends StatefulWidget {
+  List<EventUser> userModelList;
+  EventUsers({super.key, required this.userModelList});
+
+  @override
+  State<EventUsers> createState() => _EventUsersState();
+}
+
+class _EventUsersState extends State<EventUsers> {
+
+  late List<EventUser> userModelList;
+  Widget userProfiles = const SizedBox.shrink();
+
+  @override
+  void initState() {
+    userModelList = widget.userModelList;
+    makeEventUserWidgets(userModelList);
+    super.initState();
+  }
+
+  void makeEventUserWidgets(List<EventUser> model) {
+    List<Widget> profiles = [];
+    int nonViewUserCount = 0;
+
+    for(int i = 0; i < model.length; i++) {
+      if(i == 0) {
+        profiles.add(
+            Container(
+              width: 25.0, height: 25.0,
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: Colors.white),
+                shape: BoxShape.circle,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(300),
+                child: UserProfileImage(profileImageUrl: model.elementAt(i).userData!.profileImage),
+              ),
+            ),
+        );
+      } else if(i == 1) {
+        profiles.add(
+          Positioned(
+            left: 16.0,
+            child: Container(
+              width: 25.0, height: 25.0,
+              decoration: BoxDecoration(
+                border: Border.all(width: 1.0, color: Colors.white),
+                shape: BoxShape.circle,
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(300),
+                  child: UserProfileImage(profileImageUrl: model.elementAt(i).userData!.profileImage)
+              ),
+            ),
+          ),
+        );
+      } else {
+        nonViewUserCount++;
+      }
+
+      if(nonViewUserCount != 0) {
+        profiles.add(
+          Positioned(
+            left: 32.0,
+            child: Container(
+              width: 25.0, height: 25.0,
+              decoration: BoxDecoration(
+                border: Border.all(width: 1, color: Colors.white),
+                shape: BoxShape.circle,
+              ),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(300),
+                  child: Container(width: 24, height: 24, color: StaticColor.grey400BB,
+                  child: Center(child: Text('+${nonViewUserCount.toString()}', style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))))),
+            ),
+          ),
+        );
+      }
+
+      print(profiles);
+
+      userProfiles = Stack(
+        children: profiles
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: userProfiles,
+    );
+  }
+}
+
 
 class EventListSettingBottomSheet extends StatefulWidget {
   const EventListSettingBottomSheet({super.key});

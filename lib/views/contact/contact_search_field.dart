@@ -14,6 +14,7 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
 
   TextEditingController searchController = TextEditingController();
   FocusNode searchFieldFocusNode = FocusNode();
+  String inputSearchText = '';
 
   @override
   void initState() {
@@ -26,22 +27,51 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
       if(searchFieldFocusNode.hasFocus) {
         context.read<ContactProvider>().isSearchState(true);
       } else {
-        context.read<ContactProvider>().isSearchState(false);
+        // context.read<ContactProvider>().isSearchState(false);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final searchState = context.watch<ContactProvider>().searchState;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-      child: Stack(
-        alignment: Alignment.centerRight,
+      child: Row(
         children: [
-          contactSearchBox(),
-          Padding(padding: const EdgeInsets.only(right: 2), child: searchButton()),
-        ]
+          searchState == true ? backWidget() : const SizedBox.shrink(),
+          const SizedBox(width: 12.0),
+          Expanded(
+            child: Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                contactSearchBox(),
+                Padding(padding: const EdgeInsets.only(right: 2), child: searchButton()),
+              ]
+            ),
+          ),
+        ],
       )
+    );
+  }
+
+  Widget backWidget() {
+    return Material(
+      color: Colors.transparent,
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(25.0),
+          onTap: () {
+            searchFieldFocusNode.unfocus(); /// 중요. 검색화면에서 뒤로갔을 때 포커싱은 여전히 검색탭에 되어있어서, 연락처 상세화면 같은 다른 동작 후에 검색화면이 리턴된다.
+            context.read<ContactProvider>().isSearchState(false);
+          },
+          child: Center(child: Image.asset('assets/add_event/button_back.png', width: 24, height: 24)),
+        ),
+      ),
     );
   }
 
@@ -53,6 +83,7 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
       maxLines: 1,
       maxLength: 7,
       textAlignVertical: TextAlignVertical.center,
+      style: const TextStyle(color: Colors.black), /// input text color
       decoration: InputDecoration(
         isDense: false,
         filled: true,
@@ -73,6 +104,11 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
           ),
         ),
       ),
+      onChanged: (value) {
+        inputSearchText = value;
+        /// 검색어 변경
+        context.read<ContactProvider>().searchTextChange(value.toLowerCase());
+      },
     );
   }
 
@@ -85,11 +121,20 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            onTap: () {},
+            onTap: () {
+              if(inputSearchText == '') {
+              } else {
+                searchController.clear();
+                inputSearchText = '';
+                context.read<ContactProvider>().searchTextChange('');
+              }
+            },
             child: SizedBox(
                 width: 36,
                 height: 36,
-                child: Center(child: Image.asset('assets/contact/searchbox_delete_button.png', width: 24, height: 24, color: StaticColor.grey2))),
+                child: Center(child: inputSearchText == ''
+                    ? Image.asset('assets/feed/search_button.png', width: 24, height: 24, color: StaticColor.grey80033)
+                    : Image.asset('assets/contact/searchbox_delete_button.png', width: 24, height: 24, color: StaticColor.grey2))),
           )
         )
         : Material(
@@ -98,7 +143,9 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
               customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              onTap: () {},
+              onTap: () {
+                context.read<ContactProvider>().isSearchState(true);
+              },
               child: SizedBox(
                 width: 36,
                 height: 36,

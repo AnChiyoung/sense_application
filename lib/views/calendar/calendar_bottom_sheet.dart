@@ -23,31 +23,50 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         int sensitivity = 5;
-        setState(() {
-          if(details.delta.dy > sensitivity) {
-            print('down!!');
-            dragDirection = false;
-          } else if(details.delta.dy < -sensitivity) {
-            print('up!!');
-            dragDirection = true;
-          }
-        });
-
+        // setState(() {
+        //
+        // });
+        if(details.delta.dy > sensitivity) {
+          print('down!!');
+          dragDirection = false;
+        } else if(details.delta.dy < -sensitivity) {
+          print('up!!');
+          dragDirection = true;
+        }
+        context.read<CalendarProvider>().dragDirectionChange(dragDirection);
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.decelerate,
-        height: dragDirection ? (widget.bodyHeight! - 320.0) : 300,
-        decoration: BoxDecoration(
-          border: Border.all(color: StaticColor.bottomSheetExternalLineColor, width: 1),
-          /// bottom sheet ui header
-          // borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-          color: Colors.white,
-        ),
-        onEnd: () {
-          dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month);
+      // child: DraggableScrollableSheet(
+      //     expand: true,
+      //     initialChildSize: 0.4,
+      //     maxChildSize: 1.0,
+      //   minChildSize: 0.2,
+      //   builder: (context, controller) {
+      //     return Container(width: double.infinity, color: Colors.red);
+      //   }
+      // )
+      child: Consumer<CalendarProvider>(
+        builder: (context, data, child) {
+
+          bool dragState = data.dragDirection;
+
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            // curve: Curves.decelerate,
+            curve: Curves.fastOutSlowIn,
+            height: dragState ? (widget.bodyHeight! - 320.0) : 300,
+            decoration: BoxDecoration(
+              border: Border.all(color: StaticColor.bottomSheetExternalLineColor, width: 1),
+              /// bottom sheet ui header
+              // borderRadius: const BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+              color: Colors.white,
+            ),
+            onEnd: () {
+              dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month);
+            },
+            /// bottom sheet screen area
+            child: child,
+          );
         },
-        /// bottom sheet screen area
         child: Column(
           children: [
             /// event header + event header menu => event list area
@@ -55,7 +74,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
             EventList(),
           ],
         ),
-      ),
+      )
     );
   }
 }

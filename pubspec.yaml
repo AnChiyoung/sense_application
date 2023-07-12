@@ -67,6 +67,7 @@ dependencies:
   contacts_service: ^0.6.3
   fast_contacts: ^3.0.3
   url_launcher: ^6.1.11
+  flutter_screenutil: ^5.8.4
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  build_runner: ^2.4.6
+  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
