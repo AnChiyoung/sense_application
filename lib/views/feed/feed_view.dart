@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/event/add_event_screen.dart';
-import 'package:sense_flutter_application/screens/event/create_event_screen.dart';
+import 'package:sense_flutter_application/screens/event/event_improve/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';

@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -126,7 +127,7 @@ class _DateViewSectionState extends State<DateViewSection> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Image.asset('assets/add_event/date_view_icon.png', width: 24, height: 24),
+            Image.asset('assets/create_event/date_view_icon.png', width: 24, height: 24),
             const SizedBox(width: 8),
             Text(dayView,
                 style: TextStyle(
@@ -181,12 +182,13 @@ class _DateSelectSectionState extends State<DateSelectSection> {
           headerVisible: true,
           headerStyle: HeaderStyle(
             titleCentered: true,
+            titleTextStyle: TextStyle(color: Colors.black),
             headerPadding: const EdgeInsets.only(left: 20, right: 20),
             formatButtonVisible: false,
-            leftChevronIcon: ImageIcon(const AssetImage('assets/add_event/calendar_arrow_left.png'),
+            leftChevronIcon: ImageIcon(const AssetImage('assets/create_event/calendar_arrow_left.png'),
                 size: 24, color: StaticColor.calendarArrowColor), // image.asset can't build
             rightChevronIcon: ImageIcon(
-                const AssetImage('assets/add_event/calendar_arrow_right.png'),
+                const AssetImage('assets/create_event/calendar_arrow_right.png'),
                 size: 24,
                 color: StaticColor.calendarArrowColor),
           ),
@@ -203,6 +205,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
               color: StaticColor.selectDayColor,
               shape: BoxShape.circle,
             ),
+            defaultTextStyle: TextStyle(color: Colors.black),
           ),
           // calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
           //   return Center(
@@ -232,7 +235,8 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
     context.read<AddEventProvider>().dateSelectNextButton(true);
 
-    AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
+    // AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
+    context.read<CreateEventProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
   }
 }
 
