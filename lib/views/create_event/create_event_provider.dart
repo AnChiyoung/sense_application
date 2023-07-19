@@ -16,11 +16,25 @@ class CreateEventProvider with ChangeNotifier {
   String _date = '';
   String get date => _date;
 
-  String _city = '0';
+  /// 실제로 저장되어서 메인화면에 표시할 city number string
+  String _saveCity = '0';
+  String get saveCity => _saveCity;
+
+  /// bottom sheet에서 선택되고 있는 city number
+  String _city = '1';
   String get city => _city;
+
+  String _cityName = '서울';
+  String get cityName => _cityName;
 
   List<City> _cityList = [];
   List<City> get cityList => _cityList;
+
+  List<bool> _subCityList = [];
+  List<bool> get subCityList => _subCityList;
+
+  bool _regionTotalSelector = false;
+  bool get regionTotalSelector => _regionTotalSelector;
 
   // String _subCity = '';
   // String get subCity => _subCity;
@@ -48,14 +62,31 @@ class CreateEventProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void cityChange(String state) {
+  void cityChange(String state, String nameState) {
     _city = state;
+    _cityName = nameState;
     notifyListeners();
   }
 
   void cityListChange(List<City> state) {
     _cityList = state;
     // notifyListeners();
+  }
+
+  void subCityChange(List<bool> state) {
+    _subCityList = state;
+    // notifyListeners();
+    /// non notify!!!
+  }
+
+  void subCityElementChange(bool state, index) {
+    _subCityList[index] = state;
+    notifyListeners();
+  }
+
+  void regionTotalSelectorChange(bool state) {
+    _regionTotalSelector = state;
+    notifyListeners();
   }
 
   // void subCityChange(String state) {
@@ -123,7 +154,7 @@ class CreateEventProvider with ChangeNotifier {
     _category = -1;
     _target = -1;
     _date = '';
-    _city = '';
+    _city = '1';
     // _subCity = '';
     _memo = '';
     notifyListeners();

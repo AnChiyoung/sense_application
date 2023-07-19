@@ -207,6 +207,9 @@ class _DateSelectSectionState extends State<DateSelectSection> {
             ),
             defaultTextStyle: TextStyle(color: Colors.black),
           ),
+          calendarBuilders: CalendarBuilders(defaultBuilder: (context, dateTime, _) {
+            return CalendarCellBuilder(context, dateTime, _);
+          })
           // calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
           //   return Center(
           //       child: Text(days[day.weekday - 1],
@@ -219,24 +222,57 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     );
   }
 
+  Widget CalendarCellBuilder(BuildContext context, DateTime dateTime, _) {
+    /// non stuff
+
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    DateTime now = DateTime.parse(dateFormat.format(DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)));
+    DateTime selectDayConvert = DateTime.parse(dateFormat.format(dateTime));
+    bool compareResult = now.isAfter(selectDayConvert);
+
+    return Container(
+      padding: EdgeInsets.all(3),
+      child: Container(
+        padding: EdgeInsets.only(top: 3, bottom: 3),
+        // width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(dateTime.day.toString(), style: compareResult == true ? TextStyle(fontSize: 14, color: StaticColor.grey400BB) : const TextStyle(fontSize: 14, color: Colors.black),)),
+      ),
+    );
+  }
+
   void onDaySelected(DateTime selectDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectDay)) {
-      setState(() {
-        _selectedDay = selectDay;
-        _focusedDay = focusedDay;
-      });
-    }
-
-    selectedYear = selectDay.year;
-    selectedMonth = selectDay.month;
-    selectedDay = selectDay.day;
-    final DateTime selectedDate = DateTime.utc(selectedYear, selectedMonth, selectedDay);
     final DateFormat viewFormatter = DateFormat('yyyy-MM-dd');
-    context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
-    context.read<AddEventProvider>().dateSelectNextButton(true);
 
-    // AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
-    context.read<CreateEventProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
+    DateTime now = DateTime.parse(viewFormatter.format(DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)));
+    DateTime selectDayConvert = DateTime.parse(viewFormatter.format(selectDay));
+
+    /// sprint3 description => 과거일 때 이벤트 날짜 추가 행위 x
+    /// 과거일 때 => 아무동작 안함
+    if(now.isAfter(selectDayConvert) == true) {
+      /// nothing!!
+    } else {
+      if (!isSameDay(_selectedDay, selectDay)) {
+        setState(() {
+          _selectedDay = selectDay;
+          _focusedDay = focusedDay;
+        });
+      }
+
+      selectedYear = selectDay.year;
+      selectedMonth = selectDay.month;
+      selectedDay = selectDay.day;
+      final DateTime selectedDate = DateTime.utc(selectedYear, selectedMonth, selectedDay);
+      /// 위에 재정의 후 주석처리 2023.07.19.
+      // final DateFormat viewFormatter = DateFormat('yyyy-MM-dd');
+      context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
+      context.read<AddEventProvider>().dateSelectNextButton(true);
+
+      // AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
+      context.read<CreateEventProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
+    }
   }
 }
 

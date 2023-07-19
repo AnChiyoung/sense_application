@@ -370,7 +370,7 @@ class _CreateEventLocationViewState extends State<CreateEventLocationView> {
 
                     String regionText = '';
 
-                    if(data.city == '0') {
+                    if(data.saveCity == '0') {
                       regionText = '선택하기';
                     }
 
