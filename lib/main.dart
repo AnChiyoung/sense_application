@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
@@ -59,6 +60,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
           ChangeNotifierProvider(create: (_) => ContactProvider()),
           ChangeNotifierProvider(create: (_) => CreateEventProvider()),
+          ChangeNotifierProvider(create: (_) => EventInfoProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),

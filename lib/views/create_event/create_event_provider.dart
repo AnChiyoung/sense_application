@@ -157,6 +157,19 @@ class CreateEventProvider with ChangeNotifier {
     _city = '1';
     // _subCity = '';
     _memo = '';
+    _categoryState = [false, false, false, false, false];
+    _targetState = [false, false, false, false];
+    // _categoryState.map((e) => e = false);
+    // _targetState.map((e) => e = false);
+    notifyListeners();
+  }
+
+  /// event info
+  List<bool> _eventInfoTabState = [true, false];
+  List<bool> get eventInfoTabState => _eventInfoTabState;
+
+  void eventInfoTabStateChange(List<bool> state) {
+    _eventInfoTabState = state;
     notifyListeners();
   }
 }

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/event/share_event_screen.dart';
+import 'package:sense_flutter_application/screens/old_event/share_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 
 class ContactListHeader extends StatefulWidget {

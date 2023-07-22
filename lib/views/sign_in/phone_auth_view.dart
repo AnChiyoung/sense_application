@@ -39,7 +39,7 @@ class PhoneAuthDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
-        child: SigninDescription(description: '인증번호 4자리를\n입력해 주세요'));
+        child: ContentDescription(description: '인증번호 4자리를\n입력해 주세요'));
   }
 }
 

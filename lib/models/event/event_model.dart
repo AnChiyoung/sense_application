@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventRequest {
 
@@ -45,6 +48,64 @@ class EventRequest {
       return [];
     }
   }
+
+  Future<bool> eventCreateRequest(BuildContext context) async {
+
+    // Map<String, dynamic> createModel = EventModel(
+    //   eventTitle: context.read<CreateEventProvider>().title,
+    //   eventCategory: context.read<CreateEventProvider>().category,
+    //   contactCategory: context.read<CreateEventProvider>().target,
+    //   city: 1,
+    //   subCity: 1,
+    //   createDate: context.read<CreateEventProvider>().date,
+    //   description: context.read<CreateEventProvider>().memo,
+    //   createEventUsers: [14],
+    //   recommendCategory: [1],
+    // ).toJson();
+
+    Map<String, dynamic> testCreateModel = EventModel(
+      eventTitle: context.read<CreateEventProvider>().title,
+      eventCategory: null,
+      contactCategory: null,
+      city: null,
+      subCity: null,
+      createDate: null,
+      description: null,
+      createEventUsers: null,
+      recommendCategory: null,
+    ).toJson();
+
+    // print(context.read<CreateEventProvider>().title.runtimeType);
+    // print(context.read<CreateEventProvider>().category.runtimeType);
+    // print(context.read<CreateEventProvider>().target.runtimeType);
+    // print(context.read<CreateEventProvider>().date.runtimeType);
+    // print(context.read<CreateEventProvider>().memo.runtimeType);
+    //
+    // print('${ApiUrl.devUrl}event');
+    // print(createModel);
+
+    final response = await http.post(
+      Uri.parse('${ApiUrl.devUrl}event'),
+      body: jsonEncode(testCreateModel),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    );
+
+    print(response.statusCode);
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('이벤트 생성 성공');
+      // List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      // List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromJson(e)).toList();
+      // CommentResponseModel model = CommentResponseModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return true;
+    } else {
+      logger.v('이벤트 생성 실패');
+      return false;
+    }
+  }
 }
 
 class EventModel {
@@ -60,6 +121,16 @@ class EventModel {
   int? visitCount;
   String? created;
 
+  /// when request to server
+  int? eventCategory;
+  int? contactCategory;
+  int? city;
+  int? subCity;
+  String? createDate;
+  String? description;
+  List<int>? createEventUsers;
+  List<int>? recommendCategory;
+
   EventModel({
     this.id,
     this.status,
@@ -72,6 +143,16 @@ class EventModel {
     this.eventDate,
     this.visitCount,
     this.created,
+
+    /// when request to server
+    this.eventCategory,
+    this.contactCategory,
+    this.city,
+    this.subCity,
+    this.createDate,
+    this.description,
+    this.createEventUsers,
+    this.recommendCategory,
   });
 
   EventModel.fromJson(dynamic json) {
@@ -87,6 +168,18 @@ class EventModel {
     // visitCount
     created = json['created'] ?? '';
   }
+
+  Map<String, dynamic> toJson() => {
+    'title': eventTitle,
+    'event_category': eventCategory,
+    'contact_category': contactCategory,
+    'city': city,
+    'sub_city': subCity,
+    'date': createDate,
+    'description': description,
+    'event_users': createEventUsers,
+    'recommend_categories': recommendCategory,
+  };
 }
 
 class EventHost {

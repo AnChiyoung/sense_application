@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
-class SigninDescription extends StatefulWidget {
+class ContentDescription extends StatefulWidget {
   int? presentPage;
   int? totalPage;
   String? description;
 
-  SigninDescription({Key? key, this.presentPage, this.totalPage, this.description}) : super(key: key);
+  ContentDescription({Key? key, this.presentPage, this.totalPage, this.description}) : super(key: key);
 
   @override
-  State<SigninDescription> createState() => _SigninDescriptionState();
+  State<ContentDescription> createState() => _ContentDescriptionState();
 }
 
-class _SigninDescriptionState extends State<SigninDescription> {
+class _ContentDescriptionState extends State<ContentDescription> {
 
   @override
   void initState() {
@@ -30,7 +30,9 @@ class _SigninDescriptionState extends State<SigninDescription> {
           ],
         ),
         const SizedBox(height: 16),
-        Text(widget.description == null ? '' : widget.description.toString(), style: TextStyle(fontSize: 24, color: StaticColor.signinDescriptionColor, fontWeight: FontWeight.w700)),
+        Text(widget.description == null ? '' : widget.description.toString(),
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 24, color: StaticColor.signinDescriptionColor, fontWeight: FontWeight.w700)),
       ],
     );
   }

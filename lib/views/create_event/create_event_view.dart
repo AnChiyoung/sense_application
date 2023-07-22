@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/actions.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 /// header
@@ -164,11 +166,6 @@ class _CreateEventTitleViewState extends State<CreateEventTitleView> {
                           borderSide: BorderSide.none,
                         )
                     ),
-                    validator: (value) {
-
-                    },
-                    onFieldSubmitted: (f) {
-                    },
                     onChanged: (v) {
                       context.read<CreateEventProvider>().titleChange(v);
                     }
@@ -436,17 +433,14 @@ class _CreateEventMemoViewState extends State<CreateEventMemoView> {
                       alignLabelWithHint: false,
                       labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                       hintText: '이벤트에 대한 메모를 기록해보세요\n(최대 200자)',
-                      hintStyle: TextStyle(fontSize: 16.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                      hintStyle: TextStyle(fontSize: 14.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         borderSide: BorderSide.none,
                       )
                   ),
-                  validator: (value) {
-                  },
-                  onFieldSubmitted: (f) {
-                  },
                   onChanged: (v) {
+                    context.read<CreateEventProvider>().memoChange(v);
                   }
               ),
             ),
@@ -467,15 +461,41 @@ class CreateEventButton extends StatefulWidget {
 class _CreateEventButtonState extends State<CreateEventButton> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 76, color: StaticColor.bottomButtonColor,
-      child: const Padding(
-        padding: EdgeInsets.only(bottom: 18.0),
-        child: Align(
-          alignment: Alignment.center,
-          child: Text('완료', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)),
-        ),
+    return SizedBox(
+      width: double.infinity,
+      height: 70.h,
+      child: ElevatedButton(
+          onPressed: () async {
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
+            // if(buttonCallbackActiveState() == true) {
+            //   bool result = await EventRequest().eventCreateRequest(context);
+            //   if(result == true) {
+            //     /// navigator push => to event info
+            //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
+            //   } else {
+            //     print('model request check plz..');
+            //   }
+            // } else {
+            //   print('event create no actions');
+            // }
+          },
+          style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+          child: const Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
+              ]
+          )
       ),
     );
+  }
+
+  /// 제목만 입력되면 이벤트 생성 가능
+  bool buttonCallbackActiveState() {
+    return context.read<CreateEventProvider>().title != '';
+        // && context.read<CreateEventProvider>().category != -1
+        // && context.read<CreateEventProvider>().target != -1
+        // && context.read<CreateEventProvider>().date != '';
+        // && context.read<CreateEventProvider>().memo != ''
   }
 }

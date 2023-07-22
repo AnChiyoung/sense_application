@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/add_event/create_event_view.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_view.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class CreateEventScreen extends StatefulWidget {
