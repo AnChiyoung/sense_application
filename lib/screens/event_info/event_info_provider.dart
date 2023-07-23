@@ -16,6 +16,9 @@ class EventInfoProvider with ChangeNotifier {
 
   List<bool> _recommendCategory = [true, false, false, false, false, false];
   List<bool> get recommendCategory => _recommendCategory;
+  
+  List<int> _recommendCategoryNumber = [];
+  List<int> get recommendCategoryNumber => _recommendCategoryNumber;
 
   int _totalCost = 0;
   int get totalCost => _totalCost;
@@ -33,6 +36,23 @@ class EventInfoProvider with ChangeNotifier {
 
   void recommendCategoryValueChange(bool state, int index) {
     _recommendCategory[index] = state;
+    /// bool to number
+    _recommendCategory.asMap().forEach((index, value) {
+      if(value == true) {
+        if(_recommendCategoryNumber.contains(index + 1) == true) {
+        } else {
+          _recommendCategoryNumber.add(index + 1);
+        }
+      } else {
+        if(_recommendCategoryNumber.contains(index + 1) == true) {
+          _recommendCategoryNumber.remove(index + 1);
+        } else {
+        }
+      }
+    });
+    /// asc sort
+    _recommendCategoryNumber.sort((a, b) => a.compareTo(b));
+    print(_recommendCategoryNumber);
     notifyListeners();
   }
 
@@ -53,5 +73,17 @@ class EventInfoProvider with ChangeNotifier {
   void recommendMemoChange(String state) {
     _recommendMemo = state;
     notifyListeners();
+  }
+
+  /// recommend category 선택 후, 비용 리스트 생성
+  void recommendCostListInit() {
+    _recommendCategoryNumber.forEach((element) {
+      _costs.add(0);
+    });
+    /// non notify!!!
+  }
+
+  void recommendCostChange(int state, int index) {
+
   }
 }
