@@ -75,6 +75,13 @@ class EventInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void recommendStep02Init() {
+    _totalCost = 0;
+    _costs.clear();
+    _costBool.clear();
+    notifyListeners();
+  }
+
   void isSteppingStateChange(bool state) {
     _isStepping = state;
     notifyListeners();

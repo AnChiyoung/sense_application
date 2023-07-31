@@ -94,9 +94,11 @@ class _TotalCostState extends State<TotalCost> {
             var f = NumberFormat('###,###,###,###');
             String totalCostString = f.format(totalCost);
 
+            bool addSomeCost = data.costs.contains(-1);
+
             return Align(
               alignment: Alignment.centerLeft,
-              child: Text(totalCostString, style: TextStyle(fontSize: 20.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w700)));
+              child: Text(addSomeCost == true ? '$totalCostString + @' : totalCostString, style: TextStyle(fontSize: 20.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w700)));
           }
         )
       ],

@@ -62,7 +62,12 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
     if(isStepping == true) {
       if(stepNumber == 1) {
 
-      } else {
+      } else if(stepNumber == 2) {
+        context.read<EventInfoProvider>().eventRecommendStepChange(
+            context.read<EventInfoProvider>().eventRecommendStep - 1
+        );
+        context.read<EventInfoProvider>().recommendStep02Init();
+      } else if(stepNumber == 3) {
         context.read<EventInfoProvider>().eventRecommendStepChange(
             context.read<EventInfoProvider>().eventRecommendStep - 1
         );
