@@ -1,16 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
@@ -59,6 +59,8 @@ void main() async {
           ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
           ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
           ChangeNotifierProvider(create: (_) => ContactProvider()),
+          ChangeNotifierProvider(create: (_) => CreateEventProvider()),
+          ChangeNotifierProvider(create: (_) => EventInfoProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),
@@ -71,39 +73,44 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: Colors.white,
-      /// 현재 context를 가져오기 위한 global key state set
-      // navigatorKey: CandyGlobalVariable.naviagatorState,
-      /// 모든 기능 페이지에서 home으로 이동 시, route stack을 제거하기 위해 home만 router name을 사용
-      // initialRoute: '/',
-      // routes: {
-      //   '/': (context) => const HomeScreen(),
-      // },
-      /// picker localization
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ko', ''),
-        Locale('en', ''),
-      ],
-      debugShowCheckedModeBanner: false,
-      title: 'Sense flutter application',
-      theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      /* light theme settings */
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        /* dark theme settings */
-      ),
-      themeMode: ThemeMode.dark,
-      // theme: ThemeData(
-      //   primarySwatch: Colors.blue,
-      // ),
-      home: const NativeSplash(),
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (BuildContext context, Widget? child) {
+        return MaterialApp(
+          color: Colors.white,
+          /// 현재 context를 가져오기 위한 global key state set
+          // navigatorKey: CandyGlobalVariable.naviagatorState,
+          /// 모든 기능 페이지에서 home으로 이동 시, route stack을 제거하기 위해 home만 router name을 사용
+          // initialRoute: '/',
+          // routes: {
+          //   '/': (context) => const HomeScreen(),
+          // },
+          /// picker localization
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ko', ''),
+            Locale('en', ''),
+          ],
+          debugShowCheckedModeBanner: false,
+          title: 'Sense flutter application',
+          theme: ThemeData(
+            brightness: Brightness.light,
+          ),
+          /* light theme settings */
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            /* dark theme settings */
+          ),
+          themeMode: ThemeMode.dark,
+          // theme: ThemeData(
+          //   primarySwatch: Colors.blue,
+          // ),
+          home: const NativeSplash(),
+        );
+      },
     );
   }
 }

@@ -32,7 +32,7 @@ class PasswordSearchInfoInputDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
-        child: SigninDescription(description: '비밀번호를\n잊으셨나요?')
+        child: ContentDescription(description: '비밀번호를\n잊으셨나요?')
     );
   }
 }

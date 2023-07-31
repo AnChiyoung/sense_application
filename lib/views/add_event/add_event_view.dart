@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/event/date_select_screen.dart';
-import 'package:sense_flutter_application/screens/event/with_person_list_screen.dart';
+import 'package:sense_flutter_application/screens/old_event/date_select_screen.dart';
+import 'package:sense_flutter_application/screens/old_event/with_person_list_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 

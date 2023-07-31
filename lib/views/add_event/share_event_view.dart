@@ -3,7 +3,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/event/date_select_screen.dart';
+import 'package:sense_flutter_application/screens/old_event/date_select_screen.dart';
 
 class ShareEventHeader extends StatefulWidget {
   const ShareEventHeader({Key? key}) : super(key: key);

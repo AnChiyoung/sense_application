@@ -36,7 +36,7 @@ class EmailDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
-        child: SigninDescription(presentPage: 2, totalPage: 3, description: '로그인 정보를\n입력해 주세요')
+        child: ContentDescription(presentPage: 2, totalPage: 3, description: '로그인 정보를\n입력해 주세요')
     );
   }
 }

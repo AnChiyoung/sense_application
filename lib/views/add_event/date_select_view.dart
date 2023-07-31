@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -126,7 +127,7 @@ class _DateViewSectionState extends State<DateViewSection> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Image.asset('assets/add_event/date_view_icon.png', width: 24, height: 24),
+            Image.asset('assets/create_event/date_view_icon.png', width: 24, height: 24),
             const SizedBox(width: 8),
             Text(dayView,
                 style: TextStyle(
@@ -181,12 +182,13 @@ class _DateSelectSectionState extends State<DateSelectSection> {
           headerVisible: true,
           headerStyle: HeaderStyle(
             titleCentered: true,
+            titleTextStyle: TextStyle(color: Colors.black),
             headerPadding: const EdgeInsets.only(left: 20, right: 20),
             formatButtonVisible: false,
-            leftChevronIcon: ImageIcon(const AssetImage('assets/add_event/calendar_arrow_left.png'),
+            leftChevronIcon: ImageIcon(const AssetImage('assets/create_event/calendar_arrow_left.png'),
                 size: 24, color: StaticColor.calendarArrowColor), // image.asset can't build
             rightChevronIcon: ImageIcon(
-                const AssetImage('assets/add_event/calendar_arrow_right.png'),
+                const AssetImage('assets/create_event/calendar_arrow_right.png'),
                 size: 24,
                 color: StaticColor.calendarArrowColor),
           ),
@@ -203,7 +205,11 @@ class _DateSelectSectionState extends State<DateSelectSection> {
               color: StaticColor.selectDayColor,
               shape: BoxShape.circle,
             ),
+            defaultTextStyle: TextStyle(color: Colors.black),
           ),
+          calendarBuilders: CalendarBuilders(defaultBuilder: (context, dateTime, _) {
+            return CalendarCellBuilder(context, dateTime, _);
+          })
           // calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
           //   return Center(
           //       child: Text(days[day.weekday - 1],
@@ -216,23 +222,57 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     );
   }
 
+  Widget CalendarCellBuilder(BuildContext context, DateTime dateTime, _) {
+    /// non stuff
+
+    final DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+    DateTime now = DateTime.parse(dateFormat.format(DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)));
+    DateTime selectDayConvert = DateTime.parse(dateFormat.format(dateTime));
+    bool compareResult = now.isAfter(selectDayConvert);
+
+    return Container(
+      padding: EdgeInsets.all(3),
+      child: Container(
+        padding: EdgeInsets.only(top: 3, bottom: 3),
+        // width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(dateTime.day.toString(), style: compareResult == true ? TextStyle(fontSize: 14, color: StaticColor.grey400BB) : const TextStyle(fontSize: 14, color: Colors.black),)),
+      ),
+    );
+  }
+
   void onDaySelected(DateTime selectDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectDay)) {
-      setState(() {
-        _selectedDay = selectDay;
-        _focusedDay = focusedDay;
-      });
-    }
-
-    selectedYear = selectDay.year;
-    selectedMonth = selectDay.month;
-    selectedDay = selectDay.day;
-    final DateTime selectedDate = DateTime.utc(selectedYear, selectedMonth, selectedDay);
     final DateFormat viewFormatter = DateFormat('yyyy-MM-dd');
-    context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
-    context.read<AddEventProvider>().dateSelectNextButton(true);
 
-    AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
+    DateTime now = DateTime.parse(viewFormatter.format(DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day)));
+    DateTime selectDayConvert = DateTime.parse(viewFormatter.format(selectDay));
+
+    /// sprint3 description => 과거일 때 이벤트 날짜 추가 행위 x
+    /// 과거일 때 => 아무동작 안함
+    if(now.isAfter(selectDayConvert) == true) {
+      /// nothing!!
+    } else {
+      if (!isSameDay(_selectedDay, selectDay)) {
+        setState(() {
+          _selectedDay = selectDay;
+          _focusedDay = focusedDay;
+        });
+      }
+
+      selectedYear = selectDay.year;
+      selectedMonth = selectDay.month;
+      selectedDay = selectDay.day;
+      final DateTime selectedDate = DateTime.utc(selectedYear, selectedMonth, selectedDay);
+      /// 위에 재정의 후 주석처리 2023.07.19.
+      // final DateFormat viewFormatter = DateFormat('yyyy-MM-dd');
+      context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
+      context.read<AddEventProvider>().dateSelectNextButton(true);
+
+      // AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
+      context.read<CreateEventProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
+    }
   }
 }
 

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
+import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/event/add_event_screen.dart';
-import 'package:sense_flutter_application/screens/event/date_select_screen.dart';
+import 'package:sense_flutter_application/screens/old_event/add_event_screen.dart';
+import 'package:sense_flutter_application/screens/old_event/date_select_screen.dart';
 import 'package:sense_flutter_application/screens/recommended_event/present_memo_screen.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
@@ -101,55 +104,81 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
       child: Column(
         children: [
-          Align(alignment: Alignment.centerLeft, child: Text('이벤트', style: TextStyle(fontSize: 18, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700))),
-          const SizedBox(height: 24),
-          Row(
+          Align(alignment: Alignment.centerLeft, child: Text('설정', style: TextStyle(fontSize: 18.sp, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700))),
+          SizedBox(height: 24.0.h),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('추천받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-              const SizedBox(width: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: FlutterSwitch(
-                  width: 48,
-                  height: 24,
-                  borderRadius: 12.0,
-                  padding: 3,
-                  toggleSize: 18,
-                  activeColor: StaticColor.drawerToggleActiveColor,
-                  inactiveColor: StaticColor.drawerToggleInactiveColor,
-                  value: recommend,
-                  onToggle: (bool value) {
-                    setState(() {
-                      recommend = value;
-                    });
-                },
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('알림 받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center))),
+                  Expanded(
+                    flex: 3,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: FlutterSwitch(
+                        width: 48,
+                        height: 24,
+                        borderRadius: 12.0,
+                        padding: 3,
+                        toggleSize: 18,
+                        activeColor: StaticColor.drawerToggleActiveColor,
+                        inactiveColor: StaticColor.drawerToggleInactiveColor,
+                        value: recommend,
+                        onToggle: (bool value) {
+                          setState(() {
+                            recommend = value;
+                          });
+                      },
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              SizedBox(height: 8.0.h),
+              Text('새로운 추천 등을 푸시 알림을 통해 받습니다', style: TextStyle(fontSize: 12.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
             ],
           ),
-          const SizedBox(height: 24),
-          Row(
+          SizedBox(height: 32.0.h),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('알림받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-              const SizedBox(width: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: FlutterSwitch(
-                  width: 48,
-                  height: 24,
-                  borderRadius: 12.0,
-                  padding: 3,
-                  toggleSize: 18,
-                  activeColor: StaticColor.drawerToggleActiveColor,
-                  inactiveColor: StaticColor.drawerToggleInactiveColor,
-                  value: alarm,
-                  onToggle: (bool value) {
-                    setState(() {
-                      alarm = value;
-                    });
-                  },
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('비공개', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center))),
+                  Expanded(
+                    flex: 3,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: FlutterSwitch(
+                        width: 48,
+                        height: 24,
+                        borderRadius: 12.0,
+                        padding: 3,
+                        toggleSize: 18,
+                        activeColor: StaticColor.drawerToggleActiveColor,
+                        inactiveColor: StaticColor.drawerToggleInactiveColor,
+                        value: alarm,
+                        onToggle: (bool value) {
+                          setState(() {
+                            alarm = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              SizedBox(height: 8.0.h),
+              Text('이벤트를 더 이상 공개하지 않습니다', style: TextStyle(fontSize: 12.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
             ],
           ),
         ],
@@ -176,24 +205,27 @@ class _DrawerJoinUserState extends State<DrawerJoinUser> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Align(alignment: Alignment.centerLeft, child: Text('참여자', style: TextStyle(fontSize: 18, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700), textDirection: TextDirection.ltr,)),
-              Container(
-                padding: const EdgeInsets.only(left: 0, right: 0),
-                width: 53,
-                height: 24,
-                decoration: BoxDecoration(
-                  color: StaticColor.categoryUnselectedColor,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0, padding: const EdgeInsets.symmetric(horizontal: 0)),
-                  child: Text('설정', style: TextStyle(fontSize: 11, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
-                ),
-              ),
+              Align(alignment: Alignment.centerLeft, child: Text('참여자', style: TextStyle(fontSize: 18.sp, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700), textDirection: TextDirection.ltr,)),
+              SizedBox(width: 8.0.w),
+              Image.asset('assets/feed/comment_dot.png', width: 4.0.w, height: 4.0.h, color: StaticColor.grey400BB),
+              SizedBox(width: 8.0.w),
+              Text('1명', style: TextStyle(fontSize: 16.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
+              // Container(
+              //   padding: const EdgeInsets.only(left: 0, right: 0),
+              //   width: 53,
+              //   height: 24,
+              //   decoration: BoxDecoration(
+              //     color: StaticColor.categoryUnselectedColor,
+              //     borderRadius: BorderRadius.circular(8.0),
+              //   ),
+              //   child: ElevatedButton(
+              //     onPressed: () {
+              //     },
+              //     style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0, padding: const EdgeInsets.symmetric(horizontal: 0)),
+              //     child: Text('설정', style: TextStyle(fontSize: 11, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+              //   ),
+              // ),
             ],
           ),
           const SizedBox(height: 24),
@@ -265,36 +297,7 @@ class _JoinUserListState extends State<JoinUserList> {
             return Row(
               children: [
                 /// profile image
-                Stack(
-                  children: [
-                    /// event creater widget
-                    creator == true ? Container(width: 43, height: 43,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        border: GradientBoxBorder(
-                          gradient: StaticColor.drawerUserSupervisorColor,
-                          width: 2,
-                        ),
-                      ),
-                    ) : Container(),
-
-                    Container(width: 43, height: 43,
-                      child: Center(
-                        child: Stack(
-                            children: [
-                              Image.asset('assets/recommended_event/profile_image.png', width: 39, height: 39),
-                              Container(width: 39, height: 39,
-                                child: Center(
-                                    child: Image.asset('assets/recommended_event/empty_user.png', width: 24, height: 24)
-                                ),
-                              ),
-                            ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                UserProfileImage(profileImageUrl: PresentUserInfo.profileImage),
                 /// event creator widget == true
                 creator == true ? const SizedBox(width: 9) : const SizedBox(width: 12),
                 Container(
@@ -322,12 +325,12 @@ class _DrawerEventDeleteState extends State<DrawerEventDelete> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 20.0.h),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: 109,
-          height: 32,
+          height: 35,
+          // padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
           decoration: BoxDecoration(
             color: StaticColor.categoryUnselectedColor,
             borderRadius: BorderRadius.circular(8.0),
@@ -336,7 +339,7 @@ class _DrawerEventDeleteState extends State<DrawerEventDelete> {
             onPressed: () {
             },
             style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-            child: Text('이벤트 나가기', style: TextStyle(fontSize: 13, color: StaticColor.drawerEventDeleteTextColor, fontWeight: FontWeight.w400)),
+            child: Text('이벤트 삭제하기', style: TextStyle(fontSize: 13, color: StaticColor.drawerEventDeleteTextColor, fontWeight: FontWeight.w400)),
           ),
         ),
       ),

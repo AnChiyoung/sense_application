@@ -98,7 +98,7 @@ flutter:
     - assets/splash/
     - assets/calendar/
     - assets/login/
-    - assets/add_event/
+    - assets/create_event/
     - assets/recommended_event/
     - assets/feed/
     - assets/lottie/
