@@ -134,46 +134,39 @@ class _CreateEventTitleViewState extends State<CreateEventTitleView> {
       children: [
         Text('제목', style: TextStyle(fontSize: 16.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
         SizedBox(width: 14.0.w),
-        Consumer<CreateEventProvider>(
-          builder: (context, data, child) {
-
-            titleController.text = data.title;
-
-            return Expanded(
-              child: GestureDetector(
-                onTap: () {},
-                child: TextFormField(
-                    controller: titleController,
-                    autofocus: false,
-                    textInputAction: TextInputAction.next,
-                    maxLines: 1,
-                    maxLength: 20,
-                    textAlignVertical: TextAlignVertical.center,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                        counterText: '',
-                        filled: true,
-                        fillColor: StaticColor.loginInputBoxColor,
-                        // fillColor: Colors.black,
-                        isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                        alignLabelWithHint: false,
-                        labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                        hintText: 'ex.금요미식회 정기모임',
-                        hintStyle: TextStyle(fontSize: 16.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                          borderSide: BorderSide.none,
-                        )
-                    ),
-                    onChanged: (v) {
-                      context.read<CreateEventProvider>().titleChange(v);
-                    }
+        Expanded(
+          child: GestureDetector(
+            onTap: () {},
+            child: TextFormField(
+                controller: titleController,
+                autofocus: false,
+                textInputAction: TextInputAction.next,
+                maxLines: 1,
+                maxLength: 20,
+                textAlignVertical: TextAlignVertical.center,
+                style: TextStyle(color: StaticColor.black90015),
+                decoration: InputDecoration(
+                    counterText: '',
+                    filled: true,
+                    fillColor: StaticColor.loginInputBoxColor,
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    alignLabelWithHint: false,
+                    labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                    hintText: 'ex.금요미식회 정기모임',
+                    hintStyle: TextStyle(fontSize: 14.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      borderSide: BorderSide.none,
+                    )
                 ),
-              ),
-            );
-          }
-        ),
+                onChanged: (v) {
+                  context.read<CreateEventProvider>().titleChange(v);
+                  v.isEmpty ? context.read<CreateEventProvider>().createButtonStateChange(false) : context.read<CreateEventProvider>().createButtonStateChange(true);
+                }
+            ),
+          ),
+        )
       ],
     );
   }
@@ -223,7 +216,7 @@ class CreateEventCategoryView extends StatelessWidget {
                         categoryText = data.category.toString();
                       }
 
-                      return Center(child: Text(categoryText, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)));
+                      return Center(child: Text(categoryText, style: TextStyle(fontSize: 14.sp, color: data.category == -1 ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
                     }
                 )
             ),
@@ -275,7 +268,7 @@ class CreateEventTargetView extends StatelessWidget {
                     targetText = data.target.toString();
                   }
 
-                  return Center(child: Text(targetText, style: TextStyle(fontSize: 14.w, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)));
+                  return Center(child: Text(targetText, style: TextStyle(fontSize: 14.sp, color: data.target == -1 ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
                 }
               )
             ),
@@ -324,7 +317,7 @@ class _CreateEventDateViewState extends State<CreateEventDateView> {
                       dateText = data.date.toString();
                     }
 
-                    return Center(child: Text(dateText, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)));
+                    return Center(child: Text(dateText, style: TextStyle(fontSize: 14.sp, color: data.date == '' ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
                   }
               )
             ),
@@ -422,7 +415,7 @@ class _CreateEventMemoViewState extends State<CreateEventMemoView> {
                   maxLines: 6,
                   maxLength: 200,
                   textAlignVertical: TextAlignVertical.center,
-                  style: const TextStyle(color: Colors.black),
+                  style: TextStyle(color: StaticColor.black90015),
                   decoration: InputDecoration(
                     counterText: '',
                       filled: true,
@@ -461,32 +454,48 @@ class CreateEventButton extends StatefulWidget {
 class _CreateEventButtonState extends State<CreateEventButton> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 70.h,
-      child: ElevatedButton(
-          onPressed: () async {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
-            // if(buttonCallbackActiveState() == true) {
-            //   bool result = await EventRequest().eventCreateRequest(context);
-            //   if(result == true) {
-            //     /// navigator push => to event info
-            //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
-            //   } else {
-            //     print('model request check plz..');
-            //   }
-            // } else {
-            //   print('event create no actions');
-            // }
-          },
-          style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-          child: const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
-              ]
-          )
-      ),
+    return Consumer<CreateEventProvider>(
+      builder: (context, data, child) {
+
+        bool buttonState = data.createEventButtonState;
+
+        return SizedBox(
+          width: double.infinity,
+          height: 70.h,
+          child: ElevatedButton(
+              onPressed: () async {
+                if(buttonState == true) {
+                  bool result = await EventRequest().eventCreateRequest(context);
+                  if(result == true) {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
+                  } else {
+                    /// nothing!!!
+                  }
+                } else {
+                  /// nothing!!!
+                }
+                // if(buttonCallbackActiveState() == true) {
+                //   bool result = await EventRequest().eventCreateRequest(context);
+                //   if(result == true) {
+                //     /// navigator push => to event info
+                //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
+                //   } else {
+                //     print('model request check plz..');
+                //   }
+                // } else {
+                //   print('event create no actions');
+                // }
+              },
+              style: ElevatedButton.styleFrom(backgroundColor: buttonState == false ? StaticColor.grey50099 : StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+              child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
+                  ]
+              )
+          ),
+        );
+      }
     );
   }
 

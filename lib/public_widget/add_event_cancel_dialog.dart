@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
@@ -94,6 +95,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     context.read<CreateEventProvider>().eventInitialize();
+                    context.read<EventInfoProvider>().recommendInitialize();
                     Navigator.of(context).pop();
                     /// page route reset
                     Navigator.pushAndRemoveUntil(

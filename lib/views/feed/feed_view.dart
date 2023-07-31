@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
@@ -405,20 +406,46 @@ class _FeedPostListState extends State<FeedPostList> {
             },
           ),
           /// create event button
-          IconButton(
-            icon: Image.asset('assets/home/add_event_button.png', width: 56, height: 56),
-            iconSize: 56,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
-              // showDialog(
-              //   context: context,
-              //   barrierDismissible: false,
-              //   builder: (BuildContext context) {
-              //     return const ServiceGuideDialog();
-              //   }
-              // );
-            },
+          Padding(
+            padding: EdgeInsets.only(right: 24.0.w, bottom: 24.0.h),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: SizedBox(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+                  },
+                  style: ElevatedButton.styleFrom(elevation: 0.0, backgroundColor: StaticColor.mainSoft, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 6.0.w, vertical: 16.0.h),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset('assets/create_event/create_event_icon.png', width: 24.0.w, height: 24.0.h,),
+                        SizedBox(width: 4.0.w),
+                        Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500)),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ),
           ),
+          /// old version
+          // IconButton(
+          //   icon: Image.asset('assets/home/add_event_button.png', width: 56, height: 56),
+          //   iconSize: 56,
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+          //     // showDialog(
+          //     //   context: context,
+          //     //   barrierDismissible: false,
+          //     //   builder: (BuildContext context) {
+          //     //     return const ServiceGuideDialog();
+          //     //   }
+          //     // );
+          //   },
+          // ),
         ],
       ),
     );

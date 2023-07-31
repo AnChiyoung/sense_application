@@ -3,6 +3,14 @@ import 'package:sense_flutter_application/models/event/region_model.dart';
 
 class CreateEventProvider with ChangeNotifier {
 
+  int _eventUniqueId = -1;
+  int get eventUniqueId => _eventUniqueId;
+
+  void createEventUniqueId(int id) {
+    _eventUniqueId = id;
+    /// non notify!!!
+  }
+
   /// event date area
   String _title = '';
   String get title => _title;
@@ -16,35 +24,37 @@ class CreateEventProvider with ChangeNotifier {
   String _date = '';
   String get date => _date;
 
+  String _memo = '';
+  String get memo => _memo;
+
   /// 실제로 저장되어서 메인화면에 표시할 city number string
   String _saveCity = '0';
   String get saveCity => _saveCity;
 
   /// bottom sheet에서 선택되고 있는 city number
-  String _city = '1';
-  String get city => _city;
+  String _cityNumber = '1';
+  String get cityNumber => _cityNumber;
 
   String _cityName = '서울';
   String get cityName => _cityName;
 
-  List<City> _cityList = [];
-  List<City> get cityList => _cityList;
+  bool _regionTotalSelector = false;
+  bool get regionTotalSelector => _regionTotalSelector;
 
   List<bool> _subCityList = [];
   List<bool> get subCityList => _subCityList;
 
-  bool _regionTotalSelector = false;
-  bool get regionTotalSelector => _regionTotalSelector;
-
-  // String _subCity = '';
-  // String get subCity => _subCity;
-
-  String _memo = '';
-  String get memo => _memo;
+  bool _createEventButtonState = false;
+  bool get createEventButtonState => _createEventButtonState;
 
   void titleChange(String state) {
     _title = state;
     /// non notify!!!
+  }
+
+  void createButtonStateChange(bool state) {
+    _createEventButtonState = state;
+    notifyListeners();
   }
 
   void categoryChange(int state) {
@@ -62,25 +72,9 @@ class CreateEventProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void cityChange(String state, String nameState) {
-    _city = state;
-    _cityName = nameState;
-    notifyListeners();
-  }
-
-  void cityListChange(List<City> state) {
-    _cityList = state;
-    // notifyListeners();
-  }
-
-  void subCityChange(List<bool> state) {
-    _subCityList = state;
-    // notifyListeners();
-    /// non notify!!!
-  }
-
-  void subCityElementChange(bool state, index) {
-    _subCityList[index] = state;
+  void cityChange(String cityName, String cityNumber) {
+    _cityName = cityName;
+    _cityNumber = cityNumber;
     notifyListeners();
   }
 
@@ -88,6 +82,33 @@ class CreateEventProvider with ChangeNotifier {
     _regionTotalSelector = state;
     notifyListeners();
   }
+
+  // void cityChange(String state, String nameState) {
+  //   _city = state;
+  //   _cityName = nameState;
+  //   notifyListeners();
+  // }
+
+  // void cityListChange(List<City> state) {
+  //   _cityList = state;
+  //   // notifyListeners();
+  // }
+
+  // void subCityChange(List<bool> state) {
+  //   _subCityList = state;
+  //   // notifyListeners();
+  //   /// non notify!!!
+  // }
+
+  // void subCityElementChange(bool state, index) {
+  //   _subCityList[index] = state;
+  //   notifyListeners();
+  // }
+
+  // void regionTotalSelectorChange(bool state) {
+  //   _regionTotalSelector = state;
+  //   notifyListeners();
+  // }
 
   // void subCityChange(String state) {
   //   _subCity = state;
@@ -128,8 +149,21 @@ class CreateEventProvider with ChangeNotifier {
   List<bool> _categoryState = [false, false, false, false, false];
   List<bool> get categoryState => _categoryState;
 
+  /// final data
+  int _selectCategory = 0;
+  int get selectCategory => _selectCategory;
+
   void categoryStateChange(List<bool> state) {
     _categoryState = state;
+    // /// final data create
+    // _selectCategoryList.clear();
+    // state.asMap().forEach((index, element) {
+    //   if(element == true) {
+    //     _selectCategoryList.add(index);
+    //   } else {
+    //     /// nothing!!!
+    //   }
+    // });
     notifyListeners();
   }
 
@@ -154,22 +188,14 @@ class CreateEventProvider with ChangeNotifier {
     _category = -1;
     _target = -1;
     _date = '';
-    _city = '1';
+    _cityNumber = '1';
     // _subCity = '';
     _memo = '';
     _categoryState = [false, false, false, false, false];
     _targetState = [false, false, false, false];
     // _categoryState.map((e) => e = false);
     // _targetState.map((e) => e = false);
-    notifyListeners();
-  }
-
-  /// event info
-  List<bool> _eventInfoTabState = [true, false];
-  List<bool> get eventInfoTabState => _eventInfoTabState;
-
-  void eventInfoTabStateChange(List<bool> state) {
-    _eventInfoTabState = state;
+    _createEventButtonState = false;
     notifyListeners();
   }
 }

@@ -55,7 +55,6 @@ class _CategorySelectState extends State<CategorySelect> {
                         title: '생일',
                         onPressed: () {
                           context.read<CreateEventProvider>().categoryStateChange([true, false, false, false, false]);
-
                         }
                     ),
                   ),

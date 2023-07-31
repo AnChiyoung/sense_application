@@ -164,13 +164,14 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
 
   void categoryListener() {
     int selectCategoryIndex = context.read<CreateEventProvider>().categoryState.indexOf(true);
-    context.read<CreateEventProvider>().categoryChange(selectCategoryIndex + 1);
+    context.read<CreateEventProvider>().categoryChange(selectCategoryIndex);
+    print(selectCategoryIndex);
     Navigator.pop(context);
   }
 
   void targetListener() {
     int selectTargetIndex = context.read<CreateEventProvider>().targetState.indexOf(true);
-    context.read<CreateEventProvider>().targetChange(selectTargetIndex + 1);
+    context.read<CreateEventProvider>().targetChange(selectTargetIndex);
     Navigator.pop(context);
   }
 

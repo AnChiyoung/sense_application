@@ -19,6 +19,7 @@ class EventRequest {
     ),
   );
 
+  /// event list load
   Future<List<EventModel>> eventListRequest([int? selectMonth]) async {
 
     String monthQuery = '';
@@ -38,71 +39,107 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('이벤트 불러오기 성공');
+      logger.v('success to event list load');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromJson(e)).toList();
-      // CommentResponseModel model = CommentResponseModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
       return models;
     } else {
-      logger.v('이벤트 불러오기 실패');
+      logger.v('fail to event list load');
       return [];
     }
   }
 
+  /// personal event load
+  Future<EventModel> eventRequest(int eventId) async {
+
+    final response = await http.get(
+      Uri.parse('${ApiUrl.devUrl}event/${eventId.toString()}'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('success to personal event load');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
+      return eventModel;
+    } else {
+      logger.v('fail to personal event load');
+      return EventModel();
+    }
+  }
+
+  /// event create
   Future<bool> eventCreateRequest(BuildContext context) async {
 
-    // Map<String, dynamic> createModel = EventModel(
-    //   eventTitle: context.read<CreateEventProvider>().title,
-    //   eventCategory: context.read<CreateEventProvider>().category,
-    //   contactCategory: context.read<CreateEventProvider>().target,
-    //   city: 1,
-    //   subCity: 1,
-    //   createDate: context.read<CreateEventProvider>().date,
-    //   description: context.read<CreateEventProvider>().memo,
-    //   createEventUsers: [14],
-    //   recommendCategory: [1],
-    // ).toJson();
+    Map<String, dynamic> createModel = {};
+    context.read<CreateEventProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
+    context.read<CreateEventProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category + 1;
+    context.read<CreateEventProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventProvider>().target;
+    // /// city, subcity 개선 필요
+    // // context.read<CreateEventProvider>().city == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
+    // // context.read<CreateEventProvider>().subCity == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
+    context.read<CreateEventProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventProvider>().date;
+    context.read<CreateEventProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventProvider>().memo;
 
-    Map<String, dynamic> testCreateModel = EventModel(
-      eventTitle: context.read<CreateEventProvider>().title,
-      eventCategory: null,
-      contactCategory: null,
-      city: null,
-      subCity: null,
-      createDate: null,
-      description: null,
-      createEventUsers: null,
-      recommendCategory: null,
-    ).toJson();
-
-    // print(context.read<CreateEventProvider>().title.runtimeType);
-    // print(context.read<CreateEventProvider>().category.runtimeType);
-    // print(context.read<CreateEventProvider>().target.runtimeType);
-    // print(context.read<CreateEventProvider>().date.runtimeType);
-    // print(context.read<CreateEventProvider>().memo.runtimeType);
-    //
-    // print('${ApiUrl.devUrl}event');
-    // print(createModel);
+    logger.d(
+        'title : ${context.read<CreateEventProvider>().title}\ncategory : ${context.read<CreateEventProvider>().category + 1}\ntarget : ${context.read<CreateEventProvider>().target}\ndate : ${context.read<CreateEventProvider>().date}\nmemo : ${context.read<CreateEventProvider>().memo}'
+    );
 
     final response = await http.post(
       Uri.parse('${ApiUrl.devUrl}event'),
-      body: jsonEncode(testCreateModel),
+      body: jsonEncode(createModel),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
       }
     );
 
-    print(response.statusCode);
-
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('이벤트 생성 성공');
-      // List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      // List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromJson(e)).toList();
-      // CommentResponseModel model = CommentResponseModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      EventModel createEventResponse = EventModel.fromJson(jsonResult);
+      context.read<CreateEventProvider>().createEventUniqueId(createEventResponse.id!);
+      logger.d('create event id : ${createEventResponse.id}');
       return true;
     } else {
       logger.v('이벤트 생성 실패');
+      return false;
+    }
+  }
+
+  /// event update
+  Future<bool> updateEvent(BuildContext context) async {
+
+    Map<String, dynamic> createModel = {};
+    context.read<CreateEventProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
+    context.read<CreateEventProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
+    context.read<CreateEventProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventProvider>().target;
+    // /// city, subcity 개선 필요
+    // // context.read<CreateEventProvider>().city == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
+    // // context.read<CreateEventProvider>().subCity == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
+    context.read<CreateEventProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventProvider>().date;
+    context.read<CreateEventProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventProvider>().memo;
+
+    final response = await http.post(
+        Uri.parse('${ApiUrl.devUrl}event'),
+        body: jsonEncode(createModel),
+        headers: {
+          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('success to event update');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      EventModel createEventResponse = EventModel.fromJson(jsonResult);
+      context.read<CreateEventProvider>().createEventUniqueId(createEventResponse.id!);
+      return true;
+    } else {
+      logger.v('fail to event update');
       return false;
     }
   }
@@ -116,7 +153,7 @@ class EventModel {
   EventHost? eventHost;
   List<String>? eventUsers; /// 추후 user id : pk로 변경
   List<int>? address; /// 현재는 이벤트 리스폰스에 존재하지 않음. 추후 생성 by andy
-  int? maxCost;
+  int? totalCost;
   String? eventDate;
   int? visitCount;
   String? created;
@@ -124,12 +161,21 @@ class EventModel {
   /// when request to server
   int? eventCategory;
   int? contactCategory;
-  int? city;
-  int? subCity;
+  // int? city;
+  // int? subCity;
   String? createDate;
   String? description;
   List<int>? createEventUsers;
   List<int>? recommendCategory;
+
+  /// add 2023.07.30.
+  EventCategory? eventCategoryObject;
+  ContactCategory? targetCategoryObject;
+  // RecommendCategory? recommendCategory;
+  City? city;
+  SubCity? subCity;
+  bool? isAlarm;
+  String? publicType;
 
   EventModel({
     this.id,
@@ -139,7 +185,7 @@ class EventModel {
     this.eventHost,
     this.eventUsers,
     this.address,
-    this.maxCost,
+    this.totalCost,
     this.eventDate,
     this.visitCount,
     this.created,
@@ -153,6 +199,10 @@ class EventModel {
     this.description,
     this.createEventUsers,
     this.recommendCategory,
+
+    /// add 2023.07.30.
+    this.isAlarm,
+    this.publicType,
   });
 
   EventModel.fromJson(dynamic json) {
@@ -167,6 +217,24 @@ class EventModel {
     eventDate = json['date'] ?? '';
     // visitCount
     created = json['created'] ?? '';
+  }
+
+  EventModel.fromPersonalJson(dynamic json) {
+    id = json['id'] ?? -1;
+    eventHost = json['master'] != null ? EventHost.fromJson(json['master'] ?? EventHost()) : null;
+    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
+    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
+    // recommendCategory = json['recommend_category'] ?? '';
+    city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : null;
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : null;
+    eventTitle = json['title'] ?? '';
+    description = json['description'] ?? '';
+    totalCost = json['total_cost'] ?? -1;
+    eventDate = json['date'] ?? '';
+    created = json['created'] ?? '';
+    isAlarm = json['is_alarm'] ?? false;
+    publicType = json['public_type'] ?? 'PUBLIC';
+    // eventUsers =
   }
 
   Map<String, dynamic> toJson() => {
@@ -203,5 +271,65 @@ class EventHost {
     email = json['email'] ?? '';
     username = json['username'] ?? '';
     profileImage = json['profile_image_url'] ?? '';
+  }
+}
+
+class EventCategory {
+  int? id;
+  String? title;
+
+  EventCategory({
+    this.id,
+    this.title,
+  });
+
+  EventCategory.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
+  }
+}
+
+class ContactCategory {
+  int? id;
+  String? title;
+
+  ContactCategory({
+    this.id,
+    this.title,
+  });
+
+  ContactCategory.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
+  }
+}
+
+class City {
+  int? id;
+  String? title;
+
+  City({
+    this.id,
+    this.title,
+  });
+
+  City.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
+  }
+}
+
+class SubCity {
+  int? id;
+  String? title;
+
+  SubCity({
+    this.id,
+    this.title,
+  });
+
+  SubCity.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
   }
 }

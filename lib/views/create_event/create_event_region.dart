@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/region_model.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_region_subcity.dart';
 
 class CreateEventRegionView extends StatefulWidget {
   const CreateEventRegionView({super.key});
@@ -28,7 +30,6 @@ class _CreateEventRegionViewState extends State<CreateEventRegionView> {
           } else if(snapshot.connectionState == ConnectionState.done) {
 
             List<City>? cityModels = snapshot.data;
-            // context.read<CreateEventProvider>().cityListChange(cityModels!);
 
             return Column(
               children: [
@@ -117,9 +118,13 @@ class _CityDropDownMenuState extends State<CityDropDownMenu> {
                         selectCityNumber = i + 1;
                       }
                     }
-                    /// select city number => subcity display.
-                    print(initItem);
-                    context.read<CreateEventProvider>().cityChange(selectCityNumber.toString(), initItem);
+                    if (kDebugMode) {
+                      print('선택한 지역 & 선택한 지역 번호 : $initItem , $selectCityNumber');
+                    }
+                    context.read<CreateEventProvider>().cityChange(initItem, selectCityNumber.toString());
+                    // /// select city number => subcity display.
+                    // print(initItem);
+                    // context.read<CreateEventProvider>().cityChange(selectCityNumber.toString(), initItem);
                   },
                 ),
               ),
@@ -146,97 +151,71 @@ class _SubCityMenuState extends State<SubCityMenu> {
   @override
   Widget build(BuildContext context) {
 
-    String cityNumber = context.watch<CreateEventProvider>().city;
+    // /// local 요소 없애야함 20230729
+    // if(int.parse(cityNumber) == 1) {
+    //   cityName = '서울';
+    // } else if(int.parse(cityNumber) == 2) {
+    //   cityName = '경기도';
+    // } else if(int.parse(cityNumber) == 3) {
+    //   cityName = '인천';
+    // } else if(int.parse(cityNumber) == 4) {
+    //   cityName = '강원도';
+    // } else if(int.parse(cityNumber) == 5) {
+    //   cityName = '전라도';
+    // } else if(int.parse(cityNumber) == 6) {
+    //   cityName = '경상도';
+    // }
 
-    return FutureBuilder(
-        future: RegionRequest().subCityListRequest(cityNumber),
-        // future: subCityFuture,
-        builder: (context, snapshot) {
-          if(snapshot.hasError) {
-            return const SizedBox.shrink();
-          } else if(snapshot.hasData) {
+    // return Container();
 
-            if(snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox.shrink();
-            } else if(snapshot.connectionState == ConnectionState.done) {
+    return Consumer<CreateEventProvider>(
+      builder: (context, data, child) {
 
-              List<SubCity>? subCityList = snapshot.data;
-              List<bool> subCityCheckList = [];
-              subCityList!.forEach((element) {
-                subCityCheckList.add(false);
-              });
-              // context.read<CreateEventProvider>().subCityChange(subCityCheckList);
+        String cityNumber = data.cityNumber;
+        print('rebuild???');
 
-              if(subCityList!.isEmpty) {
-                return Center(child: Text('할당된 지역이 없습니다', style: TextStyle(color: StaticColor.grey70055)));
+        return FutureBuilder(
+            future: RegionRequest().subCityListRequest(cityNumber),
+            builder: (context, snapshot) {
+              if(snapshot.hasError) {
+                return const SizedBox.shrink();
+              } else if(snapshot.hasData) {
+
+                if(snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox.shrink();
+                } else if(snapshot.connectionState == ConnectionState.done) {
+
+                  List<SubCity> subCityList = snapshot.data ?? [];
+                  List<bool> subCityCheckList = [];
+                  subCityList!.forEach((element) {
+                    subCityCheckList.add(false);
+                  });
+
+                  if(subCityList!.isEmpty) {
+                    return Center(child: Text('할당된 지역이 없습니다', style: TextStyle(color: StaticColor.grey70055)));
+                  } else {
+                    return Consumer<CreateEventProvider>(
+                        builder: (context, data, child) {
+                          return RegionTotalBox(name: '서울', state: data.regionTotalSelector);
+                        }
+                    );
+                    // return SubCityField(subCityList: subCityList, cityName: cityName);
+                    return Container();
+                  }
+
+                } else {
+                  return const SizedBox.shrink();
+                }
+
               } else {
-                return SubCityField(subCityList: subCityList!);
+                return const SizedBox.shrink();
               }
-
-            } else {
-              return const SizedBox.shrink();
             }
-
-          } else {
-            return const SizedBox.shrink();
-          }
-        }
+        );
+      }
     );
   }
 }
-
-class SubCityField extends StatefulWidget {
-  List<SubCity> subCityList;
-  SubCityField({super.key, required this.subCityList});
-
-  @override
-  State<SubCityField> createState() => _SubCityFieldState();
-}
-
-class _SubCityFieldState extends State<SubCityField> {
-  List<SubCity> subCityList = [];
-  List<Widget> widgetList = [];
-
-  @override
-  void initState() {
-    subCityList = widget.subCityList;
-    // subCityList.forEach((element) {
-    //   widgetList.add(RegionBox(name: element.title!));
-    // });
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Consumer<CreateEventProvider>(
-            builder: (context, data, child) {
-              return RegionTotalBox(name: data.cityName, state: data.regionTotalSelector);
-
-            }
-          ),
-          Consumer<CreateEventProvider>(
-            builder: (context, data, child) {
-              widgetList.clear();
-              subCityList.asMap().forEach((index, element) {
-                widgetList.add(RegionBox(name: element.title!, state: data.subCityList.elementAt(index), index: index));
-              });
-              return Wrap(
-                alignment: WrapAlignment.start,
-                spacing: 6.0.w,
-                runSpacing: 12.0.h,
-                children: widgetList);
-            }
-          )
-        ]
-      )
-    );
-  }
-}
-
 
 // class SubCityMenu extends StatefulWidget {
 //   const SubCityMenu({super.key});
@@ -375,6 +354,15 @@ class RegionTotalBox extends StatefulWidget {
 }
 
 class _RegionTotalBoxState extends State<RegionTotalBox> {
+
+  bool a = false;
+
+  @override
+  void initState() {
+    a = widget.state;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -383,7 +371,7 @@ class _RegionTotalBoxState extends State<RegionTotalBox> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            context.read<CreateEventProvider>().regionTotalSelectorChange(!widget.state);
+            context.read<CreateEventProvider>().regionTotalSelectorChange(a);
           },
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
@@ -430,7 +418,7 @@ class _RegionBoxState extends State<RegionBox> {
         // setState(() {
         //   state = !state;
         // });
-        context.read<CreateEventProvider>().subCityElementChange(!state, index);
+        // context.read<CreateEventProvider>().subCityElementChange(!state, index);
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),

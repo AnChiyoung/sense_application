@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_content_plan.dart';
 
 class EventPlan extends StatefulWidget {
   const EventPlan({super.key});
@@ -10,6 +11,11 @@ class EventPlan extends StatefulWidget {
 class _EventPlanState extends State<EventPlan> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        EventInfoView(),
+        // RecommendView(),
+      ],
+    );
   }
 }
