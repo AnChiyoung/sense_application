@@ -9,7 +9,7 @@ class SigninCheckModel {
     Map<String, dynamic> tokenRequestBody = AccessTokenModel(accessToken: token.accessToken).toJson();
 
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}kakao/login'),
+      Uri.parse('${ApiUrl.releaseUrl}/kakao/login'),
       body: jsonEncode(tokenRequestBody),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );

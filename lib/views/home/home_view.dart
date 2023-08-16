@@ -3,8 +3,9 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
 import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
+import 'package:sense_flutter_application/screens/event_feed/event_feed_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
-import 'package:sense_flutter_application/screens/mypage/mypage_screen.dart';
+import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 import 'package:sense_flutter_application/screens/old_event/add_event_screen.dart';
 
 import '../../public_widget/login_dialog.dart';
@@ -13,9 +14,9 @@ class MovePageList {
   List<Widget> pageList = [
     FeedScreen(),
     ContactScreen(),
-    AddEventScreen(),
+    EventFeedScreen(),
     CalendarScreen(),
-
+    // MyPageScreen(),
     /// old version
     // FeedScreen(),
     // CalendarScreen(),
@@ -28,7 +29,8 @@ class MovePageList {
 class BottomMenu extends StatefulWidget {
   Function selectCallback;
   double? safeAreaBottomPadding;
-  BottomMenu({Key? key, required this.selectCallback, this.safeAreaBottomPadding}) : super(key: key);
+  int initPage;
+  BottomMenu({Key? key, required this.selectCallback, this.safeAreaBottomPadding, required this.initPage}) : super(key: key);
 
   @override
   State<BottomMenu> createState() => _BottomMenuState();
@@ -58,6 +60,7 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   void initState() {
+    pageIndex = widget.initPage;
     super.initState();
   }
 
@@ -108,7 +111,7 @@ class _BottomMenuState extends State<BottomMenu> {
                           // );
                         },
                         // child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
-                        child: bottomNavigationBarItem('assets/home/store.png', 24.0, '연락처임시', 1))),
+                        child: bottomNavigationBarItem('assets/home/store.png', 24.0, '연락처', 1))),
               ),
             ),
             Expanded(
@@ -119,16 +122,16 @@ class _BottomMenuState extends State<BottomMenu> {
                     child: InkWell(
                         borderRadius: BorderRadius.circular(30.0),
                         onTap: () {
-                          // widget.selectCallback(2);
-                          // pageIndex = 2;
-                          showDialog(
-                              context: context,
-                              //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return const ServiceGuideDialog();
-                              }
-                          );
+                          widget.selectCallback(2);
+                          pageIndex = 2;
+                          // showDialog(
+                          //     context: context,
+                          //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                          //     barrierDismissible: false,
+                          //     builder: (BuildContext context) {
+                          //       return const ServiceGuideDialog();
+                          //     }
+                          // );
                         },
                         child: bottomNavigationBarItem('assets/home/feed.png', 24.0, '피드', 2))),
               ),

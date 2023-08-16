@@ -30,7 +30,7 @@ class _LoginCheck extends State<LoginCheck> {
 
     // user의 정보가 있다면 로그인 후 들어가는 첫 페이지로 넘어가게 합니다.
     if (userInfo != null) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(initPage: 0)));
     } else {
       Navigator.push(context, MaterialPageRoute(builder: (context) => PolicyScreen()));
     }

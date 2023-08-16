@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/event_info_recommend_request_dialog.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 
 class EventRecommendStepMemo extends StatefulWidget {
@@ -114,7 +115,7 @@ class _MemoFieldState extends State<MemoField> {
               )
             ),
             onChanged: (v) {
-              context.read<EventInfoProvider>().recommendMemoChange(v);
+              context.read<CreateEventProvider>().recommendMemoChange(v);
             },
             validator: (v) {
               if(v!.length >= 300) {

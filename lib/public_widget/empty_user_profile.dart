@@ -8,7 +8,8 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 class UserProfileImage extends StatelessWidget {
   String? profileImageUrl = '';
   XFile? selectImage;
-  UserProfileImage({Key? key, this.profileImageUrl, this.selectImage}) : super(key: key);
+  double? size;
+  UserProfileImage({Key? key, this.profileImageUrl, this.selectImage, this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,8 @@ class UserProfileImage extends StatelessWidget {
           imageUrl: profileImageUrl.toString(),
           fit: BoxFit.fitHeight,
           imageBuilder: (context, imageProvider) => Container(
-            width: 40.0,
-            height: 40.0,
+            width: size ?? 40.0,
+            height: size ?? 40.0,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(image: imageProvider, fit: BoxFit.cover),

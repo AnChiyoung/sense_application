@@ -12,7 +12,7 @@ class CreateEventProvider with ChangeNotifier {
   }
 
   /// event date area
-  String _title = '';
+  String _title = '이벤트';
   String get title => _title;
 
   int _category = -1;
@@ -27,16 +27,146 @@ class CreateEventProvider with ChangeNotifier {
   String _memo = '';
   String get memo => _memo;
 
+  /// new region 20230810
+  int _city = -1;
+  int get city => _city;
+
+  List<int> _subCity = [];
+  List<int> get subCity => _subCity;
+
+  int _tempCity = -1;
+  int get tempCity => _tempCity;
+
+  bool _totalBoxState = false;
+  bool get totalBoxState => _totalBoxState;
+
+  List<List<bool>> _subCityState = [
+    [false, false, false, false, false, false,
+      false, false, false, false, false, false,
+      false, false, false, false, false, false,
+      false, false, false],
+    [false, false, false,
+      false, false, false,
+      false, false, false,
+      false, false, false, false,
+      false, false, false,],
+    [false, false, false,
+      false, false, false,
+      false, false, false,
+      false, false],
+    [false, false, false,
+      false, false, false,
+      false, false, false, false,
+      false, false, false, false],
+    [false, false, false,
+      false, false, false, false,
+      false, false, false, false],
+    [false, false, false,
+      false, false, false, false,
+      false, false, false, false],
+    [false, false, false,
+      false, false,
+      false, false, false, false,
+      false, false, false,],
+    [false, false, false, false,
+      false, false,
+      false, false, false,
+      false, false, false, false,
+      false, false, false,],
+    [false, false, false,
+      false, false, false]
+  ];
+  List<List<bool>> get subCityState => _subCityState;
+
+  void cityChange(int state) {
+    _city = state;
+    // notifyListeners();
+  }
+
+  /// 저장 버튼 누르기 전 사용자에게 보이는 도시 이름 표기 용도
+  void tempCityChange(int state) {
+    if(_tempCity == -1) {
+      _tempCity = 0;
+    }
+    _tempCity = state;
+    /// 임시
+    _totalBoxState = false;
+    if(_tempCity == 0) {
+      if((_subCityState[0][0] && _subCityState[0][1]) == false) {
+        _totalBoxState = false;
+      } else {
+        _totalBoxState = true;
+      }
+    }
+
+    print('change city : $_tempCity');
+    notifyListeners();
+  }
+
+  void totalBoxStateChange(bool state, int indexState) {
+    _totalBoxState = state;
+    int cityIndex = indexState == -1 ? 0 : indexState;
+    if(_totalBoxState == true) {
+      _subCityState[cityIndex][0] = true;
+      _subCityState[cityIndex][1] = true;
+    } else {
+      _subCityState[cityIndex][0] = false;
+      _subCityState[cityIndex][1] = false;
+    }
+    notifyListeners();
+  }
+
+  void boxStateChange(bool state, int cityIndexState, int index) {
+    _subCityState[cityIndexState][index] = state;
+    if((_subCityState[cityIndexState][0] && _subCityState[cityIndexState][1]) == false) {
+      _totalBoxState = false;
+    } else {
+      _totalBoxState = true;
+    }
+
+    /// 아래 건은 전체 검사, 비활성 부분에 대해서는 x
+    // if(_subCityState[cityIndexState].contains(false)) {
+    //   _totalBoxState = false;
+    // } else {
+    //   _totalBoxState = true;
+    // }
+    notifyListeners();
+  }
+
+  void saveRegionChange() {
+    print('city : $_tempCity');
+    if(_tempCity == -1) {
+      _tempCity = 0;
+    }
+    _city = _tempCity;
+    if(_subCityState[0][0] == true) {
+      _subCity.contains(1) ? {} : _subCity.add(1) ;
+    } else {
+      _subCity.contains(1) ? _subCity.remove(1) : {};
+    }
+
+    if(_subCityState[0][1] == true) {
+      _subCity.contains(2) ? {} : _subCity.add(2);
+    } else {
+      _subCity.contains(2) ? _subCity.remove(2) : {};
+    }
+    // print(_city);
+    // print(_tempCity);
+    // print(_subCityState[0]);
+    // print(_subCity);
+    notifyListeners();
+  }
+
   /// 실제로 저장되어서 메인화면에 표시할 city number string
-  String _saveCity = '0';
-  String get saveCity => _saveCity;
+  // String _saveCity = '0';
+  // String get saveCity => _saveCity;
 
   /// bottom sheet에서 선택되고 있는 city number
-  String _cityNumber = '1';
-  String get cityNumber => _cityNumber;
-
-  String _cityName = '서울';
-  String get cityName => _cityName;
+  // String _cityNumber = '1';
+  // String get cityNumber => _cityNumber;
+  //
+  // String _cityName = '서울 강남';
+  // String get cityName => _cityName;
 
   bool _regionTotalSelector = false;
   bool get regionTotalSelector => _regionTotalSelector;
@@ -50,6 +180,7 @@ class CreateEventProvider with ChangeNotifier {
   void titleChange(String state) {
     _title = state;
     /// non notify!!!
+    notifyListeners();
   }
 
   void createButtonStateChange(bool state) {
@@ -68,20 +199,31 @@ class CreateEventProvider with ChangeNotifier {
   }
 
   void dateChange(String state) {
-    _date = state.substring(0, 10);
+    // _date = state.substring(0, 10);
+    if(state.isEmpty) {
+      _date = state;
+    } else {
+      _date = state.substring(0, 10);
+    }
+    _date = state;
     notifyListeners();
   }
 
-  void cityChange(String cityName, String cityNumber) {
-    _cityName = cityName;
-    _cityNumber = cityNumber;
-    notifyListeners();
-  }
+  // void cityChange(String cityName, String cityNumber) {
+  //   _cityName = cityName;
+  //   _cityNumber = cityNumber;
+  //   notifyListeners();
+  // }
 
   void regionTotalSelectorChange(bool state) {
     _regionTotalSelector = state;
     notifyListeners();
   }
+
+  // void tester(String state) {
+  //   _saveCity = state;
+  //   notifyListeners();
+  // }
 
   // void cityChange(String state, String nameState) {
   //   _city = state;
@@ -188,14 +330,233 @@ class CreateEventProvider with ChangeNotifier {
     _category = -1;
     _target = -1;
     _date = '';
-    _cityNumber = '1';
-    // _subCity = '';
+    _city = -1;
+    _tempCity = -1;
+    _subCity.clear();
+    _subCityState[0][0] = false;
+    _subCityState[0][1] = false;
+    _totalBoxState = false;
     _memo = '';
     _categoryState = [false, false, false, false, false];
     _targetState = [false, false, false, false];
-    // _categoryState.map((e) => e = false);
-    // _targetState.map((e) => e = false);
     _createEventButtonState = false;
     notifyListeners();
+  }
+
+
+
+  /// from event info provider
+  /// event alarm, public type
+  bool _isAlarm = false;
+  bool get isAlarm => _isAlarm;
+
+  String _publicType = 'PRIVATE';
+  String get publicType => _publicType;
+
+  void isAlarmChagne(bool state) {
+    _isAlarm = state;
+  }
+
+  void publicTypeChange(String state) {
+    _publicType = state;
+  }
+
+  /// event info
+  List<bool> _eventInfoTabState = [true, false];
+  List<bool> get eventInfoTabState => _eventInfoTabState;
+
+  void eventInfoTabStateChange(List<bool> state) {
+    _eventInfoTabState = state;
+    // if(_eventInfoTabState.elementAt(0) == true) {
+    //   _title = '이벤트';
+    // } else {
+    //   _title = '추천 요청하기';
+    // }
+    notifyListeners();
+  }
+
+  /// 추천 탭 상태
+  // bool _isRecommend = false;
+  // bool get isRecommend => _isRecommend;
+
+  /// 추천 진행 중?
+  bool _isStepping = false;
+  bool get isStepping => _isStepping;
+  bool _recommendRequestState = false;
+  bool get recommendRequestState => _recommendRequestState;
+
+  /// 추천 탭 정보 스텝
+  int _eventRecommendStep = 1;
+  int get eventRecommendStep => _eventRecommendStep;
+
+  List<bool> _recommendCategory = [false, false, false, false, false, false];
+  List<bool> get recommendCategory => _recommendCategory;
+
+  List<int> _recommendCategoryNumber = [];
+  List<int> get recommendCategoryNumber => _recommendCategoryNumber;
+
+  int _totalCost = 0;
+  int get totalCost => _totalCost;
+
+  List<int> _costs = [];
+  List<int> get costs => _costs;
+
+  List<List<bool>> _costBool = [];
+  List<List<bool>> get costBool => _costBool;
+
+  String _recommendMemo = '';
+  String get recommendMemo => _recommendMemo;
+
+  void recommendInitialize() {
+    _isStepping = false;
+    _eventRecommendStep = 1;
+    _recommendCategory.clear();
+    _recommendCategory = [false, false, false, false, false, false];
+    _recommendCategoryNumber.clear();
+    _recommendRequestState = false;
+    _totalCost = 0;
+    _costs.clear();
+    _costBool.clear();
+    _recommendMemo = '';
+    notifyListeners();
+  }
+
+  void recommendStep02Init() {
+    _totalCost = 0;
+    _costs.clear();
+    _costBool.clear();
+    notifyListeners();
+  }
+
+  void isSteppingStateChange(bool state) {
+    _isStepping = state;
+    notifyListeners();
+  }
+
+  void isFinishRecommendRequest(bool state) {
+    _recommendRequestState = state;
+    notifyListeners();
+  }
+
+  void recommendFinish() {
+    _recommendRequestState = true;
+    _isStepping = false;
+    _eventRecommendStep = 1;
+    _recommendCategory.clear();
+    _recommendCategory = [false, false, false, false, false, false];
+    _totalCost = 0;
+    _costs.clear();
+    _costBool.clear();
+    _recommendMemo = '';
+    notifyListeners();
+  }
+
+  // void isRecommendStateChange(bool state) {
+  //   _isRecommend = state;
+  //   notifyListeners();
+  // }
+
+  void eventRecommendStepChange(int state) {
+    _eventRecommendStep = state;
+    notifyListeners();
+  }
+
+  void recommendCategoryValueChange(bool state, int index) {
+    _recommendCategory[index] = state;
+    /// bool to number
+    _recommendCategory.asMap().forEach((index, value) {
+      if(value == true) {
+        if(_recommendCategoryNumber.contains(index + 1) == true) {
+        } else {
+          _recommendCategoryNumber.add(index + 1);
+        }
+      } else {
+        if(_recommendCategoryNumber.contains(index + 1) == true) {
+          _recommendCategoryNumber.remove(index + 1);
+        } else {
+        }
+      }
+    });
+    /// asc sort
+    _recommendCategoryNumber.sort((a, b) => a.compareTo(b));
+    print(_recommendCategoryNumber);
+    notifyListeners();
+  }
+
+  void costSelectorChange(int index, int costIndex) {
+    _costBool[index] = [false, false, false, false, false, false, false, false, false, false, false, false];
+    _costBool[index][costIndex] = true;
+    notifyListeners();
+  }
+
+  /// 변경된 cost와 index로 리스트 변경 후, 합산
+  void sumCostChange(int changeCost, int index) {
+    _costs[index] = changeCost;
+    if(_costs.isEmpty) {
+      _totalCost = 0;
+    } else {
+      int? sum = 0;
+      for (var element in _costs) {
+        if(element == -1) {
+          /// nothing
+        } else {
+          sum = (sum! + element);
+        }
+      }
+      _totalCost = sum!;
+    }
+    notifyListeners();
+  }
+
+  void recommendMemoChange(String state) {
+    _recommendMemo = state;
+    notifyListeners();
+  }
+
+  /// recommend category 선택 후, 비용 리스트 생성
+  void recommendCostListInit() {
+    int index = 0;
+    for (var element in _recommendCategoryNumber) {
+      print('element : $element');
+      /// category에 따라 초기비용 상이
+      if(element == 1) {
+        _costs.add(50000);
+      } else if(element == 2) {
+        _costs.add(200000);
+      } else if(element == 3) {
+        _costs.add(50000);
+      } else if(element == 4) {
+        _costs.add(10000);
+      } else if(element == 5) {
+        _costs.add(-1);
+      } else if(element == 6) {
+        _costs.add(50000);
+      }
+      // _costs.add(50000);
+
+      _costBool.add([]);
+      for(int i = 0; i < 12; i++) {
+        if(i == 0) {
+          _costBool.elementAt(index).add(true);
+        } else {
+          _costBool.elementAt(index).add(false);
+        }
+      }
+      index++;
+    }
+
+    for (var element in _costs) {
+      if(element == -1) {
+        /// nothing
+      } else {
+        _totalCost = _totalCost + element;
+      }
+    }
+    // notifyListeners();
+    /// non notify!!!
+  }
+
+  void recommendCostChange(int state, int index) {
+
   }
 }

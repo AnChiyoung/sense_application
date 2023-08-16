@@ -20,30 +20,38 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
     context.read<CreateEventProvider>().safeAreaPaddingChange(safeAreaTopPadding, safeAreaBottomPadding);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        top: true,
-        bottom: false,
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  CreateEventHeader(),
-                  Container(
-                    height: 1.0,
-                    color: StaticColor.grey300E0,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          top: true,
+          bottom: false,
+          child: Stack(
+            children: [
+              ScrollConfiguration(
+                behavior: const ScrollBehavior().copyWith(overscroll: false),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      CreateEventHeader(),
+                      Container(
+                        height: 1.0,
+                        color: StaticColor.grey300E0,
+                      ),
+                      CreateEventInfoView(),
+                    ],
                   ),
-                  CreateEventInfoView(),
-                ],
+                ),
               ),
-            ),
-            const Align(
-                alignment: Alignment.bottomCenter,
-                child: CreateEventButton()
-            ),
-          ],
+              const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CreateEventButton()
+              ),
+            ],
+          ),
         ),
       ),
     );

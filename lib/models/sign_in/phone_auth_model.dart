@@ -10,7 +10,7 @@ class PhoneAuthModel {
     Map<String, dynamic> sendNumberModel = SendNumberModel(phoneNumber: phoneNumber.toString()).toJson();
 
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}user/phone/send'),
+      Uri.parse('${ApiUrl.releaseUrl}/user/phone/send'),
       body: sendNumberModel,
     );
 
@@ -31,7 +31,7 @@ class PhoneAuthModel {
     print(authNumberModel);
 
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}user/phone/auth'),
+      Uri.parse('${ApiUrl.releaseUrl}/user/phone/auth'),
       body: json.encode(authNumberModel),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );

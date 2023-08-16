@@ -13,15 +13,20 @@ class CalendarMonthSelect extends StatefulWidget {
 class _CalendarMonthSelectState extends State<CalendarMonthSelect> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          MonthSelectHeader(),
-          const SizedBox(height: 6),
-          Container(width: double.infinity, color: StaticColor.selectScreenDevider),
-          MonthSelect(),
-        ]
-      )
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SafeArea(
+        child: Column(
+          children: [
+            MonthSelectHeader(),
+            const SizedBox(height: 6),
+            Container(width: double.infinity, color: StaticColor.selectScreenDevider),
+            MonthSelect(),
+          ]
+        )
+      ),
     );
   }
 }

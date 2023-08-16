@@ -34,40 +34,45 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        bottom: false,
-        child: Consumer<ContactProvider>(
-          builder: (context, data, child) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          bottom: false,
+          child: Consumer<ContactProvider>(
+            builder: (context, data, child) {
 
-            if(data.contactModel == ContactProvider.publicEmptyObject) {
-              print('model from params');
-              model = widget.contactModel;
-            } else {
-              print('model from provider');
-              model = data.contactModel;
+              if(data.contactModel == ContactProvider.publicEmptyObject) {
+                print('model from params');
+                model = widget.contactModel;
+              } else {
+                print('model from provider');
+                model = data.contactModel;
+              }
+
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      ContactDetailHeader(contactModel: model!),
+                      Container(height: 1.0, color: StaticColor.grey200EE),
+                      ContactDetailFriendInfoView(contactModel: model!),
+                      const AiAnalyticsView(),
+                      const CombineEventView(),
+                      FavoriteListView(contactModel: model!),
+                    ]
+                  ),
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    // child: BottomButtonView(),
+                  )
+                ],
+              );
             }
-
-            return Stack(
-              children: [
-                Column(
-                  children: [
-                    ContactDetailHeader(contactModel: model!),
-                    Container(height: 1.0, color: StaticColor.grey200EE),
-                    ContactDetailFriendInfoView(contactModel: model!),
-                    const AiAnalyticsView(),
-                    const CombineEventView(),
-                    FavoriteListView(contactModel: model!),
-                  ]
-                ),
-                const Align(
-                  alignment: Alignment.bottomCenter,
-                  // child: BottomButtonView(),
-                )
-              ],
-            );
-          }
+          ),
         ),
       ),
     );

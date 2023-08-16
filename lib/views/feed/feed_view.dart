@@ -9,6 +9,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
+import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
@@ -46,6 +47,7 @@ class _FeedHeaderState extends State<FeedHeader> {
               children: [
                 /// 검색 필드
                 TextField(
+                  style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     hintText: "'생일선물'을 검색해보세요",
@@ -88,16 +90,17 @@ class _FeedHeaderState extends State<FeedHeader> {
             child: InkWell(
               borderRadius: BorderRadius.circular(24),
               onTap: () {
+                /// sprint05
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
                 /// logout
                 showDialog(
                     context: context,
-                    //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                     barrierDismissible: false,
                     builder: (BuildContext context) {
                       return LogoutDialog(action: logoutAction);
                     });
               },
-              child: Image.asset('assets/feed/logout_button.png', width: 24, height: 24),
+              child: Image.asset('assets/feed/logout_button.png', width: 24.0.w, height: 24.0.h),
             ),
           ),
         ],
@@ -349,11 +352,11 @@ class _FeedPostListState extends State<FeedPostList> {
                   return Center(child: Lottie.asset('assets/lottie/test.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
-                  /// 데이터 뿌리자
+                  /// 데이터 뿌리자지
                   List<FeedPreviewModel>? model = snapshot.data;
 
                   if(model!.isEmpty) {
-                    return Center(child: Text('피드가 존재하지 않습니다', style: TextStyle(color: StaticColor.grey60077)));
+                    return Center(child: Text('곧, 새로운 피드로 찾아뵐게요!', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400)));
                   } else {
                     return FeedPostListPresenter( // 피드 뿌리는 곳
                       feedPosts: model!,
@@ -423,7 +426,9 @@ class _FeedPostListState extends State<FeedPostList> {
                       children: [
                         Image.asset('assets/create_event/create_event_icon.png', width: 24.0.w, height: 24.0.h,),
                         SizedBox(width: 4.0.w),
-                        Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500)),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 4.0.h),
+                          child: Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500))),
                       ],
                     ),
                   ),

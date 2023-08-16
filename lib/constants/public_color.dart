@@ -32,6 +32,9 @@ class StaticColor {
   static Color meetLabelColor = const Color(0xFF91C300);
   static Color businessLabelColor = const Color(0xFF6E79DD);
 
+  static Color candyColor = const Color(0xFFFF7B8B);
+  static Color saltyColor = const Color(0xFFA479FF);
+
 
   //////
 

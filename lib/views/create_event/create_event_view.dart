@@ -359,10 +359,31 @@ class _CreateEventLocationViewState extends State<CreateEventLocationView> {
                   builder: (context, data, child) {
 
                     String regionText = '';
+                    int city = data.city;
+                    List<int> subCity = data.subCity;
 
-                    if(data.saveCity == '0') {
+                    if(data.subCity.isEmpty) {
                       regionText = '선택하기';
+                    } else {
+                      regionText = '서울';
+                      if(subCity.length == 2) {
+                        regionText = '서울 강남 외 1';
+                      } else {
+                        subCity.contains(1) ? regionText = '서울 강남' : regionText = '서울 삼성';
+                      }
                     }
+
+                    // if(data.city == -1) {
+                    //   regionText = '선택하기';
+                    // } else {
+                    //   if(data.city == 0) {
+                    //
+                    //   } else if(data.city == 1) {
+                    //
+                    //   } else if(data.city == 2) {
+                    //
+                    //   }
+                    // }
 
                     // if(data.city == '0') {
                     //   regionText = '선택하기';
@@ -372,7 +393,7 @@ class _CreateEventLocationViewState extends State<CreateEventLocationView> {
                     //   regionText = context.read<CreateEventProvider>().cityList.elementAt(int.parse(data.city) - 1).title.toString();
                     // }
 
-                    return Center(child: Text(regionText, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)));
+                    return Center(child: Text(regionText, style: TextStyle(fontSize: 14.sp, color: data.city == -1 ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
                   }
               )
             ),
@@ -486,7 +507,7 @@ class _CreateEventButtonState extends State<CreateEventButton> {
                 //   print('event create no actions');
                 // }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: buttonState == false ? StaticColor.grey50099 : StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+              style: ElevatedButton.styleFrom(backgroundColor: buttonState == false ? StaticColor.grey400BB : StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
               child: const Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

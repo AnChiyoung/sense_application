@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
@@ -76,8 +78,10 @@ class _FeedSearchHeaderState extends State<FeedSearchHeader> {
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      decoration: const InputDecoration(
+                      style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400),
+                      decoration: InputDecoration(
                         hintText: "'생일선물'을 검색해 보세요",
+                        hintStyle: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400),
                         border: InputBorder.none,
                       ),
                       onSubmitted: search,

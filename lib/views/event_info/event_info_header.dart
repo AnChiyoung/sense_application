@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/public_widget/event_info_recommend_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventInfoHeader extends StatefulWidget {
@@ -19,16 +20,15 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
         builder: (context, data, child) {
           bool isStepping = data.isStepping;
           // bool isFinishRecommend = data.recommendRequestState;
           int recommendStep = data.eventRecommendStep;
-          title = context.read<CreateEventProvider>().title;
+          // title = context.read<CreateEventProvider>().title;
+          title = data.title;
 
           bool isExistBackCallback = false;
-
-          print('다시 들어옴');
 
           if(isStepping == true) {
             if(recommendStep == 1) {
@@ -40,15 +40,6 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
             isExistBackCallback = true;
           }
 
-          // if (isStepping == true) {
-          //   if (recommendStep == 1) {
-          //     isExistBackCallback = false;
-          //   } else {
-          //     isExistBackCallback = true;
-          //   }
-          // } else {
-          //   isExistBackCallback = true;
-          // }
           return HeaderMenu(backCallback: isExistBackCallback == true ? stepBackCallback : null, title: title, rightMenu: rightMenu());
           // return HeaderMenu(backCallback: isRecommendState == true ? recommendCallback : backCallback, title: title, rightMenu: rightMenu());
         }
@@ -56,29 +47,31 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
   }
 
   void stepBackCallback() {
-    int stepNumber = context.read<EventInfoProvider>().eventRecommendStep;
-    bool isStepping = context.read<EventInfoProvider>().isStepping;
+    int stepNumber = context.read<CreateEventProvider>().eventRecommendStep;
+    bool isStepping = context.read<CreateEventProvider>().isStepping;
 
     if(isStepping == true) {
       if(stepNumber == 1) {
 
       } else if(stepNumber == 2) {
-        context.read<EventInfoProvider>().eventRecommendStepChange(
-            context.read<EventInfoProvider>().eventRecommendStep - 1
+        context.read<CreateEventProvider>().eventRecommendStepChange(
+            context.read<CreateEventProvider>().eventRecommendStep - 1
         );
-        context.read<EventInfoProvider>().recommendStep02Init();
+        context.read<CreateEventProvider>().recommendStep02Init();
       } else if(stepNumber == 3) {
-        context.read<EventInfoProvider>().eventRecommendStepChange(
-            context.read<EventInfoProvider>().eventRecommendStep - 1
+        context.read<CreateEventProvider>().eventRecommendStepChange(
+            context.read<CreateEventProvider>().eventRecommendStep - 1
         );
       }
     } else {
-
+      eventInfoBackCallback();
     }
   }
 
   void eventInfoBackCallback() {
-
+    /// one piece
+    context.read<CreateEventProvider>().eventInitialize();
+    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
   }
 
   void recommendCallback() {
@@ -92,7 +85,7 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
   }
 
   Widget rightMenu() {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
       builder: (context, data, child) {
 
         bool isStepping = data.isStepping;

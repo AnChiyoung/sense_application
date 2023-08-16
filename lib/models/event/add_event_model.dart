@@ -109,11 +109,11 @@ class CreateEventModel {
     ]
   };
 
-  static const String baseUrl = "https://dev.server.sense.runners.im/api/v1";
+  // static const String baseUrl = "https://dev.server.sense.runners.im/api/v1";
 
   Future<bool> postCreateEvent(Map<String, dynamic> postModel) async {
     print('get response start');
-    var url = Uri.parse('$baseUrl/suggestions?recommend_type=HOTEL');
+    var url = Uri.parse('${ApiUrl.releaseUrl}/suggestions?recommend_type=HOTEL');
     var headers = {'Content-Type': 'application/json; charset=UTF-8'};
     // var response = await http.post(url, body: jsonEncode(postModel), headers: headers);
     var response = await http.get(url, headers: headers);

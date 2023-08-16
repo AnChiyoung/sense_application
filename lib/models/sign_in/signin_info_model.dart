@@ -31,7 +31,7 @@ class SigninModel {
     print('sign in token : ${KakaoUserInfoModel.userAccessToken}');
 
     final response = await http.patch(
-        Uri.parse('${ApiUrl.devUrl}user/signup'),
+        Uri.parse('${ApiUrl.releaseUrl}/user/signup'),
         body: json.encode(signinJson),
         headers: {
           'Authorization': 'Bearer ${KakaoUserInfoModel.userAccessToken!}',
@@ -63,7 +63,7 @@ class SigninModel {
     print(signinJson);
 
     final response = await http.post(
-        Uri.parse('${ApiUrl.devUrl}user/signup'),
+        Uri.parse('${ApiUrl.releaseUrl}/user/signup'),
         body: json.encode(signinJson),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'

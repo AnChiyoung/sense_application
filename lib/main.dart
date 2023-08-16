@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
@@ -14,6 +14,8 @@ import 'package:sense_flutter_application/views/create_event/create_event_provid
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
+import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
+import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 import 'models/login/login_provider.dart';
@@ -26,25 +28,14 @@ void main() async {
   // bool isDarkMode;
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.white));
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   KakaoSdk.init(
     nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
-    javaScriptAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
+    javaScriptAppKey: '90dd5b3346fbc9c76d27afbd3b2fc068',
     loggingEnabled: true,
   );
   runApp(
-      // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      //     statusBarColor: Colors.white, // Color for Android
-      //     statusBarIconBrightness:
-      //     isDarkMode ? Brightness.light : Brightness.dark,
-      //     statusBarBrightness: isDarkMode
-      //         ? Platform.isIOS
-      //         ? Brightness.dark
-      //         : Brightness.light
-      //         : Platform.isIOS
-      //         ? Brightness.light
-      //         : Brightness.dark
-      // ));
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => LoginProvider()),
@@ -61,6 +52,8 @@ void main() async {
           ChangeNotifierProvider(create: (_) => ContactProvider()),
           ChangeNotifierProvider(create: (_) => CreateEventProvider()),
           ChangeNotifierProvider(create: (_) => EventInfoProvider()),
+          ChangeNotifierProvider(create: (_) => MyPageProvider()),
+          ChangeNotifierProvider(create: (_) => TasteProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),
@@ -73,6 +66,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
@@ -97,17 +91,17 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Sense flutter application',
           theme: ThemeData(
-            brightness: Brightness.light,
+            brightness: Brightness.dark,
           ),
           /* light theme settings */
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            /* dark theme settings */
-          ),
-          themeMode: ThemeMode.dark,
-          // theme: ThemeData(
-          //   primarySwatch: Colors.blue,
+          // darkTheme: ThemeData(
+          //   brightness: Brightness.dark,
+          //   /* dark theme settings */
           // ),
+          // themeMode: ThemeMode.dark,
+          // // theme: ThemeData(
+          // //   primarySwatch: Colors.blue,
+          // // ),
           home: const NativeSplash(),
         );
       },

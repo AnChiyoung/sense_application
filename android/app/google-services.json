@@ -29,6 +29,13 @@
             {
               "client_id": "288629191516-p8a21u492s2dtf3pc9j55crfne3quj0j.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "288629191516-kn55br3v12sran48fgv48ph483tum8iv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.runners.sense.senseFlutterApplication"
+              }
             }
           ]
         }

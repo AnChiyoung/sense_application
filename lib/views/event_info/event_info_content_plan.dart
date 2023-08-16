@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/actions.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventInfoView extends StatefulWidget {
@@ -18,7 +18,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: EventRequest().eventRequest(90),
+      future: EventRequest().eventRequest(context.read<CreateEventProvider>().eventUniqueId),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
 
@@ -29,6 +29,25 @@ class _EventInfoViewState extends State<EventInfoView> {
             /// get personal event model
             EventModel eventPersonalModel = snapshot.data ?? EventModel();
             modelParse(eventPersonalModel);
+
+            String title = eventPersonalModel.eventTitle!;
+            int category = eventPersonalModel.eventCategoryObject!.id! - 1;
+            int target = eventPersonalModel.targetCategoryObject!.id! - 1;
+            String date = eventPersonalModel.eventDate!;
+            int city = eventPersonalModel.city!.id!;
+            int subCity = eventPersonalModel.subCity!.id!;
+            String memo = eventPersonalModel.description!;
+
+            // context.read<EventInfoProvider>().titleChange(eventPersonalModel.eventTitle!);
+            // context.read<CreateEventProvider>().titleChange(eventPersonalModel.eventTitle!);
+            context.read<CreateEventProvider>().titleChange(eventPersonalModel.eventTitle!);
+            context.read<CreateEventProvider>().categoryChange(category);
+            context.read<CreateEventProvider>().targetChange(target);
+            context.read<CreateEventProvider>().dateChange(date);
+            context.read<CreateEventProvider>().cityChange(city);
+            context.read<CreateEventProvider>().memoChange(memo);
+            context.read<CreateEventProvider>().isAlarmChagne(eventPersonalModel.isAlarm!);
+            context.read<CreateEventProvider>().publicTypeChange(eventPersonalModel.publicType!);
 
             return Padding(
               padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 16.0.w),
@@ -147,7 +166,7 @@ class _EventInfoPlanTitleState extends State<EventInfoPlanTitle> {
                   )
               ),
               onChanged: (v) {
-                context.read<CreateEventProvider>().titleChange(v);
+                // context.read<CreateEventProvider>().titleChange(v);
               }
           ),
           // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
@@ -192,7 +211,7 @@ class _EventInfoPlanCategoryState extends State<EventInfoPlanCategory> {
 
         return GestureDetector(
           onTap: () {
-            if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
+            if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
               context.read<CreateEventProvider>().eventStepState(0);
               TriggerActions().showCreateEventView(context);
             } else {
@@ -250,7 +269,7 @@ class _EventInfoPlanTargetState extends State<EventInfoPlanTarget> {
 
           return GestureDetector(
             onTap: () {
-              if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
+              if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
                 context.read<CreateEventProvider>().eventStepState(1);
                 TriggerActions().showCreateEventView(context);
               } else {
@@ -301,7 +320,7 @@ class _EventInfoPlanDateState extends State<EventInfoPlanDate> {
 
           return GestureDetector(
             onTap: () {
-              if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
+              if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
                 context.read<CreateEventProvider>().eventStepState(2);
                 TriggerActions().showCreateEventView(context);
               } else {
@@ -348,9 +367,16 @@ class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
 
           return GestureDetector(
             onTap: () {
-              if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
-                // context.read<CreateEventProvider>().eventStepState(3);
-                // TriggerActions().showCreateEventView(context);
+              // if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
+              //   // context.read<CreateEventProvider>().eventStepState(3);
+              //   // TriggerActions().showCreateEventView(context);
+              // } else {
+              //
+              // }
+
+              if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
+                context.read<CreateEventProvider>().eventStepState(3);
+                TriggerActions().showCreateEventView(context);
               } else {
 
               }
@@ -466,7 +492,7 @@ class _RecommendFieldState extends State<RecommendField> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
       builder: (context, data, child) {
 
         recommendRequestState = data.recommendRequestState;
@@ -508,7 +534,7 @@ class _RecommendFieldState extends State<RecommendField> {
                       SizedBox(height: 16.0.h),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<EventInfoProvider>().eventInfoTabStateChange([false, true]);
+                          context.read<CreateEventProvider>().eventInfoTabStateChange([false, true]);
                         },
                         child: Text('추천보기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),
                       )

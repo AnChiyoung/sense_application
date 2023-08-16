@@ -8,11 +8,11 @@ class ReportRequest {
 
     Map<String, dynamic> sendReport = ReportModel(reportChoiceId: selectReportIndex, description: description).toJson();
 
-    print('${ApiUrl.devUrl}comment/${commentId.toString()}/report');
+    print('${ApiUrl.releaseUrl}/comment/${commentId.toString()}/report');
     print(jsonEncode(sendReport));
 
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}comment/${commentId.toString()}/report'),
+      Uri.parse('${ApiUrl.releaseUrl}/comment/${commentId.toString()}/report'),
       body: jsonEncode(sendReport),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',

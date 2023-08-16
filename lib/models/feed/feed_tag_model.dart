@@ -5,7 +5,7 @@ import 'package:sense_flutter_application/constants/api_path.dart';
 class FeedTagLoad {
   Future<List<TagModel>> tagRequest() async {
     final response = await http.get(
-      Uri.parse('${ApiUrl.devUrl}labels'),
+      Uri.parse('${ApiUrl.releaseUrl}/labels'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 

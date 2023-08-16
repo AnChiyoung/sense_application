@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
@@ -77,7 +77,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                     // Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.grey100F6, elevation: 0.0),
-                  child: Text('취소하기', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                  child: Text('계속하기', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
                 ),
               ),
             ),
@@ -95,20 +95,20 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     context.read<CreateEventProvider>().eventInitialize();
-                    context.read<EventInfoProvider>().recommendInitialize();
+                    context.read<CreateEventProvider>().recommendInitialize();
                     Navigator.of(context).pop();
                     /// page route reset
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => HomeScreen(),
+                        builder: (BuildContext context) => HomeScreen(initPage: 0),
                       ),
                       (route) => false,
                     );
                     /// page route reset
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
-                  child: Text('삭제하기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                  child: Text('취소하기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),
                 ),
               ),
             ),

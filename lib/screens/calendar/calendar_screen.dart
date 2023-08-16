@@ -14,22 +14,27 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        bottom: false,
-          child: Column(
-            children: [
-              const CalendarAppBar(),
-              Container(
-                width: double.infinity,
-                height: 1,
-                color: StaticColor.headerDevider,
-              ),
-              Expanded(
-                child: CalendarBody()),
-            ],
-          ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          bottom: false,
+            child: Column(
+              children: [
+                const CalendarAppBar(),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: StaticColor.headerDevider,
+                ),
+                Expanded(
+                  child: CalendarBody()),
+              ],
+            ),
+        ),
       ),
     );
   }

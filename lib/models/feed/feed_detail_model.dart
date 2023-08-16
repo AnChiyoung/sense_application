@@ -7,13 +7,12 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     final response = await http.get(
-        Uri.parse('${ApiUrl.devUrl}post/${feedId.toString()}'),
+        Uri.parse('${ApiUrl.releaseUrl}/post/${feedId.toString()}'),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'
         });
     if(response.statusCode == 200 || response.statusCode == 201) {
-      // final jsonResult = json.decode(response.body)['data'];
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       /// logger setting
       var logger = Logger(

@@ -11,15 +11,20 @@ class FeedSearchScreen extends StatefulWidget {
 class _FeedSearchScreenState extends State<FeedSearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            FeedSearchHeader(),
-            FeedSearchTab(),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: const [
+              FeedSearchHeader(),
+              FeedSearchTab(),
+            ],
+          ),
         ),
       ),
     );

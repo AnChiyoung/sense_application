@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
+import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_screen.dart';
 
 class NativeSplash extends StatefulWidget {
   const NativeSplash({super.key});
@@ -29,6 +30,7 @@ class _NativeSplash extends State<NativeSplash> {
         width: double.infinity,
         height: double.infinity,
         child: LoginScreen(),
+        // child: PersonalTasteFoodScreen(),
         // child: TemperatureMenu(),
         // child: CalendarScreen(),
         // child: const HomeScreen(),

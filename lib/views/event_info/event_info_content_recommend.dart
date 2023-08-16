@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_content_recommend_finish.dart';
 import 'package:sense_flutter_application/views/event_info/event_recommend_step_category.dart';
 import 'package:sense_flutter_application/views/event_info/event_recommend_step_cost.dart';
@@ -19,11 +20,13 @@ class _EventRecommendState extends State<EventRecommend> {
   @override
   Widget build(BuildContext context) {
     /// 처음일 땐, 추천 정보 입력(종류, 예산, 요청사항)
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
       builder: (context, data, child) {
 
+        bool isRecommendFinish = data.recommendRequestState;
+
         /// 요청 완료?
-        if(data.recommendRequestState == true) {
+        if(isRecommendFinish == true) {
           return EventRecommendFinish();
 
         } else { /// 요청 미완료
@@ -59,7 +62,7 @@ class _EventRecommendState extends State<EventRecommend> {
                     height: 70.h,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.read<EventInfoProvider>().isSteppingStateChange(true);
+                        context.read<CreateEventProvider>().isSteppingStateChange(true);
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
                       child: const Column(
@@ -141,7 +144,7 @@ class EventRecommendStepView extends StatefulWidget {
 class _EventRecommendStepViewState extends State<EventRecommendStepView> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
       builder: (context, data, child) {
         if(data.eventRecommendStep == 1) {
           return EventRecommendStepCategory();

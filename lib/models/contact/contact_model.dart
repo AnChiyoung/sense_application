@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
@@ -37,7 +38,7 @@ class ContactRequest {
     ),
   );
 
-  Future<ContactTabModel> contactListRequest([int? category]) async {
+  Future<List<ContactModel>> contactListRequest([int? category]) async {
 
     String orderbyParams = '';
 
@@ -56,7 +57,7 @@ class ContactRequest {
     }
 
     final response = await http.get(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/contacts$orderbyParams'),
+      Uri.parse('${ApiUrl.releaseUrl}/contacts$orderbyParams'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -66,18 +67,18 @@ class ContactRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 불러오기 성공');
 
-      ContactTabModel model = ContactTabModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      // ContactTabModel model = ContactTabModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
 
-      logger.i(model.count);
-      logger.i(model.contactModelList!.elementAt(0).id);
+      // logger.i(model.count);
+      // logger.i(model.contactModelList!.elementAt(0).id);
 
-      // List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      // List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
+      List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
 
-      return model;
+      return contactModels;
     } else {
       print('연락처 불러오기 실패');
-      return ContactTabModel();
+      return [];
     }
   }
 
@@ -90,7 +91,7 @@ class ContactRequest {
     };
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/contacts'),
+      Uri.parse('${ApiUrl.releaseUrl}/user/contacts'),
       body: jsonEncode(sendContactModels),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -123,7 +124,7 @@ class ContactRequest {
     logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.get(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
+      Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -146,7 +147,7 @@ class ContactRequest {
     logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}/bookmark'),
+      Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}/bookmark'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -169,7 +170,7 @@ class ContactRequest {
     logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}/unbookmark'),
+      Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}/unbookmark'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -198,11 +199,11 @@ class ContactRequest {
       profileImage: profileImage, /// base 64 string focused
     ).updateJson();
 
-    print(jsonEncode(updateRequestBody));
-    print('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}');
+    // print(jsonEncode(updateRequestBody));
+    // print('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}');
 
     final response = await http.patch(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
+      Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}'),
       body: jsonEncode(updateRequestBody),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',

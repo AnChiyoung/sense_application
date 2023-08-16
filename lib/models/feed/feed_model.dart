@@ -11,7 +11,7 @@ class FeedRequest {
     String query;
     labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
     final response = await http.get(
-      Uri.parse('${ApiUrl.devUrl}posts$query'),
+      Uri.parse('${ApiUrl.releaseUrl}/posts$query'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
@@ -26,7 +26,7 @@ class FeedRequest {
 
   Future<FeedDetailModel> postDetailLiked(int postId) async {
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/like'),
+      Uri.parse('${ApiUrl.releaseUrl}/post/${postId.toString()}/like'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'},
@@ -54,7 +54,7 @@ class FeedRequest {
 
   Future<FeedDetailModel> postDetailUnliked(int postId) async {
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}post/${postId.toString()}/unlike'),
+      Uri.parse('${ApiUrl.releaseUrl}/post/${postId.toString()}/unlike'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'},
@@ -114,7 +114,7 @@ class FeedPreviewModel {
 class LikedRequest {
   Future<bool> likedRequest(int postId) async {
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login/15/like'),
+      Uri.parse('${ApiUrl.releaseUrl}/kakao/login/15/like'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
@@ -127,7 +127,7 @@ class LikedRequest {
 
   Future<bool> unlikedRequest(int postId) async {
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/kakao/login/15/unlike'),
+      Uri.parse('${ApiUrl.releaseUrl}/kakao/login/15/unlike'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
@@ -151,7 +151,7 @@ class LikedModel {
 
 ///
 ///
-/// 서버 리스폰트 모델
+/// 서버 리스폰스 모델
 class ResponseModel {
   final int code;
   final String message;
@@ -390,7 +390,7 @@ class FeedRelatedPostThumbnailModel {
 }
 
 class ApiService {
-  static const String baseUrl = "https://stg.server.sense.runners.im/api/v1";
+  static const String baseUrl = "https://www.dev.server.sens.im/api/v1";
   // static const String baseUrlWithoutHttps = "dev.server.sense.runners.im";
   // static const String today = "today";
 
@@ -399,7 +399,7 @@ class ApiService {
     List<FeedPostModel> postInstances = [];
 
     // final uri = Uri.parse('$baseUrl/recommands?recommand_tag=$tagId');
-    final uri = Uri.parse('$baseUrl/posts?label_id=$tagId');
+    final uri = Uri.parse('${ApiUrl.releaseUrl}/posts?label_id=$tagId');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -418,7 +418,7 @@ class ApiService {
     debugPrint('API call getRecommendTags');
     List<FeedTagModel> tagInstances = [];
     // final uri = Uri.parse('$baseUrl/recommand-tags');
-    final uri = Uri.parse('$baseUrl/labels');
+    final uri = Uri.parse('${ApiUrl.releaseUrl}/labels');
     final headers = {'Content-Type': 'application/json; charset=UTF-8'}; // ???
     final response = await http.get(uri, headers: headers);
 
@@ -454,7 +454,7 @@ class ApiService {
     }
 
     String queryString = Uri(queryParameters: queryParams).query;
-    final uri = Uri.parse('$baseUrl/posts?$queryString');
+    final uri = Uri.parse('${ApiUrl.devUrl}posts?$queryString');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -479,7 +479,7 @@ class ApiService {
     if (postId > 0 && postId < 11) {
       tempId = postId;
     }
-    final uri = Uri.parse('$baseUrl/post/$tempId');
+    final uri = Uri.parse('${ApiUrl.releaseUrl}/post/$tempId');
     // debugPrint('uri: $uri');
     final response = await http.get(uri);
     // debugPrint('response: $response');

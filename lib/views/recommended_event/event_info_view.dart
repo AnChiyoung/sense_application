@@ -5,13 +5,17 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
+import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
+import 'package:sense_flutter_application/public_widget/event_delete_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/old_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/old_event/date_select_screen.dart';
 import 'package:sense_flutter_application/screens/recommended_event/present_memo_screen.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:toast/toast.dart';
 
@@ -27,7 +31,6 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
   @override
   void initState() {
-    print('aasdfsdf ${AddEventModel.eventInfoTitle}');
     super.initState();
   }
 
@@ -70,24 +73,35 @@ class _EventInfoDrawerState extends State<EventInfoDrawer> {
     /// safe area 상단 height
     var safePadding = MediaQuery.of(context).padding.top;
 
-    return Drawer(
-      backgroundColor: Colors.white,
-      child: Column(
-        children: [
-          SizedBox(height: safePadding),
-          const DrawerEventAction(),
-          Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
-          const Expanded(child: DrawerJoinUser()),
-          Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
-          const DrawerEventDelete(),
-        ]
-      ),
+    return Consumer<CreateEventProvider>(
+      builder: (context, data, child) {
+
+        bool isAlarm = data.isAlarm;
+        String publicType = data.publicType;
+
+        return Drawer(
+          backgroundColor: Colors.white,
+          child: Column(
+              children: [
+                SizedBox(height: safePadding),
+                DrawerEventAction(isAlarm: isAlarm, publicType: publicType),
+                Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+                const Expanded(child: DrawerJoinUser()),
+                Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+                const DrawerEventDelete(),
+              ]
+          ),
+        );
+      }
     );
+
   }
 }
 
 class DrawerEventAction extends StatefulWidget {
-  const DrawerEventAction({Key? key}) : super(key: key);
+  bool isAlarm;
+  String publicType;
+  DrawerEventAction({Key? key, required this.isAlarm, required this.publicType}) : super(key: key);
 
   @override
   State<DrawerEventAction> createState() => _DrawerEventActionState();
@@ -95,8 +109,19 @@ class DrawerEventAction extends StatefulWidget {
 
 class _DrawerEventActionState extends State<DrawerEventAction> {
 
-  bool recommend = false;
-  bool alarm = false;
+  bool public = true;
+  bool alarm = true;
+
+  @override
+  void initState() {
+    alarm = widget.isAlarm;
+    if(widget.publicType == 'PUBLIC') {
+      public = false;
+    } else if(widget.publicType == 'PRIVATE'){
+      public = true;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,12 +153,32 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
                         toggleSize: 18,
                         activeColor: StaticColor.drawerToggleActiveColor,
                         inactiveColor: StaticColor.drawerToggleInactiveColor,
-                        value: recommend,
-                        onToggle: (bool value) {
-                          setState(() {
-                            recommend = value;
-                          });
-                      },
+                        value: alarm,
+                        onToggle: (bool value) async {
+                          if(value == true) {
+                            context.read<CreateEventProvider>().isAlarmChagne(value);
+                            bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventProvider>().eventUniqueId, 5);
+
+                            if(updateResult == true) {
+                              setState(() {
+                                alarm = value;
+                              });
+                            } else {
+
+                            }
+                          } else if(value == false) {
+                            context.read<CreateEventProvider>().isAlarmChagne(value);
+                            bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventProvider>().eventUniqueId, 5);
+
+                            if(updateResult == true) {
+                              setState(() {
+                                alarm = value;
+                              });
+                            } else {
+
+                            }
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -166,11 +211,31 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
                         toggleSize: 18,
                         activeColor: StaticColor.drawerToggleActiveColor,
                         inactiveColor: StaticColor.drawerToggleInactiveColor,
-                        value: alarm,
-                        onToggle: (bool value) {
-                          setState(() {
-                            alarm = value;
-                          });
+                        value: public,
+                        onToggle: (bool value) async {
+                          if(value == true) {
+                            context.read<CreateEventProvider>().publicTypeChange('PRIVATE');
+                            bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventProvider>().eventUniqueId, 6);
+
+                            if(updateResult == true) {
+                              setState(() {
+                                public = value;
+                              });
+                            } else {
+
+                            }
+                          } else if(value == false) {
+                            context.read<CreateEventProvider>().publicTypeChange('PUBLIC');
+                            bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventProvider>().eventUniqueId, 6);
+
+                            if(updateResult == true) {
+                              setState(() {
+                                public = value;
+                              });
+                            } else {
+
+                            }
+                          }
                         },
                       ),
                     ),
@@ -232,6 +297,8 @@ class _DrawerJoinUserState extends State<DrawerJoinUser> {
           Material(
             color: Colors.white,
             child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               onTap: () {
                 showToast('현재는 등록가능한 친구 목록이 없습니다', Toast.lengthLong, Toast.bottom);
               },
@@ -337,6 +404,13 @@ class _DrawerEventDeleteState extends State<DrawerEventDelete> {
           ),
           child: ElevatedButton(
             onPressed: () {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return EventDeleteDialog();
+                }
+              );
             },
             style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
             child: Text('이벤트 삭제하기', style: TextStyle(fontSize: 13, color: StaticColor.drawerEventDeleteTextColor, fontWeight: FontWeight.w400)),

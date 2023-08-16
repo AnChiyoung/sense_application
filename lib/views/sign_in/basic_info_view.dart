@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
@@ -42,7 +43,7 @@ class _BasicInfoDescriptionState extends State<BasicInfoDescription> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
+        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 41.0.h, bottom: 25.0.h),
         child: ContentDescription(presentPage: 3, totalPage: 3, description: '기본정보를\n입력해 주세요')
     );
   }
@@ -172,12 +173,12 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
           filled: true,
           fillColor: StaticColor.loginInputBoxColor,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
           alignLabelWithHint: false,
           labelText: '핸드폰',
-          labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
           hintText: '000-0000-0000',
-          hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+          hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
           border: InputBorder.none,
           errorText: null,
         ),
@@ -228,12 +229,12 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
             errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
             filled: true,
             fillColor: StaticColor.loginInputBoxColor,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
             alignLabelWithHint: false,
             labelText: '성별',
-            labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+            labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
             hintText: '성별을 선택해 주세요',
-            hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+            hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
             border: InputBorder.none,
             errorText: null,
           ),
@@ -274,12 +275,12 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
           filled: true,
           fillColor: StaticColor.loginInputBoxColor,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
           alignLabelWithHint: false,
           labelText: '생일',
-          labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+          labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
           hintText: 'YYYY - MM - DD',
-          hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+          hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
           border: InputBorder.none,
           errorText: null,
         ),
@@ -363,12 +364,12 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
             errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
             filled: true,
             fillColor: StaticColor.loginInputBoxColor,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
             alignLabelWithHint: false,
             labelText: '이름',
-            labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+            labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
             hintText: '실명을 입력해 주세요',
-            hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+            hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
             border: InputBorder.none,
           ),
           validator: (value) {
@@ -513,25 +514,6 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
       ),
     );
   }
-
-
-
-  // Widget birthdaySelectDialog(BuildContext context) {
-  //   return Dialog(
-  //     child: Container(
-  //       width: double.infinity,
-  //       decoration: BoxDecoration(
-  //         color: Colors.white,
-  //         borderRadius: BorderRadius.circular(13.0),
-  //       ),
-  //       child: CalendarDatePicker2(
-  //         config: CalendarDatePicker2Config(
-  //           calendarType: CalendarDatePicker2Type.single,
-  //         ), value: [DateTime.now()],
-  //       )
-  //     ),
-  //   );
-  // }
 }
 
 extension Utility on BuildContext {

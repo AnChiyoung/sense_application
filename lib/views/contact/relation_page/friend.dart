@@ -26,8 +26,9 @@ class _FriendViewState extends State<FriendView> {
               return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
             } else if(snapshot.connectionState == ConnectionState.done) {
 
-              ContactTabModel? resultModel = snapshot.data;
-              List<ContactModel>? familyModelList = resultModel!.contactModelList;
+              List<ContactModel> familyModelList = snapshot.data!;
+              // ContactTabModel? resultModel = snapshot.data;
+              // List<ContactModel>? familyModelList = resultModel!.contactModelList;
 
               if(familyModelList!.isEmpty) {
                 return Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'));

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:quiver/async.dart';
@@ -38,7 +39,7 @@ class PhoneAuthDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
+        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 41.0.h, bottom: 25.0.h),
         child: ContentDescription(description: '인증번호 4자리를\n입력해 주세요'));
   }
 }
@@ -132,12 +133,12 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                 errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
                                 filled: true,
                                 fillColor: StaticColor.loginInputBoxColor,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
                                 alignLabelWithHint: false,
                                 labelText: '인증번호',
-                                labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                                 hintText: '번호를 입력하세요',
-                                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
@@ -176,12 +177,12 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                         duration: const Duration(milliseconds: 2000),
                                         backgroundColor: Colors.white,
                                         elevation: 0.0,
-                                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                                        padding: EdgeInsets.symmetric(horizontal: 30.0.w),
                                         margin: EdgeInsets.only(
                                           bottom: MediaQuery.of(context).size.height - 130,
                                         ),
                                         content: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 12.0.h),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             borderRadius: BorderRadius.circular(4.0),
@@ -189,13 +190,13 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                           ),
                                           child: Row(
                                             children: [
-                                              Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
-                                              const SizedBox(width: 8),
+                                              Image.asset('assets/signin/snackbar_ok_icon.png', width: 24.0.w, height: 24.0.h),
+                                              SizedBox(width: 8.0.w),
                                               Expanded(
                                                 child: Text('인증에 성공했어요, 회원가입이 완료되었습니다',
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                      fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                                      fontSize: 14.0.sp, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
                                                 ),
                                               ),
                                             ],
@@ -239,7 +240,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
               Consumer<SigninProvider>(
                 builder: (context, data, child) => data.timeValidate == true || data.authValidate == true
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20, top: 32),
+                        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 32.0.h),
                         child: Material(
                           color: StaticColor.mainSoft,
                           borderRadius: BorderRadius.circular(8.0),
@@ -256,12 +257,12 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     duration: const Duration(milliseconds: 2000),
                                     backgroundColor: Colors.white,
                                     elevation: 0.0,
-                                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                                    padding: EdgeInsets.symmetric(horizontal: 30.0.w),
                                     margin: EdgeInsets.only(
                                       bottom: MediaQuery.of(context).size.height - 130,
                                     ),
                                     content: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                                         height: 48,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
@@ -269,21 +270,21 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                           border: Border.all(color: StaticColor.snackbarColor, width: 1),
                                         ),
                                         child: Row(children: [
-                                          Image.asset('assets/signin/snackbar_ok_icon.png', width: 24, height: 24),
+                                          Image.asset('assets/signin/snackbar_ok_icon.png', width: 24.0.w, height: 24.0.h),
                                           const SizedBox(width: 8),
                                           Text('인증번호를 재발송 해드렸어요',
                                               overflow: TextOverflow.ellipsis,
                                               style:
-                                                  TextStyle(fontSize: 16, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500)),
+                                                  TextStyle(fontSize: 14.0.sp, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500)),
                                         ]))),
                               );
                             },
                             borderRadius: BorderRadius.circular(8.0), // inkwell effect's borderradius
-                            child: const SizedBox(
-                              height: 56,
+                            child: SizedBox(
+                              height: 56.0.h,
                               child: Center(
                                   child:
-                                      Text('인증번호 재발송하기', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700))),
+                                      Text('인증번호 재발송하기', style: TextStyle(fontSize: 16.0.sp, color: Colors.white, fontWeight: FontWeight.w700))),
                             ),
                           ),
                         ),

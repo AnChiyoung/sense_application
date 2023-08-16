@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/event_info/event_plan.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_content_recommend.dart';
 
@@ -14,7 +15,7 @@ class EventContent extends StatefulWidget {
 class _EventContentState extends State<EventContent> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
         builder: (context, data, child) {
 
           if(data.eventInfoTabState.indexOf(true) == 0) {

@@ -22,7 +22,7 @@ class _ContactTitleVeiw extends State<ContactTitleVeiw> {
   void NavigatorHome() async {
     Timer(const Duration(milliseconds: 5000), () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => HomeScreen(initPage: 0)));
     });
   }
 

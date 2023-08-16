@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_content_plan.dart';
 
 class EventRecommendFinish extends StatefulWidget {
@@ -80,7 +81,7 @@ class _EventInfoPlanRecommendCategoryState extends State<EventInfoPlanRecommendC
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
         builder: (context, data, child) {
 
           List<int> categoryState = data.recommendCategoryNumber;
@@ -148,7 +149,7 @@ class _EventInfoPlanRecommendCostState extends State<EventInfoPlanRecommendCost>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
         builder: (context, data, child) {
 
           recommendCostString = '${(data.totalCost / 10000).toInt()}만원';

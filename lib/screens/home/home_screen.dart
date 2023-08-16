@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../views/home/home_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  int initPage;
+  HomeScreen({Key? key, required this.initPage}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -20,6 +21,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    movePage(widget.initPage);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     /// safe area height
@@ -33,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
           child: MovePageList().pageList.elementAt(pageIndex),
         ),
-        bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding),
+        bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding, initPage: pageIndex),
         // bottomNavigationBar: Container(height: 100),
       ),
     );

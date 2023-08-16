@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 
 class EventRecommendStepCategory extends StatefulWidget {
@@ -15,7 +16,7 @@ class EventRecommendStepCategory extends StatefulWidget {
 class _EventRecommendStepCategoryState extends State<EventRecommendStepCategory> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<CreateEventProvider>(
       builder: (context, data, child) {
         return Stack(
           children: [
@@ -112,7 +113,7 @@ class _EventRecommendStepCategoryState extends State<EventRecommendStepCategory>
                 height: 70.h,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<EventInfoProvider>().eventRecommendStepChange(2);
+                    context.read<CreateEventProvider>().eventRecommendStepChange(2);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
                   child: const Column(
@@ -131,7 +132,7 @@ class _EventRecommendStepCategoryState extends State<EventRecommendStepCategory>
   }
 
   void onPressedCallback(bool state, int index) {
-    context.read<EventInfoProvider>().recommendCategoryValueChange(state, index);
+    context.read<CreateEventProvider>().recommendCategoryValueChange(state, index);
   }
 }
 
@@ -160,16 +161,16 @@ class _CreateRecommendSelectTab extends State<CreateRecommendSelectTab> {
           // widget.onPressed == null ? {} : widget.onPressed!.call();
 
           /// 선택된 아이템이 하나일 때는, 선택 해제할 수 없음.
-          int trueCount = context.read<EventInfoProvider>().recommendCategory.where((e) => true == e).length;
+          int trueCount = context.read<CreateEventProvider>().recommendCategory.where((e) => true == e).length;
 
           if(trueCount == 1) {
             if(widget.checkState == true) {
              return ;
             } else if(widget.checkState == false) {
-              context.read<EventInfoProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
+              context.read<CreateEventProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
             }
           } else {
-            context.read<EventInfoProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
+            context.read<CreateEventProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
           }
         },
         style: ElevatedButton.styleFrom(elevation: 0.0, backgroundColor: widget.checkState == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor),

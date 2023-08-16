@@ -19,30 +19,35 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                ContactInfoHeader(),
-                Container(
-                  height: 1.0,
-                  color: StaticColor.grey300E0,
-                ),
-                ContactInfoUserProfile(contactModel: widget.contactModel),
-                ContactInfoBasic(contactModel: widget.contactModel),
-                ContactInfoGender(contactModel: widget.contactModel),
-                ContactInfoCategory(contactModel: widget.contactModel),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: ContactInfoSaveButton(contactModel: widget.contactModel, topPadding: safeAreaTopPadding, height: screenHeight),
-            )
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  ContactInfoHeader(),
+                  Container(
+                    height: 1.0,
+                    color: StaticColor.grey300E0,
+                  ),
+                  ContactInfoUserProfile(contactModel: widget.contactModel),
+                  ContactInfoBasic(contactModel: widget.contactModel),
+                  ContactInfoGender(contactModel: widget.contactModel),
+                  ContactInfoCategory(contactModel: widget.contactModel),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ContactInfoSaveButton(contactModel: widget.contactModel, topPadding: safeAreaTopPadding, height: screenHeight),
+              )
+            ],
+          ),
         ),
       ),
     );

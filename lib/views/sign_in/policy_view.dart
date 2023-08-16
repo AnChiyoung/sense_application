@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class PolicyDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 41.0.h, bottom: 25.0.h),
       child: ContentDescription(presentPage: 1, totalPage: 3, description: '서비스 약관에\n동의해 주세요')
     );
   }
@@ -61,21 +62,21 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 51),
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, bottom: 51.0.h),
       child: Column(
         children: [
           allPolicySelectRow('전체동의'),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.0.h),
           Container(height: 1, color: StaticColor.dividerColor),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.0.h),
           policyRow('[필수] 만 14세 이상입니다', 0),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.0.h),
           policyRow('[필수] 센스 이용약관', 1),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.0.h),
           policyRow('[필수] 개인정보처리 동의', 2),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.0.h),
           policyRow('[필수] 개인정보 처리방침', 3),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.0.h),
           policyRow('[선택] 마케팅 정보 수신 동의', 4),
         ],
       ),
@@ -95,10 +96,10 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset('assets/signin/$checkState', width: 20, height: 20),
-          const SizedBox(width: 12),
+          Image.asset('assets/signin/$checkState', width: 20.0.w, height: 20.0.h),
+          SizedBox(width: 12.0.w),
           Text(text,
-              style: TextStyle(fontSize: 16, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
               softWrap: false,
               overflow: TextOverflow.ellipsis),
         ],
@@ -124,12 +125,15 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset('assets/signin/$checkState', width: 20, height: 20),
-                const SizedBox(width: 12),
-                Text(text,
-                  style: TextStyle(fontSize: 16, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis),
+                Image.asset('assets/signin/$checkState', width: 20.0.w, height: 20.0.h),
+                SizedBox(width: 12.0.w),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(text,
+                    style: TextStyle(fontSize: 14.0.sp, height: 1.57, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis),
+                ),
               ],
             ),
           ),
@@ -153,6 +157,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
             }
             showModalBottomSheet(
               context: context,
+              backgroundColor: Colors.white,
               isScrollControlled: true,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
@@ -161,14 +166,14 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
                 return SizedBox(
                   height: MediaQuery.of(context).size.height - widget.topPadding!,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+                    padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 24.0.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('약관 상세', style: TextStyle(fontSize: 18, color: StaticColor.signinDescriptionColor, fontWeight: FontWeight.w700)),
+                            Text('약관 상세', style: TextStyle(fontSize: 18.0.sp, color: StaticColor.signinDescriptionColor, fontWeight: FontWeight.w700)),
                             Material(
                               color: Colors.transparent,
                               child: InkWell(
@@ -176,22 +181,25 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
                                 onTap: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Image.asset('assets/signin/button_close.png', width: 24, height: 24),
+                                child: Image.asset('assets/signin/button_close.png', width: 24.0.w, height: 24.0.h),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 32),
+                        SizedBox(height: 32.0.h),
                         Expanded(
-                          child: SingleChildScrollView(
-                            physics: const ClampingScrollPhysics(),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(title, style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700)),
-                                const SizedBox(height: 8),
-                                Text(description, style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w400)),
-                              ]
+                          child: ScrollConfiguration(
+                            behavior: const ScrollBehavior().copyWith(overscroll: false),
+                            child: SingleChildScrollView(
+                              physics: const ClampingScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700)),
+                                  const SizedBox(height: 8),
+                                  Text(description, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w400)),
+                                ]
+                              ),
                             ),
                           ),
                         ),
@@ -204,7 +212,7 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
             );
           },
           child: Align(
-              alignment: Alignment.bottomCenter, child: Text('더보기', style: TextStyle(fontSize: 14, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w700))),
+              alignment: Alignment.bottomCenter, child: Text('더보기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w700))),
         ),
       ],
     );
@@ -229,10 +237,10 @@ class _PolicyButtonState extends State<PolicyButton> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
           child: Container(
             width: double.infinity,
-            height: 56,
+            height: 56.0.h,
             decoration: BoxDecoration(
               color: StaticColor.categoryUnselectedColor,
               borderRadius: BorderRadius.circular(4.0),
@@ -245,7 +253,7 @@ class _PolicyButtonState extends State<PolicyButton> {
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: buttonState == true ? StaticColor.categorySelectedColor : StaticColor.signinPolicyAddTextColor, elevation: 0.0),
-              child: Text('다음', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w400)),
+              child: Text('다음', style: TextStyle(fontSize: 16.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
             ),
           ),
         ),
@@ -255,7 +263,7 @@ class _PolicyButtonState extends State<PolicyButton> {
             context.read<SigninProvider>().policyCheckStateChange([true, true, true, true, false]);
             // Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()));
           },
-          child: Text('필수 항목만 동의', style: TextStyle(fontSize: 16, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
+          child: Text('필수 항목만 동의', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
         )
       ],
     );

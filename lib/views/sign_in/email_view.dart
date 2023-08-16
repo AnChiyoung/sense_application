@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
@@ -35,7 +36,7 @@ class EmailDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
+        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 41.0.h, bottom: 25.0.h),
         child: ContentDescription(presentPage: 2, totalPage: 3, description: '로그인 정보를\n입력해 주세요')
     );
   }
@@ -98,12 +99,12 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
                 filled: true,
                 fillColor: StaticColor.loginInputBoxColor,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
                 alignLabelWithHint: false,
                 labelText: '이메일 주소',
-                labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                 hintText: '이메일 주소를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
@@ -155,9 +156,9 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 alignLabelWithHint: false,
                 counterText: '',
                 labelText: '비밀번호',
-                labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                 hintText: '비밀번호를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
@@ -209,9 +210,9 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 alignLabelWithHint: false,
                 counterText: '',
                 labelText: '비밀번호 확인',
-                labelStyle: TextStyle(fontSize: 14, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                 hintText: '비밀번호를 확인해 주세요',
-                hintStyle: TextStyle(fontSize: 16, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
@@ -275,15 +276,6 @@ class _EmailButtonState extends State<EmailButton> {
         child: ElevatedButton(
             onPressed: () async {
               buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
-              // bool result = await TestRequest().signinRequestTest();
-              // var logger = Logger(
-              //   printer: PrettyPrinter(
-              //     lineLength: 120,
-              //     colors: true,
-              //     printTime: true,
-              //   ),
-              // );
-              // logger.e(result);
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true

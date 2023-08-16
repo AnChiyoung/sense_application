@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 
@@ -14,10 +15,23 @@ class PresentUserInfo {
 }
 
 class UserInfoRequest {
+
+  /// logger setting
+  var logger = Logger(
+    printer: PrettyPrinter(
+      lineLength: 120,
+      colors: true,
+      printTime: true,
+    ),
+  );
+
+  /// user info request
   Future<UserInfoModel> userInfoRequest(int requestId) async {
 
+    logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
+
     final response = await http.get(
-      Uri.parse('${ApiUrl.devUrl}$requestId'),
+      Uri.parse('${ApiUrl.releaseUrl}/$requestId'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
@@ -76,16 +90,26 @@ class UserInfoModel {
 
 class LoginRequest {
 
+  /// logger setting
+  var logger = Logger(
+    printer: PrettyPrinter(
+      lineLength: 120,
+      colors: true,
+      printTime: true,
+    ),
+  );
+
+  /// auto login resource
   static FlutterSecureStorage storage = FlutterSecureStorage();
 
   Future<UserInfoModel?> emailLoginReqeust(String email, String password) async {
 
-    // dynamic emptyModel = {'id': -1, 'username': '', 'profile_image_url': ''};
+    logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
 
     Map<String, dynamic> loginBody = LoginRequestModel(id: email, password: password).toJson();
 
     final response = await http.post(
-      Uri.parse('https://dev.server.sense.runners.im/api/v1/user/login'),
+      Uri.parse('${ApiUrl.releaseUrl}/user/login'),
       body: jsonEncode(loginBody),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );

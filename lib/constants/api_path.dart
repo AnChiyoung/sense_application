@@ -3,8 +3,9 @@
 /// api url은 하위 슬래시까지 표기 x : base url + /login/kakao
 
 class ApiUrl {
-  static String devUrl = 'https://dev.server.sense.runners.im/api/v1/';
-  static String stagingUrl = 'https://stg.server.sense.runners.im/api/v1';
+  static String devUrl = 'https://dev.server.sens.im/api/v1';
+  static String stagingUrl = 'https://stg.server.sens.im/api/v1/';
+  static String releaseUrl = devUrl;
 // post create event model
   static String createEventPath = '$devUrl/event';
   static String recommendListPath = '$devUrl/suggestions?recommend_type=';

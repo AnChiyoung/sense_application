@@ -159,6 +159,8 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
       targetListener();
     } else if(step == 2) {
       dateListener();
+    } else if(step == 3) {
+      regionListener();
     }
   }
 
@@ -182,6 +184,12 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
     } else {
       context.read<CreateEventProvider>().dateChange(selectDate);
     }
+    Navigator.pop(context);
+  }
+
+  void regionListener() {
+    // context.read<CreateEventProvider>().tester('1');
+    context.read<CreateEventProvider>().saveRegionChange();
     Navigator.pop(context);
   }
 }

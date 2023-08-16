@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 
 class RecommendCancelDialog extends StatefulWidget {
   const RecommendCancelDialog({super.key});
@@ -68,7 +69,7 @@ class _RecommendCancelDialogState extends State<RecommendCancelDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    context.read<EventInfoProvider>().recommendInitialize();
+                    context.read<CreateEventProvider>().recommendInitialize();
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('취소하기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

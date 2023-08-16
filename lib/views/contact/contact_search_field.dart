@@ -69,7 +69,7 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
             searchFieldFocusNode.unfocus(); /// 중요. 검색화면에서 뒤로갔을 때 포커싱은 여전히 검색탭에 되어있어서, 연락처 상세화면 같은 다른 동작 후에 검색화면이 리턴된다.
             context.read<ContactProvider>().isSearchState(false);
           },
-          child: Center(child: Image.asset('assets/add_event/button_back.png', width: 24, height: 24)),
+          child: Center(child: Image.asset('assets/create_event/button_back.png', width: 24, height: 24)),
         ),
       ),
     );

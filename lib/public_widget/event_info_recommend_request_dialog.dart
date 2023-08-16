@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 
 class RecommendRequestDialog extends StatefulWidget {
   const RecommendRequestDialog({super.key});
@@ -53,8 +54,8 @@ class _RecommendRequestDialogState extends State<RecommendRequestDialog> {
                 ),
               ),
             ),
-            const SizedBox(
-                width: 8
+            SizedBox(
+                width: 8.0.h
             ),
             Expanded(
               flex: 1,
@@ -67,6 +68,8 @@ class _RecommendRequestDialogState extends State<RecommendRequestDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     // context.read<EventInfoProvider>().recommendRequestStateChange(true);
+                    /// 추천 요청하기 로직 완료
+                    context.read<CreateEventProvider>().recommendFinish();
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),

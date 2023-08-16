@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -8,7 +9,9 @@ import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -25,7 +28,6 @@ class _EventListState extends State<EventList> {
   Widget build(BuildContext context) {
     return Consumer<CalendarProvider>(
       builder: (context, data, child) {
-        print('event 조회 리빌드');
 
         int selectMonth = data.selectMonth;
         int selectDay = data.selectDay;
@@ -66,7 +68,6 @@ class _EventListState extends State<EventList> {
                   if(snapshot.data!.isEmpty) {
                     return const Center(child: Text('이벤트가 없습니다', style: TextStyle(color: Colors.black)));
                   } else {
-                    print('있는곳');
                     /// month total data variable
                     List<Map<String, List<EventModel>>> monthEventMap = [];
 
@@ -119,8 +120,10 @@ class _EventListState extends State<EventList> {
                         // temperatureMap.clear();
                       }
 
-                      /// 결과는??
-                      print('why?? : $monthEventMap');
+                      /// event load result
+                      if (kDebugMode) {
+                        print('event load result : $monthEventMap');
+                      }
                     }
 
                     // return Container(height: 30, width: 30, color: Colors.red);
@@ -161,20 +164,21 @@ class _EventListState extends State<EventList> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.black90015, fontWeight: FontWeight.w700)),
-                Material(
-                  color: Colors.transparent,
-                  child: SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(25.0),
-                      onTap: () {
-                        showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [EventListSettingBottomSheet()]);});
-                      },
-                      child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
-                    ),
-                  ),
-                ),
+                /// disabled. kind of event filter. 20230813
+                // Material(
+                //   color: Colors.transparent,
+                //   child: SizedBox(
+                //     width: 40,
+                //     height: 40,
+                //     child: InkWell(
+                //       borderRadius: BorderRadius.circular(25.0),
+                //       onTap: () {
+                //         showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [EventListSettingBottomSheet()]);});
+                //       },
+                //       child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
+                //     ),
+                //   ),
+                // ),
               ]
           );
         }
@@ -384,9 +388,13 @@ class _DayEventsListState extends State<DayEventsList> {
         return Column(
           children: [
             GestureDetector(
-                onTap: () {
-                  // widget.controller.jumpTo(100);
-                },child: EventRow(model: model.elementAt(index))),
+              onTap: () {
+                // widget.controller.jumpTo(100);
+                print(model.elementAt(index).id!);
+                context.read<CreateEventProvider>().createEventUniqueId(model.elementAt(index).id!);
+                Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen()));
+              },
+              child: EventRow(model: model.elementAt(index) ?? EventModel())),
             const Divider(height: 12.0, color: Colors.transparent),
           ],
         );
@@ -407,19 +415,40 @@ class _EventRowState extends State<EventRow> {
 
   late EventModel model;
   Widget categoryWidget = const SizedBox.shrink();
+  String city = '';
+  String subCity = '';
 
   @override
   void initState() {
     model = widget.model;
-    if(model.eventCategory!.id == 1) {
+
+    city = '서울';
+    subCity = '송파';
+
+    // if(model.city!.title == null) {
+    //   city = '지역 미선택';
+    // } else {
+    //   city = model.city!.title.toString();
+    // }
+    //
+    // if(model.subCity!.title == null) {
+    //   subCity = '';
+    // } else {
+    //   subCity = model.subCity!.title.toString();
+    // }
+
+    // city = model.city!.title.toString() ?? '지역 미선택';
+    // subCity = model.subCity!.title.toString() ?? '';
+
+    if(model!.eventCategory!.id == 1) {
       categoryWidget = birthdayLabel;
-    } else if(model.eventCategory!.id == 2) {
+    } else if(model!.eventCategory!.id == 2) {
       categoryWidget = dateLabel;
-    } else if(model.eventCategory!.id == 3) {
+    } else if(model!.eventCategory!.id == 3) {
       categoryWidget = travelLabel;
-    } else if(model.eventCategory!.id == 4) {
+    } else if(model!.eventCategory!.id == 4) {
       categoryWidget = meetLabel;
-    } else if(model.eventCategory!.id == 5) {
+    } else if(model!.eventCategory!.id == 5) {
       categoryWidget = businessLabel;
     }
     super.initState();
@@ -442,7 +471,7 @@ class _EventRowState extends State<EventRow> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(model.eventTitle!, style: TextStyle(fontSize: 16, color: StaticColor.black90015, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis),
+              Text(model.eventTitle! ?? '', style: TextStyle(fontSize: 16, color: StaticColor.black90015, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis),
               categoryWidget
             ]
           ),
@@ -450,13 +479,14 @@ class _EventRowState extends State<EventRow> {
           /// location + time range
           Row(
             children: [
-              Text('${model.city!.title!} ${model.subCity!.title!}', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+              Text('$city $subCity', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+              // Text('${model.city!.title!} ${model.subCity!.title!}', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
               /// 시간 없음. 백 수정
             ],
           ),
           const SizedBox(height: 8.0),
           /// with users
-          EventUsers(userModelList: model.eventUser!),
+          EventUsers(userModelList: model.eventUser! ?? []),
         ],
       ),
     );

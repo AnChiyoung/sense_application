@@ -62,8 +62,9 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
   }
 
   void initDataFetch() async {
-    ContactTabModel resultModel = await ContactRequest().contactListRequest();
-    initData = resultModel.contactModelList!;
+    // ContactTabModel resultModel = await ContactRequest().contactListRequest();
+    initData = await ContactRequest().contactListRequest();
+    // initData = resultModel.contactModelList!;
     initData.isNotEmpty ? context.read<ContactProvider>().isCallContact(initData) : {};
   }
 
@@ -134,14 +135,14 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
                                   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
                                 ),
                                 /// 연락처 섹션 별 카운트
-                                Expanded(
-                                  child: Text(
-                                    // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
-                                    '(10)',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
-                                  ),
-                                ),
+                                // Expanded(
+                                //   child: Text(
+                                //     // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                //     '(10)',
+                                //     overflow: TextOverflow.ellipsis,
+                                //     style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -155,14 +156,14 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
                                   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
                                 ),
                                 /// 연락처 섹션 별 카운트
-                                Expanded(
-                                  child: Text(
-                                    // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
-                                    '(10)',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
-                                  ),
-                                ),
+                                // Expanded(
+                                //   child: Text(
+                                //     // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                //     '(10)',
+                                //     overflow: TextOverflow.ellipsis,
+                                //     style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -176,12 +177,12 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
                                   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
                                 ),
                                 /// 연락처 섹션 별 카운트
-                                Text(
-                                  // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
-                                  '(1)',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
-                                ),
+                                // Text(
+                                //   // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                //   '(1)',
+                                //   overflow: TextOverflow.ellipsis,
+                                //   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                // ),
                               ],
                             ),
                           ),
@@ -195,12 +196,12 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
                                   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
                                 ),
                                 /// 연락처 섹션 별 카운트
-                                Text(
-                                  // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
-                                  '(0)',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
-                                ),
+                                // Text(
+                                //   // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                //   '(0)',
+                                //   overflow: TextOverflow.ellipsis,
+                                //   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                // ),
                               ],
                             ),
                           ),
@@ -208,18 +209,20 @@ class _ContactListViewState extends State<ContactListView> with TickerProviderSt
                             icon: Row(
                               children: [
                                 /// 연락처 섹션 이름
-                                Text(
-                                  '직장',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                Center(
+                                  child: Text(
+                                    '직장',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                  ),
                                 ),
                                 /// 연락처 섹션 별 카운트
-                                Text(
-                                  // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
-                                  '(2)',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
-                                ),
+                                // Text(
+                                //   // '(${tabCategoryCount.elementAt(tabCategory.indexOf(e)).toString()})',
+                                //   '(2)',
+                                //   overflow: TextOverflow.ellipsis,
+                                //   style: TextStyle(fontSize: 13, color: StaticColor.contactTextColor, fontWeight: FontWeight.w700),
+                                // ),
                               ],
                             ),
                           ),
@@ -364,8 +367,8 @@ class _SearchResultFieldState extends State<SearchResultField> {
     super.initState();
   }
 
-  Future<ContactTabModel> _fetchData() async {
-    ContactTabModel result = await ContactRequest().contactListRequest();
+  Future<List<ContactModel>> _fetchData() async {
+    List<ContactModel> result = await ContactRequest().contactListRequest();
     return result;
   }
 
@@ -390,10 +393,9 @@ class _SearchResultFieldState extends State<SearchResultField> {
                   } else if(snapshot.connectionState == ConnectionState.done) {
 
                     /// fetching data
-                    List<ContactModel> model = snapshot.data.contactModelList;
-                    int modelCount = snapshot.data.count;
-
-
+                    List<ContactModel> model = snapshot.data!;
+                    // List<ContactModel> model = snapshot.data.contactModelList;
+                    // int modelCount = snapshot.data.count;
 
                     /// search result : intenal listview
                     /// 대소문자 구분? 구분x?
@@ -404,10 +406,10 @@ class _SearchResultFieldState extends State<SearchResultField> {
                       }
                     }
 
-                    print('---');
-                    print(searchText);
-                    print(searchResultList);
-                    print('---');
+                    // print('---');
+                    // print(searchText);
+                    // print(searchResultList);
+                    // print('---');
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/login/login_view.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,8 +10,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  bool isAndroid = false;
+
   @override
   Widget build(BuildContext context) {
+
+
+    /// foundation platform
+    isAndroid = foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 
     /// safe area height
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
@@ -34,8 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(child: LogoView()),
                   LoginFormView(),
-                  KakaoLoginButton(),
-                  SizedBox(height: 8),
+                  isAndroid == true ? KakaoLoginButton() : Container(height: 163.0.h, color: Colors.white),
+                  SizedBox(height: 8.0.h),
                   SigninView(),
                 ],
               ),

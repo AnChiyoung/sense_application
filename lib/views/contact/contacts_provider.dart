@@ -64,9 +64,11 @@ class ContactProvider with ChangeNotifier {
   }
 
   void contactListLoad() async {
-    ContactTabModel tempModel = await ContactRequest().contactListRequest();
-    _callContact = tempModel.contactModelList!;
-    _listCount = tempModel.count!;
+    _callContact = await ContactRequest().contactListRequest();
+    _listCount = _callContact.length;
+    // ContactTabModel tempModel = await ContactRequest().contactListRequest();
+    // _callContact = tempModel.contactModelList!;
+    // _listCount = tempModel.count!;
     notifyListeners();
   }
 
@@ -79,8 +81,9 @@ class ContactProvider with ChangeNotifier {
   }
 
   void infoChange(bool state) async {
-    ContactTabModel tempModel = await ContactRequest().contactListRequest();
-    _callContact = tempModel.contactModelList!;
+    // ContactTabModel tempModel = await ContactRequest().contactListRequest();
+    // _callContact = tempModel.contactModelList!;
+    _callContact = await ContactRequest().contactListRequest();
     _bookmarkState = state;
     notifyListeners();
   }
@@ -90,8 +93,9 @@ class ContactProvider with ChangeNotifier {
   }
 
   void infoReload(ContactModel model) async {
-    ContactTabModel tempModel = await ContactRequest().contactListRequest();
-    _callContact = tempModel.contactModelList!;
+    // ContactTabModel tempModel = await ContactRequest().contactListRequest();
+    // _callContact = tempModel.contactModelList!;
+    _callContact = await ContactRequest().contactListRequest();
     _contactModel = model;
     // _contactModel = await ContactRequest().contactDetailRequest(contactId);
     notifyListeners();

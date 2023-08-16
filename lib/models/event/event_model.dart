@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 
 class EventRequest {
 
@@ -28,10 +29,10 @@ class EventRequest {
       monthQuery = '?month=${selectMonth.toString()}';
     }
 
-    logger.v('${ApiUrl.devUrl}events$monthQuery');
+    logger.v('${ApiUrl.releaseUrl}/events$monthQuery');
 
     final response = await http.get(
-      Uri.parse('${ApiUrl.devUrl}events$monthQuery'),
+      Uri.parse('${ApiUrl.releaseUrl}/events$monthQuery'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -53,7 +54,7 @@ class EventRequest {
   Future<EventModel> eventRequest(int eventId) async {
 
     final response = await http.get(
-      Uri.parse('${ApiUrl.devUrl}event/${eventId.toString()}'),
+      Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -78,6 +79,8 @@ class EventRequest {
     context.read<CreateEventProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
     context.read<CreateEventProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category + 1;
     context.read<CreateEventProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventProvider>().target;
+    // context.read<CreateEventProvider>().city == -1 ? {} : createModel['city'] = context.read<CreateEventProvider>().city;
+    // context.read<CreateEventProvider>().subCity.isEmpty ? {} : createModel['sub_city'] = context.read<CreateEventProvider>().subCity.elementAt(0);
     // /// city, subcity 개선 필요
     // // context.read<CreateEventProvider>().city == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
     // // context.read<CreateEventProvider>().subCity == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
@@ -89,7 +92,7 @@ class EventRequest {
     );
 
     final response = await http.post(
-      Uri.parse('${ApiUrl.devUrl}event'),
+      Uri.parse('${ApiUrl.releaseUrl}/event'),
       body: jsonEncode(createModel),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -124,7 +127,7 @@ class EventRequest {
     context.read<CreateEventProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventProvider>().memo;
 
     final response = await http.post(
-        Uri.parse('${ApiUrl.devUrl}event'),
+        Uri.parse('${ApiUrl.releaseUrl}/event'),
         body: jsonEncode(createModel),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
@@ -140,6 +143,67 @@ class EventRequest {
       return true;
     } else {
       logger.v('fail to event update');
+      return false;
+    }
+  }
+
+  /// personal field event update
+  Future<bool> personalFieldUpdateEvent(BuildContext context, int eventId, int fieldNumber) async {
+
+    Map<String, dynamic> fieldModel = {};
+
+    print(context.read<CreateEventProvider>().isAlarm);
+
+    if(fieldNumber == 0) {
+      fieldModel['title'] = context.read<CreateEventProvider>().title;
+    } else if(fieldNumber == 1) {
+      fieldModel['event_category'] = context.read<CreateEventProvider>().category;
+    } else if(fieldNumber == 2) {
+      fieldModel['contact_category'] = context.read<CreateEventProvider>().target;
+    } else if(fieldNumber == 3) {
+      fieldModel['date'] = context.read<CreateEventProvider>().date;
+    } else if(fieldNumber == 4) {
+      fieldModel['memo'] = context.read<CreateEventProvider>().memo;
+    } else if(fieldNumber == 5) {
+      fieldModel['is_alarm'] = context.read<CreateEventProvider>().isAlarm;
+    } else if(fieldNumber == 6) {
+      fieldModel['public_type'] = context.read<CreateEventProvider>().publicType;
+    }
+
+    final response = await http.patch(
+        Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
+        body: jsonEncode(fieldModel),
+        headers: {
+          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('success to event update');
+      return true;
+    } else {
+      logger.v('fail to event update');
+      return false;
+    }
+  }
+
+  /// event delete
+  Future<bool> deleteEvent(int eventUniqueId) async {
+
+    final response = await http.delete(
+        Uri.parse('${ApiUrl.releaseUrl}/event/${eventUniqueId.toString()}'),
+        headers: {
+          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+    );
+
+    if(response.statusCode == 204) {
+      logger.v('success to event delete');
+      return true;
+    } else {
+      logger.v('fail to event delete');
       return false;
     }
   }
@@ -221,11 +285,11 @@ class EventModel {
   EventModel.fromPersonalJson(dynamic json) {
     id = json['id'] ?? -1;
     eventHost = json['master'] != null ? EventHost.fromJson(json['master'] ?? EventHost()) : null;
-    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
-    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
+    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : EventCategory(id: -1, title: '');
+    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
     // recommendCategory = json['recommend_category'] ?? '';
-    city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : null;
-    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : null;
+    city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: 1, title: '서울');
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: 1, title: '서울');
     eventTitle = json['title'] ?? '';
     description = json['description'] ?? '';
     totalCost = json['total_cost'] ?? -1;
@@ -274,8 +338,8 @@ class EventHost {
 }
 
 class EventCategory {
-  int? id;
-  String? title;
+  int? id = -1;
+  String? title = '';
 
   EventCategory({
     this.id,
@@ -289,8 +353,8 @@ class EventCategory {
 }
 
 class ContactCategory {
-  int? id;
-  String? title;
+  int? id = -1;
+  String? title = '';
 
   ContactCategory({
     this.id,
