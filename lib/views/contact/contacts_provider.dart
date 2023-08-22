@@ -8,6 +8,27 @@ import 'package:sense_flutter_application/models/contact/contact_model.dart';
 class ContactProvider with ChangeNotifier {
   static ContactModel publicEmptyObject = ContactModel(); // 객체 비교용
 
+  /// 20230821
+  bool _updateState = false;
+  bool get updateState => _updateState;
+
+  void viewUpdate(bool state) {
+    _updateState = true;
+    notifyListeners();
+  }
+
+  int _searchFocus = 0;
+  int get searchFocus => _searchFocus;
+
+  void searchFocusUpdate() {
+    _searchFocus++;
+  }
+
+  void searchFocusInit() {
+    _searchFocus = 0;
+  }
+
+
   /// 수정용 variable
   int _updateCategory = 0;
   int get updateCategory => _updateCategory;
@@ -77,6 +98,9 @@ class ContactProvider with ChangeNotifier {
 
   void isSearchState(bool state) {
     _searchState = state;
+    if(state == false) {
+      _searchFocus = 0;
+    }
     notifyListeners();
   }
 

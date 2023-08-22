@@ -7,7 +7,9 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     final response = await http.get(
-        Uri.parse('${ApiUrl.releaseUrl}/post/${feedId.toString()}'),
+
+      Uri.parse('https://dev.server.sens.im/api/v1/post/39'),
+        // Uri.parse('${ApiUrl.releaseUrl}/post/${feedId.toString()}'),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'

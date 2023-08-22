@@ -90,7 +90,7 @@ class _LoginFormViewState extends State<LoginFormView> {
           children: [
             /// email input field
             Container(
-              height: 50.0.h,
+              height: 48.0.h,
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
               decoration: BoxDecoration(
                 color: StaticColor.loginInputBoxColor,
@@ -110,7 +110,7 @@ class _LoginFormViewState extends State<LoginFormView> {
             SizedBox(height: 8.0.h),
             /// password input field
             Container(
-              height: 50,
+              height: 48.0.h,
               padding: EdgeInsets.symmetric(horizontal: 16.0.w),
               decoration: BoxDecoration(
                 color: StaticColor.loginInputBoxColor,

@@ -3,13 +3,12 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/detail/ai_analytics_view.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/detail/combine_event_view.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/detail/contact_detail_friend_info_view.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/detail/contact_detail_header_view.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/detail/favorite_view.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
-import 'package:sense_flutter_application/views/contact/detail/ai_analytics_view.dart';
-import 'package:sense_flutter_application/views/contact/detail/bottom_button_view.dart';
-import 'package:sense_flutter_application/views/contact/detail/combine_event_view.dart';
-import 'package:sense_flutter_application/views/contact/detail/contact_detail_friend_info_view.dart';
-import 'package:sense_flutter_application/views/contact/detail/contact_detail_header_view.dart';
-import 'package:sense_flutter_application/views/contact/detail/favorite_view.dart';
 
 class ContactDetailScreen extends StatefulWidget {
   ContactModel contactModel;

@@ -31,8 +31,10 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: StaticColor.loginBackgroundColor,
+        // backgroundColor: StaticColor.loginBackgroundColor,
         body: SafeArea(
+          top: true,
+          bottom: false,
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: SizedBox(

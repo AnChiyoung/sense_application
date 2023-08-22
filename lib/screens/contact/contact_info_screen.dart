@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
-import 'package:sense_flutter_application/views/contact/contact_info_view.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/contact_info_view.dart';
 
 class ContactInfoScreen extends StatefulWidget {
   ContactModel contactModel;

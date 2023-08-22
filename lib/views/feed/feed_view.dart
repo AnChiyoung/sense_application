@@ -91,14 +91,14 @@ class _FeedHeaderState extends State<FeedHeader> {
               borderRadius: BorderRadius.circular(24),
               onTap: () {
                 /// sprint05
-                // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
                 /// logout
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return LogoutDialog(action: logoutAction);
-                    });
+                // showDialog(
+                //     context: context,
+                //     barrierDismissible: false,
+                //     builder: (BuildContext context) {
+                //       return LogoutDialog(action: logoutAction);
+                //     });
               },
               child: Image.asset('assets/feed/logout_button.png', width: 24.0.w, height: 24.0.h),
             ),

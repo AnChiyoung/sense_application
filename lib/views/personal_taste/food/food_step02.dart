@@ -26,6 +26,16 @@ class _FoodStep02State extends State<FoodStep02> {
             builder: (context, data, child) {
 
               List<bool> selectorState = data.foodSelector;
+              List<int> selectorNumber = [];
+              int guideNumeric = 0;
+              for(var element in selectorState) {
+                if(element == true) {
+                  selectorNumber.add(guideNumeric);
+                  guideNumeric++;
+                } else {
+                  selectorNumber.add(0);
+                }
+              }
 
               return Column(
                 children: [
@@ -33,9 +43,9 @@ class _FoodStep02State extends State<FoodStep02> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        foodBox(widget.deviceWidth, 0, null, '한식', selectorState[0]),
-                        foodBox(widget.deviceWidth, 1, null, '양식', selectorState[1]),
-                        foodBox(widget.deviceWidth, 2, null, '일식', selectorState[2]),
+                        foodBox(widget.deviceWidth, 0, 'assets/taste/food/food01.png', '한식', selectorState[0]),
+                        foodBox(widget.deviceWidth, 1, 'assets/taste/food/food02.png', '양식', selectorState[1]),
+                        foodBox(widget.deviceWidth, 2, 'assets/taste/food/food03.png', '일식', selectorState[2]),
                       ]
                   ),
                   SizedBox(height: 24.0.h),
@@ -43,9 +53,9 @@ class _FoodStep02State extends State<FoodStep02> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        foodBox(widget.deviceWidth, 3, null, '중식', selectorState[3]),
-                        foodBox(widget.deviceWidth, 4, null, '비건', selectorState[4]),
-                        foodBox(widget.deviceWidth, 5, null, '패스트푸드', selectorState[5]),
+                        foodBox(widget.deviceWidth, 3, 'assets/taste/food/food04.png', '중식', selectorState[3]),
+                        foodBox(widget.deviceWidth, 4, 'assets/taste/food/food05.png', '비건', selectorState[4]),
+                        foodBox(widget.deviceWidth, 5, 'assets/taste/food/food06.png', '패스트푸드', selectorState[5]),
                       ]
                   ),
                   SizedBox(height: 24.0.h),
@@ -53,9 +63,9 @@ class _FoodStep02State extends State<FoodStep02> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        foodBox(widget.deviceWidth, 6, null, '아시안', selectorState[6]),
-                        foodBox(widget.deviceWidth, 7, null, '분식', selectorState[7]),
-                        foodBox(widget.deviceWidth, 8, null, '퓨전', selectorState[8]),
+                        foodBox(widget.deviceWidth, 6, 'assets/taste/food/food07.png', '아시안', selectorState[6]),
+                        foodBox(widget.deviceWidth, 7, 'assets/taste/food/food08.png', '분식', selectorState[7]),
+                        foodBox(widget.deviceWidth, 8, 'assets/taste/food/food09.png', '퓨전', selectorState[8]),
                       ]
                   ),
                 ],
@@ -67,7 +77,7 @@ class _FoodStep02State extends State<FoodStep02> {
     );
   }
 
-  Widget foodBox(double width, int index, [String? image, String? title, bool? state]) {
+  Widget foodBox(double width, int index, int selectorNumber, [String? image, String? title, bool? state]) {
 
     String profileImage = image ?? '';
     String profileTitle = title ?? '';
@@ -80,14 +90,40 @@ class _FoodStep02State extends State<FoodStep02> {
       },
       child: Column(
         children: [
-          Container(
-            width: profileWidth,
-            height: profileWidth,
-            decoration: BoxDecoration(
-              color: StaticColor.grey300E0,
-              borderRadius: BorderRadius.circular(8.0),
-              border: profileState == false ? null : Border.all(color: StaticColor.mainSoft, width: 4), /// width 쪽에 삼항연산자 줬을 때는 미묘한 width가 있음
-            )
+          Stack(
+            children: [
+              /// image
+              Container(
+                  width: profileWidth,
+                  height: profileWidth,
+                  child: image == null ? const SizedBox.shrink() : FittedBox(
+                    fit: BoxFit.fill,
+                    child: Image.asset(image!),
+                  )
+              ),
+              /// border
+              Container(
+                  width: profileWidth,
+                  height: profileWidth,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: profileState == false ? null : Border.all(color: StaticColor.mainSoft, width: 4), /// width 쪽에 삼항연산자 줬을 때는 미묘한 width가 있음
+                  ),
+              ),
+              /// number
+              profileState == true ? Container(
+                width: 32.0.w,
+                height: 32.0.h,
+                padding: EdgeInsets.only(left: 8.0.w, top: 8.0.h),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: StaticColor.mainSoft,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(child: Text(selector.toString(), style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500)))
+                )
+              ) : const SizedBox.shrink(),
+            ],
           ),
           SizedBox(height: 8.0.h),
           profileTitle.isEmpty ? const SizedBox.shrink() : Text(profileTitle, style: TextStyle(fontSize: 14.0.sp, color: profileState == false ? StaticColor.black90015 : StaticColor.mainSoft, fontWeight: FontWeight.w600)),

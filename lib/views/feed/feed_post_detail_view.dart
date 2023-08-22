@@ -47,42 +47,39 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: FutureBuilder(
-              future: activeFuture,
-              builder: (context, snapshot) {
-                if(snapshot.hasError) {
-                  return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
-                } else if(snapshot.hasData) {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: FutureBuilder(
+            future: activeFuture,
+            builder: (context, snapshot) {
+              if(snapshot.hasError) {
+                return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
+              } else if(snapshot.hasData) {
 
-                  FeedDetailModel feedDetailModel = snapshot.data!;
+                FeedDetailModel feedDetailModel = snapshot.data!;
 
-                  if(snapshot.connectionState == ConnectionState.waiting) {
-                    // return const Center(child: Text('data loading..'));
-                    return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                  } else if(snapshot.connectionState == ConnectionState.done) {
-                    return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
-                    // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                } else {
+                if(snapshot.connectionState == ConnectionState.waiting) {
                   // return const Center(child: Text('data loading..'));
-                  return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                } else if(snapshot.connectionState == ConnectionState.done) {
+                  return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
+                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                } else {
+                  return const CircularProgressIndicator();
                 }
+              } else {
+                // return const Center(child: Text('data loading..'));
+                return Center(child: Text('ETC', style: TextStyle(color: StaticColor.grey60077)));
               }
-            )
+            }
           )
-        ),
+        )
       ),
     );
   }

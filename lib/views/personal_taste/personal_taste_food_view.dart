@@ -193,7 +193,7 @@ class _FoodButtonState extends State<FoodButton> {
               onPressed: () {
                 if(buttonState == true) {
                   if(step == 7) {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteLodgingScreen()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteLodgingScreen()));
                   } else {
                     context.read<TasteProvider>().presentStepChange(step + 1);
                   }

@@ -188,16 +188,18 @@ class ContactRequest {
   }
 
   /// contact update
-  Future<ContactModel> contactUpdateRequest(int contactId, int category, String name, String phone, String birthday, String gender, String profileImage) async {
+  Future<bool> contactUpdateRequest(int contactId, int category, String name, String phone, String birthday, String gender, String profileImage) async {
 
     Map<String, dynamic> updateRequestBody = ContactModel(
       contactCategory: category,
       name: name,
-      phone: phone,
-      birthday: birthday,
+      phone: phone.isEmpty ? '010-0000-0000' : phone,
+      birthday: birthday.isEmpty ? '${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}' : birthday,
       gender: gender,
-      profileImage: profileImage, /// base 64 string focused
+      profileImage: profileImage.isEmpty ? null : profileImage, /// base 64 string focused
     ).updateJson();
+
+    print(updateRequestBody);
 
     // print(jsonEncode(updateRequestBody));
     // print('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}');
@@ -210,6 +212,9 @@ class ContactRequest {
         'Content-Type': 'application/json; charset=UTF-8'
       },
     );
+
+    // print(response.statusCode);
+    // return ContactModel();
 
     // final responseMetaData = http.MultipartRequest(
     //   'PATCH',
@@ -227,10 +232,10 @@ class ContactRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 수정 성공');
       ContactModel model = ContactModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
-      return model;
+      return true;
     } else {
       print('연락처 수정 실패');
-      return ContactModel();
+      return false;
     }
   }
 }

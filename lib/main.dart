@@ -28,13 +28,17 @@ void main() async {
   // bool isDarkMode;
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.white));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   KakaoSdk.init(
     nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
     javaScriptAppKey: '90dd5b3346fbc9c76d27afbd3b2fc068',
     loggingEnabled: true,
   );
+  // // 앱 화면방향 세로 고정
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+  //     .then((_) => runApp(const MyApp()));
+
   runApp(
       MultiProvider(
         providers: [
@@ -71,7 +75,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
-          color: Colors.white,
+          // color: Colors.white,
           /// 현재 context를 가져오기 위한 global key state set
           // navigatorKey: CandyGlobalVariable.naviagatorState,
           /// 모든 기능 페이지에서 home으로 이동 시, route stack을 제거하기 위해 home만 router name을 사용
@@ -90,15 +94,15 @@ class MyApp extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           title: 'Sense flutter application',
-          theme: ThemeData(
-            brightness: Brightness.dark,
-          ),
+          // theme: ThemeData(
+          //   brightness: Brightness.dark,
+          // ),
           /* light theme settings */
           // darkTheme: ThemeData(
           //   brightness: Brightness.dark,
           //   /* dark theme settings */
           // ),
-          // themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           // // theme: ThemeData(
           // //   primarySwatch: Colors.blue,
           // // ),
