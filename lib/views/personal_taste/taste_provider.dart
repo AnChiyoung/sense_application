@@ -37,10 +37,49 @@ class TasteProvider with ChangeNotifier {
   List<bool> _foodSelector = [false, false, false, false, false, false, false, false, false];
   List<bool> get foodSelector => _foodSelector;
 
+  List<int> _selectorDirection = [0,0,0,0,0,0,0,0,0];
+  List<int> get selectorDirection => _selectorDirection;
+
   void foodSelectorChange(int index, bool state) {
     _foodSelector[index] = state;
+
+    int counting = 0;
+
+    for(var elements in _selectorDirection) {
+      if(elements != 0) {
+        counting++;
+      }
+    }
+
+    int originalNumber = _selectorDirection.elementAt(index);
+
+    if(state == false) {
+      _selectorDirection[index] = 0;
+      for(int i = 0; i < _selectorDirection.length; i++) {
+        if(_selectorDirection.elementAt(i) > originalNumber) {
+          _selectorDirection[i] = _selectorDirection.elementAt(i) - 1;
+        } else {}
+      }
+    } else {
+      // for (var elements in _selectorDirection) {
+      //   if(elements != 0) {
+      //     counting++;
+      //   }
+      // }
+      if(counting == 0) {
+        counting = 1;
+      } else {}
+      print(_selectorDirection);
+      _selectorDirection[index] = counting;
+      // _selectorDirection
+    }
     notifyListeners();
   }
+
+  // void selectorDirectionChange(List<int> state) {
+  //   _selectorDirection = state;
+  //   notifyListeners();
+  // }
 
   List<bool> _spicySelector = [false, false, false, false, false];
   List<bool> get spicySelector => _spicySelector;

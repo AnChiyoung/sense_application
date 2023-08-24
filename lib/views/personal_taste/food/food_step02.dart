@@ -26,16 +26,18 @@ class _FoodStep02State extends State<FoodStep02> {
             builder: (context, data, child) {
 
               List<bool> selectorState = data.foodSelector;
-              List<int> selectorNumber = [];
-              int guideNumeric = 0;
-              for(var element in selectorState) {
-                if(element == true) {
-                  selectorNumber.add(guideNumeric);
-                  guideNumeric++;
-                } else {
-                  selectorNumber.add(0);
-                }
-              }
+              List<int> selectorNumber = data.selectorDirection;
+
+              // List<int> selectorNumber = [];
+              // int guideNumeric = 0;
+              // for(var element in selectorState) {
+              //   if(element == true) {
+              //     selectorNumber.add(guideNumeric);
+              //     guideNumeric++;
+              //   } else {
+              //     selectorNumber.add(0);
+              //   }
+              // }
 
               return Column(
                 children: [
@@ -43,9 +45,9 @@ class _FoodStep02State extends State<FoodStep02> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        foodBox(widget.deviceWidth, 0, 'assets/taste/food/food01.png', '한식', selectorState[0]),
-                        foodBox(widget.deviceWidth, 1, 'assets/taste/food/food02.png', '양식', selectorState[1]),
-                        foodBox(widget.deviceWidth, 2, 'assets/taste/food/food03.png', '일식', selectorState[2]),
+                        foodBox(widget.deviceWidth, 0, selectorNumber.elementAt(0), 'assets/taste/food/food01.png', '한식', selectorState[0]),
+                        foodBox(widget.deviceWidth, 1, selectorNumber.elementAt(1), 'assets/taste/food/food02.png', '양식', selectorState[1]),
+                        foodBox(widget.deviceWidth, 2, selectorNumber.elementAt(2), 'assets/taste/food/food03.png', '일식', selectorState[2]),
                       ]
                   ),
                   SizedBox(height: 24.0.h),
@@ -53,9 +55,9 @@ class _FoodStep02State extends State<FoodStep02> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        foodBox(widget.deviceWidth, 3, 'assets/taste/food/food04.png', '중식', selectorState[3]),
-                        foodBox(widget.deviceWidth, 4, 'assets/taste/food/food05.png', '비건', selectorState[4]),
-                        foodBox(widget.deviceWidth, 5, 'assets/taste/food/food06.png', '패스트푸드', selectorState[5]),
+                        foodBox(widget.deviceWidth, 3, selectorNumber.elementAt(3), 'assets/taste/food/food04.png', '중식', selectorState[3]),
+                        foodBox(widget.deviceWidth, 4, selectorNumber.elementAt(4), 'assets/taste/food/food05.png', '비건', selectorState[4]),
+                        foodBox(widget.deviceWidth, 5, selectorNumber.elementAt(5), 'assets/taste/food/food06.png', '패스트푸드', selectorState[5]),
                       ]
                   ),
                   SizedBox(height: 24.0.h),
@@ -63,9 +65,9 @@ class _FoodStep02State extends State<FoodStep02> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        foodBox(widget.deviceWidth, 6, 'assets/taste/food/food07.png', '아시안', selectorState[6]),
-                        foodBox(widget.deviceWidth, 7, 'assets/taste/food/food08.png', '분식', selectorState[7]),
-                        foodBox(widget.deviceWidth, 8, 'assets/taste/food/food09.png', '퓨전', selectorState[8]),
+                        foodBox(widget.deviceWidth, 6, selectorNumber.elementAt(6), 'assets/taste/food/food07.png', '아시안', selectorState[6]),
+                        foodBox(widget.deviceWidth, 7, selectorNumber.elementAt(7), 'assets/taste/food/food08.png', '분식', selectorState[7]),
+                        foodBox(widget.deviceWidth, 8, selectorNumber.elementAt(8), 'assets/taste/food/food09.png', '퓨전', selectorState[8]),
                       ]
                   ),
                 ],
@@ -120,7 +122,7 @@ class _FoodStep02State extends State<FoodStep02> {
                     color: StaticColor.mainSoft,
                     shape: BoxShape.circle,
                   ),
-                  child: Center(child: Text(selector.toString(), style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500)))
+                  child: Center(child: Text(selectorNumber.toString(), style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500)))
                 )
               ) : const SizedBox.shrink(),
             ],
