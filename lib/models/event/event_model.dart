@@ -32,7 +32,7 @@ class EventRequest {
     logger.v('${ApiUrl.releaseUrl}/events$monthQuery');
 
     final response = await http.get(
-      Uri.parse('${ApiUrl.releaseUrl}/events$monthQuery'),
+      Uri.parse('${ApiUrl.releaseUrl}/events$monthQuery&is_participated=true'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'

@@ -75,7 +75,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        // search(searchController.text);
+                        search(searchController.text);
                       },
                       child: Image.asset('assets/feed/search_button.png', width: 24, height: 24),
                     ),
@@ -99,6 +99,25 @@ class _FeedHeaderState extends State<FeedHeader> {
                 //     builder: (BuildContext context) {
                 //       return LogoutDialog(action: logoutAction);
                 //     });
+              },
+              child: Icon(Icons.account_circle)
+            ),
+          ),
+          const SizedBox(width: 12),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(24),
+              onTap: () {
+                /// sprint05
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+                /// logout
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return LogoutDialog(action: logoutAction);
+                    });
               },
               child: Image.asset('assets/feed/logout_button.png', width: 24.0.w, height: 24.0.h),
             ),
@@ -229,17 +248,19 @@ class _FeedTagListState extends State<FeedTagList> {
                         itemCount: tagModels!.length,
                         itemBuilder: (context, index) {
 
-                          final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
+                          final selectTagIndex = context.watch<FeedProvider>().selectTagIndex;
 
                           return Row(
                             children: [
                               Material(
                                 borderRadius: BorderRadius.circular(18),
-                                color: index == selectTagNumber ? Colors.grey.shade800 : Colors.grey.shade200,
+                                color: index == selectTagIndex ? Colors.grey.shade800 : Colors.grey.shade200,
                                 child: InkWell(
                                   borderRadius: BorderRadius.circular(16),
                                   onTap: () {
-                                    context.read<FeedProvider>().selectTagNumberChange(index);
+                                    // context.read<FeedProvider>().selectTagNumberChange(index);
+                                    /// 20230827
+                                    context.read<FeedProvider>().selectTagNumberChange(tagModels.elementAt(index).id!, index);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -250,7 +271,7 @@ class _FeedTagListState extends State<FeedTagList> {
                                       child: Text(
                                         tagModels.elementAt(index).title!,
                                         style: TextStyle(
-                                          color: index == selectTagNumber ? Colors.white : Colors.grey.shade700,
+                                          color: index == selectTagIndex ? Colors.white : Colors.grey.shade700,
                                           fontSize: 14,
                                         ),
                                       ),
@@ -331,6 +352,19 @@ class FeedPostList extends StatefulWidget {
 }
 
 class _FeedPostListState extends State<FeedPostList> {
+
+  @override
+  void initState() {
+    getInitLabel();
+    super.initState();
+  }
+
+  Future getInitLabel() async {
+    List<TagModel> tagModels = await FeedTagLoad().tagRequest();
+    final firstTagNumber = tagModels.elementAt(0).id;
+    context.read<FeedProvider>().selectTagNumberChange(firstTagNumber!, 0);
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -346,13 +380,12 @@ class _FeedPostListState extends State<FeedPostList> {
             builder: (context, snapshot) {
 
               if(snapshot.hasError) {
-                return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
+                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               } else if(snapshot.hasData) {
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/test.json', width: 150, height: 150));
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
-                  /// 데이터 뿌리자지
                   List<FeedPreviewModel>? model = snapshot.data;
 
                   if(model!.isEmpty) {
@@ -368,7 +401,7 @@ class _FeedPostListState extends State<FeedPostList> {
                   return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }
               } else {
-                return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
+                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               }
 
 

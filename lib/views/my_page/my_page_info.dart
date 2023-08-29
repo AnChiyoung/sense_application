@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/screens/my_page/my_info_update_screen.dart';
 
@@ -56,9 +57,9 @@ class _MyPageProfileState extends State<MyPageProfile> {
         children: [
           Row(
             children: [
-              UserProfileImage(size: 48.0.w),
+              UserProfileImage(size: 48.0.w, profileImageUrl: PresentUserInfo.profileImage,),
               SizedBox(width: 10.0.w),
-              Text('이름이요', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+              Text(PresentUserInfo.username.isEmpty ? 'User${PresentUserInfo.id}' : PresentUserInfo.username, style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
             ]
           ),
           Material(

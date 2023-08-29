@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_result_screen.dart';
 import 'package:sense_flutter_application/screens/personal_taste/personal_taste_lodging_screen.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step01.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step02.dart';
@@ -11,6 +12,7 @@ import 'package:sense_flutter_application/views/personal_taste/food/food_step04.
 import 'package:sense_flutter_application/views/personal_taste/food/food_step05.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step06.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step07.dart';
+import 'package:sense_flutter_application/views/personal_taste/personal_taste_food_result_view.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 
 class FoodHeader extends StatefulWidget {
@@ -33,6 +35,7 @@ class _FoodHeaderState extends State<FoodHeader> {
 
         return Column(
           children: [
+            // HeaderMenu(backCallback: stepController, title: '음식 취향', rightMenu: temperatureSave()),
             HeaderMenu(backCallback: stepController, title: '음식 취향'),
             Container(
               width: double.infinity,
@@ -105,6 +108,17 @@ class _FoodHeaderState extends State<FoodHeader> {
     } else {
       context.read<TasteProvider>().presentStepChange(step - 1);
     }
+  }
+
+  Widget temperatureSave() {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(25.0),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 6.0.h),
+          child: Text('임시저장', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)))));
   }
 }
 
@@ -183,7 +197,8 @@ class _FoodButtonState extends State<FoodButton> {
         } else if(step == 6) {
           foodStep06.isEmpty ? buttonState = false : buttonState = true;
         } else if(step == 7) {
-          foodStep07.isEmpty ? buttonState = false : buttonState = true;
+          buttonState = true;
+          // foodStep07.isEmpty ? buttonState = false : buttonState = true;
         }
 
         return SizedBox(
@@ -194,6 +209,7 @@ class _FoodButtonState extends State<FoodButton> {
                 if(buttonState == true) {
                   if(step == 7) {
                     // Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteLodgingScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen()));
                   } else {
                     context.read<TasteProvider>().presentStepChange(step + 1);
                   }

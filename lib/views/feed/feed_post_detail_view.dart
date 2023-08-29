@@ -59,7 +59,7 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
             future: activeFuture,
             builder: (context, snapshot) {
               if(snapshot.hasError) {
-                return Center(child: Text('Error fetching posts', style: TextStyle(color: StaticColor.grey60077)));
+                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               } else if(snapshot.hasData) {
 
                 FeedDetailModel feedDetailModel = snapshot.data!;
@@ -71,11 +71,11 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
                   return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
                   // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 } else {
-                  return const CircularProgressIndicator();
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }
               } else {
                 // return const Center(child: Text('data loading..'));
-                return Center(child: Text('ETC', style: TextStyle(color: StaticColor.grey60077)));
+                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               }
             }
           )
@@ -113,11 +113,15 @@ class _PostDetailState extends State<PostDetail> {
   void makeContentsWidget(FeedDetailModel model) {
     model.content!.map((e) {
       if(e.type == 'TEXT') {
-        contentsWidget.add(ContentTextTypeParagraph(text: e.contentUrl.toString()));
+        // contentsWidget.add(ContentTextTypeParagraph(text: e.contentUrl.toString()));
+        contentsWidget.add(ContentTextTypeParagraph(text: ''.toString()));
       } else if(e.type == 'IMAGE') {
-        contentsWidget.add(ContentImageTypeParagraph(imageUrl: e.contentUrl.toString()));
+        // contentsWidget.add(ContentImageTypeParagraph(imageUrl: e.contentUrl.toString()));
+        // contentsWidget.add(ContentImageTypeParagraph(imageUrl: ''.toString()));
+        contentsWidget.add(Container());
       } else if(e.type == 'URL') {
-        contentsWidget.add(ContentURLTypeParagraph(text: e.contentUrl.toString()));
+        // contentsWidget.add(ContentURLTypeParagraph(text: e.contentUrl.toString()));
+        contentsWidget.add(ContentTextTypeParagraph(text: ''.toString()));
       }
     }).toList();
   }
@@ -167,10 +171,10 @@ class _PostDetailState extends State<PostDetail> {
                 title: model!.contentTitle!,
                 eventPeriodLabel: '',
                 eventPeriod: '',),
-              model!.content!.isEmpty ? const SizedBox.shrink()
-                  : Column(
-                      children: contentsWidget
-                    ),
+              // model!.content!.isEmpty ? const SizedBox.shrink()
+              //     : Column(
+              //         children: contentsWidget
+              //       ),
               const SizedBox(height: 80.0),
               // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
             ],

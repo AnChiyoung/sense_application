@@ -519,6 +519,7 @@ class _ContactInfoSaveButtonState extends State<ContactInfoSaveButton> {
               context.read<ContactProvider>().updateBirthday,
               context.read<ContactProvider>().updateGender,
               context.read<ContactProvider>().updateImage,
+              context
           );
           // context.read<ContactProvider>().infoReload(updateResult);
           context.read<ContactProvider>().viewUpdate(!context.read<ContactProvider>().updateState);

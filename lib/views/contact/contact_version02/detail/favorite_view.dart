@@ -9,11 +9,10 @@ class FavoriteListView extends StatefulWidget {
   FavoriteListView({super.key, required this.contactModel});
 
   @override
-  State<FavoriteListView> createState() => _FavoriteViewState();
+  State<FavoriteListView> createState() => _FavoriteListViewState();
 }
 
-class _FavoriteViewState extends State<FavoriteListView> {
-
+class _FavoriteListViewState extends State<FavoriteListView> {
   String name = '';
 
   @override

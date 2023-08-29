@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
-class BottomButtonView extends StatefulWidget {
+class BottomButtonView extends StatelessWidget {
   const BottomButtonView({super.key});
 
-  @override
-  State<BottomButtonView> createState() => _BottomButtonViewState();
-}
-
-class _BottomButtonViewState extends State<BottomButtonView> {
   @override
   Widget build(BuildContext context) {
     return Row(

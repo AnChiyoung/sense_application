@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
           //   brightness: Brightness.dark,
           //   /* dark theme settings */
           // ),
-          themeMode: ThemeMode.light,
+          // themeMode: ThemeMode.light,
           // // theme: ThemeData(
           // //   primarySwatch: Colors.blue,
           // // ),

@@ -182,7 +182,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
     if(selectDate == '') {
       context.read<CreateEventProvider>().dateChange(DateTime.now().toString().substring(0, 10));
     } else {
-      context.read<CreateEventProvider>().dateChange(selectDate);
+      context.read<CreateEventProvider>().dateChange(selectDate.substring(0, 10));
     }
     Navigator.pop(context);
   }

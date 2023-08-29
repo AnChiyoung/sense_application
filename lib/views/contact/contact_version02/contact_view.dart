@@ -36,7 +36,7 @@ class _ContactDataExistState extends State<ContactDataExist> {
               if(snapshot.hasData) {
 
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150.0.w, height: 150.0.h));
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   List<ContactModel> loadContactModel = snapshot.data!.elementAt(0) ?? [];
@@ -54,13 +54,13 @@ class _ContactDataExistState extends State<ContactDataExist> {
                   }
 
                 } else {
-                  return const SizedBox.shrink();
+                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }
 
               } else if(snapshot.hasError) {
-                return const Text('Error fetching..');
+                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               } else {
-                return const SizedBox.shrink();
+                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               }
             }
         );

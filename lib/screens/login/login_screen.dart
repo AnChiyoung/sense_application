@@ -45,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(child: LogoView()),
                   LoginFormView(),
-                  isAndroid == true ? KakaoLoginButton() : Container(height: 163.0.h, color: Colors.white),
+                  // isAndroid == true ? KakaoLoginButton() : Container(height: 163.0.h, color: Colors.white),
+                  KakaoLoginButton(),
                   SizedBox(height: 8.0.h),
                   SigninView(),
                 ],

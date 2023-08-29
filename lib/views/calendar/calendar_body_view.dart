@@ -149,7 +149,8 @@ class _CalendarBodyState extends State<CalendarBody> {
                   markersAlignment: Alignment.bottomCenter,
                   markersMaxCount: 4,
                   markerDecoration: BoxDecoration(
-                    color:  StaticColor.mainSoft,
+                    // color: StaticColor.mainSoft,
+                    color: Colors.red,
                     shape: BoxShape.circle,
                   ),
                   /// today area

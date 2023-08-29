@@ -14,9 +14,10 @@ class ContactDetailFriendInfoView extends StatefulWidget {
 }
 
 class _ContactDetailFriendInfoViewState extends State<ContactDetailFriendInfoView> {
-
   String name = '';
+
   String relation = '';
+
   String phoneNumber = '';
 
   @override
@@ -27,7 +28,8 @@ class _ContactDetailFriendInfoViewState extends State<ContactDetailFriendInfoVie
 
         if(data.contactModel == ContactProvider.publicEmptyObject) {
           name = widget.contactModel.name ?? '미등록';
-          relation = widget.contactModel.contactCategoryObject!.title ?? '전체';
+            relation = '전체';
+          // relation = widget.contactModel.contactCategoryObject!.title ?? '전체';
           phoneNumber = widget.contactModel.phone!.isEmpty ? '미등록' : widget.contactModel.phone!;
         } else {
           name = data.contactModel.name ?? '미등록';
@@ -35,9 +37,9 @@ class _ContactDetailFriendInfoViewState extends State<ContactDetailFriendInfoVie
           phoneNumber = data.contactModel.phone!.isEmpty ? '미등록' : data.contactModel.phone!;
         }
 
-        print('name : $name');
-        print('relation: $relation');
-        print('phoneNumber: $phoneNumber');
+        // print('name : $name');
+        // print('relation: $relation');
+        // print('phoneNumber: $phoneNumber');
 
         return Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 18.0),

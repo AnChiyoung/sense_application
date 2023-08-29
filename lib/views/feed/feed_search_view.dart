@@ -40,16 +40,16 @@ class _FeedSearchHeaderState extends State<FeedSearchHeader> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 12,
+      padding: EdgeInsets.only(
+        left: 20.0.w, right: 20.0.w,
+        top: 12.0.h, bottom: 12.0.h,
       ),
       child: Row(
         children: [
           Material(
             color: Colors.transparent,
             child: InkWell(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.0),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -63,11 +63,11 @@ class _FeedSearchHeaderState extends State<FeedSearchHeader> {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.0.w),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0.w,
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
@@ -95,16 +95,12 @@ class _FeedSearchHeaderState extends State<FeedSearchHeader> {
                         search(_searchController.text);
                       },
                       // onTap: onPressSearchIcon,
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.search,
-                          size: 24,
-                          color: Colors.black54,
-                        ),
+                      child: Image.asset('assets/feed/search_button.png', width: 24.0.w, height: 24.0.h),
+                      // child: Padding(
+                      //   padding: EdgeInsets.all(8.0),
+                      //   child:
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
@@ -131,72 +127,64 @@ class _FeedSearchTabState extends State<FeedSearchTab> {
     return Expanded(
       child: DefaultTabController(
         length: 2,
-        child: Scaffold(
-          body: Column(
-            children: [
-              Stack(
+        child: Column(
+          children: [
+            TabBar(
+              labelColor: Colors.black,
+              indicatorColor: Colors.black,
+              indicatorWeight: 3,
+              unselectedLabelColor: Color(0xFF555555),
+              labelStyle: TextStyle(
+                fontSize: 16.0.sp,
+                fontWeight: FontWeight.w700,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontSize: 16.0.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              tabs: [
+                Tab(text: '게시글'),
+                Tab(text: '상품'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
                 children: [
-                  Positioned.fill(
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 0),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(0xFFEEEEEE),
-                            width: 1,
+                  Column(
+                    children: [
+                      // SearchPostList(),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            '검색 결과가 없습니다.',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  const TabBar(
-                    labelColor: Colors.black,
-                    indicatorColor: Colors.black,
-                    indicatorWeight: 3,
-                    unselectedLabelColor: Color(0xFF555555),
-                    labelStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    unselectedLabelStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    tabs: [
-                      Tab(text: '게시글(0)'),
-                      Tab(text: '상품(0)'),
+                  Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            '검색 결과가 없습니다.',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    Column(
-                      children: const [
-                        // SearchPostList(),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              '검색 결과가 없습니다.',
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

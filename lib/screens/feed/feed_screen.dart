@@ -21,26 +21,11 @@ class _FeedScreenState extends State<FeedScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: SafeArea(
           bottom: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-                // CachedNetworkImage(
-                //   imageUrl: PresentUserInfo.profileImage.toString(),
-                //   imageBuilder: (context, imageProvider) {
-                //     return Container(
-                //       width: 250,
-                //       height: 250,
-                //       decoration: BoxDecoration(
-                //         shape: BoxShape.circle,
-                //           image: DecorationImage(
-                //               image: imageProvider, fit: BoxFit.scaleDown)
-                //       )
-                //     );
-                //   }
-                // ),
               FeedHeader(),
               FeedTagList(),
               FeedPostList(),

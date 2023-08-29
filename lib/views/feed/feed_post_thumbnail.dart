@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_detail_view.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
@@ -93,38 +94,69 @@ class FeedPostCarouselCard extends _BasePostCard {
   Widget buildTitle(BuildContext context) {
     double halfScreenWidth = MediaQuery.of(context).size.width - 60;
     return Positioned.fill(
-      top: halfScreenWidth,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+      left: 20.0.w,
+      bottom: 20.0.h,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
             ),
-            Text(
-              subTitle!,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 16.0.h),
+          Text(
+            subTitle!,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
             ),
-          ],
-        ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
+    // return Positioned.fill(
+    //   top: halfScreenWidth,
+    //   child: Padding(
+    //     padding: const EdgeInsets.symmetric(
+    //       horizontal: 20,
+    //     ),
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Text(
+    //           title,
+    //           style: const TextStyle(
+    //             fontSize: 30,
+    //             fontWeight: FontWeight.w700,
+    //             color: Colors.white,
+    //           ),
+    //           maxLines: 2,
+    //           overflow: TextOverflow.ellipsis,
+    //         ),
+    //         Text(
+    //           subTitle!,
+    //           style: const TextStyle(
+    //             fontSize: 16,
+    //             fontWeight: FontWeight.w400,
+    //             color: Colors.white,
+    //           ),
+    //           maxLines: 2,
+    //           overflow: TextOverflow.ellipsis,
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }
 
@@ -165,6 +197,8 @@ class FeedPostGridCard extends _BasePostCard {
   @override
   Widget buildTitle(BuildContext context) {
     return Container(
+      width: double.infinity,
+      height: double.infinity,
       padding: const EdgeInsets.symmetric(
         horizontal: 12,
       ),
@@ -174,18 +208,47 @@ class FeedPostGridCard extends _BasePostCard {
           Radius.circular(12),
         ),
       ),
-      child: Center(
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 16.0.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            // Text(
+            //   subTitle!,
+            //   style: const TextStyle(
+            //     fontSize: 16,
+            //     fontWeight: FontWeight.w400,
+            //     color: Colors.white,
+            //   ),
+            //   maxLines: 2,
+            //   overflow: TextOverflow.ellipsis,
+            // ),
+          ],
         ),
       ),
+      // child: Center(
+      //   child: Text(
+      //     title,
+      //     style: const TextStyle(
+      //       fontSize: 16,
+      //       fontWeight: FontWeight.w700,
+      //       color: Colors.white,
+      //     ),
+      //     maxLines: 2,
+      //     overflow: TextOverflow.ellipsis,
+      //   ),
+      // ),
     );
   }
 }

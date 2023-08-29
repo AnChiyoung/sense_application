@@ -6,10 +6,10 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
+    print('feedId: ${feedId.toString()}');
     final response = await http.get(
-
-      Uri.parse('https://dev.server.sens.im/api/v1/post/39'),
-        // Uri.parse('${ApiUrl.releaseUrl}/post/${feedId.toString()}'),
+      // Uri.parse('https://dev.server.sens.im/api/v1/post/54'),
+        Uri.parse('${ApiUrl.releaseUrl}/post/${feedId.toString()}'),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'
@@ -43,13 +43,15 @@ class FeedDetailModel {
   String? endDate;
   List<Content>? content = [];
   String? contentTitle;
+  String? notice;
   int? likeCount;
-  bool? isCommented;
   int? commentCount;
   int? shareCount;
+  List<Label>? labels = [];
   List<Tag>? tags = [];
   bool? isLiked;
-  // pervpost, nextpost non active
+  bool? isCommented;
+  bool? isTemp;
   String? createdTime;
 
   FeedDetailModel({
@@ -61,13 +63,15 @@ class FeedDetailModel {
     this.endDate,
     this.content,
     this.contentTitle,
+    this.notice,
     this.likeCount,
+    this.shareCount,
     this.isCommented,
     this.commentCount,
-    this.shareCount,
     this.tags,
     this.isLiked,
     this.createdTime,
+    this.isTemp,
   });
 
   FeedDetailModel.fromJson(dynamic json) {
@@ -77,19 +81,39 @@ class FeedDetailModel {
     subTitle = json['sub_title'] ?? '';
     startDate = json['start_date'] ?? '';
     endDate = json['end_date'] ?? '';
-    json['content'].forEach((v) {
-      content!.add(Content.fromJson(v));
-    }) ?? [];
+    // json['content'].forEach((v) {
+    //   content!.add(Content.fromJson(v));
+    // }) ?? [];
     contentTitle = json['content_title'] ?? '';
+    notice = json['notice'] ?? '';
     likeCount = json['like_count'] ?? -1;
-    isCommented = json['is_commented'] ?? false;
     commentCount = json['comment_count'] ?? -1;
     shareCount = json['share_count'] ?? -1;
+    json['labels'].forEach((v) {
+      labels!.add(Label.fromJson(v));
+    }) ?? [];
     json['tags'].forEach((v) {
       tags!.add(Tag.fromJson(v));
     }) ?? [];
     isLiked = json['is_liked'] ?? false;
+    isCommented = json['is_commented'] ?? false;
     createdTime = json['created'] ?? '';
+    isTemp = json['is_temp'] ?? false;
+  }
+}
+
+class Label {
+  int? id;
+  String? title;
+
+  Label({
+    this.id,
+    this.title,
+  });
+
+  Label.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    title = json['title'] ?? '';
   }
 }
 
@@ -109,22 +133,37 @@ class Tag {
 }
 
 class Content {
-  int? id;
+  String? id;
   String? type;
-  String? contentUrl;
-  int? order;
+  // String? contentUrl;
+  // int? order;
+  ContentData? data;
 
   Content({
     this.id,
     this.type,
-    this.contentUrl,
-    this.order,
+    this.data,
+    // this.contentUrl,
+    // this.order,
   });
 
   Content.fromJson(dynamic json) {
-    id = json['id'] ?? -1;
+    id = json['id'] ?? '';
     type = json['type'] ?? '';
-    contentUrl = json['content'] ?? '';
-    order = json['order'] ?? -1;
+    data = json['data'] != null ? ContentData.fromJson(json['event_category']) : ContentData(text: '');
+    // contentUrl = json['content'] ?? '';
+    // order = json['order'] ?? -1;
+  }
+}
+
+class ContentData {
+  String? text;
+
+  ContentData({
+    this.text,
+  });
+
+  ContentData.fromJson(dynamic json) {
+    text = json['text'] ?? '';
   }
 }

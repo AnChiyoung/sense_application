@@ -21,7 +21,7 @@ class _ContactDataDoneState extends State<ContactDataDone> {
     return Column(
       children: [
         /// searchbox
-        ContactSearchField(),
+        // ContactSearchField(),
         /// divide line
         Container(width: double.infinity, height: 1.0.h, color: StaticColor.grey200EE),
         /// searchbox under field

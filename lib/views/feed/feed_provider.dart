@@ -280,8 +280,12 @@ class FeedProvider with ChangeNotifier {
   int _selectTagNumber = 0;
   int get selectTagNumber => _selectTagNumber;
 
-  void selectTagNumberChange(int number) {
-    _selectTagNumber = number;
+  int _selectTagIndex = 0;
+  int get selectTagIndex => _selectTagIndex;
+
+  void selectTagNumberChange(int selectTagId, int selectTagIndex) {
+    _selectTagNumber = selectTagId;
+    _selectTagIndex = selectTagIndex;
     notifyListeners();
   }
 

@@ -28,15 +28,15 @@ class _FoodStep03State extends State<FoodStep03> {
 
               return Column(
                 children: [
-                  spicyBox(0, spicyState[0], '1', '순한맛', '피망', 'assets/taste/spicy.png', StaticColor.errorColor),
+                  spicyBox(0, spicyState[0], '1', '순한맛', '피망', 'assets/taste/food/spicy/spicy.png', 'assets/taste/food/spicy/spicy01.png', StaticColor.errorColor),
                   SizedBox(height: 12.0.h),
-                  spicyBox(1, spicyState[1], '2', '약간 매운맛', '순한맛 떡볶이, 라면', 'assets/taste/spicy.png', StaticColor.errorColor),
+                  spicyBox(1, spicyState[1], '2', '약간 매운맛', '순한맛 떡볶이, 라면', 'assets/taste/food/spicy/spicy.png', 'assets/taste/food/spicy/spicy02.png', StaticColor.errorColor),
                   SizedBox(height: 12.0.h),
-                  spicyBox(2, spicyState[2], '3', '보통 매운맛', '매운라면', 'assets/taste/spicy.png', StaticColor.errorColor),
+                  spicyBox(2, spicyState[2], '3', '보통 매운맛', '매운라면', 'assets/taste/food/spicy/spicy.png', 'assets/taste/food/spicy/spicy03.png', StaticColor.errorColor),
                   SizedBox(height: 12.0.h),
-                  spicyBox(3, spicyState[3], '4', '얼얼한 매운맛', '핫소스', 'assets/taste/spicy.png', StaticColor.errorColor),
+                  spicyBox(3, spicyState[3], '4', '얼얼한 매운맛', '핫소스', 'assets/taste/food/spicy/spicy.png', 'assets/taste/food/spicy/spicy04.png', StaticColor.errorColor),
                   SizedBox(height: 12.0.h),
-                  spicyBox(4, spicyState[4], '5', '정말 매운맛', '핵불닭볶음면, 실비김치', 'assets/taste/spicy.png', StaticColor.errorColor),
+                  spicyBox(4, spicyState[4], '5', '정말 매운맛', '핵불닭볶음면, 실비김치', 'assets/taste/food/spicy/spicy.png', 'assets/taste/food/spicy/spicy05.png', StaticColor.errorColor),
                 ]
               );
             }
@@ -46,7 +46,7 @@ class _FoodStep03State extends State<FoodStep03> {
     );
   }
 
-  Widget spicyBox(int index, bool state, String step, String define, String example, String imageAsset, Color doneColor) {
+  Widget spicyBox(int index, bool state, String step, String define, String example, String imageAsset, String backgroundImageAsset, Color doneColor) {
 
     List<Widget> image = [];
     for(int i = 0; i < int.parse(step); i++) {
@@ -68,7 +68,10 @@ class _FoodStep03State extends State<FoodStep03> {
             child: Container(
               padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w, top: 16.0.h, bottom: 12.0.h),
               decoration: BoxDecoration(
-                color: StaticColor.grey100F6,
+                image: DecorationImage(
+                  image: AssetImage(backgroundImageAsset),
+                ),
+                // color: StaticColor.grey100F6,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Column(
@@ -89,7 +92,7 @@ class _FoodStep03State extends State<FoodStep03> {
                             child: Text('$step단계', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
                           ),
                           SizedBox(width: 8.0.w),
-                          Text(define, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+                          Text(define, style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w700)),
                         ],
                       ),
                       Row(
@@ -99,7 +102,7 @@ class _FoodStep03State extends State<FoodStep03> {
                   ),
                   SizedBox(height: 5.0.h),
                   /// down line
-                  Text(example, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                  Text(example, style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
                 ]
               )
             ),

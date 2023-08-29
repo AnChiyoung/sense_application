@@ -8,8 +8,9 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedRequest {
   Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
+    print('select label id: ${labelId.toString()}');
     String query;
-    labelId == -1 ? query = '' : query = '?tag_id=${labelId.toString()}';
+    labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/posts$query'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -18,6 +19,7 @@ class FeedRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
+      print(modelList);
       return modelList;
     } else {
       return [];

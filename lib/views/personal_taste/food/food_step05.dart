@@ -28,15 +28,15 @@ class _FoodStep05State extends State<FoodStep05> {
 
                 return Column(
                     children: [
-                      saltyBox(0, saltyState[0], '1', '짜지 않은 맛', '무가당 스낵', 'assets/taste/salty.png', StaticColor.saltyColor),
+                      saltyBox(0, saltyState[0], '1', '짜지 않은 맛', '두부, 닭가슴살', 'assets/taste/food/salty/salty.png', 'assets/taste/food/salty/salty01.png', StaticColor.saltyColor),
                       SizedBox(height: 12.0.h),
-                      saltyBox(1, saltyState[1], '2', '약간 짠맛', '수박, 복숭아', 'assets/taste/salty.png', StaticColor.saltyColor),
+                      saltyBox(1, saltyState[1], '2', '약간 짠맛', '감자칩', 'assets/taste/food/salty/salty.png', 'assets/taste/food/salty/salty02.png', StaticColor.saltyColor),
                       SizedBox(height: 12.0.h),
-                      saltyBox(2, saltyState[2], '3', '보통 짠맛', '아이스크림, 쿠키', 'assets/taste/salty.png', StaticColor.saltyColor),
+                      saltyBox(2, saltyState[2], '3', '보통 짠맛', '베이컨', 'assets/taste/food/salty/salty.png', 'assets/taste/food/salty/salty03.png', StaticColor.saltyColor),
                       SizedBox(height: 12.0.h),
-                      saltyBox(3, saltyState[3], '4', '짠맛', '초콜릿, 사탕', 'assets/taste/salty.png', StaticColor.saltyColor),
+                      saltyBox(3, saltyState[3], '4', '짠맛', '피자', 'assets/taste/food/salty/salty.png', 'assets/taste/food/salty/salty04.png', StaticColor.saltyColor),
                       SizedBox(height: 12.0.h),
-                      saltyBox(4, saltyState[4], '5', '정말 짠맛', '설탕시럽, 꿀', 'assets/taste/salty.png', StaticColor.saltyColor),
+                      saltyBox(4, saltyState[4], '5', '정말 짠맛', '소금, 냉면육수', 'assets/taste/food/salty/salty.png', 'assets/taste/food/salty/salty05.png', StaticColor.saltyColor),
                     ]
                 );
               }
@@ -46,7 +46,7 @@ class _FoodStep05State extends State<FoodStep05> {
     );
   }
 
-  Widget saltyBox(int index, bool state, String step, String define, String example, String imageAsset, Color doneColor) {
+  Widget saltyBox(int index, bool state, String step, String define, String example, String imageAsset, String backgroundImageAsset, Color doneColor) {
 
     List<Widget> image = [];
     for(int i = 0; i < int.parse(step); i++) {
@@ -68,6 +68,9 @@ class _FoodStep05State extends State<FoodStep05> {
             child: Container(
                 padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w, top: 16.0.h, bottom: 12.0.h),
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(backgroundImageAsset),
+                  ),
                   color: StaticColor.grey100F6,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -89,7 +92,7 @@ class _FoodStep05State extends State<FoodStep05> {
                                 child: Text('$step단계', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
                               ),
                               SizedBox(width: 8.0.w),
-                              Text(define, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+                              Text(define, style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w700)),
                             ],
                           ),
                           Row(
@@ -99,7 +102,7 @@ class _FoodStep05State extends State<FoodStep05> {
                       ),
                       SizedBox(height: 5.0.h),
                       /// down line
-                      Text(example, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                      Text(example, style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
                     ]
                 )
             ),

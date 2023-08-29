@@ -32,7 +32,102 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
   );
 
   @override
+  void initState() {
+    print('model from params');
+    model = widget.contactModel;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    // return GestureDetector(
+    //   onTap: () {
+    //     FocusScope.of(context).unfocus();
+    //   },
+    //   child: Scaffold(
+    //     backgroundColor: Colors.white,
+    //     body: SafeArea(
+    //       bottom: false,
+    //       child: SingleChildScrollView(
+    //         physics: const ClampingScrollPhysics(),
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             Column(
+    //                 children: [
+    //                   ContactDetailHeader(contactModel: model!),
+    //                   Container(height: 1.0, color: StaticColor.grey200EE),
+    //                   ContactDetailFriendInfoView(contactModel: model!),
+    //                   const AiAnalyticsView(),
+    //                   const CombineEventView(),
+    //                   FavoriteListView(contactModel: model!),
+    //                 ]
+    //             ),
+    //             const Align(
+    //               alignment: Alignment.bottomCenter,
+    //               // child: BottomButtonView(),
+    //             )
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
+
+    // return FutureBuilder(
+    //   future: ContactRequest().contactDetailRequest(widget.contactModel.id!),
+    //   builder: (context, snapshot) {
+    //     if(snapshot.hasError) {
+    //       return Text('Data fetching..');
+    //     } else if(snapshot.hasData) {
+    //
+    //       if(snapshot.connectionState == ConnectionState.waiting) {
+    //         return Container();
+    //       } else if(snapshot.connectionState == ConnectionState.done) {
+    //
+    //         ContactModel model = snapshot.data ?? ContactModel();
+    //
+    //         return GestureDetector(
+    //           onTap: () {
+    //             FocusScope.of(context).unfocus();
+    //           },
+    //           child: Scaffold(
+    //             // backgroundColor: Colors.white,
+    //             body: SafeArea(
+    //               bottom: false,
+    //               child: Stack(
+    //                 children: [
+    //                   Column(
+    //                       children: [
+    //                         ContactDetailHeader(contactModel: model!),
+    //                         Container(height: 1.0, color: StaticColor.grey200EE),
+    //                         ContactDetailFriendInfoView(contactModel: model!),
+    //                         const AiAnalyticsView(),
+    //                         const CombineEventView(),
+    //                         FavoriteListView(contactModel: model!),
+    //                       ]
+    //                   ),
+    //                   const Align(
+    //                     alignment: Alignment.bottomCenter,
+    //                     // child: BottomButtonView(),
+    //                   )
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         );
+    //
+    //       } else {
+    //         return Container();
+    //       }
+    //
+    //     } else {
+    //       return Text('Data fetching..');
+    //     }
+    //   }
+    // );
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -54,6 +149,7 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
 
               return Stack(
                 children: [
+                  // aa(model.phone!),
                   Column(
                     children: [
                       ContactDetailHeader(contactModel: model!),
@@ -75,5 +171,9 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
         ),
       ),
     );
+  }
+
+  Widget aa(String a) {
+    return a == '010-1111-2222' ? Container(width: 50, height: 50, color: Colors.red) : Container(width: 50, height: 50, color: Colors.black);
   }
 }

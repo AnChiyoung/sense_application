@@ -114,6 +114,7 @@ class ContactProvider with ChangeNotifier {
 
   void contactResponseModelChange(ContactModel model) {
     _contactModel = model;
+    notifyListeners();
   }
 
   void infoReload(ContactModel model) async {

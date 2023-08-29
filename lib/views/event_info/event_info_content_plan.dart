@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
@@ -23,7 +24,7 @@ class _EventInfoViewState extends State<EventInfoView> {
         if(snapshot.hasData) {
 
           if(snapshot.connectionState == ConnectionState.waiting) {
-            return Text('waiting');
+            return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
           } else if(snapshot.connectionState == ConnectionState.done) {
 
             /// get personal event model
@@ -87,13 +88,13 @@ class _EventInfoViewState extends State<EventInfoView> {
             );
 
           } else {
-            return Text('done');
+            return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
           }
 
         } else if(snapshot.hasError) {
-          return Text('has error');
+          return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
         } else {
-          return Text('else');
+          return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
         }
       }
     );

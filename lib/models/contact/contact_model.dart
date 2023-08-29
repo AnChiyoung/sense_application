@@ -188,7 +188,7 @@ class ContactRequest {
   }
 
   /// contact update
-  Future<bool> contactUpdateRequest(int contactId, int category, String name, String phone, String birthday, String gender, String profileImage) async {
+  Future<bool> contactUpdateRequest(int contactId, int category, String name, String phone, String birthday, String gender, String profileImage, BuildContext context) async {
 
     Map<String, dynamic> updateRequestBody = ContactModel(
       contactCategory: category,
@@ -232,6 +232,7 @@ class ContactRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 수정 성공');
       ContactModel model = ContactModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      context.read<ContactProvider>().contactResponseModelChange(model);
       return true;
     } else {
       print('연락처 수정 실패');
@@ -273,9 +274,9 @@ class ContactModel {
     id = json['id'] ?? -1;
     owner = json['owner'] ?? -1;
     partnerId = json['partner'] ?? -1;
-    contactCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
+    contactCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
     name = json['name'] ?? '';
-    phone = json['phone'] ?? '';
+    phone = json['phone'] == null ? '' : json['phone'];
     birthday = json['birthday'] ?? '';
     gender = json['gender'] ?? '';
     profileImage = json['image_url'] ?? '';

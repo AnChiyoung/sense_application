@@ -109,7 +109,30 @@ class _MyPageTabbarViewFieldState extends State<MyPageTabbarViewField> {
       children: [
         SingleChildScrollView(child: Container(height: 400, child: Center(child: Text('아직 게시글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400))))),
         SingleChildScrollView(child: Container(height: 400, child: Center(child: Text('아직 등록된 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400))))),
-        SingleChildScrollView(child: PersonalTaste()),
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              children: [
+                PersonalTasteFoodBanner(),
+                // PersonalTasteLodgingBanner(),
+                // PersonalTasteTravelBanner(),
+              ],
+            ),
+          ),
+        )
+        // Expanded(
+        //   child: Container(
+        //     color: Colors.white,
+        //     width: double.infinity,ㅆ
+        //       children: [
+        //         PersonalTaste(),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        // SingleChildScrollView(child: PersonalTaste()),
       ],
     );
   }
@@ -128,14 +151,12 @@ class _PersonalTasteState extends State<PersonalTaste> {
     /// 취향 입력
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 16.0.h),
-      child: Container(
-        height: 400,
-        child: Column(
-          children: [
-            PersonalTasteFoodBanner(),
-            NonPersonalTaste(),
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PersonalTasteFoodBanner(),
+          NonPersonalTaste(),
+        ],
       ),
     );
   }
@@ -146,34 +167,39 @@ class PersonalTasteFoodBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Stack(
-        children: [
-          FittedBox(child: Image.asset('assets/my_page/food_background.png')), // width, heigth 설정
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16.0),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteFoodScreen()));
+      },
+      child: Container(
+        width: double.infinity,
+        height: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Stack(
+          children: [
+            FittedBox(child: Image.asset('assets/my_page/food_background.png')), // width, heigth 설정
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Text('음식', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
                   ),
-                  child: Text('음식', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                ),
-                SizedBox(height: 10.0.h),
-                Text('매운거 괴롭지 않아요!', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
-              ],
+                  SizedBox(height: 10.0.h),
+                  Text('매운거 괴롭지 않아요!', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -186,6 +212,7 @@ class NonPersonalTaste extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         color: StaticColor.grey100F6,
@@ -205,6 +232,76 @@ class NonPersonalTaste extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PersonalTasteLodgingBanner extends StatelessWidget {
+  const PersonalTasteLodgingBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Stack(
+        children: [
+          FittedBox(child: Image.asset('assets/my_page/lodging_background.png')), // width, heigth 설정
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Text('숙소', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                ),
+                SizedBox(height: 10.0.h),
+                Text('도심 속 힐링공간 마스터', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PersonalTasteTravelBanner extends StatelessWidget {
+  const PersonalTasteTravelBanner({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      // height: 100,
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Text('여행', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+          ),
+          SizedBox(height: 10.0.h),
+          Text('미정', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/views/contact/contact_version02/contact_search_field.dart';
 import 'package:sense_flutter_application/views/contact/contact_version02/contact_view.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -15,18 +16,6 @@ class _ContactScreenState extends State<ContactScreen> {
     /// safe area height
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
 
-    // return Scaffold(
-    //   // backgroundColor: Colors.white,
-    //   resizeToAvoidBottomInset: false,
-    //   body: Container(
-    //     width: double.infinity,
-    //     height: double.infinity,
-    //     // height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-    //     child: ContactDataExist(),
-    //     // child: ContactDataSection(),
-    //   ),
-    // );
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -34,12 +23,18 @@ class _ContactScreenState extends State<ContactScreen> {
       child: Scaffold(
         // backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          // height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-          child: ContactDataExist(),
-          // child: ContactDataSection(),
+        body: Column(
+          children: [
+            ContactSearchField(),
+            Expanded(child: ContactDataExist())
+            // Container(
+            //   width: double.infinity,
+            //   height: double.infinity,
+            //   // height: MediaQuery.of(context).size.height - safeAreaTopPadding,
+            //   child: ,
+            //   // child: ContactDataSection(),
+            // ),
+          ],
         ),
       ),
     );

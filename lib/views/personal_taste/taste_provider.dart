@@ -43,13 +43,8 @@ class TasteProvider with ChangeNotifier {
   void foodSelectorChange(int index, bool state) {
     _foodSelector[index] = state;
 
+    /// 선택 카운트 재정렬
     int counting = 0;
-
-    for(var elements in _selectorDirection) {
-      if(elements != 0) {
-        counting++;
-      }
-    }
 
     int originalNumber = _selectorDirection.elementAt(index);
 
@@ -60,19 +55,25 @@ class TasteProvider with ChangeNotifier {
           _selectorDirection[i] = _selectorDirection.elementAt(i) - 1;
         } else {}
       }
+      print(_selectorDirection);
     } else {
-      // for (var elements in _selectorDirection) {
-      //   if(elements != 0) {
-      //     counting++;
-      //   }
-      // }
+      for (var elements in _selectorDirection) {
+        if(elements != 0) {
+          counting++;
+        }
+      }
       if(counting == 0) {
         counting = 1;
-      } else {}
-      print(_selectorDirection);
+      } else {
+        counting++;
+      }
+
       _selectorDirection[index] = counting;
       // _selectorDirection
+
     }
+    print(_selectorDirection);
+    print(counting);
     notifyListeners();
   }
 
@@ -118,6 +119,21 @@ class TasteProvider with ChangeNotifier {
 
   void foodStep07Change(String state) {
     _foodStep07 = state;
+    notifyListeners();
+  }
+
+  void foodTasteInit() {
+    _presentStep = 1;
+    _foodButtonState = true;
+    _beforePrice = 0;
+    _foodPrice = 0;
+    _foodSelector = [false, false, false, false, false, false, false, false, false];
+    _selectorDirection = [0,0,0,0,0,0,0,0,0];
+    _spicySelector = [false, false, false, false, false];
+    _candySelector = [false, false, false, false, false];
+    _saltySelector = [false, false, false, false, false];
+    _foodStep06 = '';
+    _foodStep07 = '';
     notifyListeners();
   }
 

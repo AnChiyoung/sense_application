@@ -369,7 +369,7 @@ class _JoinUserListState extends State<JoinUserList> {
                 creator == true ? const SizedBox(width: 9) : const SizedBox(width: 12),
                 Container(
                   padding: const EdgeInsets.only(bottom: 4),
-                    child: Center(child: Text('안치영(나)', style: TextStyle(fontSize: 16, color: StaticColor.drawerNameColor, fontWeight: FontWeight.w400)))),
+                    child: Center(child: Text(PresentUserInfo.username.isEmpty ? 'User${PresentUserInfo.id}' : PresentUserInfo.username, style: TextStyle(fontSize: 16, color: StaticColor.drawerNameColor, fontWeight: FontWeight.w400)))),
                 const SizedBox(width: 6),
                 creator == true ? Image.asset('assets/recommended_event/event_creator_auth_mark.png', width: 20, height: 20) : Container(),
               ],
