@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_screen.dart';
@@ -26,21 +27,25 @@ class _NativeSplash extends State<NativeSplash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: LoginScreen(),
-        // child: PersonalTasteFoodScreen(),
-        // child: TemperatureMenu(),
-        // child: CalendarScreen(),
-        // child: const HomeScreen(),
-        // child: const LoginCheck(),
-        // child: EmailScreen(),
-        // child: BasicInfoScreen(),
-        // child: PhoneAuthScreen(phoneNumber: '01066300387',),
-        // child: PhoneAuthScreen(phoneNumber: '01066300387'),
-        // child: const Center(
-        //   child: Text('SENSE APPLICATION'),
+      /// iOS status bar set
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.dark,
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: LoginScreen(),
+          // child: PersonalTasteFoodScreen(),
+          // child: TemperatureMenu(),
+          // child: CalendarScreen(),
+          // child: const HomeScreen(),
+          // child: const LoginCheck(),
+          // child: EmailScreen(),
+          // child: BasicInfoScreen(),
+          // child: PhoneAuthScreen(phoneNumber: '01066300387',),
+          // child: PhoneAuthScreen(phoneNumber: '01066300387'),
+          // child: const Center(
+          //   child: Text('SENSE APPLICATION'),
+        ),
       ),
     );
   }

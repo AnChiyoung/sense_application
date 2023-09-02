@@ -25,11 +25,19 @@ import 'package:intl/date_symbol_data_local.dart';
 /// 375 * 812 (include safe area..)
 
 void main() async {
-  // bool isDarkMode;
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  /// android status bar set
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark
+      ),
+  );
+  
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   KakaoSdk.init(
     nativeAppKey: '1fc38e74f272a85e46bc10b37fdbebcd',
     javaScriptAppKey: '90dd5b3346fbc9c76d27afbd3b2fc068',
@@ -94,18 +102,6 @@ class MyApp extends StatelessWidget {
           ],
           debugShowCheckedModeBanner: false,
           title: 'Sense flutter application',
-          // theme: ThemeData(
-          //   brightness: Brightness.dark,
-          // ),
-          /* light theme settings */
-          // darkTheme: ThemeData(
-          //   brightness: Brightness.dark,
-          //   /* dark theme settings */
-          // ),
-          // themeMode: ThemeMode.light,
-          // // theme: ThemeData(
-          // //   primarySwatch: Colors.blue,
-          // // ),
           home: const NativeSplash(),
         );
       },
