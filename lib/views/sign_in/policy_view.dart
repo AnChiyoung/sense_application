@@ -66,17 +66,13 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
       child: Column(
         children: [
           allPolicySelectRow('전체동의'),
-          SizedBox(height: 16.0.h),
+          // SizedBox(height: 16.0.h),
           Container(height: 1, color: StaticColor.dividerColor),
-          SizedBox(height: 16.0.h),
+          // SizedBox(height: 16.0.h),
           policyRow('[필수] 만 14세 이상입니다', 0),
-          SizedBox(height: 24.0.h),
           policyRow('[필수] 센스 이용약관', 1),
-          SizedBox(height: 24.0.h),
           policyRow('[필수] 개인정보처리 동의', 2),
-          SizedBox(height: 24.0.h),
           policyRow('[필수] 개인정보 처리방침', 3),
-          SizedBox(height: 24.0.h),
           policyRow('[선택] 마케팅 정보 수신 동의', 4),
         ],
       ),
@@ -93,16 +89,21 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
       onTap: () {
         context.read<SigninProvider>().allCheckStateChange(!allCheckState);
       },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Image.asset('assets/signin/$checkState', width: 20.0.w, height: 20.0.h),
-          SizedBox(width: 12.0.w),
-          Text(text,
-              style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
-              softWrap: false,
-              overflow: TextOverflow.ellipsis),
-        ],
+      child: Container(
+        color: Colors.transparent,
+        // color: Colors.black,
+        padding: EdgeInsets.only(top: 8.0.h, bottom: 8.0.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset('assets/signin/$checkState', width: 20.0.w, height: 20.0.h),
+            SizedBox(width: 12.0.w),
+            Text(text,
+                style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+                softWrap: false,
+                overflow: TextOverflow.ellipsis),
+          ],
+        ),
       ),
     );
   }
@@ -113,108 +114,113 @@ class _PolicyCheckFieldState extends State<PolicyCheckField> {
     state = context.watch<SigninProvider>().checkState;
     state[index] == true ? checkState = 'policy_check_done.png' : checkState = 'policy_check_empty.png';
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              state[index] = !state[index];
-              context.read<SigninProvider>().policyCheckStateChange(state);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Image.asset('assets/signin/$checkState', width: 20.0.w, height: 20.0.h),
-                SizedBox(width: 12.0.w),
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(text,
-                    style: TextStyle(fontSize: 14.0.sp, height: 1.57, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
+    return GestureDetector(
+      onTap: () {
+        state[index] = !state[index];
+        context.read<SigninProvider>().policyCheckStateChange(state);
+      },
+      child: Container(
+        color: Colors.transparent,
+        // color: Colors.red,
+        padding: EdgeInsets.only(top: 12.0.h, bottom: 12.0.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset('assets/signin/$checkState', width: 20.0.w, height: 20.0.h),
+                  SizedBox(width: 12.0.w),
+                  Text(text,
+                    style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700),
                     softWrap: false,
                     overflow: TextOverflow.ellipsis),
-                ),
-              ],
-            ),
-          ),
-        ),
-        index == 0 ? const SizedBox.shrink() : GestureDetector(
-          onTap: () {
-            String title = '';
-            String description = '';
-            if(index == 1) {
-              title = '[필수] 센스 이용약관';
-              description = PolicyDescriptionModel.needPolicy01;
-            } else if(index == 2) {
-              title = '[필수] 개인정보처리 동의';
-              description = PolicyDescriptionModel.needPolicy02;
-            } else if(index == 3) {
-              title = '[필수] 개인정보 처리방침';
-              description = PolicyDescriptionModel.needPolicy03;
-            } else if(index == 4) {
-              title = '[선택] 마케팅 정보 수신 동의';
-              description = PolicyDescriptionModel.selectPolicy01;
-            }
-            showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.white,
-              isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
+                ],
               ),
-              builder: (BuildContext context) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height - widget.topPadding!,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 24.0.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            index == 0 ? const SizedBox.shrink() : GestureDetector(
+              onTap: () {
+                String title = '';
+                String description = '';
+                if(index == 1) {
+                  title = '[필수] 센스 이용약관';
+                  description = PolicyDescriptionModel.needPolicy01;
+                } else if(index == 2) {
+                  title = '[필수] 개인정보처리 동의';
+                  description = PolicyDescriptionModel.needPolicy02;
+                } else if(index == 3) {
+                  title = '[필수] 개인정보 처리방침';
+                  description = PolicyDescriptionModel.needPolicy03;
+                } else if(index == 4) {
+                  title = '[선택] 마케팅 정보 수신 동의';
+                  description = PolicyDescriptionModel.selectPolicy01;
+                }
+                showModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
+                  ),
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - widget.topPadding!,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 24.0.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('약관 상세', style: TextStyle(fontSize: 18.0.sp, color: StaticColor.signinDescriptionColor, fontWeight: FontWeight.w700)),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(25.0),
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Image.asset('assets/signin/button_close.png', width: 24.0.w, height: 24.0.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('약관 상세', style: TextStyle(fontSize: 18.0.sp, color: StaticColor.signinDescriptionColor, fontWeight: FontWeight.w700)),
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(25.0),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Image.asset('assets/signin/button_close.png', width: 24.0.w, height: 24.0.h),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 32.0.h),
+                            Expanded(
+                              child: ScrollConfiguration(
+                                behavior: const ScrollBehavior().copyWith(overscroll: false),
+                                child: SingleChildScrollView(
+                                  physics: const ClampingScrollPhysics(),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700)),
+                                      SizedBox(height: 8.0.h),
+                                      Text(description, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w400)),
+                                    ]
+                                  ),
+                                ),
                               ),
                             ),
+                            const SizedBox(height: 32),
                           ],
                         ),
-                        SizedBox(height: 32.0.h),
-                        Expanded(
-                          child: ScrollConfiguration(
-                            behavior: const ScrollBehavior().copyWith(overscroll: false),
-                            child: SingleChildScrollView(
-                              physics: const ClampingScrollPhysics(),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w700)),
-                                  const SizedBox(height: 8),
-                                  Text(description, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinPolicyColor, fontWeight: FontWeight.w400)),
-                                ]
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  }
                 );
-              }
-            );
-          },
-          child: Align(
-              alignment: Alignment.bottomCenter, child: Text('더보기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w700))),
+              },
+              child: Container(
+                  color: Colors.transparent,
+                // color: Colors.red,
+                  padding: EdgeInsets.only(left: 8.0.w, top: 2.0.h, bottom: 2.0.h),
+                  child: Text('더보기', textAlign: TextAlign.center, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w700))),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
