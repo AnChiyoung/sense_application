@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_view.dart';
 
@@ -14,7 +15,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
 
-    print('login access token ?? : ${PresentUserInfo.loginToken}');
+    SenseLogger().debug('[login info]\naccess token : ${PresentUserInfo.loginToken}\nuser id : ${PresentUserInfo.id}\nuser name : ${PresentUserInfo.username}');
 
     return GestureDetector(
       onTap: () {

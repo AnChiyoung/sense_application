@@ -116,6 +116,9 @@ class LoginRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = json.decode(response.body)['data'];
+
+
+      print("nnnnnnnnnn: ${jsonResult}");
       UserInfoModel userInfoModel = UserInfoModel.fromJson(jsonResult);
       return userInfoModel;
     } else {
