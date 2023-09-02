@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 
@@ -33,13 +35,26 @@ class ProfileImageField extends StatefulWidget {
 }
 
 class _ProfileImageFieldState extends State<ProfileImageField> {
+
+  final ImagePicker _picker = ImagePicker();
+  XFile? image;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 24.0.h),
-      width: 80.0.w,
-      height: 80.0.h,
-      child: UserProfileImage(size: 80.0));
+    return Padding(
+      padding: EdgeInsets.only(top: 24.0.h, bottom: 24.0.h),
+      child: SizedBox(
+        width: 80.0,
+        height: 80.0,
+        child: GestureDetector(
+          onTap: () async {
+            image = await _picker.pickImage(source: ImageSource.gallery);
+            context.read<MyPageProvider>().xfileStateChange(image);
+          },
+          child: UserProfileImage(profileImageUrl: PresentUserInfo.profileImage, selectImage: null),
+        ),
+      ),
+    );
   }
 }
 
@@ -51,6 +66,15 @@ class BasicInfoField extends StatefulWidget {
 }
 
 class _BasicInfoFieldState extends State<BasicInfoField> {
+
+  String username = '';
+
+  @override
+  void initState() {
+    username = PresentUserInfo.username;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,7 +85,7 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
             alignment: Alignment.centerLeft,
             child: Text('기본정보', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
           SizedBox(height: 8.0.h),
-          BasicInfoName(),
+          BasicInfoName(initializeName: username),
           SizedBox(height: 12.0.h),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
@@ -99,7 +123,8 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 }
 
 class BasicInfoName extends StatefulWidget {
-  const BasicInfoName({super.key});
+  String initializeName;
+  BasicInfoName({super.key, required this.initializeName});
 
   @override
   State<BasicInfoName> createState() => _BasicInfoNameState();
@@ -108,6 +133,12 @@ class BasicInfoName extends StatefulWidget {
 class _BasicInfoNameState extends State<BasicInfoName> {
 
   TextEditingController nameController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController.text = widget.initializeName;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +176,7 @@ class _BasicInfoNameState extends State<BasicInfoName> {
               )
           ),
           onChanged: (v) {
-            // context.read<CreateEventProvider>().titleChange(v);
+            context.read<MyPageProvider>().nameStateChange(v);
           }
       ),
       // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
