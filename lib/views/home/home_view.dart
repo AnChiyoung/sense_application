@@ -111,7 +111,7 @@ class _BottomMenuState extends State<BottomMenu> {
                           // );
                         },
                         // child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
-                        child: bottomNavigationBarItem('assets/home/store.png', 24.0, '연락처', 1))),
+                        child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
               ),
             ),
             Expanded(
