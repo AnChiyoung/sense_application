@@ -213,7 +213,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                       context.read<LoginProvider>().autoLoginBoxState(!autoLoginState);
                     },
                     child: SizedBox(
-                      height: 35,
+                      height: 35.0.h,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -289,10 +289,12 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
                   SizedBox(width: 4.0.w),
                   Padding(
                     padding: EdgeInsets.only(bottom: 3.0.h),
-                    child: Text('카카오로 로그인', style: TextStyle(
+                    child: Text('카카오로 로그인',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
                         fontSize: 14.0.sp,
+                        // textBaseline: TextBaseline.alphabetic,
                         color: StaticColor.loginTextColor02,
-                        letterSpacing: -0.22,
                         fontWeight: FontWeight.w600)),
                   ),
                 ],

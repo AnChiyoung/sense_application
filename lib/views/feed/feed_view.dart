@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
+import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
@@ -37,93 +38,158 @@ class _FeedHeaderState extends State<FeedHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 12.0.h),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Stack(
-              alignment: Alignment.centerRight,
-              children: [
-                /// 검색 필드
-                TextField(
-                  style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    hintText: "'생일선물'을 검색해보세요",
-                    hintStyle: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400),
-                    filled: true,
-                    fillColor: StaticColor.grey100F6,
-                    // fillColor: Colors.black,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 0, color: Colors.transparent),
-                    ),
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 0, color: Colors.transparent),
-                    )
-                  ),
-                  // onSubmitted: search,
-                ),
-                /// 우측 검색 버튼
-                Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
+          /// logo
+          Image.asset('assets/home/home_sense_logo.png', width: 80.0.w),
+          /// right menu
+          Row(
+            children: [
+              Material(
+                color: Colors.transparent,
+                child: SizedBox(
+                  width: 40.0.w,
+                  height: 40.0.h,
+                  child: InkWell(
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        search(searchController.text);
+                        /// sprint05
                       },
-                      child: Image.asset('assets/feed/search_button.png', width: 24, height: 24),
-                    ),
+                      child: Center(
+                        child: Image.asset('assets/home/home_search.png', width: 24.0.w, height: 24.0.h)),
                   ),
                 ),
-              ]
-            ),
-          ),
-          const SizedBox(width: 12),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(24),
-              onTap: () {
-                /// sprint05
-                Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
-                /// logout
-                // showDialog(
-                //     context: context,
-                //     barrierDismissible: false,
-                //     builder: (BuildContext context) {
-                //       return LogoutDialog(action: logoutAction);
-                //     });
-              },
-              child: Icon(Icons.account_circle)
-            ),
-          ),
-          const SizedBox(width: 12),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(24),
-              onTap: () {
-                /// sprint05
-                // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
-                /// logout
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return LogoutDialog(action: logoutAction);
-                    });
-              },
-              child: Image.asset('assets/feed/logout_button.png', width: 24.0.w, height: 24.0.h),
-            ),
+              ),
+              SizedBox(width: 4.0.w),
+              Material(
+                color: Colors.transparent,
+                child: SizedBox(
+                  width: 40.0.w,
+                  height: 40.0.h,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(24),
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return ServiceGuideDialog();
+                          });
+                    },
+                    child: Center(
+                      child: Image.asset('assets/home/home_alarm.png', width: 24.0.w, height: 24.0.h)),
+                  ),
+                ),
+              ),
+              SizedBox(width: 4.0.w),
+              Material(
+                color: Colors.transparent,
+                child: SizedBox(
+                  width: 40.0.w,
+                  height: 40.0.h,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(24),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+                    },
+                    child: Center(
+                        child: Image.asset('assets/home/home_userprofile.png', width: 24.0.w, height: 24.0.h)),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
-      )
+      ),
+      /// 홈화면 헤드
+      // child: Row(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   children: [
+      //     Expanded(
+      //       child: Stack(
+      //         alignment: Alignment.centerRight,
+      //         children: [
+      //           /// 검색 필드
+      //           TextField(
+      //             style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400),
+      //             decoration: InputDecoration(
+      //               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      //               hintText: "'생일선물'을 검색해보세요",
+      //               hintStyle: TextStyle(fontSize: 14, color: StaticColor.grey400BB, fontWeight: FontWeight.w400),
+      //               filled: true,
+      //               fillColor: StaticColor.grey100F6,
+      //               // fillColor: Colors.black,
+      //               border: OutlineInputBorder(
+      //                 borderRadius: BorderRadius.circular(4.0),
+      //               ),
+      //               focusedBorder: const OutlineInputBorder(
+      //                 borderSide: BorderSide(width: 0, color: Colors.transparent),
+      //               ),
+      //               enabledBorder: const OutlineInputBorder(
+      //                 borderSide: BorderSide(width: 0, color: Colors.transparent),
+      //               )
+      //             ),
+      //             // onSubmitted: search,
+      //           ),
+      //           /// 우측 검색 버튼
+      //           Padding(
+      //             padding: const EdgeInsets.only(right: 12),
+      //             child: Material(
+      //               color: Colors.transparent,
+      //               child: InkWell(
+      //                 borderRadius: BorderRadius.circular(24),
+      //                 onTap: () {
+      //                   search(searchController.text);
+      //                 },
+      //                 child: Image.asset('assets/feed/search_button.png', width: 24, height: 24),
+      //               ),
+      //             ),
+      //           ),
+      //         ]
+      //       ),
+      //     ),
+      //     const SizedBox(width: 12),
+      //     Material(
+      //       color: Colors.transparent,
+      //       child: InkWell(
+      //         borderRadius: BorderRadius.circular(24),
+      //         onTap: () {
+      //           /// sprint05
+      //           Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+      //           /// logout
+      //           // showDialog(
+      //           //     context: context,
+      //           //     barrierDismissible: false,
+      //           //     builder: (BuildContext context) {
+      //           //       return LogoutDialog(action: logoutAction);
+      //           //     });
+      //         },
+      //         child: Icon(Icons.account_circle)
+      //       ),
+      //     ),
+      //     const SizedBox(width: 12),
+      //     Material(
+      //       color: Colors.transparent,
+      //       child: InkWell(
+      //         borderRadius: BorderRadius.circular(24),
+      //         onTap: () {
+      //           /// sprint05
+      //           // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+      //           /// logout
+      //           showDialog(
+      //               context: context,
+      //               barrierDismissible: false,
+      //               builder: (BuildContext context) {
+      //                 return LogoutDialog(action: logoutAction);
+      //               });
+      //         },
+      //         child: Image.asset('assets/feed/logout_button.png', width: 24.0.w, height: 24.0.h),
+      //       ),
+      //     ),
+      //   ],
+      // )
     );
     // return Padding(
     //   padding: const EdgeInsets.only( // 추후, 잉크웰 범위를 재조정하는 과정 필요

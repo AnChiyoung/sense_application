@@ -267,9 +267,9 @@ class _PolicyButtonState extends State<PolicyButton> {
         TextButton(
           onPressed: () {
             context.read<SigninProvider>().policyCheckStateChange([true, true, true, true, false]);
-            // Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => EmailScreen()));
           },
-          child: Text('필수 항목만 동의', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
+          child: Text('필수 항목만 동의하고 다음으로', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.signinPolicyAddTextColor, fontWeight: FontWeight.w500, decoration: TextDecoration.underline)),
         )
       ],
     );
