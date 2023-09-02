@@ -18,8 +18,8 @@ class _MyPageHeaderState extends State<MyPageHeader> {
   }
 
   void backCallback() {
-    // Navigator.of(context).pop();
-    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)));
+    Navigator.of(context).pop();
+    // Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)));
   }
 
   Widget rightMenu() {
