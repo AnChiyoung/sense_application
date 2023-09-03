@@ -109,8 +109,6 @@ class CreateEventModel {
     ]
   };
 
-  // static const String baseUrl = "https://dev.server.sense.runners.im/api/v1";
-
   Future<bool> postCreateEvent(Map<String, dynamic> postModel) async {
     print('get response start');
     var url = Uri.parse('${ApiUrl.releaseUrl}/suggestions?recommend_type=HOTEL');

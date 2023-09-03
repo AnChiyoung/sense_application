@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/actions.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
@@ -213,7 +214,7 @@ class _EventInfoPlanCategoryState extends State<EventInfoPlanCategory> {
         return GestureDetector(
           onTap: () {
             if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-              context.read<CreateEventProvider>().eventStepState(0);
+              context.read<CreateEventImproveProvider>().eventStepState(0);
               TriggerActions().showCreateEventView(context);
             } else {
 
@@ -271,7 +272,7 @@ class _EventInfoPlanTargetState extends State<EventInfoPlanTarget> {
           return GestureDetector(
             onTap: () {
               if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-                context.read<CreateEventProvider>().eventStepState(1);
+                context.read<CreateEventImproveProvider>().eventStepState(1);
                 TriggerActions().showCreateEventView(context);
               } else {
 
@@ -322,7 +323,7 @@ class _EventInfoPlanDateState extends State<EventInfoPlanDate> {
           return GestureDetector(
             onTap: () {
               if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-                context.read<CreateEventProvider>().eventStepState(2);
+                context.read<CreateEventImproveProvider>().eventStepState(2);
                 TriggerActions().showCreateEventView(context);
               } else {
 
@@ -376,7 +377,7 @@ class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
               // }
 
               if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-                context.read<CreateEventProvider>().eventStepState(3);
+                context.read<CreateEventImproveProvider>().eventStepState(3);
                 TriggerActions().showCreateEventView(context);
               } else {
 

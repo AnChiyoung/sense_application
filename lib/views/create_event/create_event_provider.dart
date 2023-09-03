@@ -262,18 +262,7 @@ class CreateEventProvider with ChangeNotifier {
     /// non notify!!!
   }
 
-  /// create event step
-  /// 0 : 이벤트 유형
-  /// 1 : 이벤트 대상
-  /// 2 : 이벤트 날짜
-  /// 3 : 이벤트 위치
-  int _eventStepNumber = -1;
-  int get eventStepNumber => _eventStepNumber;
 
-  void eventStepState(int state) {
-    _eventStepNumber = state;
-    notifyListeners();
-  }
 
   double _safeAreaTopPadding = 0.0;
   double get safeAreaTopPadding => _safeAreaTopPadding;

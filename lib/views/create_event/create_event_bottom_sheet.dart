@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_category.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_date.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_region.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_target.dart';
@@ -66,7 +67,7 @@ class CreateEventBottomSheetTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<CreateEventImproveProvider>(
       builder: (context, data, child) {
 
         String createEventBottomSheetTitle = '';
@@ -97,7 +98,7 @@ class CreateEventBottomSheetStepField extends StatefulWidget {
 class _CreateEventBottomSheetStepFieldState extends State<CreateEventBottomSheetStepField> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<CreateEventImproveProvider>(
       builder: (context, data, child) {
 
         Widget fetchWidget = Container();
@@ -151,7 +152,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
   }
 
   void submitButtonListeners() {
-    final step = context.read<CreateEventProvider>().eventStepNumber;
+    final step = context.read<CreateEventImproveProvider>().eventStepNumber;
 
     if(step == 0) {
       categoryListener();
@@ -165,24 +166,26 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
   }
 
   void categoryListener() {
-    int selectCategoryIndex = context.read<CreateEventProvider>().categoryState.indexOf(true);
-    context.read<CreateEventProvider>().categoryChange(selectCategoryIndex);
-    print(selectCategoryIndex);
+    // int selectCategoryIndex = context.read<CreateEventProvider>().categoryState.indexOf(true);
+    context.read<CreateEventImproveProvider>().saveCategoryChange();
+    // context.read<CreateEventProvider>().categoryChange(selectCategoryIndex);
+    // print(selectCategoryIndex);
     Navigator.pop(context);
   }
 
   void targetListener() {
-    int selectTargetIndex = context.read<CreateEventProvider>().targetState.indexOf(true);
-    context.read<CreateEventProvider>().targetChange(selectTargetIndex);
+    // int selectTargetIndex = context.read<CreateEventProvider>().targetState.indexOf(true);
+    context.read<CreateEventImproveProvider>().saveTargetChange();
+    // context.read<CreateEventProvider>().targetChange(selectTargetIndex);
     Navigator.pop(context);
   }
 
   void dateListener() {
     String selectDate = context.read<CreateEventProvider>().nonSaveDate;
     if(selectDate == '') {
-      context.read<CreateEventProvider>().dateChange(DateTime.now().toString().substring(0, 10));
+      context.read<CreateEventImproveProvider>().dateChange(DateTime.now().toString().substring(0, 10));
     } else {
-      context.read<CreateEventProvider>().dateChange(selectDate.substring(0, 10));
+      context.read<CreateEventImproveProvider>().dateChange(selectDate.substring(0, 10));
     }
     Navigator.pop(context);
   }

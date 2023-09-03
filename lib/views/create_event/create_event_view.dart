@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/public_widget/actions.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 /// header
@@ -20,9 +21,7 @@ class CreateEventHeader extends StatefulWidget {
 class _CreateEventHeaderState extends State<CreateEventHeader> {
 
   TextStyle titleStyle = TextStyle(fontSize: 16.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500);
-
   Size? size;
-
   final GlobalKey _containerKey = GlobalKey();
 
   Size? _getSize() {
@@ -45,23 +44,28 @@ class _CreateEventHeaderState extends State<CreateEventHeader> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return HeaderMenu(backCallback: backCallback, title: '이벤트 생성', titleStyle: titleStyle);
   }
 
   void backCallback() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const AddEventCancelDialog();
-      }
-    );
+    String title = context.read<CreateEventImproveProvider>().title;
+    int category = context.read<CreateEventImproveProvider>().category;
+    int target = context.read<CreateEventImproveProvider>().target;
+    String date = context.read<CreateEventImproveProvider>().date;
+    String memo = context.read<CreateEventImproveProvider>().memo;
+
+    if(title.isEmpty && category == -1 && target == -1 && date.isEmpty && memo.isEmpty) {
+      Navigator.of(context).pop();
+    } else {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return const AddEventCancelDialog();
+          }
+      );
+    }
   }
 }
 
@@ -161,7 +165,7 @@ class _CreateEventTitleViewState extends State<CreateEventTitleView> {
                     )
                 ),
                 onChanged: (v) {
-                  context.read<CreateEventProvider>().titleChange(v);
+                  context.read<CreateEventImproveProvider>().titleChange(v);
                   v.isEmpty ? context.read<CreateEventProvider>().createButtonStateChange(false) : context.read<CreateEventProvider>().createButtonStateChange(true);
                 }
             ),
@@ -185,7 +189,8 @@ class CreateEventCategoryView extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context.read<CreateEventProvider>().eventStepState(0);
+              context.read<CreateEventImproveProvider>().eventStepState(0);
+              context.read<CreateEventImproveProvider>().selectCategorySink();
               TriggerActions().showCreateEventView(context);
             },
             child: Container(
@@ -195,7 +200,7 @@ class CreateEventCategoryView extends StatelessWidget {
                   // color: Colors.black,
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-                child: Consumer<CreateEventProvider>(
+                child: Consumer<CreateEventImproveProvider>(
                     builder: (context, data, child) {
 
                       String categoryText = '';
@@ -239,7 +244,8 @@ class CreateEventTargetView extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context.read<CreateEventProvider>().eventStepState(1);
+              context.read<CreateEventImproveProvider>().eventStepState(1);
+              context.read<CreateEventImproveProvider>().selectTargetSink();
               TriggerActions().showCreateEventView(context);
             },
             child: Container(
@@ -249,7 +255,7 @@ class CreateEventTargetView extends StatelessWidget {
                   // color: Colors.black,
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-              child: Consumer<CreateEventProvider>(
+              child: Consumer<CreateEventImproveProvider>(
                 builder: (context, data, child) {
 
                   String targetText = '';
@@ -296,7 +302,7 @@ class _CreateEventDateViewState extends State<CreateEventDateView> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context.read<CreateEventProvider>().eventStepState(2);
+              context.read<CreateEventImproveProvider>().eventStepState(2);
               TriggerActions().showCreateEventView(context);
             },
             child: Container(
@@ -306,7 +312,7 @@ class _CreateEventDateViewState extends State<CreateEventDateView> {
                   // color: Colors.black,
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-              child: Consumer<CreateEventProvider>(
+              child: Consumer<CreateEventImproveProvider>(
                   builder: (context, data, child) {
 
                     String dateText = '';
@@ -317,7 +323,7 @@ class _CreateEventDateViewState extends State<CreateEventDateView> {
                       dateText = data.date.toString();
                     }
 
-                    return Center(child: Text(dateText, style: TextStyle(fontSize: 14.sp, color: data.date == '' ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
+                    return Center(child: Text(dateText, style: TextStyle(fontSize: 14.sp, color: data.date.isEmpty ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
                   }
               )
             ),
@@ -345,8 +351,8 @@ class _CreateEventLocationViewState extends State<CreateEventLocationView> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context.read<CreateEventProvider>().eventStepState(3);
-              TriggerActions().showCreateEventView(context);
+              context.read<CreateEventImproveProvider>().eventStepState(3);
+              // TriggerActions().showCreateEventView(context);
             },
             child: Container(
                 height: 50.h,
@@ -454,7 +460,7 @@ class _CreateEventMemoViewState extends State<CreateEventMemoView> {
                       )
                   ),
                   onChanged: (v) {
-                    context.read<CreateEventProvider>().memoChange(v);
+                    context.read<CreateEventImproveProvider>().memoChange(v);
                   }
               ),
             ),

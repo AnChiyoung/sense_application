@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
@@ -53,28 +54,6 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    // context.read<AddEventProvider>().nextButtonReset();
-                    // // 연락처 프로바이더 삽입
-                    // context.read<AddEventProvider>().dateSelectNextButtonReset();
-                    // context.read<AddEventProvider>().dayViewReset();
-                    // context.read<RecommendedEventProvider>().nextButtonReset();
-                    // context.read<RecommendedEventProvider>().priceNextButtonReset();
-                    // context.read<RecommendedEventProvider>().regionNextButtonReset();
-                    // context.read<RecommendedEventProvider>().memoNextButtonStateReset();
-                    // context.read<RecommendedEventProvider>().regionSelectStateChange(-1);
-                    //
-                    // AddEventModel.eventTypeModel = '';
-                    // AddEventModel.userModel.clear();
-                    // AddEventModel.shareUserModel.clear();
-                    // AddEventModel.dateModel = '';
-                    // AddEventModel.recommendedModel.clear();
-                    // AddEventModel.costModel = '';
-                    // AddEventModel.regionModel.clear();
-                    // AddEventModel.memoModel = '';
-
-                    // /// route.isFirst는 native splash를 포함하지 않음
-                    // /// route name 쓰지 않고 화면 스택 정리
-                    // Navigator.popUntil(context, (route) => route.isFirst);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.grey100F6, elevation: 0.0),
                   child: Text('계속하기', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
@@ -94,7 +73,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<CreateEventProvider>().eventInitialize();
+                    context.read<CreateEventImproveProvider>().createEventClear();
                     context.read<CreateEventProvider>().recommendInitialize();
                     Navigator.of(context).pop();
                     /// page route reset

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 
@@ -76,19 +77,19 @@ class EventRequest {
   Future<bool> eventCreateRequest(BuildContext context) async {
 
     Map<String, dynamic> createModel = {};
-    context.read<CreateEventProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
-    context.read<CreateEventProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category + 1;
-    context.read<CreateEventProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventProvider>().target;
-    // context.read<CreateEventProvider>().city == -1 ? {} : createModel['city'] = context.read<CreateEventProvider>().city;
-    // context.read<CreateEventProvider>().subCity.isEmpty ? {} : createModel['sub_city'] = context.read<CreateEventProvider>().subCity.elementAt(0);
-    // /// city, subcity 개선 필요
-    // // context.read<CreateEventProvider>().city == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
-    // // context.read<CreateEventProvider>().subCity == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
-    context.read<CreateEventProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventProvider>().date;
-    context.read<CreateEventProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventProvider>().memo;
+    createModel.clear();
+    context.read<CreateEventImproveProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventImproveProvider>().title;
+    context.read<CreateEventImproveProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
+    context.read<CreateEventImproveProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
+    context.read<CreateEventImproveProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventImproveProvider>().date;
+    context.read<CreateEventImproveProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventImproveProvider>().memo;
 
     logger.d(
-        'title : ${context.read<CreateEventProvider>().title}\ncategory : ${context.read<CreateEventProvider>().category + 1}\ntarget : ${context.read<CreateEventProvider>().target}\ndate : ${context.read<CreateEventProvider>().date}\nmemo : ${context.read<CreateEventProvider>().memo}'
+        'title : ${context.read<CreateEventImproveProvider>().title}\n' +
+        'category : ${context.read<CreateEventImproveProvider>().category}\n' +
+        'target : ${context.read<CreateEventImproveProvider>().target}\n' +
+        'date : ${context.read<CreateEventImproveProvider>().date}\n' +
+        'memo : ${context.read<CreateEventImproveProvider>().memo}\n'
     );
 
     final response = await http.post(
@@ -104,7 +105,7 @@ class EventRequest {
       logger.v('이벤트 생성 성공');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel createEventResponse = EventModel.fromJson(jsonResult);
-      context.read<CreateEventProvider>().createEventUniqueId(createEventResponse.id!);
+      context.read<CreateEventImproveProvider>().createEventUniqueId(createEventResponse.id!);
       logger.d('create event id : ${createEventResponse.id}');
       return true;
     } else {
