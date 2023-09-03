@@ -299,13 +299,47 @@ class _FeedTagListState extends State<FeedTagList> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Error fetching posts'));
+              return const Center(child: Text('Data fetching..'));
             } else {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    /// '전체' 태그
+                    Consumer<FeedProvider>(
+                      builder: (context, data, child) {
+
+                        bool totalSelector = data.totalTag;
+
+                        return Material(
+                          borderRadius: BorderRadius.circular(18),
+                          color: totalSelector == false ? Colors.grey.shade200 : Colors.grey.shade800,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(16),
+                            onTap: () {
+                              context.read<FeedProvider>().selectTotalTagChange();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 7,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '전체',
+                                  style: TextStyle(
+                                    color: totalSelector == false ? Colors.grey.shade700 : Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                    ),
+                    SizedBox(width: 6.0.w),
                     Expanded(
                       child: ListView.builder(
                         physics: const ClampingScrollPhysics(),
@@ -345,7 +379,7 @@ class _FeedTagListState extends State<FeedTagList> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 6),
+                              SizedBox(width: 6.0.w),
                             ],
                           );
                         },
@@ -421,14 +455,15 @@ class _FeedPostListState extends State<FeedPostList> {
 
   @override
   void initState() {
-    getInitLabel();
+    // getInitLabel();
     super.initState();
   }
 
   Future getInitLabel() async {
     List<TagModel> tagModels = await FeedTagLoad().tagRequest();
-    final firstTagNumber = tagModels.elementAt(0).id;
-    context.read<FeedProvider>().selectTagNumberChange(firstTagNumber!, 0);
+    context.read<FeedProvider>().selectTagNumberChange(-1, -1);
+    // final firstTagNumber = tagModels.elementAt(0).id;
+    // context.read<FeedProvider>().selectTagNumberChange(firstTagNumber!  , 0);
   }
 
   @override

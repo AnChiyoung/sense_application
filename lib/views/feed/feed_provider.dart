@@ -277,15 +277,27 @@ class FeedProvider with ChangeNotifier {
   }
 
   /// select tag number provider
-  int _selectTagNumber = 0;
+
+  bool _totalTag = true;
+  bool get totalTag => _totalTag;
+
+  int _selectTagNumber = -1;
   int get selectTagNumber => _selectTagNumber;
 
-  int _selectTagIndex = 0;
+  int _selectTagIndex = -1;
   int get selectTagIndex => _selectTagIndex;
 
   void selectTagNumberChange(int selectTagId, int selectTagIndex) {
+    _totalTag = false;
     _selectTagNumber = selectTagId;
     _selectTagIndex = selectTagIndex;
+    notifyListeners();
+  }
+
+  void selectTotalTagChange() {
+    _totalTag = true;
+    _selectTagNumber = -1;
+    _selectTagIndex = -1;
     notifyListeners();
   }
 
