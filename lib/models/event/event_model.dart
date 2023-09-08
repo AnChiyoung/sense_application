@@ -54,6 +54,8 @@ class EventRequest {
   /// personal event load
   Future<EventModel> eventRequest(int eventId) async {
 
+    print('event id : ${eventId.toString()}');
+
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
       headers: {
@@ -104,7 +106,7 @@ class EventRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('이벤트 생성 성공');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      EventModel createEventResponse = EventModel.fromJson(jsonResult);
+      EventModel createEventResponse = EventModel.fromJsonForId(jsonResult);
       context.read<CreateEventImproveProvider>().createEventUniqueId(createEventResponse.id!);
       logger.d('create event id : ${createEventResponse.id}');
       return true;
@@ -121,9 +123,6 @@ class EventRequest {
     context.read<CreateEventProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
     context.read<CreateEventProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
     context.read<CreateEventProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventProvider>().target;
-    // /// city, subcity 개선 필요
-    // // context.read<CreateEventProvider>().city == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
-    // // context.read<CreateEventProvider>().subCity == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
     context.read<CreateEventProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventProvider>().date;
     context.read<CreateEventProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventProvider>().memo;
 
@@ -153,23 +152,23 @@ class EventRequest {
 
     Map<String, dynamic> fieldModel = {};
 
-    print(context.read<CreateEventProvider>().isAlarm);
-
+    print('change category : ${context.read<CreateEventImproveProvider>().category + 1}');
     if(fieldNumber == 0) {
-      fieldModel['title'] = context.read<CreateEventProvider>().title;
+      fieldModel['title'] = context.read<CreateEventImproveProvider>().title;
     } else if(fieldNumber == 1) {
-      fieldModel['event_category'] = context.read<CreateEventProvider>().category;
+      fieldModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
     } else if(fieldNumber == 2) {
-      fieldModel['contact_category'] = context.read<CreateEventProvider>().target;
+      fieldModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
     } else if(fieldNumber == 3) {
-      fieldModel['date'] = context.read<CreateEventProvider>().date;
+      fieldModel['date'] = context.read<CreateEventImproveProvider>().date;
     } else if(fieldNumber == 4) {
-      fieldModel['memo'] = context.read<CreateEventProvider>().memo;
-    } else if(fieldNumber == 5) {
-      fieldModel['is_alarm'] = context.read<CreateEventProvider>().isAlarm;
-    } else if(fieldNumber == 6) {
-      fieldModel['public_type'] = context.read<CreateEventProvider>().publicType;
+      fieldModel['memo'] = context.read<CreateEventImproveProvider>().memo;
     }
+    // else if(fieldNumber == 5) {
+    //   fieldModel['is_alarm'] = context.read<CreateEventImproveProvider>().isAlarm;
+    // } else if(fieldNumber == 6) {
+    //   fieldModel['public_type'] = context.read<CreateEventImproveProvider>().publicType;
+    // }
 
     final response = await http.patch(
         Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
@@ -281,6 +280,10 @@ class EventModel {
           eventUser!.add(EventUser.fromJson(v));
         }
     );
+  }
+
+  EventModel.fromJsonForId(dynamic json) {
+    id = json['id'] ?? -1;
   }
 
   EventModel.fromPersonalJson(dynamic json) {

@@ -165,8 +165,8 @@ class _CreateEventTitleViewState extends State<CreateEventTitleView> {
                     )
                 ),
                 onChanged: (v) {
-                  context.read<CreateEventImproveProvider>().titleChange(v);
-                  v.isEmpty ? context.read<CreateEventProvider>().createButtonStateChange(false) : context.read<CreateEventProvider>().createButtonStateChange(true);
+                  context.read<CreateEventImproveProvider>().titleChange(v, false);
+                  v.isEmpty ? context.read<CreateEventImproveProvider>().createButtonStateChange(false) : context.read<CreateEventImproveProvider>().createButtonStateChange(true);
                 }
             ),
           ),
@@ -191,7 +191,7 @@ class CreateEventCategoryView extends StatelessWidget {
             onTap: () {
               context.read<CreateEventImproveProvider>().eventStepState(0);
               context.read<CreateEventImproveProvider>().selectCategorySink();
-              TriggerActions().showCreateEventView(context);
+              TriggerActions().showCreateEventView(context, false);
             },
             child: Container(
                 height: 50.h,
@@ -246,7 +246,7 @@ class CreateEventTargetView extends StatelessWidget {
             onTap: () {
               context.read<CreateEventImproveProvider>().eventStepState(1);
               context.read<CreateEventImproveProvider>().selectTargetSink();
-              TriggerActions().showCreateEventView(context);
+              TriggerActions().showCreateEventView(context, false);
             },
             child: Container(
                 height: 50.h,
@@ -303,7 +303,7 @@ class _CreateEventDateViewState extends State<CreateEventDateView> {
           child: GestureDetector(
             onTap: () {
               context.read<CreateEventImproveProvider>().eventStepState(2);
-              TriggerActions().showCreateEventView(context);
+              TriggerActions().showCreateEventView(context, false);
             },
             child: Container(
                 height: 50.h,
@@ -460,7 +460,7 @@ class _CreateEventMemoViewState extends State<CreateEventMemoView> {
                       )
                   ),
                   onChanged: (v) {
-                    context.read<CreateEventImproveProvider>().memoChange(v);
+                    context.read<CreateEventImproveProvider>().memoChange(v, false);
                   }
               ),
             ),
@@ -481,7 +481,7 @@ class CreateEventButton extends StatefulWidget {
 class _CreateEventButtonState extends State<CreateEventButton> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<CreateEventImproveProvider>(
       builder: (context, data, child) {
 
         bool buttonState = data.createEventButtonState;
@@ -494,6 +494,7 @@ class _CreateEventButtonState extends State<CreateEventButton> {
                 if(buttonState == true) {
                   bool result = await EventRequest().eventCreateRequest(context);
                   if(result == true) {
+                    context.read<CreateEventImproveProvider>().createEventClear(false);
                     Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
                   } else {
                     /// nothing!!!
@@ -501,17 +502,6 @@ class _CreateEventButtonState extends State<CreateEventButton> {
                 } else {
                   /// nothing!!!
                 }
-                // if(buttonCallbackActiveState() == true) {
-                //   bool result = await EventRequest().eventCreateRequest(context);
-                //   if(result == true) {
-                //     /// navigator push => to event info
-                //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
-                //   } else {
-                //     print('model request check plz..');
-                //   }
-                // } else {
-                //   print('event create no actions');
-                // }
               },
               style: ElevatedButton.styleFrom(backgroundColor: buttonState == false ? StaticColor.grey400BB : StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
               child: const Column(

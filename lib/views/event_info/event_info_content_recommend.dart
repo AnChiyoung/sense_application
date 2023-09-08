@@ -36,46 +36,50 @@ class _EventRecommendState extends State<EventRecommend> {
             return EventRecommendStepView();
 
           } else {
-            return Stack(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 300.h,
-                  child: Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        style: TextStyle(fontSize: 16.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400),
-                        children: [
-                          const TextSpan(text: '아직 추천된 아이템이 없어요\n'),
-                          TextSpan(text: '\'요청하기\'', style: TextStyle(fontSize: 16.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w700),),
-                          const TextSpan(text: '를 눌러 나를 위한 추천을 받아보세요')
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 70.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.read<CreateEventProvider>().isSteppingStateChange(true);
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-                      child: const Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 56, child: Center(child: Text('요청하기', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
-                          ]
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
+            return Container(
+              color: Colors.black);
+            // return Stack(
+            //   alignment: Alignment.bottomCenter,
+            //   children: [
+            //     Expanded(
+            //       child: SizedBox(
+            //         width: double.infinity,
+            //         child: Center(
+            //           child: RichText(
+            //             textAlign: TextAlign.center,
+            //             text: TextSpan(
+            //               style: TextStyle(fontSize: 16.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400),
+            //               children: [
+            //                 const TextSpan(text: '아직 추천된 아이템이 없어요\n'),
+            //                 TextSpan(text: '\'요청하기\'', style: TextStyle(fontSize: 16.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w700),),
+            //                 const TextSpan(text: '를 눌러 나를 위한 추천을 받아보세요')
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     Align(
+            //       alignment: Alignment.bottomCenter,
+            //       child: SizedBox(
+            //         width: double.infinity,
+            //         height: 70.h,
+            //         child: ElevatedButton(
+            //           onPressed: () {
+            //             context.read<CreateEventProvider>().isSteppingStateChange(true);
+            //           },
+            //           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+            //           child: const Column(
+            //               mainAxisAlignment: MainAxisAlignment.start,
+            //               children: [
+            //                 SizedBox(height: 56, child: Center(child: Text('요청하기', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
+            //               ]
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // );
           }
         }
 

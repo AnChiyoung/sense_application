@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_bottom_sheet.dart';
 
 class TriggerActions {
-  void showCreateEventView(BuildContext context) {
+  void showCreateEventView(BuildContext context, bool edit) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -14,7 +14,7 @@ class TriggerActions {
       //   borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
       // ),
       builder: (context) {
-        return CreateEventBottomSheetView();
+        return CreateEventBottomSheetView(edit: edit);
       }
     );
   }

@@ -28,6 +28,9 @@ class MyPageProvider with ChangeNotifier {
   List<bool> _updateGenderState = [false, false];
   List<bool> get updateGenderState => _updateGenderState;
 
+  bool _agree = false;
+  bool get agree => _agree;
+
   void xfileStateChange(XFile? state) async {
     _selectImage = state;
 
@@ -60,6 +63,11 @@ class MyPageProvider with ChangeNotifier {
 
   void genderStateChange(List<bool> state) {
     _updateGenderState = state;
+    notifyListeners();
+  }
+
+  void withdrawalAgreeChange(bool state) {
+    _agree = state;
     notifyListeners();
   }
 }

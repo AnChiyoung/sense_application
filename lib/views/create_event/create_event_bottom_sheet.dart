@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_category.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_date.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
@@ -10,7 +11,8 @@ import 'package:sense_flutter_application/views/create_event/create_event_region
 import 'package:sense_flutter_application/views/create_event/create_event_target.dart';
 
 class CreateEventBottomSheetView extends StatefulWidget {
-  const CreateEventBottomSheetView({super.key});
+  bool edit;
+  CreateEventBottomSheetView({super.key, required this.edit});
 
   @override
   State<CreateEventBottomSheetView> createState() => _CreateEventBottomSheetViewState();
@@ -42,7 +44,7 @@ class _CreateEventBottomSheetViewState extends State<CreateEventBottomSheetView>
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: CreateEventBottomSheetSubmitButton(bottomPadding: safeAreaBottomPadding),
+            child: CreateEventBottomSheetSubmitButton(bottomPadding: safeAreaBottomPadding, edit: widget.edit),
           )
         ]
       )
@@ -124,7 +126,8 @@ class _CreateEventBottomSheetStepFieldState extends State<CreateEventBottomSheet
 
 class CreateEventBottomSheetSubmitButton extends StatefulWidget {
   double bottomPadding;
-  CreateEventBottomSheetSubmitButton({super.key, required this.bottomPadding});
+  bool edit;
+  CreateEventBottomSheetSubmitButton({super.key, required this.bottomPadding, required this.edit});
 
   @override
   State<CreateEventBottomSheetSubmitButton> createState() => _CreateEventBottomSheetSubmitButtonState();
@@ -138,7 +141,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
       height: 70.h,
       child: ElevatedButton(
           onPressed: () {
-            submitButtonListeners();
+            submitButtonListeners(widget.edit);
           },
           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
           child: Column(
@@ -151,13 +154,13 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
     );
   }
 
-  void submitButtonListeners() {
+  void submitButtonListeners(bool edit) {
     final step = context.read<CreateEventImproveProvider>().eventStepNumber;
 
     if(step == 0) {
-      categoryListener();
+      categoryListener(edit);
     } else if(step == 1) {
-      targetListener();
+      targetListener(edit);
     } else if(step == 2) {
       dateListener();
     } else if(step == 3) {
@@ -165,17 +168,41 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
     }
   }
 
-  void categoryListener() {
+  void categoryListener(bool edit) async {
     // int selectCategoryIndex = context.read<CreateEventProvider>().categoryState.indexOf(true);
-    context.read<CreateEventImproveProvider>().saveCategoryChange();
+    context.read<CreateEventImproveProvider>().saveCategoryChange(null, true);
+    if(edit == false) {
+      bool categoryChangeResult = await EventRequest().personalFieldUpdateEvent(
+        context,
+        context.read<CreateEventImproveProvider>().eventUniqueId,
+        1
+      );
+      if(categoryChangeResult == true) {
+        print('view category change : ${context.read<CreateEventImproveProvider>().category}');
+        context.read<CreateEventImproveProvider>().saveCategoryChange(null, true);
+      }
+    }
+
     // context.read<CreateEventProvider>().categoryChange(selectCategoryIndex);
     // print(selectCategoryIndex);
     Navigator.pop(context);
   }
 
-  void targetListener() {
+  void targetListener(bool edit) async {
     // int selectTargetIndex = context.read<CreateEventProvider>().targetState.indexOf(true);
-    context.read<CreateEventImproveProvider>().saveTargetChange();
+    context.read<CreateEventImproveProvider>().saveTargetChange(null, true);
+    if(edit == false) {
+      bool targetChangeResult = await EventRequest().personalFieldUpdateEvent(
+        context,
+        context.read<CreateEventImproveProvider>().eventUniqueId,
+        2
+      );
+      if(targetChangeResult == true) {
+        print('view target change : ${context.read<CreateEventImproveProvider>().target}');
+        context.read<CreateEventImproveProvider>().saveTargetChange(null, true);
+      }
+    }
+
     // context.read<CreateEventProvider>().targetChange(selectTargetIndex);
     Navigator.pop(context);
   }

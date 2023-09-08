@@ -7,13 +7,14 @@ import 'package:sense_flutter_application/screens/event_feed/event_feed_screen.d
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 import 'package:sense_flutter_application/screens/old_event/add_event_screen.dart';
-
+import 'package:sense_flutter_application/screens/store/store_screen.dart';
 import '../../public_widget/login_dialog.dart';
 
 class MovePageList {
   List<Widget> pageList = [
     FeedScreen(),
-    ContactScreen(),
+    // ContactScreen(),
+    StoreScreen(),
     EventFeedScreen(),
     CalendarScreen(),
     // MyPageScreen(),
@@ -99,16 +100,15 @@ class _BottomMenuState extends State<BottomMenu> {
                     child: InkWell(
                         borderRadius: BorderRadius.circular(30.0),
                         onTap: () {
-                          widget.selectCallback(1);
-                          pageIndex = 1;
-                          // showDialog(
-                          //   context: context,
-                          //   //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                          //   barrierDismissible: false,
-                          //   builder: (BuildContext context) {
-                          //     return const ServiceGuideDialog();
-                          //   }
-                          // );
+                          // widget.selectCallback(1);
+                          // pageIndex = 1;
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return const ServiceGuideDialog();
+                            }
+                          );
                         },
                         // child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
                         child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),

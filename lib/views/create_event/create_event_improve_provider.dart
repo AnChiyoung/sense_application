@@ -59,8 +59,12 @@ class CreateEventImproveProvider with ChangeNotifier {
   }
 
   /// title function
-  void titleChange(String changeTitle) {
+  void titleChange(String changeTitle, bool notify) {
     _title = changeTitle;
+    if(notify == false) {
+    } else {
+      notifyListeners();
+    }
   }
 
   /// category function
@@ -69,9 +73,16 @@ class CreateEventImproveProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void saveCategoryChange() {
-    _category = _selectCategory;
-    notifyListeners();
+  void saveCategoryChange(int? state, bool notify) {
+    if(state == null) {
+      _category = _selectCategory;
+    } else {
+      _category = state;
+    }
+    if(notify == false) {
+    } else {
+      notifyListeners();
+    }
   }
 
   void selectCategorySink() {
@@ -84,9 +95,16 @@ class CreateEventImproveProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void saveTargetChange() {
-    _target = _selectTarget;
-    notifyListeners();
+  void saveTargetChange(int? state, bool notify) {
+    if(state == null) {
+      _target = _selectTarget;
+    } else {
+      _target = state;
+    }
+    if(notify == false) {
+    } else {
+      notifyListeners();
+    }
   }
 
   void selectTargetSink() {
@@ -105,8 +123,11 @@ class CreateEventImproveProvider with ChangeNotifier {
   }
 
   /// memo function
-  void memoChange(String changeMemo) {
+  void memoChange(String changeMemo, bool notify) {
     _memo = changeMemo;
+    if(notify == true) {
+      notifyListeners();
+    }
   }
 
   /// touch 할 때 어떤 바텀시트를 노출시킬 것인지
@@ -116,8 +137,10 @@ class CreateEventImproveProvider with ChangeNotifier {
   }
 
   /// clear function
-  void createEventClear() {
-    _eventUniqueId = -1;
+  void createEventClear(bool? isIdClear) {
+    if(isIdClear == null) {
+      _eventUniqueId = -1;
+    } else {}
     _eventStepNumber = -1;
     _title = '';
     _selectCategory = -1;
@@ -126,6 +149,39 @@ class CreateEventImproveProvider with ChangeNotifier {
     _target = -1;
     _date = '';
     _memo = '';
+    _createEventButtonState = false;
     notifyListeners();
+  }
+
+//////////////////////////////////////////////// event info view
+  bool _isStepping = false;
+  bool get isStepping => _isStepping;
+
+  /// 계획 탭인지, 추천 탭인지
+  List<bool> _eventInfoTabState = [true, false];
+  List<bool> get eventInfoTabState => _eventInfoTabState;
+
+  void isSteppingStateChange(bool state) {
+    _isStepping = state;
+    notifyListeners();
+  }
+
+  void tabChange(List<bool> state) {
+    _eventInfoTabState = state;
+    notifyListeners();
+  }
+
+  void eventInfoTabStateChange(List<bool> state) {
+    _eventInfoTabState = state;
+    notifyListeners();
+  }
+
+  /// calendar -> event info, create event -> event info
+  void eventDataLoad(String title, int catgegory, int target, String date, String memo) {
+    _title = title;
+    _category = category;
+    _target = target;
+    _date = date;
+    _memo = memo;
   }
 }

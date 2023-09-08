@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
@@ -15,7 +16,7 @@ class EventInfoTabBar extends StatefulWidget {
 class _EventInfoTabBarState extends State<EventInfoTabBar> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<CreateEventImproveProvider>(
         builder: (context, data, child) {
 
           /// is the request in progress? variable
@@ -53,7 +54,7 @@ class _EventInfoTabBarState extends State<EventInfoTabBar> {
   Widget PlanTab(bool state) {
     return GestureDetector(
       onTap: () {
-        context.read<CreateEventProvider>().eventInfoTabStateChange([true, false]);
+        context.read<CreateEventImproveProvider>().eventInfoTabStateChange([true, false]);
       },
       child: Container(
         height: 40.0.h,
@@ -69,7 +70,7 @@ class _EventInfoTabBarState extends State<EventInfoTabBar> {
   Widget RecommendTab(bool state) {
     return GestureDetector(
       onTap: () {
-        context.read<CreateEventProvider>().eventInfoTabStateChange([false, true]);
+        context.read<CreateEventImproveProvider>().eventInfoTabStateChange([false, true]);
       },
       child: Container(
         height: 40.0.h,

@@ -342,7 +342,7 @@ class CreateEventProvider with ChangeNotifier {
   String _publicType = 'PRIVATE';
   String get publicType => _publicType;
 
-  void isAlarmChagne(bool state) {
+  void isAlarmChange(bool state) {
     _isAlarm = state;
   }
 
@@ -350,7 +350,7 @@ class CreateEventProvider with ChangeNotifier {
     _publicType = state;
   }
 
-  /// event info
+  /// 계획 탭인지, 추천 탭인지
   List<bool> _eventInfoTabState = [true, false];
   List<bool> get eventInfoTabState => _eventInfoTabState;
 

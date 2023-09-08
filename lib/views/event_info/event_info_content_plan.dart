@@ -20,7 +20,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: EventRequest().eventRequest(context.read<CreateEventProvider>().eventUniqueId),
+      future: EventRequest().eventRequest(context.read<CreateEventImproveProvider>().eventUniqueId),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
 
@@ -32,24 +32,40 @@ class _EventInfoViewState extends State<EventInfoView> {
             EventModel eventPersonalModel = snapshot.data ?? EventModel();
             modelParse(eventPersonalModel);
 
-            String title = eventPersonalModel.eventTitle!;
-            int category = eventPersonalModel.eventCategoryObject!.id! - 1;
-            int target = eventPersonalModel.targetCategoryObject!.id! - 1;
+            String title = eventPersonalModel.eventTitle! ?? '';
+            int category;
+            if(eventPersonalModel.eventCategoryObject!.id == -1) {
+              category = -1;
+            } else {
+              category = eventPersonalModel.eventCategoryObject!.id! - 1;
+            }
+            int target;
+            if(eventPersonalModel.targetCategoryObject!.id == -1) {
+              target = -1;
+            } else {
+              target = eventPersonalModel.targetCategoryObject!.id! - 1;
+            }
             String date = eventPersonalModel.eventDate!;
-            int city = eventPersonalModel.city!.id!;
-            int subCity = eventPersonalModel.subCity!.id!;
             String memo = eventPersonalModel.description!;
+            bool alarm = eventPersonalModel.isAlarm!;
+            String publicType = eventPersonalModel.publicType!;
 
-            // context.read<EventInfoProvider>().titleChange(eventPersonalModel.eventTitle!);
-            // context.read<CreateEventProvider>().titleChange(eventPersonalModel.eventTitle!);
-            context.read<CreateEventProvider>().titleChange(eventPersonalModel.eventTitle!);
-            context.read<CreateEventProvider>().categoryChange(category);
-            context.read<CreateEventProvider>().targetChange(target);
-            context.read<CreateEventProvider>().dateChange(date);
-            context.read<CreateEventProvider>().cityChange(city);
-            context.read<CreateEventProvider>().memoChange(memo);
-            context.read<CreateEventProvider>().isAlarmChagne(eventPersonalModel.isAlarm!);
-            context.read<CreateEventProvider>().publicTypeChange(eventPersonalModel.publicType!);
+            print(title);
+            print(category);
+            print(target);
+            print(date);
+            print(memo);
+            print(alarm);
+            print(publicType);
+
+            context.read<CreateEventImproveProvider>().titleChange(title, true);
+            // context.read<CreateEventImproveProvider>().saveCategoryChange(category, false);
+            // context.read<CreateEventImproveProvider>().saveTargetChange(target, false);
+            // context.read<CreateEventImproveProvider>().dateChange(date);
+            // // context.read<CreateEventProvider>().cityChange(city);
+            // context.read<CreateEventProvider>().memoChange(memo);
+            // context.read<CreateEventProvider>().isAlarmChange(alarm);
+            // context.read<CreateEventProvider>().publicTypeChange(publicType);
 
             return Padding(
               padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 16.0.w),
@@ -57,7 +73,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                 children: [
                   EventInfoPlanTitle(),
                   SizedBox(height: 16.0.h),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
@@ -69,7 +85,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                     ],
                   ),
                   SizedBox(height: 8.0.h),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
@@ -107,7 +123,8 @@ class _EventInfoViewState extends State<EventInfoView> {
 }
 
 class EventInfoPlanTitle extends StatefulWidget {
-  const EventInfoPlanTitle({super.key});
+  String? title;
+  EventInfoPlanTitle({super.key, this.title});
 
   @override
   State<EventInfoPlanTitle> createState() => _EventInfoPlanTitleState();
@@ -120,67 +137,67 @@ class _EventInfoPlanTitleState extends State<EventInfoPlanTitle> {
 
   @override
   void initState() {
+    title = widget.title ?? '-';
+    editingController.text = title;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-      builder: (context, data, child) {
-
-        if(data.title.isEmpty) {
-          editingController.text = '-';
-        } else {
-          editingController.text = data.title;
-        }
-
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
-          width: double.infinity,
-          // height: 50,
-          decoration: BoxDecoration(
-            color: StaticColor.grey100F6,
-            borderRadius: BorderRadius.circular(4.0),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
+      width: double.infinity,
+      // height: 50,
+      decoration: BoxDecoration(
+        color: StaticColor.grey100F6,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: TextFormField(
+          controller: editingController,
+          autofocus: false,
+          textInputAction: TextInputAction.next,
+          maxLines: 1,
+          maxLength: 20,
+          textAlignVertical: TextAlignVertical.center,
+          style: TextStyle(color: Colors.black, fontSize: 14.sp),
+          cursorHeight: 15.h,
+          decoration: InputDecoration(
+              counterText: '',
+              filled: true,
+              fillColor: StaticColor.loginInputBoxColor,
+              // fillColor: Colors.black,
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(vertical: -3.0.h),
+              alignLabelWithHint: false,
+              labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+              hintText: '변경할 이벤트 이름을 입력해주세요.',
+              hintStyle: TextStyle(fontSize: 14.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                borderSide: BorderSide.none,
+              )
           ),
-          child: TextFormField(
-              controller: editingController,
-              autofocus: false,
-              textInputAction: TextInputAction.next,
-              maxLines: 1,
-              maxLength: 20,
-              textAlignVertical: TextAlignVertical.center,
-              style: TextStyle(color: Colors.black, fontSize: 14.sp),
-              cursorHeight: 15.h,
-              decoration: InputDecoration(
-                  counterText: '',
-                  filled: true,
-                  fillColor: StaticColor.loginInputBoxColor,
-                  // fillColor: Colors.black,
-                  isDense: true,
-                  contentPadding: EdgeInsets.symmetric(vertical: -3.0.h),
-                  alignLabelWithHint: false,
-                  labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                  hintText: '변경할 이벤트 이름을 입력해주세요.',
-                  hintStyle: TextStyle(fontSize: 14.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                    borderSide: BorderSide.none,
-                  )
-              ),
-              onChanged: (v) {
-                // context.read<CreateEventProvider>().titleChange(v);
-              }
-          ),
-          // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
-        );
-      }
+          onEditingComplete: () async {
+            bool titleChangeResult = await EventRequest().personalFieldUpdateEvent(
+              context,
+              context.read<CreateEventImproveProvider>().eventUniqueId,
+              0
+            );
+            /// 이벤트 업데이트 성공하면 화면 제목 단 변경
+            if(titleChangeResult == true) {
+              print('view header title change : ${editingController.text}');
+              context.read<CreateEventImproveProvider>().titleChange(editingController.text, true);
+            }
+          }
+      ),
+      // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
     );
-
   }
 }
 
 class EventInfoPlanCategory extends StatefulWidget {
-  const EventInfoPlanCategory({super.key});
+  int? category;
+  EventInfoPlanCategory({super.key, this.category});
 
   @override
   State<EventInfoPlanCategory> createState() => _EventInfoPlanCategoryState();
@@ -192,114 +209,118 @@ class _EventInfoPlanCategoryState extends State<EventInfoPlanCategory> {
   String categoryString = '-';
 
   @override
+  void initState() {
+    int categoryState = widget.category ?? -1;
+    if(categoryState == 0) {
+      categoryString = '생일';
+    } else if(categoryState == 1) {
+      categoryString = '데이트';
+    } else if(categoryState == 2) {
+      categoryString = '여행';
+    } else if(categoryState == 3) {
+      categoryString = '모임';
+    } else if(categoryState == 4) {
+      categoryString = '비즈니스';
+    } else {
+      categoryString = '-';
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-      builder: (context, data, child) {
-
-        int categoryState = data.category;
-        if(categoryState == 0) {
-          categoryString = '생일';
-        } else if(categoryState == 1) {
-          categoryString = '데이트';
-        } else if(categoryState == 2) {
-          categoryString = '여행';
-        } else if(categoryState == 3) {
-          categoryString = '모임';
-        } else if(categoryState == 4) {
-          categoryString = '비즈니스';
+    return GestureDetector(
+      onTap: () {
+        if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
+          context.read<CreateEventImproveProvider>().eventStepState(0);
+          TriggerActions().showCreateEventView(context, true);
         } else {
-          categoryString = '-';
+
         }
-
-        return GestureDetector(
-          onTap: () {
-            if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-              context.read<CreateEventImproveProvider>().eventStepState(0);
-              TriggerActions().showCreateEventView(context);
-            } else {
-
-            }
-          },
-          child: Row(
-            children: [
-              Text(categoryTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-              SizedBox(width: 8.0.w),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-                decoration: BoxDecoration(
-                  color: StaticColor.grey100F6,
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-                child: Center(child: Text(categoryString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
-              )
-            ],
-          ),
-        );
-      }
+      },
+      child: Row(
+        children: [
+          Text(categoryTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+          SizedBox(width: 8.0.w),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+            decoration: BoxDecoration(
+              color: StaticColor.grey100F6,
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: Center(child: Text(categoryString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
+          )
+        ],
+      ),
     );
   }
 }
 
 class EventInfoPlanTarget extends StatefulWidget {
-  const EventInfoPlanTarget({super.key});
+  int? target;
+  EventInfoPlanTarget({super.key, this.target});
 
   @override
   State<EventInfoPlanTarget> createState() => _EventInfoPlanTargetState();
 }
 
 class _EventInfoPlanTargetState extends State<EventInfoPlanTarget> {
-  String tartgetTitle = '대상';
-  String tartgetString = '-';
+  String targetTitle = '대상';
+  String targetString = '-';
+  late int target;
+
+  @override
+  void initState() {
+    target = widget.target ?? -1;
+
+    int targetState = target;
+    if(targetState == 0) {
+      targetString = '가족';
+    } else if(targetState == 1) {
+      targetString = '연인';
+    } else if(targetState == 2) {
+      targetString = '가족';
+    } else if(targetState == 3) {
+      targetString = '직장';
+    } else {
+      targetString = '-';
+    }
+    print(target);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-        builder: (context, data, child) {
+    return GestureDetector(
+      onTap: () {
+        if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
+          context.read<CreateEventImproveProvider>().eventStepState(1);
+          TriggerActions().showCreateEventView(context, true);
+        } else {
 
-          int targetState = data.target;
-          if(targetState == 0) {
-            tartgetString = '가족';
-          } else if(targetState == 1) {
-            tartgetString = '연인';
-          } else if(targetState == 2) {
-            tartgetString = '가족';
-          } else if(targetState == 3) {
-            tartgetString = '직장';
-          } else {
-            tartgetString = '-';
-          }
-
-          return GestureDetector(
-            onTap: () {
-              if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-                context.read<CreateEventImproveProvider>().eventStepState(1);
-                TriggerActions().showCreateEventView(context);
-              } else {
-
-              }
-            },
-            child: Row(
-              children: [
-                Text(tartgetTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-                SizedBox(width: 8.0.w),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-                  decoration: BoxDecoration(
-                    color: StaticColor.grey100F6,
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  child: Center(child: Text(tartgetString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
-                )
-              ],
-            ),
-          );
         }
+      },
+      child: Row(
+        children: [
+          Text(targetTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+          SizedBox(width: 8.0.w),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+            decoration: BoxDecoration(
+              color: StaticColor.grey100F6,
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: Center(child: Text(targetString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
+          )
+        ],
+      ),
     );
   }
 }
 
 class EventInfoPlanDate extends StatefulWidget {
-  const EventInfoPlanDate({super.key});
+  String? date;
+  EventInfoPlanDate({super.key, this.date});
 
   @override
   State<EventInfoPlanDate> createState() => _EventInfoPlanDateState();
@@ -310,41 +331,42 @@ class _EventInfoPlanDateState extends State<EventInfoPlanDate> {
   String dateString = '-';
 
   @override
+  void initState() {
+    // dateString = widget.date ?? '';
+
+    if(widget.date!.isEmpty) {
+      dateString = '-';
+    } else {
+      dateString = widget.date ?? '';
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-        builder: (context, data, child) {
+    return GestureDetector(
+      onTap: () {
+        if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
+          context.read<CreateEventImproveProvider>().eventStepState(2);
+          TriggerActions().showCreateEventView(context, true);
+        } else {
 
-          if(data.date.isEmpty) {
-            dateString = '-';
-          } else {
-            dateString = data.date;
-          }
-
-          return GestureDetector(
-            onTap: () {
-              if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
-                context.read<CreateEventImproveProvider>().eventStepState(2);
-                TriggerActions().showCreateEventView(context);
-              } else {
-
-              }
-            },
-            child: Row(
-              children: [
-                Text(dateTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-                SizedBox(width: 8.0.w),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-                  decoration: BoxDecoration(
-                    color: StaticColor.grey100F6,
-                    borderRadius: BorderRadius.circular(18.0),
-                  ),
-                  child: Center(child: Text(dateString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
-                )
-              ],
-            ),
-          );
         }
+      },
+      child: Row(
+        children: [
+          Text(dateTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+          SizedBox(width: 8.0.w),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+            decoration: BoxDecoration(
+              color: StaticColor.grey100F6,
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: Center(child: Text(dateString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
+          )
+        ],
+      ),
     );
   }
 }
@@ -362,7 +384,7 @@ class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<CreateEventImproveProvider>(
         builder: (context, data, child) {
 
           locationString = '서울 전체';
@@ -376,9 +398,9 @@ class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
               //
               // }
 
-              if(context.read<CreateEventProvider>().eventInfoTabState.elementAt(0) == true) {
+              if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
                 context.read<CreateEventImproveProvider>().eventStepState(3);
-                TriggerActions().showCreateEventView(context);
+                TriggerActions().showCreateEventView(context, true);
               } else {
 
               }
@@ -404,7 +426,8 @@ class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
 }
 
 class EventInfoPlanMemo extends StatefulWidget {
-  const EventInfoPlanMemo({super.key});
+  String? memo;
+  EventInfoPlanMemo({super.key, this.memo});
 
   @override
   State<EventInfoPlanMemo> createState() => _EventInfoPlanMemoState();
@@ -416,66 +439,74 @@ class _EventInfoPlanMemoState extends State<EventInfoPlanMemo> {
   TextEditingController memoEditingController = TextEditingController();
 
   @override
+  void initState() {
+    if(widget.memo == null) {
+      memoString = '-';
+    } else {
+      memoString = widget.memo ?? '';
+      memoEditingController.text = memoString;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-        builder: (context, data, child) {
-
-          if(data.memo.isEmpty) {
-            memoEditingController.text = '-';
-          } else {
-            memoEditingController.text = data.memo;
-          }
-
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 4.0.h),
-                child: Text(memoTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
-              SizedBox(width: 8.0.w),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-                  decoration: BoxDecoration(
-                    color: StaticColor.grey100F6,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: TextFormField(
-                      controller: memoEditingController,
-                      autofocus: false,
-                      textInputAction: TextInputAction.next,
-                      maxLines: 6,
-                      maxLength: 300,
-                      textAlignVertical: TextAlignVertical.center,
-                      style: TextStyle(color: Colors.black, fontSize: 14.sp),
-                      cursorHeight: 15.h,
-                      decoration: InputDecoration(
-                          counterText: '',
-                          filled: true,
-                          fillColor: StaticColor.loginInputBoxColor,
-                          // fillColor: Colors.black,
-                          isDense: true,
-                          // contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                          contentPadding: EdgeInsets.symmetric(vertical: 3.0.h),
-                          alignLabelWithHint: false,
-                          labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                          hintText: '변경할 메모 내용을 입력해주세요.',
-                          hintStyle: TextStyle(fontSize: 14.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                            borderSide: BorderSide.none,
-                          )
-                      ),
-                      onChanged: (v) {
-                        context.read<CreateEventProvider>().memoChange(v);
-                      }
-                  ),
-                  // child: Text(memoString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: EdgeInsets.only(top: 4.0.h),
+            child: Text(memoTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+        SizedBox(width: 8.0.w),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+            decoration: BoxDecoration(
+              color: StaticColor.grey100F6,
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            child: TextFormField(
+                controller: memoEditingController,
+                autofocus: false,
+                textInputAction: TextInputAction.next,
+                maxLines: 6,
+                maxLength: 300,
+                textAlignVertical: TextAlignVertical.center,
+                style: TextStyle(color: Colors.black, fontSize: 14.sp),
+                cursorHeight: 15.h,
+                decoration: InputDecoration(
+                    counterText: '',
+                    filled: true,
+                    fillColor: StaticColor.loginInputBoxColor,
+                    // fillColor: Colors.black,
+                    isDense: true,
+                    // contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    contentPadding: EdgeInsets.symmetric(vertical: 3.0.h),
+                    alignLabelWithHint: false,
+                    labelStyle: TextStyle(fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                    hintText: '변경할 메모 내용을 입력해주세요.',
+                    hintStyle: TextStyle(fontSize: 14.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                      borderSide: BorderSide.none,
+                    )
                 ),
-              )
-            ],
-          );
-        }
+                onEditingComplete: () async {
+                  bool memoChangeResult = await EventRequest().personalFieldUpdateEvent(
+                    context,
+                    context.read<CreateEventImproveProvider>().eventUniqueId,
+                    4
+                  );
+                  if(memoChangeResult == true) {
+                    print('view memo update : ${memoEditingController.text}');
+                    context.read<CreateEventImproveProvider>().memoChange(memoEditingController.text, false);
+                  }
+                }
+            ),
+            // child: Text(memoString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+          ),
+        )
+      ],
     );
   }
 }

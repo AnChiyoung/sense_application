@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_header.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_view.dart';
+import 'package:sense_flutter_application/views/event_info/improve/event_info_load_view.dart';
 import 'package:sense_flutter_application/views/recommended_event/event_info_view.dart';
 
 class EventInfoScreen extends StatefulWidget {
@@ -33,9 +36,7 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
             // EventGuideView(),
             Column(
               children: [
-                EventInfoHeader(drawerKey: key),
-                Expanded(child: EventInfoView()),
-                // EventInfoRecommended(),
+                EventInfoLoadView(),
               ],
             ),
           ],

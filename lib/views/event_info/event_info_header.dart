@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/public_widget/event_info_recommend_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventInfoHeader extends StatefulWidget {
-  Key drawerKey;
-  EventInfoHeader({super.key, required this.drawerKey});
+  String title;
+  // Key drawerKey;
+  EventInfoHeader({super.key, required this.title});
 
   @override
   State<EventInfoHeader> createState() => _EventInfoHeaderState();
@@ -16,34 +18,10 @@ class EventInfoHeader extends StatefulWidget {
 
 class _EventInfoHeaderState extends State<EventInfoHeader> {
 
-  String title = '이벤트';
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-        builder: (context, data, child) {
-          bool isStepping = data.isStepping;
-          // bool isFinishRecommend = data.recommendRequestState;
-          int recommendStep = data.eventRecommendStep;
-          // title = context.read<CreateEventProvider>().title;
-          title = data.title;
-
-          bool isExistBackCallback = false;
-
-          if(isStepping == true) {
-            if(recommendStep == 1) {
-              isExistBackCallback = false;
-            } else {
-              isExistBackCallback = true;
-            }
-          } else {
-            isExistBackCallback = true;
-          }
-
-          return HeaderMenu(backCallback: isExistBackCallback == true ? stepBackCallback : null, title: title, rightMenu: rightMenu());
-          // return HeaderMenu(backCallback: isRecommendState == true ? recommendCallback : backCallback, title: title, rightMenu: rightMenu());
-        }
-    );
+    return HeaderMenu(backCallback: eventInfoBackCallback, title: widget.title, rightMenu: rightMenu());
+    // return HeaderMenu(backCallback: isRecommendState == true ? recommendCallback : backCallback, title: title, rightMenu: rightMenu());
   }
 
   void stepBackCallback() {
@@ -70,7 +48,7 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
 
   void eventInfoBackCallback() {
     /// one piece
-    context.read<CreateEventProvider>().eventInitialize();
+    context.read<CreateEventImproveProvider>().createEventClear(null);
     Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
   }
 

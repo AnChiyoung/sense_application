@@ -156,7 +156,7 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
                         value: alarm,
                         onToggle: (bool value) async {
                           if(value == true) {
-                            context.read<CreateEventProvider>().isAlarmChagne(value);
+                            context.read<CreateEventProvider>().isAlarmChange(value);
                             bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventProvider>().eventUniqueId, 5);
 
                             if(updateResult == true) {
@@ -167,7 +167,7 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
 
                             }
                           } else if(value == false) {
-                            context.read<CreateEventProvider>().isAlarmChagne(value);
+                            context.read<CreateEventProvider>().isAlarmChange(value);
                             bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventProvider>().eventUniqueId, 5);
 
                             if(updateResult == true) {

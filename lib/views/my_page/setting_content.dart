@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
+import 'package:sense_flutter_application/screens/my_page/withdrawal_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingContent extends StatefulWidget {
@@ -26,7 +27,16 @@ class _SettingContentState extends State<SettingContent> {
             padding: EdgeInsets.only(top: 8.0.h),
             child: Column(
               children: [
+                SettingEditProfile(),
+                SettingMoreInfo(),
                 SettingAlarm(),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 8.0.h),
+            child: Column(
+              children: [
                 SettingContactReload(),
               ],
             ),
@@ -43,12 +53,76 @@ class _SettingContentState extends State<SettingContent> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: SettingLogout()),
+            child: Column(
+              children: [
+                SettingLogout(),
+                SettingWithdrawal(),
+              ],
+            )),
         ],
       ) ,
     );
   }
 }
+
+class SettingEditProfile extends StatefulWidget {
+  const SettingEditProfile({super.key});
+
+  @override
+  State<SettingEditProfile> createState() => _SettingEditProfileState();
+}
+
+class _SettingEditProfileState extends State<SettingEditProfile> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('프로필 편집', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SettingMoreInfo extends StatefulWidget {
+  const SettingMoreInfo({super.key});
+
+  @override
+  State<SettingMoreInfo> createState() => _SettingMoreInfoState();
+}
+
+class _SettingMoreInfoState extends State<SettingMoreInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('추가정보', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 class SettingAlarm extends StatefulWidget {
   const SettingAlarm({super.key});
@@ -340,5 +414,33 @@ class _SettingLogoutState extends State<SettingLogout> {
     PresentUserInfo.username = '';
     PresentUserInfo.profileImage = '';
     Navigator.popUntil(context, (route) => route.isFirst);
+  }
+}
+
+class SettingWithdrawal extends StatefulWidget {
+  const SettingWithdrawal({super.key});
+
+  @override
+  State<SettingWithdrawal> createState() => _SettingWithdrawalState();
+}
+
+class _SettingWithdrawalState extends State<SettingWithdrawal> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => WithdrawalScreen()));
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('회원탈퇴', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.textErrorColor, fontWeight: FontWeight.w400)),
+          ],
+        ),
+      ),
+    );
   }
 }
