@@ -7,8 +7,10 @@ import 'package:sense_flutter_application/public_widget/actions.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
+import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/improve/event_info_load_view.dart';
 
 /// header
 class CreateEventHeader extends StatefulWidget {
@@ -53,9 +55,14 @@ class _CreateEventHeaderState extends State<CreateEventHeader> {
     int category = context.read<CreateEventImproveProvider>().category;
     int target = context.read<CreateEventImproveProvider>().target;
     String date = context.read<CreateEventImproveProvider>().date;
+    int city = context.read<CreateEventProvider>().city;
     String memo = context.read<CreateEventImproveProvider>().memo;
 
-    if(title.isEmpty && category == -1 && target == -1 && date.isEmpty && memo.isEmpty) {
+    if(title.isEmpty && category == -1 && target == -1 && date.isEmpty && city == -1 && memo.isEmpty) {
+      context.read<CreateEventImproveProvider>().createEventClear(null);
+      context.read<CreateEventProvider>().regionInitialize();
+      context.read<CreateEventProvider>().recommendInitialize();
+      /// page route reset
       Navigator.of(context).pop();
     } else {
       showDialog(
@@ -352,7 +359,7 @@ class _CreateEventLocationViewState extends State<CreateEventLocationView> {
           child: GestureDetector(
             onTap: () {
               context.read<CreateEventImproveProvider>().eventStepState(3);
-              // TriggerActions().showCreateEventView(context);
+              TriggerActions().showCreateEventView(context, false);
             },
             child: Container(
                 height: 50.h,
@@ -364,42 +371,17 @@ class _CreateEventLocationViewState extends State<CreateEventLocationView> {
               child: Consumer<CreateEventProvider>(
                   builder: (context, data, child) {
 
-                    String regionText = '';
-                    int city = data.city;
-                    List<int> subCity = data.subCity;
+                    List<String> cityNameList = ['서울', '경기도', '인천', '강원도', '경상도', '전라도', '충청도', '부산', '제주'];
 
-                    if(data.subCity.isEmpty) {
-                      regionText = '선택하기';
+                    String cityName;
+                    int cityState = data.city;
+                    if(cityState == -1) {
+                      cityName = '선택하기';
                     } else {
-                      regionText = '서울';
-                      if(subCity.length == 2) {
-                        regionText = '서울 강남 외 1';
-                      } else {
-                        subCity.contains(1) ? regionText = '서울 강남' : regionText = '서울 삼성';
-                      }
+                      cityName = cityNameList.elementAt(cityState);
                     }
 
-                    // if(data.city == -1) {
-                    //   regionText = '선택하기';
-                    // } else {
-                    //   if(data.city == 0) {
-                    //
-                    //   } else if(data.city == 1) {
-                    //
-                    //   } else if(data.city == 2) {
-                    //
-                    //   }
-                    // }
-
-                    // if(data.city == '0') {
-                    //   regionText = '선택하기';
-                    // } else {
-                    //   print('aa ${context.read<CreateEventProvider>().cityList.elementAt(int.parse(data.city) - 1).title}');
-                    //   regionText = context.watch<CreateEventProvider>().cityList.elementAt(int.parse(data.city) - 1).title.toString();
-                    //   regionText = context.read<CreateEventProvider>().cityList.elementAt(int.parse(data.city) - 1).title.toString();
-                    // }
-
-                    return Center(child: Text(regionText, style: TextStyle(fontSize: 14.sp, color: data.city == -1 ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
+                    return Center(child: Text(cityName, style: TextStyle(fontSize: 14.sp, color: data.city == -1 ? StaticColor.grey400BB : StaticColor.black90015, fontWeight: FontWeight.w400)));
                   }
               )
             ),
@@ -496,6 +478,7 @@ class _CreateEventButtonState extends State<CreateEventButton> {
                   if(result == true) {
                     context.read<CreateEventImproveProvider>().createEventClear(false);
                     Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoLoadView()));
                   } else {
                     /// nothing!!!
                   }

@@ -31,11 +31,11 @@ class CreateEventProvider with ChangeNotifier {
   int _city = -1;
   int get city => _city;
 
-  List<int> _subCity = [];
-  List<int> get subCity => _subCity;
-
   int _tempCity = -1;
   int get tempCity => _tempCity;
+
+  List<int> _subCity = [];
+  List<int> get subCity => _subCity;
 
   bool _totalBoxState = false;
   bool get totalBoxState => _totalBoxState;
@@ -78,51 +78,56 @@ class CreateEventProvider with ChangeNotifier {
   ];
   List<List<bool>> get subCityState => _subCityState;
 
-  void cityChange(int state) {
-    _city = state;
-    // notifyListeners();
+  void cityChange() {
+    _city = _tempCity;
+    notifyListeners();
   }
 
   /// 저장 버튼 누르기 전 사용자에게 보이는 도시 이름 표기 용도
-  void tempCityChange(int state) {
-    if(_tempCity == -1) {
-      _tempCity = 0;
-    }
+  void tempCityChange(int state, bool notify) {
     _tempCity = state;
-    /// 임시
-    _totalBoxState = false;
-    if(_tempCity == 0) {
-      if((_subCityState[0][0] && _subCityState[0][1]) == false) {
-        _totalBoxState = false;
-      } else {
-        _totalBoxState = true;
-      }
+    if(!_subCityState[state].contains(false)) {
+      _totalBoxState = true;
+    } else {
+      _totalBoxState = false;
     }
-
-    print('change city : $_tempCity');
-    notifyListeners();
+    if(notify == true) {
+      notifyListeners();
+    } else {
+    }
   }
 
   void totalBoxStateChange(bool state, int indexState) {
     _totalBoxState = state;
     int cityIndex = indexState == -1 ? 0 : indexState;
     if(_totalBoxState == true) {
-      _subCityState[cityIndex][0] = true;
-      _subCityState[cityIndex][1] = true;
+      for(int i = 0; i < _subCityState[cityIndex].length; i++) {
+        _subCityState[cityIndex][i] = true;
+      }
+      // _subCityState[cityIndex][0] = true;
+      // _subCityState[cityIndex][1] = true;
     } else {
-      _subCityState[cityIndex][0] = false;
-      _subCityState[cityIndex][1] = false;
+      for(int i = 0; i < _subCityState[cityIndex].length; i++) {
+        _subCityState[cityIndex][i] = false;
+      }
+      // _subCityState[cityIndex][0] = false;
+      // _subCityState[cityIndex][1] = false;
     }
     notifyListeners();
   }
 
   void boxStateChange(bool state, int cityIndexState, int index) {
     _subCityState[cityIndexState][index] = state;
-    if((_subCityState[cityIndexState][0] && _subCityState[cityIndexState][1]) == false) {
-      _totalBoxState = false;
-    } else {
+    if(!_subCityState[cityIndexState].contains(false)) {
       _totalBoxState = true;
+    } else {
+      _totalBoxState = false;
     }
+    // if((_subCityState[cityIndexState][0] && _subCityState[cityIndexState][1]) == false) {
+    //   _totalBoxState = false;
+    // } else {
+    //   _totalBoxState = true;
+    // }
 
     /// 아래 건은 전체 검사, 비활성 부분에 대해서는 x
     // if(_subCityState[cityIndexState].contains(false)) {
@@ -130,6 +135,15 @@ class CreateEventProvider with ChangeNotifier {
     // } else {
     //   _totalBoxState = true;
     // }
+    notifyListeners();
+  }
+
+  void totalBoxStatCheck(int cityIndex) {
+    if(!_subCityState[cityIndex].contains(false)) {
+      _totalBoxState = true;
+    } else {
+      _totalBoxState = false;
+    }
     notifyListeners();
   }
 
@@ -314,6 +328,18 @@ class CreateEventProvider with ChangeNotifier {
     /// non notify!!!
   }
 
+  void regionInitialize() {
+    _city = -1;
+    _tempCity = -1;
+    _subCity.clear();
+    for(int i = 0; i < 9; i++) {
+      for(int j = 0; j < _subCityState[i].length; j++) {
+        _subCityState[i][j] = false;
+      }
+    }
+    _totalBoxState = false;
+  }
+
   void eventInitialize() {
     _title = '';
     _category = -1;
@@ -322,8 +348,11 @@ class CreateEventProvider with ChangeNotifier {
     _city = -1;
     _tempCity = -1;
     _subCity.clear();
-    _subCityState[0][0] = false;
-    _subCityState[0][1] = false;
+    for(int i = 0; i < 9; i++) {
+      _subCityState[i].forEach((element) {
+        element = false;
+      });
+    }
     _totalBoxState = false;
     _memo = '';
     _categoryState = [false, false, false, false, false];

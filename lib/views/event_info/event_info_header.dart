@@ -49,6 +49,7 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
   void eventInfoBackCallback() {
     /// one piece
     context.read<CreateEventImproveProvider>().createEventClear(null);
+    context.read<CreateEventProvider>().regionInitialize();
     Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
   }
 
@@ -57,7 +58,7 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return const RecommendCancelDialog();
+        return RecommendCancelDialog();
       }
     );
   }
@@ -83,7 +84,7 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
                         context: context,
                         barrierDismissible: false,
                         builder: (BuildContext context) {
-                          return const RecommendCancelDialog();
+                          return RecommendCancelDialog();
                         }
                     );
                   },

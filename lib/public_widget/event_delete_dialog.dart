@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventDeleteDialog extends StatefulWidget {
@@ -68,8 +69,8 @@ class _EventDeleteDialogState extends State<EventDeleteDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    print('deleted event id?? : ${context.read<CreateEventProvider>().eventUniqueId}');
-                    bool deleteResult = await EventRequest().deleteEvent(context.read<CreateEventProvider>().eventUniqueId);
+                    print('deleted event id?? : ${context.read<CreateEventImproveProvider>().eventUniqueId}');
+                    bool deleteResult = await EventRequest().deleteEvent(context.read<CreateEventImproveProvider>().eventUniqueId);
                     /// delete success
                     if(deleteResult == true) {
                       Navigator.of(context).pop();

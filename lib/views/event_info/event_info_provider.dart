@@ -8,8 +8,3 @@ enum RecommendCategory {
   ACTIVITY,
   PUB,
 }
-
-class EventInfoProvider with ChangeNotifier {
-
-
-}

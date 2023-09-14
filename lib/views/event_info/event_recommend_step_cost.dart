@@ -6,6 +6,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_bottom_sheet.dart';
+import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 
 class EventRecommendStepCost extends StatefulWidget {
@@ -24,7 +25,7 @@ class _EventRecommendStepCostState extends State<EventRecommendStepCost> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<RecommendRequestProvider>(
       builder: (context, data, child) {
         return Stack(
           children: [
@@ -38,25 +39,6 @@ class _EventRecommendStepCostState extends State<EventRecommendStepCost> {
                   Container(margin: EdgeInsets.only(top: 13.0.h, bottom: 8.0.h), width: double.infinity, height: 1.0.h, color: StaticColor.grey300E0),
                   CostField(),
                 ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: double.infinity,
-                height: 70.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<CreateEventProvider>().eventRecommendStepChange(3);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-                  child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
-                      ]
-                  ),
-                ),
               ),
             ),
           ],
@@ -78,7 +60,7 @@ class _TotalCostState extends State<TotalCost> {
   @override
   void initState() {
     /// 비용 초기화
-    context.read<CreateEventProvider>().recommendCostListInit();
+    context.read<RecommendRequestProvider>().recommendCostListInit();
     super.initState();
   }
 
@@ -88,12 +70,14 @@ class _TotalCostState extends State<TotalCost> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text('전체 예산', style: TextStyle(fontSize: 16.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-        Consumer<CreateEventProvider>(
+        Consumer<RecommendRequestProvider>(
           builder: (context, data, child) {
 
             int totalCost = data.totalCost;
             var f = NumberFormat('###,###,###,###');
             String totalCostString = f.format(totalCost);
+
+            print(totalCost);
 
             bool addSomeCost = data.costs.contains(-1);
 
@@ -124,21 +108,17 @@ class _CostFieldState extends State<CostField> {
   @override
   Widget build(BuildContext context) {
 
-    return Consumer<CreateEventProvider>(
+    return Consumer<RecommendRequestProvider>(
       builder: (context, data, child) {
 
         List<int> costs = data.costs;
         List<int> temperatureList = data.recommendCategoryNumber;
         List<Widget> selectCategoryCostWidgetList = [];
 
-        print(context.read<CreateEventProvider>().recommendCategoryNumber);
-
         temperatureList.asMap().forEach((index, element) {
-          // print('index?? : $index');
           selectCategoryCostWidgetList.add(SelectCategoryCostWidget(
               name: enumStringChange(RecommendCategory.values.elementAt(index).name.toString()),
               index: index));
-              // price: costs.elementAt(index)));
         });
 
         return Column(
@@ -193,7 +173,7 @@ class _SelectCategoryCostWidgetState extends State<SelectCategoryCostWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<RecommendRequestProvider>(
       builder: (context, data, child) {
 
         String costString = '';
@@ -265,7 +245,7 @@ class _CostBottomSheetState extends State<CostBottomSheet> {
   @override
   Widget build(BuildContext context) {
 
-    List<bool> selectCostState = context.watch<CreateEventProvider>().costBool.elementAt(index);
+    List<bool> selectCostState = context.watch<RecommendRequestProvider>().costBool.elementAt(index);
 
     List<Widget> costWidgetList = [];
     List<int> costList = [50000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, -1];
@@ -307,7 +287,7 @@ class _CostBottomSheetState extends State<CostBottomSheet> {
               height: 70.h,
               child: ElevatedButton(
                 onPressed: () {
-                  context.read<CreateEventProvider>().sumCostChange(getSelectCost(index), index);
+                  context.read<RecommendRequestProvider>().sumCostChange(getSelectCost(index), index);
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
@@ -327,7 +307,7 @@ class _CostBottomSheetState extends State<CostBottomSheet> {
 
   int getSelectCost(int index) {
     List<int> costList = [50000, 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000, -1];
-    List<bool> boolList = context.read<CreateEventProvider>().costBool[index];
+    List<bool> boolList = context.read<RecommendRequestProvider>().costBool[index];
     return costList[boolList.indexOf(true)];
   }
 
@@ -344,7 +324,7 @@ class _CostBottomSheetState extends State<CostBottomSheet> {
     return GestureDetector(
       onTap: () {
         // context.read<EventInfoProvider>().sumCostChange(costString, index, costIndex);
-        context.read<CreateEventProvider>().costSelectorChange(index, costIndex);
+        context.read<RecommendRequestProvider>().costSelectorChange(index, costIndex);
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12.0.h),

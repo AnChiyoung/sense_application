@@ -11,6 +11,7 @@ import 'package:sense_flutter_application/public_widget/empty_user_profile.dart'
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
 import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventList extends StatefulWidget {
@@ -391,7 +392,7 @@ class _DayEventsListState extends State<DayEventsList> {
               onTap: () {
                 // widget.controller.jumpTo(100);
                 print(model.elementAt(index).id!);
-                context.read<CreateEventProvider>().createEventUniqueId(model.elementAt(index).id!);
+                context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
                 Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen()));
               },
               child: EventRow(model: model.elementAt(index) ?? EventModel())),
@@ -425,30 +426,15 @@ class _EventRowState extends State<EventRow> {
     city = '서울';
     subCity = '송파';
 
-    // if(model.city!.title == null) {
-    //   city = '지역 미선택';
-    // } else {
-    //   city = model.city!.title.toString();
-    // }
-    //
-    // if(model.subCity!.title == null) {
-    //   subCity = '';
-    // } else {
-    //   subCity = model.subCity!.title.toString();
-    // }
-
-    // city = model.city!.title.toString() ?? '지역 미선택';
-    // subCity = model.subCity!.title.toString() ?? '';
-
-    if(model!.eventCategory!.id == 1) {
+    if(model!.eventCategoryObject!.id == 1) {
       categoryWidget = birthdayLabel;
-    } else if(model!.eventCategory!.id == 2) {
+    } else if(model!.eventCategoryObject!.id == 2) {
       categoryWidget = dateLabel;
-    } else if(model!.eventCategory!.id == 3) {
+    } else if(model!.eventCategoryObject!.id == 3) {
       categoryWidget = travelLabel;
-    } else if(model!.eventCategory!.id == 4) {
+    } else if(model!.eventCategoryObject!.id == 4) {
       categoryWidget = meetLabel;
-    } else if(model!.eventCategory!.id == 5) {
+    } else if(model!.eventCategoryObject!.id == 5) {
       categoryWidget = businessLabel;
     }
     super.initState();
@@ -486,7 +472,7 @@ class _EventRowState extends State<EventRow> {
           ),
           const SizedBox(height: 8.0),
           /// with users
-          EventUsers(userModelList: model.eventUser! ?? []),
+          // EventUsers(userModelList: model.eventUser! ?? []),
         ],
       ),
     );

@@ -32,22 +32,22 @@ class _FoodStep06State extends State<FoodStep06> {
         children: [
           ContentDescription(presentPage: 6, totalPage: 7, description: '선호하는 음식에 대해\n자유롭게 적어주세요',),
           SizedBox(height: 16.0.h),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                context.read<TasteProvider>().presentStepChange(7);
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
-                decoration: BoxDecoration(
-                  color: StaticColor.grey100F6,
-                  borderRadius: BorderRadius.circular(4.0),
-                ),
-                child: Text('건너뛰기', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400))
-              )
-            )
-          ),
+          // Material(
+          //   color: Colors.transparent,
+          //   child: InkWell(
+          //     onTap: () {
+          //       context.read<TasteProvider>().presentStepChange(7);
+          //     },
+          //     child: Container(
+          //       padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
+          //       decoration: BoxDecoration(
+          //         color: StaticColor.grey100F6,
+          //         borderRadius: BorderRadius.circular(4.0),
+          //       ),
+          //       child: Text('건너뛰기', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400))
+          //     )
+          //   )
+          // ),
           SizedBox(height: 16.0.h),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),

@@ -12,6 +12,7 @@ import 'package:sense_flutter_application/views/add_event/add_event_provider.dar
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
@@ -64,10 +65,10 @@ void main() async {
           ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
           ChangeNotifierProvider(create: (_) => ContactProvider()),
           ChangeNotifierProvider(create: (_) => CreateEventProvider()),
-          ChangeNotifierProvider(create: (_) => EventInfoProvider()),
           ChangeNotifierProvider(create: (_) => MyPageProvider()),
           ChangeNotifierProvider(create: (_) => TasteProvider()),
           ChangeNotifierProvider(create: (_) => CreateEventImproveProvider()),
+          ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),

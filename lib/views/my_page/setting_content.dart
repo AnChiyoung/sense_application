@@ -6,6 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
+import 'package:sense_flutter_application/screens/login/login_screen.dart';
+import 'package:sense_flutter_application/screens/my_page/my_info_update_screen.dart';
+import 'package:sense_flutter_application/screens/my_page/policy/policy_screen.dart';
+import 'package:sense_flutter_application/screens/my_page/setting_alarm_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/withdrawal_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,7 +81,7 @@ class _SettingEditProfileState extends State<SettingEditProfile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
+        Navigator.push(context, MaterialPageRoute(builder: (_) => MyInfoUpdate(page: 0)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -106,7 +110,7 @@ class _SettingMoreInfoState extends State<SettingMoreInfo> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
+        Navigator.push(context, MaterialPageRoute(builder: (_) => MyInfoUpdate(page: 1)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -136,7 +140,7 @@ class _SettingAlarmState extends State<SettingAlarm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
+        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingAlarmScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -300,7 +304,7 @@ class SettingPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
+        Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -308,7 +312,7 @@ class SettingPolicy extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('약관 및 개인정보 처리동의', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('약관 및 개인정보 의처리동의', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
           ],
         ),
@@ -413,7 +417,9 @@ class _SettingLogoutState extends State<SettingLogout> {
     PresentUserInfo.id = -1;
     PresentUserInfo.username = '';
     PresentUserInfo.profileImage = '';
-    Navigator.popUntil(context, (route) => route.isFirst);
+    // Navigator.popUntil(context, (route) => route.isFirst);
+    // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
   }
 }
 

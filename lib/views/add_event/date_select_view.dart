@@ -11,6 +11,8 @@ import 'package:sense_flutter_application/views/create_event/create_event_provid
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../create_event/create_event_improve_provider.dart';
+
 class DateSelectHeader extends StatefulWidget {
   const DateSelectHeader({Key? key}) : super(key: key);
 
@@ -267,11 +269,14 @@ class _DateSelectSectionState extends State<DateSelectSection> {
       final DateTime selectedDate = DateTime.utc(selectedYear, selectedMonth, selectedDay);
       /// 위에 재정의 후 주석처리 2023.07.19.
       // final DateFormat viewFormatter = DateFormat('yyyy-MM-dd');
-      context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
-      context.read<AddEventProvider>().dateSelectNextButton(true);
+      // context.read<AddEventProvider>().dayViewUpdate(viewFormatter.format(selectedDate));
+      // context.read<AddEventProvider>().dateSelectNextButton(true);
 
       // AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
-      context.read<CreateEventProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
+      // print()
+      context.read<CreateEventImproveProvider>().dateSelectChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
+      print(context.read<CreateEventImproveProvider>().selectDate);
+      // context.read<CreateEventImproveProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
     }
   }
 }

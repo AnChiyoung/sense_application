@@ -74,6 +74,7 @@ class _AddEventCancelDialogState extends State<AddEventCancelDialog> {
                 child: ElevatedButton(
                   onPressed: () {
                     context.read<CreateEventImproveProvider>().createEventClear(null);
+                    context.read<CreateEventProvider>().regionInitialize();
                     context.read<CreateEventProvider>().recommendInitialize();
                     Navigator.of(context).pop();
                     /// page route reset

@@ -23,9 +23,6 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         int sensitivity = 5;
-        // setState(() {
-        //
-        // });
         if(details.delta.dy > sensitivity) {
           print('down!!');
           dragDirection = false;
@@ -35,15 +32,6 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         }
         context.read<CalendarProvider>().dragDirectionChange(dragDirection);
       },
-      // child: DraggableScrollableSheet(
-      //     expand: true,
-      //     initialChildSize: 0.4,
-      //     maxChildSize: 1.0,
-      //   minChildSize: 0.2,
-      //   builder: (context, controller) {
-      //     return Container(width: double.infinity, color: Colors.red);
-      //   }
-      // )
       child: Consumer<CalendarProvider>(
         builder: (context, data, child) {
 
@@ -70,7 +58,6 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         child: Column(
           children: [
             /// event header + event header menu => event list area
-            // const SizedBox(height: 24.0),
             EventList(),
           ],
         ),

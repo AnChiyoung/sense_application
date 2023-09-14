@@ -162,7 +162,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
     } else if(step == 1) {
       targetListener(edit);
     } else if(step == 2) {
-      dateListener();
+      dateListener(edit);
     } else if(step == 3) {
       regionListener();
     }
@@ -171,7 +171,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
   void categoryListener(bool edit) async {
     // int selectCategoryIndex = context.read<CreateEventProvider>().categoryState.indexOf(true);
     context.read<CreateEventImproveProvider>().saveCategoryChange(null, true);
-    if(edit == false) {
+    if(edit == true) {
       bool categoryChangeResult = await EventRequest().personalFieldUpdateEvent(
         context,
         context.read<CreateEventImproveProvider>().eventUniqueId,
@@ -191,7 +191,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
   void targetListener(bool edit) async {
     // int selectTargetIndex = context.read<CreateEventProvider>().targetState.indexOf(true);
     context.read<CreateEventImproveProvider>().saveTargetChange(null, true);
-    if(edit == false) {
+    if(edit == true) {
       bool targetChangeResult = await EventRequest().personalFieldUpdateEvent(
         context,
         context.read<CreateEventImproveProvider>().eventUniqueId,
@@ -207,19 +207,31 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
     Navigator.pop(context);
   }
 
-  void dateListener() {
-    String selectDate = context.read<CreateEventProvider>().nonSaveDate;
-    if(selectDate == '') {
-      context.read<CreateEventImproveProvider>().dateChange(DateTime.now().toString().substring(0, 10));
+  void dateListener(bool edit) async {
+    String selectDateToSave = context.read<CreateEventImproveProvider>().selectDate;
+    if(edit == true) {
+      print('this');
+      context.read<CreateEventImproveProvider>().dateChange(selectDateToSave, false);
+      bool dateChangeResult = await EventRequest().personalFieldUpdateEvent(
+          context,
+          context.read<CreateEventImproveProvider>().eventUniqueId,
+          3
+      );
+      if(dateChangeResult == true) {
+        context.read<CreateEventImproveProvider>().dateChange(selectDateToSave, true);
+        print('view date change : ${context.read<CreateEventImproveProvider>().date}');
+      }
+      Navigator.pop(context);
     } else {
-      context.read<CreateEventImproveProvider>().dateChange(selectDate.substring(0, 10));
+      context.read<CreateEventImproveProvider>().dateChange(selectDateToSave, true);
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
   }
 
   void regionListener() {
     // context.read<CreateEventProvider>().tester('1');
-    context.read<CreateEventProvider>().saveRegionChange();
+    // context.read<CreateEventProvider>().saveRegionChange();
+    context.read<CreateEventProvider>().cityChange();
     Navigator.pop(context);
   }
 }

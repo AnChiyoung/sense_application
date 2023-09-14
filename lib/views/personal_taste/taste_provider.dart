@@ -2,6 +2,13 @@ import 'package:flutter/cupertino.dart';
 
 class TasteProvider with ChangeNotifier {
   /// food area
+  bool _atLeastOnceTest = false;
+  bool get atLeastOnceText => _atLeastOnceTest;
+
+  void atLeastOnceTestChange(bool state) {
+    _atLeastOnceTest = state;
+  }
+
   int _presentStep = 1;
   int get presentStep => _presentStep;
 
@@ -134,6 +141,7 @@ class TasteProvider with ChangeNotifier {
     _saltySelector = [false, false, false, false, false];
     _foodStep06 = '';
     _foodStep07 = '';
+    _atLeastOnceTest = false;
     notifyListeners();
   }
 

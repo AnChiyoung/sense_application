@@ -55,7 +55,7 @@ class _FoodStep01State extends State<FoodStep01> {
                           autofocus: false,
                           textInputAction: TextInputAction.next,
                           maxLines: 1,
-                          maxLength: 4,
+                          maxLength: 1,
                           textAlignVertical: TextAlignVertical.center,
                           style: TextStyle(color: Colors.black, fontSize: 14.sp),
                           cursorHeight: 15.h,

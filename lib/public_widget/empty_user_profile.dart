@@ -20,11 +20,12 @@ class UserProfileImage extends StatelessWidget {
       } else {
         return ClipRRect(
           borderRadius: BorderRadius.circular(300),
-          child: Image.file(File(selectImage!.path), fit: BoxFit.fitHeight),
+          child: Image.file(File(selectImage!.path), fit: BoxFit.fitHeight, width: 48, height: 48),
         );
       }
     } else {
       if(selectImage == null) {
+        // return Container();
         return CachedNetworkImage(
           imageUrl: profileImageUrl.toString(),
           fit: BoxFit.fitHeight,
@@ -38,9 +39,10 @@ class UserProfileImage extends StatelessWidget {
           ),
         );
       } else {
+        // return Container();
         return ClipRRect(
           borderRadius: BorderRadius.circular(300),
-          child: Image.file(File(selectImage!.path), fit: BoxFit.fitHeight),
+          child: Image.file(File(selectImage!.path), fit: BoxFit.fitHeight, width: 48, height: 48),
         );
       }
     }

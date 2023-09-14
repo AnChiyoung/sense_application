@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 
 class EventRecommendStepCategory extends StatefulWidget {
@@ -16,7 +17,7 @@ class EventRecommendStepCategory extends StatefulWidget {
 class _EventRecommendStepCategoryState extends State<EventRecommendStepCategory> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
+    return Consumer<RecommendRequestProvider>(
       builder: (context, data, child) {
         return Stack(
           children: [
@@ -106,25 +107,6 @@ class _EventRecommendStepCategoryState extends State<EventRecommendStepCategory>
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: double.infinity,
-                height: 70.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    context.read<CreateEventProvider>().eventRecommendStepChange(2);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
-                    ]
-                  ),
-                ),
-              ),
-            ),
           ],
         );
       }
@@ -158,19 +140,17 @@ class _CreateRecommendSelectTab extends State<CreateRecommendSelectTab> {
       ),
       child: ElevatedButton(
         onPressed: () {
-          // widget.onPressed == null ? {} : widget.onPressed!.call();
-
           /// 선택된 아이템이 하나일 때는, 선택 해제할 수 없음.
-          int trueCount = context.read<CreateEventProvider>().recommendCategory.where((e) => true == e).length;
+          int trueCount = context.read<RecommendRequestProvider>().recommendCategory.where((e) => true == e).length;
 
           if(trueCount == 1) {
             if(widget.checkState == true) {
              return ;
             } else if(widget.checkState == false) {
-              context.read<CreateEventProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
+              context.read<RecommendRequestProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
             }
           } else {
-            context.read<CreateEventProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
+            context.read<RecommendRequestProvider>().recommendCategoryValueChange(!widget.checkState, widget.index);
           }
         },
         style: ElevatedButton.styleFrom(elevation: 0.0, backgroundColor: widget.checkState == true ? StaticColor.categorySelectedColor : StaticColor.categoryUnselectedColor),

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 
 class RecommendCancelDialog extends StatefulWidget {
-  const RecommendCancelDialog({super.key});
+  Function? backFunction;
+  RecommendCancelDialog({super.key, this.backFunction});
 
   @override
   State<RecommendCancelDialog> createState() => _RecommendCancelDialogState();
@@ -48,7 +52,7 @@ class _RecommendCancelDialogState extends State<RecommendCancelDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.grey100F6, elevation: 0.0),
                   child: Text('계속하기', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
@@ -68,8 +72,10 @@ class _RecommendCancelDialogState extends State<RecommendCancelDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
+                    SenseLogger().debug('추천 요청하기 종료');
+                    context.read<RecommendRequestProvider>().recommendFinish();
                     Navigator.of(context).pop();
-                    context.read<CreateEventProvider>().recommendInitialize();
+                    Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('취소하기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

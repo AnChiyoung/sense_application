@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/event_info_recommend_request_dialog.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 
 class EventRecommendStepMemo extends StatefulWidget {
@@ -17,7 +18,7 @@ class EventRecommendStepMemo extends StatefulWidget {
 class _EventRecommendStepMemoState extends State<EventRecommendStepMemo> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventInfoProvider>(
+    return Consumer<RecommendRequestProvider>(
         builder: (context, data, child) {
           return Stack(
             children: [
@@ -30,31 +31,6 @@ class _EventRecommendStepMemoState extends State<EventRecommendStepMemo> {
                       SizedBox(height: 28.0.h),
                       MemoField(),
                     ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 70.h,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return const RecommendRequestDialog();
-                        }
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16.0.sp, color: Colors.white, fontWeight: FontWeight.w700)))),
-                        ]
-                    ),
                   ),
                 ),
               ),

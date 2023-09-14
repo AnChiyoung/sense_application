@@ -67,10 +67,33 @@ class EventRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('success to personal event load');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      // print('for id : ${EventCategory.fromJson(jsonResult['event_category']).id}');
+      // print(jsonResult);
       EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
       return eventModel;
     } else {
       logger.v('fail to personal event load');
+      return EventModel();
+    }
+  }
+
+  Future<EventModel> eventRecommendRequest(int eventId) async {
+
+    final response = await http.get(
+      Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('success to personal event recommend info load');
+      final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      EventModel model = EventModel.fromPersonalJson(jsonResult);
+      return model;
+    } else {
+      logger.v('fail to personal event recommend info load');
       return EventModel();
     }
   }
@@ -84,13 +107,17 @@ class EventRequest {
     context.read<CreateEventImproveProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
     context.read<CreateEventImproveProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
     context.read<CreateEventImproveProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventImproveProvider>().date;
+    context.read<CreateEventProvider>().city == -1 ? {} : createModel['city'] = context.read<CreateEventProvider>().city + 1;
     context.read<CreateEventImproveProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventImproveProvider>().memo;
+
+    print(createModel);
 
     logger.d(
         'title : ${context.read<CreateEventImproveProvider>().title}\n' +
         'category : ${context.read<CreateEventImproveProvider>().category}\n' +
         'target : ${context.read<CreateEventImproveProvider>().target}\n' +
         'date : ${context.read<CreateEventImproveProvider>().date}\n' +
+        'city : ${context.read<CreateEventProvider>().city}\n' +
         'memo : ${context.read<CreateEventImproveProvider>().memo}\n'
     );
 
@@ -151,6 +178,10 @@ class EventRequest {
   Future<bool> personalFieldUpdateEvent(BuildContext context, int eventId, int fieldNumber) async {
 
     Map<String, dynamic> fieldModel = {};
+    fieldModel.clear();
+
+    print(context.read<CreateEventImproveProvider>().isAlarm);
+    print(context.read<CreateEventImproveProvider>().publicType);
 
     print('change category : ${context.read<CreateEventImproveProvider>().category + 1}');
     if(fieldNumber == 0) {
@@ -163,12 +194,11 @@ class EventRequest {
       fieldModel['date'] = context.read<CreateEventImproveProvider>().date;
     } else if(fieldNumber == 4) {
       fieldModel['memo'] = context.read<CreateEventImproveProvider>().memo;
+    } else if(fieldNumber == 5) {
+      fieldModel['is_alarm'] = context.read<CreateEventImproveProvider>().isAlarm;
+    } else if(fieldNumber == 6) {
+      fieldModel['public_type'] = context.read<CreateEventImproveProvider>().publicType;
     }
-    // else if(fieldNumber == 5) {
-    //   fieldModel['is_alarm'] = context.read<CreateEventImproveProvider>().isAlarm;
-    // } else if(fieldNumber == 6) {
-    //   fieldModel['public_type'] = context.read<CreateEventImproveProvider>().publicType;
-    // }
 
     final response = await http.patch(
         Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
@@ -211,58 +241,58 @@ class EventRequest {
 
 class EventModel {
   int? id;
-  String? eventTitle;
   EventHost? eventHost;
-  List<String>? eventUsers; /// 추후 user id : pk로 변경
-  List<int>? address; /// 현재는 이벤트 리스폰스에 존재하지 않음. 추후 생성 by andy
-  int? totalCost;
-  String? eventDate;
-  EventCategory? eventCategory;
-  String? created;
-  List<EventUser>? eventUser = [];
-
-  /// when request to server
-  int? contactCategory;
-  // int? city;
-  // int? subCity;
-  String? createDate;
+  String? eventTitle;
   String? description;
-  List<int>? createEventUsers;
-  List<int>? recommendCategory;
-
-  /// add 2023.07.30.
-  EventCategory? eventCategoryObject;
-  ContactCategory? targetCategoryObject;
-  // RecommendCategory? recommendCategory;
-  City? city;
-  SubCity? subCity;
+  int? totalBudget;
+  String? eventDate;
+  String? created;
   bool? isAlarm;
   String? publicType;
+  EventCategory? eventCategoryObject;
+  ContactCategory? targetCategoryObject;
+  RecommendRequestModel? recommendModel;
+  City? city;
+
+  /// unused
+  // List<int>? recommendCategory;
+  // SubCity? subCity;
+  // List<int>? createEventUsers;
+
+  /// what??
+  // List<String>? eventUsers;
+  // List<int>? address;
+  // int? totalCost;
+  // EventCategory? eventCategory;
+  // List<EventUser>? eventUser = [];
+  // int? contactCategory;
+  // String? createDate;
+  // RecommendCategory? recommendCategory;
 
   EventModel({
     this.id,
-    this.eventTitle,
     this.eventHost,
-    this.eventUsers,
-    this.address,
-    this.totalCost,
+    this.eventTitle,
+    this.description,
+    this.totalBudget,
     this.eventDate,
     this.created,
-    this.eventUser,
-
-    /// when request to server
-    this.eventCategory,
-    this.contactCategory,
-    this.city,
-    this.subCity,
-    this.createDate,
-    this.description,
-    this.createEventUsers,
-    this.recommendCategory,
-
-    /// add 2023.07.30.
     this.isAlarm,
     this.publicType,
+    this.eventCategoryObject,
+    this.targetCategoryObject,
+    this.recommendModel,
+    this.city,
+
+    /// unused
+    // this.eventUsers,
+    // this.address,
+    // this.totalCost,
+    // this.eventUser,
+    // this.subCity,
+    // this.createDate,
+    // this.createEventUsers,
+    // this.recommendCategory,
   });
 
   EventModel.fromJson(dynamic json) {
@@ -271,15 +301,16 @@ class EventModel {
     eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
     eventDate = json['date'] ?? '';
     city = json['city'] != null ? City.fromJson(json['city']) : null;
-    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
-    eventCategory = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
+    // subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
+    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
+    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
     created = json['created'] ?? '';
-    json['event_users'] == [] || json['event_users'] == null
-        ? eventUser = []
-        : json['event_users'].forEach((v) {
-          eventUser!.add(EventUser.fromJson(v));
-        }
-    );
+    // json['event_users'] == [] || json['event_users'] == null
+    //     ? eventUser = []
+    //     : json['event_users'].forEach((v) {
+    //       eventUser!.add(EventUser.fromJson(v));
+    //     }
+    // );
   }
 
   EventModel.fromJsonForId(dynamic json) {
@@ -288,33 +319,58 @@ class EventModel {
 
   EventModel.fromPersonalJson(dynamic json) {
     id = json['id'] ?? -1;
-    eventHost = json['master'] != null ? EventHost.fromJson(json['master'] ?? EventHost()) : null;
-    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : EventCategory(id: -1, title: '');
-    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
-    // recommendCategory = json['recommend_category'] ?? '';
-    city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: 1, title: '서울');
-    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: 1, title: '서울');
+    eventHost = json['host'] != null ? EventHost.fromJson(json['host'] ?? EventHost()) : null;
     eventTitle = json['title'] ?? '';
     description = json['description'] ?? '';
-    totalCost = json['total_cost'] ?? -1;
+    totalBudget = json['total_budget'] ?? -1;
     eventDate = json['date'] ?? '';
     created = json['created'] ?? '';
     isAlarm = json['is_alarm'] ?? false;
     publicType = json['public_type'] ?? 'PUBLIC';
-    // eventUsers =
+    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : EventCategory(id: -1, title: '');
+    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
+    recommendModel = json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel;
+    city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: -1, title: '');
+
+    // recommendCategory = json['recommend_category'] ?? '';
+    // subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: 1, title: '서울');
+    // totalCost = json['total_cost'] ?? -1;
   }
 
-  Map<String, dynamic> toJson() => {
-    'title': eventTitle,
-    'event_category': eventCategory,
-    'contact_category': contactCategory,
-    'city': city,
-    'sub_city': subCity,
-    'date': createDate,
-    'description': description,
-    'event_users': createEventUsers,
-    'recommend_categories': recommendCategory,
-  };
+  EventModel.fromJsonForRecommend(dynamic json) {
+    recommendModel = json['recommend_request'] ?? RecommendRequestModel(
+      id: -1,
+      userId: -1,
+      memo: '',
+      isPresent: false,
+      isHotel: false,
+      isLunch: false,
+      isDinner: false,
+      isActivity: false,
+      isPub: false,
+      totalBudget: -1,
+      pubBudget: -1,
+      presentBudget: -1,
+      hotelBudget: -1,
+      lunchBudget: -1,
+      dinnerBudget: -1,
+      activityBudget: -1,
+      created: '',
+      modified: ''
+    );
+  }
+
+  // Map<String, dynamic> toJson() => {
+  //   'title': eventTitle,
+  //   'event_category': eventCategory,
+  //   'contact_category': contactCategory,
+  //   'city': city,
+  //   'sub_city': subCity,
+  //   'date': createDate,
+  //   'description': description,
+  //   'event_users': createEventUsers,
+  //   'recommend_categories': recommendCategory,
+  // };
 }
 
 class EventHost {
@@ -342,8 +398,8 @@ class EventHost {
 }
 
 class EventCategory {
-  int? id = -1;
-  String? title = '';
+  int? id;
+  String? title;
 
   EventCategory({
     this.id,
@@ -357,8 +413,8 @@ class EventCategory {
 }
 
 class ContactCategory {
-  int? id = -1;
-  String? title = '';
+  int? id;
+  String? title;
 
   ContactCategory({
     this.id,
@@ -438,4 +494,88 @@ class UserData {
     username = json['username'] ?? '';
     profileImage = json['profile_image_url'] ?? '';
   }
+}
+
+class RecommendRequestModel {
+  int? id;
+  int? userId;
+  String? memo;
+  bool? isPresent;
+  bool? isHotel;
+  bool? isLunch;
+  bool? isDinner;
+  bool? isActivity;
+  bool? isPub;
+  int? totalBudget;
+  int? pubBudget;
+  int? presentBudget;
+  int? hotelBudget;
+  int? lunchBudget;
+  int? dinnerBudget;
+  int? activityBudget;
+  String? created;
+  String? modified;
+
+  RecommendRequestModel({
+    this.id,
+    this.userId,
+    this.memo,
+    this.isPresent,
+    this.isHotel,
+    this.isLunch,
+    this.isDinner,
+    this.isActivity,
+    this.isPub,
+    this.totalBudget,
+    this.pubBudget,
+    this.presentBudget,
+    this.hotelBudget,
+    this.lunchBudget,
+    this.dinnerBudget,
+    this.activityBudget,
+    this.created,
+    this.modified,
+  });
+
+  RecommendRequestModel.fromJson(dynamic json) {
+    id = json['id'] ?? -1;
+    userId = json['user'] ?? -1;
+    memo = json['is_present'] ?? '';
+    isPresent = json['is_hotel'] ?? false;
+    isHotel = json['is_hotel'] ?? false;
+    isLunch = json['is_lunch'] ?? false;
+    isDinner = json['is_dinner'] ?? false;
+    isActivity = json['is_activity'] ?? false;
+    isPub = json['is_pub'] ?? false;
+    totalBudget = json['total_budget'] ?? -1;
+    pubBudget = json['pub_budget'] ?? -1;
+    presentBudget = json['present_budget'] ?? -1;
+    hotelBudget = json['hotel_budget'] ?? -1;
+    lunchBudget = json['lunch_budget'] ?? -1;
+    dinnerBudget = json['dinner_budget'] ?? -1;
+    activityBudget = json['activity_budget'] ?? -1;
+    created = json['created'] ?? '';
+    modified = json['modified'] ?? '';
+  }
+
+  static RecommendRequestModel initModel = RecommendRequestModel(
+      id: -1,
+      userId: -1,
+      memo: '',
+      isPresent: false,
+      isHotel: false,
+      isLunch: false,
+      isDinner: false,
+      isActivity: false,
+      isPub: false,
+      totalBudget: -1,
+      pubBudget: -1,
+      presentBudget: -1,
+      hotelBudget: -1,
+      lunchBudget: -1,
+      dinnerBudget: -1,
+      activityBudget: -1,
+      created: '',
+      modified: ''
+  );
 }

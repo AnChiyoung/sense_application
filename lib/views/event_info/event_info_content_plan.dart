@@ -210,48 +210,56 @@ class _EventInfoPlanCategoryState extends State<EventInfoPlanCategory> {
 
   @override
   void initState() {
-    int categoryState = widget.category ?? -1;
-    if(categoryState == 0) {
-      categoryString = '생일';
-    } else if(categoryState == 1) {
-      categoryString = '데이트';
-    } else if(categoryState == 2) {
-      categoryString = '여행';
-    } else if(categoryState == 3) {
-      categoryString = '모임';
-    } else if(categoryState == 4) {
-      categoryString = '비즈니스';
-    } else {
-      categoryString = '-';
-    }
+    context.read<CreateEventImproveProvider>().saveCategoryChange(null, false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
-          context.read<CreateEventImproveProvider>().eventStepState(0);
-          TriggerActions().showCreateEventView(context, true);
-        } else {
+    return Consumer<CreateEventImproveProvider>(
+      builder: (context, data, child) {
 
+        int categoryState = data.category;
+
+        if(categoryState == 0) {
+          categoryString = '생일';
+        } else if(categoryState == 1) {
+          categoryString = '데이트';
+        } else if(categoryState == 2) {
+          categoryString = '여행';
+        } else if(categoryState == 3) {
+          categoryString = '모임';
+        } else if(categoryState == 4) {
+          categoryString = '비즈니스';
+        } else {
+          categoryString = '-';
         }
-      },
-      child: Row(
-        children: [
-          Text(categoryTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-          SizedBox(width: 8.0.w),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-            decoration: BoxDecoration(
-              color: StaticColor.grey100F6,
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            child: Center(child: Text(categoryString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
-          )
-        ],
-      ),
+
+        return GestureDetector(
+          onTap: () {
+            if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
+              context.read<CreateEventImproveProvider>().eventStepState(0);
+              TriggerActions().showCreateEventView(context, true);
+            } else {
+
+            }
+          },
+          child: Row(
+            children: [
+              Text(categoryTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+              SizedBox(width: 8.0.w),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+                decoration: BoxDecoration(
+                  color: StaticColor.grey100F6,
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                child: Center(child: Text(categoryString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
+              )
+            ],
+          ),
+        );
+      }
     );
   }
 }
@@ -267,53 +275,56 @@ class EventInfoPlanTarget extends StatefulWidget {
 class _EventInfoPlanTargetState extends State<EventInfoPlanTarget> {
   String targetTitle = '대상';
   String targetString = '-';
-  late int target;
 
   @override
   void initState() {
-    target = widget.target ?? -1;
-
-    int targetState = target;
-    if(targetState == 0) {
-      targetString = '가족';
-    } else if(targetState == 1) {
-      targetString = '연인';
-    } else if(targetState == 2) {
-      targetString = '가족';
-    } else if(targetState == 3) {
-      targetString = '직장';
-    } else {
-      targetString = '-';
-    }
-    print(target);
+    context.read<CreateEventImproveProvider>().saveTargetChange(null, false);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
-          context.read<CreateEventImproveProvider>().eventStepState(1);
-          TriggerActions().showCreateEventView(context, true);
-        } else {
+    return Consumer<CreateEventImproveProvider>(
+      builder: (context, data, child) {
 
+        int targetState = data.target;
+        if(targetState == 0) {
+          targetString = '가족';
+        } else if(targetState == 1) {
+          targetString = '연인';
+        } else if(targetState == 2) {
+          targetString = '친구';
+        } else if(targetState == 3) {
+          targetString = '직장';
+        } else {
+          targetString = '-';
         }
-      },
-      child: Row(
-        children: [
-          Text(targetTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-          SizedBox(width: 8.0.w),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-            decoration: BoxDecoration(
-              color: StaticColor.grey100F6,
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            child: Center(child: Text(targetString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
-          )
-        ],
-      ),
+
+        return GestureDetector(
+          onTap: () {
+            if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
+              context.read<CreateEventImproveProvider>().eventStepState(1);
+              TriggerActions().showCreateEventView(context, true);
+            } else {
+
+            }
+          },
+          child: Row(
+            children: [
+              Text(targetTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+              SizedBox(width: 8.0.w),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+                decoration: BoxDecoration(
+                  color: StaticColor.grey100F6,
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                child: Center(child: Text(targetString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
+              )
+            ],
+          ),
+        );
+      }
     );
   }
 }
@@ -332,47 +343,55 @@ class _EventInfoPlanDateState extends State<EventInfoPlanDate> {
 
   @override
   void initState() {
-    // dateString = widget.date ?? '';
+    context.read<CreateEventImproveProvider>().dateChange(widget.date ?? '', false);
 
-    if(widget.date!.isEmpty) {
-      dateString = '-';
-    } else {
-      dateString = widget.date ?? '';
-    }
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
-          context.read<CreateEventImproveProvider>().eventStepState(2);
-          TriggerActions().showCreateEventView(context, true);
-        } else {
+    return Consumer<CreateEventImproveProvider>(
+      builder: (context, data, child) {
 
+        if(data.date!.isEmpty) {
+          dateString = '-';
+        } else {
+          dateString = data.date;
         }
-      },
-      child: Row(
-        children: [
-          Text(dateTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-          SizedBox(width: 8.0.w),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-            decoration: BoxDecoration(
-              color: StaticColor.grey100F6,
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-            child: Center(child: Text(dateString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
-          )
-        ],
-      ),
+
+        return GestureDetector(
+          onTap: () {
+            if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
+              context.read<CreateEventImproveProvider>().eventStepState(2);
+              TriggerActions().showCreateEventView(context, true);
+            } else {
+
+            }
+          },
+          child: Row(
+            children: [
+              Text(dateTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+              SizedBox(width: 8.0.w),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
+                decoration: BoxDecoration(
+                  color: StaticColor.grey100F6,
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                child: Center(child: Text(dateString, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500))),
+              )
+            ],
+          ),
+        );
+      }
     );
   }
 }
 
 class EventInfoPlanRegion extends StatefulWidget {
-  const EventInfoPlanRegion({super.key});
+  String? city;
+  EventInfoPlanRegion({super.key, this.city});
 
   @override
   State<EventInfoPlanRegion> createState() => _EventInfoPlanRegionState();
@@ -381,13 +400,19 @@ class EventInfoPlanRegion extends StatefulWidget {
 class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
   String locationTitle = '위치';
   String locationString = '-';
+  List<String> cityNameList = ['서울', '경기도', '인천', '강원도', '경상도', '전라도', '충청도', '부산', '제주'];
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventImproveProvider>(
+    return Consumer<CreateEventProvider>(
         builder: (context, data, child) {
 
-          locationString = '서울 전체';
+          int city = data.city;
+          if(city == -1) {
+            locationString = '-';
+          } else {
+            locationString = cityNameList.elementAt(city);
+          }
 
           return GestureDetector(
             onTap: () {
@@ -567,7 +592,7 @@ class _RecommendFieldState extends State<RecommendField> {
                       SizedBox(height: 16.0.h),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<CreateEventProvider>().eventInfoTabStateChange([false, true]);
+                          context.read<CreateEventImproveProvider>().eventInfoTabStateChange([false, true]);
                         },
                         child: Text('추천보기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),
                       )

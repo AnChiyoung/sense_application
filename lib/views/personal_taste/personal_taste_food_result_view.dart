@@ -29,9 +29,7 @@ class _FoodResultHeaderState extends State<FoodResultHeader> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () async {
-          bool foodTasteInputResult = await TasteRequest().createFoodTastePreference(context);
-          context.read<TasteProvider>().foodTasteInit();
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPageScreen()));
+
           // if(foodTasteInputResult == true) {
           //
           // } else {

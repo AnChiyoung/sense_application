@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/event/recommend_model.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 
 class RecommendRequestDialog extends StatefulWidget {
   const RecommendRequestDialog({super.key});
@@ -66,11 +69,16 @@ class _RecommendRequestDialogState extends State<RecommendRequestDialog> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: ElevatedButton(
-                  onPressed: () {
-                    // context.read<EventInfoProvider>().recommendRequestStateChange(true);
+                  onPressed: () async {
                     /// 추천 요청하기 로직 완료
-                    context.read<CreateEventProvider>().recommendFinish();
-                    Navigator.of(context).pop();
+                    bool recommendRequestResult = await RecommendRequest().eventRecommendRequest(
+                        context,
+                        context.read<CreateEventImproveProvider>().eventUniqueId);
+                    if(recommendRequestResult == true) {
+                      context.read<RecommendRequestProvider>().recommendFinish();
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    } else {}
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('확인', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

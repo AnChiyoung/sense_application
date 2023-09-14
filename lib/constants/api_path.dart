@@ -3,7 +3,7 @@
 /// api url은 하위 슬래시까지 표기 x : base url + /login/kakao
 
 class ApiUrl {
-  static String devUrl = 'https://dev.server.sens.im/api/v1';
+  static String devUrl = 'https://server.dev.sens.im/api/v1';
   static String stagingUrl = 'https://server.sens.im/api/v1';
   static String liveUrl = 'https://sens.im/api/v1';
 

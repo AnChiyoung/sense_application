@@ -40,39 +40,6 @@ class _CreateEventRegionViewState extends State<CreateEventRegionView> {
       ],
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return FutureBuilder(
-  //     future: RegionRequest().cityListRequest(),
-  //     builder: (context, snapshot) {
-  //       if(snapshot.hasError) {
-  //         return const SizedBox.shrink();
-  //       } else if(snapshot.hasData) {
-  //
-  //         if(snapshot.connectionState == ConnectionState.waiting) {
-  //           return const SizedBox.shrink();
-  //         } else if(snapshot.connectionState == ConnectionState.done) {
-  //
-  //           List<City>? cityModels = snapshot.data;
-  //
-  //           return Column(
-  //             children: [
-  //               // CityDropDownMenu(models: cityModels),
-  //               SubCityMenu(),
-  //             ],
-  //           );
-  //
-  //         } else {
-  //           return const SizedBox.shrink();
-  //         }
-  //
-  //       } else {
-  //         return const SizedBox.shrink();
-  //       }
-  //     }
-  //   );
-  // }
 }
 
 class CityDropdown extends StatefulWidget {
@@ -104,6 +71,7 @@ class _CityDropdownState extends State<CityDropdown> {
     /// at first bottom sheet, city index 0
     /// 그 다음은 tempcity index에 따라
     if(context.read<CreateEventProvider>().tempCity == -1) {
+      context.read<CreateEventProvider>().tempCityChange(0, false);
       initItem = cityName!.elementAt(0).toString();
     } else {
       initItem = cityName!.elementAt(context.read<CreateEventProvider>().tempCity).toString();
@@ -131,7 +99,7 @@ class _CityDropdownState extends State<CityDropdown> {
           items: dropdownItem,
           onChanged: (Object? value) {
             initItem = value.toString();
-            context.read<CreateEventProvider>().tempCityChange(cityName.indexOf(initItem));
+            context.read<CreateEventProvider>().tempCityChange(cityName.indexOf(initItem), true);
           },
         ),
       ),
@@ -166,11 +134,9 @@ class _SubCityFieldState extends State<SubCityField> {
       children: [
         Consumer<CreateEventProvider>(
             builder: (context, data, child) {
-              if(data.tempCity == 0 || data.tempCity == -1) {
-                return RegionTotalBox(state: data.totalBoxState, name: localRegionModel.elementAt(cityIndex).cityName.toString(), enabled: true);
-              } else {
-                return RegionTotalBox(state: data.totalBoxState, name: localRegionModel.elementAt(cityIndex).cityName.toString(), enabled: false,);
-              }
+
+              int city = data.tempCity;
+              return RegionTotalBox(state: data.totalBoxState, name: localRegionModel.elementAt(city).cityName.toString(), enabled: true);
             }
         ),
         Consumer<CreateEventProvider>(
@@ -206,42 +172,53 @@ class _SubCityFieldState extends State<SubCityField> {
 
     for(int i = 0; i < subCityList.length; i++) {
 
-      if(cityIndex == 0) {
-        if(i > 1) {
-          subCityWidgetList.add(
-            // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
-            RegionBox(
-              state: false,
-              enabled: false,
-              name: subCityList!.elementAt(i),
-              cityIndex: cityIndex,
-              index: i,
-            ),
-          );
-        } else {
-          subCityWidgetList.add(
-            // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
-            RegionBox(
-              state: fieldState.elementAt(i),
-              enabled: true,
-              name: subCityList!.elementAt(i),
-              cityIndex: cityIndex,
-              index: i,
-            ),
-          );
-        }
-      } else {
-        subCityWidgetList.add(
-          // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
-          RegionBox(
-            state: false,
-            enabled: false,
-            name: subCityList!.elementAt(i),
-            cityIndex: cityIndex,
-            index: i,
-          ),
-        );
-      }
+      subCityWidgetList.add(
+        // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
+        RegionBox(
+          state: fieldState.elementAt(i),
+          enabled: true,
+          name: subCityList!.elementAt(i),
+          cityIndex: cityIndex,
+          index: i,
+        ),
+      );
+
+      // if(cityIndex == 0) {
+      //   if(i > 1) {
+      //     subCityWidgetList.add(
+      //       // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
+      //       RegionBox(
+      //         state: false,
+      //         enabled: false,
+      //         name: subCityList!.elementAt(i),
+      //         cityIndex: cityIndex,
+      //         index: i,
+      //       ),
+      //     );
+      //   } else {
+      //     subCityWidgetList.add(
+      //       // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
+      //       RegionBox(
+      //         state: fieldState.elementAt(i),
+      //         enabled: true,
+      //         name: subCityList!.elementAt(i),
+      //         cityIndex: cityIndex,
+      //         index: i,
+      //       ),
+      //     );
+      //   }
+      // } else {
+      //   subCityWidgetList.add(
+      //     // Text(subCityList.elementAt(i), style: TextStyle(color: Colors.black)),
+      //     RegionBox(
+      //       state: false,
+      //       enabled: false,
+      //       name: subCityList!.elementAt(i),
+      //       cityIndex: cityIndex,
+      //       index: i,
+      //     ),
+      //   );
+      // }
     }
 
     return Padding(

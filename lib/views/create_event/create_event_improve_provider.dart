@@ -49,6 +49,24 @@ class CreateEventImproveProvider with ChangeNotifier {
   bool _createEventButtonState = false;
   bool get createEventButtonState => _createEventButtonState;
 
+  /// 이벤트 알람
+  bool _isAlarm = false;
+  bool get isAlarm => _isAlarm;
+
+  /// 이벤트 공개 여부
+  String _publicType = 'PRIVATE';
+  String get publicType => _publicType;
+
+  void isAlarmChange(bool state) {
+    _isAlarm = state;
+    notifyListeners();
+  }
+
+  void publicTypeChange(String state) {
+    _publicType = state;
+    notifyListeners();
+  }
+
   void createButtonStateChange(bool state) {
     _createEventButtonState = state;
     notifyListeners();
@@ -75,6 +93,7 @@ class CreateEventImproveProvider with ChangeNotifier {
 
   void saveCategoryChange(int? state, bool notify) {
     if(state == null) {
+      print('eidt select : $_selectCategory');
       _category = _selectCategory;
     } else {
       _category = state;
@@ -112,14 +131,23 @@ class CreateEventImproveProvider with ChangeNotifier {
   }
 
   /// date function
-  void dateChange(String state) {
+  void dateSelectChange(String state) {
+    print(state);
+    _selectDate = state;
+  }
+
+  void dateChange(String state, bool notify) {
+    _selectDate = state;
     if(state.isEmpty) {
-      _date = state;
+      _date = '';
     } else {
       _date = state.substring(0, 10);
     }
-    _date = state;
-    notifyListeners();
+    // _date = state;
+    if(notify == true) {
+      notifyListeners();
+    } else {
+    }
   }
 
   /// memo function
@@ -177,11 +205,20 @@ class CreateEventImproveProvider with ChangeNotifier {
   }
 
   /// calendar -> event info, create event -> event info
-  void eventDataLoad(String title, int catgegory, int target, String date, String memo) {
+  void eventDataLoad(String title, int category, int target, String date, String memo) {
     _title = title;
     _category = category;
     _target = target;
     _date = date;
     _memo = memo;
+    _selectCategory = category - 1;
+    _selectTarget = target - 1;
+    _selectDate = date;
+    _eventInfoTabState = [true, false];
+  }
+
+  void drawerDataLoad(bool alarm, String publicType) {
+    _isAlarm = alarm;
+    _publicType = publicType;
   }
 }
