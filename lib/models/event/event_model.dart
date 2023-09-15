@@ -67,10 +67,10 @@ class EventRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('success to personal event load');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      // print('for id : ${EventCategory.fromJson(jsonResult['event_category']).id}');
-      // print(jsonResult);
+      print(jsonResult);
       EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
       return eventModel;
+      // return EventModel();
     } else {
       logger.v('fail to personal event load');
       return EventModel();
@@ -540,8 +540,8 @@ class RecommendRequestModel {
   RecommendRequestModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
     userId = json['user'] ?? -1;
-    memo = json['is_present'] ?? '';
-    isPresent = json['is_hotel'] ?? false;
+    memo = json['memo'] ?? '';
+    isPresent = json['is_present'] ?? false;
     isHotel = json['is_hotel'] ?? false;
     isLunch = json['is_lunch'] ?? false;
     isDinner = json['is_dinner'] ?? false;

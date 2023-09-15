@@ -493,6 +493,7 @@ class _EventInfoPlanMemoState extends State<EventInfoPlanMemo> {
             child: TextFormField(
                 controller: memoEditingController,
                 autofocus: false,
+                readOnly: true,
                 textInputAction: TextInputAction.next,
                 maxLines: 6,
                 maxLength: 300,
