@@ -349,31 +349,31 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
           padding: const EdgeInsets.only(top: 8),
           child: feedPostsWidget,
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 16,
-          child: Center(
-            child: ElevatedButton.icon(
-              onPressed: toggleCarousel,
-              icon: Icon(
-                switchButtonIcon,
-                size: 24,
-              ),
-              label: Text(switchButtonText),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF333333),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   left: 0,
+        //   right: 0,
+        //   bottom: 16,
+        //   child: Center(
+        //     child: ElevatedButton.icon(
+        //       onPressed: toggleCarousel,
+        //       icon: Icon(
+        //         switchButtonIcon,
+        //         size: 24,
+        //       ),
+        //       label: Text(switchButtonText),
+        //       style: ElevatedButton.styleFrom(
+        //         backgroundColor: const Color(0xFF333333),
+        //         padding: const EdgeInsets.symmetric(
+        //           horizontal: 12,
+        //           vertical: 4,
+        //         ),
+        //         shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(16),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

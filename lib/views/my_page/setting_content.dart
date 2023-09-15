@@ -51,7 +51,7 @@ class _SettingContentState extends State<SettingContent> {
               children: [
                 SettingPolicy(),
                 SettingAppVersion(),
-                SettingAppVersionTest(),
+                // SettingAppVersionTest(),
               ],
             ),
           ),
@@ -312,7 +312,7 @@ class SettingPolicy extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('약관 및 개인정보 의처리동의', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('약관 및 개인정보의 처리동의', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
           ],
         ),

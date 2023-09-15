@@ -92,7 +92,11 @@ class _EventRecommendFinishState extends State<EventRecommendFinish> {
       }
     }
 
-    totalCost = model.totalBudget.toString();
+    if(model.totalBudget == -1) {
+      totalCost = '-';
+    } else {
+      totalCost = model.totalBudget.toString();
+    }
 
     memo = (model.memo! == null || model.memo!.isEmpty) ? '-' : model.memo!;
 

@@ -61,15 +61,13 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
               if(snapshot.hasError) {
                 return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               } else if(snapshot.hasData) {
-
-                FeedDetailModel feedDetailModel = snapshot.data!;
-
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  // return const Center(child: Text('data loading..'));
                   return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
+
+                  FeedDetailModel feedDetailModel = snapshot.data!;
                   return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
-                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+
                 } else {
                   return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }

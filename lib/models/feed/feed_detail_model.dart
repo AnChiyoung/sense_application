@@ -53,6 +53,7 @@ class FeedDetailModel {
   bool? isCommented;
   bool? isTemp;
   String? createdTime;
+  String? html;
 
   FeedDetailModel({
     this.id,
@@ -72,6 +73,7 @@ class FeedDetailModel {
     this.isLiked,
     this.createdTime,
     this.isTemp,
+    this.html,
   });
 
   FeedDetailModel.fromJson(dynamic json) {
@@ -99,6 +101,7 @@ class FeedDetailModel {
     isCommented = json['is_commented'] ?? false;
     createdTime = json['created'] ?? '';
     isTemp = json['is_temp'] ?? false;
+    html = json['html'] ?? '';
   }
 }
 
