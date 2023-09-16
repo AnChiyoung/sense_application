@@ -273,7 +273,7 @@ class PersonalTasteTravelBanner extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 image: DecorationImage(
-                  image: AssetImage('assets/my_page/lodging_background.png'),
+                  image: AssetImage('assets/my_page/travel_background.png'),
                 ),
               ),
               child: Column(

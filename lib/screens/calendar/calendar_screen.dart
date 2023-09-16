@@ -12,6 +12,8 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
 
+  // EditorJSView
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

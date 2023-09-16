@@ -125,6 +125,10 @@ class RecommendRequestProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void recommendMemoChange(String state) {
+    _recommendMemo = state;
+  }
+
   void recommendFinish() {
     _recommendRequestState = true;
     _step = 1;

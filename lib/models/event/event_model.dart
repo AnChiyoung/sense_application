@@ -66,9 +66,10 @@ class EventRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('success to personal event load');
+      print('logger');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       print(jsonResult);
-      EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
+      EventModel eventModel = EventModel.fromJson(jsonResult);
       return eventModel;
       // return EventModel();
     } else {
@@ -247,6 +248,8 @@ class EventModel {
   int? totalBudget;
   String? eventDate;
   String? created;
+  int? visitCount;
+  int? recommendCount;
   bool? isAlarm;
   String? publicType;
   EventCategory? eventCategoryObject;
@@ -277,6 +280,8 @@ class EventModel {
     this.totalBudget,
     this.eventDate,
     this.created,
+    this.visitCount,
+    this.recommendCount,
     this.isAlarm,
     this.publicType,
     this.eventCategoryObject,
@@ -325,11 +330,13 @@ class EventModel {
     totalBudget = json['total_budget'] ?? -1;
     eventDate = json['date'] ?? '';
     created = json['created'] ?? '';
+    visitCount = json['visit_count'] ?? 0;
+    recommendCount = json['recommend_count'] ?? 0;
     isAlarm = json['is_alarm'] ?? false;
     publicType = json['public_type'] ?? 'PUBLIC';
     eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : EventCategory(id: -1, title: '');
     targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
-    recommendModel = json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel;
+    recommendModel = (json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel);
     city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: -1, title: '');
 
     // recommendCategory = json['recommend_category'] ?? '';

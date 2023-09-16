@@ -16,7 +16,7 @@ class _EventFeedReviewState extends State<EventFeedReview> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: EventFeedRequest().recommendEventListRequest(),
+        future: EventFeedRequest().recommendEventListRequest('created'),
         builder: (context, snapshot) {
 
           if(snapshot.hasError) {

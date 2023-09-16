@@ -29,7 +29,7 @@ class _FoodResultHeaderState extends State<FoodResultHeader> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () async {
-
+          Navigator.of(context).pop();
           // if(foodTasteInputResult == true) {
           //
           // } else {

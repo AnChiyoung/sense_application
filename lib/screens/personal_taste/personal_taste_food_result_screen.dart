@@ -42,15 +42,21 @@ class _FoodResultScreenState extends State<FoodResultScreen> {
                       color: StaticColor.grey300E0,
                       height: 1.0.h,
                     ),
-                    Expanded(
+                    SingleChildScrollView(
                       child: Container(
                         width: double.infinity,
-                        height: double.infinity,
-                        child: Center(
-                          child: Text('준비 중입니다'),
-                        ),
-                      ),
-                    ),
+                        child: Image.asset('assets/taste/result_example.png'),
+                      )
+                    )
+                    // Expanded(
+                    //   child: Container(
+                    //     width: double.infinity,
+                    //     height: double.infinity,
+                    //     child: Center(
+                    //       child: Text('준비 중입니다'),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 Align(

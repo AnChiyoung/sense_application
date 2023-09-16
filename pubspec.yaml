@@ -71,6 +71,7 @@ dependencies:
   open_settings: ^2.0.2
   webview_flutter: ^4.2.4
   flutter_markdown: ^0.6.17+2
+#  editorjs_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -114,6 +115,7 @@ flutter:
     - assets/taste/food/salty/
     - assets/taste/food/candy/
     - assets/policy/
+    - assets/public/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

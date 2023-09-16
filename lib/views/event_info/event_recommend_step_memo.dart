@@ -91,7 +91,7 @@ class _MemoFieldState extends State<MemoField> {
               )
             ),
             onChanged: (v) {
-              context.read<CreateEventProvider>().recommendMemoChange(v);
+              context.read<RecommendRequestProvider>().recommendMemoChange(v);
             },
             validator: (v) {
               if(v!.length >= 300) {
