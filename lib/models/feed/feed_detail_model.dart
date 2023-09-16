@@ -5,6 +5,16 @@ import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedContentModel {
+
+  /// logger setting
+  var logger = Logger(
+    printer: PrettyPrinter(
+      lineLength: 120,
+      colors: true,
+      printTime: true,
+    ),
+  );
+
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     print('feedId: ${feedId.toString()}');
     final response = await http.get(
@@ -16,14 +26,6 @@ class FeedContentModel {
         });
     if(response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      /// logger setting
-      var logger = Logger(
-        printer: PrettyPrinter(
-          lineLength: 120,
-          colors: true,
-          printTime: true,
-        ),
-      );
       logger.d(jsonResult);
       FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
       print(feedDetailModel.commentCount);
@@ -41,7 +43,7 @@ class FeedDetailModel {
   String? subTitle;
   String? startDate;
   String? endDate;
-  List<Content>? content = [];
+  List<dynamic>? content = [];
   String? contentTitle;
   String? notice;
   int? likeCount;
@@ -67,6 +69,7 @@ class FeedDetailModel {
     this.notice,
     this.likeCount,
     this.shareCount,
+    this.labels,
     this.isCommented,
     this.commentCount,
     this.tags,
@@ -83,9 +86,9 @@ class FeedDetailModel {
     subTitle = json['sub_title'] ?? '';
     startDate = json['start_date'] ?? '';
     endDate = json['end_date'] ?? '';
-    // json['content'].forEach((v) {
-    //   content!.add(Content.fromJson(v));
-    // }) ?? [];
+    json['content'].forEach((v) {
+      content!.add(v);
+    }) ?? [];
     contentTitle = json['content_title'] ?? '';
     notice = json['notice'] ?? '';
     likeCount = json['like_count'] ?? -1;
@@ -135,29 +138,54 @@ class Tag {
   }
 }
 
-class Content {
-  String? id;
-  String? type;
-  // String? contentUrl;
-  // int? order;
-  ContentData? data;
+// class Content {
+//   String? id;
+//   Data? data;
+//   String? type;
+//
+//   Content({this.id, this.data, this.type});
+//
+//   Content.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+//     type = json['type'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['id'] = this.id;
+//     if (this.data != null) {
+//       data['data'] = this.data!.toJson();
+//     }
+//     data['type'] = this.type;
+//     return data;
+//   }
+// }
 
-  Content({
-    this.id,
-    this.type,
-    this.data,
-    // this.contentUrl,
-    // this.order,
-  });
 
-  Content.fromJson(dynamic json) {
-    id = json['id'] ?? '';
-    type = json['type'] ?? '';
-    data = json['data'] != null ? ContentData.fromJson(json['event_category']) : ContentData(text: '');
-    // contentUrl = json['content'] ?? '';
-    // order = json['order'] ?? -1;
-  }
-}
+// class Content {
+//   String? id;
+//   String? type;
+//   // String? contentUrl;
+//   // int? order;
+//   ContentData? data;
+//
+//   Content({
+//     this.id,
+//     this.type,
+//     this.data,
+//     // this.contentUrl,
+//     // this.order,
+//   });
+//
+//   Content.fromJson(dynamic json) {
+//     id = json['id'] ?? '';
+//     type = json['type'] ?? '';
+//     data = json['data'] != null ? ContentData.fromJson(json['event_category']) : ContentData(text: '');
+//     // contentUrl = json['content'] ?? '';
+//     // order = json['order'] ?? -1;
+//   }
+// }
 
 class ContentData {
   String? text;

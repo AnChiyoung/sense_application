@@ -32,6 +32,7 @@ class EventFeedRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('success to event list load');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      print(body);
       List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromPersonalJson(e)).toList();
       return models;
     } else {

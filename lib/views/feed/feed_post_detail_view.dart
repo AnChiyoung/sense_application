@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
@@ -10,6 +13,7 @@ import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart'
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/public_widget/show_loading.dart';
 import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
+import 'package:sense_flutter_application/views/feed/feed_flexible.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_bottom_field.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -97,6 +101,7 @@ class _PostDetailState extends State<PostDetail> {
 
   FeedDetailModel? model;
   List<Widget> contentsWidget = [];
+  List<Widget> lablesWidget = [];
 
   bool stringToBoolean(String value) {
     bool convertResult = false;
@@ -109,31 +114,62 @@ class _PostDetailState extends State<PostDetail> {
   }
 
   void makeContentsWidget(FeedDetailModel model) {
-    model.content!.map((e) {
-      if(e.type == 'TEXT') {
-        // contentsWidget.add(ContentTextTypeParagraph(text: e.contentUrl.toString()));
-        contentsWidget.add(ContentTextTypeParagraph(text: ''.toString()));
-      } else if(e.type == 'IMAGE') {
-        // contentsWidget.add(ContentImageTypeParagraph(imageUrl: e.contentUrl.toString()));
-        // contentsWidget.add(ContentImageTypeParagraph(imageUrl: ''.toString()));
-        contentsWidget.add(Container());
-      } else if(e.type == 'URL') {
-        // contentsWidget.add(ContentURLTypeParagraph(text: e.contentUrl.toString()));
-        contentsWidget.add(ContentTextTypeParagraph(text: ''.toString()));
-      }
-    }).toList();
+    // model.content!.map((e) {
+    //   if(e.type == 'TEXT') {
+    //     // contentsWidget.add(ContentTextTypeParagraph(text: e.contentUrl.toString()));
+    //     contentsWidget.add(ContentTextTypeParagraph(text: ''.toString()));
+    //   } else if(e.type == 'IMAGE') {
+    //     // contentsWidget.add(ContentImageTypeParagraph(imageUrl: e.contentUrl.toString()));
+    //     // contentsWidget.add(ContentImageTypeParagraph(imageUrl: ''.toString()));
+    //     contentsWidget.add(Container());
+    //   } else if(e.type == 'URL') {
+    //     // contentsWidget.add(ContentURLTypeParagraph(text: e.contentUrl.toString()));
+    //     contentsWidget.add(ContentTextTypeParagraph(text: ''.toString()));
+    //   }
+    // }).toList();
   }
 
   @override
   void initState() {
     model = widget.postModel;
-    makeContentsWidget(model!);
+    // makeContentsWidget(model!);
+    List<String> labels = [];
+    for(var e in model!.labels!) {
+      labels.add(e.title!);
+    }
+    makeLabels(labels);
+    // contentEncoding(model!.content.toString());
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  void makeLabels(List<String> labels) {
+    for(var e in labels) {
+      lablesWidget.add(labelWidgets(e));
+    }
+  }
+
+  void contentEncoding(String jsonString) {
+    Map<String,dynamic> jsonData = jsonDecode(jsonString);
+    print(jsonData);
+  }
+
+  Widget labelWidgets(String labelName) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+          decoration: BoxDecoration(
+            color: StaticColor.grey100F6,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Center(
+            child: Text('#$labelName', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w600)),
+          )
+        ),
+        SizedBox(width: 4.0.w),
+      ],
+    );
   }
 
   @override
@@ -169,10 +205,22 @@ class _PostDetailState extends State<PostDetail> {
                 title: model!.contentTitle!,
                 eventPeriodLabel: '',
                 eventPeriod: '',),
-              // model!.content!.isEmpty ? const SizedBox.shrink()
-              //     : Column(
-              //         children: contentsWidget
-              //       ),
+              model!.content!.isEmpty ? const SizedBox.shrink()
+                  : Column(
+                      // children: contentsWidget
+                      children: [
+                        // Text(model!.content.toString()),
+                      ]
+                    ),
+              SizedBox(height: 16.0.h),
+              model!.id == 10 ? FeedFlexible() : const SizedBox.shrink(),
+              Padding(
+                padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 36.0.h),
+                child: Wrap(
+                  runSpacing: 8.0,
+                  children: lablesWidget,
+                ),
+              ),
               const SizedBox(height: 80.0),
               // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
             ],
