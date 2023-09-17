@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +13,7 @@ import 'package:sense_flutter_application/public_widget/service_guide_dialog.dar
 import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
+import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
@@ -451,12 +454,38 @@ class FeedPostList extends StatefulWidget {
   State<FeedPostList> createState() => _FeedPostListState();
 }
 
-class _FeedPostListState extends State<FeedPostList> {
+class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderStateMixin {
+
+  late AnimationController _controller;
+  bool forwardDirection = false;
+  double rotationAngle = 0.0;
+  double oldAngle = 0.0;
 
   @override
   void initState() {
     // getInitLabel();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    _controller.value = 0.0;
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      //초기화
+      rotationAngle = 0.0;
+      oldAngle = 0.0;
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future getInitLabel() async {
@@ -542,49 +571,91 @@ class _FeedPostListState extends State<FeedPostList> {
               // }
             },
           ),
+
           /// create event button
-          Padding(
-            padding: EdgeInsets.only(right: 24.0.w, bottom: 24.0.h),
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: SizedBox(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
-                  },
-                  style: ElevatedButton.styleFrom(elevation: 0.0, backgroundColor: StaticColor.mainSoft, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 6.0.w, vertical: 16.0.h),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset('assets/create_event/create_event_icon.png', width: 24.0.w, height: 24.0.h,),
-                        SizedBox(width: 4.0.w),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 4.0.h),
-                          child: Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500))),
-                      ],
+          Consumer<AnimationProvider>(
+            builder: (context, data, child) {
+
+              bool functionPlusButtonState = data.homeAddButton;
+
+              return AnimatedOpacity(
+                opacity: functionPlusButtonState ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 24.0.w, bottom: 100.0.h),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: SizedBox(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+                        },
+                        style: ElevatedButton.styleFrom(elevation: 5.0, backgroundColor: StaticColor.mainSoft, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 1.0.w, vertical: 16.0.h),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/create_event/create_event_icon.png', width: 24.0.w, height: 24.0.h,),
+                              SizedBox(width: 4.0.w),
+                              Padding(
+                                  padding: EdgeInsets.only(bottom: 4.0.h),
+                                  child: Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500, height: 1.5))),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              )
-            ),
+              );
+            }
           ),
-          /// old version
-          // IconButton(
-          //   icon: Image.asset('assets/home/add_event_button.png', width: 56, height: 56),
-          //   iconSize: 56,
-          //   onPressed: () {
-          //     Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
-          //     // showDialog(
-          //     //   context: context,
-          //     //   barrierDismissible: false,
-          //     //   builder: (BuildContext context) {
-          //     //     return const ServiceGuideDialog();
-          //     //   }
-          //     // );
-          //   },
-          // ),
+
+          /// function plus button
+          Consumer<AnimationProvider>(
+            builder: (context, data, child) {
+
+              bool buttonState = data.homeAddButton;
+
+              return AnimatedBuilder(
+                animation: _controller,
+                builder: (BuildContext context, Widget? child) {
+                  final value = _controller.value;
+                  double step = 0.0;
+                  if (oldAngle > value) {
+                    step = (1.0 - oldAngle) + value;
+                  } else {
+                    step = value - oldAngle;
+                  }
+                  oldAngle = value;
+                  if (forwardDirection) {
+                    rotationAngle += step;
+                  } else {
+                    rotationAngle -= step;
+                  }
+                  final angle = rotationAngle * (pi * 2);
+                  return Transform.rotate(
+                    angle: angle * 1, // 속도
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 12.0.w, bottom: 12.0.h),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: IconButton(
+                          icon: Image.asset('assets/home/add_event_button.png'),
+                          iconSize: 66.0,
+                          onPressed: () {
+                            // Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+                            context.read<AnimationProvider>().homeAddButtonState(!buttonState);
+                          },
+                        ),
+                      ),
+                    )
+                  );
+                },
+              );
+            }
+          ),
         ],
       ),
     );

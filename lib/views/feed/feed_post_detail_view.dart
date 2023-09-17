@@ -101,7 +101,8 @@ class _PostDetailState extends State<PostDetail> {
 
   FeedDetailModel? model;
   List<Widget> contentsWidget = [];
-  List<Widget> lablesWidget = [];
+  List<Widget> tagsWidget = [];
+  String? created;
 
   bool stringToBoolean(String value) {
     bool convertResult = false;
@@ -133,18 +134,23 @@ class _PostDetailState extends State<PostDetail> {
   void initState() {
     model = widget.postModel;
     // makeContentsWidget(model!);
-    List<String> labels = [];
-    for(var e in model!.labels!) {
-      labels.add(e.title!);
+    List<String> tags = [];
+    for(var e in model!.tags!) {
+      tags.add(e.title!);
     }
-    makeLabels(labels);
+    makeLabels(tags);
+    if(model!.createdTime == null) {
+      created = '';
+    } else {
+      created = '작성일 ${model!.createdTime!.toString().substring(0, 10).replaceAll('-', '.')}';
+    }
     // contentEncoding(model!.content.toString());
     super.initState();
   }
 
   void makeLabels(List<String> labels) {
     for(var e in labels) {
-      lablesWidget.add(labelWidgets(e));
+      tagsWidget.add(tagWidgets(e));
     }
   }
 
@@ -153,7 +159,7 @@ class _PostDetailState extends State<PostDetail> {
     print(jsonData);
   }
 
-  Widget labelWidgets(String labelName) {
+  Widget tagWidgets(String labelName) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -194,7 +200,9 @@ class _PostDetailState extends State<PostDetail> {
                         imageUrl: model!.thumbnail!,
                         title: model!.title!,
                         desc: model!.subTitle!,
-                        created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
+                        // created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
+                        startDate: model!.startDate!,
+                        endDate: model!.endDate!,
                         likeCount: likeCount.toString(),
                         isLiked: model!.isLiked!
                     );
@@ -213,13 +221,33 @@ class _PostDetailState extends State<PostDetail> {
                       ]
                     ),
               SizedBox(height: 16.0.h),
-              model!.id == 10 ? FeedFlexible() : const SizedBox.shrink(),
+
+              model!.id == 13 ? FeedFlexibleID13() : (
+                  model!.id == 12 ? FeedFlexibleID12() : (
+                      model!.id == 11 ? FeedFlexibleID11() : (
+                          model!.id == 10 ? FeedFlexibleID10() : (
+                              model!.id == 9 ? FeedFlexibleID09() : (
+                                model!.id == 8 ? FeedFlexibleID08() : (
+                                    model!.id == 7 ? FeedFlexibleID07() : (
+                                        model!.id == 6 ? FeedFlexibleID06() : const SizedBox.shrink()
+                                      )
+                                  )
+                              )
+                          )
+                      )
+                  )
+              ),
+
               Padding(
                 padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 36.0.h),
                 child: Wrap(
                   runSpacing: 8.0,
-                  children: lablesWidget,
+                  children: tagsWidget,
                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 20.0.h),
+                child: Text(created!, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
               ),
               const SizedBox(height: 80.0),
               // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
@@ -1098,7 +1126,8 @@ class PostDetailBanner extends StatelessWidget {
     required this.imageUrl,
     required this.title,
     required this.desc,
-    required this.created,
+    required this.startDate,
+    required this.endDate,
     required this.likeCount,
     required this.isLiked,
   });
@@ -1106,7 +1135,8 @@ class PostDetailBanner extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String desc;
-  final String created;
+  final String startDate;
+  final String endDate;
   final String likeCount;
   final bool isLiked;
 
@@ -1181,7 +1211,7 @@ class PostDetailBanner extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            created,
+                            '${startDate.replaceAll('-', '.')}~${endDate.replaceAll('-', '.')}',
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,

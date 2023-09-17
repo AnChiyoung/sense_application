@@ -35,7 +35,7 @@ class _EventFeedListState extends State<EventFeedList> {
           Consumer<EventFeedProvider>(
             builder: (context, data, child) {
 
-              String state = 'created';
+              String state = '-created';
               if(widget.type == 0) {
                 state = data.totalButton;
               } else if(widget.type == 1) {
@@ -52,33 +52,33 @@ class _EventFeedListState extends State<EventFeedList> {
                     GestureDetector(
                         onTap: () {
                           if(widget.type == 0) {
-                            context.read<EventFeedProvider>().totalButtonChange('visit_count');
+                            context.read<EventFeedProvider>().totalButtonChange('-visit_count');
                           } else if(widget.type == 1) {
-                            context.read<EventFeedProvider>().recommendButtonChange('visit_count');
+                            context.read<EventFeedProvider>().recommendButtonChange('-visit_count');
                           }
 
                         },
                         child: Text('인기순',
                             style: TextStyle(
                                 fontSize: 12,
-                                color: state == 'visit_count' ? StaticColor.mainSoft : StaticColor.grey400BB,
-                                fontWeight: state == 'visit_count' ? FontWeight.w700 : FontWeight.w400))),
+                                color: state == '-visit_count' ? StaticColor.mainSoft : StaticColor.grey400BB,
+                                fontWeight: state == '-visit_count' ? FontWeight.w700 : FontWeight.w400))),
                     const SizedBox(width: 8),
                     Image.asset('assets/feed/bar.png', height: 10),
                     const SizedBox(width: 8),
                     GestureDetector(
                         onTap: () {
                           if(widget.type == 0) {
-                            context.read<EventFeedProvider>().totalButtonChange('created');
+                            context.read<EventFeedProvider>().totalButtonChange('-created');
                           } else if(widget.type == 1) {
-                            context.read<EventFeedProvider>().recommendButtonChange('created');
+                            context.read<EventFeedProvider>().recommendButtonChange('-created');
                           }
                         },
                         child: Text('최신순',
                             style: TextStyle(
                                 fontSize: 12,
-                                color: state == 'created' ? StaticColor.mainSoft : StaticColor.grey400BB,
-                                fontWeight: state == 'created' ? FontWeight.w700 : FontWeight.w400))),
+                                color: state == '-created' ? StaticColor.mainSoft : StaticColor.grey400BB,
+                                fontWeight: state == '-created' ? FontWeight.w700 : FontWeight.w400))),
                   ],
                 ),
               );
@@ -134,6 +134,7 @@ class _EventFeedRowState extends State<EventFeedRow> {
   String description = '메모가 없습니다.';
   int visitCount = 0;
   int recommendCount = 0;
+  String remainDayCount = '';
 
   @override
   void initState() {
@@ -141,7 +142,9 @@ class _EventFeedRowState extends State<EventFeedRow> {
     description = eventModel.recommendModel!.memo!;
     profileImage = eventModel.eventHost!.profileImage ?? '';
     title = eventModel.eventTitle ?? '';
-    if(eventModel.eventHost!.username!.length < 3) {
+    if(eventModel.eventHost!.username!.isEmpty) {
+      name = 'Unknown User';
+    } else if(eventModel.eventHost!.username!.length < 3) {
       name = eventModel.eventHost!.username!;
     } else {
       name = nameObscureFunction(eventModel.eventHost!.username!);
@@ -151,6 +154,12 @@ class _EventFeedRowState extends State<EventFeedRow> {
     isRequest = eventCreateGap(eventCreateTime);
     visitCount = eventModel.visitCount!;
     recommendCount = eventModel.recommendCount!;
+    if(eventModel.eventDate!.isEmpty) {
+      remainDayCount = '이벤트 일자 미정';
+    } else {
+      remainDayCount = makeRemainDayCountView(eventModel.eventDate!).toString();
+    }
+
     super.initState();
   }
 
@@ -192,6 +201,13 @@ class _EventFeedRowState extends State<EventFeedRow> {
   bool eventCreateGap(String inputTime) {
     DateTime nowTime = DateTime.now();
     return DateTime.parse(inputTime).isBefore(nowTime);
+  }
+
+  int makeRemainDayCountView(String inputTime) {
+    DateTime nowTime = DateTime.now();
+    DateTime inputTimeConvert = DateTime.parse(inputTime);
+    int remainDay = int.parse(inputTimeConvert.difference(nowTime).inDays.toString());
+    return remainDay;
   }
 
   @override
@@ -239,14 +255,20 @@ class _EventFeedRowState extends State<EventFeedRow> {
           isRequest == false ? const SizedBox.shrink() : SizedBox(height: 8.0.w),
           SizedBox(height: 8.0.h),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-              SizedBox(width: 8.0.w),
-              Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
-              SizedBox(width: 16.0.w),
-              Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-              SizedBox(width: 8.0.w),
-              Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
+              Row(
+                children: [
+                  Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                  SizedBox(width: 8.0.w),
+                  Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
+                  SizedBox(width: 16.0.w),
+                  Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                  SizedBox(width: 8.0.w),
+                  Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
+                ],
+              ),
+              Text(remainDayCount == '이벤트 일자 미정' ? remainDayCount : 'D-$remainDayCount', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.errorColor, fontWeight: FontWeight.w400)),
             ],
           ),
         ],

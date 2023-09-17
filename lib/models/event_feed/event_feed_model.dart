@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
@@ -32,7 +33,7 @@ class EventFeedRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('success to event list load');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      print(body);
+      SenseLogger().debug(body.toString());
       List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromPersonalJson(e)).toList();
       return models;
     } else {

@@ -198,10 +198,6 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
           } else {
             phoneNumberState = false;
           }
-          print(nameState);
-          print(birthdayState);
-          print(genderState);
-          print(phoneNumberState);
           // print(nameState.toString() + '/' + birthdayState.toString() + '/' + genderState.toString() + '/' + phoneNumberState.toString());
           nameState && birthdayState && genderState && phoneNumberState == true ?
             context.read<SigninProvider>().basicInfoButtonStateChange(true, sendNumber.replaceAll('-', '')) :

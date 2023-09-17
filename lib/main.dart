@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/providers.dart';
+import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
@@ -71,6 +72,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => CreateEventImproveProvider()),
           ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
           ChangeNotifierProvider(create: (_) => EventFeedProvider()),
+          ChangeNotifierProvider(create: (_) => AnimationProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),
