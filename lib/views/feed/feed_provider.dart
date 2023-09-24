@@ -333,4 +333,15 @@ class FeedProvider with ChangeNotifier {
     _inputButton = state;
     notifyListeners();
   }
+
+  bool _viewChangeButton = true;
+  bool get viewChangeButton => _viewChangeButton;
+
+  void viewChangeButtonStateReverse(bool state) {
+    _viewChangeButton = state;
+    // if(state == false) {
+    //   notifyListeners();
+    // } else {}
+    notifyListeners();
+  }
 }

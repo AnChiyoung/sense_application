@@ -50,43 +50,43 @@ class _FeedHeaderState extends State<FeedHeader> {
           /// right menu
           Row(
             children: [
-              Material(
-                color: Colors.transparent,
-                child: SizedBox(
-                  width: 40.0.w,
-                  height: 40.0.h,
-                  child: InkWell(
-                      borderRadius: BorderRadius.circular(24),
-                      onTap: () {
-                        /// sprint05
-                      },
-                      child: Center(
-                        child: Image.asset('assets/home/home_search.png', width: 24.0.w, height: 24.0.h)),
-                  ),
-                ),
-              ),
-              SizedBox(width: 4.0.w),
-              Material(
-                color: Colors.transparent,
-                child: SizedBox(
-                  width: 40.0.w,
-                  height: 40.0.h,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(24),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return ServiceGuideDialog();
-                          });
-                    },
-                    child: Center(
-                      child: Image.asset('assets/home/home_alarm.png', width: 24.0.w, height: 24.0.h)),
-                  ),
-                ),
-              ),
-              SizedBox(width: 4.0.w),
+              // Material(
+              //   color: Colors.transparent,
+              //   child: SizedBox(
+              //     width: 40.0.w,
+              //     height: 40.0.h,
+              //     child: InkWell(
+              //         borderRadius: BorderRadius.circular(24),
+              //         onTap: () {
+              //           /// sprint05
+              //         },
+              //         child: Center(
+              //           child: Image.asset('assets/home/home_search.png', width: 24.0.w, height: 24.0.h)),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(width: 4.0.w),
+              // Material(
+              //   color: Colors.transparent,
+              //   child: SizedBox(
+              //     width: 40.0.w,
+              //     height: 40.0.h,
+              //     child: InkWell(
+              //       borderRadius: BorderRadius.circular(24),
+              //       onTap: () {
+              //         // showDialog(
+              //         //     context: context,
+              //         //     barrierDismissible: false,
+              //         //     builder: (BuildContext context) {
+              //         //       return ServiceGuideDialog();
+              //         //     });
+              //       },
+              //       child: Center(
+              //         child: Image.asset('assets/home/home_alarm.png', width: 24.0.w, height: 24.0.h)),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(width: 4.0.w),
               Material(
                 color: Colors.transparent,
                 child: SizedBox(
@@ -300,9 +300,9 @@ class _FeedTagListState extends State<FeedTagList> {
           builder: (context, snapshot) {
             List<TagModel>? tagModels = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              return const SizedBox.shrink();
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Data fetching..'));
+              return const SizedBox.shrink();
             } else {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -510,10 +510,12 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
             builder: (context, snapshot) {
 
               if(snapshot.hasError) {
-                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                return const SizedBox.shrink();
+                // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               } else if(snapshot.hasData) {
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return const SizedBox.shrink();
+                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   List<FeedPreviewModel>? model = snapshot.data;
@@ -528,10 +530,12 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
 
 
                 } else {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return const SizedBox.shrink();
+                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }
               } else {
-                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                return const SizedBox.shrink();
+                // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               }
 
 

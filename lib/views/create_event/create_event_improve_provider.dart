@@ -2,6 +2,17 @@ import 'package:flutter/cupertino.dart';
 
 class CreateEventImproveProvider with ChangeNotifier {
 
+  int _visitCount = 0;
+  int get visitCount => _visitCount;
+  int _recommendCount = 0;
+  int get recommendCount => _recommendCount;
+
+  void countInfoChange(int visit, int recommend) {
+    _visitCount = visit;
+    _recommendCount = recommend;
+    // notifyListeners();
+  }
+
   /// create event step
   /// 0 : 이벤트 유형
   /// 1 : 이벤트 대상
@@ -93,7 +104,7 @@ class CreateEventImproveProvider with ChangeNotifier {
 
   void saveCategoryChange(int? state, bool notify) {
     if(state == null) {
-      print('eidt select : $_selectCategory');
+      print('edit select : $_selectCategory');
       _category = _selectCategory;
     } else {
       _category = state;
@@ -215,10 +226,47 @@ class CreateEventImproveProvider with ChangeNotifier {
     _selectTarget = target - 1;
     _selectDate = date;
     _eventInfoTabState = [true, false];
+    _visitCount = 0;
+    _recommendCount = 0;
   }
 
   void drawerDataLoad(bool alarm, String publicType) {
     _isAlarm = alarm;
     _publicType = publicType;
+  }
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  void isLoadingStateChange(bool state) {
+    _isLoading = state;
+    notifyListeners();
+  }
+
+
+
+
+  String _public = '-visit_count';
+  String get public => _public;
+
+  void totalButtonChange(String state) {
+    _public = state;
+    notifyListeners();
+  }
+
+  String _recommendCommentString = '';
+  String get recommendCommentString => _recommendCommentString;
+
+  void recommendCommentChange(String state) {
+    _recommendCommentString = state;
+    notifyListeners();
+  }
+
+  int _useRebuild = 0;
+  int get useRebuild => _useRebuild;
+
+  void useRebuildChange() {
+    _useRebuild++;
+    notifyListeners();
   }
 }

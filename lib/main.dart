@@ -5,7 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/providers.dart';
+import 'package:sense_flutter_application/views/home/home_provider.dart';
 import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
@@ -22,6 +22,7 @@ import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
+import 'package:sense_flutter_application/views/store/store_provider.dart';
 import 'models/login/login_provider.dart';
 import 'native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -56,7 +57,7 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (_) => LoginProvider()),
           ChangeNotifierProvider(create: (_) => SigninProvider()),
-          ChangeNotifierProvider(create: (_) => HomeMenuProvider()),
+          ChangeNotifierProvider(create: (_) => HomeProvider()),
           ChangeNotifierProvider(create: (_) => CalendarProvider()),
           ChangeNotifierProvider(create: (_) => TermProvider()),
           ChangeNotifierProvider(create: (_) => StepProvider()),
@@ -73,6 +74,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
           ChangeNotifierProvider(create: (_) => EventFeedProvider()),
           ChangeNotifierProvider(create: (_) => AnimationProvider()),
+          ChangeNotifierProvider(create: (_) => StoreProvider()),
           // 여기에 추가하시면 되여
         ],
         child: const MyApp(),

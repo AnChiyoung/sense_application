@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/views/store/store_empty_view.dart';
 import 'package:sense_flutter_application/views/store/store_view.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -11,6 +12,22 @@ class StoreScreen extends StatefulWidget {
 class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) {
-    return StoreView();
+    /// empty page
+    return StoreEmptyView();
+
+    // return Scaffold(
+    //   body: SafeArea(
+    //     top: true,
+    //     bottom: false,
+    //     child: Column(
+    //       children: [
+    //         StoreHeader(),
+    //         Expanded(
+    //           child: SingleChildScrollView(
+    //             child: StoreContent())),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
@@ -8,6 +9,8 @@ import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 import 'package:sense_flutter_application/screens/old_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/store/store_screen.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
+import 'package:sense_flutter_application/views/home/home_provider.dart';
 import '../../public_widget/login_dialog.dart';
 
 class MovePageList {
@@ -88,6 +91,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     onTap: () {
                       widget.selectCallback(0);
                       pageIndex = 0;
+                      context.read<HomeProvider>().selectHomeIndexChange(0, false);
                     },
                     child: bottomNavigationBarItem('assets/home/home.png', 24.0, '홈', 0))),
               ),
@@ -102,13 +106,14 @@ class _BottomMenuState extends State<BottomMenu> {
                         onTap: () {
                           widget.selectCallback(1);
                           pageIndex = 1;
-                          // showDialog(
-                          //   context: context,
-                          //   barrierDismissible: false,
-                          //   builder: (BuildContext context) {
-                          //     return const ServiceGuideDialog();
-                          //   }
-                          // );
+                          context.read<HomeProvider>().selectHomeIndexChange(1, false);
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return const ServiceGuideDialog();
+                            }
+                          );
                         },
                         child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
               ),
@@ -123,9 +128,9 @@ class _BottomMenuState extends State<BottomMenu> {
                         onTap: () {
                           widget.selectCallback(2);
                           pageIndex = 2;
+                          context.read<HomeProvider>().selectHomeIndexChange(2, false);
                           // showDialog(
                           //     context: context,
-                          //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                           //     barrierDismissible: false,
                           //     builder: (BuildContext context) {
                           //       return const ServiceGuideDialog();
@@ -145,9 +150,9 @@ class _BottomMenuState extends State<BottomMenu> {
                         onTap: () {
                           widget.selectCallback(3);
                           pageIndex = 3;
+                          context.read<HomeProvider>().selectHomeIndexChange(3, false);
                           // showDialog(
                           //     context: context,
-                          //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
                           //     barrierDismissible: false,
                           //     builder: (BuildContext context) {
                           //       return const ServiceGuideDialog();

@@ -1,7 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_detail_view.dart';
+import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
 abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련 기능, ui랑 분리가 되어있다.
@@ -72,18 +76,32 @@ class FeedPostCarouselCard extends _BasePostCard {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 8,
-            offset: const Offset(0, 8),
-            color: Colors.black.withOpacity(0.4),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     blurRadius: 8,
+        //     offset: const Offset(0, 8),
+        //     color: Colors.black.withOpacity(0.4),
+        //   ),
+        // ],
       ),
       child: AspectRatio(
         aspectRatio: 0.7,
         child: Image.network(
           imageUrl,
+          loadingBuilder: (context, child, loadingProgress) {
+            if(loadingProgress == null) {
+              return CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fitHeight);
+            } else {
+              return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 70.0.w,),
+                  decoration: BoxDecoration(
+                    color: StaticColor.grey200EE,
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: Image.asset('assets/public/loading_logo_image.png', width: 30.0.w,),
+              );
+            }
+          },
           fit: BoxFit.cover,
         ),
       ),
@@ -124,39 +142,6 @@ class FeedPostCarouselCard extends _BasePostCard {
         ],
       ),
     );
-    // return Positioned.fill(
-    //   top: halfScreenWidth,
-    //   child: Padding(
-    //     padding: const EdgeInsets.symmetric(
-    //       horizontal: 20,
-    //     ),
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         Text(
-    //           title,
-    //           style: const TextStyle(
-    //             fontSize: 30,
-    //             fontWeight: FontWeight.w700,
-    //             color: Colors.white,
-    //           ),
-    //           maxLines: 2,
-    //           overflow: TextOverflow.ellipsis,
-    //         ),
-    //         Text(
-    //           subTitle!,
-    //           style: const TextStyle(
-    //             fontSize: 16,
-    //             fontWeight: FontWeight.w400,
-    //             color: Colors.white,
-    //           ),
-    //           maxLines: 2,
-    //           overflow: TextOverflow.ellipsis,
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 
@@ -177,20 +162,41 @@ class FeedPostGridCard extends _BasePostCard {
       height: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-            color: Colors.black.withOpacity(0.2),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     blurRadius: 4,
+        //     offset: const Offset(0, 2),
+        //     color: Colors.black.withOpacity(0.2),
+        //   ),
+        // ],
       ),
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
+      child: AspectRatio(
+        aspectRatio: 0.7,
+        child: Image.network(
+          imageUrl,
+          loadingBuilder: (context, child, loadingProgress) {
+            if(loadingProgress == null) {
+              return CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fitHeight);
+            } else {
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 35.0.w,),
+                decoration: BoxDecoration(
+                  color: StaticColor.grey200EE,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Image.asset('assets/public/loading_logo_image.png', width: 30.0.w,),
+              );
+            }
+          },
+          fit: BoxFit.cover,
+        ),
       ),
+      // child: Image.network(
+      //   imageUrl,
+      //   fit: BoxFit.cover,
+      //   width: double.infinity,
+      //   height: double.infinity,
+      // ),
     );
   }
 
@@ -257,7 +263,6 @@ class FeedPostGridCard extends _BasePostCard {
 ///
 /// 피드에서 포스트 리스트를 보여주는 위젯
 class FeedPostListPresenter extends StatefulWidget {
-  // final List<FeedPostModel> feedPosts;
   final List<FeedPreviewModel> feedPosts;
   const FeedPostListPresenter({Key? key, required this.feedPosts}) : super(key: key);
 
@@ -273,6 +278,14 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
   @override
   void initState() {
     _pageController = PageController();
+    _pageController.addListener(() {
+      // _pageController.
+      // print(_pageController.page);
+      // _pageController.page != 0.0 ?
+      //     context.read<FeedProvider>().viewChangeButtonStateReverse(true) :
+      //     context.read<FeedProvider>().viewChangeButtonStateReverse(false);
+    });
+    // _pageController.position
     super.initState();
   }
 
@@ -300,7 +313,6 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
       for (var feedPost in widget.feedPosts) {
         items.add(FeedPostCarouselCard(
           id: feedPost.id!,
-          // id: 5, // 여기 수정해야 함
           title: feedPost.title!,
           subTitle: feedPost.subTitle!,
           imageUrl: feedPost.thumbnailUrl!,
@@ -349,30 +361,38 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
           padding: const EdgeInsets.only(top: 8),
           child: feedPostsWidget,
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 16,
-          child: Center(
-            child: ElevatedButton.icon(
-              onPressed: toggleCarousel,
-              icon: Icon(
-                switchButtonIcon,
-                size: 24,
-              ),
-              label: Text(switchButtonText),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF333333),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
+        Consumer<FeedProvider>(
+          builder: (context, data, child) {
+
+            bool buttonState = data.viewChangeButton;
+
+            return buttonState == false ? const SizedBox.shrink()
+            : Positioned(
+              left: 0,
+              right: 0,
+              bottom: 16,
+              child: Center(
+                child: ElevatedButton.icon(
+                  onPressed: toggleCarousel,
+                  icon: Icon(
+                    switchButtonIcon,
+                    size: 24,
+                  ),
+                  label: Text(switchButtonText),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF333333),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
               ),
-            ),
-          ),
+            );
+          }
         ),
       ],
     );

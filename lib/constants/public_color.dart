@@ -26,11 +26,12 @@ class StaticColor {
   static Color bottomButtonColor = const Color(0xFF2288FF);
 
   static Color eventBoxColor = const Color(0xFFF6F6F6);
-  static Color birthdayLabelColor = const Color(0xFFFFB45B);
+  static Color markerDefaultColor = const Color(0xFF3E97FF);
+  static Color birthdayLabelColor = const Color(0xFFFA8836);
   static Color dateLabelColor = const Color(0xFFFF7B8B);
-  static Color travelLabelColor = const Color(0xFF000000);
+  static Color travelLabelColor = const Color(0xFF00CB9A);
   static Color meetLabelColor = const Color(0xFF91C300);
-  static Color businessLabelColor = const Color(0xFF6E79DD);
+  static Color businessLabelColor = const Color(0xFFA479FF);
 
   static Color candyColor = const Color(0xFFFF7B8B);
   static Color saltyColor = const Color(0xFFA479FF);

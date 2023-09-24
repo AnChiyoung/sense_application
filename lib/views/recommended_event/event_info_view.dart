@@ -846,7 +846,7 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
             ElevatedButton(
               onPressed: () {
                 AddEventModel.editorMode = true;
-                Navigator.of(context).push(MaterialPageRoute(builder: (_) => PresentMemoScreen()));
+                // Navigator.of(context).push(MaterialPageRoute(builder: (_) => PresentMemoScreen()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
               child: Container(
@@ -915,7 +915,7 @@ class _EventInfoRecommendedSectionState extends State<EventInfoRecommendedSectio
           child: ElevatedButton(
               onPressed: () {
                 print(AddEventModel.recommendedModel);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedScreen()));
+                // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedScreen()));
               },
               style: ElevatedButton.styleFrom(backgroundColor: StaticColor.eventInfoRecommendedBoxColor, elevation: 0.0),
               child: Row(

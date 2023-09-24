@@ -306,7 +306,7 @@ class _RegionSelectNextButtonState extends State<RegionSelectNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => PresentMemoScreen())) : (){};
+              // buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => PresentMemoScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
             child: Column(

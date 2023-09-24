@@ -19,6 +19,7 @@ class _PolicyScreenState extends State<PolicyScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
@@ -31,7 +32,8 @@ class _PolicyScreenState extends State<PolicyScreen> {
                 height: 1.0.h,
                 color: StaticColor.grey300E0,
               ),
-              // PolicyContent(),
+              // Text('aa')
+              PolicyContent(),
               // WithdrawalDescription(),
               // WithdrawalLoginView(),
               // SettingContent(),

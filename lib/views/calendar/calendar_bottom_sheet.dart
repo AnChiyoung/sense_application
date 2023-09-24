@@ -49,7 +49,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
               color: Colors.white,
             ),
             onEnd: () {
-              dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month);
+              dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week, true) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month, true);
             },
             /// bottom sheet screen area
             child: child,
@@ -58,7 +58,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
         child: Column(
           children: [
             /// event header + event header menu => event list area
-            EventList(),
+            // EventList(),
           ],
         ),
       )

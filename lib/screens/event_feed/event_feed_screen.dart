@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_tab.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_tabbarview.dart';
+import 'package:sense_flutter_application/views/event_feed/event_feed_total.dart';
 
 class EventFeedScreen extends StatefulWidget {
   const EventFeedScreen({super.key});
@@ -32,10 +33,11 @@ class _EventFeedScreenState extends State<EventFeedScreen> with SingleTickerProv
         body: SafeArea(
           child: Column(
             children: [
-              EventFeedTab(tabController: tabController),
-              Expanded(
-                child: EventFeedTabBarView(tabController: tabController,),
-              )
+              // EventFeedTab(tabController: tabController),
+              // Expanded(
+              //   child: EventFeedTabBarView(tabController: tabController,),
+              // )
+              Expanded(child: EventFeedTotal()),
             ]
           )
         ),

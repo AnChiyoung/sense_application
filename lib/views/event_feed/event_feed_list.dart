@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
 
 class EventFeedList extends StatefulWidget {
@@ -43,7 +45,7 @@ class _EventFeedListState extends State<EventFeedList> {
               }
 
               return Padding(
-                padding: EdgeInsets.only(top: 16.0.h),
+                padding: EdgeInsets.only(top: 16.0.h, bottom: 16.0.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -85,19 +87,23 @@ class _EventFeedListState extends State<EventFeedList> {
             }
           ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: modelList.length,
-              itemBuilder: (context, index) {
-                // return Container();
-                return Column(
-                  children: [
-                    EventFeedRow(eventModel: modelList.elementAt(index)),
-                    // index == modelList.length - 1 ? const SizedBox.shrink() : dividerWidget(),
-                    dividerWidget()
-                  ],
-                );
-              },
+            child: ScrollConfiguration(
+              behavior: const ScrollBehavior().copyWith(overscroll: false),
+              child: ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: modelList.length,
+                itemBuilder: (context, index) {
+                  // return Container();
+                  return Column(
+                    children: [
+                      EventFeedRow(eventModel: modelList.elementAt(index)),
+                      // indexß == modelList.length - 1 ? const SizedBox.shrink() : dividerWidget(),
+                      dividerWidget()
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -143,7 +149,13 @@ class _EventFeedRowState extends State<EventFeedRow> {
     profileImage = eventModel.eventHost!.profileImage ?? '';
     title = eventModel.eventTitle ?? '';
     if(eventModel.eventHost!.username!.isEmpty) {
-      name = 'Unknown User';
+      if(eventModel.eventHost!.name!.isEmpty) {
+        name = 'Unknown User';
+      } else if(eventModel.eventHost!.name!.length < 3) {
+        name = eventModel.eventHost!.name!;
+      } else {
+        name = nameObscureFunction(eventModel.eventHost!.name!);
+      }
     } else if(eventModel.eventHost!.username!.length < 3) {
       name = eventModel.eventHost!.username!;
     } else {
@@ -157,7 +169,13 @@ class _EventFeedRowState extends State<EventFeedRow> {
     if(eventModel.eventDate!.isEmpty) {
       remainDayCount = '이벤트 일자 미정';
     } else {
-      remainDayCount = makeRemainDayCountView(eventModel.eventDate!).toString();
+      if(makeRemainDayCountView(eventModel.eventDate!) > 0) {
+        remainDayCount = 'D-${makeRemainDayCountView(eventModel.eventDate!).toString()}';
+      } else if(makeRemainDayCountView(eventModel.eventDate!) == 0) {
+        remainDayCount = 'D-DAY';
+      } else {
+        remainDayCount = '이벤트 일자 경과';
+      }
     }
 
     super.initState();
@@ -212,66 +230,75 @@ class _EventFeedRowState extends State<EventFeedRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 24.0.h),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  UserProfileImage(profileImageUrl: profileImage, size: 32),
-                  SizedBox(width: 8.0.w),
-                  Text(name, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                  SizedBox(width: 8.0.w),
-                  Image.asset('assets/feed/comment_dot.png', width: 3.0, height: 3.0),
-                  SizedBox(width: 8.0.w),
-                  Text(createTime, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                ]
-              ),
-              isRequest == true ? requestWidget() : reviewWidget(),
-
-            ],
-          ),
-          SizedBox(height: 16.0.h),
-          Row(
-            children: [
-              isRequest == false ? eventImageWidget() : const SizedBox.shrink(), // 후기에만 사진
-              isRequest == true ? const SizedBox.shrink() : SizedBox(width: 12.0.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: () {
+        print('visit count: $visitCount');
+        // context.read<CreateEventImproveProvider>().countInfoChange(visitCount, recommendCount);
+        context.read<CreateEventImproveProvider>().createEventUniqueId(eventModel.id!);
+        Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: visitCount, recommendCount: recommendCount)));
+      },
+      child: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        padding: EdgeInsets.symmetric(vertical: 24.0.h),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
                   children: [
-                    titleWidget(title),
-                    SizedBox(height: 8.0.h),
-                    descriptionWidget(description),
+                    UserProfileImage(profileImageUrl: profileImage, size: 32),
+                    SizedBox(width: 8.0.w),
+                    Text(name, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                    SizedBox(width: 8.0.w),
+                    Image.asset('assets/feed/comment_dot.png', width: 3.0, height: 3.0),
+                    SizedBox(width: 8.0.w),
+                    Text(createTime, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                  ]
+                ),
+                isRequest == true ? requestWidget() : reviewWidget(),
+
+              ],
+            ),
+            SizedBox(height: 16.0.h),
+            Row(
+              children: [
+                isRequest == false ? eventImageWidget() : const SizedBox.shrink(), // 후기에만 사진
+                isRequest == true ? const SizedBox.shrink() : SizedBox(width: 12.0.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      titleWidget(title),
+                      SizedBox(height: 8.0.h),
+                      descriptionWidget(description),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            isRequest == false ? const SizedBox.shrink() : SizedBox(height: 8.0.w),
+            SizedBox(height: 8.0.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                    SizedBox(width: 8.0.w),
+                    Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
+                    SizedBox(width: 16.0.w),
+                    Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                    SizedBox(width: 8.0.w),
+                    Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
                   ],
                 ),
-              ),
-            ],
-          ),
-          isRequest == false ? const SizedBox.shrink() : SizedBox(height: 8.0.w),
-          SizedBox(height: 8.0.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                  SizedBox(width: 8.0.w),
-                  Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
-                  SizedBox(width: 16.0.w),
-                  Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                  SizedBox(width: 8.0.w),
-                  Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
-                ],
-              ),
-              Text(remainDayCount == '이벤트 일자 미정' ? remainDayCount : 'D-$remainDayCount', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.errorColor, fontWeight: FontWeight.w400)),
-            ],
-          ),
-        ],
+                Text(remainDayCount, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.errorColor, fontWeight: FontWeight.w400)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

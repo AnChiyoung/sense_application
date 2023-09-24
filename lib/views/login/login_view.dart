@@ -289,13 +289,17 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
                   SizedBox(width: 4.0.w),
                   Padding(
                     padding: EdgeInsets.only(bottom: 3.0.h),
-                    child: Text('카카오로 로그인',
+                    child: Text(
+                      '카카오로 로그인',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                         fontSize: 14.0.sp,
                         // textBaseline: TextBaseline.alphabetic,
                         color: StaticColor.loginTextColor02,
-                        fontWeight: FontWeight.w600)),
+                        fontWeight: FontWeight.w600,
+                        height: 1.5
+                      ),
+                    ),
                   ),
                 ],
               ),

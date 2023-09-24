@@ -6,7 +6,9 @@ import 'package:sense_flutter_application/screens/event_info/event_plan.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_content_recommend.dart';
 
 class EventContent extends StatefulWidget {
-  const EventContent({super.key});
+  int visitCount;
+  int recommendCount;
+  EventContent({super.key, required this.visitCount, required this.recommendCount});
 
   @override
   State<EventContent> createState() => _EventContentState();
@@ -27,7 +29,7 @@ class _EventContentState extends State<EventContent> {
           if(data.eventInfoTabState.indexOf(true) == 0) {
             return EventPlan();
           } else if(data.eventInfoTabState.indexOf(true) == 1) {
-            return EventRecommend();
+            return EventRecommend(visitCount: widget.visitCount, recommendCount: widget.recommendCount);
           } else {
             return const Center(child: Text('Data fetching..', style: TextStyle(color: Colors.black)));
           }

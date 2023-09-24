@@ -4,17 +4,27 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 
 class HeaderMenu extends StatefulWidget {
   Function? backCallback;
+  bool? isBackClose;
   String? title;
   Function? closeCallback;
   Widget? rightMenu;
   TextStyle? titleStyle;
-  HeaderMenu({Key? key, this.backCallback, this.title, this.closeCallback, this.rightMenu, this.titleStyle}) : super(key: key);
+  HeaderMenu({Key? key, this.backCallback, this.isBackClose, this.title, this.closeCallback, this.rightMenu, this.titleStyle}) : super(key: key);
 
   @override
   State<HeaderMenu> createState() => _HeaderMenuState();
 }
 
 class _HeaderMenuState extends State<HeaderMenu> {
+
+  bool isBackClose = false;
+
+  @override
+  void initState() {
+    isBackClose = widget.isBackClose ?? false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,15 +45,18 @@ class _HeaderMenuState extends State<HeaderMenu> {
                     onTap: () {
                       widget.backCallback?.call();
                     },
-                    child: Center(child: Image.asset('assets/create_event/button_back.png', width: 24.w, height: 24.h)),
+                    child: Center(child: Image.asset(isBackClose == true ? 'assets/signin/button_close.png' : 'assets/create_event/button_back.png', width: 24.w, height: 24.h)),
                   ),
                 ),
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(widget.title ?? '', style: widget.titleStyle ?? TextStyle(fontSize: 16.sp, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500)),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 70.0.w),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(widget.title ?? '', style: widget.titleStyle ?? TextStyle(fontSize: 16.sp, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis,),
+            ),
           ),
           widget.rightMenu == null ? Container() : Align(alignment: Alignment.centerRight, child: Padding(padding: EdgeInsets.only(right: 18.w), child: widget.rightMenu!)),
           widget.closeCallback == null  ? Container() : Align(

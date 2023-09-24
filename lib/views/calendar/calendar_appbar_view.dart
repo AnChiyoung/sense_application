@@ -25,8 +25,6 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
     selectMonth = monthList.elementAt(1);
   }
 
-
-
   @override
   void initState() {
     monthListCreate();
@@ -45,22 +43,6 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(children: [
-              // bottom sheet full drag up -> page release -> button visible
-              // Visibility(
-              //   // visible: context.watch<PageProvider>().isBuilderPage,
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       // context.read<PageProvider>().pageChangeBuilder(false, CalendarFormat.month);
-              //       // context.read<PageProvider>().bottomSheetHeightController(false);
-              //     },
-              //     child: Row(
-              //       children: [
-              //         Image.asset('assets/calendar/only_schedule_page_backbutton.png', width: 10.85, height: 18.95),
-              //         SizedBox(width: 14.73),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               GestureDetector(
                 onTap: () {},
                 child: Row(
@@ -76,65 +58,66 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Tooltip(
-                  message: '캘린더',
-                  child: GestureDetector(
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      child: Image.asset('assets/calendar/action_blank.png', color: Colors.black, width: 24, height: 24),
-                    ),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return ServiceGuideDialog();
-                          });
-                      print('tap the blank calendar');}
-                  ),
-                ),
-                SizedBox(width: 16),
-                Tooltip(
-                  message: '검색',
-                  child: GestureDetector(
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        child: Image.asset('assets/calendar/action_search.png', color: Colors.black, width: 24, height: 24),
-                      ),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return const ServiceGuideDialog();
-                            });
-                        print('tap the search');}
-                  ),
-                ),
-                SizedBox(width: 16),
-                Tooltip(
-                  message: '알람',
-                  child: GestureDetector(
-                      child: Container(
-                        width: 24,
-                        height: 24,
-                        child: Image.asset('assets/calendar/action_bell.png', color: Colors.black, width: 24, height: 24),
-                      ),
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return const ServiceGuideDialog();
-                            });
-                        print('tap the alarm');}
-                  ),
-                ),
+                // Tooltip(
+                //   message: '캘린더',
+                //   child: GestureDetector(
+                //     child: Container(
+                //       width: 24,
+                //       height: 24,
+                //       child: Image.asset('assets/calendar/action_blank.png', color: Colors.black, width: 24, height: 24),
+                //     ),
+                //     onTap: () {
+                //       /// 연도 월 선택
+                //       showDialog(
+                //           context: context,
+                //           //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                //           barrierDismissible: false,
+                //           builder: (BuildContext context) {
+                //             return ServiceGuideDialog();
+                //           });
+                //       print('tap the blank calendar');}
+                //   ),
+                // ),
+                // SizedBox(width: 16),
+                // Tooltip(
+                //   message: '검색',
+                //   child: GestureDetector(
+                //       child: Container(
+                //         width: 24,
+                //         height: 24,
+                //         child: Image.asset('assets/calendar/action_search.png', color: Colors.black, width: 24, height: 24),
+                //       ),
+                //       onTap: () {
+                //         showDialog(
+                //             context: context,
+                //             //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                //             barrierDismissible: false,
+                //             builder: (BuildContext context) {
+                //               return const ServiceGuideDialog();
+                //             });
+                //         print('tap the search');}
+                //   ),
+                // ),
+                // SizedBox(width: 16),
+                // Tooltip(
+                //   message: '알람',
+                //   child: GestureDetector(
+                //       child: Container(
+                //         width: 24,
+                //         height: 24,
+                //         child: Image.asset('assets/calendar/action_bell.png', color: Colors.black, width: 24, height: 24),
+                //       ),
+                //       onTap: () {
+                //         showDialog(
+                //             context: context,
+                //             //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+                //             barrierDismissible: false,
+                //             builder: (BuildContext context) {
+                //               return const ServiceGuideDialog();
+                //             });
+                //         print('tap the alarm');}
+                //   ),
+                // ),
               ]
             ),
           ],

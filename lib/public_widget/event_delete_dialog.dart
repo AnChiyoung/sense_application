@@ -74,12 +74,11 @@ class _EventDeleteDialogState extends State<EventDeleteDialog> {
                     /// delete success
                     if(deleteResult == true) {
                       Navigator.of(context).pop();
-                      context.read<CreateEventProvider>().eventInitialize();
+                      context.read<CreateEventImproveProvider>().createEventClear(true);
                       Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
                     } else {
                       /// delete fail
                     }
-
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('확인', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

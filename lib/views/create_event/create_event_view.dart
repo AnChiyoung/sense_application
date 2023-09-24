@@ -467,32 +467,38 @@ class _CreateEventButtonState extends State<CreateEventButton> {
       builder: (context, data, child) {
 
         bool buttonState = data.createEventButtonState;
+        bool multipleListenerNonActive = false;
 
-        return SizedBox(
-          width: double.infinity,
-          height: 70.h,
-          child: ElevatedButton(
-              onPressed: () async {
-                if(buttonState == true) {
-                  bool result = await EventRequest().eventCreateRequest(context);
-                  if(result == true) {
-                    context.read<CreateEventImproveProvider>().createEventClear(false);
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen()));
-                    // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoLoadView()));
+        return IgnorePointer(
+          ignoring: multipleListenerNonActive,
+          child: SizedBox(
+            width: double.infinity,
+            height: 70.h,
+            child: ElevatedButton(
+                onPressed: () async {
+                  if(buttonState == true) {
+                    bool result = await EventRequest().eventCreateRequest(context);
+                    multipleListenerNonActive = true;
+                    if(result == true) {
+                      context.read<CreateEventImproveProvider>().createEventClear(false);
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
+                      multipleListenerNonActive = false;
+                      // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoLoadView()));
+                    } else {
+                      /// nothing!!!
+                    }
                   } else {
                     /// nothing!!!
                   }
-                } else {
-                  /// nothing!!!
-                }
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: buttonState == false ? StaticColor.grey400BB : StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-              child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
-                  ]
-              )
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: buttonState == false ? StaticColor.grey400BB : StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+                child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 56, child: Center(child: Text('완료', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
+                    ]
+                )
+            ),
           ),
         );
       }

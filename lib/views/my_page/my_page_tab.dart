@@ -83,7 +83,7 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
                 child: Center(child: Text('아직 게시글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
               ),
               Container(
-                  child: Center(child: Text('아직 게시글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
+                  child: Center(child: Text('아직 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
               ),
               Container(
                   child: Column(

@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
@@ -71,7 +72,6 @@ class EventRequest {
       print(jsonResult);
       EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
       return eventModel;
-      // return EventModel();
     } else {
       logger.v('fail to personal event load');
       return EventModel();
@@ -201,6 +201,8 @@ class EventRequest {
       fieldModel['public_type'] = context.read<CreateEventImproveProvider>().publicType;
     }
 
+    SenseLogger().debug(fieldModel.toString());
+
     final response = await http.patch(
         Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
         body: jsonEncode(fieldModel),
@@ -273,17 +275,17 @@ class EventModel {
   // RecommendCategory? recommendCategory;
 
   EventModel({
-    this.id,
+    this.id = -1,
     this.eventHost,
-    this.eventTitle,
-    this.description,
-    this.totalBudget,
-    this.eventDate,
-    this.created,
-    this.visitCount,
-    this.recommendCount,
-    this.isAlarm,
-    this.publicType,
+    this.eventTitle = '',
+    this.description = '',
+    this.totalBudget = -1,
+    this.eventDate = '',
+    this.created = '',
+    this.visitCount = 0,
+    this.recommendCount = 0,
+    this.isAlarm = false,
+    this.publicType = 'PUBLIC',
     this.eventCategoryObject,
     this.targetCategoryObject,
     this.recommendModel,
@@ -336,7 +338,7 @@ class EventModel {
     publicType = json['public_type'] ?? 'PUBLIC';
     eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : EventCategory(id: -1, title: '');
     targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
-    // recommendModel = (json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel);
+    recommendModel = (json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel);
     city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: -1, title: '');
 
     // recommendCategory = json['recommend_category'] ?? '';
@@ -388,11 +390,11 @@ class EventHost {
   String? profileImage;
 
   EventHost({
-    this.id,
-    this.name,
-    this.email,
-    this.username,
-    this.profileImage,
+    this.id = -1,
+    this.name = '',
+    this.email = '',
+    this.username = '',
+    this.profileImage = '',
   });
 
   EventHost.fromJson(dynamic json) {
@@ -409,8 +411,8 @@ class EventCategory {
   String? title;
 
   EventCategory({
-    this.id,
-    this.title,
+    this.id = -1,
+    this.title = '',
   });
 
   EventCategory.fromJson(dynamic json) {
@@ -424,8 +426,8 @@ class ContactCategory {
   String? title;
 
   ContactCategory({
-    this.id,
-    this.title,
+    this.id = -1,
+    this.title = '',
   });
 
   ContactCategory.fromJson(dynamic json) {
@@ -439,8 +441,8 @@ class City {
   String? title;
 
   City({
-    this.id,
-    this.title,
+    this.id = -1,
+    this.title = '',
   });
 
   City.fromJson(dynamic json) {

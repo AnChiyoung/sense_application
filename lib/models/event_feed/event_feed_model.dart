@@ -23,7 +23,7 @@ class EventFeedRequest {
 
     final response = await http.get(
       // Uri.parse('${ApiUrl.releaseUrl}/events?is_participated=false'),
-      Uri.parse('${ApiUrl.releaseUrl}/events?is_recommend_requested=true&ordering=$filter'),
+      Uri.parse('${ApiUrl.releaseUrl}/events?is_recommend_requested=true&ordering=$filter&page=1&page_size=50'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'

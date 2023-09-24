@@ -5,7 +5,6 @@
 class ApiUrl {
   static String devUrl = 'https://server.dev.sens.im/api/v1';
   static String stagingUrl = 'https://server.sens.im/api/v1';
-  static String liveUrl = 'https://sens.im/api/v1';
 
   static String releaseUrl = stagingUrl;
 // post create event model

@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_header.dart';
+import 'package:sense_flutter_application/views/home/home_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/event_info_view.dart';
 import 'package:sense_flutter_application/views/event_info/improve/event_info_load_view.dart';
 
 class EventInfoScreen extends StatefulWidget {
-  const EventInfoScreen({super.key});
+  int visitCount;
+  int recommendCount;
+  EventInfoScreen({super.key, required this.visitCount, required this.recommendCount});
 
   @override
   State<EventInfoScreen> createState() => _EventInfoScreenState();
@@ -15,6 +18,16 @@ class EventInfoScreen extends StatefulWidget {
 class _EventInfoScreenState extends State<EventInfoScreen> {
 
   final GlobalKey<ScaffoldState> key = GlobalKey();
+
+  @override
+  void initState() {
+    if(context.read<HomeProvider>().selectHomeIndex == 2) {
+      context.read<CreateEventImproveProvider>().eventInfoTabStateChange([false, true]);
+    } else {
+      context.read<CreateEventImproveProvider>().eventInfoTabStateChange([true, false]);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +43,17 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
       body: SafeArea(
         top: true,
         bottom: false,
-        child: Stack(
-          children: [
-            // EventGuideView(),
-            Column(
-              children: [
-                EventInfoLoadView(),
-              ],
-            ),
-          ],
-        ),
+        child: EventInfoLoadView(visitCount: widget.visitCount, recommendCount: widget.recommendCount),
+        // Stack(
+        //   children: [
+        //     // EventGuideView(),
+        //     Column(
+        //       children: [
+        //
+        //       ],
+        //     ),
+        //   ],
+        // ),
       ),
     );
   }

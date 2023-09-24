@@ -70,3 +70,4 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, 1, 1);
 final kLastDay = DateTime(kToday.year + 3, 12, 31);
+

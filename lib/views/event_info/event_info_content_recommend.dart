@@ -13,7 +13,9 @@ import 'package:sense_flutter_application/views/event_info/event_recommend_step_
 import 'package:sense_flutter_application/views/event_info/event_recommend_step_memo.dart';
 
 class EventRecommend extends StatefulWidget {
-  const EventRecommend({super.key});
+  int visitCount;
+  int recommendCount;
+  EventRecommend({super.key, required this.visitCount, required this.recommendCount});
 
   @override
   State<EventRecommend> createState() => _EventRecommendState();
@@ -38,58 +40,47 @@ class _EventRecommendState extends State<EventRecommend> {
             RecommendRequestModel model = eventModel.recommendModel ?? RecommendRequestModel.initModel;
 
             if(model == RecommendRequestModel.initModel) {
-              return Expanded(
-                child: Container(
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(top: 100.0.h),
-                          child: Align(
-                            alignment: Alignment.topCenter,
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: TextStyle(fontSize: 16.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400),
-                                children: [
-                                  const TextSpan(text: '아직 추천된 아이템이 없어요\n'),
-                                  TextSpan(text: '\'요청하기\'', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w700),),
-                                  const TextSpan(text: '를 눌러 나를 위한 추천을 받아보세요')
-                                ],
-                              ),
-                            ),
-                          ),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 100.0.h),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: TextStyle(fontSize: 16.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400),
+                          children: [
+                            const TextSpan(text: '아직 추천된 아이템이 없어요\n'),
+                            TextSpan(text: '\'요청하기\'', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w700),),
+                            const TextSpan(text: '를 눌러 나를 위한 추천을 받아보세요')
+                          ],
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 70.h,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // context.read<CreateEventProvider>().isSteppingStateChange(true);
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => RecommendRequestScreen())).then((value) {
-                                setState(() {});
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-                            child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 56, child: Center(child: Text('요청하기', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),
-                                ]
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  SizedBox(height: 20.0.h),
+                  ElevatedButton(
+                      onPressed: () {
+                        // context.read<CreateEventProvider>().isSteppingStateChange(true);
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => RecommendRequestScreen())).then((value) {
+                          setState(() {});
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+                      child: Container(
+                        width: 180.0.w,
+                        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 12.0.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        child: Center(child: Text('요청하기', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700))))
+                    ),
+                ],
               );
             } else {
-              return EventRecommendFinish(eventModel: eventModel);
+              return EventRecommendFinish(eventModel: eventModel, visitCount: widget.visitCount, recommendCount: widget.recommendCount);
             }
 
           } else {

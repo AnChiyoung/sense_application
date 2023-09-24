@@ -61,7 +61,7 @@ class _EventPlanState extends State<EventPlan> {
               SizedBox(height: 16.0.h),
               EventInfoPlanMemo(memo: memo),
               SizedBox(height: 33.0.h),
-              RecommendField(),
+              // RecommendField(),
             ],
           ),
         );

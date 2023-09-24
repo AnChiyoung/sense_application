@@ -4,8 +4,10 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
+import 'package:sense_flutter_application/models/event_feed/event_feed_recommend_model.dart';
 import 'package:sense_flutter_application/public_widget/actions.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
+import 'package:sense_flutter_application/views/event_info/event_info_content_recommend_finish.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
@@ -98,7 +100,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   ),
                   SizedBox(height: 16.0.h),
                   EventInfoPlanMemo(),
-                  SizedBox(height: 33.0.h),
+                  // SizedBox(height: 33.0.h),
                   RecommendField(),
                 ],
               ),
@@ -414,6 +416,7 @@ class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
             locationString = cityNameList.elementAt(city);
           }
 
+
           return GestureDetector(
             onTap: () {
               // if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
@@ -493,7 +496,7 @@ class _EventInfoPlanMemoState extends State<EventInfoPlanMemo> {
             child: TextFormField(
                 controller: memoEditingController,
                 autofocus: false,
-                readOnly: true,
+                readOnly: false,
                 textInputAction: TextInputAction.next,
                 maxLines: 6,
                 maxLength: 300,
@@ -551,60 +554,157 @@ class _RecommendFieldState extends State<RecommendField> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CreateEventProvider>(
-      builder: (context, data, child) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0.h),
+      child: Consumer<CreateEventImproveProvider>(
+        builder: (context, data, child) {
 
-        recommendRequestState = data.recommendRequestState;
+          int useRebuild = data.useRebuild;
 
-        if(recommendRequestState == true) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(recommendTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-              SizedBox(height: 8.0.h),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 30.0.h),
-                decoration: BoxDecoration(
-                  color: StaticColor.grey100F6,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Center(
-                  child: Text('플래너들이 추천을 준비 중이예요!', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(recommendTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-              SizedBox(height: 8.0.h),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 32.0.h),
-                decoration: BoxDecoration(
-                  color: StaticColor.grey100F6,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text('아직 선택한 이벤트가 없어요', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                      SizedBox(height: 16.0.h),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<CreateEventImproveProvider>().eventInfoTabStateChange([false, true]);
-                        },
-                        child: Text('추천보기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          return FutureBuilder(
+              future: RecommendsRequest().eventFeedDetailRecommends(context.read<CreateEventImproveProvider>().eventUniqueId, context.read<CreateEventImproveProvider>().public),
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox.shrink();
+                  } else if(snapshot.connectionState == ConnectionState.done) {
+
+                    List<EventFeedRecommendModel> models = snapshot.data ?? [];
+                    print('recommends model: $models');
+
+                    if(models.isEmpty) {
+                      return const SizedBox.shrink();
+                    } else {
+                      return Column(
+                        children: [
+                          RecommendCommentTitle(state: data.public),
+                          EventRecommendsList(recommendModels: models),
+                        ],
+                      );
+                    }
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                } else if(snapshot.hasError) {
+                  return const SizedBox.shrink();
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }
           );
         }
-      }
+      ),
+    );
+
+
+
+
+
+    // return Consumer<CreateEventProvider>(
+    //   builder: (context, data, child) {
+    //
+    //     recommendRequestState = data.recommendRequestState;
+    //
+    //     if(recommendRequestState == true) {
+    //       return Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Text(recommendTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+    //           SizedBox(height: 8.0.h),
+    //           Container(
+    //             padding: EdgeInsets.symmetric(vertical: 30.0.h),
+    //             decoration: BoxDecoration(
+    //               color: StaticColor.grey100F6,
+    //               borderRadius: BorderRadius.circular(8.0),
+    //             ),
+    //             child: Center(
+    //               child: Text('플래너들이 추천을 준비 중이예요!', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     } else {
+    //       return Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Text(recommendTitle, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+    //           SizedBox(height: 8.0.h),
+    //           Container(
+    //             padding: EdgeInsets.symmetric(vertical: 32.0.h),
+    //             decoration: BoxDecoration(
+    //               color: StaticColor.grey100F6,
+    //               borderRadius: BorderRadius.circular(8.0),
+    //             ),
+    //             child: Center(
+    //               child: Column(
+    //                 children: [
+    //                   Text('아직 선택한 이벤트가 없어요', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+    //                   SizedBox(height: 16.0.h),
+    //                   ElevatedButton(
+    //                     onPressed: () {
+    //                       context.read<CreateEventImproveProvider>().eventInfoTabStateChange([false, true]);
+    //                     },
+    //                     child: Text('추천보기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+    //                   )
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     }
+    //   }
+    // );
+  }
+}
+
+class RecommendCommentTitle extends StatefulWidget {
+  String state;
+  RecommendCommentTitle({super.key, required this.state});
+
+  @override
+  State<RecommendCommentTitle> createState() => _RecommendCommentTitleState();
+}
+
+class _RecommendCommentTitleState extends State<RecommendCommentTitle> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16.0.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('추천', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // data.sortState[0] == false ? const SizedBox.shrink() : Image.asset('assets/feed/comment_sort_check_icon.png', width: 16, height: 16),
+              const SizedBox(width: 4),
+              GestureDetector(
+                  onTap: () {
+                    context.read<CreateEventImproveProvider>().totalButtonChange('-visit_count');
+                  },
+                  child: Text('인기순',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: widget.state == '-visit_count' ? StaticColor.mainSoft : StaticColor.grey400BB,
+                          fontWeight: widget.state == '-visit_count' ? FontWeight.w700 : FontWeight.w400))),
+              const SizedBox(width: 8),
+              Image.asset('assets/feed/bar.png', height: 10),
+              const SizedBox(width: 8),
+              GestureDetector(
+                  onTap: () {
+                    context.read<CreateEventImproveProvider>().totalButtonChange('-created');
+                  },
+                  child: Text('최신순',
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: widget.state == '-created' ? StaticColor.mainSoft : StaticColor.grey400BB,
+                          fontWeight: widget.state == '-created' ? FontWeight.w700 : FontWeight.w400))),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

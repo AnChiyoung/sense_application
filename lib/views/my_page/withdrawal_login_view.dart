@@ -141,9 +141,11 @@ class _WithdrawalKakaoLoginViewState extends State<WithdrawalKakaoLoginView> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14.0.sp,
-                          // textBaseline: TextBaseline.alphabetic,
                           color: StaticColor.loginTextColor02,
-                          fontWeight: FontWeight.w600)),
+                          fontWeight: FontWeight.w600,
+                        height: 1.5,
+                          ),
+                  ),
                 ),
               ],
             ),

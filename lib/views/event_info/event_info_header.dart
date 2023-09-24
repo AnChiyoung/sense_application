@@ -6,6 +6,7 @@ import 'package:sense_flutter_application/views/create_event/create_event_improv
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/home/home_provider.dart';
 
 class EventInfoHeader extends StatefulWidget {
   String title;
@@ -50,7 +51,12 @@ class _EventInfoHeaderState extends State<EventInfoHeader> {
     /// one piece
     context.read<CreateEventImproveProvider>().createEventClear(null);
     context.read<CreateEventProvider>().regionInitialize();
-    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
+    int prevHomeIndex = context.read<HomeProvider>().selectHomeIndex;
+    if(prevHomeIndex == 2) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 2)));
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
+    }
   }
 
   void recommendCallback() {

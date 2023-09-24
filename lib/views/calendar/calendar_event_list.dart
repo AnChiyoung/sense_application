@@ -24,9 +24,17 @@ class EventList extends StatefulWidget {
 class _EventListState extends State<EventList> {
 
   final eventListController = ScrollController();
+  List<Map<String, List<EventModel>>> monthEventMap = [];
+
+  @override
+  void initState() {
+    // WidgetsBinding.instance!.addPostFrameCallback((_) => context.read<CalendarBodyProvider>().eventModelCollectionChange(monthEventMap, true));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer<CalendarProvider>(
       builder: (context, data, child) {
 
@@ -37,25 +45,6 @@ class _EventListState extends State<EventList> {
           child: FutureBuilder(
             future: EventRequest().eventListRequest(selectMonth),
             builder: (context, snapshot) {
-
-              /// 삼항연산자와 if의 구동 로직이 다른가?????? 매우 중요. 왜지..
-              /// old version
-              // String fetchText = '';
-              // if(snapshot.data == null) {
-              //   fetchText = 'empty';
-              // } else if(snapshot.data != null) {
-              //   if(snapshot.data!.isEmpty) {
-              //     fetchText = 'empty';
-              //   } else if(snapshot.data!.isNotEmpty) {
-              //     fetchText = snapshot.data!.elementAt(0).eventTitle!;
-              //   }
-              // }
-              //
-              // List<EventModel>? models;
-              // snapshot.data == null ? models = [] : models = snapshot.data;
-              //
-              // String title = '';
-              // models == [] ? title = 'empty!!' : models!.elementAt(0).eventTitle;
 
               if(snapshot.hasError) {
                 return const Center(child: Text('Error fetching!!'));
@@ -70,7 +59,7 @@ class _EventListState extends State<EventList> {
                     return const Center(child: Text('이벤트가 없습니다', style: TextStyle(color: Colors.black)));
                   } else {
                     /// month total data variable
-                    List<Map<String, List<EventModel>>> monthEventMap = [];
+                    monthEventMap = [];
 
                     /// data binding
                     List<EventModel>? models;
@@ -119,11 +108,13 @@ class _EventListState extends State<EventList> {
                         monthEventMap.add(temperatureMap); // List<Map>> attach!!
                         // temperatureModel.clear();
                         // temperatureMap.clear();
+                        context.read<CalendarBodyProvider>().eventModelCollectionChange(monthEventMap, false);
                       }
 
                       /// event load result
                       if (kDebugMode) {
                         print('event load result : $monthEventMap');
+                        print(monthEventMap.elementAt(0)['24']);
                       }
                     }
 
@@ -132,7 +123,7 @@ class _EventListState extends State<EventList> {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            EventHeader(),
+                            // EventHeader(),
                             EventHeaderMenu(),
                             CalendarEventList(monthListModels: monthEventMap),
                           ],
@@ -235,6 +226,7 @@ class _CalendarEventListState extends State<CalendarEventList> {
             physics: const ClampingScrollPhysics(),
             itemCount: modelLength,
             itemBuilder: (context, index) {
+              // return Container();
               /// 일자별 이벤트 리스트
               // return Container(height: 30);
               return DayEventList(model: models!.elementAt(index), controller: monthEventListController);
@@ -262,9 +254,9 @@ class _CalendarEventListState extends State<CalendarEventList> {
 // }
 
 class DayEventList extends StatefulWidget {
-  Map<String, List<EventModel>> model;
+  Map<String, List<EventModel>>? model;
   ScrollController controller;
-  DayEventList({super.key, required this.model, required this.controller});
+  DayEventList({super.key, this.model, required this.controller});
 
   @override
   State<DayEventList> createState() => _DayEventListState();
@@ -272,19 +264,25 @@ class DayEventList extends StatefulWidget {
 
 class _DayEventListState extends State<DayEventList> {
 
-  // @override
-  // void initState() {
-  //   context.read
-  //   super.initState();
-  // }
+  Map<String, List<EventModel>>? model;
+
+  @override
+  void initState() {
+    if(widget.model == null) {
+      model!['0'] = [];
+    } else {
+      model = widget.model;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DayEventsInfo(model: widget.model),
+        DayEventsInfo(model: widget.model!),
         const SizedBox(height: 8.0),
-        DayEventsList(model: widget.model, controller: widget.controller),
+        DayEventsList(model: widget.model!, controller: widget.controller),
         const SizedBox(height: 20.0),
       ],
     );
@@ -393,7 +391,7 @@ class _DayEventsListState extends State<DayEventsList> {
                 // widget.controller.jumpTo(100);
                 print(model.elementAt(index).id!);
                 context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
               },
               child: EventRow(model: model.elementAt(index) ?? EventModel())),
             const Divider(height: 12.0, color: Colors.transparent),
@@ -423,19 +421,28 @@ class _EventRowState extends State<EventRow> {
   void initState() {
     model = widget.model;
 
-    city = '서울';
-    subCity = '송파';
+    List<String> cityNameList = ['서울', '경기도', '인천', '강원도', '경상도', '전라도', '충청도', '부산', '제주'];
+    if(model.city == null) {
+      city = '지역 미설정';
+    } else {
+      city = cityNameList.elementAt(model.city!.id!);
+    }
 
-    if(model!.eventCategoryObject!.id == 1) {
-      categoryWidget = birthdayLabel;
-    } else if(model!.eventCategoryObject!.id == 2) {
-      categoryWidget = dateLabel;
-    } else if(model!.eventCategoryObject!.id == 3) {
-      categoryWidget = travelLabel;
-    } else if(model!.eventCategoryObject!.id == 4) {
-      categoryWidget = meetLabel;
-    } else if(model!.eventCategoryObject!.id == 5) {
-      categoryWidget = businessLabel;
+    // null
+    if(model!.eventCategoryObject == null) {
+      categoryWidget = const SizedBox.shrink();
+    } else {
+      if(model!.eventCategoryObject!.id == 1) {
+        categoryWidget = birthdayLabel;
+      } else if(model!.eventCategoryObject!.id == 2) {
+        categoryWidget = dateLabel;
+      } else if(model!.eventCategoryObject!.id == 3) {
+        categoryWidget = travelLabel;
+      } else if(model!.eventCategoryObject!.id == 4) {
+        categoryWidget = meetLabel;
+      } else if(model!.eventCategoryObject!.id == 5) {
+        categoryWidget = businessLabel;
+      }
     }
     super.initState();
   }
@@ -465,7 +472,7 @@ class _EventRowState extends State<EventRow> {
           /// location + time range
           Row(
             children: [
-              Text('$city $subCity', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+              Text('$city', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
               // Text('${model.city!.title!} ${model.subCity!.title!}', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
               /// 시간 없음. 백 수정
             ],

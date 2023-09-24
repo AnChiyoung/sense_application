@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarProvider with ChangeNotifier {
@@ -38,8 +39,20 @@ class CalendarBodyProvider with ChangeNotifier {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   CalendarFormat get calendarFormat => _calendarFormat;
 
-  void calendarFormatChange(CalendarFormat state) {
+  void calendarFormatChange(CalendarFormat state, bool notify) {
     _calendarFormat = state;
-    notifyListeners();
+    if(notify == true) {
+      notifyListeners();
+    } else {}
+  }
+
+  List<Map<String, List<EventModel>>> _monthEventMap = [];
+  List<Map<String, List<EventModel>>> get monthEventMap => _monthEventMap;
+
+  void eventModelCollectionChange(List<Map<String, List<EventModel>>> state, bool notify) {
+    _monthEventMap = state;
+    if(notify == true) {
+      notifyListeners();
+    } else {}
   }
 }

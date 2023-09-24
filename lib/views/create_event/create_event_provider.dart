@@ -83,6 +83,11 @@ class CreateEventProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void cityInitLoad(int state) {
+    _city = state;
+    notifyListeners();
+  }
+
   /// 저장 버튼 누르기 전 사용자에게 보이는 도시 이름 표기 용도
   void tempCityChange(int state, bool notify) {
     _tempCity = state;

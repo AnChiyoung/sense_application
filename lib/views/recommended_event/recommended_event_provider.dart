@@ -43,8 +43,8 @@ class RecommendedEventProvider with ChangeNotifier {
   String _editMemo = AddEventModel.memoModel;
   String get editMemo => _editMemo;
 
-  List<RecommendedModel> _selectCategory = [];
-  List<RecommendedModel> get selectCategory => _selectCategory;
+  // List<RecommendedModel> _selectCategory = [];
+  // List<RecommendedModel> get selectCategory => _selectCategory;
 
   int _index = 0;
   int get index => _index;
@@ -141,11 +141,11 @@ class RecommendedEventProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void tagSelect(List<RecommendedModel> model, int index) {
-    _selectCategory = model;
-    _index = index;
-    notifyListeners();
-  }
+  // void tagSelect(List<RecommendedModel> model, int index) {
+  //   _selectCategory = model;
+  //   _index = index;
+  //   notifyListeners();
+  // }
 
   void likeStateChange(bool state) {
     _likeState = state;
