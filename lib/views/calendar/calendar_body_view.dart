@@ -15,8 +15,10 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../models/calendar/calendar_home_model.dart';
 
 class CalendarBody extends StatefulWidget {
+  const CalendarBody({super.key});
+
   @override
-  _CalendarBodyState createState() => _CalendarBodyState();
+  State<CalendarBody> createState() => _CalendarBodyState();
 }
 
 class _CalendarBodyState extends State<CalendarBody> {
@@ -42,7 +44,7 @@ class _CalendarBodyState extends State<CalendarBody> {
       scrollListeners();
     });
     _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    // _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
   }
 
   @override
@@ -52,19 +54,19 @@ class _CalendarBodyState extends State<CalendarBody> {
   }
 
   // Future load
-
-  List<Event> _getEventsForDay(DateTime day) {
-    return kEvents[day] ?? [];
-  }
+  // List<Event> _getEventsForDay(DateTime day) {
+  //   return kEvents[day] ?? [];
+  // }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (!isSameDay(_selectedDay, selectedDay)) {
       context.read<CalendarProvider>().dayChange(_selectedDay!.day);
+      context.read<CalendarProvider>().yearAndMonthChange(selectedDay);
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
       });
-      _selectedEvents.value = _getEventsForDay(selectedDay);
+      // _selectedEvents.value = _getEventsForDay(selectedDay);
     }
   }
 
@@ -94,9 +96,10 @@ class _CalendarBodyState extends State<CalendarBody> {
             return TableCalendar<Event>(
                 locale: 'ko_KR',
                 calendarFormat: data.calendarFormat,
-                focusedDay: _focusedDay!,
+                focusedDay: context.watch<CalendarProvider>().selectDate,
+                pageJumpingEnabled: true,
                 firstDay: DateTime.utc(DateTime.now().year, 1, 1),
-                lastDay: DateTime.utc(DateTime.now().year, 12, 31),
+                lastDay: DateTime.utc(DateTime.now().year + 5, 12, 31),
                 headerVisible: false,
                 daysOfWeekHeight: 40.0,
                 rowHeight: 60.0,
@@ -122,6 +125,8 @@ class _CalendarBodyState extends State<CalendarBody> {
                     },
                     markerBuilder: (context, dateTime, _) {
 
+                      print('marker!!!! : $dateTime');
+
                       List<Widget> markerWidgets = [];
 
                       for(int i = 0; i < eventList.length; i++) {
@@ -135,7 +140,8 @@ class _CalendarBodyState extends State<CalendarBody> {
                           if(dateTime.day.toString() == eventList.elementAt(i).keys.first.toString()) {
                             List<EventModel> temperatureList = eventList.elementAt(i)[eventList.elementAt(i).keys.first] ?? [];
 
-                            if(dateTime.month == int.parse(temperatureList.elementAt(0).eventDate!.substring(5, 7))) {
+                            if(dateTime.month == int.parse(temperatureList.elementAt(0).eventDate!.substring(5, 7))
+                                && dateTime.year == int.parse(temperatureList.elementAt(0).eventDate!.substring(0,4))) {
                               for(var e in temperatureList) {
                                 if(markerCount > 3) {
                                   /// non add
@@ -161,9 +167,11 @@ class _CalendarBodyState extends State<CalendarBody> {
                 ),
                 selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                 onDaySelected: _onDaySelected,
-                eventLoader: _getEventsForDay,
+                // eventLoader: _getEventsForDay,
                 onPageChanged: (date) {
-                  context.read<CalendarProvider>().monthChange(date.month);
+                  print('change day: $date');
+                  _onDaySelected(date, date);
+                  // context.read<CalendarProvider>().yearAndMonthChange(date);
                 }
             );
           },

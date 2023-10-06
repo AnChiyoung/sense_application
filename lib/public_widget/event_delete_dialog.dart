@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
 
 class EventDeleteDialog extends StatefulWidget {
   const EventDeleteDialog({super.key});
@@ -69,16 +68,16 @@ class _EventDeleteDialogState extends State<EventDeleteDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    print('deleted event id?? : ${context.read<CreateEventImproveProvider>().eventUniqueId}');
-                    bool deleteResult = await EventRequest().deleteEvent(context.read<CreateEventImproveProvider>().eventUniqueId);
-                    /// delete success
-                    if(deleteResult == true) {
-                      Navigator.of(context).pop();
-                      context.read<CreateEventImproveProvider>().createEventClear(true);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
-                    } else {
-                      /// delete fail
-                    }
+                    // print('deleted event id?? : ${context.read<CEProvider>().eventUniqueId}');
+                    // bool deleteResult = await EventRequest().deleteEvent(context.read<CEProvider>().eventUniqueId);
+                    // /// delete success
+                    // if(deleteResult == true) {
+                    //   Navigator.of(context).pop();
+                    //   context.read<CEProvider>().createEventClear(true);
+                    //   Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
+                    // } else {
+                    //   /// delete fail
+                    // }
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('확인', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

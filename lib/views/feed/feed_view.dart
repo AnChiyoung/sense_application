@@ -10,9 +10,10 @@ import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
-import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
+import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
+// import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
@@ -463,7 +464,6 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
 
   @override
   void initState() {
-    // getInitLabel();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
@@ -488,34 +488,24 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
     super.dispose();
   }
 
-  Future getInitLabel() async {
-    List<TagModel> tagModels = await FeedTagLoad().tagRequest();
-    context.read<FeedProvider>().selectTagNumberChange(-1, -1);
-    // final firstTagNumber = tagModels.elementAt(0).id;
-    // context.read<FeedProvider>().selectTagNumberChange(firstTagNumber!  , 0);
-  }
-
   @override
   Widget build(BuildContext context) {
 
-    final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
+    final selectTagNumber = context.read<FeedProvider>().selectTagNumber;
 
     return Expanded(
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
           FutureBuilder(
-            // future: context.read<FeedProvider>().getFeedPosts(),
             future: FeedRequest().feedPreviewRequestByLabelId(selectTagNumber),
             builder: (context, snapshot) {
 
               if(snapshot.hasError) {
                 return const SizedBox.shrink();
-                // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               } else if(snapshot.hasData) {
                 if(snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox.shrink();
-                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   List<FeedPreviewModel>? model = snapshot.data;
@@ -523,98 +513,99 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
                   if(model!.isEmpty) {
                     return Center(child: Text('곧, 새로운 피드로 찾아뵐게요!', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400)));
                   } else {
-                    return FeedPostListPresenter( // 피드 뿌리는 곳
+                    /// feed thumbnail preload
+                    return FeedPostListPresenter(
                       feedPosts: model!,
                     );
                   }
 
-
                 } else {
                   return const SizedBox.shrink();
-                  // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 }
               } else {
                 return const SizedBox.shrink();
-                // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
               }
-
-
-              // if (snapshot.connectionState == ConnectionState.waiting) {
-              //   // return const Center(child: CircularProgressIndicator());
-              //   return Container();
-              // } else if (snapshot.hasError) {
-              //   return const Center(child: Text('Error fetching posts'));
-              // } else {
-              //   List<FeedPreviewModel>? model = snapshot.data;
-              //   // return Container();
-              //   return FeedPostListPresenter( // 피드 뿌리는 곳
-              //     feedPosts: model!,
-              //     // feedPosts: context.read<FeedProvider>().feedPosts,
-              //   );
-              //   // return Consumer<FeedProvider>(
-              //   //   builder: (context, feedProvider, child) {
-              //   //     final feedPosts = feedProvider.feedPosts;
-              //   //     if (feedPosts.isEmpty) {
-              //   //       return Center(
-              //   //         child: Text(
-              //   //           '검색 결과가 없습니다.',
-              //   //           style: TextStyle(
-              //   //             color: Colors.grey.shade600,
-              //   //             fontSize: 16,
-              //   //           ),
-              //   //         ),
-              //   //       );
-              //   //     } else {
-              //   //       return FeedPostListPresenter( // 피드 뿌리는 곳
-              //   //         feedPosts: model!,
-              //   //         // feedPosts: context.read<FeedProvider>().feedPosts,
-              //   //       );
-              //   //     }
-              //   //   },
-              //   // );
-              // }
             },
           ),
 
           /// create event button
-          Consumer<AnimationProvider>(
-            builder: (context, data, child) {
-
-              bool functionPlusButtonState = data.homeAddButton;
-
-              return AnimatedOpacity(
-                opacity: functionPlusButtonState ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 500),
-                child: Padding(
-                  padding: EdgeInsets.only(right: 24.0.w, bottom: 100.0.h),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: SizedBox(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(elevation: 5.0, backgroundColor: StaticColor.mainSoft, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 1.0.w, vertical: 16.0.h),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset('assets/create_event/create_event_icon.png', width: 24.0.w, height: 24.0.h,),
-                              SizedBox(width: 4.0.w),
-                              Padding(
-                                  padding: EdgeInsets.only(bottom: 4.0.h),
-                                  child: Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500, height: 1.5))),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }
-          ),
+          // // Consumer<AnimationProvider>(
+          // //   builder: (context, data, child) {
+          // //
+          // //     bool functionPlusButtonState = data.homeAddButton;
+          // //
+          // //     double _width;
+          // //     double _height;
+          // //     BorderRadius _borderRadius;
+          // //
+          // //     if(functionPlusButtonState == true) {
+          // //       _width = 30.0;
+          // //       _height = 30.0;
+          // //       _borderRadius = BorderRadius.circular(25.0);
+          // //     } else {
+          // //       _width = 50.0;
+          // //       _height = 20.0;
+          // //       _borderRadius = BorderRadius.circular(12.0);
+          // //     }
+          // //
+          // //     /// createevent
+          // //     return Padding(
+          // //       padding: EdgeInsets.only(right: 25.0.w, bottom: 25.0.h),
+          // //       child: GestureDetector(
+          // //         onTap: () {
+          // //           context.read<AnimationProvider>().homeAddButtonState(!functionPlusButtonState);
+          // //         },
+          // //         child: AnimatedContainer(
+          // //           padding: functionPlusButtonState ? EdgeInsets.zero : EdgeInsets.symmetric(horizontal: 1.0.w, vertical: 16.0.h),
+          // //           width: _width,
+          // //           height: _height,
+          // //           decoration: BoxDecoration(color: StaticColor.mainSoft, borderRadius: _borderRadius),
+          // //           duration: const Duration(milliseconds: 1000),
+          // //           curve: Curves.fastOutSlowIn,
+          // //           child: AnimatedOpacity(
+          // //             opacity: functionPlusButtonState ? 1.0 : 0.0,
+          // //             duration: const Duration(milliseconds: 1000),
+          // //             child: Center(
+          // //               child: Icon(Icons.add, color: Colors.white),
+          // //             )
+          // //           )
+          // //         ),
+          // //       ),
+          // //     );
+          //
+          //     // return AnimatedOpacity(
+          //     //   opacity: functionPlusButtonState ? 1.0 : 0.0,
+          //     //   duration: const Duration(milliseconds: 500),
+          //     //   child: Padding(
+          //     //     padding: EdgeInsets.only(right: 24.0.w, bottom: 100.0.h),
+          //     //     child: Align(
+          //     //       alignment: Alignment.bottomRight,
+          //     //       child: SizedBox(
+          //     //         child: ElevatedButton(
+          //     //           onPressed: () {
+          //     //             Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+          //     //           },
+          //     //           style: ElevatedButton.styleFrom(elevation: 5.0, backgroundColor: StaticColor.mainSoft, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+          //     //           child: Container(
+          //     //             padding: EdgeInsets.symmetric(horizontal: 1.0.w, vertical: 16.0.h),
+          //     //             child: Row(
+          //     //               mainAxisSize: MainAxisSize.min,
+          //     //               children: [
+          //     //                 Image.asset('assets/create_event/create_event_icon.png', width: 24.0.w, height: 24.0.h,),
+          //     //                 SizedBox(width: 4.0.w),
+          //     //                 Padding(
+          //     //                     padding: EdgeInsets.only(bottom: 4.0.h),
+          //     //                     child: Text('이벤트 만들기', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, fontWeight: FontWeight.w500, height: 1.5))),
+          //     //               ],
+          //     //             ),
+          //     //           ),
+          //     //         ),
+          //     //       ),
+          //     //     ),
+          //     //   ),
+          //     // );
+          //   }
+          // ),
 
           /// function plus button
           Consumer<AnimationProvider>(
@@ -640,7 +631,7 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
                   }
                   final angle = rotationAngle * (pi * 2);
                   return Transform.rotate(
-                    angle: angle * 1, // 속도
+                    angle: angle * 10, // 속도
                     child: Padding(
                       padding: EdgeInsets.only(right: 12.0.w, bottom: 12.0.h),
                       child: Align(
@@ -649,16 +640,15 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
                           icon: Image.asset('assets/home/add_event_button.png'),
                           iconSize: 66.0,
                           onPressed: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
-                            context.read<AnimationProvider>().homeAddButtonState(!buttonState);
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen02()));
                           },
                         ),
                       ),
-                    )
+                    ),
                   );
                 },
               );
-            }
+            },
           ),
         ],
       ),

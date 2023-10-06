@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
@@ -256,7 +257,6 @@ class _LoginFormViewState extends State<LoginFormView> {
   }
 }
 
-
 class KakaoLoginButton extends StatefulWidget {
   const KakaoLoginButton({Key? key}) : super(key: key);
 
@@ -311,14 +311,6 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
   }
 
   void kakaoLoginTry(BuildContext context) async {
-    /// logger setting
-    var logger = Logger(
-      printer: PrettyPrinter(
-        lineLength: 120,
-        colors: true,
-        printTime: true,
-      ),
-    );
 
     /// 카카오톡 설치 유무 확인
     bool isInstalled = await isKakaoTalkInstalled();
@@ -344,12 +336,14 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
             Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
           } else {
             if(tokenModel.isSignUp == true) {
-              logger.d('login success'),
+              SenseLogger().debug('login success'),
               PresentUserInfo.id = tokenModel.id!,
               PresentUserInfo.username = tokenModel.username!,
               PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
               PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
-              Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0))),
+
+              // move to home
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)), (route) => false),
             }
           }
         };
@@ -365,7 +359,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
           KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
           Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
         } else if(tokenModel.isSignUp == true) {
-            logger.d('login success'),
+            SenseLogger().debug('login success'),
             PresentUserInfo.id = tokenModel.id!,
             PresentUserInfo.username = tokenModel.username ?? '${userInfoModel.id}user',
             PresentUserInfo.profileImage = tokenModel.profileImageUrl!,

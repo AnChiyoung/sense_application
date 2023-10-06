@@ -9,10 +9,7 @@ import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -38,21 +35,25 @@ class _EventListState extends State<EventList> {
     return Consumer<CalendarProvider>(
       builder: (context, data, child) {
 
+        int selectYear = data.selectYear;
         int selectMonth = data.selectMonth;
         int selectDay = data.selectDay;
 
+        print('select year : $selectYear');
+        print('select month : $selectMonth');
+
         return Expanded(
           child: FutureBuilder(
-            future: EventRequest().eventListRequest(selectMonth),
+            future: EventRequest().eventListRequest(selectMonth, selectYear),
             builder: (context, snapshot) {
 
               if(snapshot.hasError) {
-                return const Center(child: Text('Error fetching!!'));
+                return const SizedBox.shrink();
               } else if(snapshot.hasData) {
 
                 if(snapshot.connectionState == ConnectionState.waiting) {
                   // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                  return Container();
+                  return const Center(child: CircularProgressIndicator());
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   if(snapshot.data!.isEmpty) {
@@ -60,6 +61,8 @@ class _EventListState extends State<EventList> {
                   } else {
                     /// month total data variable
                     monthEventMap = [];
+
+                    print('event models? : ${snapshot.data!}');
 
                     /// data binding
                     List<EventModel>? models;
@@ -131,13 +134,13 @@ class _EventListState extends State<EventList> {
                   }
                 } else {
                   // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                  return Container();
+                  return Center(child: CircularProgressIndicator());
                 }
 
               } else {
                 // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 // return const SizedBox.shrink();
-                return Container();
+                return Center(child: CircularProgressIndicator());
               }
             }
           )
@@ -390,8 +393,8 @@ class _DayEventsListState extends State<DayEventsList> {
               onTap: () {
                 // widget.controller.jumpTo(100);
                 print(model.elementAt(index).id!);
-                context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
-                Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
+                // context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
+                // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
               },
               child: EventRow(model: model.elementAt(index) ?? EventModel())),
             const Divider(height: 12.0, color: Colors.transparent),

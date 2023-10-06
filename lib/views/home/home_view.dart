@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart';
-import 'package:sense_flutter_application/screens/contact/contact_screen.dart';
 import 'package:sense_flutter_application/screens/event_feed/event_feed_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
-import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
-import 'package:sense_flutter_application/screens/old_event/add_event_screen.dart';
 import 'package:sense_flutter_application/screens/store/store_screen.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
 import '../../public_widget/login_dialog.dart';
 
@@ -20,13 +15,6 @@ class MovePageList {
     StoreScreen(),
     EventFeedScreen(),
     CalendarScreen(),
-    // MyPageScreen(),
-    /// old version
-    // FeedScreen(),
-    // CalendarScreen(),
-    // AddEventScreen(),
-    // ContactScreen(),
-    // MypageScreen(),
   ];
 }
 
@@ -107,13 +95,13 @@ class _BottomMenuState extends State<BottomMenu> {
                           widget.selectCallback(1);
                           pageIndex = 1;
                           context.read<HomeProvider>().selectHomeIndexChange(1, false);
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return const ServiceGuideDialog();
-                            }
-                          );
+                          // showDialog(
+                          //   context: context,
+                          //   barrierDismissible: false,
+                          //   builder: (BuildContext context) {
+                          //     return const ServiceGuideDialog();
+                          //   }
+                          // );
                         },
                         child: bottomNavigationBarItem('assets/home/store.png', 24.0, '스토어', 1))),
               ),
@@ -162,64 +150,9 @@ class _BottomMenuState extends State<BottomMenu> {
                         child: bottomNavigationBarItem('assets/home/calendar.png', 24.0, '캘린더', 3))),
               ),
             ),
-
-            /// old version ; bottom navigation
-            // BottomNavigationBar(
-            //   elevation: 0.0,
-            //   items: bottomNavigationMenu,
-            //   currentIndex: pageIndex,
-            //   selectedItemColor: StaticColor.mainSoft,
-            //   unselectedItemColor: StaticColor.unselectedColor,
-            //   type: BottomNavigationBarType.fixed,
-            //   showSelectedLabels: false,
-            //   showUnselectedLabels: false,
-            //   onTap: (index) {
-            //     // if(index == 1 || index == 2 || index == 3) {
-            //     //   showDialog(
-            //     //     context: context,
-            //     //     //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-            //     //     barrierDismissible: false,
-            //     //     builder: (BuildContext context) {
-            //     //       return const ServiceGuideDialog();
-            //     //     }
-            //     //   );
-            //     // } else {
-            //     //   widget.selectCallback(index);
-            //     // }
-            //     widget.selectCallback(index);
-            //     pageIndex = index;
-            //   }
-            // ),
           ]
         ),
       ),
     );
   }
-
-  /// old version
-  // Widget addEvent() {
-  //   return Container(
-  //     width: 40,
-  //     height: 40,
-  //     decoration: BoxDecoration(
-  //       color: StaticColor.mainSoft,
-  //       shape: BoxShape.circle,
-  //     ),
-  //     child: Center(
-  //         child: Container(
-  //             width: 24,
-  //             height: 24,
-  //             decoration: BoxDecoration(
-  //               boxShadow: [
-  //                 BoxShadow(
-  //                   color: StaticColor.shadowColor,
-  //                   spreadRadius: 5,
-  //                   blurRadius: 7,
-  //                   offset: const Offset(0, 3),
-  //                 ),
-  //               ],
-  //             ),
-  //             child: Image.asset('assets/home/add_event.png'))),
-  //   );
-  // }
 }

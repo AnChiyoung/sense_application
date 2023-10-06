@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
-import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
 
 class EventFeedList extends StatefulWidget {
@@ -234,8 +232,8 @@ class _EventFeedRowState extends State<EventFeedRow> {
       onTap: () {
         print('visit count: $visitCount');
         // context.read<CreateEventImproveProvider>().countInfoChange(visitCount, recommendCount);
-        context.read<CreateEventImproveProvider>().createEventUniqueId(eventModel.id!);
-        Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: visitCount, recommendCount: recommendCount)));
+        // context.read<CreateEventImproveProvider>().createEventUniqueId(eventModel.id!);
+        // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: visitCount, recommendCount: recommendCount)));
       },
       child: Container(
         width: double.infinity,

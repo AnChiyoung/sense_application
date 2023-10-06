@@ -7,34 +7,28 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
 
 class EventRequest {
 
-  /// logger
-  var logger = Logger(
-    printer: PrettyPrinter(
-      lineLength: 50,
-      colors: false,
-      printTime: true,
-    ),
-  );
-
   /// event list load
-  Future<List<EventModel>> eventListRequest([int? selectMonth]) async {
+  Future<List<EventModel>> eventListRequest([int? selectMonth, int? selectYear]) async {
 
     String monthQuery = '';
+    String yearQuery = '';
 
     if(selectMonth != null) {
       monthQuery = '?month=${selectMonth.toString()}';
     }
 
-    logger.v('${ApiUrl.releaseUrl}/events$monthQuery');
+    if(selectYear != null) {
+      yearQuery = '&year=${selectYear.toString()}';
+    }
+
+    SenseLogger().debug('${ApiUrl.releaseUrl}/events$monthQuery$yearQuery');
 
     final response = await http.get(
-      Uri.parse('${ApiUrl.releaseUrl}/events$monthQuery&is_participated=true'),
+      Uri.parse('${ApiUrl.releaseUrl}/events$monthQuery$yearQuery&is_participated=true'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -42,12 +36,12 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('success to event list load');
+      SenseLogger().debug('success to event list load');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromJson(e)).toList();;
       return models;
     } else {
-      logger.v('fail to event list load');
+      SenseLogger().debug('fail to event list load');
       return [];
     }
   }
@@ -66,14 +60,14 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('success to personal event load');
+      SenseLogger().debug('success to personal event load');
       print('logger');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       print(jsonResult);
       EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
       return eventModel;
     } else {
-      logger.v('fail to personal event load');
+      SenseLogger().debug('fail to personal event load');
       return EventModel();
     }
   }
@@ -89,12 +83,12 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('success to personal event recommend info load');
+      SenseLogger().debug('success to personal event recommend info load');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel model = EventModel.fromPersonalJson(jsonResult);
       return model;
     } else {
-      logger.v('fail to personal event recommend info load');
+      SenseLogger().debug('fail to personal event recommend info load');
       return EventModel();
     }
   }
@@ -104,23 +98,13 @@ class EventRequest {
 
     Map<String, dynamic> createModel = {};
     createModel.clear();
-    context.read<CreateEventImproveProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventImproveProvider>().title;
-    context.read<CreateEventImproveProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
-    context.read<CreateEventImproveProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
-    context.read<CreateEventImproveProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventImproveProvider>().date;
-    context.read<CreateEventProvider>().city == -1 ? {} : createModel['city'] = context.read<CreateEventProvider>().city + 1;
-    context.read<CreateEventImproveProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventImproveProvider>().memo;
-
-    print(createModel);
-
-    logger.d(
-        'title : ${context.read<CreateEventImproveProvider>().title}\n' +
-        'category : ${context.read<CreateEventImproveProvider>().category}\n' +
-        'target : ${context.read<CreateEventImproveProvider>().target}\n' +
-        'date : ${context.read<CreateEventImproveProvider>().date}\n' +
-        'city : ${context.read<CreateEventProvider>().city}\n' +
-        'memo : ${context.read<CreateEventImproveProvider>().memo}\n'
-    );
+    context.read<CEProvider>().title == '' ? {} : createModel['title'] = context.read<CEProvider>().title;
+    context.read<CEProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CEProvider>().category + 1;
+    context.read<CEProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CEProvider>().target + 1;
+    context.read<CEProvider>().date == '' ? {} : createModel['date'] = context.read<CEProvider>().date;
+    context.read<CEProvider>().city == -1 ? {} : createModel['city'] = context.read<CEProvider>().city + 1;
+    // context.read<CEProvider>().saveSubCity.isEmpty ? {} : createModel['sub_city'] = context.read<CEProvider>().saveSubCity;
+    context.read<CEProvider>().memo == '' ? {} : createModel['description'] = context.read<CEProvider>().memo;
 
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/event'),
@@ -132,14 +116,14 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('이벤트 생성 성공');
+      SenseLogger().debug('이벤트 생성 성공');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel createEventResponse = EventModel.fromJsonForId(jsonResult);
-      context.read<CreateEventImproveProvider>().createEventUniqueId(createEventResponse.id!);
-      logger.d('create event id : ${createEventResponse.id}');
+      context.read<CEProvider>().createEventUniqueId(createEventResponse.id!);
+      SenseLogger().debug('create event id : ${createEventResponse.id}');
       return true;
     } else {
-      logger.v('이벤트 생성 실패');
+      SenseLogger().error('이벤트 생성 실패');
       return false;
     }
   }
@@ -148,11 +132,11 @@ class EventRequest {
   Future<bool> updateEvent(BuildContext context) async {
 
     Map<String, dynamic> createModel = {};
-    context.read<CreateEventProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventProvider>().title;
-    context.read<CreateEventProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventProvider>().category;
-    context.read<CreateEventProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventProvider>().target;
-    context.read<CreateEventProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventProvider>().date;
-    context.read<CreateEventProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventProvider>().memo;
+    context.read<CEProvider>().title == '' ? {} : createModel['title'] = context.read<CEProvider>().title;
+    context.read<CEProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CEProvider>().category;
+    context.read<CEProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CEProvider>().target;
+    context.read<CEProvider>().date == '' ? {} : createModel['date'] = context.read<CEProvider>().date;
+    context.read<CEProvider>().memo == '' ? {} : createModel['description'] = context.read<CEProvider>().memo;
 
     final response = await http.post(
         Uri.parse('${ApiUrl.releaseUrl}/event'),
@@ -164,13 +148,13 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('success to event update');
+      SenseLogger().debug('success to event update');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel createEventResponse = EventModel.fromJson(jsonResult);
-      context.read<CreateEventProvider>().createEventUniqueId(createEventResponse.id!);
+      // context.read<CreateEventProvider>().createEventUniqueId(createEventResponse.id!);
       return true;
     } else {
-      logger.v('fail to event update');
+      SenseLogger().debug('fail to event update');
       return false;
     }
   }
@@ -181,25 +165,23 @@ class EventRequest {
     Map<String, dynamic> fieldModel = {};
     fieldModel.clear();
 
-    print(context.read<CreateEventImproveProvider>().isAlarm);
-    print(context.read<CreateEventImproveProvider>().publicType);
-
-    print('change category : ${context.read<CreateEventImproveProvider>().category + 1}');
+    print('change category : ${context.read<CEProvider>().category + 1}');
     if(fieldNumber == 0) {
-      fieldModel['title'] = context.read<CreateEventImproveProvider>().title;
+      fieldModel['title'] = context.read<CEProvider>().title;
     } else if(fieldNumber == 1) {
-      fieldModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
+      fieldModel['event_category'] = context.read<CEProvider>().category + 1;
     } else if(fieldNumber == 2) {
-      fieldModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
+      fieldModel['contact_category'] = context.read<CEProvider>().target + 1;
     } else if(fieldNumber == 3) {
-      fieldModel['date'] = context.read<CreateEventImproveProvider>().date;
+      fieldModel['date'] = context.read<CEProvider>().date;
     } else if(fieldNumber == 4) {
-      fieldModel['memo'] = context.read<CreateEventImproveProvider>().memo;
-    } else if(fieldNumber == 5) {
-      fieldModel['is_alarm'] = context.read<CreateEventImproveProvider>().isAlarm;
-    } else if(fieldNumber == 6) {
-      fieldModel['public_type'] = context.read<CreateEventImproveProvider>().publicType;
+      fieldModel['memo'] = context.read<CEProvider>().memo;
     }
+    // else if(fieldNumber == 5) {
+    //   fieldModel['is_alarm'] = context.read<CEProvider>().isAlarm;
+    // } else if(fieldNumber == 6) {
+    //   fieldModel['public_type'] = context.read<CEProvider>().publicType;
+    // }
 
     SenseLogger().debug(fieldModel.toString());
 
@@ -213,10 +195,10 @@ class EventRequest {
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
-      logger.v('success to event update');
+      SenseLogger().debug('success to event update');
       return true;
     } else {
-      logger.v('fail to event update');
+      SenseLogger().debug('fail to event update');
       return false;
     }
   }
@@ -233,10 +215,10 @@ class EventRequest {
     );
 
     if(response.statusCode == 204) {
-      logger.v('success to event delete');
+      SenseLogger().debug('success to event delete');
       return true;
     } else {
-      logger.v('fail to event delete');
+      SenseLogger().debug('fail to event delete');
       return false;
     }
   }

@@ -28,11 +28,11 @@ class _EventFeedTotalState extends State<EventFeedTotal> {
             builder: (context, snapshot) {
 
               if(snapshot.hasError) {
-                return const Center(child: Text('Error fetching..'));
+                return const SizedBox.shrink();
               } else if(snapshot.hasData) {
 
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return const SizedBox.shrink();
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   List<EventModel> modelList = snapshot.data ?? [];
@@ -44,11 +44,11 @@ class _EventFeedTotalState extends State<EventFeedTotal> {
                   }
 
                 } else {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return const SizedBox.shrink();
                 }
 
               } else {
-                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                return const SizedBox.shrink();
               }
             }
         );

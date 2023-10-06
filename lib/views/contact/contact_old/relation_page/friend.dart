@@ -18,12 +18,12 @@ class _FriendViewState extends State<FriendView> {
         future: ContactRequest().contactListRequest(1),
         builder: (context, snapshot) {
           if(snapshot.hasError) {
-            return const Center(child: Text('Error fetching!!'));
+            return const SizedBox.shrink();
           } else if(snapshot.hasData) {
 
             /// data get!!
             if(snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              return const SizedBox.shrink();
             } else if(snapshot.connectionState == ConnectionState.done) {
 
               List<ContactModel> familyModelList = snapshot.data!;
@@ -38,11 +38,11 @@ class _FriendViewState extends State<FriendView> {
 
               return Container();
             } else {
-              return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+              return const SizedBox.shrink();
             }
 
           } else {
-            return const Center(child: Text('Error fetching!!'));
+            return const SizedBox.shrink();
           }
         }
     );

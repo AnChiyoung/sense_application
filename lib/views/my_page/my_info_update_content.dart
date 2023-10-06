@@ -159,16 +159,23 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
   String username = '';
   String birthday = '';
 
+  late Future loadFuture;
+
+  Future<UserModel> _fetchData() async {
+    return await UserRequest().userInfoRequest();
+  }
+
   @override
   void initState() {
     // username = PresentUserInfo.username;
+    loadFuture = _fetchData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: UserRequest().userInfoRequest(),
+      future: loadFuture,
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           if(snapshot.connectionState == ConnectionState.waiting) {

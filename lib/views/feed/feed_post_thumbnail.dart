@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_networkimage_2/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
@@ -86,24 +88,7 @@ class FeedPostCarouselCard extends _BasePostCard {
       ),
       child: AspectRatio(
         aspectRatio: 0.7,
-        child: Image.network(
-          imageUrl,
-          loadingBuilder: (context, child, loadingProgress) {
-            if(loadingProgress == null) {
-              return CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fitHeight);
-            } else {
-              return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 70.0.w,),
-                  decoration: BoxDecoration(
-                    color: StaticColor.grey200EE,
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: Image.asset('assets/public/loading_logo_image.png', width: 30.0.w,),
-              );
-            }
-          },
-          fit: BoxFit.cover,
-        ),
+        child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover)
       ),
     );
   }
@@ -172,24 +157,26 @@ class FeedPostGridCard extends _BasePostCard {
       ),
       child: AspectRatio(
         aspectRatio: 0.7,
-        child: Image.network(
-          imageUrl,
-          loadingBuilder: (context, child, loadingProgress) {
-            if(loadingProgress == null) {
-              return CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fitHeight);
-            } else {
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 35.0.w,),
-                decoration: BoxDecoration(
-                  color: StaticColor.grey200EE,
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Image.asset('assets/public/loading_logo_image.png', width: 30.0.w,),
-              );
-            }
-          },
-          fit: BoxFit.cover,
-        ),
+        child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover),
+        // child: Image.network(
+        //   imageUrl,
+        //   loadingBuilder: (context, child, loadingProgress) {
+        //     if(loadingProgress == null) {
+        //       // return FastCachedImage(url: imageUrl, fit: BoxFit.fitHeight);
+        //       return CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fitHeight, );
+        //     } else {
+        //       return Container(
+        //         padding: EdgeInsets.symmetric(horizontal: 35.0.w,),
+        //         decoration: BoxDecoration(
+        //           color: StaticColor.grey200EE,
+        //           borderRadius: BorderRadius.circular(16.0),
+        //         ),
+        //         child: Image.asset('assets/public/loading_logo_image.png', width: 30.0.w,),
+        //       );
+        //     }
+        //   },
+        //   fit: BoxFit.cover,
+        // ),
       ),
       // child: Image.network(
       //   imageUrl,
@@ -278,14 +265,6 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
   @override
   void initState() {
     _pageController = PageController();
-    _pageController.addListener(() {
-      // _pageController.
-      // print(_pageController.page);
-      // _pageController.page != 0.0 ?
-      //     context.read<FeedProvider>().viewChangeButtonStateReverse(true) :
-      //     context.read<FeedProvider>().viewChangeButtonStateReverse(false);
-    });
-    // _pageController.position
     super.initState();
   }
 
