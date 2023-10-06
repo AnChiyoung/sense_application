@@ -40,10 +40,10 @@ class UserRequest {
       updateModel['profile_image'] = imageString;
     }
     String name = context.read<MyPageProvider>().name;
+    SenseLogger().debug('update name!!: $name');
     updateModel['username'] = name;
 
     String birthday = context.read<MyPageProvider>().birthday;
-    print(birthday);
     updateModel['birthday'] = birthday;
 
     final response = await http.patch(

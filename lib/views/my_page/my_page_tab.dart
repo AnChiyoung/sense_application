@@ -89,7 +89,12 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      PersonalTasteFoodBanner()
+                      SizedBox(height: 16.0.h),
+                      PersonalTasteFoodBanner(),
+                      SizedBox(height: 16.0.h),
+                      PersonalTasteLodgingBanner(),
+                      SizedBox(height: 16.0.h),
+                      PersonalTasteTravelBanner(),
                     ],
                   ),
               ),
@@ -137,24 +142,17 @@ class _PersonalTasteFoodBannerState extends State<PersonalTasteFoodBanner> {
           } else if(snapshot.connectionState == ConnectionState.done) {
 
             FoodTasteModel bannerModels = snapshot.data ?? FoodTasteModel();
-            print('불렁몬');
-            // List<BannerModel> bannerModels = [];
 
             if(bannerModels.id == null) {
-              return Column(
-                children: [
-                  EmptyFoodBanner(),
-                  PersonalTasteLodgingBanner(),
-                  PersonalTasteTravelBanner(),
-                ],
-              );
+              return const EmptyFoodBanner();
             } else {
+              /// 선택한 음식 취향이 있을 때
               return Column(
                 children: [
                   Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 20.0.h),
+                        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
@@ -165,8 +163,9 @@ class _PersonalTasteFoodBannerState extends State<PersonalTasteFoodBanner> {
                             padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              image: DecorationImage(
+                              image: const DecorationImage(
                                 image: AssetImage('assets/my_page/food_background.png'),
+                                fit: BoxFit.fill,
                               ),
                             ),
                             child: Column(
@@ -189,8 +188,8 @@ class _PersonalTasteFoodBannerState extends State<PersonalTasteFoodBanner> {
                       ),
                     ],
                   ),
-                  PersonalTasteLodgingBanner(),
-                  PersonalTasteTravelBanner(),
+                  // PersonalTasteLodgingBanner(),
+                  // PersonalTasteTravelBanner(),
                 ],
               );
             }
@@ -212,43 +211,67 @@ class PersonalTasteLodgingBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 20.0.h),
-          child: GestureDetector(
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels.elementAt(index))));
-            },
-            child: Container(
-              width: double.infinity,
-              // height: 100,
-              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                image: DecorationImage(
-                  image: AssetImage('assets/my_page/lodging_background.png'),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16.0),
+
+    return FutureBuilder(
+        future: TasteRequest().loadLodgingPreference(PresentUserInfo.id),
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox.shrink();
+            } else if(snapshot.connectionState == ConnectionState.done) {
+
+              // FoodTasteModel bannerModels = snapshot.data ?? FoodTasteModel();
+
+              if(snapshot.data == false) {
+                return const EmptyLodgingBanner();
+              } else {
+                // 선택한 숙소 취향이 있을 때
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels.elementAt(index))));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        // height: 100,
+                        padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          image: const DecorationImage(
+                            image: AssetImage('assets/my_page/lodging_background.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              child: Text('숙소', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            ),
+                            SizedBox(height: 10.0.h),
+                            Text('도심속 힐링공간 마스터', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                          ],
+                        ),
+                      ),
                     ),
-                    child: Text('숙소', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                  ),
-                  SizedBox(height: 10.0.h),
-                  Text('도심속 힐링공간 마스터', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+                  ],
+                );
+              }
+            } else {
+              return const SizedBox.shrink();
+            }
+          } else if(snapshot.hasError) {
+            return const SizedBox.shrink();
+          } else {
+            return const SizedBox.shrink();
+          }
+        }
     );
   }
 }
@@ -258,43 +281,68 @@ class PersonalTasteTravelBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 20.0.h),
-          child: GestureDetector(
-            onTap: () {
-              // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels.elementAt(index))));
-            },
-            child: Container(
-              width: double.infinity,
-              // height: 100,
-              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                image: DecorationImage(
-                  image: AssetImage('assets/my_page/travel_background.png'),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16.0),
+
+    return FutureBuilder(
+        future: TasteRequest().loadTravelPreference(PresentUserInfo.id),
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            if(snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox.shrink();
+            } else if(snapshot.connectionState == ConnectionState.done) {
+
+              if(snapshot.data == false) {
+                return const EmptyTravelBanner();
+              } else {
+                /// 선택한 여행 취향이 있을 때
+                return Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 5.0.w, right: 20.0.w, top: 20.0.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels.elementAt(index))));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          // height: 100,
+                          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/my_page/travel_background.png'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                child: Text('여행', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                              ),
+                              SizedBox(height: 10.0.h),
+                              Text('소중한 이들과 떠나요', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Text('여행', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                  ),
-                  SizedBox(height: 10.0.h),
-                  Text('소중한 이들과 떠나요', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
+                  ],
+                );
+              }
+            } else {
+              return const SizedBox.shrink();
+            }
+          } else if(snapshot.hasError) {
+            return const SizedBox.shrink();
+          } else {
+            return const SizedBox.shrink();
+          }
+        }
     );
   }
 }
@@ -310,10 +358,10 @@ class _EmptyFoodBannerState extends State<EmptyFoodBanner> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 20.0.h),
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteFoodScreen()));
+          // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
         },
         child: Container(
           width: double.infinity,
@@ -321,7 +369,8 @@ class _EmptyFoodBannerState extends State<EmptyFoodBanner> {
           padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
-            color: StaticColor.grey100F6,
+            // color: StaticColor.grey100F6,
+            color: Colors.green,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -342,12 +391,122 @@ class _EmptyFoodBannerState extends State<EmptyFoodBanner> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0.h),
-                        child: Text('설정하기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400, height: 1.5))),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6.0.h),
-                        child: Image.asset('assets/taste/right_arrow.png', width: 16.0.w, height: 16.0.h)),
+                      Text('설정하기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                      Image.asset('assets/taste/right_arrow.png', width: 16.0.w, height: 16.0.h),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EmptyLodgingBanner extends StatefulWidget {
+  const EmptyLodgingBanner({super.key});
+
+  @override
+  State<EmptyLodgingBanner> createState() => _EmptyLodgingBannerState();
+}
+
+class _EmptyLodgingBannerState extends State<EmptyLodgingBanner> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: GestureDetector(
+        onTap: () {
+          // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
+        },
+        child: Container(
+          width: double.infinity,
+          // height: 100,
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            color: StaticColor.grey100F6,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Text('숙소', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+              ),
+              SizedBox(height: 10.0.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('숙소 취향이 아직 없습니다.', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('설정하기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400), textAlign: TextAlign.center),
+                      Image.asset('assets/taste/right_arrow.png', width: 16.0.w, height: 16.0.h),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EmptyTravelBanner extends StatefulWidget {
+  const EmptyTravelBanner({super.key});
+
+  @override
+  State<EmptyTravelBanner> createState() => _EmptyTravelBannerState();
+}
+
+class _EmptyTravelBannerState extends State<EmptyTravelBanner> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: GestureDetector(
+        onTap: () {
+          // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
+        },
+        child: Container(
+          width: double.infinity,
+          // height: 100,
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            color: StaticColor.grey100F6,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Text('여행', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+              ),
+              SizedBox(height: 10.0.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('여행 취향이 아직 없습니다.', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('설정하기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400)),
+                      Image.asset('assets/taste/right_arrow.png', width: 16.0.w, height: 16.0.h),
                     ],
                   )
                 ],

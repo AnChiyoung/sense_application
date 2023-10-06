@@ -20,18 +20,23 @@ class _MyInfoUpdateState extends State<MyInfoUpdate> {
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        top: true,
-        bottom: false,
-        child: Column(
-          children: [
-            MyInfoUpdateHeader(),
-            Expanded(
-              child: MyInfoUpdateContent(page: widget.page, topPadding: safeAreaTopPadding),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          top: true,
+          bottom: false,
+          child: Column(
+            children: [
+              MyInfoUpdateHeader(),
+              Expanded(
+                child: MyInfoUpdateContent(page: widget.page, topPadding: safeAreaTopPadding),
+              ),
+            ],
+          ),
         ),
       ),
     );

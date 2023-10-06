@@ -342,8 +342,6 @@ class _EventBottomSheetState extends State<EventBottomSheet> {
           print('up!!');
           dragDirection = true;
         }
-        // context.read<CalendarProvider>().dragDirectionChange(dragDirection);
-        // dragDirection ? context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.week) : context.read<CalendarBodyProvider>().calendarFormatChange(CalendarFormat.month);
       },
       child: DraggableScrollableSheet(
         controller: _controller,
@@ -363,20 +361,20 @@ class _EventBottomSheetState extends State<EventBottomSheet> {
               ),
               child: Column(
                 children: [
-                  SingleChildScrollView(
-                    physics: const ClampingScrollPhysics(),
-                    controller: scrollController,
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(width: double.infinity, height: 50),
-                          // Padding(
-                          //   padding: const EdgeInsets.only(top: 8, bottom: 12),
-                          //   child: Center(
-                          //     child: Image.asset('assets/feed/comment_header_bar.png', width: 75, height: 4),
-                          //   ),
-                          // ),
-                        ]
+                  ScrollConfiguration(
+                    behavior: const ScrollBehavior().copyWith(overscroll: false),
+                    child: SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      controller: scrollController,
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(width: double.infinity, height: 30.0.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                              child: EventHeaderMenu()),
+                          ]
+                      ),
                     ),
                   ),
                   /// event header + event header menu => event list area
@@ -386,6 +384,37 @@ class _EventBottomSheetState extends State<EventBottomSheet> {
             );
           },
       ),
+    );
+  }
+
+  Widget EventHeaderMenu() {
+    return Consumer<CalendarProvider>(
+        builder: (context, data, child) {
+
+          String selectMonth = data.selectMonth.toString();
+
+          return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.black90015, fontWeight: FontWeight.w700)),
+                /// disabled. kind of event filter. 20230813
+                // Material(
+                //   color: Colors.transparent,
+                //   child: SizedBox(
+                //     width: 40,
+                //     height: 40,
+                //     child: InkWell(
+                //       borderRadius: BorderRadius.circular(25.0),
+                //       onTap: () {
+                //         showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [EventListSettingBottomSheet()]);});
+                //       },
+                //       child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
+                //     ),
+                //   ),
+                // ),
+              ]
+          );
+        }
     );
   }
 }

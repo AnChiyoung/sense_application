@@ -73,7 +73,8 @@ dependencies:
   flutter_markdown: ^0.6.17+3
   flutter_advanced_networkimage_2: ^2.0.1
   month_picker_dialog: ^2.0.2
-  shared_preferences: ^2.2.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 #  editorjs_flutter:
 
 dev_dependencies:

@@ -101,6 +101,14 @@ class TasteRequest {
     }
   }
 
+  Future<bool> loadLodgingPreference(int userId) async {
+    return false;
+  }
+
+  Future<bool> loadTravelPreference(int userId) async {
+    return false;
+  }
+
   // Future<List<BannerModel>> bannerRequest() async {
   //   final response = await http.get(
   //     Uri.parse('${ApiUrl.releaseUrl}/favors?type=FOOD'),

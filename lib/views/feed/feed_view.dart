@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -295,9 +296,7 @@ class _FeedTagListState extends State<FeedTagList> {
       child: SizedBox(
         height: 36,
         child: FutureBuilder(
-          // future: context.read<FeedProvider>().initializeFeed(),
           future: FeedTagLoad().tagRequest(),
-          // Provider.of<FeedProvider>(context, listen: false).initializeFeed(),
           builder: (context, snapshot) {
             List<TagModel>? tagModels = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -345,51 +344,53 @@ class _FeedTagListState extends State<FeedTagList> {
                     ),
                     SizedBox(width: 6.0.w),
                     Expanded(
-                      child: ListView.builder(
-                        physics: const ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: tagModels!.length,
-                        itemBuilder: (context, index) {
+                      child: ScrollConfiguration(
+                        behavior: const ScrollBehavior().copyWith(overscroll: false),
+                        child: ListView.builder(
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tagModels!.length,
+                          itemBuilder: (context, index) {
 
-                          final selectTagIndex = context.watch<FeedProvider>().selectTagIndex;
+                            final selectTagIndex = context.watch<FeedProvider>().selectTagIndex;
 
-                          return Row(
-                            children: [
-                              Material(
-                                borderRadius: BorderRadius.circular(18),
-                                color: index == selectTagIndex ? Colors.grey.shade800 : Colors.grey.shade200,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(16),
-                                  onTap: () {
-                                    // context.read<FeedProvider>().selectTagNumberChange(index);
-                                    /// 20230827
-                                    context.read<FeedProvider>().selectTagNumberChange(tagModels.elementAt(index).id!, index);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 7,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        tagModels.elementAt(index).title!,
-                                        style: TextStyle(
-                                          color: index == selectTagIndex ? Colors.white : Colors.grey.shade700,
-                                          fontSize: 14,
+                            return Row(
+                              children: [
+                                Material(
+                                  borderRadius: BorderRadius.circular(18),
+                                  color: index == selectTagIndex ? Colors.grey.shade800 : Colors.grey.shade200,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(16),
+                                    onTap: () {
+                                      // context.read<FeedProvider>().selectTagNumberChange(index);
+                                      /// 20230827
+                                      context.read<FeedProvider>().selectTagNumberChange(tagModels.elementAt(index).id!, index);
+                                      if (kDebugMode) {
+                                      }
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 7,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          tagModels.elementAt(index).title!,
+                                          style: TextStyle(
+                                            color: index == selectTagIndex ? Colors.white : Colors.grey.shade700,
+                                            fontSize: 14,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 6.0.w),
-                            ],
-                          );
-                        },
-                        // separatorBuilder: (BuildContext context, int index) {
-                        //   return const SizedBox(width: 6);
-                        // }
+                                SizedBox(width: 6.0.w),
+                              ],
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -491,7 +492,7 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
 
-    final selectTagNumber = context.read<FeedProvider>().selectTagNumber;
+    final selectTagNumber = context.watch<FeedProvider>().selectTagNumber;
 
     return Expanded(
       child: Stack(

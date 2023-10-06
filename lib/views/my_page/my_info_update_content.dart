@@ -85,20 +85,7 @@ class _MyInfoUpdateContentState extends State<MyInfoUpdateContent> with TickerPr
               MyMoreInfo(topPadding: widget.topPadding),
             ],
           ),
-        )
-
-        // Container(
-        //   width: double.infinity,
-        //   height: 1.0.h,
-        //   decoration: BoxDecoration(
-        //     color: StaticColor.grey200EE,
-        //   ),
-        // ),
-        // // Container(width: 30, height: 100, color: Colors.red),
-        // MyInfoTabbarViewField(controller: controller)
-        // ProfileImageField(),
-        // BasicInfoField(),
-        // GenderField(),
+        ),
       ],
     );
   }
@@ -137,6 +124,7 @@ class _ProfileImageFieldState extends State<ProfileImageField> {
               onTap: () async {
                 image = await _picker.pickImage(source: ImageSource.gallery);
                 context.read<MyPageProvider>().xfileStateChange(image);
+                context.read<MyPageProvider>().doesActiveBasicButton();
               },
               child: UserProfileImage(profileImageUrl: profileImageString, selectImage: data.selectImage),
             ),
@@ -167,7 +155,6 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 
   @override
   void initState() {
-    // username = PresentUserInfo.username;
     loadFuture = _fetchData();
     super.initState();
   }
@@ -190,53 +177,55 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 
             return Stack(
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Column(
-                      children: [
-                        ProfileImageField(profileImageString: userModel.profileImageString),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('이름', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
-                        SizedBox(height: 8.0.h),
-                        BasicInfoName(initializeName: userModel.username!),
-                        SizedBox(height: 24.0.h),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('연락처', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
-                        SizedBox(height: 8.0.h),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: StaticColor.grey100F6,
-                            borderRadius: BorderRadius.circular(4.0),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: Column(
+                        children: [
+                          ProfileImageField(profileImageString: userModel.profileImageString),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('이름', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+                          SizedBox(height: 8.0.h),
+                          BasicInfoName(initializeName: userModel.username!),
+                          SizedBox(height: 24.0.h),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('연락처', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+                          SizedBox(height: 8.0.h),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: StaticColor.grey100F6,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            child: Text(userModel.phone ?? '', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
                           ),
-                          child: Text(userModel.phone ?? '', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
-                        ),
-                        SizedBox(height: 24.0.h),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('생년월일', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
-                        SizedBox(height: 8.0.h),
-                        BasicInfoBirthday(initializeBirthday: userModel.birthday),
-                        SizedBox(height: 24.0.h),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('소개', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
-                        SizedBox(height: 8.0.h),
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 8.0.h),
-                          decoration: BoxDecoration(
-                            color: StaticColor.grey100F6,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: Center(
-                            child: Text('소개 글이 없습니다.', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                          ),
-                        )
-                      ]
+                          SizedBox(height: 24.0.h),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('생년월일', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+                          SizedBox(height: 8.0.h),
+                          BasicInfoBirthday(initializeBirthday: userModel.birthday),
+                          SizedBox(height: 24.0.h),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('소개', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+                          SizedBox(height: 8.0.h),
+                          Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(vertical: 8.0.h),
+                            decoration: BoxDecoration(
+                              color: StaticColor.grey100F6,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            child: Center(
+                              child: Text('소개 글이 없습니다.', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            ),
+                          )
+                        ]
+                    ),
                   ),
                 ),
                 Align(
@@ -295,7 +284,7 @@ class _BasicInfoNameState extends State<BasicInfoName> {
           maxLength: 14,
           textAlignVertical: TextAlignVertical.center,
           style: TextStyle(color: Colors.black, fontSize: 14.sp),
-          cursorHeight: 15.h,
+          cursorHeight: 17.0.h,
           decoration: InputDecoration(
               counterText: '',
               filled: true,
@@ -313,8 +302,16 @@ class _BasicInfoNameState extends State<BasicInfoName> {
               )
           ),
         onEditingComplete: () {
-          context.read<MyPageProvider>().nameStateChange(nameController.text);
-        }
+          context.read<MyPageProvider>().nameStateChange(nameController.text, true);
+        },
+        onChanged: (v) {
+          context.read<MyPageProvider>().nameStateChange(v, false);
+          context.read<MyPageProvider>().doesActiveBasicButton();
+          if(v.isEmpty || context.read<MyPageProvider>().loadName == context.read<MyPageProvider>().name) {
+            context.read<MyPageProvider>().basicButtonChange(false);
+          } else {
+          }
+        },
       ),
       // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
     );
@@ -335,6 +332,10 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
   late TextEditingController monthController;
   late TextEditingController dayController;
 
+  late FocusNode yearFocus;
+  late FocusNode monthFocus;
+  late FocusNode dayFocus;
+
   String year = '-';
   String month = '-';
   String day = '-';
@@ -350,6 +351,9 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
     yearController = TextEditingController();
     monthController = TextEditingController();
     dayController = TextEditingController();
+    yearFocus = FocusNode();
+    monthFocus = FocusNode();
+    dayFocus = FocusNode();
     String initBirthday = widget.initializeBirthday ?? '';
     print(initBirthday);
     if(initBirthday.isEmpty) {
@@ -365,6 +369,17 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
       context.read<MyPageProvider>().birthdayInit(widget.initializeBirthday!);
     }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    yearController.dispose();
+    monthController.dispose();
+    dayController.dispose();
+    yearFocus.dispose();
+    monthFocus.dispose();
+    dayFocus.dispose();
+    super.dispose();
   }
 
   @override
@@ -384,6 +399,7 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
             child: TextFormField(
               controller: yearController,
               autofocus: false,
+              focusNode: yearFocus,
               textInputAction: TextInputAction.next,
               maxLines: 1,
               maxLength: 4,
@@ -463,6 +479,7 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
             child: TextFormField(
               controller: monthController,
               autofocus: false,
+              focusNode: monthFocus,
               textInputAction: TextInputAction.next,
               maxLines: 1,
               maxLength: 2,
@@ -539,6 +556,7 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
             child: TextFormField(
               controller: dayController,
               autofocus: false,
+              focusNode: dayFocus,
               textInputAction: TextInputAction.next,
               maxLines: 1,
               maxLength: 2,
@@ -778,9 +796,11 @@ class _MyInfoUpdateButtonState extends State<MyInfoUpdateButton> {
           height: 76.0.h,
           child: ElevatedButton(
               onPressed: () async {
+                print('change?? : ${context.read<MyPageProvider>().name}');
                 if(state == true) {
                   bool updateResult = await UserRequest().userBasicInfoUpdate(context);
                   if(updateResult == true) {
+
                     context.read<MyPageProvider>().myPageNameChange();
                     context.read<MyPageProvider>().updateInfoInit();
                     Navigator.of(context).pop();

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'dart:io' as Io;
 
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -189,11 +190,11 @@ class MyPageProvider with ChangeNotifier {
 
     _updateImageString = convertString;
 
-    if(doesActiveBasicButton() == true) {
-      _basicButton = true;
-    } else {
-      _basicButton = false;
-    }
+    // if(doesActiveBasicButton() == true) {
+    //   _basicButton = true;
+    // } else {
+    //   _basicButton = false;
+    // }
     notifyListeners();
   }
 
@@ -202,15 +203,10 @@ class MyPageProvider with ChangeNotifier {
     _name = name;
   }
 
-  void nameStateChange(String name) {
-    print(_loadName);
-    print(_name);
+  void nameStateChange(String name, bool notify) {
+    SenseLogger().debug('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<$name');
     _name = name;
-    if(doesActiveBasicButton() == true) {
-      _basicButton = true;
-      notifyListeners();
-    } else {
-      _basicButton = false;
+    if(notify == true) {
       notifyListeners();
     }
   }
@@ -232,13 +228,13 @@ class MyPageProvider with ChangeNotifier {
   void birthdayStateChange(String birthday) {
     _birthday = birthday;
     _loadBirthday = birthday;
-    if(doesActiveBasicButton() == true) {
-      _basicButton = true;
-      notifyListeners();
-    } else {
-      _basicButton = false;
-      notifyListeners();
-    }
+    // if(doesActiveBasicButton() == true) {
+    //   _basicButton = true;
+    //   notifyListeners();
+    // } else {
+    //   _basicButton = false;
+    //   notifyListeners();
+    // }
   }
 
   void emailStateChange(String email) {
@@ -261,8 +257,11 @@ class MyPageProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool doesActiveBasicButton() {
-    return (_selectImage != null) || (_loadName != _name) || (_loadBirthday != _birthday);
+  void doesActiveBasicButton() {
+    if(_selectImage != null || _loadName != _name || _loadBirthday != _birthday) {
+      _basicButton = true;
+      notifyListeners();
+    }
   }
 
   void updateInfoInit() {

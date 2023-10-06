@@ -7,7 +7,7 @@ class ApiUrl {
   static String liveUrl = 'https://server.sens.im/api/v1';
   // static String stagingUrl = 'https://server.s'
 
-  static String releaseUrl = devUrl;
+  static String releaseUrl = liveUrl;
 // post create event model
   static String createEventPath = '$devUrl/event';
   static String recommendListPath = '$devUrl/suggestions?recommend_type=';

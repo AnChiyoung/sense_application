@@ -153,6 +153,7 @@ class _MyPageIntroduceState extends State<MyPageIntroduce> {
             child: Text('소개', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
           SizedBox(height: 16.0.h),
           Text('등록된 소개 글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+          SizedBox(height: 16.0.h),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
+import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_detail_view.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
@@ -15,6 +16,7 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
   final String imageUrl;
   final String title;
   String? subTitle;
+  final bool like;
 
   _BasePostCard({
     Key? key,
@@ -22,6 +24,7 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
     required this.imageUrl,
     required this.title,
     this.subTitle,
+    required this.like
   }) : super(key: key);
 
   @protected
@@ -67,8 +70,9 @@ class FeedPostCarouselCard extends _BasePostCard {
     required String imageUrl,
     required String title,
     String? subTitle,
+    required bool like,
 
-  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle,);
+  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle, like: like);
 
   @override
   Widget buildImage(BuildContext context) {
@@ -78,17 +82,20 @@ class FeedPostCarouselCard extends _BasePostCard {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        // boxShadow: [
-        //   BoxShadow(
-        //     blurRadius: 8,
-        //     offset: const Offset(0, 8),
-        //     color: Colors.black.withOpacity(0.4),
-        //   ),
-        // ],
+        color: Colors.black,
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 8,
+            offset: const Offset(0, 8),
+            color: Colors.black.withOpacity(0.4),
+          ),
+        ],
       ),
       child: AspectRatio(
         aspectRatio: 0.7,
-        child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover)
+        child: Opacity(
+          opacity: 0.8,
+          child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover))
       ),
     );
   }
@@ -103,26 +110,52 @@ class FeedPostCarouselCard extends _BasePostCard {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+          SizedBox(
+            width: 200,
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 24.0.sp,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 16.0.h),
-          Text(
-            subTitle!,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Colors.white,
+          Padding(
+            padding: EdgeInsets.only(right: 5.0.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    subTitle!,
+                    style: TextStyle(
+                      fontSize: 14.0.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                like == true ? IconRippleButton(
+                  icon: Icons.favorite,
+                  color: Colors.red,
+                  size: 26,
+                  padding: 8,
+                  onPressed: null,
+                ) : IconRippleButton(
+                  icon: Icons.favorite_border,
+                  color: Colors.white,
+                  size: 26,
+                  padding: 8,
+                  onPressed: null,
+                )
+              ],
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -137,7 +170,8 @@ class FeedPostGridCard extends _BasePostCard {
     required String imageUrl,
     required String title,
     String? subTitle,
-  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle,);
+    required bool like,
+  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle, like: like);
 
   @override
   Widget buildImage(BuildContext context) {
@@ -209,8 +243,8 @@ class FeedPostGridCard extends _BasePostCard {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                fontSize: 30,
+              style: TextStyle(
+                fontSize: 16.0.sp,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),
@@ -246,8 +280,6 @@ class FeedPostGridCard extends _BasePostCard {
   }
 }
 
-///
-///
 /// 피드에서 포스트 리스트를 보여주는 위젯
 class FeedPostListPresenter extends StatefulWidget {
   final List<FeedPreviewModel> feedPosts;
@@ -295,6 +327,7 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
           title: feedPost.title!,
           subTitle: feedPost.subTitle!,
           imageUrl: feedPost.thumbnailUrl!,
+          like: feedPost.isLiked ?? false,
         ));
       }
       feedPostsWidget = StackedCardCarousel(
@@ -315,6 +348,7 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
           title: feedPost.title!,
           subTitle: feedPost.subTitle!,
           imageUrl: feedPost.thumbnailUrl!,
+          like: feedPost.isLiked!,
         ));
       }
 

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/calendar/calendar_home_model.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
+import 'package:sense_flutter_application/models/local_save/preference_model.dart';
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
@@ -127,7 +128,7 @@ class _EventListState extends State<EventList> {
                         child: Column(
                           children: [
                             // EventHeader(),
-                            EventHeaderMenu(),
+                            // EventHeaderMenu(),
                             CalendarEventList(monthListModels: monthEventMap),
                           ],
                         ));
@@ -149,36 +150,36 @@ class _EventListState extends State<EventList> {
     );
   }
 
-  Widget EventHeaderMenu() {
-    return Consumer<CalendarProvider>(
-        builder: (context, data, child) {
-
-          String selectMonth = data.selectMonth.toString();
-
-          return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.black90015, fontWeight: FontWeight.w700)),
-                /// disabled. kind of event filter. 20230813
-                // Material(
-                //   color: Colors.transparent,
-                //   child: SizedBox(
-                //     width: 40,
-                //     height: 40,
-                //     child: InkWell(
-                //       borderRadius: BorderRadius.circular(25.0),
-                //       onTap: () {
-                //         showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [EventListSettingBottomSheet()]);});
-                //       },
-                //       child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
-                //     ),
-                //   ),
-                // ),
-              ]
-          );
-        }
-    );
-  }
+  // Widget EventHeaderMenu() {
+  //   return Consumer<CalendarProvider>(
+  //       builder: (context, data, child) {
+  //
+  //         String selectMonth = data.selectMonth.toString();
+  //
+  //         return Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Text('$selectMonth월', style: TextStyle(fontSize: 20, color: StaticColor.black90015, fontWeight: FontWeight.w700)),
+  //               /// disabled. kind of event filter. 20230813
+  //               // Material(
+  //               //   color: Colors.transparent,
+  //               //   child: SizedBox(
+  //               //     width: 40,
+  //               //     height: 40,
+  //               //     child: InkWell(
+  //               //       borderRadius: BorderRadius.circular(25.0),
+  //               //       onTap: () {
+  //               //         showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [EventListSettingBottomSheet()]);});
+  //               //       },
+  //               //       child: Center(child: Image.asset('assets/calendar/calendar_eventlist_setting.png', width: 24, height: 24)),
+  //               //     ),
+  //               //   ),
+  //               // ),
+  //             ]
+  //         );
+  //       }
+  //   );
+  // }
 
   Widget EventHeader() {
     return Padding(
@@ -223,18 +224,21 @@ class _CalendarEventListState extends State<CalendarEventList> {
       return Expanded(
         child: Padding(
           padding: const EdgeInsets.only(top: 24.0),
-          child: ListView.builder(
-            shrinkWrap: true,
-            controller: monthEventListController,
-            physics: const ClampingScrollPhysics(),
-            itemCount: modelLength,
-            itemBuilder: (context, index) {
-              // return Container();
-              /// 일자별 이벤트 리스트
-              // return Container(height: 30);
-              return DayEventList(model: models!.elementAt(index), controller: monthEventListController);
-              // return Container(child: Text(models!.elementAt(index).eventDate!, style: TextStyle(color: Colors.black)));
-            }
+          child: ScrollConfiguration(
+            behavior: const ScrollBehavior().copyWith(overscroll: false),
+            child: ListView.builder(
+              shrinkWrap: true,
+              controller: monthEventListController,
+              physics: const ClampingScrollPhysics(),
+              itemCount: modelLength,
+              itemBuilder: (context, index) {
+                // return Container();
+                /// 일자별 이벤트 리스트
+                // return Container(height: 30);
+                return DayEventList(model: models!.elementAt(index), controller: monthEventListController);
+                // return Container(child: Text(models!.elementAt(index).eventDate!, style: TextStyle(color: Colors.black)));
+              }
+            ),
           ),
         ),
       );
@@ -380,27 +384,31 @@ class _DayEventsListState extends State<DayEventsList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const ClampingScrollPhysics(),
-      controller: widget.controller,
-      itemCount: int.parse(eventCount),
-      itemBuilder: (context, index) {
-        // return Container();
-        return Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                // widget.controller.jumpTo(100);
-                print(model.elementAt(index).id!);
-                // context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
-                // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
-              },
-              child: EventRow(model: model.elementAt(index) ?? EventModel())),
-            const Divider(height: 12.0, color: Colors.transparent),
-          ],
-        );
-      }
+    return ScrollConfiguration(
+      behavior: const ScrollBehavior().copyWith(overscroll: false),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const ClampingScrollPhysics(),
+        controller: widget.controller,
+        itemCount: int.parse(eventCount),
+        itemBuilder: (context, index) {
+          // return Container();
+          return Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // Preferences.recentlyEventSave(model.elementAt(index));
+                  // widget.controller.jumpTo(100);
+                  print(model.elementAt(index).id!);
+                  // context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
+                  // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
+                },
+                child: EventRow(model: model.elementAt(index) ?? EventModel())),
+              const Divider(height: 12.0, color: Colors.transparent),
+            ],
+          );
+        }
+      ),
     );
   }
 }
