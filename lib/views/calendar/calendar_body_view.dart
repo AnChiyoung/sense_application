@@ -346,9 +346,9 @@ class _EventBottomSheetState extends State<EventBottomSheet> {
       child: DraggableScrollableSheet(
         controller: _controller,
           expand: true,
-          initialChildSize: 0.45,
+          initialChildSize: 0.40,
           maxChildSize: 0.85,
-          minChildSize: 0.45,
+          minChildSize: 0.40,
           builder: (BuildContext context, ScrollController scrollController) {
 
             return Container(

@@ -3,6 +3,651 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
+class FeedFlexibleID22 extends StatefulWidget {
+  const FeedFlexibleID22({super.key});
+
+  @override
+  State<FeedFlexibleID22> createState() => _FeedFlexibleID22State();
+}
+
+class _FeedFlexibleID22State extends State<FeedFlexibleID22> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('콘티넨탈은 서울의 전경과 함께 최상의 프렌치 정찬을 즐길 수 있는 프렌치 레스토랑입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('정통 프렌치를 선보입니다. 세계적인 정상급 와인부터 희소한 와인까지 500여 종의 다채로운 셀렉션을 보유한 와인의 메카로도 유명합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('신라호텔은 우리나라에서 손에 꼽히는 식당들이 있기로 유명하죠?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('그 중에서 프렌치 다이닝을 생각한다면 신라호텔의 콘티넨탈이 제일 유명한 것 같아요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('서울 야경을 바라보면서 여자친구분과 특별한 저녁 식사는 어떠신가요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231005T055303.jpeg',
+                )
+            ),
+            Text('\n콘티넨탈의 코스 요리는 누구나 좋아할 수 밖에 없는 맛있고 고급스러운 구성들로 이루어져 있어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('인당 30만원의 금액이지만 미리 예약을 해두셔야 식사를 즐길 수 있을 정도로 인기가 많답니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('아래 링크를 통해서 예약하실 수 있어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://www.shilla.net/seoul/dining/viewDining.do?contId=FRC#ad-image-0',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID21 extends StatefulWidget {
+  const FeedFlexibleID21({super.key});
+
+  @override
+  State<FeedFlexibleID21> createState() => _FeedFlexibleID21State();
+}
+
+class _FeedFlexibleID21State extends State<FeedFlexibleID21> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('여자친구에게 기념일에 가장 많이 주는 보석류 !\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('팔찌, 반지 , 귀걸이 등등\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('연인과 함께 한 시간이 많아질수록 선물한 귀중품들이 많아지시나요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구분께서 혹시 그 많은 선물들을 어디에 보관할지 고민하지는 않나요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('넌지시 물어봐주세요! 쥬얼리를 어떻게 보관하는지!\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('혹시 상자 하나에 몰아서 넣느라 데이트 할때마다 귀걸이들 틈 사이에서 뒤적이지는 않는지.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('이번 선물은 센스있게 쥬얼리 보관함 자체를 선물하시는건 어떨까요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('보관할게 그렇게 많지 않으시다면 앞으로 함께 하실 시간들 동안 같이 서로의 소중한 추억과\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('기념품들로 채워보시는것도 나쁘지 않을것 같아요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T074006.jpeg',
+                )
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T074020.jpeg',
+                )
+            ),
+            Text('\n울프1834에서 제공하는 가죽으로 만들어진 예쁜 쥬얼리 보관함을 만나보세요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구분께서는 상상도 못한 선물일것 같아요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('쥬얼리 자체는 너무 많고 고르기도 어렵지만, 쥬얼리 보관함은 단 하나로 계속해서 보고 사용할테니까요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('40 ~ 60만원대 다양한 울프의 상품을 추천드리고 상품은 아래 링크에서 구매하실 수 있습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://trendmecca.co.kr/product/search.html?banner_action=&amp;keyword=%EC%A5%AC%EC%96%BC%EB%A6%AC%EB%B3%B4%EA%B4%80%ED%95%A8\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID20 extends StatefulWidget {
+  const FeedFlexibleID20({super.key});
+
+  @override
+  State<FeedFlexibleID20> createState() => _FeedFlexibleID20State();
+}
+
+class _FeedFlexibleID20State extends State<FeedFlexibleID20> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('차량용 방향제를 카카오톡 선물하기로 주려고 하면 늘 보이는 저가 상품들이 많습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('소중한 사람이 차를 아낀다면, 그런 사람에게 기억에 남을 선물을 하시고 싶으신가요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('딥티크에서 선사하는 차량용 방향제를 소개해드려요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T073246.png',
+                )
+            ),
+            Text('\n차량용 방향제 중에서 고급스럽다는 평이 많은 딥티크 상품이에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('가격은 케이스와 리필을 포함해서 15만원 내외로 구매하실 수 있어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('연인이 차를 사서 특별한 선물을 해주시고 싶으신 분들에게 추천드려요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('구매는 아래 링크를 통해 진행하실 수 있어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://www.sivillage.com/goods/initDetailGoods.siv?goods_no=1912231444\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID19 extends StatefulWidget {
+  const FeedFlexibleID19({super.key});
+
+  @override
+  State<FeedFlexibleID19> createState() => _FeedFlexibleID19State();
+}
+
+class _FeedFlexibleID19State extends State<FeedFlexibleID19> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('차를 가진 사람에게 줄 수 있는 선물들 중 가장 인기가 많은건 무엇일까요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('바로 차량용 방향제입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('계속해서 사용해야하고, 향이 질리면 바꾸기도 해야하고, 차에서 나는 여러 냄새를 잡기 제일 좋은 방법이니까요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구가 만약에 차를 새로 뽑았거나, 기존에 쓰던 방향제가 다 떨어져간다면 아래 상품을 추천드려요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T071903.jpg',
+                )
+            ),
+            Text('\n조말론에서 출시한 차량용 방향제에요. 다른 방향제들은 향이 떨어지면 통째로 바꿔야하는데 조말론 방향제는 안에 리필만 바꾸어주면 됩니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('바꿀때마다 여러 향들을 맡을 수 있어서 분위기전환에도 도움이 되어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('거치대와 향까지 포함해서 15만원 정도의 가격으로 구매하실 수 있어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('구매는 가까운 백화점 조말론 코너나 아래 링크를 통해서 구매하실 수 있습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://www.jomalone.co.kr/product/25969/106278/peony-blush-suede-car-diffuser\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID18 extends StatefulWidget {
+  const FeedFlexibleID18({super.key});
+
+  @override
+  State<FeedFlexibleID18> createState() => _FeedFlexibleID18State();
+}
+
+class _FeedFlexibleID18State extends State<FeedFlexibleID18> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('늘 꽃다발을 선물할때면 몇가지 고민이 들지 않으시나요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('어떤 꽃을 해야하나? 색 조합은 어떻게 해야하나? 너무 꽃만 선물하나?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구분이 꽃을 좋아하지만 매번 같은 꽃다발 선물에 지루함을 느끼시는 분들을 위해 소개해드리는 선물이에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구가 만약에 차를 새로 뽑았거나, 기존에 쓰던 방향제가 다 떨어져간다면 아래 상품을 추천드려요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('고흐의 작품을 꽃으로\n',
+              style: TextStyle(fontSize: 17.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w600),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T061845.jpeg',
+                )
+            ),
+            Text('\n고흐의 유명한 작품들을 꽃다발로 표현했어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('가장 유명한 별이 빛나는 밤부터 한 번쯤 보았을 다양한 명화들의 색과 느낌을 표현했어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T062003.jpeg',
+                )
+            ),
+            Text('\n늘 같은 꽃다발에 질린 여자친구에게 새로운 의미가 담긴 선물을 하시고 싶으신가요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구가 고흐를 좋아한다면 금상첨화!\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('꽃집 청년들의 상품은 전국 어디서나 택배로 받으실 수 있어요.&nbsp; 어디서 주문하던 오늘 주문하시면 오늘내로 받아보실 수 있답니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구와의 소중한 날들을 기념하기 위한 필수템 꽃 !\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('지금 여기서 만나보세요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('꽃집 청년들의 꽃은 아래 링크에서 구매하실 수 있으셔요\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://f-mans.com/\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID17 extends StatefulWidget {
+  const FeedFlexibleID17({super.key});
+
+  @override
+  State<FeedFlexibleID17> createState() => _FeedFlexibleID17State();
+}
+
+class _FeedFlexibleID17State extends State<FeedFlexibleID17> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('원모먼트에서는 여러 꽃다발들을 만나보실 수 있어요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('사랑하는 연인에게 줄 꽃다발은 물론이고 부모님, 친구, 생일선물, 출산, 병문안 등 다양한 상황에 맞는 꽃다발을 찾아보세요!\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('그 중에서도 이번에 센스에서 소개시켜드릴 꽃다발은 요즘 핫한 산리오와 콜라보한 꽃다발들입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T055015.jpeg',
+                )
+            ),
+            Text('\n귀엽고 예쁜 산리오 인형들이 꽃들과 함께 선물되어져요. 여자친구가 좋아하는 꽃을 모르더라도 산리오를 좋아한다면 선물해보시는게 어떨까요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('이 외에도 다양한 상품들이 있지만 원모먼트의 가장 큰 장점은 배송이에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('원모먼트에서 시키는 꽃들은 당일에 받아보실 수 있어요. 항상 꽃을 구매하면 선물할때까지 가지고 계시기 애매하신 경우가 많으셨죠?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('이 외에도 다양한 상품들이 있지만 원모먼트의 가장 큰 장점은 배송이에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('원모먼트에서 편하게 주문하시고 선물로 드리기 바로 직전에 받아보세요 !\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('원모먼트에서의 상품 구매는 아래 링크를 통해서 하실 수 있으셔요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://www.1moment.co.kr/\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID16 extends StatefulWidget {
+  const FeedFlexibleID16({super.key});
+
+  @override
+  State<FeedFlexibleID16> createState() => _FeedFlexibleID16State();
+}
+
+class _FeedFlexibleID16State extends State<FeedFlexibleID16> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('예전부터 지금까지 사랑받는 골프\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구와 같이 시작한 골프, 생각보다 좋아하는 애인에게 골프 용품을 선물하고 싶으신가요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('선물은 해주고 싶은데 생각보다 마땅한 골프 용품이 없거나 예쁘지 않아서 선물의 느낌이 나지 않으셨었나요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('스미스앤래더에서 기획한 수제가죽 골프 용품을 소개시켜드립니다 !\n',
+              style: TextStyle(fontSize: 17.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w600),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T053513.jpeg',
+                )
+            ),
+            Text('\n골프백 모양의 미니 파우치부터 아이언커버, 거리측정기, 볼 마커 등 다양한 골프 용품을 고급스러운 가죽과 함께 제작하였습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('예쁜 디자인과 가죽이 만나 한땀 한땀 만들어지다보니 골프를 사랑하시는 분이시라면 무조건 좋아할 선물이라고 생각되네요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T053720.jpeg',
+                )
+            ),
+            Text('\n각인도 가능하니 소중한 애인의 이니셜을 담은 가죽공예 골프 세트를 선물로 드리는 건 어떨까요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('위의 제품과 다양한 골프 가죽공예 상품들은 아래 링크에서 만나보실 수 있습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://smithleather.kr/product/list.html?cate_no=337\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID15 extends StatefulWidget {
+  const FeedFlexibleID15({super.key});
+
+  @override
+  State<FeedFlexibleID15> createState() => _FeedFlexibleID15State();
+}
+
+class _FeedFlexibleID15State extends State<FeedFlexibleID15> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('에르메스 애호가이신가요?\n',
+              style: TextStyle(fontSize: 17.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w600),
+            ),
+            Text('명품을 잘 모르는 분들도 에르메스라는 이름은 다들 들어보셨을만큼 에르메스는 명품 중에 명품이죠.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('에르메스라고 하면 옷이나 가방의 이미지를 먼저 떠올리실거에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('하지만 에르메스에서는 옷과 가방 뿐만 아니라 다양한 엑세서리와 상품들을 판매하고 있답니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('이번에 저희가 추천해드릴 선물은 에르메스에서 출시한 여성용 손목 시계입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T044841.jpeg',
+                )
+            ),
+            Text('\n작고 예쁜 디자인에 고급스러운 세공을 통해 누가봐도 명품이라는 느낌이 강하게 느껴지는 시계입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('전체적인 틀이 에르메스의 상징인 H 모양을 하고 있네요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('시계 선물이라고 하면 비싸면 천만원 이상이기 쉬운데 위의 제품은 에르메스 라인업임에도\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('400만원 선의 가격으로 구매하실 수 있는 손목 시계 입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자친구분이 에르메스를 좋아하시거나 아직 시계가 없는데 선물할 계획이 있다면, 이 시계를 추천드려요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T045031.webp',
+                )
+            ),
+            Text('\n시계는 한 번 사면 몇년을 사용하고 그 시간 내내 선물해준 당신을 떠올리는 의미가 많은 선물이에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('바쁜 와중에 당신을 생각해서 준비한 선물, 앞으로 함께 할 시간들이 이 시계만큼 소중하길 바라는 마음으로 선물하는건 어떨까요?\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('해당 제품은 아래 링크에서 구매하실 수 있습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://www.hermes.com/kr/ko/product/heure-h-%EC%9B%8C%EC%B9%98-%EC%8A%A4%EB%AA%B0-%EB%AA%A8%EB%8D%B8-25mm-W036706WW00/\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+class FeedFlexibleID14 extends StatefulWidget {
+  const FeedFlexibleID14({super.key});
+
+  @override
+  State<FeedFlexibleID14> createState() => _FeedFlexibleID14State();
+}
+
+class _FeedFlexibleID14State extends State<FeedFlexibleID14> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('여자친구 손목이 허전하다고 느끼시나요?\n',
+              style: TextStyle(fontSize: 17.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w600),
+            ),
+            Text('만약 여자친구분이 시계를 가지고 있지 않으시다면 강력하게 추천드립니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('사실 휴대전화가 있으면 시계를 볼일이 없다고 생각하시는 경우가 많습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('그렇지만 막상 손목시계를 차보면 휴대폰을 꺼내지 않고서도 시간을 볼 수 있어서 편하고\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('이제는 시간을 보는 기능 뿐만이 아니라 패션 아이템으로도 활용이 가능하니 선물로 받았을때\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('만족도가 높은 선물입니다!\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('여자분들이 좋아하시는 시계의 종류는 작고 귀여운 시계, 혹은 고급스러워보이는 시계 종류가 많은데요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('이번에 센스에서 추천해드릴 시계는 구찌의 손목시계입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://cf.sens.im/media/sense/image/20231004T043121.jpg',
+                )
+            ),
+            Text('\n팔찌와 손목시계 같은 선물들은 손목에 착용하면서 하루에도 몇십번씩 보곤 합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('그럴때마다 예쁜 시계를 보면서 시계를 선물해준 당신을 떠올리는 선물이에요.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('위에 사진에 나오는 제품은 아래 구찌 사이트에서 200만원 가격대로 구매하실 수 있는 제품입니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('https://www.gucci.com/kr/ko/pr/jewelry-watches/watches/watches-for-her/diamantissima-watch-27mm-p-602518IBAA08462\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('저희 센스에서는 여러분들과 여러분들의 소중한 사람들이 특별한 날들을 보내실 수 있도록 최선을 다하겠습니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+            Text('감사합니다.\n',
+              style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w400),
+            ),
+          ]
+      ),
+    );
+  }
+}
+
+
 class FeedFlexibleID13 extends StatefulWidget {
   const FeedFlexibleID13({super.key});
 

@@ -11,6 +11,7 @@ import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/public_widget/test_request.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
+import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -210,7 +211,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     context.read<SigninProvider>().genderChangeState([false, false]);
                                     context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
                                     /// 맨 처음 페이지로.
-                                    Navigator.popUntil(context, (route) => route.isFirst);
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
                                     // Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
 
                                   /// 인증번호 일치하지 않을 때,

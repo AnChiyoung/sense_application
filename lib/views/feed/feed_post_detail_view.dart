@@ -63,21 +63,21 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
             future: activeFuture,
             builder: (context, snapshot) {
               if(snapshot.hasError) {
-                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                return const SizedBox.shrink();
               } else if(snapshot.hasData) {
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return const Center(child: CircularProgressIndicator());
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   FeedDetailModel feedDetailModel = snapshot.data!;
                   return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
 
                 } else {
-                  return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                  return const Center(child: CircularProgressIndicator());
                 }
               } else {
                 // return const Center(child: Text('data loading..'));
-                return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
+                return const Center(child: CircularProgressIndicator());
               }
             }
           )
@@ -102,6 +102,7 @@ class _PostDetailState extends State<PostDetail> {
   FeedDetailModel? model;
   List<Widget> contentsWidget = [];
   List<Widget> tagsWidget = [];
+  Widget detailWidget = const SizedBox.shrink();
   String? created;
 
   bool stringToBoolean(String value) {
@@ -145,6 +146,43 @@ class _PostDetailState extends State<PostDetail> {
       created = '작성일 ${model!.createdTime!.toString().substring(0, 10).replaceAll('-', '.')}';
     }
     // contentEncoding(model!.content.toString());
+
+    if(model!.id == 22) {
+      detailWidget = const FeedFlexibleID22();
+    } else if(model!.id == 21) {
+      detailWidget = const FeedFlexibleID21();
+    } else if(model!.id == 20) {
+      detailWidget = const FeedFlexibleID20();
+    } else if(model!.id == 19) {
+      detailWidget = const FeedFlexibleID19();
+    } else if(model!.id == 18) {
+      detailWidget = const FeedFlexibleID18();
+    } else if(model!.id == 17) {
+      detailWidget = const FeedFlexibleID17();
+    } else if(model!.id == 16) {
+      detailWidget = const FeedFlexibleID16();
+    } else if(model!.id == 15) {
+      detailWidget = const FeedFlexibleID15();
+    } else if(model!.id == 14) {
+      detailWidget = const FeedFlexibleID14();
+    } else if(model!.id == 13) {
+      detailWidget = const FeedFlexibleID13();
+    } else if(model!.id == 12) {
+      detailWidget = const FeedFlexibleID12();
+    } else if(model!.id == 11) {
+      detailWidget = const FeedFlexibleID11();
+    } else if(model!.id == 10) {
+      detailWidget = const FeedFlexibleID10();
+    } else if(model!.id == 9) {
+      detailWidget = const FeedFlexibleID09();
+    } else if(model!.id == 8) {
+      detailWidget = const FeedFlexibleID08();
+    } else if(model!.id == 7) {
+      detailWidget = const FeedFlexibleID07();
+    } else if(model!.id == 6) {
+      detailWidget = const FeedFlexibleID06();
+    }
+
     super.initState();
   }
 
@@ -221,23 +259,7 @@ class _PostDetailState extends State<PostDetail> {
                       ]
                     ),
               SizedBox(height: 16.0.h),
-
-              model!.id == 13 ? FeedFlexibleID13() : (
-                  model!.id == 12 ? FeedFlexibleID12() : (
-                      model!.id == 11 ? FeedFlexibleID11() : (
-                          model!.id == 10 ? FeedFlexibleID10() : (
-                              model!.id == 9 ? FeedFlexibleID09() : (
-                                model!.id == 8 ? FeedFlexibleID08() : (
-                                    model!.id == 7 ? FeedFlexibleID07() : (
-                                        model!.id == 6 ? FeedFlexibleID06() : const SizedBox.shrink()
-                                      )
-                                  )
-                              )
-                          )
-                      )
-                  )
-              ),
-
+              detailWidget,
               Padding(
                 padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 36.0.h),
                 child: Wrap(

@@ -32,7 +32,7 @@ class _EventFeedTotalState extends State<EventFeedTotal> {
               } else if(snapshot.hasData) {
 
                 if(snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox.shrink();
+                  return const Center(child: CircularProgressIndicator());
                 } else if(snapshot.connectionState == ConnectionState.done) {
 
                   List<EventModel> modelList = snapshot.data ?? [];
@@ -44,11 +44,11 @@ class _EventFeedTotalState extends State<EventFeedTotal> {
                   }
 
                 } else {
-                  return const SizedBox.shrink();
+                  return const Center(child: CircularProgressIndicator());
                 }
 
               } else {
-                return const SizedBox.shrink();
+                return const Center(child: CircularProgressIndicator());
               }
             }
         );

@@ -23,7 +23,7 @@ class _FeedScreenState extends State<FeedScreen> {
       },
       child: Scaffold(
         body: SafeArea(
-          bottom: true,
+          bottom: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

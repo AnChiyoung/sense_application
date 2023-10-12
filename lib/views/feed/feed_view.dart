@@ -11,9 +11,10 @@ import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
+import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
-import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
+// import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 // import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
@@ -641,7 +642,8 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
                           icon: Image.asset('assets/home/add_event_button.png'),
                           iconSize: 66.0,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen02()));
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+                            // Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen02()));
                           },
                         ),
                       ),

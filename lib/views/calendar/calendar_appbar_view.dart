@@ -48,43 +48,46 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
             Row(children: [
               Consumer<CalendarProvider>(
                   builder: (context, data, child) {
-                    return GestureDetector(
-                      onTap: () {
-                        // year, month select
-                        showMonthPicker(
-                          context: context,
-                          firstDate: DateTime(DateTime.now().year, 1),
-                          lastDate: DateTime(DateTime.now().year + 5, 12),
-                          initialDate: DateTime(data.selectYear, data.selectMonth),
-                          roundedCornersRadius: 18.0,
-                          yearFirst: true,
-                          backgroundColor: Colors.white,
-                          headerColor: StaticColor.mainSoft,
-                          headerTextColor: Colors.white,
-                          selectedMonthBackgroundColor: StaticColor.mainSoft,
-                          selectedMonthTextColor: Colors.white,
-                          animationMilliseconds: 100,
-                          hideHeaderRow: true,
-                          unselectedMonthTextColor: StaticColor.grey60077,
-                          dismissible: true,
-                          cancelWidget: Text('취소', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.errorColor)),
-                          // locale: const Locale('kr'),
-                        ).then((value) {
-                          if(value == null) {
+                    return Tooltip(
+                      message: '길게 누를 경우, 연도와 월을 선택할 수 있습니다.',
+                      child: GestureDetector(
+                        onTap: () {
+                          // year, month select
+                          showMonthPicker(
+                            context: context,
+                            firstDate: DateTime(DateTime.now().year, 1),
+                            lastDate: DateTime(DateTime.now().year + 5, 12),
+                            initialDate: DateTime(data.selectYear, data.selectMonth),
+                            roundedCornersRadius: 18.0,
+                            yearFirst: true,
+                            backgroundColor: Colors.white,
+                            headerColor: StaticColor.mainSoft,
+                            headerTextColor: Colors.white,
+                            selectedMonthBackgroundColor: StaticColor.mainSoft,
+                            selectedMonthTextColor: Colors.white,
+                            animationMilliseconds: 100,
+                            hideHeaderRow: true,
+                            unselectedMonthTextColor: StaticColor.grey60077,
+                            dismissible: true,
+                            cancelWidget: Text('취소', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.errorColor)),
+                            // locale: const Locale('kr'),
+                          ).then((value) {
+                            if(value == null) {
 
-                          } else {
-                            context.read<CalendarProvider>().yearAndMonthChange(value);
-                          }
+                            } else {
+                              context.read<CalendarProvider>().yearAndMonthChange(value);
+                            }
 
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Text('${data.selectYear}년 ${data.selectMonth}월', style: TextStyle(fontSize: 20.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w600)),
-                          const SizedBox(width: 8),
-                          Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
-                        ],
-                      ));
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Text('${data.selectYear}년 ${data.selectMonth}월', style: TextStyle(fontSize: 20.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w600)),
+                            const SizedBox(width: 8),
+                            Image.asset('assets/calendar/select_month_dropdown_button.png', width: 7.21, height: 4.6),
+                          ],
+                        )),
+                    );
                   },
               ),
             ],),
@@ -112,31 +115,31 @@ class _CalendarAppBarState extends State<CalendarAppBar> {
                     ),
                   ),
                 ),
-                Tooltip(
-                  message: '검색',
-                  child: Material(
-                    color: Colors.transparent,
-                    child: SizedBox(
-                      width: 40.w,
-                      height: 40.h,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(25.0),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => CalendarSearchScreen()));
-                        },
-                        child: SizedBox(
-                          width: 24.0.w,
-                          height: 24.0.h,
-                          child: Center(child: Container(
-                            width: 24,
-                            height: 24,
-                            child: Image.asset('assets/calendar/action_search.png', color: Colors.black, width: 24, height: 24),
-                          )),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Tooltip(
+                //   message: '검색',
+                //   child: Material(
+                //     color: Colors.transparent,
+                //     child: SizedBox(
+                //       width: 40.w,
+                //       height: 40.h,
+                //       child: InkWell(
+                //         borderRadius: BorderRadius.circular(25.0),
+                //         onTap: () {
+                //           Navigator.push(context, MaterialPageRoute(builder: (_) => CalendarSearchScreen()));
+                //         },
+                //         child: SizedBox(
+                //           width: 24.0.w,
+                //           height: 24.0.h,
+                //           child: Center(child: Container(
+                //             width: 24,
+                //             height: 24,
+                //             child: Image.asset('assets/calendar/action_search.png', color: Colors.black, width: 24, height: 24),
+                //           )),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // SizedBox(width: 16),
                 // Tooltip(
                 //   message: '알람',

@@ -10,16 +10,18 @@ class FeedRequest {
   Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
     print('select label id: ${labelId.toString()}');
     String query;
+    String pageSize;
     labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
+    labelId == -1 ? pageSize = '?page_size=20' : pageSize = '&page_size=20';
     final response = await http.get(
-      Uri.parse('${ApiUrl.releaseUrl}/posts$query'),
+      Uri.parse('${ApiUrl.releaseUrl}/posts$query$pageSize'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
-      print(modelList);
+      // print(modelList);
       return modelList;
     } else {
       return [];

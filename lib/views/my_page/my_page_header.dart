@@ -26,20 +26,20 @@ class _MyPageHeaderState extends State<MyPageHeader> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Material(
-            color: Colors.transparent,
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(25.0),
-                onTap: () {
-
-                },
-                child: Center(child: Image.asset('assets/my_page/alarm.png', width: 24, height: 24)),
-              ),
-            )
-        ),
+        // Material(
+        //     color: Colors.transparent,
+        //     child: SizedBox(
+        //       width: 40,
+        //       height: 40,
+        //       child: InkWell(
+        //         borderRadius: BorderRadius.circular(25.0),
+        //         onTap: () {
+        //
+        //         },
+        //         child: Center(child: Image.asset('assets/my_page/alarm.png', width: 24, height: 24)),
+        //       ),
+        //     )
+        // ),
         // SizedBox(width: 20.0.w),
         Material(
             color: Colors.transparent,

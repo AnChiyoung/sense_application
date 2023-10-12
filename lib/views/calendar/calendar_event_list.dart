@@ -10,7 +10,9 @@ import 'package:sense_flutter_application/models/local_save/preference_model.dar
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -399,8 +401,8 @@ class _DayEventsListState extends State<DayEventsList> {
                 onTap: () {
                   // Preferences.recentlyEventSave(model.elementAt(index));
                   // widget.controller.jumpTo(100);
-                  print(model.elementAt(index).id!);
-                  // context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
+                  context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)), (route) => false);
                   // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
                 },
                 child: EventRow(model: model.elementAt(index) ?? EventModel())),

@@ -82,12 +82,12 @@ class FeedPostCarouselCard extends _BasePostCard {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.black,
+        color: Colors.black.withOpacity(0.1),
         boxShadow: [
           BoxShadow(
             blurRadius: 8,
-            offset: const Offset(0, 8),
-            color: Colors.black.withOpacity(0.4),
+            offset: const Offset(0, 1),
+            color: Colors.black.withOpacity(0.1),
           ),
         ],
       ),
@@ -181,13 +181,14 @@ class FeedPostGridCard extends _BasePostCard {
       height: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        // boxShadow: [
-        //   BoxShadow(
-        //     blurRadius: 4,
-        //     offset: const Offset(0, 2),
-        //     color: Colors.black.withOpacity(0.2),
-        //   ),
-        // ],
+        color: Colors.black.withOpacity(0.1),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 8,
+            offset: const Offset(0, 1),
+            color: Colors.black.withOpacity(0.1),
+          ),
+        ],
       ),
       child: AspectRatio(
         aspectRatio: 0.7,

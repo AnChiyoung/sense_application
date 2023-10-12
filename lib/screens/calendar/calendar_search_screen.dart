@@ -15,6 +15,7 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        top: true,
         bottom: false,
         child: Column(
           children: [

@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_drawer.dart';
+import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_header.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_view.dart';
+import 'package:sense_flutter_application/views/home/home_provider.dart';
+import 'package:sense_flutter_application/views/recommended_event/event_info_view.dart';
+import 'package:sense_flutter_application/views/event_info/improve/event_info_load_view.dart';
 
 class EventInfoScreen extends StatefulWidget {
-  const EventInfoScreen({super.key});
+  int visitCount;
+  int recommendCount;
+  EventInfoScreen({super.key, required this.visitCount, required this.recommendCount});
 
   @override
   State<EventInfoScreen> createState() => _EventInfoScreenState();
 }
 
 class _EventInfoScreenState extends State<EventInfoScreen> {
+
+  final GlobalKey<ScaffoldState> key = GlobalKey();
+
+  @override
+  void initState() {
+    if(context.read<HomeProvider>().selectHomeIndex == 2) {
+      context.read<CreateEventImproveProvider>().eventInfoTabStateChange([false, true]);
+    } else {
+      context.read<CreateEventImproveProvider>().eventInfoTabStateChange([true, false]);
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -18,19 +36,37 @@ class _EventInfoScreenState extends State<EventInfoScreen> {
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        endDrawer: EventInfoDrawer(),
-        body: SafeArea(
-          top: true,
-          bottom: false,
-          child: EventInfoView(),
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      key: key,
+      endDrawer: EventInfoDrawer(),
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: EventInfoLoadView(visitCount: widget.visitCount, recommendCount: widget.recommendCount),
+        // Stack(
+        //   children: [
+        //     // EventGuideView(),
+        //     Column(
+        //       children: [
+        //
+        //       ],
+        //     ),
+        //   ],
+        // ),
       ),
+    );
+  }
+}
+
+class EventGuideView extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.black.withOpacity(0.5),
     );
   }
 }

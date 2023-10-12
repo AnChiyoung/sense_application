@@ -108,26 +108,6 @@ class TasteRequest {
   Future<bool> loadTravelPreference(int userId) async {
     return false;
   }
-
-  // Future<List<BannerModel>> bannerRequest() async {
-  //   final response = await http.get(
-  //     Uri.parse('${ApiUrl.releaseUrl}/favors?type=FOOD'),
-  //     headers: {
-  //       'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-  //       'Content-Type': 'application/json; charset=UTF-8'
-  //     },
-  //   );
-  //
-  //   if(response.statusCode == 200 || response.statusCode == 201) {
-  //     logger.v('음식 취향 불러오기 성공');
-  //     List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-  //     List<BannerModel> bannerModels = body.map((e) => BannerModel.fromJson(e)).toList();
-  //     return bannerModels;
-  //   } else {
-  //     logger.v('음식 취향 불러오기 실패');
-  //     return [];
-  //   }
-  // }
 }
 
 class FoodTasteModel {
@@ -173,11 +153,10 @@ class FoodTasteModel {
     userId = json['user'] ?? -1;
     type = json['type'] ?? '';
     food_price = json['food_price'] ?? -1;
-    food_like_memo = json['food_like_memo'] ?? '';
-    food_dislike_memo = json['food_dislike_memo'] ?? '';
-    foodLikeSummary = json['food_like_summary'] ?? '';
-
-    foodDislikeSummary = json['food_dislike_summary'] ?? '';
+    food_like_memo = json['like_memo'] ?? '';
+    food_dislike_memo = json['dislike_memo'] ?? '';
+    foodLikeSummary = json['like_summary'] ?? '';
+    foodDislikeSummary = json['dislike_summary'] ?? '';
     json['foods'] == [] || json['foods'] == null
         ? foodList = [] : json['foods'].forEach((v) {
           foodList!.add(Food.fromJson(v));
@@ -213,27 +192,6 @@ class FoodTasteModel {
     'salty_tastes': salty_tastes,
   };
 }
-
-// class BannerModel {
-//   int? id;
-//   String? title;
-//   String? type;
-//   String? created;
-//
-//   BannerModel({
-//     this.id,
-//     this.title,
-//     this.type,
-//     this.created,
-//   });
-//
-//   BannerModel.fromJson(dynamic json) {
-//     id = json['id'] ?? -1;
-//     title = json['title'] ?? '';
-//     type = json['type'] ?? '';
-//     created = json['created'] ?? '';
-//   }
-// }
 
 class Food {
   int? id;

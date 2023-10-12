@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
-import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 
 class EventRequest {
 
@@ -98,13 +99,13 @@ class EventRequest {
 
     Map<String, dynamic> createModel = {};
     createModel.clear();
-    context.read<CEProvider>().title == '' ? {} : createModel['title'] = context.read<CEProvider>().title;
-    context.read<CEProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CEProvider>().category + 1;
-    context.read<CEProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CEProvider>().target + 1;
-    context.read<CEProvider>().date == '' ? {} : createModel['date'] = context.read<CEProvider>().date;
-    context.read<CEProvider>().city == -1 ? {} : createModel['city'] = context.read<CEProvider>().city + 1;
+    context.read<CreateEventImproveProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventImproveProvider>().title;
+    context.read<CreateEventImproveProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
+    context.read<CreateEventImproveProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
+    context.read<CreateEventImproveProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventImproveProvider>().date;
+    context.read<CreateEventProvider>().city == -1 ? {} : createModel['city'] = context.read<CreateEventProvider>().city + 1;
     // context.read<CEProvider>().saveSubCity.isEmpty ? {} : createModel['sub_city'] = context.read<CEProvider>().saveSubCity;
-    context.read<CEProvider>().memo == '' ? {} : createModel['description'] = context.read<CEProvider>().memo;
+    context.read<CreateEventImproveProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventImproveProvider>().memo;
 
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/event'),
@@ -119,7 +120,7 @@ class EventRequest {
       SenseLogger().debug('이벤트 생성 성공');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel createEventResponse = EventModel.fromJsonForId(jsonResult);
-      context.read<CEProvider>().createEventUniqueId(createEventResponse.id!);
+      context.read<CreateEventImproveProvider>().createEventUniqueId(createEventResponse.id!);
       SenseLogger().debug('create event id : ${createEventResponse.id}');
       return true;
     } else {
@@ -132,11 +133,11 @@ class EventRequest {
   Future<bool> updateEvent(BuildContext context) async {
 
     Map<String, dynamic> createModel = {};
-    context.read<CEProvider>().title == '' ? {} : createModel['title'] = context.read<CEProvider>().title;
-    context.read<CEProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CEProvider>().category;
-    context.read<CEProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CEProvider>().target;
-    context.read<CEProvider>().date == '' ? {} : createModel['date'] = context.read<CEProvider>().date;
-    context.read<CEProvider>().memo == '' ? {} : createModel['description'] = context.read<CEProvider>().memo;
+    context.read<CreateEventImproveProvider>().title == '' ? {} : createModel['title'] = context.read<CreateEventImproveProvider>().title;
+    context.read<CreateEventImproveProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CreateEventImproveProvider>().category;
+    context.read<CreateEventImproveProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CreateEventImproveProvider>().target;
+    context.read<CreateEventImproveProvider>().date == '' ? {} : createModel['date'] = context.read<CreateEventImproveProvider>().date;
+    context.read<CreateEventImproveProvider>().memo == '' ? {} : createModel['description'] = context.read<CreateEventImproveProvider>().memo;
 
     final response = await http.post(
         Uri.parse('${ApiUrl.releaseUrl}/event'),
@@ -165,17 +166,17 @@ class EventRequest {
     Map<String, dynamic> fieldModel = {};
     fieldModel.clear();
 
-    print('change category : ${context.read<CEProvider>().category + 1}');
+    print('change category : ${context.read<CreateEventImproveProvider>().category + 1}');
     if(fieldNumber == 0) {
-      fieldModel['title'] = context.read<CEProvider>().title;
+      fieldModel['title'] = context.read<CreateEventImproveProvider>().title;
     } else if(fieldNumber == 1) {
-      fieldModel['event_category'] = context.read<CEProvider>().category + 1;
+      fieldModel['event_category'] = context.read<CreateEventImproveProvider>().category + 1;
     } else if(fieldNumber == 2) {
-      fieldModel['contact_category'] = context.read<CEProvider>().target + 1;
+      fieldModel['contact_category'] = context.read<CreateEventImproveProvider>().target + 1;
     } else if(fieldNumber == 3) {
-      fieldModel['date'] = context.read<CEProvider>().date;
+      fieldModel['date'] = context.read<CreateEventImproveProvider>().date;
     } else if(fieldNumber == 4) {
-      fieldModel['memo'] = context.read<CEProvider>().memo;
+      fieldModel['memo'] = context.read<CreateEventImproveProvider>().memo;
     }
     // else if(fieldNumber == 5) {
     //   fieldModel['is_alarm'] = context.read<CEProvider>().isAlarm;

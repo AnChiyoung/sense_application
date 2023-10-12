@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
 
 /// empty page
 class StoreEmptyView extends StatefulWidget {
@@ -13,9 +15,17 @@ class _StoreEmptyViewState extends State<StoreEmptyView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: Container(
+            child: SizedBox(
+              height: double.infinity,
                 child: Center(
-                    child: Image.asset('assets/public/loading_logo_image.png', width: 200)
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset('assets/public/loading_logo_image.png', width: 200),
+                        SizedBox(height: 24.0.h),
+                        Text('서비스 준비중 입니다', style: TextStyle(fontSize: 18.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w700)),
+                      ],
+                    )
                 )
             )
         )

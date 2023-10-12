@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
+import 'package:sense_flutter_application/screens/event_info/event_info_screen.dart';
+import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
 
 class EventFeedList extends StatefulWidget {
@@ -96,7 +98,7 @@ class _EventFeedListState extends State<EventFeedList> {
                   return Column(
                     children: [
                       EventFeedRow(eventModel: modelList.elementAt(index)),
-                      // indexß == modelList.length - 1 ? const SizedBox.shrink() : dividerWidget(),
+                      // index == modelList.length - 1 ? const SizedBox.shrink() : dividerWidget(),
                       dividerWidget()
                     ],
                   );
@@ -232,8 +234,8 @@ class _EventFeedRowState extends State<EventFeedRow> {
       onTap: () {
         print('visit count: $visitCount');
         // context.read<CreateEventImproveProvider>().countInfoChange(visitCount, recommendCount);
-        // context.read<CreateEventImproveProvider>().createEventUniqueId(eventModel.id!);
-        // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: visitCount, recommendCount: recommendCount)));
+        context.read<CreateEventImproveProvider>().createEventUniqueId(eventModel.id!);
+        Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: visitCount, recommendCount: recommendCount)));
       },
       child: Container(
         width: double.infinity,
@@ -283,13 +285,13 @@ class _EventFeedRowState extends State<EventFeedRow> {
               children: [
                 Row(
                   children: [
-                    Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                    Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400, height: 1.0)),
                     SizedBox(width: 8.0.w),
-                    Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
+                    Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.1)),
                     SizedBox(width: 16.0.w),
-                    Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                    Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400, height: 1.0)),
                     SizedBox(width: 8.0.w),
-                    Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.0)),
+                    Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.1)),
                   ],
                 ),
                 Text(remainDayCount, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.errorColor, fontWeight: FontWeight.w400)),
@@ -342,7 +344,7 @@ class _EventFeedRowState extends State<EventFeedRow> {
         color: StaticColor.grey70055,
         borderRadius: BorderRadius.circular(14.0),
       ),
-      child: Text('요청', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400, height: 1.5)),
+      child: Text('요청', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400, height: 1.2)),
     );
   }
 }
