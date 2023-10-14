@@ -19,7 +19,7 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
 
   @override
   void initState() {
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -30,7 +30,7 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0.w),
           child: DefaultTabController(
-            length: 3,
+            length: 2,
             child: Column(
               children: [
                 TabBar(
@@ -38,7 +38,7 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
                   labelColor: StaticColor.mainSoft,
                   labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
                   unselectedLabelColor: StaticColor.grey70055,
-                  indicatorWeight: 3,
+                  indicatorWeight: 2,
                   indicator: UnderlineTabIndicator(
                     borderSide: BorderSide(color: StaticColor.mainSoft, width: 3.0),
                   ),
@@ -50,12 +50,12 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
                           text: '게시글'
                       ),
                     ),
-                    SizedBox(
-                      height: 37.0.h,
-                      child: const Tab(
-                          text: '상품'
-                      ),
-                    ),
+                    // SizedBox(
+                    //   height: 37.0.h,
+                    //   child: const Tab(
+                    //       text: '상품'
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 37.0.h,
                       child: const Tab(
@@ -82,19 +82,19 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
               Container(
                 child: Center(child: Text('아직 게시글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
               ),
-              Container(
-                  child: Center(child: Text('아직 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
-              ),
+              // Container(
+              //     child: Center(child: Text('아직 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
+              // ),
               Container(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(height: 16.0.h),
                       PersonalTasteFoodBanner(),
-                      SizedBox(height: 16.0.h),
-                      PersonalTasteLodgingBanner(),
-                      SizedBox(height: 16.0.h),
-                      PersonalTasteTravelBanner(),
+                      // SizedBox(height: 16.0.h),
+                      // PersonalTasteLodgingBanner(),
+                      // SizedBox(height: 16.0.h),
+                      // PersonalTasteTravelBanner(),
                     ],
                   ),
               ),
@@ -143,7 +143,7 @@ class _PersonalTasteFoodBannerState extends State<PersonalTasteFoodBanner> {
 
             FoodTasteModel bannerModels = snapshot.data ?? FoodTasteModel();
 
-            if(bannerModels.id == null) {
+            if(bannerModels == null) {
               return const EmptyFoodBanner();
             } else {
               /// 선택한 음식 취향이 있을 때
@@ -180,7 +180,7 @@ class _PersonalTasteFoodBannerState extends State<PersonalTasteFoodBanner> {
                                   child: Text('음식', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
                                 ),
                                 SizedBox(height: 10.0.h),
-                                Text('Lover!!', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                                Text(bannerModels.title!, style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
                               ],
                             ),
                           ),
@@ -222,44 +222,53 @@ class PersonalTasteLodgingBanner extends StatelessWidget {
 
               // FoodTasteModel bannerModels = snapshot.data ?? FoodTasteModel();
 
-              if(snapshot.data == false) {
+              if(snapshot.data == null) {
                 return const EmptyLodgingBanner();
               } else {
                 // 선택한 숙소 취향이 있을 때
                 return Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels.elementAt(index))));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        // height: 100,
-                        padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/my_page/lodging_background.png'),
-                            fit: BoxFit.fill,
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+                          child: GestureDetector(
+                            onTap: () {
+                              // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              // height: 100,
+                              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                image: const DecorationImage(
+                                  image: AssetImage('assets/my_page/lodging_background.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                    child: Text('숙소', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                                  ),
+                                  SizedBox(height: 10.0.h),
+                                  Text('도심속 힐링공간 마스터', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              child: Text('숙소', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                            ),
-                            SizedBox(height: 10.0.h),
-                            Text('도심속 힐링공간 마스터', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
-                          ],
-                        ),
-                      ),
+                      ],
                     ),
+                    // PersonalTasteLodgingBanner(),
+                    // PersonalTasteTravelBanner(),
                   ],
                 );
               }
@@ -290,47 +299,53 @@ class PersonalTasteTravelBanner extends StatelessWidget {
               return const SizedBox.shrink();
             } else if(snapshot.connectionState == ConnectionState.done) {
 
-              if(snapshot.data == false) {
+              if(snapshot.data == null) {
                 return const EmptyTravelBanner();
               } else {
                 /// 선택한 여행 취향이 있을 때
                 return Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 5.0.w, right: 20.0.w, top: 20.0.h),
-                      child: GestureDetector(
-                        onTap: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels.elementAt(index))));
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          // height: 100,
-                          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            image: const DecorationImage(
-                              image: AssetImage('assets/my_page/travel_background.png'),
-                              fit: BoxFit.fill,
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
+                          child: GestureDetector(
+                            onTap: () {
+                              // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              // height: 100,
+                              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                image: const DecorationImage(
+                                  image: AssetImage('assets/my_page/travel_background.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                    child: Text('여행', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                                  ),
+                                  SizedBox(height: 10.0.h),
+                                  Text('소중한 이들과 떠나요', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
+                                ],
+                              ),
                             ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                child: Text('여행', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                              ),
-                              SizedBox(height: 10.0.h),
-                              Text('소중한 이들과 떠나요', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400)),
-                            ],
-                          ),
                         ),
-                      ),
+                      ],
                     ),
+                    // PersonalTasteLodgingBanner(),
+                    // PersonalTasteTravelBanner(),
                   ],
                 );
               }
@@ -369,8 +384,8 @@ class _EmptyFoodBannerState extends State<EmptyFoodBanner> {
           padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
-            // color: StaticColor.grey100F6,
-            color: Colors.green,
+            color: StaticColor.grey100F6,
+            // color: Colors.green,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,11 +5,12 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 class HeaderMenu extends StatefulWidget {
   Function? backCallback;
   bool? isBackClose;
+  bool? isThin;
   String? title;
   Function? closeCallback;
   Widget? rightMenu;
   TextStyle? titleStyle;
-  HeaderMenu({Key? key, this.backCallback, this.isBackClose, this.title, this.closeCallback, this.rightMenu, this.titleStyle}) : super(key: key);
+  HeaderMenu({Key? key, this.backCallback, this.isBackClose, this.isThin, this.title, this.closeCallback, this.rightMenu, this.titleStyle}) : super(key: key);
 
   @override
   State<HeaderMenu> createState() => _HeaderMenuState();
@@ -18,10 +19,12 @@ class HeaderMenu extends StatefulWidget {
 class _HeaderMenuState extends State<HeaderMenu> {
 
   bool isBackClose = false;
+  bool isThin = false;
 
   @override
   void initState() {
     isBackClose = widget.isBackClose ?? false;
+    isThin = widget.isThin ?? false;
     super.initState();
   }
 
@@ -45,7 +48,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
                     onTap: () {
                       widget.backCallback?.call();
                     },
-                    child: Center(child: Image.asset(isBackClose == true ? 'assets/signin/button_close.png' : 'assets/create_event/button_back.png', width: 24.w, height: 24.h)),
+                    child: Center(child: Image.asset(isBackClose == true ? 'assets/signin/button_close.png' : (isThin == true ? 'assets/store/back_arrow_thin.png' : 'assets/create_event/button_back.png'), width: 24.w, height: 24.h)),
                   ),
                 ),
               ),

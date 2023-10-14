@@ -164,7 +164,7 @@ class _StoreContentMainState extends State<StoreContentMain> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        StoreContentMainMenu(),
+        // StoreContentMainMenu(),
         StoreContentMainProduct(),
       ],
     );

@@ -107,6 +107,7 @@ class _FoodHeaderState extends State<FoodHeader> {
   void stepController() {
     int step = context.read<TasteProvider>().presentStep;
     if(step == 1) {
+      context.read<TasteProvider>().foodTasteInit();
       Navigator.of(context).pop();
     } else {
       context.read<TasteProvider>().presentStepChange(step - 1);

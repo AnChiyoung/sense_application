@@ -13,21 +13,22 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   Widget build(BuildContext context) {
     /// empty page
-    return StoreEmptyView();
+    // return StoreEmptyView();
 
-    // return Scaffold(
-    //   body: SafeArea(
-    //     top: true,
-    //     bottom: false,
-    //     child: Column(
-    //       children: [
-    //         StoreHeader(),
-    //         Expanded(
-    //           child: SingleChildScrollView(
-    //             child: StoreContent())),
-    //       ],
-    //     ),
-    //   ),
-    // );
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: Column(
+          children: [
+            StoreHeader(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: StoreContent())),
+          ],
+        ),
+      ),
+    );
   }
 }

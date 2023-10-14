@@ -14,6 +14,15 @@ class FoodResultScreen extends StatefulWidget {
 }
 
 class _FoodResultScreenState extends State<FoodResultScreen> {
+
+  late FoodTasteModel model;
+
+  @override
+  void initState() {
+    model = widget.resultModel;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     /// safe area height
@@ -42,12 +51,13 @@ class _FoodResultScreenState extends State<FoodResultScreen> {
                       color: StaticColor.grey300E0,
                       height: 1.0.h,
                     ),
-                    SingleChildScrollView(
-                      child: Container(
-                        width: double.infinity,
-                        child: Image.asset('assets/taste/result_example.png'),
-                      )
-                    )
+                    FoodResultView(model: model),
+                    // SingleChildScrollView(
+                    //   child: Container(
+                    //     width: double.infinity,
+                    //     child: Image.asset('assets/taste/result_example.png'),
+                    //   )
+                    // )
                     // Expanded(
                     //   child: Container(
                     //     width: double.infinity,

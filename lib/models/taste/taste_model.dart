@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 
@@ -53,6 +54,12 @@ class TasteRequest {
       }
     }
 
+    // 취향 생성할 때, 입력값 로그 섹션
+    SenseLogger().debug(foodList.toString());
+    SenseLogger().debug(spicyList.toString());
+    SenseLogger().debug(sweetList.toString());
+    SenseLogger().debug(saltyList.toString());
+
     final foodPrefer =
     {
       'food_price': context.read<TasteProvider>().foodPrice == -1 ? 10000 : context.read<TasteProvider>().foodPrice,
@@ -93,7 +100,7 @@ class TasteRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('음식 취향 불러오기 성공');
-      FoodTasteModel model = FoodTasteModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      FoodTasteModel model = FoodTasteModel.fromResultJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
       return model;
     } else {
       logger.v('음식 취향 불러오기 실패');
@@ -101,12 +108,42 @@ class TasteRequest {
     }
   }
 
-  Future<bool> loadLodgingPreference(int userId) async {
-    return false;
+  Future<LodgingTasteModel> loadLodgingPreference(int userId) async {
+    final response = await http.get(
+      Uri.parse('${ApiUrl.releaseUrl}/user/${userId.toString()}/lodging-preference'),
+      headers: {
+        // 'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('숙소 취향 불러오기 성공');
+      LodgingTasteModel model = LodgingTasteModel.fromResultJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return model;
+    } else {
+      logger.v('숙소 취향 불러오기 실패');
+      return LodgingTasteModel();
+    }
   }
 
-  Future<bool> loadTravelPreference(int userId) async {
-    return false;
+  Future<TravelTasteModel> loadTravelPreference(int userId) async {
+    final response = await http.get(
+      Uri.parse('${ApiUrl.releaseUrl}/user/${userId.toString()}/travel-preference'),
+      headers: {
+        // 'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      logger.v('여행 취향 불러오기 성공');
+      TravelTasteModel model = TravelTasteModel.fromResultJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      return model;
+    } else {
+      logger.v('여행 취향 불러오기 실패');
+      return TravelTasteModel();
+    }
   }
 }
 
@@ -115,6 +152,8 @@ class FoodTasteModel {
   int? userId;
   String? type;
   int? food_price;
+  String? title;
+  String? content;
   String? food_like_memo;
   String? food_dislike_memo;
   List<int>? foods;
@@ -131,10 +170,12 @@ class FoodTasteModel {
   List<Taste>? salty = [];
 
   FoodTasteModel({
-    this.id,
-    this.userId,
-    this.type,
+    this.id = -1,
+    this.userId = -1,
+    this.type = "",
     this.food_price,
+    this.title,
+    this.content,
     this.food_like_memo,
     this.food_dislike_memo,
     this.foodLikeSummary,
@@ -148,15 +189,17 @@ class FoodTasteModel {
     this.salty,
   });
 
-  FoodTasteModel.fromJson(dynamic json) {
+  FoodTasteModel.fromResultJson(dynamic json) {
     id = json['id'] ?? -1;
     userId = json['user'] ?? -1;
     type = json['type'] ?? '';
-    food_price = json['food_price'] ?? -1;
-    food_like_memo = json['like_memo'] ?? '';
-    food_dislike_memo = json['dislike_memo'] ?? '';
-    foodLikeSummary = json['like_summary'] ?? '';
-    foodDislikeSummary = json['dislike_summary'] ?? '';
+    // food_price = json['food_price'] ?? -1;
+    // food_like_memo = json['like_memo'] ?? '';
+    // food_dislike_memo = json['dislike_memo'] ?? '';
+    // foodLikeSummary = json['like_summary'] ?? '';
+    // foodDislikeSummary = json['dislike_summary'] ?? '';
+    title = json['title'] ?? '';
+    content = json['content'] ?? '';
     json['foods'] == [] || json['foods'] == null
         ? foodList = [] : json['foods'].forEach((v) {
           foodList!.add(Food.fromJson(v));
@@ -183,9 +226,9 @@ class FoodTasteModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'food_price': food_price,
-    'food_like_memo': food_like_memo,
-    'food_dislike_memo': food_dislike_memo,
+    'price': food_price,
+    'like_memo': food_like_memo,
+    'dislike_memo': food_dislike_memo,
     'foods': foods,
     'spicy_tastes': spicy_tastes,
     'sweet_tastes': sweet_tastes,
@@ -224,4 +267,126 @@ class Taste {
     title = json['title'] ?? '';
     type = json['type'] ?? '';
   }
+}
+
+class LodgingTasteModel {
+  int? id;
+  int? userId;
+  String? type;
+  int? lodgingPrice;
+  String? likeMemo;
+  String? dislikeMemo;
+  String? likeSummary;
+  String? dislikeSummary;
+  List<int>? types = [];
+  List<int>? environments = [];
+  List<int>? options = [];
+
+  LodgingTasteModel({
+    this.id = -1,
+    this.userId = -1,
+    this.type = "",
+    this.lodgingPrice,
+    this.likeMemo,
+    this.dislikeMemo,
+    this.likeSummary,
+    this.dislikeSummary,
+    this.types,
+    this.environments,
+    this.options,
+  });
+
+  LodgingTasteModel.fromResultJson(dynamic json) {
+    id = json['id'] ?? -1;
+    userId = json['user'] ?? -1;
+    type = json['type'] ?? '';
+    lodgingPrice = json['price'] ?? 0;
+    likeMemo = json['like_memo'] ?? '';
+    dislikeMemo = json['dislike_memo'] ?? '';
+    likeSummary = json['like_summary'] ?? '';
+    dislikeSummary = json['dislike_summary'] ?? '';
+    json['types'] == [] || json['types'] == null
+        ? types = [] : json['types'].forEach((v) {
+      types!.add(v);
+    });
+    json['environments'] == [] || json['environments'] == null
+        ? environments = [] : json['environments'].forEach((v) {
+      environments!.add(v);
+    });
+    json['options'] == [] || json['options'] == null
+        ? options = [] : json['options'].forEach((v) {
+      options!.add(v);
+    });
+  }
+
+  // Map<String, dynamic> toJson() => {
+  //   'price': food_price,
+  //   'like_memo': food_like_memo,
+  //   'dislike_memo': food_dislike_memo,
+  //   'foods': foods,
+  //   'spicy_tastes': spicy_tastes,
+  //   'sweet_tastes': sweet_tastes,
+  //   'salty_tastes': salty_tastes,
+  // };
+}
+
+class TravelTasteModel {
+  int? id;
+  int? userId;
+  String? type;
+  int? lodgingPrice;
+  String? likeMemo;
+  String? dislikeMemo;
+  String? likeSummary;
+  String? dislikeSummary;
+  List<int>? distances = [];
+  List<int>? environments = [];
+  List<int>? mates = [];
+
+  TravelTasteModel({
+    this.id = -1,
+    this.userId = -1,
+    this.type = "",
+    this.lodgingPrice,
+    this.likeMemo,
+    this.dislikeMemo,
+    this.likeSummary,
+    this.dislikeSummary,
+    this.distances,
+    this.environments,
+    this.mates,
+  });
+
+  TravelTasteModel.fromResultJson(dynamic json) {
+    id = json['id'] ?? -1;
+    userId = json['user'] ?? -1;
+    type = json['type'] ?? '';
+    lodgingPrice = json['price'] ?? 0;
+    likeMemo = json['like_memo'] ?? '';
+    dislikeMemo = json['dislike_memo'] ?? '';
+    likeSummary = json['like_summary'] ?? '';
+    dislikeSummary = json['dislike_summary'] ?? '';
+    json['distances'] == [] || json['distances'] == null
+        ? distances = [] : json['distances'].forEach((v) {
+      distances!.add(v);
+    });
+    json['environments'] == [] || json['environments'] == null
+        ? environments = [] : json['environments'].forEach((v) {
+      environments!.add(v);
+    });
+    json['mates'] == [] || json['mates'] == null
+        ? mates = [] : json['mates'].forEach((v) {
+      mates!.add(v);
+    });
+  }
+
+// Map<String, dynamic> toJson() => {
+//   'price': food_price,
+//   'like_memo': food_like_memo,
+//   'dislike_memo': food_dislike_memo,
+//   'foods': foods,
+//   'spicy_tastes': spicy_tastes,
+//   'sweet_tastes': sweet_tastes,
+//   'salty_tastes': salty_tastes,
+// };
 }
