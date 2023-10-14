@@ -246,7 +246,7 @@ class _ProductWidgetsState extends State<ProductWidgets> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        imageUrl!.isEmpty ? const SizedBox.shrink() : ProductImage(imageUrl: imageUrl!),
+                        imageUrl!.isEmpty ? Expanded(child: StoreEmptyImage()) : Expanded(child: ProductImage(imageUrl: imageUrl!)),
                         SizedBox(height: 8.0.h),
                         Row(
                           children: [
@@ -303,17 +303,23 @@ class _ProductImageState extends State<ProductImage> {
         width: double.infinity,
         imageUrl: widget.imageUrl,
         fit: BoxFit.fitHeight,
-        // imageBuilder: (context, imageProvider) => Container(
-        //   width: double.infinity,
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(12.0),
-        //     image: DecorationImage(
-        //         image: imageProvider, fit: BoxFit.fill),
-        //   ),
-        // ),
         placeholder: (context, url) => Center(child: Image.asset('assets/public/loading_logo_image.png', width: 70.0.w)),
         errorWidget: (context, url, error) => Center(child: Container(width: double.infinity, height: double.infinity, child: const Text("상품 이미지가 없습니다."))), // 디자인 필요
       ),
+    );
+  }
+}
+
+class StoreEmptyImage extends StatelessWidget {
+  const StoreEmptyImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Center(
+        child: Text('상품 이미지가 없습니다'),
+      )
     );
   }
 }
