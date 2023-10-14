@@ -344,4 +344,20 @@ class FeedProvider with ChangeNotifier {
     // } else {}
     notifyListeners();
   }
+
+  bool _isCarousel = true;
+  bool get isCarousel => _isCarousel;
+
+  void carouselStateChange(bool state) {
+    _isCarousel = state;
+    notifyListeners();
+  }
+
+  bool _likey = false;
+  bool get likey => _likey;
+
+  void likeChange(bool state) {
+    _likey = state;
+    notifyListeners();
+  }
 }

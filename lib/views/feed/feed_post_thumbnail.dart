@@ -11,6 +11,7 @@ import 'package:sense_flutter_application/views/feed/feed_post_detail_view.dart'
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:stacked_card_carousel/stacked_card_carousel.dart';
 
+// abstract -> base stf로 변경 필요 2023.10.14.토요일.
 abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련 기능, ui랑 분리가 되어있다.
   final int id;
   final String imageUrl;
@@ -100,65 +101,81 @@ class FeedPostCarouselCard extends _BasePostCard {
     );
   }
 
+  void likeAction() {
+
+  }
+
   @override
   Widget buildTitle(BuildContext context) {
     double halfScreenWidth = MediaQuery.of(context).size.width - 60;
-    return Positioned.fill(
-      left: 20.0.w,
-      bottom: 20.0.h,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 200,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 24.0.sp,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          SizedBox(height: 16.0.h),
-          Padding(
-            padding: EdgeInsets.only(right: 5.0.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    subTitle!,
-                    style: TextStyle(
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+
+    return Consumer<FeedProvider>(
+      builder: (context, data, child) {
+
+        bool likeState = data.likey;
+
+        return Positioned.fill(
+          left: 20.0.w,
+          bottom: 20.0.h,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 200,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 24.0.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
                   ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                like == true ? IconRippleButton(
-                  icon: Icons.favorite,
-                  color: Colors.red,
-                  size: 26,
-                  padding: 8,
-                  onPressed: null,
-                ) : IconRippleButton(
-                  icon: Icons.favorite_border,
-                  color: Colors.white,
-                  size: 26,
-                  padding: 8,
-                  onPressed: null,
-                )
-              ],
-            ),
+              ),
+              SizedBox(height: 16.0.h),
+              Padding(
+                padding: EdgeInsets.only(right: 5.0.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        subTitle!,
+                        style: TextStyle(
+                          fontSize: 14.0.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    likeState == true ? IconRippleButton(
+                      icon: Icons.favorite,
+                      color: Colors.red,
+                      size: 26,
+                      padding: 8,
+                      onPressed: () {
+                        context.read<FeedProvider>().likeChange(!likeState);
+                      },
+                    ) : IconRippleButton(
+                      icon: Icons.favorite_border,
+                      color: Colors.white,
+                      size: 26,
+                      padding: 8,
+                      onPressed: () {
+                        context.read<FeedProvider>().likeChange(!likeState);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 }
@@ -193,32 +210,7 @@ class FeedPostGridCard extends _BasePostCard {
       child: AspectRatio(
         aspectRatio: 0.7,
         child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.cover),
-        // child: Image.network(
-        //   imageUrl,
-        //   loadingBuilder: (context, child, loadingProgress) {
-        //     if(loadingProgress == null) {
-        //       // return FastCachedImage(url: imageUrl, fit: BoxFit.fitHeight);
-        //       return CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fitHeight, );
-        //     } else {
-        //       return Container(
-        //         padding: EdgeInsets.symmetric(horizontal: 35.0.w,),
-        //         decoration: BoxDecoration(
-        //           color: StaticColor.grey200EE,
-        //           borderRadius: BorderRadius.circular(16.0),
-        //         ),
-        //         child: Image.asset('assets/public/loading_logo_image.png', width: 30.0.w,),
-        //       );
-        //     }
-        //   },
-        //   fit: BoxFit.cover,
-        // ),
       ),
-      // child: Image.network(
-      //   imageUrl,
-      //   fit: BoxFit.cover,
-      //   width: double.infinity,
-      //   height: double.infinity,
-      // ),
     );
   }
 
@@ -252,31 +244,9 @@ class FeedPostGridCard extends _BasePostCard {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            // Text(
-            //   subTitle!,
-            //   style: const TextStyle(
-            //     fontSize: 16,
-            //     fontWeight: FontWeight.w400,
-            //     color: Colors.white,
-            //   ),
-            //   maxLines: 2,
-            //   overflow: TextOverflow.ellipsis,
-            // ),
           ],
         ),
       ),
-      // child: Center(
-      //   child: Text(
-      //     title,
-      //     style: const TextStyle(
-      //       fontSize: 16,
-      //       fontWeight: FontWeight.w700,
-      //       color: Colors.white,
-      //     ),
-      //     maxLines: 2,
-      //     overflow: TextOverflow.ellipsis,
-      //   ),
-      // ),
     );
   }
 }
@@ -292,7 +262,7 @@ class FeedPostListPresenter extends StatefulWidget {
 
 class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
   // late final feedPosts = context.read<FeedProvider>().feedPosts;
-  bool isCarousel = true;
+  // bool isCarousel = true;
   late PageController _pageController;
 
   @override
@@ -308,9 +278,12 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
   }
 
   void toggleCarousel() {
-    setState(() {
-      isCarousel = !isCarousel;
-    });
+    // setState(() {
+    //   isCarousel = !isCarousel;
+    // });
+    context.read<FeedProvider>().carouselStateChange(
+      !context.read<FeedProvider>().isCarousel
+    );
   }
 
   @override
@@ -320,95 +293,102 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
     IconData switchButtonIcon;
     String switchButtonText;
 
-    if (isCarousel) {
-      final spaceBetweenItems = ((MediaQuery.of(context).size.width - 60) / 7 * 10) + 40;
-      for (var feedPost in widget.feedPosts) {
-        items.add(FeedPostCarouselCard(
-          id: feedPost.id!,
-          title: feedPost.title!,
-          subTitle: feedPost.subTitle!,
-          imageUrl: feedPost.thumbnailUrl!,
-          like: feedPost.isLiked ?? false,
-        ));
-      }
-      feedPostsWidget = StackedCardCarousel(
-        pageController: _pageController,
-        items: items,
-        type: StackedCardCarouselType.fadeOutStack,
-        initialOffset: 0,
-        spaceBetweenItems: spaceBetweenItems,
-      );
+    return Consumer<FeedProvider>(
+      builder: (context, data, child) {
 
-      switchButtonIcon = Icons.grid_view_rounded;
-      switchButtonText = '모아보기';
-    } else {
-      for (var feedPost in widget.feedPosts) {
-        /// when imageUrl is empty, non add. 20230607
-        feedPost.thumbnailUrl == '' ? {} : items.add(FeedPostGridCard(
-          id: feedPost.id!,
-          title: feedPost.title!,
-          subTitle: feedPost.subTitle!,
-          imageUrl: feedPost.thumbnailUrl!,
-          like: feedPost.isLiked!,
-        ));
-      }
+        bool isCarousel = data.isCarousel;
 
-      double gridCardWidth = (MediaQuery.of(context).size.width) / 2;
-      feedPostsWidget = GridView(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: gridCardWidth,
-          childAspectRatio: 0.7 / 1,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-        ),
-        children: items,
-      );
-
-      switchButtonIcon = Icons.view_agenda_rounded;
-      switchButtonText = '크게보기';
-    }
-
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: feedPostsWidget,
-        ),
-        Consumer<FeedProvider>(
-          builder: (context, data, child) {
-
-            bool buttonState = data.viewChangeButton;
-
-            return buttonState == false ? const SizedBox.shrink()
-            : Positioned(
-              left: 0,
-              right: 0,
-              bottom: 16,
-              child: Center(
-                child: ElevatedButton.icon(
-                  onPressed: toggleCarousel,
-                  icon: Icon(
-                    switchButtonIcon,
-                    size: 24,
-                  ),
-                  label: Text(switchButtonText),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF333333),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                ),
-              ),
-            );
+        if (isCarousel) {
+          final spaceBetweenItems = ((MediaQuery.of(context).size.width - 60) / 7 * 10) + 40;
+          for (var feedPost in widget.feedPosts) {
+            items.add(FeedPostCarouselCard(
+              id: feedPost.id!,
+              title: feedPost.title!,
+              subTitle: feedPost.subTitle!,
+              imageUrl: feedPost.thumbnailUrl!,
+              like: feedPost.isLiked ?? false,
+            ));
           }
-        ),
-      ],
+          feedPostsWidget = StackedCardCarousel(
+            pageController: _pageController,
+            items: items,
+            type: StackedCardCarouselType.fadeOutStack,
+            initialOffset: 0,
+            spaceBetweenItems: spaceBetweenItems,
+          );
+
+          switchButtonIcon = Icons.grid_view_rounded;
+          switchButtonText = '모아보기';
+        } else {
+          for (var feedPost in widget.feedPosts) {
+            /// when imageUrl is empty, non add. 20230607
+            feedPost.thumbnailUrl == '' ? {} : items.add(FeedPostGridCard(
+              id: feedPost.id!,
+              title: feedPost.title!,
+              subTitle: feedPost.subTitle!,
+              imageUrl: feedPost.thumbnailUrl!,
+              like: feedPost.isLiked!,
+            ));
+          }
+
+          double gridCardWidth = (MediaQuery.of(context).size.width) / 2;
+          feedPostsWidget = GridView(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: gridCardWidth,
+              childAspectRatio: 0.7 / 1,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            children: items,
+          );
+
+          switchButtonIcon = Icons.view_agenda_rounded;
+          switchButtonText = '크게보기';
+        }
+
+        return Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: feedPostsWidget,
+            ),
+            Consumer<FeedProvider>(
+                builder: (context, data, child) {
+
+                  bool buttonState = data.viewChangeButton;
+
+                  return buttonState == false ? const SizedBox.shrink()
+                      : Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 16,
+                          child: Center(
+                            child: ElevatedButton.icon(
+                              onPressed: toggleCarousel,
+                              icon: Icon(
+                                switchButtonIcon,
+                                size: 24,
+                              ),
+                              label: Text(switchButtonText),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF333333),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                }
+            ),
+          ],
+        );
+      }
     );
   }
 }

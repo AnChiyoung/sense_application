@@ -803,8 +803,10 @@ class _EventRecommendRowState extends State<EventRecommendRow> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      showDialog(context: context, builder: (context) {
-                        return ReportDialog(index: index!);
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ReportDialog(index: index!);
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: StaticColor.errorBackgroundColor, elevation: 0.0),

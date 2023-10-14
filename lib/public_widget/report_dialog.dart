@@ -23,14 +23,12 @@ class _ReportDialogState extends State<ReportDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
-      insetPadding: const EdgeInsets.all(0.0),
-      contentPadding: const EdgeInsets.all(0.0),
-      content: Builder(
+      child: Builder(
         builder: (context) {
           return SizedBox(
             width: double.infinity,
@@ -64,7 +62,7 @@ class _ReportDialogState extends State<ReportDialog> {
                           children: [
                             selectType[0] == false ? Image.asset('assets/feed/report_checkbox_empty.png', width: 20, height: 20) : Image.asset('assets/feed/report_checkbox_fill.png', width: 20, height: 20),
                             const SizedBox(width: 8),
-                            Text('욕설/비방', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            Expanded(child: Text('욕설/비방', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
@@ -80,7 +78,7 @@ class _ReportDialogState extends State<ReportDialog> {
                           children: [
                             selectType[1] == false ? Image.asset('assets/feed/report_checkbox_empty.png', width: 20, height: 20) : Image.asset('assets/feed/report_checkbox_fill.png', width: 20, height: 20),
                             const SizedBox(width: 8),
-                            Text('홍보/불법광고', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            Expanded(child: Text('홍보/불법광고', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
@@ -96,7 +94,7 @@ class _ReportDialogState extends State<ReportDialog> {
                           children: [
                             selectType[2] == false ? Image.asset('assets/feed/report_checkbox_empty.png', width: 20, height: 20) : Image.asset('assets/feed/report_checkbox_fill.png', width: 20, height: 20),
                             const SizedBox(width: 8),
-                            Text('음란물/선정적인 게시물', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            Expanded(child: Text('음란물/선정적인 게시물', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
@@ -112,7 +110,7 @@ class _ReportDialogState extends State<ReportDialog> {
                           children: [
                             selectType[3] == false ? Image.asset('assets/feed/report_checkbox_empty.png', width: 20, height: 20) : Image.asset('assets/feed/report_checkbox_fill.png', width: 20, height: 20),
                             const SizedBox(width: 8),
-                            Text('정치적인 게시물', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            Expanded(child: Text('정치적인 게시물', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
@@ -128,7 +126,7 @@ class _ReportDialogState extends State<ReportDialog> {
                           children: [
                             selectType[4] == false ? Image.asset('assets/feed/report_checkbox_empty.png', width: 20, height: 20) : Image.asset('assets/feed/report_checkbox_fill.png', width: 20, height: 20),
                             const SizedBox(width: 8),
-                            Text('기타', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                            Expanded(child: Text('기타', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400))),
                           ],
                         ),
                       ),
