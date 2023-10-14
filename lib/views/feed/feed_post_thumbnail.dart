@@ -83,7 +83,7 @@ class FeedPostCarouselCard extends _BasePostCard {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.black.withOpacity(0.1),
+        color: Colors.black.withOpacity(0.9),
         boxShadow: [
           BoxShadow(
             blurRadius: 8,
