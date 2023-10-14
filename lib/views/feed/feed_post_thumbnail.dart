@@ -268,6 +268,14 @@ class _FeedPostListPresenterState extends State<FeedPostListPresenter> {
   @override
   void initState() {
     _pageController = PageController();
+    _pageController.addListener(() {
+      // print(_pageController.position.pixels.abs());
+      // if(_pageController.position.pixels.abs() > 1.0) {
+      //   context.read<FeedProvider>().feedScrollChange(true);
+      // } else {
+      //   context.read<FeedProvider>().feedScrollChange(false);
+      // }
+    });
     super.initState();
   }
 

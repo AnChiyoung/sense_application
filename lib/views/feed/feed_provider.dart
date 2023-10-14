@@ -360,4 +360,12 @@ class FeedProvider with ChangeNotifier {
     _likey = state;
     notifyListeners();
   }
+
+  bool _feedScroll = false;
+  bool get feedScroll => _feedScroll;
+
+  void feedScrollChange(bool state) {
+    _feedScroll = state;
+    notifyListeners();
+  }
 }

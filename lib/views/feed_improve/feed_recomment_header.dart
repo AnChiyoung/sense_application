@@ -24,22 +24,27 @@ class _RecommentHeaderState extends State<RecommentHeader> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 18),
-          child: Row(
-            children: [
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(25.0),
-                  onTap: () {
-                    /// 댓글로 전환
-                    context.read<FeedProvider>().recommentModeToCommentMode(widget.postId, context.read<FeedProvider>().sortState);
-                  },
-                  child: Image.asset('assets/feed/back_arrow.png', width: 22, height: 22),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              highlightColor: Colors.transparent,
+              borderRadius: BorderRadius.circular(25.0),
+              onTap: () {
+                /// 댓글로 전환
+                context.read<FeedProvider>().recommentModeToCommentMode(widget.postId, context.read<FeedProvider>().sortState);
+              },
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset('assets/feed/back_arrow.png', width: 22, height: 22),
+                    const SizedBox(width: 4.0),
+                    Text('답글', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
+                  ],
                 ),
               ),
-              const SizedBox(width: 4.0),
-              Text('답글', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
-            ],
+            ),
           ),
         ),
       ],
