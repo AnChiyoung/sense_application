@@ -286,7 +286,21 @@ class _PostDetailState extends State<PostDetail> {
                 context.read<FeedProvider>().feedInfoInit();
                 Navigator.of(context).pop();
               },
-              child: Image.asset('assets/feed/back_button.png', width: 40, height: 40),
+              child: Container(
+                width: 50.0.w,
+                height: 50.0.h,
+                child: Stack(
+                  children: [
+                    Image.asset('assets/feed/back_button.png', width: 50, height: 50),
+                    Positioned.fill(
+                      top: 10.0,
+                      bottom: 10.0,
+                      left: 5.0,
+                      right: 10.0,
+                      child: Image.asset('assets/feed/arrow_in_back_button.png', width: 24, height: 24)),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
