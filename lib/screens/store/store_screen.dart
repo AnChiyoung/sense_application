@@ -15,18 +15,23 @@ class _StoreScreenState extends State<StoreScreen> {
     /// empty page
     // return StoreEmptyView();
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        top: true,
-        bottom: false,
-        child: Column(
-          children: [
-            StoreHeader(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: StoreContent())),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          top: true,
+          bottom: false,
+          child: Column(
+            children: [
+              StoreHeader(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: StoreContent())),
+            ],
+          ),
         ),
       ),
     );

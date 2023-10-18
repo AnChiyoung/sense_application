@@ -30,14 +30,6 @@ class ContactTabModel {
 class ContactRequest {
   static List<Contact> contacts = [];
 
-  var logger = Logger(
-    printer: PrettyPrinter(
-      lineLength: 120,
-      colors: true,
-      printTime: true,
-    ),
-  );
-
   Future<List<ContactModel>> contactListRequest([int? category]) async {
 
     String orderbyParams = '';
@@ -66,15 +58,8 @@ class ContactRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 불러오기 성공');
-
-      // ContactTabModel model = ContactTabModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-
-      // logger.i(model.count);
-      // logger.i(model.contactModelList!.elementAt(0).id);
-
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
-
       return contactModels;
     } else {
       print('연락처 불러오기 실패');
@@ -101,16 +86,6 @@ class ContactRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 저장 성공');
-      // List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      // var logger = Logger(
-      //   printer: PrettyPrinter(
-      //     lineLength: 120,
-      //     colors: true,
-      //     printTime: true,
-      //   ),
-      // );
-      // logger.i('연락처 리스폰스 : ${jsonDecode(utf8.decode(response.bodyBytes))['data']}');
-      // List<ContactModel> contactModels = body.isEmpty ? [] : body.map((e) => ContactModel.fromJson(e)).toList();
       return true;
     } else {
       print('연락처 저장 실패');
@@ -120,8 +95,6 @@ class ContactRequest {
 
   /// contact detail request
   Future<ContactModel> contactDetailRequest(int contactId) async {
-
-    logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}'),
@@ -144,8 +117,6 @@ class ContactRequest {
   /// contact bookmarked request
   Future<ContactModel> bookmarkedRequest(int contactId) async {
 
-    logger.i('contact id : ${contactId.toString()}');
-
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}/bookmark'),
       headers: {
@@ -166,8 +137,6 @@ class ContactRequest {
 
   /// contact unbookmarked request
   Future<ContactModel> unBookmarkedRequest(int contactId) async {
-
-    logger.i('contact id : ${contactId.toString()}');
 
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}/unbookmark'),
@@ -199,11 +168,6 @@ class ContactRequest {
       profileImage: profileImage.isEmpty ? null : profileImage, /// base 64 string focused
     ).updateJson();
 
-    print(updateRequestBody);
-
-    // print(jsonEncode(updateRequestBody));
-    // print('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}');
-
     final response = await http.patch(
       Uri.parse('${ApiUrl.releaseUrl}/contact/${contactId.toString()}'),
       body: jsonEncode(updateRequestBody),
@@ -212,22 +176,6 @@ class ContactRequest {
         'Content-Type': 'application/json; charset=UTF-8'
       },
     );
-
-    // print(response.statusCode);
-    // return ContactModel();
-
-    // final responseMetaData = http.MultipartRequest(
-    //   'PATCH',
-    //   Uri.parse('https://dev.server.sense.runners.im/api/v1/contact/${contactId.toString()}'),
-    // );
-    // responseMetaData.files.add(
-    //   http.MultipartFile(
-    //     //,
-    //     File(filename).readAsBytes().asStream(),
-    //     File(filename).lengthSync(),
-    //     filename: filename.split("/").last;
-    //   )
-    // );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       print('연락처 수정 성공');

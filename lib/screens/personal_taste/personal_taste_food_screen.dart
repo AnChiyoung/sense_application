@@ -28,24 +28,22 @@ class _PersonalTasteFoodScreenState extends State<PersonalTasteFoodScreen> {
         body: SafeArea(
           top: true,
           bottom: false,
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      FoodHeader(),
-                      FoodContent(deviceWidth: deviceWidth),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FoodButton(),
-                  )
-                ],
-              ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height - safeAreaTopPadding,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    FoodHeader(),
+                    FoodContent(deviceWidth: deviceWidth),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FoodButton(),
+                )
+              ],
             ),
           ),
         ),

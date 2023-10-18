@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sense_flutter_application/views/store/content_main/store_detail_content.dart';
+import 'package:sense_flutter_application/views/store/content_detail/store_detail_content.dart';
 
 class StoreDetailScreen extends StatefulWidget {
   int productId;

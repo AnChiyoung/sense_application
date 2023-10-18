@@ -294,7 +294,7 @@ class _PostDetailState extends State<PostDetail> {
                     Image.asset('assets/feed/back_button.png', width: 50, height: 50),
                     Positioned.fill(
                       top: 10.0,
-                      bottom: 10.0,
+                      bottom: 12.0,
                       left: 5.0,
                       right: 10.0,
                       child: Image.asset('assets/feed/arrow_in_back_button.png', width: 24, height: 24)),

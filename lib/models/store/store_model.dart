@@ -7,12 +7,20 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class StoreRequest {
   // 상품 모델 리스트 불러옴
-  Future<List<ProductModel>> productListRequest() async {
+  Future<List<ProductModel>> productListRequest(String searchTitle) async {
 
-    SenseLogger().debug('${ApiUrl.releaseUrl}/products');
+    String searchQuery = "";
+
+    if(searchTitle.isEmpty) {
+      searchQuery = "";
+    } else {
+      searchQuery = "?search=$searchTitle";
+    }
+
+    SenseLogger().debug('${ApiUrl.releaseUrl}/products$searchQuery');
 
     final response = await http.get(
-      Uri.parse('${ApiUrl.releaseUrl}/products'),
+      Uri.parse('${ApiUrl.releaseUrl}/products$searchQuery'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
         'Content-Type': 'application/json; charset=UTF-8'

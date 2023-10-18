@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart'
 import 'package:sense_flutter_application/screens/event_feed/event_feed_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/store/store_screen.dart';
+import 'package:sense_flutter_application/screens/test_screen/test_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
 import '../../public_widget/login_dialog.dart';
 
@@ -13,6 +14,7 @@ class MovePageList {
     FeedScreen(),
     // ContactScreen(),
     StoreScreen(),
+    // TestScreen(),
     EventFeedScreen(),
     CalendarScreen(),
   ];

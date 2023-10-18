@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
+import 'package:sense_flutter_application/models/sign_in/email_check_model.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/public_widget/test_request.dart';
@@ -113,8 +114,15 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                     emailState = false;
                     return '이메일 형식을 확인해 주세요';
                   } else {
-                    emailState = true;
-                    return null;
+                    emailCheck(value.toString()).then((value) {
+                      if(value == true) {
+                        emailState = false;
+                        return '이미 가입된 이메일입니다';
+                      } else {
+                        emailState = true;
+                        return null;
+                      }
+                    });
                   }
                 } else {
                   emailState = false;
@@ -244,6 +252,10 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
         ),
       ),
     );
+  }
+
+  Future<bool> emailCheck(String email) async {
+    return await EmailCheckRequest().emailCheckRequest(email);
   }
 }
 
