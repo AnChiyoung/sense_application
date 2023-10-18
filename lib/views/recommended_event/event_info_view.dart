@@ -12,8 +12,7 @@ import 'package:sense_flutter_application/public_widget/event_delete_dialog.dart
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/present_memo_screen.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:toast/toast.dart';
 
@@ -71,24 +70,25 @@ class _EventInfoDrawerState extends State<EventInfoDrawer> {
     /// safe area 상단 height
     var safePadding = MediaQuery.of(context).padding.top;
 
-    return Consumer<CreateEventImproveProvider>(
+    return Consumer<CEProvider>(
       builder: (context, data, child) {
 
-        EventModel model = data.selectEventModel;
-
-        return Drawer(
-          backgroundColor: Colors.white,
-          child: Column(
-              children: [
-                SizedBox(height: safePadding),
-                DrawerEventAction(),
-                Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
-                model.eventHost!.id == PresentUserInfo.id ? const Expanded(child: DrawerJoinUser()) : const SizedBox.shrink(),
-                Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
-                model.eventHost!.id == PresentUserInfo.id ? const DrawerEventDelete() : const SizedBox.shrink(),
-              ]
-          ),
-        );
+        return Container();
+        // EventModel model = data.selectEventModel;
+        //
+        // return Drawer(
+        //   backgroundColor: Colors.white,
+        //   child: Column(
+        //       children: [
+        //         SizedBox(height: safePadding),
+        //         DrawerEventAction(),
+        //         Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+        //         model.eventHost!.id == PresentUserInfo.id ? const Expanded(child: DrawerJoinUser()) : const SizedBox.shrink(),
+        //         Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+        //         model.eventHost!.id == PresentUserInfo.id ? const DrawerEventDelete() : const SizedBox.shrink(),
+        //       ]
+        //   ),
+        // );
       }
     );
 
@@ -108,168 +108,169 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: EventRequest().eventRequest(context.read<CreateEventImproveProvider>().eventUniqueId),
-        builder: (context, snapshot) {
-          if(snapshot.hasError) {
-            return const SizedBox.shrink();
-          } else if(snapshot.hasData) {
-            if(snapshot.connectionState == ConnectionState.waiting) {
-              return const SizedBox.shrink();
-            } else if(snapshot.connectionState == ConnectionState.done) {
-
-              EventModel loadEventModel = snapshot.data ?? EventModel();
-
-              context.read<CreateEventImproveProvider>().drawerDataLoad(
-                loadEventModel.isAlarm ?? false,
-                loadEventModel.publicType ?? 'PUBLIC',
-              );
-
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
-                child: Column(
-                  children: [
-                    Align(alignment: Alignment.centerLeft, child: Text('설정', style: TextStyle(fontSize: 18.sp, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700))),
-                    SizedBox(height: 24.0.h),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('알림 받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center))),
-                            Expanded(
-                              flex: 3,
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Consumer<CreateEventImproveProvider>(
-                                      builder: (context, data, child) {
-
-                                        bool alarm = data.isAlarm;
-
-                                        return FlutterSwitch(
-                                          width: 48,
-                                          height: 24,
-                                          borderRadius: 12.0,
-                                          padding: 3,
-                                          toggleSize: 18,
-                                          activeColor: StaticColor.drawerToggleActiveColor,
-                                          inactiveColor: StaticColor.drawerToggleInactiveColor,
-                                          value: alarm,
-                                          onToggle: (bool value) async {
-                                            if(value == true) {
-                                              context.read<CreateEventImproveProvider>().isAlarmChange(value);
-                                              bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 5);
-
-                                              if(updateResult == true) {
-                                                alarm = value;
-                                              } else {
-
-                                              }
-                                            } else if(value == false) {
-                                              context.read<CreateEventImproveProvider>().isAlarmChange(value);
-                                              bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 5);
-
-                                              if(updateResult == true) {
-                                                alarm = value;
-                                              } else {
-
-                                              }
-                                            }
-                                          },
-                                        );
-                                      }
-                                  )
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8.0.h),
-                        Text('새로운 추천 등을 푸시 알림을 통해 받습니다', style: TextStyle(fontSize: 12.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                      ],
-                    ),
-                    SizedBox(height: 32.0.h),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text('비공개', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center))),
-                            Expanded(
-                              flex: 3,
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Consumer<CreateEventImproveProvider>(
-                                      builder: (context, data, child) {
-
-                                        bool public = false;
-
-                                        if(data.publicType == 'PUBLIC') {
-                                          public = false;
-                                        } else if(data.publicType == 'PRIVATE'){
-                                          public = true;
-                                        }
-
-                                        return FlutterSwitch(
-                                          width: 48,
-                                          height: 24,
-                                          borderRadius: 12.0,
-                                          padding: 3,
-                                          toggleSize: 18,
-                                          activeColor: StaticColor.drawerToggleActiveColor,
-                                          inactiveColor: StaticColor.drawerToggleInactiveColor,
-                                          value: public,
-                                          onToggle: (bool value) async {
-                                            if(value == true) {
-                                              context.read<CreateEventImproveProvider>().publicTypeChange('PRIVATE');
-                                              bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 6);
-
-                                              if(updateResult == true) {
-                                                public = value;
-                                              } else {
-
-                                              }
-                                            } else if(value == false) {
-                                              context.read<CreateEventImproveProvider>().publicTypeChange('PUBLIC');
-                                              bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 6);
-
-                                              if(updateResult == true) {
-                                                public = value;
-                                              } else {
-
-                                              }
-                                            }
-                                          },
-                                        );
-                                      }
-                                  )
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8.0.h),
-                        Text('이벤트를 더 이상 공개하지 않습니다', style: TextStyle(fontSize: 12.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-
-            } else {
-              return const SizedBox.shrink();
-            }
-          } else {
-            return const SizedBox.shrink();
-          }
-        }
-    );
+    return Container();
+    // return FutureBuilder(
+    //     future: EventRequest().eventRequest(context.read<CEProvider>().eventUniqueId),
+    //     builder: (context, snapshot) {
+    //       if(snapshot.hasError) {
+    //         return const SizedBox.shrink();
+    //       } else if(snapshot.hasData) {
+    //         if(snapshot.connectionState == ConnectionState.waiting) {
+    //           return const SizedBox.shrink();
+    //         } else if(snapshot.connectionState == ConnectionState.done) {
+    //
+    //           // EventModel loadEventModel = snapshot.data ?? EventModel();
+    //           //
+    //           // context.read<CEProvider>().drawerDataLoad(
+    //           //   loadEventModel.isAlarm ?? false,
+    //           //   loadEventModel.publicType ?? 'PUBLIC',
+    //           // );
+    //
+    //           return Padding(
+    //             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+    //             child: Column(
+    //               children: [
+    //                 Align(alignment: Alignment.centerLeft, child: Text('설정', style: TextStyle(fontSize: 18.sp, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700))),
+    //                 SizedBox(height: 24.0.h),
+    //                 Column(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     Row(
+    //                       children: [
+    //                         Expanded(
+    //                             flex: 2,
+    //                             child: Align(
+    //                                 alignment: Alignment.centerLeft,
+    //                                 child: Text('알림 받기', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center))),
+    //                         Expanded(
+    //                           flex: 3,
+    //                           child: Align(
+    //                               alignment: Alignment.centerLeft,
+    //                               child: Consumer<CEProvider>(
+    //                                   builder: (context, data, child) {
+    //
+    //                                     // bool alarm = data.isAlarm;
+    //
+    //                                     return FlutterSwitch(
+    //                                       width: 48,
+    //                                       height: 24,
+    //                                       borderRadius: 12.0,
+    //                                       padding: 3,
+    //                                       toggleSize: 18,
+    //                                       activeColor: StaticColor.drawerToggleActiveColor,
+    //                                       inactiveColor: StaticColor.drawerToggleInactiveColor,
+    //                                       value: alarm,
+    //                                       onToggle: (bool value) async {
+    //                                         if(value == true) {
+    //                                           context.read<CEProvider>().isAlarmChange(value);
+    //                                           bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 5);
+    //
+    //                                           if(updateResult == true) {
+    //                                             alarm = value;
+    //                                           } else {
+    //
+    //                                           }
+    //                                         } else if(value == false) {
+    //                                           context.read<CEProvider>().isAlarmChange(value);
+    //                                           bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 5);
+    //
+    //                                           if(updateResult == true) {
+    //                                             alarm = value;
+    //                                           } else {
+    //
+    //                                           }
+    //                                         }
+    //                                       },
+    //                                     );
+    //                                   }
+    //                               )
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                     SizedBox(height: 8.0.h),
+    //                     Text('새로운 추천 등을 푸시 알림을 통해 받습니다', style: TextStyle(fontSize: 12.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+    //                   ],
+    //                 ),
+    //                 SizedBox(height: 32.0.h),
+    //                 Column(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     Row(
+    //                       children: [
+    //                         Expanded(
+    //                             flex: 2,
+    //                             child: Align(
+    //                                 alignment: Alignment.centerLeft,
+    //                                 child: Text('비공개', style: TextStyle(fontSize: 16, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w400), textAlign: TextAlign.center))),
+    //                         Expanded(
+    //                           flex: 3,
+    //                           child: Align(
+    //                               alignment: Alignment.centerLeft,
+    //                               child: Consumer<CreateEventImproveProvider>(
+    //                                   builder: (context, data, child) {
+    //
+    //                                     bool public = false;
+    //
+    //                                     if(data.publicType == 'PUBLIC') {
+    //                                       public = false;
+    //                                     } else if(data.publicType == 'PRIVATE'){
+    //                                       public = true;
+    //                                     }
+    //
+    //                                     return FlutterSwitch(
+    //                                       width: 48,
+    //                                       height: 24,
+    //                                       borderRadius: 12.0,
+    //                                       padding: 3,
+    //                                       toggleSize: 18,
+    //                                       activeColor: StaticColor.drawerToggleActiveColor,
+    //                                       inactiveColor: StaticColor.drawerToggleInactiveColor,
+    //                                       value: public,
+    //                                       onToggle: (bool value) async {
+    //                                         if(value == true) {
+    //                                           context.read<CreateEventImproveProvider>().publicTypeChange('PRIVATE');
+    //                                           bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 6);
+    //
+    //                                           if(updateResult == true) {
+    //                                             public = value;
+    //                                           } else {
+    //
+    //                                           }
+    //                                         } else if(value == false) {
+    //                                           context.read<CreateEventImproveProvider>().publicTypeChange('PUBLIC');
+    //                                           bool updateResult = await EventRequest().personalFieldUpdateEvent(context, context.read<CreateEventImproveProvider>().eventUniqueId, 6);
+    //
+    //                                           if(updateResult == true) {
+    //                                             public = value;
+    //                                           } else {
+    //
+    //                                           }
+    //                                         }
+    //                                       },
+    //                                     );
+    //                                   }
+    //                               )
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                     SizedBox(height: 8.0.h),
+    //                     Text('이벤트를 더 이상 공개하지 않습니다', style: TextStyle(fontSize: 12.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+    //                   ],
+    //                 ),
+    //               ],
+    //             ),
+    //           );
+    //
+    //         } else {
+    //           return const SizedBox.shrink();
+    //         }
+    //       } else {
+    //         return const SizedBox.shrink();
+    //       }
+    //     }
+    // );
   }
 }
 

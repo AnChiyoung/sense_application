@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_view.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_button.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_data_section.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_header.dart';
 
 class CreateEventScreen extends StatefulWidget {
-  const CreateEventScreen({Key? key}) : super(key: key);
+  const CreateEventScreen({super.key});
 
   @override
   State<CreateEventScreen> createState() => _CreateEventScreenState();
@@ -15,17 +15,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
 
-    /// safe area height
+    /// safe area heightß
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
-    context.read<CreateEventProvider>().safeAreaPaddingChange(safeAreaTopPadding, safeAreaBottomPadding);
 
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: SafeArea(
           top: true,
           bottom: false,
@@ -41,12 +39,12 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         height: 1.0,
                         color: StaticColor.grey300E0,
                       ),
-                      CreateEventInfoView(),
+                      CreateEventDataSection(),
                     ],
                   ),
                 ),
               ),
-              const Align(
+              Align(
                   alignment: Alignment.bottomCenter,
                   child: CreateEventButton()
               ),

@@ -12,8 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 // import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
@@ -76,14 +75,13 @@ void main() async {
           ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
           ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
           ChangeNotifierProvider(create: (_) => ContactProvider()),
-          ChangeNotifierProvider(create: (_) => CreateEventProvider()),
           ChangeNotifierProvider(create: (_) => MyPageProvider()),
           ChangeNotifierProvider(create: (_) => TasteProvider()),
-          ChangeNotifierProvider(create: (_) => CreateEventImproveProvider()),
           ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
           ChangeNotifierProvider(create: (_) => EventFeedProvider()),
           ChangeNotifierProvider(create: (_) => AnimationProvider()),
           ChangeNotifierProvider(create: (_) => StoreProvider()),
+          ChangeNotifierProvider(create: (_) => CEProvider()),
           // ChangeNotifierProvider(create: (_) => CEProvider()),
           // 여기에 추가하시면 되여
         ],

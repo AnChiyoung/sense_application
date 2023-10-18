@@ -23,15 +23,16 @@ class _RecommendRequestStepState extends State<RecommendRequestStep> {
 
         int recommendRequestStep = data.step;
 
-        if(recommendRequestStep == 1) {
-          return EventRecommendStepCategory();
-        } else if(recommendRequestStep == 2) {
-          return EventRecommendStepCost();
-        } else if(recommendRequestStep == 3) {
-          return EventRecommendStepMemo();
-        } else {
-          return const SizedBox.shrink();
-        }
+        return Container();
+        // if(recommendRequestStep == 1) {
+        //   return EventRecommendStepCategory();
+        // } else if(recommendRequestStep == 2) {
+        //   return EventRecommendStepCost();
+        // } else if(recommendRequestStep == 3) {
+        //   return EventRecommendStepMemo();
+        // } else {
+        //   return const SizedBox.shrink();
+        // }
       }
     );
   }

@@ -7,11 +7,9 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import '../create_event/create_event_improve_provider.dart';
 
 class DateSelectHeader extends StatefulWidget {
   const DateSelectHeader({Key? key}) : super(key: key);
@@ -274,8 +272,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
 
       // AddEventModel.dateModel = DateTime.utc(selectedYear, selectedMonth, selectedDay).toString();
       // print()
-      context.read<CreateEventImproveProvider>().dateSelectChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
-      print(context.read<CreateEventImproveProvider>().selectDate);
+      // context.read<CEProvider>().dateSelectChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
       // context.read<CreateEventImproveProvider>().dateStateChange(DateTime.utc(selectedYear, selectedMonth, selectedDay).toString());
     }
   }

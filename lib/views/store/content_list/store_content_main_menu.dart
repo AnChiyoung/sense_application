@@ -140,18 +140,20 @@ class _StoreContentMainProductState extends State<StoreContentMainProduct> {
             List<ProductModel> loadProductModels = snapshot.data ?? [];
             SenseLogger().debug(loadProductModels.toString());
 
-            if(loadProductModels.isEmpty) {
-              return Expanded(
-                child: Container(
-                  height: 550.0,
-                  child: Center(
-                    child: Text("조회된 상품이 없습니다", style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
-                  ),
-                ),
-              );
-            } else {
-              return ProductWidgets(models: loadProductModels);
-            }
+            // if(loadProductModels.isEmpty) {
+            //   return Expanded(
+            //     child: Container(
+            //       height: 550.0,
+            //       child: Center(
+            //         child: Text("조회된 상품이 없습니다", style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+            //       ),
+            //     ),
+            //   );
+            // } else {
+            //   return ProductWidgets(models: loadProductModels);
+            // }
+
+            return ProductWidgets(models: loadProductModels);
 
           } else if(snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

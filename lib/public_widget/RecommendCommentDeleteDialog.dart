@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event_feed/event_feed_recommend_model.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 
 class RecommendCommentDeleteDialog extends StatefulWidget {
   int commentId;
@@ -28,7 +26,6 @@ class _RecommendCommentDeleteDialogState extends State<RecommendCommentDeleteDia
           Text('추천을 삭제하시겠습니까?', style: TextStyle(fontSize: 18, color: StaticColor.addEventCancelTitle, fontWeight: FontWeight.w700)),
         ],
       ),
-      //
       content: Padding(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 28, bottom: 18),
         child: Row(
@@ -67,7 +64,7 @@ class _RecommendCommentDeleteDialogState extends State<RecommendCommentDeleteDia
 
                     bool result = await RecommendsRequest().deleteReCommendComment(widget.commentId);
                     if(result == true) {
-                      context.read<CreateEventImproveProvider>().useRebuildChange();
+                      // context.read<CreateEventImproveProvider>().useRebuildChange();
                       Navigator.of(context).pop();
                     } else {}
                   },

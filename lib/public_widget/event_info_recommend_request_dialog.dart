@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/recommend_model.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 
@@ -70,14 +69,14 @@ class _RecommendRequestDialogState extends State<RecommendRequestDialog> {
                 child: ElevatedButton(
                   onPressed: () async {
                     /// 추천 요청하기 로직 완료
-                    bool recommendRequestResult = await RecommendRequest().eventRecommendRequest(
-                        context,
-                        context.read<CreateEventImproveProvider>().eventUniqueId);
-                    if(recommendRequestResult == true) {
-                      context.read<RecommendRequestProvider>().recommendFinish();
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                    } else {}
+                    // bool recommendRequestResult = await RecommendRequest().eventRecommendRequest(
+                    //     context,
+                    //     context.read<CreateEventImproveProvider>().eventUniqueId);
+                    // if(recommendRequestResult == true) {
+                    //   context.read<RecommendRequestProvider>().recommendFinish();
+                    //   Navigator.of(context).pop();
+                    //   Navigator.of(context).pop();
+                    // } else {}
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('확인', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
-import 'package:sense_flutter_application/views/create_event/create_event_improve_provider.dart';
 
 /// 이벤트에서 요청된 추천에 대한 추천글들
 class EventFeedRecommendModel {
@@ -92,7 +91,7 @@ class RecommendsRequest {
 
     Map<String, dynamic> contentModel = {};
     contentModel.clear();
-    contentModel['content'] = context.read<CreateEventImproveProvider>().recommendCommentString;
+    // contentModel['content'] = context.read<CreateEventImproveProvider>().recommendCommentString;
 
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}/recommend'),
