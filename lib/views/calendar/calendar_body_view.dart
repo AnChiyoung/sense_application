@@ -49,7 +49,7 @@ class _CalendarBodyState extends State<CalendarBody> {
 
   @override
   void dispose() {
-    _selectedEvents.dispose();
+    // _selectedEvents.dispose();
     super.dispose();
   }
 
@@ -125,7 +125,7 @@ class _CalendarBodyState extends State<CalendarBody> {
                     },
                     markerBuilder: (context, dateTime, _) {
 
-                      print('marker!!!! : $dateTime');
+                      // print('marker!!!! : $dateTime');
 
                       List<Widget> markerWidgets = [];
 

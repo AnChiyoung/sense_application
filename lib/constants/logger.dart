@@ -15,6 +15,6 @@ class SenseLogger {
 
   @override
   void debug(String debugText) {
-    logger.d(debugText);
+    // logger.d(debugText);
   }
 }

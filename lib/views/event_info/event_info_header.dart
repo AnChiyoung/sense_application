@@ -9,32 +9,32 @@
 // import 'package:sense_flutter_application/screens/home/home_screen.dart';
 // import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
 // import 'package:sense_flutter_application/views/home/home_provider.dart';
-//
+
 // class EventInfoHeader extends StatefulWidget {
 //   EventModel eventModel;
 //   String title;
 //   // Key drawerKey;
 //   EventInfoHeader({super.key, required this.eventModel, required this.title});
-//
+
 //   @override
 //   State<EventInfoHeader> createState() => _EventInfoHeaderState();
 // }
-//
+
 // class _EventInfoHeaderState extends State<EventInfoHeader> {
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return HeaderMenu(backCallback: eventInfoBackCallback, title: widget.title, rightMenu: widget.eventModel.eventHost!.id == PresentUserInfo.id ? rightMenu() : const SizedBox.shrink());
 //     // return HeaderMenu(backCallback: isRecommendState == true ? recommendCallback : backCallback, title: title, rightMenu: rightMenu());
 //   }
-//
+
 //   void stepBackCallback() {
 //     int stepNumber = context.read<CreateEventProvider>().eventRecommendStep;
 //     bool isStepping = context.read<CreateEventProvider>().isStepping;
-//
+
 //     if(isStepping == true) {
 //       if(stepNumber == 1) {
-//
+
 //       } else if(stepNumber == 2) {
 //         context.read<CreateEventProvider>().eventRecommendStepChange(
 //             context.read<CreateEventProvider>().eventRecommendStep - 1
@@ -49,7 +49,7 @@
 //       eventInfoBackCallback();
 //     }
 //   }
-//
+
 //   void eventInfoBackCallback() {
 //     /// one piece
 //     context.read<CreateEventImproveProvider>().createEventClear(null);
@@ -61,7 +61,7 @@
 //       Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
 //     }
 //   }
-//
+
 //   void recommendCallback() {
 //     showDialog(
 //       context: context,
@@ -71,15 +71,15 @@
 //       }
 //     );
 //   }
-//
+
 //   Widget rightMenu() {
 //     return Consumer<CreateEventProvider>(
 //       builder: (context, data, child) {
-//
+
 //         bool isStepping = data.isStepping;
 //         bool isFinishRecommend = data.recommendRequestState;
 //         int recommendStep = data.eventRecommendStep;
-//
+
 //         if(isStepping == true) {
 //           return Material(
 //               color: Colors.transparent,

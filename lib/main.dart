@@ -13,6 +13,7 @@ import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 // import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
@@ -82,6 +83,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => AnimationProvider()),
           ChangeNotifierProvider(create: (_) => StoreProvider()),
           ChangeNotifierProvider(create: (_) => CEProvider()),
+          ChangeNotifierProvider(create: (_) => EDProvider()),
           // ChangeNotifierProvider(create: (_) => CEProvider()),
           // 여기에 추가하시면 되여
         ],

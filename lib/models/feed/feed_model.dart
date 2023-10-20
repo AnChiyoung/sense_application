@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedRequest {
   Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
-    print('select label id: ${labelId.toString()}');
+    // print('select label id: ${labelId.toString()}');
     String query;
     String pageSize;
     labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';

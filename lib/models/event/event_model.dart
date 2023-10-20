@@ -49,7 +49,7 @@ class EventRequest {
   /// personal event load
   Future<EventModel> eventRequest(int eventId) async {
 
-    print('event id : ${eventId.toString()}');
+    // print('event id : ${eventId.toString()}');
 
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
@@ -61,9 +61,9 @@ class EventRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to personal event load');
-      print('logger');
+      // print('logger');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      print(jsonResult);
+      // print(jsonResult);
       EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
       return eventModel;
     } else {
@@ -192,6 +192,26 @@ class EventRequest {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'
         }
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      SenseLogger().debug('success to event update');
+      return true;
+    } else {
+      SenseLogger().debug('fail to event update');
+      return false;
+    }
+  }
+
+  /// personal field event update
+  Future<bool> personalFieldUpdateEvent2(int eventId, Map<String, dynamic> fieldModel) async {
+    final response = await http.patch(
+      Uri.parse('${ApiUrl.releaseUrl}/event/$eventId'),
+      body: jsonEncode(fieldModel),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
