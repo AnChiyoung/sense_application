@@ -72,7 +72,7 @@ class _EventDetailDrawerSettingState extends State<EventDetailDrawerSetting> {
                             value: isAlarm,
                             onToggle: (bool value) async {
                               if (eventId < 0) return;
-                              context.read<EDProvider>().toggleEventAlarm(eventId, value);
+                              context.read<EDProvider>().toggleEventAlarm(eventId, value, true);
                             },
                           );
                         },
@@ -133,7 +133,7 @@ class _EventDetailDrawerSettingState extends State<EventDetailDrawerSetting> {
                             value: isPublic,
                             onToggle: (bool value) async {
                                if (eventId < 0) return;
-                              context.read<EDProvider>().toggleEventPublic(eventId, value);
+                              context.read<EDProvider>().toggleEventPublic(eventId, value, true);
                             },
                           );
                         }

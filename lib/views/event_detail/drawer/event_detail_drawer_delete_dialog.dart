@@ -67,7 +67,7 @@ class _EventDetailDrawerDeleteDialogState extends State<EventDetailDrawerDeleteD
                     int eventId = context.read<EDProvider>().eventModel.id ?? -1;
                     if (eventId < 0) return;
                     
-                    bool result = await context.read<EDProvider>().deleteEvent(eventId);
+                    bool result = await context.read<EDProvider>().deleteEvent(eventId, false);
                     if (context.mounted && result) {
                       context.read<EDProvider>().clearEventModal(false);
                       Navigator.of(context).pop();

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_header.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_content.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_header.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_tab.dart';
+import 'package:sense_flutter_application/views/event_detail/event_detail_tab_bar.dart';
 
 class EventDetailView extends StatefulWidget {
   int eventId;
@@ -84,18 +81,20 @@ class _EventDetailViewState extends State<EventDetailView> {
           if (snapshot.hasError) {
             return const SizedBox.shrink();
           } else if (snapshot.hasData) {
-            // EventModel loadEventModel = snapshot.data;
-            // context.read<EDProvider>().setEventModel(eventModel: loadEventModel, test: 2222);
+            EventModel loadEventModel = snapshot.data;
+            context.read<EDProvider>().setEventModel(loadEventModel, false);
             // EventModel eventModel = context.read<EDProvider>().eventModel ?? EventModel();
 
-            return Column(
+            return const Column(
               children: [
-                const EventDetailHeader(),
-                Consumer<EDProvider>(builder: (context, data, child) {
-                  EventModel event = data.eventModel;
-                  return Text(event.id.toString());
-                }
-                )
+                EventDetailHeader(),
+                EventDetailTabBar(),
+                // Consumer<EDProvider>(
+                //   builder: (context, data, child) {
+                //     EventModel event = data.eventModel;
+                //     return Text(event.id.toString());
+                //   },
+                // ),
                 /// 이벤트 타이틀 변경이 일어나면 헤더도 변화
                 // Consumer<CreateEventImproveProvider>(
                 //   builder: (context, data, child) {
