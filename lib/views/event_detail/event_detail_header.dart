@@ -31,7 +31,7 @@ class _EventDetailHeaderState extends State<EventDetailHeader> {
   ///   다른사람꺼일때: 빈칸
   /// }
   Widget rightMenu(EventModel eventModel) {
-    if (eventModel.eventHost!.id == PresentUserInfo.id) {
+    if (eventModel.eventHost?.id == PresentUserInfo.id) {
       return GestureDetector(
         onTap: () {
           Scaffold.of(context).openEndDrawer();

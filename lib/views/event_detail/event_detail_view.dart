@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_header.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_tab_bar.dart';
+import 'package:sense_flutter_application/views/event_detail/plan/event_plan_view.dart';
 
 class EventDetailView extends StatefulWidget {
   int eventId;
@@ -83,18 +85,25 @@ class _EventDetailViewState extends State<EventDetailView> {
           } else if (snapshot.hasData) {
             EventModel loadEventModel = snapshot.data;
             context.read<EDProvider>().setEventModel(loadEventModel, false);
+            // EnumEventDetailTab tabState = context.read<EDProvider>().eventDetailTabState;
             // EventModel eventModel = context.read<EDProvider>().eventModel ?? EventModel();
 
-            return const Column(
+            return Column(
               children: [
-                EventDetailHeader(),
-                EventDetailTabBar(),
-                // Consumer<EDProvider>(
-                //   builder: (context, data, child) {
-                //     EventModel event = data.eventModel;
-                //     return Text(event.id.toString());
-                //   },
-                // ),
+                const EventDetailHeader(),
+                const EventDetailTabBar(),
+                SizedBox(
+                  height: 16.0.h,
+                ),
+                Consumer<EDProvider>(
+                  builder: (context, data, child) {
+                    if (data.eventDetailTabState == EnumEventDetailTab.plan) {
+                      return const EventPlanView();
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
                 /// 이벤트 타이틀 변경이 일어나면 헤더도 변화
                 // Consumer<CreateEventImproveProvider>(
                 //   builder: (context, data, child) {

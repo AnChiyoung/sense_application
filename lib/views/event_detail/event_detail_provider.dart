@@ -58,5 +58,14 @@ class EDProvider with ChangeNotifier {
     _eventDetailTabState = tabState;
     if (notify) notifyListeners();
   }
+
+  void changeEventTitle(int eventId, String value, bool notify) async {
+    Map<String, dynamic> payload = { 'title': value };
+    bool result = await EventRequest().personalFieldUpdateEvent2(eventId, payload);
+    if (!result) return;
+
+    _eventModel.eventTitle = value;
+    if (notify) notifyListeners();
+  }
 }
 
