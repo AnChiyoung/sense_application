@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
 
 
@@ -89,11 +90,13 @@ class EDProvider with ChangeNotifier {
   EnumEventTarget? _target;
   EnumEventTarget? get target => _target;
 
+  DateTime? _date = DateTime.now();
+  DateTime? get date => _date;
+
   EnumEventCity? _city;
   EnumEventCity? get city => _city;
   EnumEventSubCity? _subCity;
   EnumEventSubCity? get subCity => _subCity;
-
   EnumEventCity? _dropdownCity;
   EnumEventCity? get dropdownCity => _dropdownCity;
 
@@ -118,6 +121,10 @@ class EDProvider with ChangeNotifier {
 
     if (eventModel.subCity?.id != null && eventModel.subCity!.id! > 0) {
       setSubCity(EnumEventSubCity.values.firstWhere((element) => element.id == eventModel.subCity?.id), false);
+    }
+
+    if (eventModel.eventDate != null && eventModel.eventDate != '') {
+      setDate(DateTime.parse(eventModel.eventDate!), false);
     }
 
     if (notify) notifyListeners();
@@ -255,6 +262,21 @@ class EDProvider with ChangeNotifier {
     if (notify) notifyListeners();
   }
 
+
+  void setDate(DateTime data, bool notify) {
+    _date = data;
+    if (notify) notifyListeners();
+  }
+
+  void changeDate(int eventId, DateTime date, bool notify) async {
+    Map<String, dynamic> payload;
+    payload = { 'date': DateFormat('yyyy-MM-dd').format(date) };
+    bool result = await EventRequest().personalFieldUpdateEvent2(eventId, payload);
+    if (!result) return;
+
+    _eventModel.eventDate = DateFormat('yyyy-MM-dd').format(date);
+    if (notify) notifyListeners();
+  }
 
   // clear 언제 호출함?
   void clear(bool notify) {

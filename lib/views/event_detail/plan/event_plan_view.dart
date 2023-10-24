@@ -21,7 +21,7 @@ class _EventPlanViewState extends State<EventPlanView> {
         children: [
           const EventPlanTitle(),
           SizedBox(height: 16.0.h),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible( flex: 1, child: EventPlanField(eventField: EnumEventDetailBottomSheetField.category)),
@@ -29,7 +29,7 @@ class _EventPlanViewState extends State<EventPlanView> {
             ],
           ),
           SizedBox(height: 8.0.h),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible( flex: 1, child: EventPlanField(eventField: EnumEventDetailBottomSheetField.date)),

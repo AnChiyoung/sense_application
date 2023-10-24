@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
+import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_date_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_region_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_target_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
@@ -45,7 +46,7 @@ class _EventPlanFieldState extends State<EventPlanField> {
         child = const EventTargetBottomSheet();
         break;
       case EnumEventDetailBottomSheetField.date:
-        child = const EventRegionBottomSheet();
+        child = const EventDateBottomSheet();
         break;
       case EnumEventDetailBottomSheetField.region:
         child = const EventRegionBottomSheet();
