@@ -22,7 +22,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> with SingleTicker
         backgroundColor: Colors.white,
         endDrawer: const EventDetailDrawer(),
         body: SafeArea(
-          child: EventDetailView(eventId: widget.eventId)
+          top: true,
+          bottom: false,
+          child: ScrollConfiguration(
+            behavior: const ScrollBehavior().copyWith(overscroll: false),
+            child: SingleChildScrollView(
+              child: EventDetailView(eventId: widget.eventId)
+            ),
+          ),
         ),
       ),
     );

@@ -60,73 +60,70 @@ class _EventPlanFieldState extends State<EventPlanField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-      child: Row(
-        children: [
-          Text(widget.eventField.label, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-          SizedBox(width: 8.0.w),
-          Material(
-            color: StaticColor.grey100F6,
+    return Row(
+      children: [
+        Text(widget.eventField.label, style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
+        SizedBox(width: 8.0.w),
+        Material(
+          color: StaticColor.grey100F6,
+          borderRadius: BorderRadius.circular(18.0.r),
+          child: InkWell(
             borderRadius: BorderRadius.circular(18.0.r),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(18.0.r),
-              onTap: onTab,
-              child: Consumer<EDProvider>(
-                builder: (context, data, child) {
+            onTap: onTab,
+            child: Consumer<EDProvider>(
+              builder: (context, data, child) {
 
-                  EventModel eventModel = data.eventModel;
-                  String label = '선택하기';
-                  bool hasChosen = false;
+                EventModel eventModel = data.eventModel;
+                String label = '선택하기';
+                bool hasChosen = false;
 
-                  switch (widget.eventField) {
-                    case EnumEventDetailBottomSheetField.category:
-                      if (eventModel.eventCategoryObject?.title != null && eventModel.eventCategoryObject?.title != '') {
-                        label = eventModel.eventCategoryObject!.title!;
-                        hasChosen = true;
+                switch (widget.eventField) {
+                  case EnumEventDetailBottomSheetField.category:
+                    if (eventModel.eventCategoryObject?.title != null && eventModel.eventCategoryObject?.title != '') {
+                      label = eventModel.eventCategoryObject!.title!;
+                      hasChosen = true;
+                    }
+                    break;
+                  case EnumEventDetailBottomSheetField.target:
+                    if (eventModel.targetCategoryObject?.title != null && eventModel.targetCategoryObject?.title != '') {
+                      label = eventModel.targetCategoryObject!.title!;
+                      hasChosen = true;
+                    }
+                    break;
+                  case EnumEventDetailBottomSheetField.date:
+                    if (eventModel.eventDate != null && eventModel.eventDate != '') {
+                      label = eventModel.eventDate!;
+                      hasChosen = true;
+                    }
+                    break;
+                  case EnumEventDetailBottomSheetField.region:
+                    if (eventModel.city?.title != null && eventModel.city?.title != '') {
+                      if (eventModel.subCity?.title != null && eventModel.subCity?.title != '') {
+                        label = eventModel.subCity!.title!;
+                      } else {
+                        label = eventModel.city!.title!;
                       }
-                      break;
-                    case EnumEventDetailBottomSheetField.target:
-                      if (eventModel.targetCategoryObject?.title != null && eventModel.targetCategoryObject?.title != '') {
-                        label = eventModel.targetCategoryObject!.title!;
-                        hasChosen = true;
-                      }
-                      break;
-                    case EnumEventDetailBottomSheetField.date:
-                      if (eventModel.eventDate != null && eventModel.eventDate != '') {
-                        label = eventModel.eventDate!;
-                        hasChosen = true;
-                      }
-                      break;
-                    case EnumEventDetailBottomSheetField.region:
-                      if (eventModel.city?.title != null && eventModel.city?.title != '') {
-                        if (eventModel.subCity?.title != null && eventModel.subCity?.title != '') {
-                          label = eventModel.subCity!.title!;
-                        } else {
-                          label = eventModel.city!.title!;
-                        }
-                        hasChosen = true;
-                      }
-                      break;
-                    default:
-                  }
-
-                  TextStyle textStyle = hasChosen 
-                    ? TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500) 
-                    : TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400);
-
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 7.0.h),
-                    child: Center(child: Text(label, style: textStyle)),
-                  );
+                      hasChosen = true;
+                    }
+                    break;
+                  default:
                 }
-              )
-            ),
+
+                TextStyle textStyle = hasChosen 
+                  ? TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w500, height: 1) 
+                  : TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400, height: 1);
+
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 11.0.h),
+                  child: Center(child: Text(label, style: textStyle)),
+                );
+              }
+            )
           ),
+        ),
     
     
-        ],
-      ),
+      ],
     );
   }
 }

@@ -162,8 +162,8 @@ class RegionTotalBox extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
-            child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: isActive ? Colors.white : StaticColor.grey60077))),
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 9.0.h),
+            child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: isActive ? Colors.white : StaticColor.grey60077, height: 1))),
         ),
       ),
     );
@@ -190,8 +190,8 @@ class RegionBox extends StatelessWidget {
               data.selectSubCity(subCity, true);
             },
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
-              child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: isActive ? Colors.white : StaticColor.grey60077))),
+              padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 9.0.h),
+              child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: isActive ? Colors.white : StaticColor.grey60077, height: 1))),
           ),
         );
       }

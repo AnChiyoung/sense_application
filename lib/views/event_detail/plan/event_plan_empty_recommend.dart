@@ -32,17 +32,17 @@ class _EventPlanEmptyRecommendState extends State<EventPlanEmptyRecommend> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('아직 선택한 이벤트가 없어요', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400, height: 1.4)),
+                  Text('아직 선택한 이벤트가 없어요', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400, height: 1)),
                   SizedBox(height: 16.0.h,),
                   ElevatedButton(
                     onPressed: () {
                       data.setEventDetailTabState(EnumEventDetailTab.recommend, true);
                     }, 
                     style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 6.0.h),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 9.0.h),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0.r))
                     ),
-                    child: Text('추천보기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400, height: 1.4)),
+                    child: Text('추천보기', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400, height: 1)),
                   ),
                 ]
               ),

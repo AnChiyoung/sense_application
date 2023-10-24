@@ -8,8 +8,6 @@ import 'package:sense_flutter_application/views/event_detail/event_detail_provid
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 
 class EventDetailHeader extends StatefulWidget {
-  // EventModel eventModel;
-  // Key drawerKey;
   const EventDetailHeader({ super.key });
 
   @override

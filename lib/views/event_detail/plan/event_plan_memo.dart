@@ -42,7 +42,6 @@ class _EventPlanMemoState extends State<EventPlanMemo> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(width: 8.0.w),
         Text('메모', style: TextStyle(fontSize: 14.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.4)),
         SizedBox(width: 8.0.w),
         Expanded(
