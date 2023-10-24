@@ -12,12 +12,47 @@ enum EnumEventDetailTab {
   const EnumEventDetailTab(this.label, this.value);    
 }
 
+enum EnumEventDetailBottomSheetField {
+  category("유형", 'CATEGORY', '이벤트 유형'),
+  target("대상", 'TARGET', '이벤트 대상'),
+  date("날짜", 'DATE', '날짜 선택'),
+  region("위치", 'REGION', '지역 선택');
+
+  final String label;
+  final String value;
+  final String bottomSheetTitle;
+  const EnumEventDetailBottomSheetField(this.label, this.value, this.bottomSheetTitle);    
+}
+
+enum EnumEventCategory {
+  birthday(1, "생일"),
+  date(2, "데이트"),
+  travel(3, "여행"),
+  meeting(4, "모임",),
+  business(5, "비즈니스");
+
+  final int id;
+  final String title;
+  const EnumEventCategory(this.id, this.title);
+}
+
 class EDProvider with ChangeNotifier {
   EventModel _eventModel = EventModel();
   EventModel get eventModel => _eventModel;
 
   EnumEventDetailTab _eventDetailTabState = EnumEventDetailTab.plan;
   EnumEventDetailTab get eventDetailTabState => _eventDetailTabState;
+
+  EnumEventDetailBottomSheetField? _eventDetailBottomSheetField;
+  EnumEventDetailBottomSheetField? get eventDetailBottomSheetField => _eventDetailBottomSheetField;
+
+  int _categoryId = -1;
+  int get categoryId => _categoryId;
+
+  void initState(EventModel eventModel, bool notify) {
+    setEventModel(eventModel, notify);
+    setCategoryId(eventModel.eventCategoryObject?.id ?? -1, notify);
+  }
 
   void setEventModel(EventModel eventModel, bool notify) async {
     _eventModel = eventModel;
@@ -54,17 +89,39 @@ class EDProvider with ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  void setEventDetailTabState(EnumEventDetailTab tabState, bool notify) {
-    _eventDetailTabState = tabState;
-    if (notify) notifyListeners();
-  }
-
   void changeEventTitle(int eventId, String value, bool notify) async {
     Map<String, dynamic> payload = { 'title': value };
     bool result = await EventRequest().personalFieldUpdateEvent2(eventId, payload);
     if (!result) return;
 
     _eventModel.eventTitle = value;
+    if (notify) notifyListeners();
+  }
+
+  void setEventDetailTabState(EnumEventDetailTab tabState, bool notify) {
+    _eventDetailTabState = tabState;
+    if (notify) notifyListeners();
+  }
+
+  void setEventDetailBottomSheetField(EnumEventDetailBottomSheetField field, bool notify) {
+    _eventDetailBottomSheetField = field;
+    if (notify) notifyListeners();
+  }
+
+  void setCategoryId(int categoryId, bool notify) {
+    _categoryId = categoryId;
+    if (notify) notifyListeners();
+  }
+
+  void changeEventCategory(int eventId, int categoryId, bool notify) async {
+    Map<String, dynamic> payload = { 'event_category': categoryId };
+    bool result = await EventRequest().personalFieldUpdateEvent2(eventId, payload);
+    if (!result) return;
+
+    _eventModel.eventCategoryObject = EventCategory(
+      id: categoryId,
+      title: EnumEventCategory.values.firstWhere((element) => element.id == categoryId).title
+    );
     if (notify) notifyListeners();
   }
 }

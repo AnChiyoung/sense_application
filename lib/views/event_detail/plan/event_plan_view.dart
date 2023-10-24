@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
+import 'package:sense_flutter_application/views/event_detail/plan/event_plan_field.dart';
 import 'package:sense_flutter_application/views/event_detail/plan/event_plan_title.dart';
 
 class EventPlanView extends StatefulWidget {
@@ -10,6 +12,7 @@ class EventPlanView extends StatefulWidget {
 }
 
 class _EventPlanViewState extends State<EventPlanView> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,6 +21,21 @@ class _EventPlanViewState extends State<EventPlanView> {
         children: [
           const EventPlanTitle(),
           SizedBox(height: 16.0.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible( flex: 1, child: EventPlanField(eventField: EnumEventDetailBottomSheetField.category)),
+              Flexible( flex: 1, child: EventPlanField(eventField: EnumEventDetailBottomSheetField.target)),
+            ],
+          ),
+          SizedBox(height: 8.0.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible( flex: 1, child: EventPlanField(eventField: EnumEventDetailBottomSheetField.date)),
+              Flexible( flex: 1, child: EventPlanField(eventField: EnumEventDetailBottomSheetField.region)),
+            ],
+          ),
         ],
       ),
     );

@@ -11,14 +11,14 @@
 // import 'package:sense_flutter_application/views/event_info/event_info_content_recommend_finish.dart';
 // import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 // import 'package:sense_flutter_application/views/create_event/create_event_provider.dart';
-//
+
 // class EventInfoView extends StatefulWidget {
 //   const EventInfoView({super.key});
-//
+
 //   @override
 //   State<EventInfoView> createState() => _EventInfoViewState();
 // }
-//
+
 // class _EventInfoViewState extends State<EventInfoView> {
 //   @override
 //   Widget build(BuildContext context) {
@@ -26,15 +26,15 @@
 //       future: EventRequest().eventRequest(context.read<CreateEventImproveProvider>().eventUniqueId),
 //       builder: (context, snapshot) {
 //         if(snapshot.hasData) {
-//
+
 //           if(snapshot.connectionState == ConnectionState.waiting) {
 //             return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
 //           } else if(snapshot.connectionState == ConnectionState.done) {
-//
+
 //             /// get personal event model
 //             EventModel eventPersonalModel = snapshot.data ?? EventModel();
 //             modelParse(eventPersonalModel);
-//
+
 //             String title = eventPersonalModel.eventTitle! ?? '';
 //             int category;
 //             if(eventPersonalModel.eventCategoryObject!.id == -1) {
@@ -52,7 +52,7 @@
 //             String memo = eventPersonalModel.description!;
 //             bool alarm = eventPersonalModel.isAlarm!;
 //             String publicType = eventPersonalModel.publicType!;
-//
+
 //             print(title);
 //             print(category);
 //             print(target);
@@ -60,7 +60,7 @@
 //             print(memo);
 //             print(alarm);
 //             print(publicType);
-//
+
 //             context.read<CreateEventImproveProvider>().titleChange(title, true);
 //             // context.read<CreateEventImproveProvider>().saveCategoryChange(category, false);
 //             // context.read<CreateEventImproveProvider>().saveTargetChange(target, false);
@@ -69,7 +69,7 @@
 //             // context.read<CreateEventProvider>().memoChange(memo);
 //             // context.read<CreateEventProvider>().isAlarmChange(alarm);
 //             // context.read<CreateEventProvider>().publicTypeChange(publicType);
-//
+
 //             return Padding(
 //               padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 16.0.w),
 //               child: Column(
@@ -106,11 +106,11 @@
 //                 ],
 //               ),
 //             );
-//
+
 //           } else {
 //             return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
 //           }
-//
+
 //         } else if(snapshot.hasError) {
 //           return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
 //         } else {
@@ -119,33 +119,33 @@
 //       }
 //     );
 //   }
-//
+
 //   void modelParse(EventModel model) {
 //     // context.read<CreateEventProvider>().titleChange(model.eventTitle!);
 //   }
 // }
-//
+
 // class EventInfoPlanTitle extends StatefulWidget {
 //   String? title;
 //   EventModel model;
 //   EventInfoPlanTitle({super.key, this.title, required this.model});
-//
+
 //   @override
 //   State<EventInfoPlanTitle> createState() => _EventInfoPlanTitleState();
 // }
-//
+
 // class _EventInfoPlanTitleState extends State<EventInfoPlanTitle> {
-//
+
 //   String title = '-';
 //   TextEditingController editingController = TextEditingController();
-//
+
 //   @override
 //   void initState() {
 //     title = widget.title ?? '-';
 //     editingController.text = title;
 //     super.initState();
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Container(
@@ -199,34 +199,34 @@
 //     );
 //   }
 // }
-//
+
 // class EventInfoPlanCategory extends StatefulWidget {
 //   int? category;
 //   EventInfoPlanCategory({super.key, this.category});
-//
+
 //   @override
 //   State<EventInfoPlanCategory> createState() => _EventInfoPlanCategoryState();
 // }
-//
+
 // class _EventInfoPlanCategoryState extends State<EventInfoPlanCategory> {
-//
+
 //   String categoryTitle = '유형';
 //   String categoryString = '-';
-//
+
 //   @override
 //   void initState() {
 //     context.read<CreateEventImproveProvider>().saveCategoryChange(null, false);
 //     super.initState();
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Consumer<CreateEventImproveProvider>(
 //       builder: (context, data, child) {
-//
+
 //         int categoryState = data.category;
 //         EventModel model = data.selectEventModel;
-//
+
 //         if(categoryState == 0) {
 //           categoryString = '생일';
 //         } else if(categoryState == 1) {
@@ -240,7 +240,7 @@
 //         } else {
 //           categoryString = '-';
 //         }
-//
+
 //         return GestureDetector(
 //           onTap: () {
 //             if(model.eventHost!.id == PresentUserInfo.id) {
@@ -248,10 +248,10 @@
 //                 context.read<CreateEventImproveProvider>().eventStepState(0);
 //                 TriggerActions().showCreateEventView(context, true);
 //               } else {
-//
+
 //               }
 //             } else {}
-//
+
 //           },
 //           child: Row(
 //             children: [
@@ -272,32 +272,32 @@
 //     );
 //   }
 // }
-//
+
 // class EventInfoPlanTarget extends StatefulWidget {
 //   int? target;
 //   EventInfoPlanTarget({super.key, this.target});
-//
+
 //   @override
 //   State<EventInfoPlanTarget> createState() => _EventInfoPlanTargetState();
 // }
-//
+
 // class _EventInfoPlanTargetState extends State<EventInfoPlanTarget> {
 //   String targetTitle = '대상';
 //   String targetString = '-';
-//
+
 //   @override
 //   void initState() {
 //     context.read<CreateEventImproveProvider>().saveTargetChange(null, false);
 //     super.initState();
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Consumer<CreateEventImproveProvider>(
 //       builder: (context, data, child) {
-//
+
 //         EventModel model = data.selectEventModel;
-//
+
 //         int targetState = data.target;
 //         if(targetState == 0) {
 //           targetString = '가족';
@@ -310,7 +310,7 @@
 //         } else {
 //           targetString = '-';
 //         }
-//
+
 //         return GestureDetector(
 //           onTap: () {
 //             if(model.eventHost!.id == PresentUserInfo.id) {
@@ -318,10 +318,10 @@
 //                 context.read<CreateEventImproveProvider>().eventStepState(1);
 //                 TriggerActions().showCreateEventView(context, true);
 //               } else {
-//
+
 //               }
 //             } else {}
-//
+
 //           },
 //           child: Row(
 //             children: [
@@ -342,40 +342,40 @@
 //     );
 //   }
 // }
-//
+
 // class EventInfoPlanDate extends StatefulWidget {
 //   String? date;
 //   EventInfoPlanDate({super.key, this.date});
-//
+
 //   @override
 //   State<EventInfoPlanDate> createState() => _EventInfoPlanDateState();
 // }
-//
+
 // class _EventInfoPlanDateState extends State<EventInfoPlanDate> {
 //   String dateTitle = '날짜';
 //   String dateString = '-';
-//
+
 //   @override
 //   void initState() {
 //     context.read<CreateEventImproveProvider>().dateChange(widget.date ?? '', false);
-//
-//
+
+
 //     super.initState();
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Consumer<CreateEventImproveProvider>(
 //       builder: (context, data, child) {
-//
+
 //         EventModel model = data.selectEventModel;
-//
+
 //         if(data.date!.isEmpty) {
 //           dateString = '-';
 //         } else {
 //           dateString = data.date;
 //         }
-//
+
 //         return GestureDetector(
 //           onTap: () {
 //             if(model.eventHost!.id == PresentUserInfo.id) {
@@ -383,10 +383,10 @@
 //                 context.read<CreateEventImproveProvider>().eventStepState(2);
 //                 TriggerActions().showCreateEventView(context, true);
 //               } else {
-//
+
 //               }
 //             } else {}
-//
+
 //           },
 //           child: Row(
 //             children: [
@@ -407,35 +407,35 @@
 //     );
 //   }
 // }
-//
+
 // class EventInfoPlanRegion extends StatefulWidget {
 //   String? city;
 //   EventInfoPlanRegion({super.key, this.city});
-//
+
 //   @override
 //   State<EventInfoPlanRegion> createState() => _EventInfoPlanRegionState();
 // }
-//
+
 // class _EventInfoPlanRegionState extends State<EventInfoPlanRegion> {
 //   String locationTitle = '위치';
 //   String locationString = '-';
 //   List<String> cityNameList = ['서울', '경기도', '인천', '강원도', '경상도', '전라도', '충청도', '부산', '제주'];
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Consumer<CreateEventProvider>(
 //         builder: (context, data, child) {
-//
+
 //           EventModel model = context.read<CreateEventImproveProvider>().selectEventModel;
-//
+
 //           int city = data.city;
 //           if(city == -1) {
 //             locationString = '-';
 //           } else {
 //             locationString = cityNameList.elementAt(city);
 //           }
-//
-//
+
+
 //           return GestureDetector(
 //             onTap: () {
 //               // if(context.read<EventInfoProvider>().eventInfoTabState.elementAt(0) == true) {
@@ -444,13 +444,13 @@
 //               // } else {
 //               //
 //               // }
-//
+
 //               if(model.eventHost!.id == PresentUserInfo.id) {
 //                 if(context.read<CreateEventImproveProvider>().eventInfoTabState.elementAt(0) == true) {
 //                   context.read<CreateEventImproveProvider>().eventStepState(3);
 //                   TriggerActions().showCreateEventView(context, true);
 //                 } else {
-//
+
 //                 }
 //               } else {}
 //             },
@@ -473,21 +473,21 @@
 //     );
 //   }
 // }
-//
+
 // class EventInfoPlanMemo extends StatefulWidget {
 //   String? memo;
 //   EventModel model;
 //   EventInfoPlanMemo({super.key, this.memo, required this.model});
-//
+
 //   @override
 //   State<EventInfoPlanMemo> createState() => _EventInfoPlanMemoState();
 // }
-//
+
 // class _EventInfoPlanMemoState extends State<EventInfoPlanMemo> {
 //   String memoTitle = '메모';
 //   String memoString = '-';
 //   TextEditingController memoEditingController = TextEditingController();
-//
+
 //   @override
 //   void initState() {
 //     if(widget.memo == null) {
@@ -498,7 +498,7 @@
 //     }
 //     super.initState();
 //   }
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Row(
@@ -561,28 +561,28 @@
 //     );
 //   }
 // }
-//
+
 // class RecommendField extends StatefulWidget {
 //   const RecommendField({super.key});
-//
+
 //   @override
 //   State<RecommendField> createState() => _RecommendFieldState();
 // }
-//
+
 // class _RecommendFieldState extends State<RecommendField> {
-//
+
 //   String recommendTitle = '추천';
 //   bool recommendRequestState = false;
-//
+
 //   @override
 //   Widget build(BuildContext context) {
 //     return Padding(
 //       padding: EdgeInsets.symmetric(vertical: 16.0.h),
 //       child: Consumer<CreateEventImproveProvider>(
 //         builder: (context, data, child) {
-//
+
 //           int useRebuild = data.useRebuild;
-//
+
 //           return FutureBuilder(
 //               future: RecommendsRequest().eventFeedDetailRecommends(context.read<CreateEventImproveProvider>().eventUniqueId, context.read<CreateEventImproveProvider>().public),
 //               builder: (context, snapshot) {
@@ -590,10 +590,10 @@
 //                   if(snapshot.connectionState == ConnectionState.waiting) {
 //                     return const SizedBox.shrink();
 //                   } else if(snapshot.connectionState == ConnectionState.done) {
-//
+
 //                     List<EventFeedRecommendModel> models = snapshot.data ?? [];
 //                     print('recommends model: $models');
-//
+
 //                     if(models.isEmpty) {
 //                       return const SizedBox.shrink();
 //                     } else {
@@ -617,11 +617,11 @@
 //         }
 //       ),
 //     );
-//
-//
-//
-//
-//
+
+
+
+
+
 //     // return Consumer<CreateEventProvider>(
 //     //   builder: (context, data, child) {
 //     //
@@ -679,15 +679,15 @@
 //     // );
 //   }
 // }
-//
+
 // class RecommendCommentTitle extends StatefulWidget {
 //   String state;
 //   RecommendCommentTitle({super.key, required this.state});
-//
+
 //   @override
 //   State<RecommendCommentTitle> createState() => _RecommendCommentTitleState();
 // }
-//
+
 // class _RecommendCommentTitleState extends State<RecommendCommentTitle> {
 //   @override
 //   Widget build(BuildContext context) {

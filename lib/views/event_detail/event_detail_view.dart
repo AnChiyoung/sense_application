@@ -84,7 +84,7 @@ class _EventDetailViewState extends State<EventDetailView> {
             return const SizedBox.shrink();
           } else if (snapshot.hasData) {
             EventModel loadEventModel = snapshot.data;
-            context.read<EDProvider>().setEventModel(loadEventModel, false);
+            context.read<EDProvider>().initState(loadEventModel, false);
             // EnumEventDetailTab tabState = context.read<EDProvider>().eventDetailTabState;
             // EventModel eventModel = context.read<EDProvider>().eventModel ?? EventModel();
 
