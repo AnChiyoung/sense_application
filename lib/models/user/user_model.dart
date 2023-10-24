@@ -12,11 +12,11 @@ class UserRequest {
   Future<UserModel> userInfoRequest() async {
 
     final response = await http.get(
-        Uri.parse('${ApiUrl.releaseUrl}/user/me'),
-        headers: {
-          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
+      Uri.parse('${ApiUrl.releaseUrl}/user/me'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
     );
 
     if(response.statusCode == 200 || response.statusCode == 201) {
@@ -174,7 +174,7 @@ class UserModel {
   bool? isOwnCar;
   bool? isPushAlarm;
   bool? isMarketingAlarm;
-  String? stores;
+  List<int>? stores;
 
   UserModel({
     this.id,
@@ -207,6 +207,6 @@ class UserModel {
     isOwnCar = json['is_own_car'] ?? false;
     isPushAlarm = json['is_push_alarm'] ?? false;
     isMarketingAlarm = json['is_marketing_alarm'] ?? false;
-    stores = json['stores'] ?? '';
+    stores = List<int>.from(json['stores']);
   }
 }

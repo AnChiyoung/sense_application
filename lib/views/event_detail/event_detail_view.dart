@@ -54,9 +54,9 @@ class _EventDetailViewState extends State<EventDetailView> {
                 Consumer<EDProvider>(
                   builder: (context, data, child) {
                     if (data.eventDetailTabState == EnumEventDetailTab.plan) {
-                      return const SizedBox.shrink();
-                    } else {
                       return const EventPlanView();
+                    } else {
+                      return const SizedBox.shrink();
                     }
                   },
                 ),
