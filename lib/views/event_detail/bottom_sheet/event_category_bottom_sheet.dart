@@ -16,8 +16,10 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
 
   void onPressSubmit() {
     int eventId = context.read<EDProvider>().eventModel.id ?? -1;
-    int categoryId = context.read<EDProvider>().categoryId;
-    context.read<EDProvider>().changeEventCategory(eventId, categoryId, true);
+    EnumEventCategory? category = context.read<EDProvider>().category;
+    if (category == null) return;
+
+    context.read<EDProvider>().changeEventCategory(eventId, category, true);
     Navigator.pop(context);
   }
 
@@ -28,7 +30,7 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
         children: [
           Consumer<EDProvider>(
             builder: (context, data, child) {
-              int categoryId = data.categoryId;
+              EnumEventCategory category = data.category ?? EnumEventCategory.birthday;
           
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0.w),
@@ -39,11 +41,11 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
                         Expanded(
                           flex: 1,
                           child: EventContentSelectButton(
-                            checkState: categoryId == 1,
+                            checkState: category == EnumEventCategory.birthday,
                             iconPath: 'assets/create_event/birthday.png',
                             title: '생일',
                             onPressed: () {
-                              data.setCategoryId(1, true);
+                              data.setCategory(EnumEventCategory.birthday, true);
                             }
                           ),
                         ),
@@ -51,11 +53,11 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
                         Expanded(
                           flex: 1,
                           child: EventContentSelectButton(
-                              checkState: categoryId == 2,
+                              checkState: category == EnumEventCategory.date,
                               iconPath: 'assets/create_event/date.png',
                               title: '데이트',
                               onPressed: () {
-                                data.setCategoryId(2, true);
+                                data.setCategory(EnumEventCategory.date, true);
                               }
                           ),
                         ),
@@ -67,11 +69,11 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
                         Expanded(
                           flex: 1,
                           child: EventContentSelectButton(
-                              checkState: categoryId == 3,
+                              checkState: category == EnumEventCategory.travel,
                               iconPath: 'assets/create_event/travel.png',
                               title: '여행',
                               onPressed: () {
-                                data.setCategoryId(3, true);
+                                data.setCategory(EnumEventCategory.travel, true);
                               }
                           ),
                         ),
@@ -79,11 +81,11 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
                         Expanded(
                           flex: 1,
                           child: EventContentSelectButton(
-                              checkState: categoryId == 4,
+                              checkState: category == EnumEventCategory.meeting,
                               iconPath: 'assets/create_event/meet.png',
                               title: '모임',
                               onPressed: () {
-                                data.setCategoryId(4, true);
+                                data.setCategory(EnumEventCategory.meeting, true);
                               }
                           ),
                         ),
@@ -95,11 +97,11 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
                         Expanded(
                           flex: 1,
                           child: EventContentSelectButton(
-                              checkState: categoryId == 5,
+                              checkState: category == EnumEventCategory.business,
                               iconPath: 'assets/create_event/business.png',
                               title: '비즈니스',
                               onPressed: () {
-                                data.setCategoryId(5, true);
+                                data.setCategory(EnumEventCategory.business, true);
                               }
                           ),
                         ),

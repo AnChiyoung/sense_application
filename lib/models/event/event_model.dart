@@ -260,10 +260,10 @@ class EventModel {
   ContactCategory? targetCategoryObject;
   RecommendRequestModel? recommendModel;
   City? city;
+  SubCity? subCity;
 
   /// unused
   // List<int>? recommendCategory;
-  // SubCity? subCity;
   // List<int>? createEventUsers;
 
   /// what??
@@ -292,13 +292,13 @@ class EventModel {
     this.targetCategoryObject,
     this.recommendModel,
     this.city,
+    this.subCity,
 
     /// unused
     // this.eventUsers,
     // this.address,
     // this.totalCost,
     // this.eventUser,
-    // this.subCity,
     // this.createDate,
     // this.createEventUsers,
     // this.recommendCategory,
@@ -310,7 +310,7 @@ class EventModel {
     eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
     eventDate = json['date'] ?? '';
     city = json['city'] != null ? City.fromJson(json['city']) : null;
-    // subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
     eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
     targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
     created = json['created'] ?? '';
@@ -342,9 +342,9 @@ class EventModel {
     targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
     recommendModel = (json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel);
     city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: -1, title: '');
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: -1, title: '');
 
     // recommendCategory = json['recommend_category'] ?? '';
-    // subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: 1, title: '서울');
     // totalCost = json['total_cost'] ?? -1;
   }
 

@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_data_bottom_sheet_view/create_event_region_bottom_sheet_view.dart';
+import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_region_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_target_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_category_bottom_sheet.dart';
@@ -47,7 +49,7 @@ class _EventPlanFieldState extends State<EventPlanField> {
         child = Text('date');
         break;
       case EnumEventDetailBottomSheetField.region:
-        child = Text('region');
+        child = const EventRegionBottomSheet();
         break;
       default:
     }
@@ -99,7 +101,11 @@ class _EventPlanFieldState extends State<EventPlanField> {
                       break;
                     case EnumEventDetailBottomSheetField.region:
                       if (eventModel.city?.title != null && eventModel.city?.title != '') {
-                        label = eventModel.city!.title!;
+                        if (eventModel.subCity?.title != null && eventModel.subCity?.title != '') {
+                          label = eventModel.subCity!.title!;
+                        } else {
+                          label = eventModel.city!.title!;
+                        }
                         hasChosen = true;
                       }
                       break;
