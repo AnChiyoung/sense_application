@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
 class EventContentSelectButton extends StatefulWidget {
-  bool checkState;
-  String? iconPath;
-  String? title;
-  Function? onPressed;
-  EventContentSelectButton({super.key, required this.checkState, this.iconPath, this.title, this.onPressed});
+  final bool checkState;
+  final String? iconPath;
+  final String? title;
+  final Function? onPressed;
+  const EventContentSelectButton({super.key, required this.checkState, this.iconPath, this.title, this.onPressed});
 
   @override
   State<EventContentSelectButton> createState() => _EventContentSelectButtonState();

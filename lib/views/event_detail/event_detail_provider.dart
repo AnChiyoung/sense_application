@@ -97,24 +97,28 @@ class EDProvider with ChangeNotifier {
   EnumEventCity? _dropdownCity;
   EnumEventCity? get dropdownCity => _dropdownCity;
 
-  List<EnumEventSubCity> _subCityList = [];
+  List<EnumEventSubCity> _subCityList = EnumEventSubCity.values.where((e) => e.cityId == 1).map((e) => e).toList();
   List<EnumEventSubCity> get subCityList => _subCityList;
 
   void initState(EventModel eventModel, bool notify) {
     setEventModel(eventModel, false);
-    setCategory(
-      EnumEventCategory.values.firstWhere((element) => element.id == eventModel.eventCategoryObject?.id),
-      false
-    );
-    setTarget(
-      EnumEventTarget.values.firstWhere((element) => element.id == eventModel.targetCategoryObject?.id),
-      false
-    );
-    setCity(EnumEventCity.values.firstWhere((element) => element.id == eventModel.city?.id), false);
+
+    if (eventModel.eventCategoryObject?.id != null && eventModel.eventCategoryObject!.id! > 0) {
+      setCategory(EnumEventCategory.values.firstWhere((element) => element.id == eventModel.eventCategoryObject?.id),false);
+    }
+
+    if (eventModel.targetCategoryObject?.id != null && eventModel.targetCategoryObject!.id! > 0) {
+      setTarget(EnumEventTarget.values.firstWhere((element) => element.id == eventModel.targetCategoryObject?.id), false);
+    }
+
+    if (eventModel.city?.id != null && eventModel.city!.id! > 0) {
+      setCity(EnumEventCity.values.firstWhere((element) => element.id == eventModel.city?.id), false);
+      setDropdownCity(EnumEventCity.values.firstWhere((element) => element.id == eventModel.city?.id), false);
+    }
+
     if (eventModel.subCity?.id != null && eventModel.subCity!.id! > 0) {
       setSubCity(EnumEventSubCity.values.firstWhere((element) => element.id == eventModel.subCity?.id), false);
     }
-    setDropdownCity(EnumEventCity.values.firstWhere((element) => element.id == eventModel.city?.id), false);
 
     if (notify) notifyListeners();
   }
@@ -173,7 +177,7 @@ class EDProvider with ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  void setCategory(EnumEventCategory category, bool notify) {
+  void setCategory(EnumEventCategory? category, bool notify) {
     _category = category;
     if (notify) notifyListeners();
   }
@@ -187,7 +191,7 @@ class EDProvider with ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  void setTarget(EnumEventTarget target, bool notify) {
+  void setTarget(EnumEventTarget? target, bool notify) {
     _target = target;
     if (notify) notifyListeners();
   }
@@ -201,7 +205,7 @@ class EDProvider with ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  void setCity(EnumEventCity city, bool notify) {
+  void setCity(EnumEventCity? city, bool notify) {
     _city = city;
     if (notify) notifyListeners();
   }
@@ -249,6 +253,20 @@ class EDProvider with ChangeNotifier {
     setSubCity(subCity, false);
 
     if (notify) notifyListeners();
+  }
+
+
+  // clear 언제 호출함?
+  void clear(bool notify) {
+    _eventModel = EventModel();
+    _eventDetailTabState = EnumEventDetailTab.plan;
+    _eventDetailBottomSheetField = null;
+    _category = null;
+    _target = null;
+    _city = null;
+    _subCity = null;
+    _dropdownCity = null;
+    _subCityList = EnumEventSubCity.values.where((e) => e.cityId == 1).map((e) => e).toList();
   }
 }
 

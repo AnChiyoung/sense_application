@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/event/region_model.dart';
-import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/bottom_sheet/event_bottom_sheet_submit_button.dart';
 
@@ -149,10 +147,10 @@ class _SubCityFieldState extends State<SubCityField> {
 }
 
 class RegionTotalBox extends StatelessWidget {
-  String title;
-  bool isActive;
-  void Function() onTap;
-  RegionTotalBox({super.key, required this.title, required this.isActive, required this.onTap});
+  final String title;
+  final bool isActive;
+  final void Function() onTap;
+  const RegionTotalBox({super.key, required this.title, required this.isActive, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -173,8 +171,8 @@ class RegionTotalBox extends StatelessWidget {
 }
 
 class RegionBox extends StatelessWidget {
-  EnumEventSubCity subCity;
-  RegionBox({super.key, required this.subCity});
+  final EnumEventSubCity subCity;
+  const RegionBox({super.key, required this.subCity});
 
 
   @override

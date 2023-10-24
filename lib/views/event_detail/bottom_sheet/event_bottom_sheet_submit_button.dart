@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
 class EventBottomSheetSubmitButton extends StatefulWidget {
-  void Function() onPressed;
-  EventBottomSheetSubmitButton({super.key, required this.onPressed});
+  final void Function() onPressed;
+  const EventBottomSheetSubmitButton({super.key, required this.onPressed});
 
   @override
   State<EventBottomSheetSubmitButton> createState() => _EventBottomSheetSubmitButtonState();

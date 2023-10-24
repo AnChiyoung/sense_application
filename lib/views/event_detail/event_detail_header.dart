@@ -5,9 +5,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/event_info_recommend_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/views/home/home_provider.dart';
 
 class EventDetailHeader extends StatefulWidget {
   // EventModel eventModel;

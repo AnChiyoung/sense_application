@@ -30,7 +30,7 @@ class _EventCategoryBottomSheetState extends State<EventCategoryBottomSheet> {
         children: [
           Consumer<EDProvider>(
             builder: (context, data, child) {
-              EnumEventCategory category = data.category ?? EnumEventCategory.birthday;
+              EnumEventCategory? category = data.category;
           
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0.w),

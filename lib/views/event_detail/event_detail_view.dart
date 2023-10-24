@@ -8,8 +8,8 @@ import 'package:sense_flutter_application/views/event_detail/event_detail_tab_ba
 import 'package:sense_flutter_application/views/event_detail/plan/event_plan_view.dart';
 
 class EventDetailView extends StatefulWidget {
-  int eventId;
-  EventDetailView({super.key, required this.eventId});
+  final int eventId;
+  const EventDetailView({super.key, required this.eventId});
 
   @override
   State<EventDetailView> createState() => _EventDetailViewState();
@@ -22,6 +22,7 @@ class _EventDetailViewState extends State<EventDetailView> {
 
   @override
   void initState() {
+    context.read<EDProvider>().clear(false);
     initEventData = _initEventData();
     super.initState();
   }
