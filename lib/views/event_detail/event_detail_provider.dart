@@ -290,5 +290,14 @@ class EDProvider with ChangeNotifier {
     _dropdownCity = null;
     _subCityList = EnumEventSubCity.values.where((e) => e.cityId == 1).map((e) => e).toList();
   }
+
+  void changeEventMemo(int eventId, String value, bool notify) async {
+    Map<String, dynamic> payload = { 'description': value };
+    bool result = await EventRequest().personalFieldUpdateEvent2(eventId, payload);
+    if (!result) return;
+
+    _eventModel.description = value;
+    if (notify) notifyListeners();
+  }
 }
 

@@ -382,6 +382,11 @@ class EventModel {
   //   'event_users': createEventUsers,
   //   'recommend_categories': recommendCategory,
   // };
+
+  @override
+  String toString() {
+    return 'EventModel{id: $id, eventHost: $eventHost, eventTitle: $eventTitle, description: $description, totalBudget: $totalBudget, eventDate: $eventDate, created: $created, visitCount: $visitCount, recommendCount: $recommendCount, isAlarm: $isAlarm, publicType: $publicType, eventCategoryObject: $eventCategoryObject, targetCategoryObject: $targetCategoryObject, recommendModel: $recommendModel, city: $city, subCity: $subCity}';
+  }
 }
 
 class EventHost {

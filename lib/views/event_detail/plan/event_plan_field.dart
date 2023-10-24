@@ -68,7 +68,6 @@ class _EventPlanFieldState extends State<EventPlanField> {
           SizedBox(width: 8.0.w),
           Material(
             color: StaticColor.grey100F6,
-
             borderRadius: BorderRadius.circular(18.0.r),
             child: InkWell(
               borderRadius: BorderRadius.circular(18.0.r),
