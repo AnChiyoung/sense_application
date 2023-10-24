@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
+import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'dart:io' as Io;
 
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -100,6 +101,14 @@ class MyPageProvider with ChangeNotifier {
 
   int _day = 0;
   int get day => _day;
+
+  List<FeedPreviewModel>? _postList = [];
+  List<FeedPreviewModel>? get postList => _postList;
+
+  // void initPostList(bool notify) async {
+  //   _postList = await FeedRequest().likedPostListRequest();
+  //   return _postList;
+  // }
 
   void myPageNameInit(String state) {
     _myPageName = state;
@@ -277,4 +286,10 @@ class MyPageProvider with ChangeNotifier {
     _ownCar = -1;
     _moreButton = false;
   }
+
+  void setPostList(List<FeedPreviewModel> postList, bool notify) {
+    _postList = postList;
+    if (notify) notifyListeners();
+  }
+
 }

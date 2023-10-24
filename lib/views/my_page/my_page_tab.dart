@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/taste/taste_model.dart';
 import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_result_screen.dart';
 import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_screen.dart';
+import 'package:sense_flutter_application/views/my_page/my_page_liked_post_list.dart';
 
 class MyPageTab extends StatefulWidget {
   const MyPageTab({super.key});
@@ -79,9 +80,7 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
           child: TabBarView(
             controller: controller,
             children: [
-              Container(
-                child: Center(child: Text('아직 게시글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
-              ),
+              MyPageLikedPostList(),
               // Container(
               //     child: Center(child: Text('아직 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
               // ),
