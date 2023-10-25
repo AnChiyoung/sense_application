@@ -233,7 +233,9 @@ class _ProductWidgetsState extends State<ProductWidgets> {
         padding: EdgeInsets.symmetric(horizontal: 20.0.w),
         child: ScrollConfiguration(
           behavior: const ScrollBehavior().copyWith(overscroll: false),
-          child: GridView.builder(
+          child: models.isEmpty
+            ? _emptyWidget()
+            : GridView.builder(
               physics: const ClampingScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -248,7 +250,7 @@ class _ProductWidgetsState extends State<ProductWidgets> {
 
                 productDataInit(models.elementAt(index));
 
-                index == 1 ? discountRate = "70%" : {};
+                // index == 1 ? discountRate = "70%" : {};
 
                 return GestureDetector(
                   onTap: () {
@@ -296,6 +298,43 @@ class _ProductWidgetsState extends State<ProductWidgets> {
 
   Widget _brandTitle(String brandTitle) {
     return Text(brandTitle, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400));
+  }
+
+  Widget _emptyWidget() {
+
+    String searchText = context.read<StoreProvider>().storeSearchController.text;
+
+    return searchText.isEmpty ? SizedBox(width: double.infinity, child: Column(
+      children: [
+        SizedBox(height: 132.0.h),
+        Center(child: Text('상품 목록이 없습니다.', style: TextStyle(fontSize: 20.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w700), textAlign: TextAlign.center)),
+      ],
+    ))
+    : SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 32.0.h),
+          Text('''"$searchText"에\n대한 검색 결과가 없습니다.''', style: TextStyle(fontSize: 20.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w700), textAlign: TextAlign.center),
+          SizedBox(height: 38.0.h),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 8.0.h),
+            decoration: BoxDecoration(
+              color: StaticColor.grey200EE,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Text('검색 TIP', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+          ),
+          SizedBox(height: 16.0.h),
+          Text('모든 단어의 철자가 정확한지 확인하세요', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500), textAlign: TextAlign.center),
+          SizedBox(height: 8.0.h),
+          Text('비슷한 다른 검색어를 사용해보세요', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500), textAlign: TextAlign.center),
+          SizedBox(height: 8.0.h),
+          Text('검색어의 단어 수를 줄이거나,\n보다 일반적인 검색어로 다시 검색해보세요', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500), textAlign: TextAlign.center),
+        ],
+      ),
+    );
   }
 }
 

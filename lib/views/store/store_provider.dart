@@ -7,11 +7,19 @@ class StoreProvider with ChangeNotifier {
 
   TextEditingController _storeSearchController = TextEditingController();
   TextEditingController get storeSearchController => _storeSearchController;
+  FocusNode _storeSearchFocus = FocusNode();
+  FocusNode get storeSearchFocus => _storeSearchFocus;
 
   // 최근 검색목록 누르면 서치박스에 배치하고 검색결과 노출
   void textBoxInputAndSearch(String searchTitle) {
     _storeSearchController.text = searchTitle;
     _isSearchView = false;
+    _storeSearchFocus.unfocus();
+    notifyListeners();
+  }
+
+  void textBoxClear() {
+    _storeSearchController.clear();
     notifyListeners();
   }
 
@@ -47,5 +55,27 @@ class StoreProvider with ChangeNotifier {
       }
     });
     notifyListeners();
+  }
+
+  bool _isLiked = false;
+  bool get isLiked => _isLiked;
+
+  void isLikedChange(bool state) {
+    _isLiked = state;
+    notifyListeners();
+  }
+
+  bool _productMoreView = false;
+  bool get productMoreView => _productMoreView;
+
+  void productMoreViewChange(bool state) {
+    _productMoreView = state;
+    notifyListeners();
+  }
+
+  void storeDataClear() {
+    _storeSearchController.text = "";
+    _storeSearchController = TextEditingController();
+    _isSearchView = false;
   }
 }

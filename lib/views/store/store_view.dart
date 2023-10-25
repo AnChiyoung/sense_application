@@ -22,49 +22,40 @@ class _StoreHeaderState extends State<StoreHeader> {
       builder: (context, data, child) {
 
         bool isSearchState = data.isSearchView;
+        bool textformfieldEmpty = data.storeSearchController.text.isEmpty;
+        bool isVisible = false;
+        if(isSearchState == true) {
+          isVisible = true;
+        } else {
+          if(textformfieldEmpty == true) {
+            isVisible = false;
+          } else {
+            isVisible = true;
+          }
+        }
 
-        return Padding(
-          padding: EdgeInsets.only(left: isSearchState == true ? 10.0.w : 20.0.w, right: 20.0.w, top: 10.0.h, bottom: 10.0.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              isSearchState == true ? storeSearchBackButton() : const SizedBox.shrink(),
-              const Expanded(
-                  child: StoreSearchBox()
-              ),
-              isSearchState == true ? const SizedBox.shrink() : Row(
-                children: [
-                  storeAlarmButton(),
-                  storeMyPageButton(),
-                ],
-              ),
-            ],
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(left: isSearchState == true ? 10.0.w : 20.0.w, right: 20.0.w, top: 10.0.h, bottom: 10.0.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                isVisible ? StoreSearchBackButton() : const SizedBox.shrink(),
+                const Expanded(
+                    child: StoreSearchBox()
+                ),
+                // isSearchState == true ? const SizedBox.shrink() : Row(
+                //   children: [
+                //     storeAlarmButton(),
+                //     storeMyPageButton(),
+                //   ],
+                // ),
+              ],
+            ),
           ),
         );
       }
-    );
-  }
-
-  Widget storeSearchBackButton() {
-    return Material(
-      color: Colors.transparent,
-      child: SizedBox(
-        width: 40.w,
-        height: 40.h,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(25.0),
-          onTap: () {
-            context.read<StoreProvider>().searchViewChange(false);
-          },
-          child: Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.zero,
-                child: Image.asset('assets/store/back_arrow_thin.png', width: 24.w, height: 24.h)),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -103,6 +94,62 @@ class _StoreHeaderState extends State<StoreHeader> {
   }
 }
 
+class StoreSearchBackButton extends StatefulWidget {
+  const StoreSearchBackButton({super.key});
+
+  @override
+  State<StoreSearchBackButton> createState() => _StoreSearchBackButtonState();
+}
+
+class _StoreSearchBackButtonState extends State<StoreSearchBackButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<StoreProvider>(
+      builder: (context, data, child) {
+
+        bool isSearchView = data.isSearchView;
+        bool textformfieldEmpty = data.storeSearchController.text.isEmpty;
+        bool state = false; // true: 검색, false: 클리어
+        if(isSearchView == true) {
+          state = true;
+        } else {
+          if(textformfieldEmpty == false) {
+            state = false;
+          }
+        }
+
+        return Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 40.w,
+            height: 40.h,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(25.0),
+              onTap: () {
+                if(state == false) {
+                  context.read<StoreProvider>().textBoxClear();
+                } else {
+                  context.read<StoreProvider>().textBoxInputAndSearch(
+                      context.read<StoreProvider>().storeSearchController.text
+                  );
+                }
+              },
+              child: Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.zero,
+                      child: Image.asset('assets/store/back_arrow_thin.png', width: 24.w, height: 24.h)),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+    );
+  }
+}
+
+
 class StoreSearchBox extends StatefulWidget {
   const StoreSearchBox({super.key});
 
@@ -113,12 +160,13 @@ class StoreSearchBox extends StatefulWidget {
 class _StoreSearchBoxState extends State<StoreSearchBox> {
 
   late TextEditingController storeSearchController;
-  final FocusNode storeSearchFocusNode = FocusNode();
+  late FocusNode storeSearchFocusNode;
   late PageController storePageController;
 
   @override
   void initState() {
     // storePageController = context.read<StoreProvider>().storePageController;
+    storeSearchFocusNode = context.read<StoreProvider>().storeSearchFocus;
     storeSearchController = context.read<StoreProvider>().storeSearchController;
     storeSearchFocusNode.addListener(() {
       if(storeSearchFocusNode.hasFocus) {
@@ -132,27 +180,91 @@ class _StoreSearchBoxState extends State<StoreSearchBox> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: StaticColor.grey200EE,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: TextFormField(
-            controller: storeSearchController,
-            focusNode: storeSearchFocusNode,
-            autofocus: context.read<StoreProvider>().isSearchView,
-            style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(left: 16.0.w, top: 10.0.h, bottom: 10.0.h),
-              hintText: "'생일선물'을 검색해 보세요",
-              hintStyle: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400),
-              border: InputBorder.none,
-              // suffixIcon: suffixIcon(),
+    return Container(
+      decoration: BoxDecoration(
+        color: StaticColor.grey200EE,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: StaticColor.grey200EE,
+              borderRadius: BorderRadius.circular(4.0),
             ),
-            onEditingComplete: () {
+            child: TextFormField(
+              controller: storeSearchController,
+              focusNode: storeSearchFocusNode,
+              autofocus: false,
+              style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 16.0.w, top: 10.0.h),
+                hintText: "'생일선물'을 검색해 보세요",
+                hintStyle: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w400),
+                border: InputBorder.none,
+              ),
+              onEditingComplete: () {
+                if(storeSearchController.text.isEmpty) {
+                  // 빈 값에선 저장은 하지 않음
+                  context.read<StoreProvider>().textBoxInputAndSearch(storeSearchController.text);
+                } else {
+                  StoreSearchHistory.saveSearchObject(storeSearchController.text);
+                  context.read<StoreProvider>().textBoxInputAndSearch(storeSearchController.text);
+                  // List<String> aa = [];
+                  // StoreSearchHistory.loadSearchObject().then((value) {
+                  //   for(var e in value) {
+                  //     aa.add(e);
+                  //   }
+                  //   print(aa);
+                  // });
+                }
+              },
+              onChanged: (v) {
+                if(v.isEmpty) {
+                  context.read<StoreProvider>().textBoxClear();
+                }
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 7.0.h),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: suffixIcon(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget suffixIcon() {
+
+    // if(context.read<StoreProvider>().isSearchView == false && context.read<StoreProvider>().storeSearchController.text.isEmpty) {
+    //   return Material(
+    //     color: Colors.transparent,
+    //     child: SizedBox(
+    //       width: 40.w,
+    //       height: 40.h,
+    //       child: InkWell(
+    //         borderRadius: BorderRadius.circular(25.0),
+    //         onTap: () {
+    //           context.read<StoreProvider>().textBoxInputAndSearch(storeSearchController.text);
+    //         },
+    //         child: Center(child: Icon(Icons.cancel_outlined, size: 24.0, color: StaticColor.grey60077)),
+    //       ),
+    //     ),
+    //   );
+    // } else {
+      return Material(
+        color: Colors.transparent,
+        child: SizedBox(
+          width: 40.w,
+          height: 40.h,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(25.0),
+            onTap: () {
               if(storeSearchController.text.isEmpty) {
                 // 빈 값에선 저장은 하지 않음
                 context.read<StoreProvider>().textBoxInputAndSearch(storeSearchController.text);
@@ -168,47 +280,11 @@ class _StoreSearchBoxState extends State<StoreSearchBox> {
                 // });
               }
             },
+            child: Center(child: Image.asset('assets/store/prime_search.png', width: 24.0.w, height: 24.0.h)),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 7.0.h),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: suffixIcon(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget suffixIcon() {
-    return Material(
-      color: Colors.transparent,
-      child: SizedBox(
-        width: 40.w,
-        height: 40.h,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(25.0),
-          onTap: () {
-            if(storeSearchController.text.isEmpty) {
-              // 빈 값에선 저장은 하지 않음
-              context.read<StoreProvider>().textBoxInputAndSearch(storeSearchController.text);
-            } else {
-              StoreSearchHistory.saveSearchObject(storeSearchController.text);
-              context.read<StoreProvider>().textBoxInputAndSearch(storeSearchController.text);
-              // List<String> aa = [];
-              // StoreSearchHistory.loadSearchObject().then((value) {
-              //   for(var e in value) {
-              //     aa.add(e);
-              //   }
-              //   print(aa);
-              // });
-            }
-          },
-          child: Center(child: Image.asset('assets/store/prime_search.png', width: 24.0.w, height: 24.0.h)),
-        ),
-      ),
-    );
+      );
+    // }
   }
 }
 

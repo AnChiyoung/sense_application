@@ -114,15 +114,17 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                     emailState = false;
                     return '이메일 형식을 확인해 주세요';
                   } else {
-                    emailCheck(value.toString()).then((value) {
-                      if(value == true) {
-                        emailState = false;
-                        return '이미 가입된 이메일입니다';
-                      } else {
-                        emailState = true;
-                        return null;
-                      }
-                    });
+                    emailState = true;
+                    return null;
+                    // emailCheck(value.toString()).then((value) {
+                    //   if(value == true) {
+                    //     emailState = false;
+                    //     return '이미 가입된 이메일입니다';
+                    //   } else {
+                    //     emailState = true;
+                    //     return null;
+                    //   }
+                    // });
                   }
                 } else {
                   emailState = false;
