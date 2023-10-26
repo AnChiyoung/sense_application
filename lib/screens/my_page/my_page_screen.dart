@@ -19,7 +19,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
-    return GestureDetector(
+   return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
       },
@@ -30,10 +30,10 @@ class _MyPageScreenState extends State<MyPageScreen> {
           bottom: false,
           child: Column(
             children: [
-              MyPageHeader(),
-              MyPageInfo(),
+              const MyPageHeader(),
+              const MyPageInfo(),
               SizedBox(height: 23.0.h),
-              Expanded(child: MyPageTab()),
+              const Expanded(child: MyPageTab()),
             ],
           ),
         ),

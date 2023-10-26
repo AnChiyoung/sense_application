@@ -35,11 +35,11 @@ class _PersonalTasteFoodScreenState extends State<PersonalTasteFoodScreen> {
               children: [
                 Column(
                   children: [
-                    FoodHeader(),
+                    const FoodHeader(),
                     FoodContent(deviceWidth: deviceWidth),
                   ],
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.bottomCenter,
                   child: FoodButton(),
                 )

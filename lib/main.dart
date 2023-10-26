@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
+        return const MaterialApp(
           // color: Colors.white,
           /// 현재 context를 가져오기 위한 global key state set
           // navigatorKey: CandyGlobalVariable.naviagatorState,
@@ -113,17 +113,17 @@ class MyApp extends StatelessWidget {
           //   // '/create_event': (context) => CreateEventScreen02(),
           // },
           /// picker localization
-          localizationsDelegates: const [
+          localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
+          supportedLocales: [
             Locale('ko', ''),
             Locale('en', ''),
           ],
           debugShowCheckedModeBanner: false,
           title: 'Sense flutter application',
-          home: const NativeSplash(),
+          home: NativeSplash(),
         );
       },
     );

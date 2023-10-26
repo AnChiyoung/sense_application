@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: MovePageList().pageList.elementAt(pageIndex),
+          child: MovePageList.pageList.elementAt(pageIndex),
         ),
         bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding, initPage: pageIndex),
         // bottomNavigationBar: Container(height: 100),

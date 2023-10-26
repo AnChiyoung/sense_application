@@ -80,16 +80,17 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin{
           child: TabBarView(
             controller: controller,
             children: [
-              MyPageLikedPostList(),
+              const MyPageLikedPostList(),
               // Container(
               //     child: Center(child: Text('아직 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
               // ),
               Container(
+                  decoration: null,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(height: 16.0.h),
-                      PersonalTasteFoodBanner(),
+                      const PersonalTasteFoodBanner(),
                       // SizedBox(height: 16.0.h),
                       // PersonalTasteLodgingBanner(),
                       // SizedBox(height: 16.0.h),
@@ -375,7 +376,7 @@ class _EmptyFoodBannerState extends State<EmptyFoodBanner> {
       padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
       child: GestureDetector(
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (_) => FoodResultScreen(resultModel: bannerModels,)));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteFoodScreen()));
         },
         child: Container(
           width: double.infinity,

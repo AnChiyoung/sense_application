@@ -29,7 +29,7 @@ class _MyPageInfoState extends State<MyPageInfo> {
       ),
       child: Column(
         children: [
-          MyPageProfile(),
+          const MyPageProfile(),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
             width: double.infinity,
@@ -38,7 +38,7 @@ class _MyPageInfoState extends State<MyPageInfo> {
               color: StaticColor.grey300E0,
             ),
           ),
-          MyPageIntroduce(),
+          const MyPageIntroduce(),
         ],
       ),
     );
