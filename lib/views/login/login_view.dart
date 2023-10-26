@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -16,6 +17,7 @@ import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/login/password_search_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
+import 'package:toast/toast.dart';
 
 class LogoView extends StatefulWidget {
   const LogoView({Key? key}) : super(key: key);
@@ -25,13 +27,27 @@ class LogoView extends StatefulWidget {
 }
 
 class _LogoViewState extends State<LogoView> {
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
+    
     return Container(
       color: Colors.white,
       child: Align(
         alignment: Alignment.bottomCenter,
-        child: Image.asset('assets/login/logo_title.png', width: 200, height: 80),
+        child: GestureDetector(
+          onTap: () {
+            count++;
+            if (count > 20) {
+              count = 0;
+              ApiUrl.setEnvironmentState().then((value) => 
+                Toast.show('$value 환경설정 변경')
+              );
+            }
+          },
+          child: Image.asset('assets/login/logo_title.png', width: 200, height: 80)),
       ),
     );
   }
