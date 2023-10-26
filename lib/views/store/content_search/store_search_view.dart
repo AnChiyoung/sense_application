@@ -105,7 +105,8 @@ class _StoreSearchViewState extends State<StoreSearchView> {
           height: 8.0.h,
           color: StaticColor.grey100F6,
         ),
-        StoreLiveProducts(),
+        /// 2023.10.22. 방침이 없어 우선 제거. by JERRY
+        // StoreLiveProducts(),
       ],
     );
   }

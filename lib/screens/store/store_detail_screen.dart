@@ -1,5 +1,8 @@
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/store/content_detail/store_detail_content.dart';
+import 'package:sense_flutter_application/views/store/content_detail/store_detail_like.dart';
 
 class StoreDetailScreen extends StatefulWidget {
   int productId;
@@ -13,16 +16,26 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: ColorfulSafeArea(
         top: true,
-        bottom: false,
-        child: Column(
+        bottom: true,
+        topColor: Colors.white,
+        bottomColor: StaticColor.grey200EE,
+        child: Stack(
           children: [
-            StoreDetailHeader(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: StoreDetailContent(productId: widget.productId))
+            Column(
+              children: [
+                StoreDetailHeader(),
+                Expanded(
+                  child: StoreDetailContent(productId: widget.productId),
+                ),
+              ],
             ),
+            Positioned.fill(
+              top: MediaQuery.of(context).size.height - 150.0,
+              bottom: 0.0,
+              child: StoreDetailLike(),
+            )
           ],
         ),
       ),

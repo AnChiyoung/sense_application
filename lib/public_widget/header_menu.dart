@@ -10,7 +10,8 @@ class HeaderMenu extends StatefulWidget {
   Function? closeCallback;
   Widget? rightMenu;
   TextStyle? titleStyle;
-  HeaderMenu({Key? key, this.backCallback, this.isBackClose, this.isThin, this.title, this.closeCallback, this.rightMenu, this.titleStyle}) : super(key: key);
+  double? backPadding;
+  HeaderMenu({Key? key, this.backCallback, this.isBackClose, this.isThin, this.title, this.closeCallback, this.rightMenu, this.titleStyle, this.backPadding}) : super(key: key);
 
   @override
   State<HeaderMenu> createState() => _HeaderMenuState();
@@ -37,7 +38,7 @@ class _HeaderMenuState extends State<HeaderMenu> {
           widget.backCallback == null ? Container() : Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.only(left: 20.w),
+              padding: EdgeInsets.only(left: widget.backPadding ?? 20.w),
               child: Material(
                 color: Colors.transparent,
                 child: SizedBox(
