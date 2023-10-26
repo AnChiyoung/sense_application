@@ -81,9 +81,6 @@ class EDProvider with ChangeNotifier {
   EnumEventDetailTab _eventDetailTabState = EnumEventDetailTab.plan;
   EnumEventDetailTab get eventDetailTabState => _eventDetailTabState;
 
-  EnumEventDetailBottomSheetField? _eventDetailBottomSheetField;
-  EnumEventDetailBottomSheetField? get eventDetailBottomSheetField => _eventDetailBottomSheetField;
-
   EnumEventCategory? _category;
   EnumEventCategory? get category => _category;
 
@@ -107,24 +104,35 @@ class EDProvider with ChangeNotifier {
     setEventModel(eventModel, false);
 
     if (eventModel.eventCategoryObject?.id != null && eventModel.eventCategoryObject!.id! > 0) {
-      setCategory(EnumEventCategory.values.firstWhere((element) => element.id == eventModel.eventCategoryObject?.id),false);
+      setCategory(EnumEventCategory.values.firstWhere((element) => element.id == eventModel.eventCategoryObject?.id), false);
+    } else {
+      setCategory(null, false);
     }
 
     if (eventModel.targetCategoryObject?.id != null && eventModel.targetCategoryObject!.id! > 0) {
       setTarget(EnumEventTarget.values.firstWhere((element) => element.id == eventModel.targetCategoryObject?.id), false);
+    } else {
+      setTarget(null, false);
     }
 
     if (eventModel.city?.id != null && eventModel.city!.id! > 0) {
       setCity(EnumEventCity.values.firstWhere((element) => element.id == eventModel.city?.id), false);
       setDropdownCity(EnumEventCity.values.firstWhere((element) => element.id == eventModel.city?.id), false);
+    } else {
+      setCity(null, false);
+      setDropdownCity(EnumEventCity.values.first , false);
     }
 
     if (eventModel.subCity?.id != null && eventModel.subCity!.id! > 0) {
       setSubCity(EnumEventSubCity.values.firstWhere((element) => element.id == eventModel.subCity?.id), false);
+    } else {
+      setSubCity(null, false);
     }
 
     if (eventModel.eventDate != null && eventModel.eventDate != '') {
       setDate(DateTime.parse(eventModel.eventDate!), false);
+    } else {
+      setDate(DateTime.now(), false);
     }
 
     if (notify) notifyListeners();
@@ -176,11 +184,6 @@ class EDProvider with ChangeNotifier {
 
   void setEventDetailTabState(EnumEventDetailTab tabState, bool notify) {
     _eventDetailTabState = tabState;
-    if (notify) notifyListeners();
-  }
-
-  void setEventDetailBottomSheetField(EnumEventDetailBottomSheetField field, bool notify) {
-    _eventDetailBottomSheetField = field;
     if (notify) notifyListeners();
   }
 
@@ -282,13 +285,13 @@ class EDProvider with ChangeNotifier {
   void clear(bool notify) {
     _eventModel = EventModel();
     _eventDetailTabState = EnumEventDetailTab.plan;
-    _eventDetailBottomSheetField = null;
     _category = null;
     _target = null;
     _city = null;
     _subCity = null;
     _dropdownCity = null;
     _subCityList = EnumEventSubCity.values.where((e) => e.cityId == 1).map((e) => e).toList();
+    if (notify) notifyListeners();
   }
 
   void changeEventMemo(int eventId, String value, bool notify) async {

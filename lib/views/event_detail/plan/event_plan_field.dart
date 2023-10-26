@@ -35,7 +35,7 @@ class _EventPlanFieldState extends State<EventPlanField> {
   }
 
   void onTab() {
-    context.read<EDProvider>().setEventDetailBottomSheetField(widget.eventField, false);
+    context.read<EDProvider>().initState(context.read<EDProvider>().eventModel, false);
 
     Widget child = Container();
     switch (widget.eventField) {
