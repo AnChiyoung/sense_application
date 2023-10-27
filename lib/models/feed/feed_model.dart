@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedRequest {
   Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
-    print('select label id: ${labelId.toString()}');
+    // print('select label id: ${labelId.toString()}');
     String query;
     String pageSize;
     labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
@@ -83,6 +83,25 @@ class FeedRequest {
       throw Exception;
     }
   }
+
+  // 좋아요한 게시글 불러오기
+  Future<List<FeedPreviewModel>> likedPostListRequest() async {
+    final response = await http.get(
+      Uri.parse('${ApiUrl.releaseUrl}/posts?is_liked=true'),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+      List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
+      return modelList;
+    } else {
+      return [];
+    }
+  }
 }
 
 class FeedPreviewModel {
@@ -93,6 +112,7 @@ class FeedPreviewModel {
   String? startDate;
   String? endDate;
   bool? isLiked;
+  bool? isRecommended;
 
   FeedPreviewModel({
     this.id,
@@ -102,6 +122,7 @@ class FeedPreviewModel {
     this.startDate,
     this.endDate,
     this.isLiked,
+    this.isRecommended = false,
   });
 
   FeedPreviewModel.fromJson(dynamic json) {
@@ -112,6 +133,7 @@ class FeedPreviewModel {
     startDate = json['start_date'] ?? '';
     endDate = json['end_date'] ?? '';
     isLiked = json['is_liked'] ?? false;
+    isRecommended = json['is_recommended'] ?? false;
   }
 }
 

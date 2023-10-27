@@ -13,6 +13,7 @@ import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 // import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
@@ -82,6 +83,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => AnimationProvider()),
           ChangeNotifierProvider(create: (_) => StoreProvider()),
           ChangeNotifierProvider(create: (_) => CEProvider()),
+          ChangeNotifierProvider(create: (_) => EDProvider()),
           // ChangeNotifierProvider(create: (_) => CEProvider()),
           // 여기에 추가하시면 되여
         ],
@@ -99,7 +101,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
+        return const MaterialApp(
           // color: Colors.white,
           /// 현재 context를 가져오기 위한 global key state set
           // navigatorKey: CandyGlobalVariable.naviagatorState,
@@ -111,17 +113,17 @@ class MyApp extends StatelessWidget {
           //   // '/create_event': (context) => CreateEventScreen02(),
           // },
           /// picker localization
-          localizationsDelegates: const [
+          localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
+          supportedLocales: [
             Locale('ko', ''),
             Locale('en', ''),
           ],
           debugShowCheckedModeBanner: false,
           title: 'Sense flutter application',
-          home: const NativeSplash(),
+          home: NativeSplash(),
         );
       },
     );

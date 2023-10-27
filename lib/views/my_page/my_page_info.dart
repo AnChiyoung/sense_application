@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/user/user_model.dart';
@@ -28,7 +29,7 @@ class _MyPageInfoState extends State<MyPageInfo> {
       ),
       child: Column(
         children: [
-          MyPageProfile(),
+          const MyPageProfile(),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
             width: double.infinity,
@@ -37,7 +38,7 @@ class _MyPageInfoState extends State<MyPageInfo> {
               color: StaticColor.grey300E0,
             ),
           ),
-          MyPageIntroduce(),
+          const MyPageIntroduce(),
         ],
       ),
     );
@@ -66,7 +67,7 @@ class _MyPageProfileState extends State<MyPageProfile> {
   Widget build(BuildContext context) {
     return Consumer<MyPageProvider>(
       builder: (context, data, child) {
-
+        
         String initName = data.myPageName;
         XFile? selectImage = data.selectImage;
 

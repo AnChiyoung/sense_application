@@ -11,7 +11,7 @@ import 'package:sense_flutter_application/views/store/store_provider.dart';
 import '../../public_widget/login_dialog.dart';
 
 class MovePageList {
-  List<Widget> pageList = [
+  static List<Widget> pageList = [
     FeedScreen(),
     // ContactScreen(),
     StoreScreen(),

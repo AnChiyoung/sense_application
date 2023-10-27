@@ -49,7 +49,7 @@ class EventRequest {
   /// personal event load
   Future<EventModel> eventRequest(int eventId) async {
 
-    print('event id : ${eventId.toString()}');
+    // print('event id : ${eventId.toString()}');
 
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
@@ -61,9 +61,9 @@ class EventRequest {
 
     if(response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to personal event load');
-      print('logger');
+      // print('logger');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      print(jsonResult);
+      // print(jsonResult);
       EventModel eventModel = EventModel.fromPersonalJson(jsonResult);
       return eventModel;
     } else {
@@ -203,6 +203,26 @@ class EventRequest {
     }
   }
 
+  /// personal field event update
+  Future<bool> personalFieldUpdateEvent2(int eventId, Map<String, dynamic> fieldModel) async {
+    final response = await http.patch(
+      Uri.parse('${ApiUrl.releaseUrl}/event/$eventId'),
+      body: jsonEncode(fieldModel),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 201) {
+      SenseLogger().debug('success to event update');
+      return true;
+    } else {
+      SenseLogger().debug('fail to event update');
+      return false;
+    }
+  }
+
   /// event delete
   Future<bool> deleteEvent(int eventUniqueId) async {
 
@@ -240,10 +260,10 @@ class EventModel {
   ContactCategory? targetCategoryObject;
   RecommendRequestModel? recommendModel;
   City? city;
+  SubCity? subCity;
 
   /// unused
   // List<int>? recommendCategory;
-  // SubCity? subCity;
   // List<int>? createEventUsers;
 
   /// what??
@@ -272,13 +292,13 @@ class EventModel {
     this.targetCategoryObject,
     this.recommendModel,
     this.city,
+    this.subCity,
 
     /// unused
     // this.eventUsers,
     // this.address,
     // this.totalCost,
     // this.eventUser,
-    // this.subCity,
     // this.createDate,
     // this.createEventUsers,
     // this.recommendCategory,
@@ -290,7 +310,7 @@ class EventModel {
     eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
     eventDate = json['date'] ?? '';
     city = json['city'] != null ? City.fromJson(json['city']) : null;
-    // subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
     eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
     targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
     created = json['created'] ?? '';
@@ -322,9 +342,9 @@ class EventModel {
     targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
     recommendModel = (json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel);
     city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: -1, title: '');
+    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: -1, title: '');
 
     // recommendCategory = json['recommend_category'] ?? '';
-    // subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: 1, title: '서울');
     // totalCost = json['total_cost'] ?? -1;
   }
 
@@ -362,6 +382,11 @@ class EventModel {
   //   'event_users': createEventUsers,
   //   'recommend_categories': recommendCategory,
   // };
+
+  @override
+  String toString() {
+    return 'EventModel{id: $id, eventHost: $eventHost, eventTitle: $eventTitle, description: $description, totalBudget: $totalBudget, eventDate: $eventDate, created: $created, visitCount: $visitCount, recommendCount: $recommendCount, isAlarm: $isAlarm, publicType: $publicType, eventCategoryObject: $eventCategoryObject, targetCategoryObject: $targetCategoryObject, recommendModel: $recommendModel, city: $city, subCity: $subCity}';
+  }
 }
 
 class EventHost {

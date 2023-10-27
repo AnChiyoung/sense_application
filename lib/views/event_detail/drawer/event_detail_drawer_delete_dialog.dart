@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
+import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 // import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
 
-class EventDeleteDialog extends StatefulWidget {
-  const EventDeleteDialog({super.key});
+class EventDetailDrawerDeleteDialog extends StatefulWidget {
+  const EventDetailDrawerDeleteDialog({super.key});
 
   @override
-  State<EventDeleteDialog> createState() => _EventDeleteDialogState();
+  State<EventDetailDrawerDeleteDialog> createState() => _EventDetailDrawerDeleteDialogState();
 }
 
-class _EventDeleteDialogState extends State<EventDeleteDialog> {
+class _EventDetailDrawerDeleteDialogState extends State<EventDetailDrawerDeleteDialog> {
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -21,7 +22,6 @@ class _EventDeleteDialogState extends State<EventDeleteDialog> {
       insetPadding: EdgeInsets.only(left: 10.0.w, right: 10.0.w, top: 10.0.h, bottom: 10.0.h),
       contentPadding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      //Dialog Main Title
       title: Column(
         children: [
           Text('이벤트를 삭제 하시겠습니까?', style: TextStyle(fontSize: 18.sp, color: StaticColor.addEventCancelTitle, fontWeight: FontWeight.w700)),
@@ -29,7 +29,6 @@ class _EventDeleteDialogState extends State<EventDeleteDialog> {
           Text('삭제된 이벤트는 복구되지 않습니다.', style: TextStyle(fontSize: 14.sp, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w500)),
         ],
       ),
-      //
       content: Padding(
         padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w, top: 28.0.h, bottom: 18.0.h),
         child: Row(
@@ -65,16 +64,16 @@ class _EventDeleteDialogState extends State<EventDeleteDialog> {
                 ),
                 child: ElevatedButton(
                   onPressed: () async {
-                    // print('deleted event id?? : ${context.read<CEProvider>().eventUniqueId}');
-                    // bool deleteResult = await EventRequest().deleteEvent(context.read<CEProvider>().eventUniqueId);
-                    // /// delete success
-                    // if(deleteResult == true) {
-                    //   Navigator.of(context).pop();
-                    //   context.read<CEProvider>().createEventClear(true);
-                    //   Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
-                    // } else {
-                    //   /// delete fail
-                    // }
+                    int eventId = context.read<EDProvider>().eventModel.id ?? -1;
+                    if (eventId < 0) return;
+                    
+                    bool result = await context.read<EDProvider>().deleteEvent(eventId, false);
+                    if (context.mounted && result) {
+                      context.read<EDProvider>().clearEventModal(false);
+                      Navigator.of(context).pop();
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
+                    }
+
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
                   child: Text('확인', style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.w400)),

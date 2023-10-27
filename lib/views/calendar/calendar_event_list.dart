@@ -10,7 +10,10 @@ import 'package:sense_flutter_application/models/local_save/preference_model.dar
 import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
+import 'package:sense_flutter_application/screens/event_detail/event_detail_screen.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
+import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
+import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -40,8 +43,8 @@ class _EventListState extends State<EventList> {
         int selectMonth = data.selectMonth;
         int selectDay = data.selectDay;
 
-        print('select year : $selectYear');
-        print('select month : $selectMonth');
+        // print('select year : $selectYear');
+        // print('select month : $selectMonth');
 
         return Expanded(
           child: FutureBuilder(
@@ -63,7 +66,7 @@ class _EventListState extends State<EventList> {
                     /// month total data variable
                     monthEventMap = [];
 
-                    print('event models? : ${snapshot.data!}');
+                    // print('event models? : ${snapshot.data!}');
 
                     /// data binding
                     List<EventModel>? models;
@@ -117,8 +120,8 @@ class _EventListState extends State<EventList> {
 
                       /// event load result
                       if (kDebugMode) {
-                        print('event load result : $monthEventMap');
-                        print(monthEventMap.elementAt(0)['24']);
+                        // print('event load result : $monthEventMap');
+                        // print(monthEventMap.elementAt(0)['24']);
                       }
                     }
 
@@ -399,12 +402,12 @@ class _DayEventsListState extends State<DayEventsList> {
                 onTap: () {
                   // // Preferences.recentlyEventSave(model.elementAt(index));
                   // // widget.controller.jumpTo(100);
-                  // context.read<CreateEventImproveProvider>().createEventUniqueId(model.elementAt(index).id!);
-                  // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)), (route) => false);
+                  // context.read<EDProvider>().setId(id: model.elementAt(index).id!);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => EventDetailScreen(eventId: model.elementAt(index).id!)), (route) => false);
                   // // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
                 },
                 child: EventRow(model: model.elementAt(index) ?? EventModel())),
-              const Divider(height: 12.0, color: Colors.transparent),
+              const Divider(height: 12.0, color: Color.fromARGB(0, 21, 21, 21)),
             ],
           );
         }

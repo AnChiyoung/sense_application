@@ -53,52 +53,52 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
   }
 }
 
-/*
-drawer section
- */
-class EventInfoDrawer extends StatefulWidget {
-  const EventInfoDrawer({Key? key}) : super(key: key);
+// /*
+// drawer section
+//  */
+// class EventInfoDrawer extends StatefulWidget {
+//   const EventInfoDrawer({Key? key}) : super(key: key);
 
-  @override
-  State<EventInfoDrawer> createState() => _EventInfoDrawerState();
-}
+//   @override
+//   State<EventInfoDrawer> createState() => _EventInfoDrawerState();
+// }
 
-class _EventInfoDrawerState extends State<EventInfoDrawer> {
+// class _EventInfoDrawerState extends State<EventInfoDrawer> {
 
-  @override
-  Widget build(BuildContext context) {
-    /// safe area 상단 height
-    var safePadding = MediaQuery.of(context).padding.top;
+//   @override
+//   Widget build(BuildContext context) {
+//     /// safe area 상단 height
+//     var safePadding = MediaQuery.of(context).padding.top;
 
-    return Consumer<CEProvider>(
-      builder: (context, data, child) {
+//     return Consumer<CEProvider>(
+//       builder: (context, data, child) {
 
-        return Container();
-        // EventModel model = data.selectEventModel;
-        //
-        // return Drawer(
-        //   backgroundColor: Colors.white,
-        //   child: Column(
-        //       children: [
-        //         SizedBox(height: safePadding),
-        //         DrawerEventAction(),
-        //         Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
-        //         model.eventHost!.id == PresentUserInfo.id ? const Expanded(child: DrawerJoinUser()) : const SizedBox.shrink(),
-        //         Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
-        //         model.eventHost!.id == PresentUserInfo.id ? const DrawerEventDelete() : const SizedBox.shrink(),
-        //       ]
-        //   ),
-        // );
-      }
-    );
+//         return Container();
+//         // EventModel model = data.selectEventModel;
+//         //
+//         // return Drawer(
+//         //   backgroundColor: Colors.white,
+//         //   child: Column(
+//         //       children: [
+//         //         SizedBox(height: safePadding),
+//         //         DrawerEventAction(),
+//         //         Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+//         //         model.eventHost!.id == PresentUserInfo.id ? const Expanded(child: DrawerJoinUser()) : const SizedBox.shrink(),
+//         //         Container(width: double.infinity, height: 1, color: StaticColor.drawerDividerColor),
+//         //         model.eventHost!.id == PresentUserInfo.id ? const DrawerEventDelete() : const SizedBox.shrink(),
+//         //       ]
+//         //   ),
+//         // );
+//       }
+//     );
 
 
 
-  }
-}
+//   }
+// }
 
 class DrawerEventAction extends StatefulWidget {
-  DrawerEventAction({Key? key}) : super(key: key);
+  const DrawerEventAction({Key? key}) : super(key: key);
 
   @override
   State<DrawerEventAction> createState() => _DrawerEventActionState();

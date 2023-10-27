@@ -50,7 +50,7 @@ class StaticColor {
   static Color eventCountColor = const Color(0xFF3E97FF);
   static Color bottomSheetGradientTop = const Color(0xFFD4DCE9);
   static Color bottomSheetGradientBottom = const Color(0xFFFFFFFF);
-  static Color bottomSheetHeaderMain = const Color(0xFFD4DCE9);
+  static Color bottomSheetHeaderMain = const Color(0xFFD9D9D9);
   static Color selectScreenDevider = const Color(0xFFEEEEEE);
   static Color selectScreenYear = const Color(0xFF3E97FF);
   static Color rowDevider = const Color(0xFFF8F9FC);

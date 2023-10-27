@@ -93,9 +93,10 @@ class ProductModel {
     imageUrl = json["image_url"] ?? '';
     brandTitle = json["brand_title"] ?? '';
     title = json["title"] ?? '';
-    originPrice = json["origin_price"] ?? '';
-    discountPrice = json["discount_price"] ?? '';
-    discountRate = json["discount_rate"] ?? '';
+    // @todo 데이터 형 변환 해줄것!
+    originPrice = json["origin_price"] == null || json["origin_price"] == 0 ? '' : '${json["origin_price"]}';
+    discountPrice = json["discount_price"] == null || json["discount_price"] == 0 ? '' : '${json["discount_price"]}';
+    discountRate = json["discount_rate"] == null || json["discount_rate"] == 0 ? '' : '${json["discount_rate"]}';
   }
 
   ProductModel.fromJsonForPersonal(dynamic json) {

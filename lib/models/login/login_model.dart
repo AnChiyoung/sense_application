@@ -75,7 +75,7 @@ class UserInfoModel {
 
   UserInfoModel.fromJson(dynamic json) {
     id = json['id'] ?? '';
-    username = json['name'] ?? ('user-' + id.toString());
+    username = json['username'] ?? ('user-' + id.toString());
     joinToken = TokenModel.fromJson(json['token']);
     email = json['email'] ?? '';
     phone = json['phone'] ?? '';
