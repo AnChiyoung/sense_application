@@ -12,7 +12,7 @@ import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 
 class PhoneAuthHeader extends StatefulWidget {
-  const PhoneAuthHeader({Key? key}) : super(key: key);
+  const PhoneAuthHeader({super.key});
 
   @override
   State<PhoneAuthHeader> createState() => _PhoneAuthHeaderState();
@@ -21,7 +21,8 @@ class PhoneAuthHeader extends StatefulWidget {
 class _PhoneAuthHeaderState extends State<PhoneAuthHeader> {
   @override
   Widget build(BuildContext context) {
-    return SigninHeader(backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback);
+    return SigninHeader(
+        backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback);
   }
 
   void backButtonCallback() {
@@ -30,7 +31,7 @@ class _PhoneAuthHeaderState extends State<PhoneAuthHeader> {
 }
 
 class PhoneAuthDescription extends StatelessWidget {
-  const PhoneAuthDescription({Key? key}) : super(key: key);
+  const PhoneAuthDescription({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class PhoneAuthDescription extends StatelessWidget {
 
 class PhoneAuthInputField extends StatefulWidget {
   String phoneNumber;
-  PhoneAuthInputField({Key? key, required this.phoneNumber}) : super(key: key);
+  PhoneAuthInputField({super.key, required this.phoneNumber});
 
   @override
   State<PhoneAuthInputField> createState() => _PhoneAuthInputFieldState();
@@ -63,10 +64,11 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
   void startTimer() {
     startSeconds = 180;
     timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      minute = startSeconds.toDouble() ~/ 60.0.toString();
+      minute = (startSeconds.toDouble() ~/ 60.0).toString();
       second = (startSeconds.toDouble() % 60.0).toInt() == 0
           ? '00'
-          : ((startSeconds.toDouble() % 60.0).toInt() > 0 && (startSeconds.toDouble() % 60.0).toInt() < 10)
+          : ((startSeconds.toDouble() % 60.0).toInt() > 0 &&
+                  (startSeconds.toDouble() % 60.0).toInt() < 10)
               ? '0${(startSeconds.toDouble() % 60.0).toInt()}'
               : (startSeconds.toDouble() % 60.0).toInt().toString();
       remainText = '유효시간 $minute:$second';
@@ -125,16 +127,27 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               textAlignVertical: TextAlignVertical.center,
                               style: const TextStyle(color: Colors.black),
                               decoration: InputDecoration(
-                                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
-                                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: StaticColor.errorColor, width: 1)),
+                                errorBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: StaticColor.errorColor, width: 1)),
                                 filled: true,
                                 fillColor: StaticColor.loginInputBoxColor,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
                                 alignLabelWithHint: false,
                                 labelText: '인증번호',
-                                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                                labelStyle: TextStyle(
+                                    fontSize: 12.0.sp,
+                                    color: StaticColor.mainSoft,
+                                    fontWeight: FontWeight.w500),
                                 hintText: '번호를 입력하세요',
-                                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                                hintStyle: TextStyle(
+                                    fontSize: 16.0.sp,
+                                    color: StaticColor.loginHintTextColor,
+                                    fontWeight: FontWeight.w400),
                                 border: InputBorder.none,
                               ),
                               validator: (value) {
@@ -150,12 +163,15 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               },
                               onChanged: (value) async {
                                 if (value.length >= 4) {
-
                                   /// 폰 인증번호 일치할 때
-                                  if(await PhoneAuthModel().authNumberCheck(widget.phoneNumber, int.parse(value)) == true) {
+                                  if (await PhoneAuthModel()
+                                          .authNumberCheck(widget.phoneNumber, int.parse(value)) ==
+                                      true) {
                                     context.read<SigninProvider>().authValidateChange(false);
 
-                                    SigninModel.signinType == 0 ? await SigninModel().kakaoSigninRequest() : await SigninModel().emailSigninRequest();
+                                    SigninModel.signinType == 0
+                                        ? await SigninModel().kakaoSigninRequest()
+                                        : await SigninModel().emailSigninRequest();
 
                                     // bool result = await SigninModel().kakaoSigninRequest();
                                     // var logger = Logger(
@@ -178,21 +194,27 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                           bottom: MediaQuery.of(context).size.height - 130,
                                         ),
                                         content: Container(
-                                          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 12.0.h),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16.0.w, vertical: 12.0.h),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
                                             borderRadius: BorderRadius.circular(4.0),
-                                            border: Border.all(color: StaticColor.snackbarColor, width: 1),
+                                            border: Border.all(
+                                                color: StaticColor.snackbarColor, width: 1),
                                           ),
                                           child: Row(
                                             children: [
-                                              Image.asset('assets/signin/snackbar_ok_icon.png', width: 24.0.w, height: 24.0.h),
+                                              Image.asset('assets/signin/snackbar_ok_icon.png',
+                                                  width: 24.0.w, height: 24.0.h),
                                               SizedBox(width: 8.0.w),
                                               Expanded(
-                                                child: Text('인증에 성공했어요, 회원가입이 완료되었습니다',
+                                                child: Text(
+                                                  '인증에 성공했어요, 회원가입이 완료되었습니다',
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                      fontSize: 14.0.sp, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500),
+                                                      fontSize: 14.0.sp,
+                                                      color: StaticColor.snackbarColor,
+                                                      fontWeight: FontWeight.w500),
                                                 ),
                                               ),
                                             ],
@@ -200,16 +222,29 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                         ),
                                       ),
                                     );
-                                    context.read<SigninProvider>().policyCheckStateChange([false, false, false, false, false]);
-                                    context.read<SigninProvider>().emailPasswordButtonStateChange(false);
-                                    context.read<SigninProvider>().stepChangeState([true, false, false, false]);
-                                    context.read<SigninProvider>().genderChangeState([false, false]);
-                                    context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
+                                    context.read<SigninProvider>().policyCheckStateChange(
+                                        [false, false, false, false, false]);
+                                    context
+                                        .read<SigninProvider>()
+                                        .emailPasswordButtonStateChange(false);
+                                    context
+                                        .read<SigninProvider>()
+                                        .stepChangeState([true, false, false, false]);
+                                    context
+                                        .read<SigninProvider>()
+                                        .genderChangeState([false, false]);
+                                    context
+                                        .read<SigninProvider>()
+                                        .basicInfoButtonStateChange(false, '');
+
                                     /// 맨 처음 페이지로.
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const LoginScreen()), (route) => false);
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                        (route) => false);
                                     // Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
 
-                                  /// 인증번호 일치하지 않을 때,
+                                    /// 인증번호 일치하지 않을 때,
                                   } else {
                                     context.read<SigninProvider>().authValidateChange(true);
                                   }
@@ -219,7 +254,9 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                               }),
 
                           /// text form field validate 관련 height 변화에 대응한 유효시간 텍스트 위치 조정
-                          data.authValidate == true || data.timeValidate == true ? const SizedBox.shrink() : Container(height: 20),
+                          data.authValidate == true || data.timeValidate == true
+                              ? const SizedBox.shrink()
+                              : Container(height: 20),
                         ],
                       ),
                     ),
@@ -229,63 +266,76 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                         padding: const EdgeInsets.only(right: 20),
                         child: Text(remainText,
                             style: TextStyle(
-                                fontSize: 12, color: data.timeValidate == true ? StaticColor.textErrorColor : StaticColor.grey60077))),
+                                fontSize: 12,
+                                color: data.timeValidate == true
+                                    ? StaticColor.textErrorColor
+                                    : StaticColor.grey60077))),
                   ),
                 ],
               ),
               Consumer<SigninProvider>(
-                builder: (context, data, child) => data.timeValidate == true || data.authValidate == true
-                    ? Padding(
-                        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 32.0.h),
-                        child: Material(
-                          color: StaticColor.mainSoft,
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: InkWell(
-                            onTap: () async {
-                              await PhoneAuthModel().phoneAuthRequest(widget.phoneNumber.toString());
-                              authNumberController.text = '';
-                              context.read<SigninProvider>().timeValidateChange(false);
-                              context.read<SigninProvider>().authValidateChange(false);
-                              startTimer();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    behavior: SnackBarBehavior.floating,
-                                    duration: const Duration(milliseconds: 2000),
-                                    backgroundColor: Colors.white,
-                                    elevation: 0.0,
-                                    padding: EdgeInsets.symmetric(horizontal: 30.0.w),
-                                    margin: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context).size.height - 130,
-                                    ),
-                                    content: Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                                        height: 48,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(4.0),
-                                          border: Border.all(color: StaticColor.snackbarColor, width: 1),
+                builder: (context, data, child) =>
+                    data.timeValidate == true || data.authValidate == true
+                        ? Padding(
+                            padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 32.0.h),
+                            child: Material(
+                              color: StaticColor.mainSoft,
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: InkWell(
+                                onTap: () async {
+                                  await PhoneAuthModel()
+                                      .phoneAuthRequest(widget.phoneNumber.toString());
+                                  authNumberController.text = '';
+                                  context.read<SigninProvider>().timeValidateChange(false);
+                                  context.read<SigninProvider>().authValidateChange(false);
+                                  startTimer();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        duration: const Duration(milliseconds: 2000),
+                                        backgroundColor: Colors.white,
+                                        elevation: 0.0,
+                                        padding: EdgeInsets.symmetric(horizontal: 30.0.w),
+                                        margin: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).size.height - 130,
                                         ),
-                                        child: Row(children: [
-                                          Image.asset('assets/signin/snackbar_ok_icon.png', width: 24.0.w, height: 24.0.h),
-                                          const SizedBox(width: 8),
-                                          Text('인증번호를 재발송 해드렸어요',
-                                              overflow: TextOverflow.ellipsis,
-                                              style:
-                                                  TextStyle(fontSize: 14.0.sp, color: StaticColor.snackbarColor, fontWeight: FontWeight.w500)),
-                                        ]))),
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(8.0), // inkwell effect's borderradius
-                            child: SizedBox(
-                              height: 56.0.h,
-                              child: Center(
-                                  child:
-                                      Text('인증번호 재발송하기', style: TextStyle(fontSize: 16.0.sp, color: Colors.white, fontWeight: FontWeight.w700))),
+                                        content: Container(
+                                            padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                                            height: 48,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(4.0),
+                                              border: Border.all(
+                                                  color: StaticColor.snackbarColor, width: 1),
+                                            ),
+                                            child: Row(children: [
+                                              Image.asset('assets/signin/snackbar_ok_icon.png',
+                                                  width: 24.0.w, height: 24.0.h),
+                                              const SizedBox(width: 8),
+                                              Text('인증번호를 재발송 해드렸어요',
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 14.0.sp,
+                                                      color: StaticColor.snackbarColor,
+                                                      fontWeight: FontWeight.w500)),
+                                            ]))),
+                                  );
+                                },
+                                borderRadius:
+                                    BorderRadius.circular(8.0), // inkwell effect's borderradius
+                                child: SizedBox(
+                                  height: 56.0.h,
+                                  child: Center(
+                                      child: Text('인증번호 재발송하기',
+                                          style: TextStyle(
+                                              fontSize: 16.0.sp,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700))),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox.shrink(),
+                          )
+                        : const SizedBox.shrink(),
               ),
             ],
           );
