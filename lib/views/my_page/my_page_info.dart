@@ -30,7 +30,10 @@ class _MyPageInfoState extends State<MyPageInfo> {
         children: [
           const MyPageProfile(),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+            margin: EdgeInsets.symmetric(
+              horizontal: 16.0.w,
+              vertical: 16.0.h,
+            ),
             width: double.infinity,
             height: 1.0.h,
             decoration: BoxDecoration(
@@ -52,7 +55,6 @@ class MyPageProfile extends StatefulWidget {
 }
 
 class _MyPageProfileState extends State<MyPageProfile> {
-
   final ImagePicker _picker = ImagePicker();
   XFile? image;
 
@@ -64,21 +66,17 @@ class _MyPageProfileState extends State<MyPageProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyPageProvider>(
-      builder: (context, data, child) {
-        
-        String initName = data.myPageName;
-        XFile? selectImage = data.selectImage;
+    return Consumer<MyPageProvider>(builder: (context, data, child) {
+      String initName = data.myPageName;
+      XFile? selectImage = data.selectImage;
 
-        return FutureBuilder(
+      return FutureBuilder(
           future: UserRequest().userInfoRequest(),
           builder: (context, snapshot) {
-            if(snapshot.hasData) {
-
-              if(snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox.shrink();
-              } else if(snapshot.connectionState == ConnectionState.done) {
-
+              } else if (snapshot.connectionState == ConnectionState.done) {
                 UserModel userModel = snapshot.data ?? UserModel();
 
                 return Padding(
@@ -86,13 +84,15 @@ class _MyPageProfileState extends State<MyPageProfile> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                          children: [
-                            UserProfileImage(size: 48.0, profileImageUrl: userModel.profileImageString),
-                            SizedBox(width: 10.0.w),
-                            Text(userModel.username == null ? 'User${PresentUserInfo.id}' : initName, style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-                          ]
-                      ),
+                      Row(children: [
+                        UserProfileImage(size: 48.0, profileImageUrl: userModel.profileImageString),
+                        SizedBox(width: 10.0.w),
+                        Text(userModel.username == null ? 'User${PresentUserInfo.id}' : initName,
+                            style: TextStyle(
+                                fontSize: 16.0.sp,
+                                color: StaticColor.grey70055,
+                                fontWeight: FontWeight.w700)),
+                      ]),
                       Material(
                           color: Colors.transparent,
                           child: SizedBox(
@@ -100,37 +100,38 @@ class _MyPageProfileState extends State<MyPageProfile> {
                             child: InkWell(
                               borderRadius: BorderRadius.circular(25.0),
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => MyInfoUpdate(page: 0)));
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
                               },
                               child: Center(
                                 child: Row(
                                   children: [
-                                    Text('편집', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w400)),
+                                    Text('편집',
+                                        style: TextStyle(
+                                            fontSize: 12.0.sp,
+                                            color: StaticColor.black90015,
+                                            fontWeight: FontWeight.w400)),
                                     SizedBox(width: 4.0.w),
-                                    Image.asset('assets/my_page/caret_right.png', width: 16.0, height: 16.0),
+                                    Image.asset('assets/my_page/caret_right.png',
+                                        width: 16.0, height: 16.0),
                                   ],
                                 ),
                               ),
                             ),
-                          )
-                      ),
+                          )),
                     ],
                   ),
                 );
-
               } else {
                 return const SizedBox.shrink();
               }
-
-            } else if(snapshot.hasError) {
+            } else if (snapshot.hasError) {
               return const SizedBox.shrink();
             } else {
               return const SizedBox.shrink();
             }
-          }
-        );
-      }
-    );
+          });
+    });
   }
 }
 
@@ -149,10 +150,16 @@ class _MyPageIntroduceState extends State<MyPageIntroduce> {
       child: Column(
         children: [
           Align(
-            alignment: Alignment.centerLeft,
-            child: Text('소개', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+              alignment: Alignment.centerLeft,
+              child: Text('소개',
+                  style: TextStyle(
+                      fontSize: 16.0.sp,
+                      color: StaticColor.grey70055,
+                      fontWeight: FontWeight.w700))),
           SizedBox(height: 16.0.h),
-          Text('등록된 소개 글이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+          Text('등록된 소개 글이 없습니다',
+              style: TextStyle(
+                  fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
           SizedBox(height: 16.0.h),
         ],
       ),

@@ -8,10 +8,15 @@ import 'dart:io' as Io;
 
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
-class MyPageProvider with ChangeNotifier {
+enum MyPagePrevRouteEnum {
+  fromMyPage,
+  fromFirstLogin,
+}
 
+class MyPageProvider with ChangeNotifier {
   XFile? _selectImage;
   XFile? get selectImage => _selectImage;
+
   /// base64string
   String _updateImageString = '';
   String get updateImageString => _updateImageString;
@@ -110,6 +115,9 @@ class MyPageProvider with ChangeNotifier {
   //   return _postList;
   // }
 
+  MyPagePrevRouteEnum _prevRoute = MyPagePrevRouteEnum.fromMyPage;
+  MyPagePrevRouteEnum get prevRoute => _prevRoute;
+
   void myPageNameInit(String state) {
     _myPageName = state;
   }
@@ -178,7 +186,10 @@ class MyPageProvider with ChangeNotifier {
 
   /// button active logic
   bool doesActiveButton() {
-    return (_loadGender != _genderState) || (_loadRelation != _relationState) || (_loadMbti != _saveMbti) || (_loadOwnCar != _ownCar);
+    return (_loadGender != _genderState) ||
+        (_loadRelation != _relationState) ||
+        (_loadMbti != _saveMbti) ||
+        (_loadOwnCar != _ownCar);
   }
 
   void pushAlarmChange(bool state) {
@@ -215,7 +226,7 @@ class MyPageProvider with ChangeNotifier {
   void nameStateChange(String name, bool notify) {
     SenseLogger().debug('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<$name');
     _name = name;
-    if(notify == true) {
+    if (notify == true) {
       notifyListeners();
     }
   }
@@ -268,7 +279,7 @@ class MyPageProvider with ChangeNotifier {
   }
 
   void doesActiveBasicButton() {
-    if(_selectImage != null || _loadName != _name || _loadBirthday != _birthday) {
+    if (_selectImage != null || _loadName != _name || _loadBirthday != _birthday) {
       _basicButton = true;
       notifyListeners();
     }
@@ -293,4 +304,8 @@ class MyPageProvider with ChangeNotifier {
     if (notify) notifyListeners();
   }
 
+  void setPrevRoute(MyPagePrevRouteEnum value, bool notify) {
+    _prevRoute = value;
+    if (notify) notifyListeners();
+  }
 }
