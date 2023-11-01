@@ -26,14 +26,14 @@ class _WithdrawalScreenState extends State<WithdrawalScreen> {
           bottom: false,
           child: Column(
             children: [
-              WithdrawalHeader(),
+              const WithdrawalHeader(),
               Container(
                 width: double.infinity,
                 height: 1.0.h,
                 color: StaticColor.grey300E0,
               ),
-              WithdrawalDescription(),
-              WithdrawalLoginView(),
+              const WithdrawalDescription(),
+              const WithdrawalLoginView(),
               // SettingContent(),
             ],
           ),

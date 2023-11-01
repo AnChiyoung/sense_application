@@ -8,7 +8,6 @@ import 'package:sense_flutter_application/public_widget/comment_like_button.dart
 import 'package:sense_flutter_application/public_widget/comment_subcomment_button.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/report_dialog.dart';
-import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
 class ParentCommentField extends StatefulWidget {
@@ -92,9 +91,9 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                         children: [
                           Row(
                             children: [
-                              UserProfileImage(profileImageUrl: currentModel!.commentUser!.profileImageUrl),
+                              UserProfileImage(profileImageUrl: currentModel.commentUser!.profileImageUrl),
                               const SizedBox(width: 8),
-                              Text(currentModel!.commentUser!.username! == '' ? 'user-${currentModel!.commentUser!.id}' : data.selectCommentModel!.commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+                              Text(currentModel.commentUser!.username! == '' ? 'user-${currentModel.commentUser!.id}' : data.selectCommentModel.commentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
                               const SizedBox(width: 4),
                               Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
                               const SizedBox(width: 4),
@@ -105,9 +104,9 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  currentModel!.commentUser!.id == PresentUserInfo.id
-                                      ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, currentModel!)]);})
-                                      : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [reportBottomSheet(context, currentModel!.id!)]);});
+                                  currentModel.commentUser!.id == PresentUserInfo.id
+                                      ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myCommentBottomSheet(context, currentModel)]);})
+                                      : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [reportBottomSheet(context, currentModel.id!)]);});
                                 },
                                 customBorder: const CircleBorder(),
                                 child: Image.asset('assets/feed/comment_etc_icon.png', width: 24, height: 24),
@@ -120,7 +119,7 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                           ? const SizedBox.shrink()
                           : Padding(
                         padding: const EdgeInsets.only(left: 42),
-                        child: Text(currentModel!.content!, style: TextStyle(color: Colors.black)),
+                        child: Text(currentModel.content!, style: const TextStyle(color: Colors.black)),
                       ),
                       /// personal comment like, subcomment field
                       Padding(
@@ -131,11 +130,11 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                                 ? CommentLikeButton(active: false, postId: currentModel.postBottomInfo!.id!, state: currentModel.isLiked!, id: currentModel.id!)
                                 : CommentLikeButton(active: true, postId: currentModel.postBottomInfo!.id!, state: currentModel.isLiked!, id: currentModel.id!),
                             const SizedBox(width: 4),
-                            Text(currentModel!.likeCount.toString(), style: TextStyle(fontSize: 13, color: currentModel.isLiked == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                            Text(currentModel.likeCount.toString(), style: TextStyle(fontSize: 13, color: currentModel.isLiked == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
                             const SizedBox(width: 16),
                             CommentButton(state: currentModel.isCommented),
                             const SizedBox(width: 4),
-                            Text(currentModel!.childCommentList!.length.toString(), style: TextStyle(fontSize: 13, color: currentModel.isCommented == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                            Text(currentModel.childCommentList!.length.toString(), style: TextStyle(fontSize: 13, color: currentModel.isCommented == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
                           ],
                         ),
                       ),
@@ -144,14 +143,14 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                 ),
               ),
               /// 대댓글
-              currentModel!.childCommentList!.isEmpty
+              currentModel.childCommentList!.isEmpty
                   ? const SizedBox.shrink()
                   : Expanded(
                 child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: currentModel!.childCommentList!.length,
+                    itemCount: currentModel.childCommentList!.length,
                     itemBuilder: (context, index) {
-                      return recommentField(currentModel!.childCommentList!.elementAt(index), currentModel.content == '삭제된 댓글입니다.' ? false : true, widget.postId!);
+                      return recommentField(currentModel.childCommentList!.elementAt(index), currentModel.content == '삭제된 댓글입니다.' ? false : true, widget.postId!);
                     }
                 ),
               ),
@@ -178,9 +177,9 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
             children: [
               Row(
                 children: [
-                  UserProfileImage(profileImageUrl: model!.childCommentUser!.profileImageUrl),
+                  UserProfileImage(profileImageUrl: model.childCommentUser!.profileImageUrl),
                   const SizedBox(width: 8),
-                  Text(model!.childCommentUser!.username! == '' ? 'user-${model!.childCommentUser!.id}' : model!.childCommentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
+                  Text(model.childCommentUser!.username! == '' ? 'user-${model.childCommentUser!.id}' : model.childCommentUser!.username!, style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w500)),
                   const SizedBox(width: 4),
                   Image.asset('assets/feed/comment_dot.png', width: 3, height: 3),
                   const SizedBox(width: 4),
@@ -192,9 +191,9 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                   child: InkWell(
                     onTap: () {
                       active == true
-                          ? {model!.childCommentUser!.id == PresentUserInfo.id
-                            ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myRecommentBottomSheet(context, model!)]);})
-                            : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [recommentReportBottomSheet(context, model!)]);})}
+                          ? {model.childCommentUser!.id == PresentUserInfo.id
+                            ? showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [myRecommentBottomSheet(context, model)]);})
+                            : showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) { return Wrap(children: [recommentReportBottomSheet(context, model)]);})}
                           : {};
                     },
                     customBorder: const CircleBorder(),
@@ -206,7 +205,7 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
           /// personal comment description
           Padding(
             padding: const EdgeInsets.only(left: 42),
-            child: Text(model!.content!, style: TextStyle(color: Colors.black)),
+            child: Text(model.content!, style: const TextStyle(color: Colors.black)),
           ),
           // Padding(
           //   padding: const EdgeInsets.only(left: 40),
@@ -219,10 +218,10 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
             child: Row(
               children: [
                 active == false
-                    ? CommentLikeButton(state: model!.isLiked!, active: false, id: model!.childCommentId!, postId: postId)
-                    : CommentLikeButton(state: model!.isLiked!, active: true, id: model!.childCommentId!, postId: postId),
+                    ? CommentLikeButton(state: model.isLiked!, active: false, id: model.childCommentId!, postId: postId)
+                    : CommentLikeButton(state: model.isLiked!, active: true, id: model.childCommentId!, postId: postId),
                 const SizedBox(width: 4),
-                Text(model!.likeCount.toString(), style: TextStyle(fontSize: 13, color: model!.isLiked! == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
+                Text(model.likeCount.toString(), style: TextStyle(fontSize: 13, color: model.isLiked! == true ? StaticColor.mainSoft : StaticColor.grey400BB, fontWeight: FontWeight.w400)),
                 const SizedBox(width: 16),
               ],
             ),
@@ -283,7 +282,7 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       showDialog(context: context, builder: (context) {
-                        return CommentDeleteDialog(postId: model!.postBottomInfo!.id, index: model!.id!);
+                        return CommentDeleteDialog(postId: model!.postBottomInfo!.id, index: model.id!);
                         // return Container(
                         //   color: Colors.transparent,
                         //   child: Container(
@@ -334,7 +333,7 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       showDialog(context: context, builder: (context) {
-                        return ReportDialog(index: index!);
+                        return ReportDialog(index: index);
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: StaticColor.errorBackgroundColor, elevation: 0.0),
@@ -376,8 +375,8 @@ class _ParentCommentFieldState extends State<ParentCommentField> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      model != null ? context.read<FeedProvider>().recommentUpdateMode(model!) : {};
-                      context.read<FeedProvider>().inputController.text = model!.content!;
+                      model != null ? context.read<FeedProvider>().recommentUpdateMode(model) : {};
+                      context.read<FeedProvider>().inputController.text = model.content!;
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: StaticColor.grey100F6, elevation: 0.0),
                     child: Text('수정하기', style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),

@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -224,7 +222,7 @@ class ContactModel {
     partnerId = json['partner'] ?? -1;
     contactCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
     name = json['name'] ?? '';
-    phone = json['phone'] == null ? '' : json['phone'];
+    phone = json['phone'] ?? '';
     birthday = json['birthday'] ?? '';
     gender = json['gender'] ?? '';
     profileImage = json['image_url'] ?? '';

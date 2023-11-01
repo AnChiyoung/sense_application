@@ -30,7 +30,7 @@ class _CreateEventTargetViewState extends State<CreateEventTargetView> {
                   enableDrag: true,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return TargetBottomSheet();
+                    return const TargetBottomSheet();
                   }
               );
             },

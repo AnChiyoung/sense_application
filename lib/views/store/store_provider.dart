@@ -7,7 +7,7 @@ class StoreProvider with ChangeNotifier {
 
   TextEditingController _storeSearchController = TextEditingController();
   TextEditingController get storeSearchController => _storeSearchController;
-  FocusNode _storeSearchFocus = FocusNode();
+  final FocusNode _storeSearchFocus = FocusNode();
   FocusNode get storeSearchFocus => _storeSearchFocus;
 
   // 최근 검색목록 누르면 서치박스에 배치하고 검색결과 노출
@@ -31,10 +31,10 @@ class StoreProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _storeMenuSelector = [false, false, false, false, false, false];
+  final List<bool> _storeMenuSelector = [false, false, false, false, false, false];
   List<bool> get storeMenuSelector => _storeMenuSelector;
 
-  List<int> _storeMenuSelectNumber = [];
+  final List<int> _storeMenuSelectNumber = [];
   List<int> get storeMenuSelectNumber => _storeMenuSelectNumber;
 
   void recommendCategoryValueChange(bool state, int index) {

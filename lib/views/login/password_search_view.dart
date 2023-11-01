@@ -83,7 +83,7 @@ class _PasswordSearchInfoInputFieldState extends State<PasswordSearchInfoInputFi
               ),
               validator: (value) {
                 if(value!.isNotEmpty) {
-                  if(SigninValidate().emailValidate(value!) == false) {
+                  if(SigninValidate().emailValidate(value) == false) {
                     emailState = false;
                     return '이메일 형식을 확인해 주세요';
                   } else {
@@ -96,7 +96,7 @@ class _PasswordSearchInfoInputFieldState extends State<PasswordSearchInfoInputFi
                 }
               },
               onChanged: (_) {
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   emailState && phoneNumberState == true
                       ? context.read<LoginProvider>().passwordSearchButtonStateChange(true, phoneNumberInputController.text.replaceAll('-', ''))
                       : context.read<LoginProvider>().passwordSearchButtonStateChange(false);
@@ -124,12 +124,14 @@ class _PasswordSearchInfoInputFieldState extends State<PasswordSearchInfoInputFi
                 alignLabelWithHint: false,
                 counterText: '',
                 labelText: '연락처',
-                labelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
                 hintText: '000-0000-0000',
                 hintStyle: TextStyle(fontSize: 14, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
+                return null;
+              
               },
               onChanged: (value) {
                 if(value.length > 12) {
@@ -138,7 +140,7 @@ class _PasswordSearchInfoInputFieldState extends State<PasswordSearchInfoInputFi
                   phoneNumberState = false;
                 }
 
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   emailState && phoneNumberState == true
                       ? context.read<LoginProvider>().passwordSearchButtonStateChange(true)
                       : context.read<LoginProvider>().passwordSearchButtonStateChange(false);
@@ -189,7 +191,7 @@ class _PasswordSearchInfoInputButtonState extends State<PasswordSearchInfoInputB
                     ? StaticColor.categorySelectedColor
                     : StaticColor.unSelectedColor,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: Column(
+            child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(

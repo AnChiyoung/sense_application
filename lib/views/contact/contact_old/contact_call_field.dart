@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class ContactCallField extends StatefulWidget {
   const ContactCallField({Key? key}) : super(key: key);
@@ -21,7 +20,7 @@ class _ContactCallFieldState extends State<ContactCallField> {
         onPressed: () {
           getPermission();
         },
-        child: Container(
+        child: const SizedBox(
             width: 100, height: 40, child: Center(child: Text('연락처 불러오기', style: TextStyle(color: Colors.white)))),
       ),
       //   ) : const SizedBox.shrink(),

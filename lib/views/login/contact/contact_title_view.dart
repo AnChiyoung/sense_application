@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'dart:async';
 
 class ContactTitleVeiw extends StatefulWidget {
+  const ContactTitleVeiw({super.key});
+
   @override
   _ContactTitleVeiw createState() => _ContactTitleVeiw();
 }
@@ -38,7 +37,7 @@ class _ContactTitleVeiw extends State<ContactTitleVeiw> {
             fontSize: 24,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w700,
-            color: const Color.fromRGBO(0, 0, 0, 1),
+            color: Color.fromRGBO(0, 0, 0, 1),
             height: 1.5,
           ),
         ),

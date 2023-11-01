@@ -20,10 +20,10 @@ class _CalendarMonthSelectState extends State<CalendarMonthSelect> {
       child: SafeArea(
         child: Column(
           children: [
-            MonthSelectHeader(),
+            const MonthSelectHeader(),
             const SizedBox(height: 6),
             Container(width: double.infinity, color: StaticColor.selectScreenDevider),
-            MonthSelect(),
+            const MonthSelect(),
           ]
         )
       ),

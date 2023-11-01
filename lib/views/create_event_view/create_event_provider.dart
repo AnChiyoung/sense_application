@@ -142,13 +142,13 @@ class CEProvider with ChangeNotifier {
   int _tempCity = -1;
   int get tempCity => _tempCity;
 
-  List<int> _subCity = [];
+  final List<int> _subCity = [];
   List<int> get subCity => _subCity;
 
   bool _totalBoxState = false;
   bool get totalBoxState => _totalBoxState;
 
-  List<List<bool>> _subCityState = [
+  final List<List<bool>> _subCityState = [
     [false, false, false, false, false, false,
       false, false, false, false, false, false,
       false, false, false, false, false, false,
@@ -268,7 +268,7 @@ class CEProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _regionTotalSelector = false;
+  final bool _regionTotalSelector = false;
   bool get regionTotalSelector => _regionTotalSelector;
 
   String _memo = '';
@@ -302,9 +302,9 @@ class CEProvider with ChangeNotifier {
     _tempCity = -1;
     _subCity.clear();
     for(int i = 0; i < 9; i++) {
-      _subCityState[i].forEach((element) {
+      for (var element in _subCityState[i]) {
         element = false;
-      });
+      }
     }
     _totalBoxState = false;
     _memo = '';

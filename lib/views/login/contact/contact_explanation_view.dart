@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class ContactExplanationVeiw extends StatefulWidget {
+  const ContactExplanationVeiw({super.key});
+
   @override
   _ContactExplanationVeiw createState() => _ContactExplanationVeiw();
 }
@@ -21,7 +23,7 @@ class _ContactExplanationVeiw extends State<ContactExplanationVeiw> {
             fontSize: 14,
             fontFamily: 'Pretendard',
             fontWeight: FontWeight.w400,
-            color: const Color.fromRGBO(182, 182, 182, 1),
+            color: Color.fromRGBO(182, 182, 182, 1),
 
           ),
         ),

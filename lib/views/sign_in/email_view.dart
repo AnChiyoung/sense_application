@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/sign_in/email_check_model.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
-import 'package:sense_flutter_application/public_widget/test_request.dart';
 import 'package:sense_flutter_application/screens/sign_in/basic_info_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -110,7 +108,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
               ),
               validator: (value) {
                 if(value!.isNotEmpty) {
-                  if(SigninValidate().emailValidate(value!) == false) {
+                  if(SigninValidate().emailValidate(value) == false) {
                     emailState = false;
                     return '이메일 형식을 확인해 주세요';
                   } else {
@@ -139,7 +137,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
 
                 SigninModel.email = emailInputController.text;
 
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   emailState && passwordState && passwordRepeatState == true
                       ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
                       : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
@@ -173,7 +171,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
               ),
               validator: (value) {
                 if(value!.isNotEmpty) {
-                  if(SigninValidate().passwordValidate(value!) == false) {
+                  if(SigninValidate().passwordValidate(value) == false) {
                     passwordState = false;
                     return '영문 소문자, 숫자 포함 6~16글자로 입력해 주세요';
                   } else {
@@ -193,7 +191,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 /// data input
                 SigninModel.password = passwordController.text;
 
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   emailState && passwordState && passwordRepeatState == true
                       ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
                       : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
@@ -243,7 +241,7 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
                 }
               },
               onChanged: (_) {
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   emailState && passwordState && passwordRepeatState == true
                       ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
                       : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
@@ -289,14 +287,14 @@ class _EmailButtonState extends State<EmailButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () async {
-              buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => BasicInfoScreen())) : {};
+              buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => const BasicInfoScreen())) : {};
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true
                     ? StaticColor.categorySelectedColor
                     : StaticColor.unSelectedColor,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: const [
+            child: const Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               SizedBox(
                   height: 56,
                   child: Center(

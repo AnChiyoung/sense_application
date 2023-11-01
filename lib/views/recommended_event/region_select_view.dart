@@ -5,7 +5,6 @@ import 'package:sense_flutter_application/models/event/add_event_model.dart';
 import 'package:sense_flutter_application/models/recommended_event/region_select_model.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/recommended_event/present_memo_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class RegionSelectHeaderMenu extends StatefulWidget {
@@ -309,9 +308,9 @@ class _RegionSelectNextButtonState extends State<RegionSelectNextButton> {
               // buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => PresentMemoScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: Column(
+            child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   SizedBox(height: 56, child: Center(child: Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
                 ]
             )

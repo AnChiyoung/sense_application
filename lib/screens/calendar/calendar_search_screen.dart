@@ -19,7 +19,7 @@ class _CalendarSearchScreenState extends State<CalendarSearchScreen> {
         bottom: false,
         child: Column(
           children: [
-            SearchAppBar(),
+            const SearchAppBar(),
             Container(
               width: double.infinity,
               height: 1,

@@ -25,7 +25,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
           children: [
             Column(
               children: [
-                StoreDetailHeader(),
+                const StoreDetailHeader(),
                 Expanded(
                   child: StoreDetailContent(productId: widget.productId),
                 ),
@@ -34,7 +34,7 @@ class _StoreDetailScreenState extends State<StoreDetailScreen> {
             Positioned.fill(
               top: MediaQuery.of(context).size.height - 150.0,
               bottom: 0.0,
-              child: StoreDetailLike(),
+              child: const StoreDetailLike(),
             )
           ],
         ),

@@ -35,7 +35,7 @@ class MyPageProvider with ChangeNotifier {
   String get email => _email;
 
   /// 내 정보 수정 - 성별
-  List<bool> _updateGenderState = [false, false];
+  final List<bool> _updateGenderState = [false, false];
   List<bool> get updateGenderState => _updateGenderState;
 
   bool _agree = false;
@@ -84,13 +84,13 @@ class MyPageProvider with ChangeNotifier {
   String _myPageName = '';
   String get myPageName => _myPageName;
 
-  int _loadYear = 0;
+  final int _loadYear = 0;
   int get loadYear => _loadYear;
 
-  int _loadMonth = 0;
+  final int _loadMonth = 0;
   int get loadMonth => _loadMonth;
 
-  int _loadDay = 0;
+  final int _loadDay = 0;
   int get loadDay => _loadDay;
 
   int _year = 0;

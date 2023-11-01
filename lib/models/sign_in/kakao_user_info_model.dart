@@ -94,27 +94,27 @@ class KakaoUserModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['profile_nickname_needs_agreement'] = this.profileNicknameNeedsAgreement;
-    data['profile_image_needs_agreement'] = this.profileImageNeedsAgreement;
-    if (this.profile != null) {
-      data['profile'] = this.profile!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['profile_nickname_needs_agreement'] = profileNicknameNeedsAgreement;
+    data['profile_image_needs_agreement'] = profileImageNeedsAgreement;
+    if (profile != null) {
+      data['profile'] = profile!.toJson();
     }
-    data['has_email'] = this.hasEmail;
-    data['email_needs_agreement'] = this.emailNeedsAgreement;
-    data['is_email_valid'] = this.isEmailValid;
-    data['is_email_verified'] = this.isEmailVerified;
-    data['email'] = this.email;
-    data['has_age_range'] = this.hasAgeRange;
-    data['age_range_needs_agreement'] = this.ageRangeNeedsAgreement;
-    data['age_range'] = this.ageRange;
-    data['has_birthday'] = this.hasBirthday;
-    data['birthday_needs_agreement'] = this.birthdayNeedsAgreement;
-    data['birthday'] = this.birthday;
-    data['birthday_type'] = this.birthdayType;
-    data['has_gender'] = this.hasGender;
-    data['gender_needs_agreement'] = this.genderNeedsAgreement;
-    data['gender'] = this.gender;
+    data['has_email'] = hasEmail;
+    data['email_needs_agreement'] = emailNeedsAgreement;
+    data['is_email_valid'] = isEmailValid;
+    data['is_email_verified'] = isEmailVerified;
+    data['email'] = email;
+    data['has_age_range'] = hasAgeRange;
+    data['age_range_needs_agreement'] = ageRangeNeedsAgreement;
+    data['age_range'] = ageRange;
+    data['has_birthday'] = hasBirthday;
+    data['birthday_needs_agreement'] = birthdayNeedsAgreement;
+    data['birthday'] = birthday;
+    data['birthday_type'] = birthdayType;
+    data['has_gender'] = hasGender;
+    data['gender_needs_agreement'] = genderNeedsAgreement;
+    data['gender'] = gender;
     return data;
   }
 }
@@ -139,11 +139,11 @@ class Profile {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['nickname'] = this.nickname;
-    data['thumbnail_image_url'] = this.thumbnailImageUrl;
-    data['profile_image_url'] = this.profileImageUrl;
-    data['is_default_image'] = this.isDefaultImage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['nickname'] = nickname;
+    data['thumbnail_image_url'] = thumbnailImageUrl;
+    data['profile_image_url'] = profileImageUrl;
+    data['is_default_image'] = isDefaultImage;
     return data;
   }
 }

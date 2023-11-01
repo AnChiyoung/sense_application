@@ -28,15 +28,15 @@ class _WithdrawalAgreeScreenState extends State<WithdrawalAgreeScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                WithdrawalAgreeHeader(),
+                const WithdrawalAgreeHeader(),
                 Container(
                   width: double.infinity,
                   height: 1.0.h,
                   color: StaticColor.grey300E0,
                 ),
-                WithdrawalAgreeDescription(),
-                WithdrawalAgreeCheckbox(),
-                WithdrawalAgreeButton(),
+                const WithdrawalAgreeDescription(),
+                const WithdrawalAgreeCheckbox(),
+                const WithdrawalAgreeButton(),
               ],
             ),
           ),

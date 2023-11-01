@@ -376,7 +376,7 @@ class _EmptyFoodBannerState extends State<EmptyFoodBanner> {
       padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteFoodScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const PersonalTasteFoodScreen()));
         },
         child: Container(
           width: double.infinity,

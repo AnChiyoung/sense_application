@@ -21,15 +21,15 @@ class _RegionSelectScreenState extends State<RegionSelectScreen> {
             // 버튼 제외 상단
             Column(
               children: [
-                RegionSelectHeaderMenu(),
-                RegionSelectTitle(),
-                RegionSelectCategory(),
+                const RegionSelectHeaderMenu(),
+                const RegionSelectTitle(),
+                const RegionSelectCategory(),
                 Container(
                   width: double.infinity,
                   height: 1,
                   color: StaticColor.regionSectionDivideColor,
                 ),
-                RegionSelectSubCategory(),
+                const RegionSelectSubCategory(),
               ],
             ),
             const Align(

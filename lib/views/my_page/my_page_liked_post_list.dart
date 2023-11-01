@@ -32,7 +32,7 @@ class _MyPageLikedPostListState extends State<MyPageLikedPostList> {
         future: FeedRequest().likedPostListRequest(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
             // return const CircularProgressIndicator();
           } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {

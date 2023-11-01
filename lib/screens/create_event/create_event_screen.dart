@@ -34,17 +34,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      CreateEventHeader(),
+                      const CreateEventHeader(),
                       Container(
                         height: 1.0,
                         color: StaticColor.grey300E0,
                       ),
-                      CreateEventDataSection(),
+                      const CreateEventDataSection(),
                     ],
                   ),
                 ),
               ),
-              Align(
+              const Align(
                   alignment: Alignment.bottomCenter,
                   child: CreateEventButton()
               ),

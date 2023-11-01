@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/event_feed/event_feed_tab.dart';
-import 'package:sense_flutter_application/views/event_feed/event_feed_tabbarview.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_total.dart';
 
 class EventFeedScreen extends StatefulWidget {

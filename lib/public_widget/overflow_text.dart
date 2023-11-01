@@ -47,7 +47,7 @@ class _OverflowTextState extends State<OverflowText> {
                       _isMore = true;
                     });
                   },
-                  child: Container(child: Text('aa'))
+                  child: Container(child: const Text('aa'))
                 ),
               )
             : Container(),

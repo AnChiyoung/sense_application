@@ -12,14 +12,14 @@ class MonthSelectHeader extends StatefulWidget {
 class _MonthSelectHeaderState extends State<MonthSelectHeader> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 80,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Container(
+            child: SizedBox(
               width: 63.63,
               child: GestureDetector(
                 onTap: () {},
@@ -41,7 +41,7 @@ class _MonthSelectHeaderState extends State<MonthSelectHeader> {
 
           Align(
             alignment: Alignment.centerRight,
-            child: Container(
+            child: SizedBox(
               width: 63.63,
               child: GestureDetector(
                 onTap: () {},
@@ -70,7 +70,7 @@ class MonthSelect extends StatefulWidget {
 class _MonthSelectState extends State<MonthSelect> {
   @override
   Widget build(BuildContext context) {
-    return SemiMonthWidget();
+    return const SemiMonthWidget();
   }
 }
 
@@ -79,7 +79,7 @@ class SemiMonthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       width: 100,
       height: 100,
     );

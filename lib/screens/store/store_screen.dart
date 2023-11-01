@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sense_flutter_application/views/store/store_empty_view.dart';
 import 'package:sense_flutter_application/views/store/store_view.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -19,7 +18,7 @@ class _StoreScreenState extends State<StoreScreen> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,

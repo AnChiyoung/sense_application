@@ -55,7 +55,7 @@ class _CreateEventButtonState extends State<CreateEventButton> {
                                           fontWeight: FontWeight.w400)));
                                     } else if (snapshot.connectionState ==
                                         ConnectionState.done) {
-                                      return CreateEventFinishDialog();
+                                      return const CreateEventFinishDialog();
                                     }
                                   } else if (snapshot.hasError) {
                                     return Container();

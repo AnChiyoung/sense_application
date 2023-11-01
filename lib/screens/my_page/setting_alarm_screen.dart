@@ -26,14 +26,14 @@ class _SettingAlarmScreenState extends State<SettingAlarmScreen> {
           bottom: false,
           child: Column(
             children: [
-              SettingAlarmHeader(),
+              const SettingAlarmHeader(),
               Container(
                 width: double.infinity,
                 height: 1.0.h,
                 color: StaticColor.grey300E0,
               ),
-              SettingAlarmPush(),
-              SettingAlarmMarketing(),
+              const SettingAlarmPush(),
+              const SettingAlarmMarketing(),
               // WithdrawalDescription(),
               // WithdrawalLoginView(),
               // SettingContent(),

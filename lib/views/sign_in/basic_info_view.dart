@@ -112,7 +112,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         Consumer<SigninProvider>(
             builder: (context, data, child) =>
-            data.stepChange[3] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 8)) : const SizedBox.shrink()
+            data.stepChange[3] == true ? const Padding(padding: EdgeInsets.symmetric(horizontal: 20), child: SizedBox(width: double.infinity, height: 8)) : const SizedBox.shrink()
         ),
         Consumer<SigninProvider>(
           builder: (context, data, child) => AnimatedOpacity(
@@ -127,7 +127,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         Consumer<SigninProvider>(
             builder: (context, data, child) =>
-            data.stepChange[2] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 8)) : const SizedBox.shrink()
+            data.stepChange[2] == true ? const Padding(padding: EdgeInsets.symmetric(horizontal: 20), child: SizedBox(width: double.infinity, height: 8)) : const SizedBox.shrink()
         ),
         Consumer<SigninProvider>(
           builder: (context, data, child) => AnimatedOpacity(
@@ -142,7 +142,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         Consumer<SigninProvider>(
           builder: (context, data, child) =>
-          data.stepChange[1] == true ? Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: Container(width: double.infinity, height: 8)) : const SizedBox.shrink()
+          data.stepChange[1] == true ? const Padding(padding: EdgeInsets.symmetric(horizontal: 20), child: SizedBox(width: double.infinity, height: 8)) : const SizedBox.shrink()
         ),
 
         Visibility(
@@ -311,7 +311,7 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                   context.read<SigninProvider>().stepChangeState(widgetManagement);
                   Navigator.of(context).pop();
                 },
-                child: Text('확인'),
+                child: const Text('확인'),
               ),
             ),
             SizedBox(
@@ -369,11 +369,11 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
             border: InputBorder.none,
           ),
           validator: (value) {
-            if (value!.length > 0 && SigninValidate().nameValidate(value!) == false) {
+            if (value!.isNotEmpty && SigninValidate().nameValidate(value) == false) {
               nameState = false;
               return '이름은 2~7자의 한글만 가능합니다';
             } else {
-              value.length > 0 ? nameState = true : nameState = false;
+              value.isNotEmpty ? nameState = true : nameState = false;
               return null;
             }
           },
@@ -557,7 +557,7 @@ class _BasicInfoAuthButtonState extends State<BasicInfoAuthButton> {
                       ? StaticColor.categorySelectedColor
                       : StaticColor.unSelectedColor,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-              child: Column(mainAxisAlignment: MainAxisAlignment.start, children: const [
+              child: const Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 SizedBox(
                     height: 56,
                     child: Center(

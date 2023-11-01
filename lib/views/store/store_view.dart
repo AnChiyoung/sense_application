@@ -41,7 +41,7 @@ class _StoreHeaderState extends State<StoreHeader> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                isVisible ? StoreSearchBackButton() : const SizedBox.shrink(),
+                isVisible ? const StoreSearchBackButton() : const SizedBox.shrink(),
                 const Expanded(
                     child: StoreSearchBox()
                 ),
@@ -305,9 +305,9 @@ class _StoreContentState extends State<StoreContent> {
         bool isSearchView = data.isSearchView;
 
         if(isSearchView == true) {
-          return StoreSearchView();
+          return const StoreSearchView();
         } else {
-          return StoreContentMainProduct();
+          return const StoreContentMainProduct();
         }
       }
     );

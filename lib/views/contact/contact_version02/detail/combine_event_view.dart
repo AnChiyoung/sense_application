@@ -45,7 +45,7 @@ class _CombineEventViewState extends State<CombineEventView> {
               borderRadius: BorderRadius.circular(8.0),
               color: StaticColor.grey100F6,
             ),
-            child: EmptyEvent(),
+            child: const EmptyEvent(),
           ),
         ],
       ),

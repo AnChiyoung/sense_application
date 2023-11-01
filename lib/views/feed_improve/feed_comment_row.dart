@@ -8,7 +8,6 @@ import 'package:sense_flutter_application/public_widget/comment_like_button.dart
 import 'package:sense_flutter_application/public_widget/comment_subcomment_button.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/report_dialog.dart';
-import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
 class CommentPersonalRow extends StatefulWidget {
@@ -194,7 +193,7 @@ class _CommentPersonalRowState extends State<CommentPersonalRow> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       showDialog(context: context, builder: (context) {
-                        return CommentDeleteDialog(postId: model!.postBottomInfo!.id, index: model!.id!);
+                        return CommentDeleteDialog(postId: model!.postBottomInfo!.id, index: model.id!);
                         // return Container(
                         //   color: Colors.transparent,
                         //   child: Container(
@@ -245,7 +244,7 @@ class _CommentPersonalRowState extends State<CommentPersonalRow> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       showDialog(context: context, builder: (context) {
-                        return ReportDialog(index: index!);
+                        return ReportDialog(index: index);
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: StaticColor.errorBackgroundColor, elevation: 0.0),

@@ -1,19 +1,13 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/calendar/calendar_home_model.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
-import 'package:sense_flutter_application/models/local_save/preference_model.dart';
-import 'package:sense_flutter_application/public_widget/behavior_collection.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_category_label.dart';
 import 'package:sense_flutter_application/screens/event_detail/event_detail_screen.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
-import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
-import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 
 class EventList extends StatefulWidget {
   const EventList({Key? key}) : super(key: key);
@@ -83,48 +77,46 @@ class _EventListState extends State<EventList> {
 
                     /// calendar event source insert
                     for(int i = 0; i < models!.length; i++) {
-                      EventSource.eventSource[DateTime.parse(models.elementAt(i).eventDate.toString())] = [Event('event source!!')];
+                      EventSource.eventSource[DateTime.parse(models.elementAt(i).eventDate.toString())] = [const Event('event source!!')];
                     }
 
-                    if(models != null) {
-                      /// data sort (빠른 날짜 순)
-                      models!.sort((a, b) => DateTime.parse(a.eventDate!).compareTo(DateTime.parse(b.eventDate!)));
+                    /// data sort (빠른 날짜 순)
+                    models.sort((a, b) => DateTime.parse(a.eventDate!).compareTo(DateTime.parse(b.eventDate!)));
 
-                      /// data sort (날짜별로 묶)
-                      List<int> eventDayIsolate = [];
-                      for(int i = 0; i < models.length; i++) {
-                        int day = DateTime.parse(models.elementAt(i).eventDate!).day;
-                        eventDayIsolate.add(day);
-                      }
+                    /// data sort (날짜별로 묶)
+                    List<int> eventDayIsolate = [];
+                    for(int i = 0; i < models.length; i++) {
+                      int day = DateTime.parse(models.elementAt(i).eventDate!).day;
+                      eventDayIsolate.add(day);
+                    }
 
-                      /// data 중복 제거
-                      eventDayIsolate = eventDayIsolate.toSet().toList();
+                    /// data 중복 제거
+                    eventDayIsolate = eventDayIsolate.toSet().toList();
 
-                      /// map 생성
-                      for(int i = 0; i < eventDayIsolate.length; i++) {
-                        List<EventModel> temperatureModel = [];
-                        Map<String, List<EventModel>> temperatureMap = {};
-                        for(int j = 0; j < models.length; j++) {
-                          if(DateTime.parse(models.elementAt(j).eventDate!).day == eventDayIsolate.elementAt(i)) {
-                            temperatureModel.add(models.elementAt(j));
-                          }
+                    /// map 생성
+                    for(int i = 0; i < eventDayIsolate.length; i++) {
+                      List<EventModel> temperatureModel = [];
+                      Map<String, List<EventModel>> temperatureMap = {};
+                      for(int j = 0; j < models.length; j++) {
+                        if(DateTime.parse(models.elementAt(j).eventDate!).day == eventDayIsolate.elementAt(i)) {
+                          temperatureModel.add(models.elementAt(j));
                         }
-                        temperatureMap[eventDayIsolate.elementAt(i).toString()] = temperatureModel;
-
-                        /// 여기가 문제
-                        monthEventMap.add(temperatureMap); // List<Map>> attach!!
-                        // temperatureModel.clear();
-                        // temperatureMap.clear();
-                        context.read<CalendarBodyProvider>().eventModelCollectionChange(monthEventMap, false);
                       }
+                      temperatureMap[eventDayIsolate.elementAt(i).toString()] = temperatureModel;
 
-                      /// event load result
-                      if (kDebugMode) {
-                        // print('event load result : $monthEventMap');
-                        // print(monthEventMap.elementAt(0)['24']);
-                      }
+                      /// 여기가 문제
+                      monthEventMap.add(temperatureMap); // List<Map>> attach!!
+                      // temperatureModel.clear();
+                      // temperatureMap.clear();
+                      context.read<CalendarBodyProvider>().eventModelCollectionChange(monthEventMap, false);
                     }
 
+                    /// event load result
+                    if (kDebugMode) {
+                      // print('event load result : $monthEventMap');
+                      // print(monthEventMap.elementAt(0)['24']);
+                    }
+                  
                     // return Container(height: 30, width: 30, color: Colors.red);
                     return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -138,13 +130,13 @@ class _EventListState extends State<EventList> {
                   }
                 } else {
                   // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
 
               } else {
                 // return Center(child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
                 // return const SizedBox.shrink();
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             }
           )
@@ -185,8 +177,8 @@ class _EventListState extends State<EventList> {
   // }
 
   Widget EventHeader() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 26),
+    return const Padding(
+      padding: EdgeInsets.only(top: 10, bottom: 26),
       child: SizedBox(
         width: double.infinity,
         // child: Image.asset('assets/calendar/event_header_bar.png', width: 81, height: 4),
@@ -221,7 +213,7 @@ class _CalendarEventListState extends State<CalendarEventList> {
   Widget build(BuildContext context) {
 
     if(modelLength == 0) {
-      return Center(child: Text('no data..'));
+      return const Center(child: Text('no data..'));
     } else {
       /// 월 전체 이벤트 리스트
       return Expanded(
@@ -443,18 +435,18 @@ class _EventRowState extends State<EventRow> {
     }
 
     // null
-    if(model!.eventCategoryObject == null) {
+    if(model.eventCategoryObject == null) {
       categoryWidget = const SizedBox.shrink();
     } else {
-      if(model!.eventCategoryObject!.id == 1) {
+      if(model.eventCategoryObject!.id == 1) {
         categoryWidget = birthdayLabel;
-      } else if(model!.eventCategoryObject!.id == 2) {
+      } else if(model.eventCategoryObject!.id == 2) {
         categoryWidget = dateLabel;
-      } else if(model!.eventCategoryObject!.id == 3) {
+      } else if(model.eventCategoryObject!.id == 3) {
         categoryWidget = travelLabel;
-      } else if(model!.eventCategoryObject!.id == 4) {
+      } else if(model.eventCategoryObject!.id == 4) {
         categoryWidget = meetLabel;
-      } else if(model!.eventCategoryObject!.id == 5) {
+      } else if(model.eventCategoryObject!.id == 5) {
         categoryWidget = businessLabel;
       }
     }
@@ -486,7 +478,7 @@ class _EventRowState extends State<EventRow> {
           /// location + time range
           Row(
             children: [
-              Text('$city', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
+              Text(city, style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
               // Text('${model.city!.title!} ${model.subCity!.title!}', style: TextStyle(fontSize: 12, color: StaticColor.grey60077, fontWeight: FontWeight.w400)),
               /// 시간 없음. 백 수정
             ],

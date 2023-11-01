@@ -1,15 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/event_model.dart';
-import 'package:sense_flutter_application/views/calendar/calendar_bottom_sheet.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_event_list.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
-import 'package:sense_flutter_application/views/feed_improve/feed_comment_field.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/calendar/calendar_home_model.dart';
@@ -176,7 +172,7 @@ class _CalendarBodyState extends State<CalendarBody> {
             );
           },
         ),
-        EventBottomSheet(),
+        const EventBottomSheet(),
         // ScheduleBottomSheet(bodyHeight: deviceHeight),
         const SizedBox(height: 8.0),
       ],
@@ -251,7 +247,7 @@ class _CalendarBodyState extends State<CalendarBody> {
       children: [
         SizedBox(width: 1.0.w),
         Container(
-          padding: EdgeInsets.only(top: 20.0),
+          padding: const EdgeInsets.only(top: 20.0),
           height: double.infinity,
           child: Container(
             width: 8.0.w,
@@ -268,7 +264,7 @@ class _CalendarBodyState extends State<CalendarBody> {
   }
 
   Widget selectBuilder(BuildContext context, DateTime dateTime, _, int type) {
-    var dayHighlightColor;
+    Color dayHighlightColor;
     if(type == 0) {
       dayHighlightColor = StaticColor.mainSoft;
     } else if(type == 1) {
@@ -276,7 +272,7 @@ class _CalendarBodyState extends State<CalendarBody> {
     } else if(type == 2) {
       dayHighlightColor = StaticColor.dayHighlightColor;
     }
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       // color: Colors.grey,
@@ -369,7 +365,7 @@ class _EventBottomSheetState extends State<EventBottomSheet> {
                       child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(width: double.infinity, height: 30.0.h),
+                            SizedBox(width: double.infinity, height: 30.0.h),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                               child: EventHeaderMenu()),
@@ -378,7 +374,7 @@ class _EventBottomSheetState extends State<EventBottomSheet> {
                     ),
                   ),
                   /// event header + event header menu => event list area
-                  EventList(),
+                  const EventList(),
                 ],
               ),
             );

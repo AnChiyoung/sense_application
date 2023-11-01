@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/feed/feed_model.dart';
-import 'package:sense_flutter_application/views/feed/feed_post_thumbnail.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 
 ///
@@ -133,7 +131,7 @@ class _FeedSearchTabState extends State<FeedSearchTab> {
               labelColor: Colors.black,
               indicatorColor: Colors.black,
               indicatorWeight: 3,
-              unselectedLabelColor: Color(0xFF555555),
+              unselectedLabelColor: const Color(0xFF555555),
               labelStyle: TextStyle(
                 fontSize: 16.0.sp,
                 fontWeight: FontWeight.w700,
@@ -142,7 +140,7 @@ class _FeedSearchTabState extends State<FeedSearchTab> {
                 fontSize: 16.0.sp,
                 fontWeight: FontWeight.w500,
               ),
-              tabs: [
+              tabs: const [
                 Tab(text: '게시글'),
                 Tab(text: '상품'),
               ],

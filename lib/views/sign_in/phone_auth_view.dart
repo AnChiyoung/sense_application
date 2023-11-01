@@ -2,15 +2,10 @@ import 'dart:async';
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:quiver/async.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
-import 'package:sense_flutter_application/public_widget/test_request.dart';
-import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_description_view.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart';
@@ -68,13 +63,13 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
   void startTimer() {
     startSeconds = 180;
     timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      minute = (startSeconds.toDouble() / 60.0).toInt().toString();
+      minute = startSeconds.toDouble() ~/ 60.0.toString();
       second = (startSeconds.toDouble() % 60.0).toInt() == 0
           ? '00'
           : ((startSeconds.toDouble() % 60.0).toInt() > 0 && (startSeconds.toDouble() % 60.0).toInt() < 10)
-              ? '0' + (startSeconds.toDouble() % 60.0).toInt().toString()
+              ? '0${(startSeconds.toDouble() % 60.0).toInt()}'
               : (startSeconds.toDouble() % 60.0).toInt().toString();
-      remainText = '유효시간 ' + minute + ':' + second;
+      remainText = '유효시간 $minute:$second';
       // print(remainText);
 
       if (startSeconds == 0) {
@@ -211,7 +206,7 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
                                     context.read<SigninProvider>().genderChangeState([false, false]);
                                     context.read<SigninProvider>().basicInfoButtonStateChange(false, '');
                                     /// 맨 처음 페이지로.
-                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const LoginScreen()), (route) => false);
                                     // Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen()));
 
                                   /// 인증번호 일치하지 않을 때,

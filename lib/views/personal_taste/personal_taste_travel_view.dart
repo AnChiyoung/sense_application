@@ -116,17 +116,17 @@ class _TravelContentState extends State<TravelContent> {
           int step = data.travelPresentStep;
 
           if(step == 1) {
-            return TravelStep01();
+            return const TravelStep01();
           } else if(step == 2) {
-            return TravelStep02();
+            return const TravelStep02();
           } else if(step == 3) {
             return TravelStep03(deviceWidth: widget.deviceWidth);
           } else if(step == 4) {
-            return TravelStep04();
+            return const TravelStep04();
           } else if(step == 5) {
-            return TravelStep05();
+            return const TravelStep05();
           } else if(step == 6) {
-            return TravelStep06();
+            return const TravelStep06();
           } else {
             return const SizedBox.shrink();
           }

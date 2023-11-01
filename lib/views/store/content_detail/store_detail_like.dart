@@ -41,8 +41,8 @@ class _StoreDetailLikeState extends State<StoreDetailLike> {
                     );
                   }),
                   child: !isLiked
-                      ? Image.asset('assets/store/product_like_button.png', width: 24.0.w, height: 24.0.h, key: ValueKey('UNLIKE'))
-                      : Image.asset('assets/store/product_like_button.png', width: 24.0.w, height: 24.0.h, color: Colors.red, key: ValueKey('LIKE'))
+                      ? Image.asset('assets/store/product_like_button.png', width: 24.0.w, height: 24.0.h, key: const ValueKey('UNLIKE'))
+                      : Image.asset('assets/store/product_like_button.png', width: 24.0.w, height: 24.0.h, color: Colors.red, key: const ValueKey('LIKE'))
                 );
               }
             )

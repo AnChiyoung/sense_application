@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/event/recommend_model.dart';
-import 'package:sense_flutter_application/views/event_info/event_info_provider.dart';
-import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 
 class RecommendRequestDialog extends StatefulWidget {
   const RecommendRequestDialog({super.key});

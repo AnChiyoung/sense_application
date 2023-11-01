@@ -30,13 +30,13 @@ class _RegionBottomSheetState extends State<RegionBottomSheet> {
             children: [
               Column(
                 children: [
-                  RegionHeaderBar(),
-                  RegionTitle(),
+                  const RegionHeaderBar(),
+                  const RegionTitle(),
                   SizedBox(height: 24.0.h),
-                  TargetSelect(),
+                  const TargetSelect(),
                 ],
               ),
-              Align(
+              const Align(
                 alignment: Alignment.bottomCenter,
                 child: RegionSubmitButton(),
               )
@@ -82,7 +82,7 @@ class _TargetSelectState extends State<TargetSelect> {
   void initState() {
     localRegionModel = regionDummyModel.map((e) => LocalRegionModel.fromJson(e)).toList();
     for (var element in localRegionModel!) {
-      cityName!.add(element.cityName.toString());
+      cityName.add(element.cityName.toString());
     }
     super.initState();
   }
@@ -92,7 +92,7 @@ class _TargetSelectState extends State<TargetSelect> {
 
     return Column(
       children: [
-        CityDropdown(cityName: cityName!),
+        CityDropdown(cityName: cityName),
         SubCityField(localRegionModel: localRegionModel!),
       ],
     );
@@ -117,7 +117,7 @@ class _RegionSubmitButtonState extends State<RegionSubmitButton> {
             regionListener();
           },
           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-          child: Column(
+          child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),

@@ -44,12 +44,11 @@ void main() async {
   // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
   await initializeDateFormatting();
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   /// android status bar set
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark
-      ),
+    const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
   );
 
   KakaoSdk.init(
@@ -61,33 +60,32 @@ void main() async {
   // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
   //     .then((_) => runApp(const MyApp()));
 
-  runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => LoginProvider()),
-          ChangeNotifierProvider(create: (_) => SigninProvider()),
-          ChangeNotifierProvider(create: (_) => HomeProvider()),
-          ChangeNotifierProvider(create: (_) => CalendarProvider()),
-          ChangeNotifierProvider(create: (_) => TermProvider()),
-          ChangeNotifierProvider(create: (_) => StepProvider()),
-          ChangeNotifierProvider(create: (_) => AddEventProvider()),
-          ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
-          ChangeNotifierProvider(create: (_) => FeedProvider()),
-          ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
-          ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
-          ChangeNotifierProvider(create: (_) => ContactProvider()),
-          ChangeNotifierProvider(create: (_) => MyPageProvider()),
-          ChangeNotifierProvider(create: (_) => TasteProvider()),
-          ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
-          ChangeNotifierProvider(create: (_) => EventFeedProvider()),
-          ChangeNotifierProvider(create: (_) => AnimationProvider()),
-          ChangeNotifierProvider(create: (_) => StoreProvider()),
-          ChangeNotifierProvider(create: (_) => CEProvider()),
-          ChangeNotifierProvider(create: (_) => EDProvider()),
-          // ChangeNotifierProvider(create: (_) => CEProvider()),
-          // 여기에 추가하시면 되여
-        ],
-        child: const MyApp(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ChangeNotifierProvider(create: (_) => SigninProvider()),
+      ChangeNotifierProvider(create: (_) => HomeProvider()),
+      ChangeNotifierProvider(create: (_) => CalendarProvider()),
+      ChangeNotifierProvider(create: (_) => TermProvider()),
+      ChangeNotifierProvider(create: (_) => StepProvider()),
+      ChangeNotifierProvider(create: (_) => AddEventProvider()),
+      ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
+      ChangeNotifierProvider(create: (_) => FeedProvider()),
+      ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
+      ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
+      ChangeNotifierProvider(create: (_) => ContactProvider()),
+      ChangeNotifierProvider(create: (_) => MyPageProvider()),
+      ChangeNotifierProvider(create: (_) => TasteProvider()),
+      ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
+      ChangeNotifierProvider(create: (_) => EventFeedProvider()),
+      ChangeNotifierProvider(create: (_) => AnimationProvider()),
+      ChangeNotifierProvider(create: (_) => StoreProvider()),
+      ChangeNotifierProvider(create: (_) => CEProvider()),
+      ChangeNotifierProvider(create: (_) => EDProvider()),
+      // ChangeNotifierProvider(create: (_) => CEProvider()),
+      // 여기에 추가하시면 되여
+    ],
+    child: const MyApp(),
   ));
 }
 
@@ -97,7 +95,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {

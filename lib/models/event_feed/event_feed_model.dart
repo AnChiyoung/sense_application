@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:sense_flutter_application/constants/api_path.dart';
@@ -34,7 +33,7 @@ class EventFeedRequest {
       logger.v('success to event list load');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       SenseLogger().debug(body.toString());
-      List<EventModel> models = body.isEmpty || body == null ? [] : body.map((e) => EventModel.fromPersonalJson(e)).toList();
+      List<EventModel> models = body.isEmpty ? [] : body.map((e) => EventModel.fromPersonalJson(e)).toList();
       return models;
     } else {
       logger.v('fail to event list load');

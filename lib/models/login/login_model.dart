@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
@@ -75,7 +74,7 @@ class UserInfoModel {
 
   UserInfoModel.fromJson(dynamic json) {
     id = json['id'] ?? '';
-    username = json['username'] ?? ('user-' + id.toString());
+    username = json['username'] ?? ('user-$id');
     joinToken = TokenModel.fromJson(json['token']);
     email = json['email'] ?? '';
     phone = json['phone'] ?? '';
@@ -100,7 +99,7 @@ class LoginRequest {
   );
 
   /// auto login resource
-  static FlutterSecureStorage storage = FlutterSecureStorage();
+  static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<UserInfoModel?> emailLoginReqeust(String email, String password) async {
 
@@ -118,7 +117,7 @@ class LoginRequest {
       final jsonResult = json.decode(response.body)['data'];
 
 
-      print("nnnnnnnnnn: ${jsonResult}");
+      print("nnnnnnnnnn: $jsonResult");
       UserInfoModel userInfoModel = UserInfoModel.fromJson(jsonResult);
       return userInfoModel;
     } else {

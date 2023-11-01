@@ -29,13 +29,13 @@ class _CreateEventCategoryBottomSheetViewState extends State<CreateEventCategory
             children: [
               Column(
                 children: [
-                  CreateEventBottomSheetHeaderBar(),
-                  CreateEventBottomSheetTitle(),
+                  const CreateEventBottomSheetHeaderBar(),
+                  const CreateEventBottomSheetTitle(),
                   SizedBox(height: 24.0.h),
-                  CategorySelect(),
+                  const CategorySelect(),
                 ],
               ),
-              Align(
+              const Align(
                 alignment: Alignment.bottomCenter,
                 child: CreateEventBottomSheetSubmitButton(),
               )
@@ -223,7 +223,7 @@ class _CreateEventBottomSheetSubmitButtonState extends State<CreateEventBottomSh
             categoryListener();
           },
           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-          child: Column(
+          child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),

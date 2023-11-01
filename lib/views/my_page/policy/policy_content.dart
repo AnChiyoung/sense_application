@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sense_flutter_application/constants/public_color.dart';
 
 class PolicyContent extends StatefulWidget {
   const PolicyContent({super.key});
@@ -23,7 +22,7 @@ class _PolicyContentState extends State<PolicyContent> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: SingleChildScrollView(child: Container(width: double.infinity,
+    return Expanded(child: SingleChildScrollView(child: SizedBox(width: double.infinity,
         child:
         FutureBuilder(
             future: rootBundle.loadString('assets/policy/policy01.md'),
@@ -42,7 +41,7 @@ class _PolicyContentState extends State<PolicyContent> with TickerProviderStateM
                             h1: TextStyle(fontSize: 20.0.sp, color: Colors.black, fontWeight: FontWeight.w700),
                             h3: TextStyle(fontSize: 16.0.sp, color: Colors.black, fontWeight: FontWeight.w600),
                             // h2: TextStyle(fontSize: 10, color: Colors.black, fontWeight: FontWeight.w400),
-                            blockquoteDecoration: BoxDecoration(
+                            blockquoteDecoration: const BoxDecoration(
                               color: Colors.grey,
                             ),
                           ),

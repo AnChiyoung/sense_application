@@ -66,7 +66,7 @@ class _MyMoreInfoState extends State<MyMoreInfo> {
                   //   alignment: Alignment.bottomCenter,
                   //   child: MyInfoUpdateButton(),
                   // ),
-                  Align(
+                  const Align(
                     alignment: Alignment.bottomCenter,
                     child: MyMoreInfoButton(),
                   ),

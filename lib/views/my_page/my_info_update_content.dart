@@ -78,7 +78,7 @@ class _MyInfoUpdateContentState extends State<MyInfoUpdateContent> with TickerPr
           child: TabBarView(
             controller: controller,
             children: [
-              BasicInfoField(),
+              const BasicInfoField(),
               MyMoreInfo(topPadding: widget.topPadding),
             ],
           ),
@@ -225,7 +225,7 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
                     ),
                   ),
                 ),
-                Align(
+                const Align(
                   alignment: Alignment.bottomCenter,
                   child: MyInfoUpdateButton(),
                 ),
@@ -618,7 +618,7 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
                   }
                   Navigator.of(context).pop();
                 },
-                child: Text('확인'),
+                child: const Text('확인'),
               ),
             ),
             SizedBox(

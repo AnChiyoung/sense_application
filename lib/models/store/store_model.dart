@@ -30,7 +30,7 @@ class StoreRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('상품 리스트 조회 성공');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      List<ProductModel> models = body.isEmpty || body == null ? [] : body.map((e) => ProductModel.fromJsonForList(e)).toList();
+      List<ProductModel> models = body.isEmpty ? [] : body.map((e) => ProductModel.fromJsonForList(e)).toList();
       print('aa : models');
       return models;
     } else {

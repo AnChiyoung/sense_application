@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/setting_screen.dart';
@@ -49,7 +48,7 @@ class _MyPageHeaderState extends State<MyPageHeader> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(25.0),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => SettingScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingScreen()));
                 },
                 child: Center(child: Image.asset('assets/my_page/setting.png', width: 24, height: 24)),
               ),

@@ -85,7 +85,7 @@ class _StoreDetailContentState extends State<StoreDetailContent> {
                         height: 8.0.h,
                         color: StaticColor.grey100F6,
                       ),
-                      ProductBasicInfo(),
+                      const ProductBasicInfo(),
                     ],
                   );
                   // return ProductWidgets(models: loadProductModels);
@@ -130,10 +130,10 @@ class _ProductImageState extends State<ProductImage> {
             // placeholder: (context, url) => Container(width: 30, height: 30, color: Colors.green),
             // errorWidget: (context, url, error) => const Center(child: Text("상품 이미지가 없습니다.")), // 디자인 필요
           )
-        : Container(
+        : SizedBox(
             width: double.infinity,
             height: 300.0.h,
-            child: Center(child: Text("상품 이미지가 없습니다")));
+            child: const Center(child: Text("상품 이미지가 없습니다")));
   }
 }
 
@@ -296,7 +296,7 @@ class _ProductBasicInfoState extends State<ProductBasicInfo> {
 
           moreView = data.productMoreView;
 
-          return moreView ? Container(
+          return moreView ? SizedBox(
             width: double.infinity,
             height: 500.0.h,
             child: Center(

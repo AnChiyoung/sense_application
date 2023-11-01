@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io' as Io;
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
@@ -50,7 +49,7 @@ class ContactProvider with ChangeNotifier {
   int get listCount => _listCount;
 
   /// from server, 연락처 섹션 별 카운트
-  List<int> _contactCount = [0, 0, 0, 0, 0];
+  final List<int> _contactCount = [0, 0, 0, 0, 0];
   List<int> get contactCount => _contactCount;
 
   ContactModel _contactModel = publicEmptyObject;
@@ -68,7 +67,7 @@ class ContactProvider with ChangeNotifier {
   XFile? _selectImage;
   XFile? get selectImage => _selectImage;
 
-  String _base64String = '';
+  final String _base64String = '';
   String get base64String => _base64String;
 
   String _searchText = '';

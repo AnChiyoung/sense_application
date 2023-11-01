@@ -1,8 +1,6 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/feed/comment_model.dart';
-import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 
 class FeedProvider with ChangeNotifier {
@@ -23,7 +21,7 @@ class FeedProvider with ChangeNotifier {
   Widget get lastCommentField => _lastCommentField;
 
   /// text editing contorller
-  TextEditingController _inputController = TextEditingController();
+  final TextEditingController _inputController = TextEditingController();
   TextEditingController get inputController => _inputController;
 
   /// feed bottom field change
@@ -116,7 +114,7 @@ class FeedProvider with ChangeNotifier {
 
   void recommentModeToCommentMode(int postId, String sort) async {
     _recommentMode = false;
-    _commentModels = await CommentRequest().commentRequest(postId, sort!);
+    _commentModels = await CommentRequest().commentRequest(postId, sort);
     _sortState = sort;
     _inputController.clear();
     notifyListeners();
@@ -191,15 +189,15 @@ class FeedProvider with ChangeNotifier {
   }
 
 
-  List<FeedTagModel> _feedTags = [];
+  final List<FeedTagModel> _feedTags = [];
   List<FeedTagModel> get feedTags => _feedTags;
 
-  int _selectedTagId = 0;
+  final int _selectedTagId = 0;
   int get selectedTagId => _selectedTagId;
 
   // List<FeedPostModel> _feedPosts = [];
   // List<FeedPostModel> get feedPosts => _feedPosts;
-  List<FeedPreviewModel> _feedPosts = [];
+  final List<FeedPreviewModel> _feedPosts = [];
   List<FeedPreviewModel> get feedPosts => _feedPosts;
 
   // Future<void> initializeFeed() async {

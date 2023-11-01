@@ -16,16 +16,16 @@ class _LoginDialog extends State<LoginDialog> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0)),
       //Dialog Main Title
-      title: Column(
-        children: const [
+      title: const Column(
+        children: [
           // Align(alignment: Alignment.centerLeft, child: Text("Sense TEAM")),
         ],
       ),
       //
-      content: Column(
+      content: const Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
             "이메일, 비밀번호를 확인해주세요.",
           ),

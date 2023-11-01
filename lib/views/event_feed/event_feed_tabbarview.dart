@@ -16,7 +16,7 @@ class _EventFeedTabBarViewState extends State<EventFeedTabBarView> {
   Widget build(BuildContext context) {
     return TabBarView(
       controller: widget.tabController,
-      children: [
+      children: const [
         EventFeedTotal(),
         EventFeedRecommend(),
         EventFeedReview(),

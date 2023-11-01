@@ -35,7 +35,7 @@ class _CreateEventFinishDialogState extends State<CreateEventFinishDialog> {
               // Navigator.push(context, MaterialPageRoute(builder: (_) => EventInfoScreen(visitCount: 0, recommendCount: 0)));
             },
             style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
-            child: Text('확인', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400)),
+            child: const Text('확인', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w400)),
           ),
         ),
       ),

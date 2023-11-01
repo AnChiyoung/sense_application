@@ -27,7 +27,7 @@ class _PasswordSearchScreenState extends State<PasswordSearchScreen> {
           child: SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-              child: Column(
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
@@ -37,7 +37,7 @@ class _PasswordSearchScreenState extends State<PasswordSearchScreen> {
                         PasswordSearchInfoInputField(),
                       ]
                   ),
-                  const Align(
+                  Align(
                       alignment: Alignment.bottomCenter,
                       child: PasswordSearchInfoInputButton()),
                 ],

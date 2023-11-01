@@ -26,17 +26,17 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
           child: SingleChildScrollView(
             child: SizedBox(
               height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-              child: Column(
+              child: const Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
-                      children: const [
+                      children: [
                         BasicInfoHeader(),
                         BasicInfoDescription(),
                         BasicInfoInputField(),
                       ],
                     ),
-                    const Align(
+                    Align(
                       alignment: Alignment.bottomCenter,
                       child: BasicInfoAuthButton())
                   ],

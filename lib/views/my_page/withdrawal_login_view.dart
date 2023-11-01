@@ -13,7 +13,7 @@ class WithdrawalLoginView extends StatefulWidget {
 class _WithdrawalLoginViewState extends State<WithdrawalLoginView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         WithdrawalEmailLoginView(),
         WithdrawalKakaoLoginView(),
@@ -92,7 +92,7 @@ class _WithdrawalEmailLoginViewState extends State<WithdrawalEmailLoginView> {
               borderRadius: BorderRadius.circular(4.0),
               child: InkWell(
                 onTap: () async {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => WithdrawalAgreeScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const WithdrawalAgreeScreen()));
                 },
                 borderRadius: BorderRadius.circular(4.0),
                 child: SizedBox(
@@ -125,7 +125,7 @@ class _WithdrawalKakaoLoginViewState extends State<WithdrawalKakaoLoginView> {
         borderRadius: BorderRadius.circular(4.0),
         child: InkWell(
           onTap: () async {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => WithdrawalAgreeScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const WithdrawalAgreeScreen()));
           },
           borderRadius: BorderRadius.circular(4.0), // inkwell effect's borderradius
           child: SizedBox(

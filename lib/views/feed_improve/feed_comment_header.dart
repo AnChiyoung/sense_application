@@ -50,7 +50,7 @@ class _CommentHeaderState extends State<CommentHeader> {
                       const SizedBox(width: 4),
                       GestureDetector(
                           onTap: () {
-                            context.read<FeedProvider>().commentModelRequest(widget.postId!, '-point');
+                            context.read<FeedProvider>().commentModelRequest(widget.postId, '-point');
                           },
                           child: Text('인기순',
                               style: TextStyle(
@@ -62,7 +62,7 @@ class _CommentHeaderState extends State<CommentHeader> {
                       const SizedBox(width: 4),
                       GestureDetector(
                           onTap: () {
-                            context.read<FeedProvider>().commentModelRequest(widget.postId!, '-created');
+                            context.read<FeedProvider>().commentModelRequest(widget.postId, '-created');
                           },
                           child: Text('최신순',
                               style: TextStyle(

@@ -29,7 +29,7 @@ class _SettingContentState extends State<SettingContent> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingEditProfile(),
                 SettingMoreInfo(),
@@ -39,7 +39,7 @@ class _SettingContentState extends State<SettingContent> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingContactReload(),
               ],
@@ -47,7 +47,7 @@ class _SettingContentState extends State<SettingContent> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingPolicy(),
                 SettingAppVersion(),
@@ -57,7 +57,7 @@ class _SettingContentState extends State<SettingContent> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingLogout(),
                 SettingWithdrawal(),
@@ -140,7 +140,7 @@ class _SettingAlarmState extends State<SettingAlarm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingAlarmScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingAlarmScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -304,7 +304,7 @@ class SettingPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const PolicyScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -419,7 +419,7 @@ class _SettingLogoutState extends State<SettingLogout> {
     PresentUserInfo.profileImage = '';
     // Navigator.popUntil(context, (route) => route.isFirst);
     // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const LoginScreen()), (route) => false);
   }
 }
 
@@ -435,7 +435,7 @@ class _SettingWithdrawalState extends State<SettingWithdrawal> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => WithdrawalScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const WithdrawalScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),

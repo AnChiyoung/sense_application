@@ -21,7 +21,7 @@ class _SettingScreenState extends State<SettingScreen> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           top: true,

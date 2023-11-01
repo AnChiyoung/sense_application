@@ -2,22 +2,16 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_detail_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
-import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
-import 'package:sense_flutter_application/public_widget/show_loading.dart';
-import 'package:sense_flutter_application/views/feed/feed_comment_view.dart';
 import 'package:sense_flutter_application/views/feed/feed_flexible.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_bottom_field.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class FeedPostDetail extends StatefulWidget {
   final int postId;
@@ -252,7 +246,7 @@ class _PostDetailState extends State<PostDetail> {
                 eventPeriodLabel: '',
                 eventPeriod: '',),
               model!.content!.isEmpty ? const SizedBox.shrink()
-                  : Column(
+                  : const Column(
                       // children: contentsWidget
                       children: [
                         // Text(model!.content.toString()),
@@ -286,7 +280,7 @@ class _PostDetailState extends State<PostDetail> {
                 context.read<FeedProvider>().feedInfoInit();
                 Navigator.of(context).pop();
               },
-              child: Container(
+              child: SizedBox(
                 width: 50.0.w,
                 height: 50.0.h,
                 child: Stack(

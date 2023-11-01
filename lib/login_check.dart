@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 
 class LoginCheck extends StatefulWidget {
@@ -13,7 +12,7 @@ class LoginCheck extends StatefulWidget {
 
 class _LoginCheck extends State<LoginCheck> {
 
-  static final storage = FlutterSecureStorage();
+  static const storage = FlutterSecureStorage();
   dynamic userInfo = '';
 
   @override

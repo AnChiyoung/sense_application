@@ -3,14 +3,11 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
-import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
-import 'package:sense_flutter_application/public_widget/service_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
@@ -98,7 +95,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(24),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const MyPageScreen()));
                     },
                     child: Center(
                         child: Image.asset('assets/home/home_userprofile.png', width: 24.0.w, height: 24.0.h)),
@@ -517,7 +514,7 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
                   } else {
                     /// feed thumbnail preload
                     return FeedPostListPresenter(
-                      feedPosts: model!,
+                      feedPosts: model,
                     );
                   }
 
@@ -642,7 +639,7 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
                           icon: Image.asset('assets/home/add_event_button.png'),
                           iconSize: 66.0,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateEventScreen()));
                             // Navigator.push(context, MaterialPageRoute(builder: (_) => CreateEventScreen02()));
                           },
                         ),

@@ -4,7 +4,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hive/hive.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
-import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_screen.dart';
 
 class NativeSplash extends StatefulWidget {
   const NativeSplash({super.key});
@@ -34,11 +33,11 @@ class _NativeSplash extends State<NativeSplash> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       /// iOS status bar set
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: LoginScreen(),

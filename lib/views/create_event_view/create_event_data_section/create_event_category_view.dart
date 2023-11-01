@@ -30,7 +30,7 @@ class _CreateEventCategoryViewState extends State<CreateEventCategoryView> {
                   enableDrag: true,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return CreateEventCategoryBottomSheetView();
+                    return const CreateEventCategoryBottomSheetView();
                   }
               );
             },

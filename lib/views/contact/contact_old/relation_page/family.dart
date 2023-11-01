@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sense_flutter_application/models/contact/contact_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/screens/contact/contact_detail_screen.dart';
@@ -31,9 +30,9 @@ class _FamilyViewState extends State<FamilyView> {
             // ContactTabModel? resultModel = snapshot.data;
             // List<ContactModel>? familyModelList = resultModel!.contactModelList;
 
-            if(familyModelList!.isEmpty) {
-              return Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'));
-            } else if(familyModelList!.isNotEmpty) {
+            if(familyModelList.isEmpty) {
+              return const Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'));
+            } else if(familyModelList.isNotEmpty) {
               return FamilyList(contactListModel: familyModelList);
             }
 

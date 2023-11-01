@@ -9,10 +9,8 @@ import 'package:sense_flutter_application/public_widget/comment_subcomment_butto
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/report_dialog.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
-import 'package:sense_flutter_application/views/feed/feed_recomment_view.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_bottom_field.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_comment_header.dart';
-import 'package:sense_flutter_application/views/feed_improve/feed_comment_row.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_recomment_field.dart';
 import 'package:sense_flutter_application/views/feed_improve/feed_recomment_header.dart';
 
@@ -83,8 +81,8 @@ class _CommentViewState extends State<CommentView> {
                                   isRecommentMode == true
                                       ? Expanded(child: ParentCommentField(postId: widget.postId))
                                   // : Text(models.elementAt(0).content.toString()), // 뷰 재빌드 테스트용
-                                      : models.length == 0
-                                        ? Expanded(
+                                      : models.isEmpty
+                                        ? const Expanded(
                                             child: Center(child: Text('댓글이 없습니다.'))
                                           )
                                         : Expanded(
@@ -95,7 +93,7 @@ class _CommentViewState extends State<CommentView> {
                                               shrinkWrap: true,
                                               physics: const ClampingScrollPhysics(),
                                               scrollDirection: Axis.vertical,
-                                              itemCount: models!.length,
+                                              itemCount: models.length,
                                               itemBuilder: (BuildContext context, int index) {
                                                 return Material(
                                                     color: Colors.transparent,
@@ -103,10 +101,10 @@ class _CommentViewState extends State<CommentView> {
                                                         onTap: () {
                                                           /// 답글로 전환
                                                           context.read<FeedProvider>().recommentModeChange(
-                                                              true, index, models!.elementAt(index));
+                                                              true, index, models.elementAt(index));
                                                         },
                                                         // child: Text(models.elementAt(index).content.toString())));
-                                                        child: commentPersonalRow(models!.elementAt(index), index)));
+                                                        child: commentPersonalRow(models.elementAt(index), index)));
                                               },
                                             ),
                                           )
@@ -135,7 +133,7 @@ class _CommentViewState extends State<CommentView> {
   Widget commentPersonalRow(CommentResponseModel model, int index) {
 
     print('----');
-    print(model.isLiked.toString() + '/' + model.likeCount.toString());
+    print('${model.isLiked}/${model.likeCount}');
 
     String gap = commentGap(model.created!);
     bool active = false;
@@ -192,7 +190,7 @@ class _CommentViewState extends State<CommentView> {
                     ? const SizedBox.shrink()
                     : Padding(
                         padding: const EdgeInsets.only(left: 42),
-                        child: Text(model.content!, style: TextStyle(color: Colors.black)),
+                        child: Text(model.content!, style: const TextStyle(color: Colors.black)),
                       ),
                 /// personal comment like, subcomment field
                 Padding(
@@ -297,7 +295,7 @@ class _CommentViewState extends State<CommentView> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       showDialog(context: context, builder: (context) {
-                        return CommentDeleteDialog(postId: model!.postBottomInfo!.id, index: model!.id!);
+                        return CommentDeleteDialog(postId: model!.postBottomInfo!.id, index: model.id!);
                         // return Container(
                         //   color: Colors.transparent,
                         //   child: Container(
@@ -348,7 +346,7 @@ class _CommentViewState extends State<CommentView> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       showDialog(context: context, builder: (context) {
-                        return ReportDialog(index: index!);
+                        return ReportDialog(index: index);
                       });
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: StaticColor.errorBackgroundColor, elevation: 0.0),

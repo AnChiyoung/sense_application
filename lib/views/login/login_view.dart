@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
@@ -14,7 +12,6 @@ import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart'
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 import 'package:sense_flutter_application/public_widget/password_search_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/password_search_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:toast/toast.dart';
@@ -77,7 +74,7 @@ class _LoginFormViewState extends State<LoginFormView> {
   _isAutoLogin() async {
     String? a = await LoginRequest.storage.read(key: 'id');
     if(a != null) {
-      PresentUserInfo.id = int.parse(a!);
+      PresentUserInfo.id = int.parse(a);
       PresentUserInfo.username = (await LoginRequest.storage.read(key: 'username'))!;
       PresentUserInfo.profileImage = (await LoginRequest.storage.read(key: 'profileImage'))!;
       PresentUserInfo.loginToken = (await LoginRequest.storage.read(key: 'loginToken'))!;

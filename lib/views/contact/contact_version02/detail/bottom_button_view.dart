@@ -24,8 +24,8 @@ class BottomButtonView extends StatelessWidget {
           flex: 1,
           child: Container(
               height: 76, color: StaticColor.bottomButtonColor,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 18.0),
+              child: const Padding(
+                padding: EdgeInsets.only(bottom: 18.0),
                 child: Align(
                     alignment: Alignment.center,
                     child: Text('선물하기', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700))),

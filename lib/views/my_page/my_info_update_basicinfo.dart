@@ -10,6 +10,6 @@ class MyBasicInfo extends StatefulWidget {
 class _MyBasicInfoState extends State<MyBasicInfo> {
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return const Placeholder();
   }
 }

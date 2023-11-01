@@ -69,7 +69,7 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                     // widget.action!.call();
                     Navigator.of(context).pop();
                     CommentResponseModel deleteResponseModel = await CommentRequest().commentDeleteRequest(widget.index!);
-                    if(deleteResponseModel == CommentResponseModel() || deleteResponseModel == null) {
+                    if(deleteResponseModel == CommentResponseModel()) {
 
                     } else {
                       context.read<FeedProvider>().commentInputResult(
@@ -134,7 +134,7 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
                     // context.read<FeedProvider>().commentModelRequest(widget.postId!, context.read<FeedProvider>().sortState);
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
-                  child: Text('삭제하기', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
+                  child: const Text('삭제하기', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
                 ),
               ),
             ),

@@ -109,7 +109,7 @@ class _FeedBottomFieldState extends State<FeedBottomField> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        LikeButton(isLiked: likeState!, likeCount: likeCount!, feedId: feedModel!.id!),
+                        LikeButton(isLiked: likeState, likeCount: likeCount, feedId: feedModel!.id!),
                         Text(likeCount.toString(), style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
                         const SizedBox(width: 4),
                         IconRippleButton(
@@ -187,7 +187,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
                     color: StaticColor.grey100F6,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: TextFormField(
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       controller: controller,
                       autofocus: true,
                       cursorColor: Colors.black,
@@ -232,9 +232,9 @@ class _CommentInputFieldState extends State<CommentInputField> {
                         if (data.updateMode == false) {
                           /// 댓글상태 -> 비수정(추가)일때
 
-                          responseModel = await CommentRequest().commentWriteRequest(widget.postId!, controller.text);
+                          responseModel = await CommentRequest().commentWriteRequest(widget.postId, controller.text);
 
-                          if (responseModel == CommentResponseModel() || responseModel == null) {
+                          if (responseModel == CommentResponseModel()) {
                             /// write fail
                           } else {
                             /// write success
@@ -254,13 +254,13 @@ class _CommentInputFieldState extends State<CommentInputField> {
 
                           if (isRegedit == true) {
                             responseModel = await CommentRequest().commentUpdateRequest(selectModel.id!, controller.text);
-                            if (responseModel == CommentResponseModel() || responseModel == null) {
+                            if (responseModel == CommentResponseModel()) {
                               /// update fail
                             } else {
                               /// update success
                               controller.clear();
                               isRegedit == false;
-                              context.read<FeedProvider>().updateSuccess(widget.postId!, sortState);
+                              context.read<FeedProvider>().updateSuccess(widget.postId, sortState);
                             }
                           }
                         }
@@ -272,7 +272,7 @@ class _CommentInputFieldState extends State<CommentInputField> {
 
                           responseModel = await CommentRequest().recommentWriteRequest(data.selectCommentModel.id!, controller.text);
 
-                          if (responseModel == CommentResponseModel() || responseModel == null) {
+                          if (responseModel == CommentResponseModel()) {
                             /// write fail
                           } else {
                             /// write success
@@ -292,24 +292,24 @@ class _CommentInputFieldState extends State<CommentInputField> {
 
                             if(context.read<FeedProvider>().isRecommentOption == true) { /// 답글상태 -> 답글 수정
                               responseModel = await CommentRequest().commentUpdateRequest(childModel.childCommentId!, controller.text);
-                              if (responseModel == CommentResponseModel() || responseModel == null) {
+                              if (responseModel == CommentResponseModel()) {
                                 /// update fail
                               } else {
                                 /// update success
                                 controller.clear();
                                 isRegedit == false;
                                 context.read<FeedProvider>().isRecommentOptionInit(); /// 답글 옵션 선택 초기화
-                                context.read<FeedProvider>().updateSuccess(widget.postId!, sortState);
+                                context.read<FeedProvider>().updateSuccess(widget.postId, sortState);
                               }
                             } else if(context.read<FeedProvider>().isRecommentOption == false) { /// 답글상태 -> 댓글 수정
                               responseModel = await CommentRequest().commentUpdateRequest(selectModel.id!, controller.text);
-                              if (responseModel == CommentResponseModel() || responseModel == null) {
+                              if (responseModel == CommentResponseModel()) {
                                 /// update fail
                               } else {
                                 /// update success
                                 controller.clear();
                                 isRegedit == false;
-                                context.read<FeedProvider>().updateSuccess(widget.postId!, sortState);
+                                context.read<FeedProvider>().updateSuccess(widget.postId, sortState);
                               }
                             }
                           }

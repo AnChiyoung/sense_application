@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 
 class SigninProvider with ChangeNotifier {
   bool _allCheckState = false;
