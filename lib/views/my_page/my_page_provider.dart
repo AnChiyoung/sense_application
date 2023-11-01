@@ -226,9 +226,10 @@ class MyPageProvider with ChangeNotifier {
   }
 
   void birthdayInit(String birthday) {
+    if (birthday == '') return;
     _loadBirthday = birthday;
     _birthday = birthday;
-    List<String> result = birthday!.split('-');
+    List<String> result = birthday.split('-');
     _year = int.parse(result.elementAt(0));
     _month = int.parse(result.elementAt(1));
     _day = int.parse(result.elementAt(2));

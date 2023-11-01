@@ -22,7 +22,6 @@ class _EventFeedListState extends State<EventFeedList> {
   @override
   void initState() {
     modelList = widget.eventModelList;
-    print(modelList);
     super.initState();
   }
 

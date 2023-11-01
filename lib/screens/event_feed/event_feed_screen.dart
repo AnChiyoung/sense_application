@@ -28,7 +28,7 @@ class _EventFeedScreenState extends State<EventFeedScreen> with SingleTickerProv
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Column(

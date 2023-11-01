@@ -5,10 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/user/user_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
-import 'package:sense_flutter_application/views/my_page/my_info_update_basicinfo.dart';
 import 'package:sense_flutter_application/views/my_page/my_info_update_moreinfo.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 
@@ -36,7 +34,6 @@ class _MyInfoUpdateContentState extends State<MyInfoUpdateContent> with TickerPr
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.0.w),
           child: DefaultTabController(
