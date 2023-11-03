@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/constants/constants.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/user/user_model.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
@@ -27,7 +28,10 @@ class _MyMoreInfoState extends State<MyMoreInfo> {
                   child: Lottie.asset('assets/lottie/loading.json', width: 150, height: 150));
             } else if (snapshot.connectionState == ConnectionState.done) {
               UserModel userModel = UserModel();
-              if (context.read<MyPageProvider>().prevRoute == MyPagePrevRouteEnum.fromMyPage) {
+              bool fromMyPage =
+                  context.read<MyPageProvider>().prevRoute == MyPagePrevRouteEnum.fromMyPage;
+
+              if (fromMyPage) {
                 userModel = snapshot.data ?? UserModel();
               }
 
@@ -36,18 +40,20 @@ class _MyMoreInfoState extends State<MyMoreInfo> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                     child: Column(children: [
-                      SizedBox(height: 40.0.h),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('성별',
-                              style: TextStyle(
-                                  fontSize: 16.0.sp,
-                                  color: StaticColor.grey70055,
-                                  fontWeight: FontWeight.w700))),
-                      SizedBox(height: 8.0.h),
-                      MoreInfoGender(initializeGender: userModel.gender),
-                      // BasicInfoName(initializeName: userModel.username!),
-                      SizedBox(height: 24.0.h),
+                      if (fromMyPage) ...[
+                        SizedBox(height: 40.0.h),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('성별',
+                                style: TextStyle(
+                                    fontSize: 16.0.sp,
+                                    color: StaticColor.grey70055,
+                                    fontWeight: FontWeight.w700))),
+                        SizedBox(height: 8.0.h),
+                        MoreInfoGender(initializeGender: userModel.gender),
+                        // BasicInfoName(initializeName: userModel.username!),
+                        SizedBox(height: 24.0.h),
+                      ],
                       Align(
                           alignment: Alignment.centerLeft,
                           child: Text('현재상태',
@@ -312,24 +318,6 @@ class MoreInfoMBTI extends StatefulWidget {
 class _MoreInfoMBTIState extends State<MoreInfoMBTI> {
   String mbti = '';
   int mbtiOrder = -1;
-  List<String> mbtiList = [
-    'INTJ(전략가)',
-    'INTP(논리술사)',
-    'ENTJ(통솔자)',
-    'ENTP(변론가)',
-    'INFJ(옹호자)',
-    'INFP(중재자)',
-    'ENFJ(선도자)',
-    'ENFP(활동가)',
-    'ISTJ(현실주의자)',
-    'ISFJ(수호자)',
-    'ISTP(장인)',
-    'ISFP(모험가)',
-    'ESTJ(경영자)',
-    'ESFJ(집정관)',
-    'ESTP(사업가)',
-    'ESFP(연예인)'
-  ];
 
   @override
   void initState() {
@@ -337,8 +325,8 @@ class _MoreInfoMBTIState extends State<MoreInfoMBTI> {
     if (temp.isEmpty) {
       mbtiOrder = -1;
     } else {
-      for (int i = 0; i < mbtiList.length; i++) {
-        if (mbtiList.elementAt(i).contains(temp.toUpperCase())) {
+      for (int i = 0; i < Constants.mbtiTypes.length; i++) {
+        if (Constants.mbtiTypes.elementAt(i).contains(temp.toUpperCase())) {
           mbtiOrder = i;
         }
       }
@@ -354,7 +342,7 @@ class _MoreInfoMBTIState extends State<MoreInfoMBTI> {
       if (mbtiOrder == -1) {
         mbti = 'MBTI를 설정해 주세요';
       } else {
-        mbti = mbtiList.elementAt(mbtiOrder);
+        mbti = Constants.mbtiTypes.elementAt(mbtiOrder);
       }
 
       return Row(
@@ -362,36 +350,39 @@ class _MoreInfoMBTIState extends State<MoreInfoMBTI> {
           Flexible(
             flex: 1,
             child: Material(
-              color: Colors.transparent,
+              color: StaticColor.grey100F6,
+              borderRadius: BorderRadius.circular(4.0),
               child: InkWell(
                 onTap: () {
                   showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.white,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
+                    context: context,
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.0),
+                        topRight: Radius.circular(16.0),
                       ),
-                      builder: (BuildContext context) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height - (widget.topPadding ?? 0),
-                          child: const MBTIview(),
-                        );
-                      });
+                    ),
+                    builder: (context) {
+                      return SizedBox(
+                        height: 460.0.h,
+                        child: const MBTIview(),
+                      );
+                    },
+                  );
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 10.0.h, horizontal: 16.0.w),
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: StaticColor.grey100F6,
-                    borderRadius: BorderRadius.circular(4.0),
+                  child: Text(
+                    mbti,
+                    style: TextStyle(
+                      fontSize: 14.0.sp,
+                      color: mbtiOrder == -1 ? StaticColor.grey400BB : StaticColor.grey70055,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  child: Text(mbti,
-                      style: TextStyle(
-                          fontSize: 14.0.sp,
-                          color: mbtiOrder == -1 ? StaticColor.grey400BB : StaticColor.grey70055,
-                          fontWeight: FontWeight.w500)),
                 ),
               ),
             ),
@@ -514,6 +505,44 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
   //   }
   // }
 
+  void skipAdditionalInfo() {
+    UserRequest().userAdditionalInfoUpdate();
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          initPage: 0,
+        ),
+      ),
+      (route) => false,
+    );
+  }
+
+  void saveOnMypage() {
+    UserRequest().userMoreInfoUpdate(context).then((isUpdated) {
+      if (isUpdated) {
+        context.read<MyPageProvider>().updateInfoInit();
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
+  void saveOnFirstLogin() {
+    UserRequest().userAdditionalInfoUpdate();
+    UserRequest().userMoreInfoUpdate(context).then((isUpdated) {
+      if (isUpdated) {
+        context.read<MyPageProvider>().updateInfoInit();
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(
+              initPage: 0,
+            ),
+          ),
+          (route) => false,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MyPageProvider>(builder: (context, data, child) {
@@ -524,14 +553,14 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
         width: double.infinity,
         height: 76.0.h,
         child: prevRoute == MyPagePrevRouteEnum.fromMyPage
-            ? saveButton(state, prevRoute)
+            ? primaryButton(state: state, onPressed: saveOnMypage)
             : Row(
                 children: [
                   Expanded(
-                    child: skipButton(),
+                    child: defaultButton(onPressed: skipAdditionalInfo),
                   ),
                   Expanded(
-                    child: saveButton(state, prevRoute),
+                    child: primaryButton(state: state, onPressed: saveOnFirstLogin),
                   ),
                 ],
               ),
@@ -539,20 +568,9 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
     });
   }
 
-  Widget skipButton() {
-    void onPressedSaveButton() {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(
-            initPage: 0,
-          ),
-        ),
-        (route) => false,
-      );
-    }
-
+  Widget defaultButton({required void Function() onPressed}) {
     return ElevatedButton(
-      onPressed: onPressedSaveButton,
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: StaticColor.grey100F6,
         shape: RoundedRectangleBorder(
@@ -630,6 +648,36 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
       ),
     );
   }
+
+  Widget primaryButton({bool? state, void Function()? onPressed}) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: state == true ? StaticColor.mainSoft : StaticColor.grey400BB,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 56,
+            child: Center(
+              child: Text(
+                '저장하기',
+                style: TextStyle(
+                  fontSize: 16.0.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class MBTIview extends StatefulWidget {
@@ -643,32 +691,14 @@ class MBTIview extends StatefulWidget {
 class _MBTIviewState extends State<MBTIview> {
   int mbtiOrder = -1;
   List<Widget> mbtiWidgets = [];
-  List<String> mbtiList = [
-    'INTJ(전략가)',
-    'INTP(논리술사)',
-    'ENTJ(통솔자)',
-    'ENTP(변론가)',
-    'INFJ(옹호자)',
-    'INFP(중재자)',
-    'ENFJ(선도자)',
-    'ENFP(활동가)',
-    'ISTJ(현실주의자)',
-    'ISFJ(수호자)',
-    'ISTP(장인)',
-    'ISFP(모험가)',
-    'ESTJ(경영자)',
-    'ESFJ(집정관)',
-    'ESTP(사업가)',
-    'ESFP(연예인)'
-  ];
 
   @override
   void initState() {
     String temp = widget.mbti ?? '';
     if (temp.isEmpty) {
     } else {
-      for (int i = 0; i < mbtiList.length; i++) {
-        if (mbtiList.elementAt(i).contains(temp.toUpperCase())) {
+      for (int i = 0; i < Constants.mbtiTypes.length; i++) {
+        if (Constants.mbtiTypes.elementAt(i).contains(temp.toUpperCase())) {
           mbtiOrder = i;
         }
       }
@@ -681,8 +711,8 @@ class _MBTIviewState extends State<MBTIview> {
   Widget build(BuildContext context) {
     return Consumer<MyPageProvider>(builder: (context, data, child) {
       mbtiWidgets.clear();
-      for (int i = 0; i < mbtiList.length; i++) {
-        mbtiWidgets.add(mbtiSelector(data.mbti, mbtiList.elementAt(i), i));
+      for (int i = 0; i < Constants.mbtiTypes.length; i++) {
+        mbtiWidgets.add(mbtiSelector(data.mbti, Constants.mbtiTypes.elementAt(i), i));
       }
 
       // ScrollConfiguration(

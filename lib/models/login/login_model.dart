@@ -10,11 +10,11 @@ class PresentUserInfo {
   static int id = 0;
   static String username = '';
   static String profileImage = '';
+  // @deprecated 예정
   static String loginToken = '';
 }
 
 class UserInfoRequest {
-
   /// logger setting
   var logger = Logger(
     printer: PrettyPrinter(
@@ -26,15 +26,14 @@ class UserInfoRequest {
 
   /// user info request
   Future<UserInfoModel> userInfoRequest(int requestId) async {
-
-    logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
+    // logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
 
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/$requestId'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = json.decode(response.body)['data'];
       UserInfoModel userInfoModel = UserInfoModel.fromJson(jsonResult);
       return userInfoModel;
@@ -88,7 +87,6 @@ class UserInfoModel {
 }
 
 class LoginRequest {
-
   /// logger setting
   var logger = Logger(
     printer: PrettyPrinter(
@@ -101,8 +99,7 @@ class LoginRequest {
   /// auto login resource
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  Future<UserInfoModel?> emailLoginReqeust(String email, String password) async {
-
+  Future<UserInfoModel?> emailLoginRequest(String email, String password) async {
     logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
 
     Map<String, dynamic> loginBody = LoginRequestModel(id: email, password: password).toJson();
@@ -113,9 +110,8 @@ class LoginRequest {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = json.decode(response.body)['data'];
-
 
       print("nnnnnnnnnn: $jsonResult");
       UserInfoModel userInfoModel = UserInfoModel.fromJson(jsonResult);
@@ -136,7 +132,7 @@ class LoginRequestModel {
   });
 
   Map<String, dynamic> toJson() => {
-    'email': id,
-    'password': password,
-  };
+        'email': id,
+        'password': password,
+      };
 }

@@ -11,7 +11,6 @@ import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.d
 import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart';
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 import 'package:sense_flutter_application/public_widget/password_search_guide_dialog.dart';
-import 'package:sense_flutter_application/routes/additional_info/additional_info_screen.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
@@ -65,33 +64,6 @@ class _LoginFormViewState extends State<LoginFormView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _isAutoLogin();
-    });
-  }
-
-  _isAutoLogin() async {
-    String? a = await LoginRequest.storage.read(key: 'id');
-    if (a != null) {
-      PresentUserInfo.id = int.parse(a);
-      PresentUserInfo.username = (await LoginRequest.storage.read(key: 'username'))!;
-      PresentUserInfo.profileImage = (await LoginRequest.storage.read(key: 'profileImage'))!;
-      PresentUserInfo.loginToken = (await LoginRequest.storage.read(key: 'loginToken'))!;
-      final SharedPreferences pref = await SharedPreferences.getInstance();
-
-      if (!context.mounted) return;
-
-      if (pref.getBool('is_first_login') == true) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)));
-      } else {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const AdditionalInfoScreen()));
-        pref.setBool('is_first_login', true);
-      }
-    } else {
-      if (kDebugMode) {
-        print('auto login disabled. when login, set plz.');
-      }
-    }
   }
 
   @override
@@ -167,9 +139,10 @@ class _LoginFormViewState extends State<LoginFormView> {
                   FocusManager.instance.primaryFocus!.unfocus();
 
                   UserInfoModel? userInfoModel;
-                  userInfoModel = await LoginRequest().emailLoginReqeust(
-                      emailFieldController.text.toString(),
-                      passwordFieldController.text.toString());
+                  userInfoModel = await LoginRequest().emailLoginRequest(
+                    emailFieldController.text.toString(),
+                    passwordFieldController.text.toString(),
+                  );
                   if (userInfoModel == null) {
                     /// snackbar version
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -212,43 +185,45 @@ class _LoginFormViewState extends State<LoginFormView> {
                       ),
                     );
                   } else {
-                    autoLoginState == true
-                        ? {
-                            await LoginRequest.storage
-                                .write(key: 'id', value: userInfoModel.id.toString()),
-                            await LoginRequest.storage.write(
-                                key: 'username',
-                                value: userInfoModel.username ?? '${userInfoModel.id}user'),
-                            await LoginRequest.storage.write(
-                                key: 'profileImage',
-                                value: userInfoModel.profileImageUrl.toString()),
-                            await LoginRequest.storage.write(
-                                key: 'loginToken',
-                                value: userInfoModel.joinToken!.accessToken.toString()),
-                          }
-                        : {};
+                    SharedPreferences.getInstance().then(
+                      (sharedPref) => sharedPref.setBool(
+                        'is_auto_login',
+                        context.read<LoginProvider>().autoLoginState,
+                      ),
+                    );
+                    await LoginRequest.storage.write(
+                      key: 'loginToken',
+                      value: userInfoModel.joinToken!.accessToken.toString(),
+                    );
                     PresentUserInfo.id = userInfoModel.id!;
-                    PresentUserInfo.username = userInfoModel.username ?? '${userInfoModel.id}user';
+                    PresentUserInfo.username = userInfoModel.username ?? '';
                     PresentUserInfo.profileImage = userInfoModel.profileImageUrl!;
                     PresentUserInfo.loginToken = userInfoModel.joinToken!.accessToken!;
 
                     /// text form field clear
                     emailFieldController.clear();
                     passwordFieldController.clear();
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => HomeScreen(initPage: 0),
+                      ),
+                    );
                   }
                 },
                 borderRadius: BorderRadius.circular(4.0),
                 child: SizedBox(
                   height: 50.0.h,
                   child: Center(
-                      child: Text('로그인',
-                          style: TextStyle(
-                              fontSize: 14.0.sp,
-                              color: Colors.white,
-                              letterSpacing: -0.22,
-                              fontWeight: FontWeight.w600))),
+                    child: Text(
+                      '로그인',
+                      style: TextStyle(
+                        fontSize: 14.0.sp,
+                        color: Colors.white,
+                        letterSpacing: -0.22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -263,7 +238,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10.0),
                     onTap: () {
-                      context.read<LoginProvider>().autoLoginBoxState(!autoLoginState);
+                      context.read<LoginProvider>().autoLoginBoxState(!autoLoginState, true);
                     },
                     child: SizedBox(
                       height: 35.0.h,
@@ -272,11 +247,14 @@ class _LoginFormViewState extends State<LoginFormView> {
                         children: [
                           Image.asset('assets/login/$autoLoginImage', width: 20, height: 20),
                           const SizedBox(width: 8),
-                          Text('자동로그인',
-                              style: TextStyle(
-                                  fontSize: 12.0.sp,
-                                  color: StaticColor.loginTextColor03,
-                                  fontWeight: FontWeight.w500)),
+                          Text(
+                            '자동로그인',
+                            style: TextStyle(
+                              fontSize: 12.0.sp,
+                              color: StaticColor.loginTextColor03,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -289,21 +267,26 @@ class _LoginFormViewState extends State<LoginFormView> {
                       onTap: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (_) => PasswordSearchScreen()));
                         showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              return const PasswordSearchGuideDialog();
-                            });
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return const PasswordSearchGuideDialog();
+                          },
+                        );
                       },
                       child: SizedBox(
                         height: 35,
                         child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('비밀번호 찾기',
-                                style: TextStyle(
-                                    fontSize: 12.0.sp,
-                                    color: StaticColor.loginTextColor01,
-                                    fontWeight: FontWeight.w500))),
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '비밀번호 찾기',
+                            style: TextStyle(
+                              fontSize: 12.0.sp,
+                              color: StaticColor.loginTextColor01,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                       )),
                 )
               ],
@@ -372,74 +355,54 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
     bool isInstalled = await isKakaoTalkInstalled();
     KakaoUserModel? userModel = KakaoUserModel();
     AccessTokenResponseModel tokenModel = AccessTokenResponseModel();
-    UserInfoModel? userInfoModel = UserInfoModel();
+    // UserInfoModel? userInfoModel = UserInfoModel();
 
     /// auth code get
     OAuthToken? token;
 
     /// get key hash 20230812 bug fix
-    print('release key : ${await KakaoSdk.origin}');
+    // print('release key : ${await KakaoSdk.origin}');
+    token = isInstalled
+        ? await UserApi.instance.loginWithKakaoTalk()
+        : await UserApi.instance.loginWithKakaoAccount();
 
-    if (isInstalled == true) {
-      try {
-        token = await UserApi.instance.loginWithKakaoTalk();
-        // token = await UserApi.instance.loginWithKakaoAccount();
-        token == null
-            ? print('kakao token is empty')
-            : {
-                userModel = await KakaoUserInfoModel().getUserInfo(token),
-                tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-                if (tokenModel.isSignUp == false)
-                  {
-                    KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
-                  }
-                else
-                  {
-                    if (tokenModel.isSignUp == true)
-                      {
-                        SenseLogger().debug('login success'),
-                        PresentUserInfo.id = tokenModel.id!,
-                        PresentUserInfo.username = tokenModel.username!,
-                        PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
-                        PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
+    try {
+      userModel = await KakaoUserInfoModel().getUserInfo(token);
+      tokenModel = await SigninCheckModel().tokenLoginRequest(token);
+      if (tokenModel.isSignUp == true) {
+        SharedPreferences.getInstance().then(
+          (sharedPref) => sharedPref.setBool(
+            'is_auto_login',
+            context.read<LoginProvider>().autoLoginState,
+          ),
+        );
+        await LoginRequest.storage.write(
+          key: 'loginToken',
+          value: tokenModel.joinToken!.accessToken.toString(),
+        );
 
-                        // move to home
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)),
-                            (route) => false),
-                      }
-                  }
-              };
-      } catch (error) {
-        rethrow;
+        PresentUserInfo.id = tokenModel.id!;
+        PresentUserInfo.username = tokenModel.username ?? '';
+        PresentUserInfo.profileImage = tokenModel.profileImageUrl ?? '';
+        PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken ?? '';
+
+        // move to home
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (_) => HomeScreen(initPage: 0),
+          ),
+          (route) => false,
+        );
+      } else {
+        KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken;
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => PolicyScreen(kakaoUserModel: userModel),
+          ),
+        );
       }
-    } else if (isInstalled == false) {
-      token = await UserApi.instance.loginWithKakaoAccount();
-      token == null
-          ? print('kakao token is empty')
-          : {
-              userModel = await KakaoUserInfoModel().getUserInfo(token),
-              tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-              if (tokenModel.isSignUp == false)
-                {
-                  KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
-                }
-              else if (tokenModel.isSignUp == true)
-                {
-                  SenseLogger().debug('login success'),
-                  PresentUserInfo.id = tokenModel.id!,
-                  PresentUserInfo.username = tokenModel.username ?? '${userInfoModel.id}user',
-                  PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
-                  PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0))),
-                }
-            };
+    } catch (error) {
+      rethrow;
     }
   }
 }
@@ -469,21 +432,26 @@ class _SigninViewState extends State<SigninView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RichText(
-                        text: TextSpan(
-                            style: TextStyle(
-                                fontSize: 14.0.sp,
-                                color: StaticColor.loginTextColor01,
-                                fontWeight: FontWeight.w500),
-                            children: [
+                      text: TextSpan(
+                        style: TextStyle(
+                          fontSize: 14.0.sp,
+                          color: StaticColor.loginTextColor01,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
                           const TextSpan(text: '아직 '),
                           TextSpan(
-                              text: 'SENSE',
-                              style: TextStyle(
-                                  fontSize: 16.0.sp,
-                                  color: StaticColor.mainSoft,
-                                  fontWeight: FontWeight.w500)),
+                            text: 'SENSE',
+                            style: TextStyle(
+                              fontSize: 16.0.sp,
+                              color: StaticColor.mainSoft,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const TextSpan(text: ' 회원이 아니신가요?')
-                        ]))
+                        ],
+                      ),
+                    ),
 
                     // Text('아직 ', style: TextStyle(fontSize: 16, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)),
                     // Align(
@@ -503,22 +471,27 @@ class _SigninViewState extends State<SigninView> {
                 child: InkWell(
                   onTap: () {
                     SigninModel.signinType = 1;
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => const PolicyScreen()));
                   },
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
-                      height: 48,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: StaticColor.mainSoft, width: 1),
-                        borderRadius: BorderRadius.circular(4.0),
+                    height: 48,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: StaticColor.mainSoft, width: 1),
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '회원가입',
+                        style: TextStyle(
+                          fontSize: 14.0.sp,
+                          color: StaticColor.mainSoft,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                      child: Center(
-                        child: Text('회원가입',
-                            style: TextStyle(
-                                fontSize: 14.0.sp,
-                                color: StaticColor.mainSoft,
-                                fontWeight: FontWeight.w500)),
-                      )),
+                    ),
+                  ),
                 ),
               ),
             ),

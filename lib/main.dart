@@ -38,17 +38,21 @@ import 'package:intl/date_symbol_data_local.dart';
 /// 375 * 812 (include safe area..)
 
 void main() async {
-  await Hive.initFlutter();
-
-  WidgetsFlutterBinding.ensureInitialized();
   // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
-  await initializeDateFormatting();
+
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // splash screen 설정. remove하기 전까지 남아있음
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // hive(=저장소) init
+  await Hive.initFlutter();
+  await initializeDateFormatting();
 
   /// android status bar set
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark),
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   );
 
   KakaoSdk.init(
@@ -56,9 +60,6 @@ void main() async {
     javaScriptAppKey: '90dd5b3346fbc9c76d27afbd3b2fc068',
     loggingEnabled: true,
   );
-  // // 앱 화면방향 세로 고정
-  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
-  //     .then((_) => runApp(const MyApp()));
 
   runApp(MultiProvider(
     providers: [

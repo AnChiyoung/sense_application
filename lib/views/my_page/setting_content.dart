@@ -431,12 +431,11 @@ class _SettingLogoutState extends State<SettingLogout> {
   }
 
   void logoutAction() {
-    LoginRequest.storage.delete(key: 'id');
-    LoginRequest.storage.delete(key: 'username');
-    LoginRequest.storage.delete(key: 'profileImage');
+    LoginRequest.storage.delete(key: 'loginToken');
     PresentUserInfo.id = -1;
     PresentUserInfo.username = '';
     PresentUserInfo.profileImage = '';
+    PresentUserInfo.loginToken = '';
     // Navigator.popUntil(context, (route) => route.isFirst);
     // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
     Navigator.pushAndRemoveUntil(

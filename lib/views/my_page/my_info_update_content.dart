@@ -288,8 +288,8 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 }
 
 class BasicInfoName extends StatefulWidget {
-  String initializeName;
-  BasicInfoName({super.key, required this.initializeName});
+  final String initializeName;
+  const BasicInfoName({super.key, required this.initializeName});
 
   @override
   State<BasicInfoName> createState() => _BasicInfoNameState();
@@ -360,8 +360,8 @@ class _BasicInfoNameState extends State<BasicInfoName> {
 }
 
 class BasicInfoBirthday extends StatefulWidget {
-  String? initializeBirthday;
-  BasicInfoBirthday({super.key, this.initializeBirthday});
+  final String? initializeBirthday;
+  const BasicInfoBirthday({super.key, this.initializeBirthday});
 
   @override
   State<BasicInfoBirthday> createState() => _BasicInfoBirthdayState();
@@ -395,11 +395,9 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
     monthFocus = FocusNode();
     dayFocus = FocusNode();
     String initBirthday = widget.initializeBirthday ?? '';
-    print(initBirthday);
     if (initBirthday.isEmpty) {
     } else {
       List<String> result = widget.initializeBirthday!.split('-');
-      print(result.elementAt(1));
       yearValue = int.parse(result.elementAt(0));
       monthValue = int.parse(result.elementAt(1));
       dayValue = int.parse(result.elementAt(2));

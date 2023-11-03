@@ -4,9 +4,9 @@ class LoginProvider with ChangeNotifier {
   bool _autoLoginState = false;
   bool get autoLoginState => _autoLoginState;
 
-  void autoLoginBoxState(bool state) {
+  void autoLoginBoxState(bool state, bool notify) {
     _autoLoginState = state;
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   bool _passwordSearchButtonState = false;
