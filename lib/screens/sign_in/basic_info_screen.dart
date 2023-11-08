@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/sign_in/basic_info_view.dart';
 
 class BasicInfoScreen extends StatefulWidget {
-  const BasicInfoScreen({Key? key}) : super(key: key);
+  const BasicInfoScreen({super.key});
 
   @override
   State<BasicInfoScreen> createState() => _BasicInfoScreenState();
@@ -27,19 +27,20 @@ class _BasicInfoScreenState extends State<BasicInfoScreen> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height - safeAreaTopPadding,
               child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        BasicInfoHeader(),
-                        BasicInfoDescription(),
-                        BasicInfoInputField(),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: BasicInfoAuthButton())
-                  ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      BasicInfoHeader(),
+                      BasicInfoDescription(),
+                      BasicInfoInputField(),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BasicInfoAuthButton(),
+                  )
+                ],
               ),
             ),
           ),

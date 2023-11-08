@@ -3,15 +3,14 @@ import 'package:sense_flutter_application/views/event_detail/drawer/event_detail
 import 'package:sense_flutter_application/views/event_detail/event_detail_view.dart';
 
 class EventDetailScreen extends StatefulWidget {
-  int eventId;
-  EventDetailScreen({super.key, required this.eventId});
+  final int eventId;
+  const EventDetailScreen({super.key, required this.eventId});
 
   @override
   State<EventDetailScreen> createState() => _EventDetailScreenState();
 }
 
-class _EventDetailScreenState extends State<EventDetailScreen> with SingleTickerProviderStateMixin{
-
+class _EventDetailScreenState extends State<EventDetailScreen> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,9 +25,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> with SingleTicker
           bottom: false,
           child: ScrollConfiguration(
             behavior: const ScrollBehavior().copyWith(overscroll: false),
-            child: SingleChildScrollView(
-              child: EventDetailView(eventId: widget.eventId)
-            ),
+            child: SingleChildScrollView(child: EventDetailView(eventId: widget.eventId)),
           ),
         ),
       ),

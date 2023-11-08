@@ -36,9 +36,6 @@ class UserRequest {
     } else {
       updateModel['profile_image'] = imageString;
     }
-    String name = context.read<MyPageProvider>().name;
-    SenseLogger().debug('update name!!: $name');
-    updateModel['username'] = name;
 
     String birthday = context.read<MyPageProvider>().birthday;
     updateModel['birthday'] = birthday;
@@ -155,6 +152,25 @@ class UserRequest {
       return true;
     } else {
       SenseLogger().error('fail to update user user additional info');
+      return false;
+    }
+  }
+
+  Future<bool> patchUserMe(Map<String, dynamic> payload) async {
+    final response = await http.patch(
+      Uri.parse('${ApiUrl.releaseUrl}/user/me'),
+      body: jsonEncode(payload),
+      headers: {
+        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      SenseLogger().debug('success to update user info');
+      return true;
+    } else {
+      SenseLogger().error('fail to update user info');
       return false;
     }
   }

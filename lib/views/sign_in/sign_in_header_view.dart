@@ -7,7 +7,7 @@ class SigninHeader extends StatefulWidget {
   bool? closeButton = false;
   Function? backButtonCallback;
 
-  SigninHeader({Key? key, this.backButton, this.title, this.closeButton, this.backButtonCallback}) : super(key: key);
+  SigninHeader({super.key, this.backButton, this.title, this.closeButton, this.backButtonCallback});
 
   @override
   State<SigninHeader> createState() => _SigninHeaderState();
@@ -16,7 +16,10 @@ class SigninHeader extends StatefulWidget {
 class _SigninHeaderState extends State<SigninHeader> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: widget.backButton == true ? backCallback : null, title: widget.title, closeCallback: widget.closeButton == true ? closeCallback : null);
+    return HeaderMenu(
+        backCallback: widget.backButton == true ? backCallback : null,
+        title: widget.title,
+        closeCallback: widget.closeButton == true ? closeCallback : null);
   }
 
   void backCallback() {
@@ -24,6 +27,5 @@ class _SigninHeaderState extends State<SigninHeader> {
     widget.backButtonCallback == null ? {} : widget.backButtonCallback!.call();
   }
 
-  void closeCallback() {
-  }
+  void closeCallback() {}
 }

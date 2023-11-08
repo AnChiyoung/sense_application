@@ -42,8 +42,8 @@ class PhoneAuthDescription extends StatelessWidget {
 }
 
 class PhoneAuthInputField extends StatefulWidget {
-  String phoneNumber;
-  PhoneAuthInputField({super.key, required this.phoneNumber});
+  final String phoneNumber;
+  const PhoneAuthInputField({super.key, required this.phoneNumber});
 
   @override
   State<PhoneAuthInputField> createState() => _PhoneAuthInputFieldState();
@@ -72,7 +72,6 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
               ? '0${(startSeconds.toDouble() % 60.0).toInt()}'
               : (startSeconds.toDouble() % 60.0).toInt().toString();
       remainText = '유효시간 $minute:$second';
-      // print(remainText);
 
       if (startSeconds == 0) {
         context.read<SigninProvider>().timeValidateChange(true);
@@ -88,10 +87,10 @@ class _PhoneAuthInputFieldState extends State<PhoneAuthInputField> {
 
   @override
   void initState() {
+    super.initState();
     sendFuture = PhoneAuthModel().phoneAuthRequest(widget.phoneNumber.toString());
     startTimer();
     authNumberController.text = '';
-    super.initState();
   }
 
   @override

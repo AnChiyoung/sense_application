@@ -26,11 +26,15 @@ class _MyInfoUpdateState extends State<MyInfoUpdate> {
           children: [
             const MyInfoUpdateHeader(),
             Expanded(
-              child: MyInfoUpdateContent(page: widget.page, topPadding: safeAreaTopPadding),
+              child: MyInfoUpdateContent(
+                page: widget.page,
+                topPadding: safeAreaTopPadding,
+              ),
             ),
           ],
         ),
       ),
+      // bottomNavigationBar: const MyInfoUpdateButton(),
     );
   }
 }

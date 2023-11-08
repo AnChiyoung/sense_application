@@ -57,21 +57,25 @@ class MyPageProfile extends StatefulWidget {
 class _MyPageProfileState extends State<MyPageProfile> {
   final ImagePicker _picker = ImagePicker();
   XFile? image;
+  late Future fetchUserInfo;
+
+  Future<UserModel> _fetchUserInfo() async {
+    return await UserRequest().userInfoRequest();
+  }
 
   @override
   void initState() {
-    context.read<MyPageProvider>().myPageNameInit(PresentUserInfo.username);
     super.initState();
+    fetchUserInfo = _fetchUserInfo();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MyPageProvider>(builder: (context, data, child) {
-      String initName = data.myPageName;
       XFile? selectImage = data.selectImage;
 
       return FutureBuilder(
-          future: UserRequest().userInfoRequest(),
+          future: fetchUserInfo,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -87,7 +91,7 @@ class _MyPageProfileState extends State<MyPageProfile> {
                       Row(children: [
                         UserProfileImage(size: 48.0, profileImageUrl: userModel.profileImageString),
                         SizedBox(width: 10.0.w),
-                        Text(userModel.username == null ? 'User${PresentUserInfo.id}' : initName,
+                        Text(userModel.username ?? '',
                             style: TextStyle(
                                 fontSize: 16.0.sp,
                                 color: StaticColor.grey70055,

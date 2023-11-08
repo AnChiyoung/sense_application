@@ -12,7 +12,7 @@ import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_validate.dart';
 
 class EmailHeader extends StatefulWidget {
-  const EmailHeader({Key? key}) : super(key: key);
+  const EmailHeader({super.key});
 
   @override
   State<EmailHeader> createState() => _EmailHeaderState();
@@ -21,7 +21,8 @@ class EmailHeader extends StatefulWidget {
 class _EmailHeaderState extends State<EmailHeader> {
   @override
   Widget build(BuildContext context) {
-    return SigninHeader(backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback);
+    return SigninHeader(
+        backButton: true, title: '', closeButton: false, backButtonCallback: backButtonCallback);
   }
 
   void backButtonCallback() {
@@ -30,27 +31,25 @@ class _EmailHeaderState extends State<EmailHeader> {
 }
 
 class EmailDescription extends StatelessWidget {
-  const EmailDescription({Key? key}) : super(key: key);
+  const EmailDescription({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 41.0.h, bottom: 25.0.h),
-        child: ContentDescription(presentPage: 2, totalPage: 3, description: '로그인 정보를\n입력해 주세요')
-    );
+        child: ContentDescription(presentPage: 2, totalPage: 3, description: '로그인 정보를\n입력해 주세요'));
   }
 }
 
 class EmailPasswordInputField extends StatefulWidget {
   KakaoUserModel? presetInfo;
-  EmailPasswordInputField({Key? key, this.presetInfo}) : super(key: key);
+  EmailPasswordInputField({super.key, this.presetInfo});
 
   @override
   State<EmailPasswordInputField> createState() => _EmailPasswordInputFieldState();
 }
 
 class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
-
   late TextEditingController emailInputController;
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordReinputController = TextEditingController();
@@ -67,16 +66,14 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
 
   @override
   void initState() {
+    super.initState();
     kakaoUserModel = widget.presetInfo;
-    print('email??????? : ${kakaoUserModel?.email}');
     String email = kakaoUserModel?.email ?? '';
     emailInputController = TextEditingController(text: email);
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Form(
       key: formKey,
       child: Padding(
@@ -84,120 +81,130 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
         child: Column(
           children: [
             TextFormField(
-              controller: emailInputController,
-              autofocus: true,
-              focusNode: emailFocusNode,
-              readOnly: kakaoUserModel?.email == null ? false : true,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.always,
-              maxLines: 1,
-              textAlignVertical: TextAlignVertical.center,
-              style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
-                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
-                filled: true,
-                fillColor: StaticColor.loginInputBoxColor,
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
-                alignLabelWithHint: false,
-                labelText: '이메일 주소',
-                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                hintText: '이메일 주소를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                border: InputBorder.none,
-              ),
-              validator: (value) {
-                if(value!.isNotEmpty) {
-                  if(SigninValidate().emailValidate(value) == false) {
-                    emailState = false;
-                    return '이메일 형식을 확인해 주세요';
+                controller: emailInputController,
+                autofocus: true,
+                focusNode: emailFocusNode,
+                readOnly: kakaoUserModel?.email == null ? false : true,
+                textInputAction: TextInputAction.next,
+                autovalidateMode: AutovalidateMode.always,
+                maxLines: 1,
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                  filled: true,
+                  fillColor: StaticColor.loginInputBoxColor,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 20.0.h),
+                  alignLabelWithHint: false,
+                  labelText: '이메일 주소',
+                  labelStyle: TextStyle(
+                      fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                  hintText: '이메일 주소를 입력해 주세요',
+                  hintStyle: TextStyle(
+                      fontSize: 16.0.sp,
+                      color: StaticColor.loginHintTextColor,
+                      fontWeight: FontWeight.w400),
+                  border: InputBorder.none,
+                ),
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    if (SigninValidate().emailValidate(value) == false) {
+                      emailState = false;
+                      return '이메일 형식을 확인해 주세요';
+                    } else {
+                      emailState = true;
+                      return null;
+                      // emailCheck(value.toString()).then((value) {
+                      //   if(value == true) {
+                      //     emailState = false;
+                      //     return '이미 가입된 이메일입니다';
+                      //   } else {
+                      //     emailState = true;
+                      //     return null;
+                      //   }
+                      // });
+                    }
                   } else {
-                    emailState = true;
+                    emailState = false;
                     return null;
-                    // emailCheck(value.toString()).then((value) {
-                    //   if(value == true) {
-                    //     emailState = false;
-                    //     return '이미 가입된 이메일입니다';
-                    //   } else {
-                    //     emailState = true;
-                    //     return null;
-                    //   }
-                    // });
                   }
-                } else {
-                  emailState = false;
-                  return null;
-                }
-              },
-              onFieldSubmitted: (f) {
-                FocusScope.of(context).requestFocus(passwordFocusNode);
-              },
-              onChanged: (_) {
-                /// data input
+                },
+                onFieldSubmitted: (f) {
+                  FocusScope.of(context).requestFocus(passwordFocusNode);
+                },
+                onChanged: (_) {
+                  /// data input
 
-                SigninModel.email = emailInputController.text;
+                  SigninModel.email = emailInputController.text;
 
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  emailState && passwordState && passwordRepeatState == true
-                      ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
-                      : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
-                });
-              }
-            ),
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    emailState && passwordState && passwordRepeatState == true
+                        ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
+                        : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                  });
+                }),
             const SizedBox(height: 8),
             TextFormField(
-              controller: passwordController,
-              focusNode: passwordFocusNode,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.always,
-              obscureText: true,
-              maxLines: 1,
-              maxLength: 16,
-              textAlignVertical: TextAlignVertical.center,
-              style: const TextStyle(color: Colors.black),
-              decoration: InputDecoration(
-                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
-                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
-                filled: true,
-                fillColor: StaticColor.loginInputBoxColor,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                alignLabelWithHint: false,
-                counterText: '',
-                labelText: '비밀번호',
-                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                hintText: '비밀번호를 입력해 주세요',
-                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
-                border: InputBorder.none,
-              ),
-              validator: (value) {
-                if(value!.isNotEmpty) {
-                  if(SigninValidate().passwordValidate(value) == false) {
-                    passwordState = false;
-                    return '영문 소문자, 숫자 포함 6~16글자로 입력해 주세요';
+                controller: passwordController,
+                focusNode: passwordFocusNode,
+                textInputAction: TextInputAction.next,
+                autovalidateMode: AutovalidateMode.always,
+                obscureText: true,
+                maxLines: 1,
+                maxLength: 16,
+                textAlignVertical: TextAlignVertical.center,
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                  filled: true,
+                  fillColor: StaticColor.loginInputBoxColor,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  alignLabelWithHint: false,
+                  counterText: '',
+                  labelText: '비밀번호',
+                  labelStyle: TextStyle(
+                      fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                  hintText: '비밀번호를 입력해 주세요',
+                  hintStyle: TextStyle(
+                      fontSize: 16.0.sp,
+                      color: StaticColor.loginHintTextColor,
+                      fontWeight: FontWeight.w400),
+                  border: InputBorder.none,
+                ),
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    if (SigninValidate().passwordValidate(value) == false) {
+                      passwordState = false;
+                      return '영문 소문자, 숫자 포함 6~16글자로 입력해 주세요';
+                    } else {
+                      SigninModel.password = value;
+                      passwordState = true;
+                      return null;
+                    }
                   } else {
-                    SigninModel.password = value;
-                    passwordState = true;
+                    passwordState = false;
                     return null;
                   }
-                } else {
-                  passwordState = false;
-                  return null;
-                }
-              },
-              onFieldSubmitted: (f) {
-                FocusScope.of(context).requestFocus(passwordRepeatFocusNode);
-              },
-              onChanged: (_) {
-                /// data input
-                SigninModel.password = passwordController.text;
+                },
+                onFieldSubmitted: (f) {
+                  FocusScope.of(context).requestFocus(passwordRepeatFocusNode);
+                },
+                onChanged: (_) {
+                  /// data input
+                  SigninModel.password = passwordController.text;
 
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  emailState && passwordState && passwordRepeatState == true
-                      ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
-                      : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
-                });
-              }
-            ),
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    emailState && passwordState && passwordRepeatState == true
+                        ? context.read<SigninProvider>().emailPasswordButtonStateChange(true)
+                        : context.read<SigninProvider>().emailPasswordButtonStateChange(false);
+                  });
+                }),
             const SizedBox(height: 8),
             TextFormField(
               controller: passwordReinputController,
@@ -210,28 +217,31 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
               textAlignVertical: TextAlignVertical.center,
               style: const TextStyle(color: Colors.black),
               decoration: InputDecoration(
-                focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
-                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
+                errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: StaticColor.errorColor, width: 1)),
                 filled: true,
                 fillColor: StaticColor.loginInputBoxColor,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 alignLabelWithHint: false,
                 counterText: '',
                 labelText: '비밀번호 확인',
-                labelStyle: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
+                labelStyle: TextStyle(
+                    fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
                 hintText: '비밀번호를 확인해 주세요',
-                hintStyle: TextStyle(fontSize: 16.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                hintStyle: TextStyle(
+                    fontSize: 16.0.sp,
+                    color: StaticColor.loginHintTextColor,
+                    fontWeight: FontWeight.w400),
                 border: InputBorder.none,
               ),
               validator: (value) {
-                if(value!.isNotEmpty) {
-                  if(SigninModel.password != value) {
-                    print('password : ${SigninModel.password}');
-                    print('repeat password : $value');
+                if (value!.isNotEmpty) {
+                  if (SigninModel.password != value) {
                     passwordRepeatState = false;
                     return '비밀번호가 일치하지 않아요';
                   } else {
-                    // print(emailState.toString() + '\n' + passwordState.toString() + '\n' + passwordRepeatState.toString());
                     passwordRepeatState = true;
                     return null;
                   }
@@ -260,21 +270,19 @@ class _EmailPasswordInputFieldState extends State<EmailPasswordInputField> {
 }
 
 class EmailButton extends StatefulWidget {
-  const EmailButton({Key? key}) : super(key: key);
+  const EmailButton({super.key});
 
   @override
   State<EmailButton> createState() => _EmailButtonState();
 }
 
 class _EmailButtonState extends State<EmailButton> {
-
   Future backButtonAction(BuildContext context) async {
     // context.read<AddEventProvider>().dateSelectNextButtonReset();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final buttonState = context.watch<SigninProvider>().emailPasswordButtonState;
 
     return WillPopScope(
@@ -287,7 +295,10 @@ class _EmailButtonState extends State<EmailButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () async {
-              buttonState == true ? Navigator.push(context, MaterialPageRoute(builder: (_) => const BasicInfoScreen())) : {};
+              buttonState == true
+                  ? Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => const BasicInfoScreen()))
+                  : {};
             },
             style: ElevatedButton.styleFrom(
                 backgroundColor: buttonState == true
