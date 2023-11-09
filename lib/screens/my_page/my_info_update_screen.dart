@@ -19,6 +19,7 @@ class _MyInfoUpdateState extends State<MyInfoUpdate> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         top: true,
         bottom: false,

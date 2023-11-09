@@ -34,11 +34,24 @@ class NewMyPageProvider with ChangeNotifier {
   bool get authCodeFieldEnabled => _authCode.length > 3 && _isValidAuthCode == false;
   String _phoneAuthSuccessMessage = '';
   String get phoneAuthSuccessMessage => _phoneAuthSuccessMessage;
+  int? _year;
+  int? get year => _year;
+  int? _month;
+  int? get month => _month;
+  int? _day;
+  int? get day => _day;
 
-  void initUserMe(UserModel value, bool notify) {
-    _userMe = value;
-    _username = value.username ?? '';
-    _phone = value.phone ?? '';
+  void initUserMe(UserModel userModel, bool notify) {
+    _userMe = userModel;
+    _username = userModel.username ?? '';
+    _phone = userModel.phone ?? '';
+
+    if (userModel.birthday != null) {
+      List<String> result = (userModel.birthday ?? '').split('-');
+      _year = int.parse(result.elementAt(0));
+      _month = int.parse(result.elementAt(1));
+      _day = int.parse(result.elementAt(2));
+    }
 
     if (notify) notifyListeners();
   }
@@ -52,23 +65,19 @@ class NewMyPageProvider with ChangeNotifier {
     _isValidAuthCode = false;
     _phoneAuthErrorMessage = '';
     _phoneAuthSuccessMessage = '';
-  }
-
-  void updateUsername(String value) {
-    // username update 치는 거
-    UserRequest().patchUserMe({'username': value});
+    _year = null;
+    _month = null;
+    _day = null;
   }
 
   void onChangeUsername(String value, bool notify) {
     _username = value;
-    // disable 풀리는 로직
 
     if (notify) notifyListeners();
   }
 
   void onChangePhone(String value, bool notify) {
     _phone = value;
-    // disable 풀리는 로직
 
     if (notify) notifyListeners();
   }
@@ -112,6 +121,7 @@ class NewMyPageProvider with ChangeNotifier {
   String get remainingText => _isValidAuthCode == true ? '' : '유효시간 $_minute:$_second';
 
   void startTimer() {
+    resetTimer();
     int startSeconds = 180;
     _minute = '3';
     _second = '00';
@@ -149,6 +159,88 @@ class NewMyPageProvider with ChangeNotifier {
     _phoneAuthErrorMessage = '유효시간이 만료되었어요.';
     notifyListeners();
   }
+
+  void onChangeYear(String value, bool notify) {
+    if (value != '') {
+      _year = int.parse(value);
+    } else {
+      _year = null;
+    }
+    if (notify) notifyListeners();
+  }
+
+  void onChangeMonth(String value, bool notify) {
+    if (value != '') {
+      _month = int.parse(value);
+    } else {
+      _month = null;
+    }
+    if (notify) notifyListeners();
+  }
+
+  void onChangeDay(String value, bool notify) {
+    if (value != '') {
+      _day = int.parse(value);
+    } else {
+      _day = null;
+    }
+    if (notify) notifyListeners();
+  }
+
+  bool saveButtonDisabled() {
+    // 변동 여부 있는지 & validation 통과 했는지
+
+    if (userMe.username != _username) {}
+
+    if (_username == '') return true;
+    if (_phone == '') return true;
+    if (_phone != userMe.phone && _isValidAuthCode == false) return true;
+
+    // 원래 생일이 없었는데 생일을 입력했을 때
+    if (userMe.birthday == null) {
+      if ((_year == null && _month == null && _day == null) ||
+          (_year != null && _month != null && _day != null)) {
+        return true;
+      }
+    }
+
+    // 기존의 값과 일치할 때
+    if (userMe.username == _username && userMe.phone == _phone) {
+      if (userMe.birthday == null) {
+        if (_year == null && _month == null && _day == null) {
+          return true;
+        }
+      } else {
+        List<String> result = userMe.birthday!.split('-');
+        if (result.length > 2 &&
+            _year == int.parse(result.elementAt(0)) &&
+            _month == int.parse(result.elementAt(1)) &&
+            _day == int.parse(result.elementAt(2))) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  Future<bool> updateUserMe() async {
+    Map<String, dynamic> body = {};
+
+    if (_username != userMe.username) {
+      body['username'] = _username;
+    }
+
+    if (_phone != userMe.phone) {
+      body['phone'] = _phone;
+    }
+
+    if (_year != null && _month != null && _day != null) {
+      body['birthday'] = '$_year-$_month-$_day';
+    }
+
+    return await UserRequest().patchUserMe(body);
+  }
 }
 
 class MyPageProvider extends NewMyPageProvider {
@@ -158,12 +250,6 @@ class MyPageProvider extends NewMyPageProvider {
   /// base64string
   String _updateImageString = '';
   String get updateImageString => _updateImageString;
-
-  String _birthday = '';
-  String get birthday => _birthday;
-
-  String _loadBirthday = '';
-  String get loadBirthday => _loadBirthday;
 
   String _email = '';
   String get email => _email;
@@ -223,15 +309,6 @@ class MyPageProvider extends NewMyPageProvider {
 
   final int _loadDay = 0;
   int get loadDay => _loadDay;
-
-  int _year = 0;
-  int get year => _year;
-
-  int _month = 0;
-  int get month => _month;
-
-  int _day = 0;
-  int get day => _day;
 
   List<FeedPreviewModel>? _postList = [];
   List<FeedPreviewModel>? get postList => _postList;
@@ -339,28 +416,6 @@ class MyPageProvider extends NewMyPageProvider {
     if (notify == true) notifyListeners();
   }
 
-  void birthdayInit(String birthday) {
-    if (birthday == '') return;
-    _loadBirthday = birthday;
-    _birthday = birthday;
-    List<String> result = birthday.split('-');
-    _year = int.parse(result.elementAt(0));
-    _month = int.parse(result.elementAt(1));
-    _day = int.parse(result.elementAt(2));
-  }
-
-  void birthdayStateChange(String birthday) {
-    _birthday = birthday;
-    _loadBirthday = birthday;
-    // if(doesActiveBasicButton() == true) {
-    //   _basicButton = true;
-    //   notifyListeners();
-    // } else {
-    //   _basicButton = false;
-    //   notifyListeners();
-    // }
-  }
-
   void emailStateChange(String email) {
     _email = email;
     notifyListeners();
@@ -382,7 +437,7 @@ class MyPageProvider extends NewMyPageProvider {
   }
 
   void doesActiveBasicButton() {
-    if (_selectImage != null || _loadBirthday != _birthday) {
+    if (_selectImage != null) {
       _basicButton = true;
       notifyListeners();
     }
@@ -392,7 +447,6 @@ class MyPageProvider extends NewMyPageProvider {
     _updateImageString = '';
     _selectImage = null;
     _phone = '';
-    _birthday = '';
     _basicButton = false;
     _genderState = -1;
     _relationState = -1;
@@ -411,3 +465,83 @@ class MyPageProvider extends NewMyPageProvider {
     if (notify) notifyListeners();
   }
 }
+
+// class Field {
+//   String name;
+//   bool isChanged;
+//   bool isSavable;
+
+//   Field({
+//     required this.name,
+//     this.isChanged = false,
+//     this.isSavable = false,
+//   });
+// }
+
+// List<Field> list = [
+//   Field(name: 'username'),
+//   Field(name: 'phone'),
+//   Field(name: 'birth'),
+// ];
+
+// Map<String, String> prevValue = {
+//   'username': 'a',
+//   'phone': '010-0000-0000',
+//   'birth': '1900-00-00',
+// };
+
+// String usernameValue = '';
+// String phoneValue = '010-0000-0000';
+// bool isPhoneAuth = true;
+// String birthValue = '1900-00-00';
+
+// List<Field> validateList = [...list];
+
+// Field? findTarget(String name) {
+//   return validateList.firstWhere((item) => name == item.name, orElse: () => Field(name: ''));
+// }
+
+// void changeState(String name, {bool? isChanged, bool? isSavable}) {
+//   final index = validateList.indexWhere((item) => item.name == name);
+//   if (index != -1) {
+//     final field = validateList[index];
+//     validateList[index] = Field(
+//       name: name,
+//       isChanged: isChanged ?? field.isChanged,
+//       isSavable: isSavable ?? field.isSavable,
+//     );
+//   }
+// }
+
+// bool validate() {
+//   if (usernameValue != prevValue['username']) {
+//     changeState('username', isChanged: true);
+//   }
+
+//   if (usernameValue.isEmpty) {
+//     changeState('username', isSavable: false);
+//   }
+
+//   if (phoneValue.isNotEmpty && phoneValue != prevValue['phone']) {
+//     changeState('phone', isChanged: true);
+//   }
+
+//   if (isPhoneAuth) {
+//     changeState('phone', isSavable: true);
+//   }
+
+//   if (birthValue != prevValue['birth']) {
+//     changeState('birth', isChanged: true);
+//   }
+
+//   if (birthValue.isNotEmpty) {
+//     changeState('birth', isSavable: true);
+//   }
+
+//   print(validateList);
+//   return validateList.where((field) => field.isChanged).every((field) => field.isSavable);
+// }
+
+// void main() {
+//   print(validate());
+// }

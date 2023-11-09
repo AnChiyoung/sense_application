@@ -256,11 +256,12 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         onTap: () async {
           showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              builder: (context) {
-                return Wrap(children: [genderSelect(context)]);
-              });
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context) {
+              return Wrap(children: [genderSelect(context)]);
+            },
+          );
 
           // final date = await showDatePicker(
           //   initialEntryMode: DatePickerEntryMode.calendarOnly,
@@ -313,11 +314,12 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
         ),
         onTap: () async {
           showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              builder: (context) {
-                return Wrap(children: [dateSelect(context)]);
-              });
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context) {
+              return Wrap(children: [dateSelect(context)]);
+            },
+          );
         },
       ),
     );
@@ -327,8 +329,10 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40.0),
+          topRight: Radius.circular(40.0),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 32),
@@ -355,7 +359,10 @@ class _BasicInfoInputFieldState extends State<BasicInfoInputField> {
                 child: CupertinoTheme(
                   data: const CupertinoThemeData(
                     textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: TextStyle(fontSize: 22, color: Colors.black),
+                      dateTimePickerTextStyle: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   child: CupertinoDatePicker(

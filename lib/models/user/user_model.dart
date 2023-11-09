@@ -37,9 +37,6 @@ class UserRequest {
       updateModel['profile_image'] = imageString;
     }
 
-    String birthday = context.read<MyPageProvider>().birthday;
-    updateModel['birthday'] = birthday;
-
     final response = await http
         .patch(Uri.parse('${ApiUrl.releaseUrl}/user/me'), body: jsonEncode(updateModel), headers: {
       'Authorization': 'Bearer ${PresentUserInfo.loginToken}',

@@ -43,12 +43,16 @@ class _MyMoreInfoState extends State<MyMoreInfo> {
                       if (fromMyPage) ...[
                         SizedBox(height: 40.0.h),
                         Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('성별',
-                                style: TextStyle(
-                                    fontSize: 16.0.sp,
-                                    color: StaticColor.grey70055,
-                                    fontWeight: FontWeight.w700))),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '성별',
+                            style: TextStyle(
+                              fontSize: 16.0.sp,
+                              color: StaticColor.grey70055,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                         SizedBox(height: 8.0.h),
                         MoreInfoGender(initializeGender: userModel.gender),
                         // BasicInfoName(initializeName: userModel.username!),
@@ -489,22 +493,6 @@ class MyMoreInfoButton extends StatefulWidget {
 
 /// @todo 리팩토링 하기
 class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
-  // void onFinish() {
-  //   MyPagePrevRouteEnum prevRoute = context.read<MyPageProvider>().prevRoute;
-  //   if (prevRoute == MyPagePrevRouteEnum.fromMyPage) {
-  //     Navigator.of(context).pop();
-  //   } else if (prevRoute == MyPagePrevRouteEnum.fromFirstLogin) {
-  //     Navigator.of(context).pushAndRemoveUntil(
-  //       MaterialPageRoute(
-  //         builder: (context) => HomeScreen(
-  //           initPage: 0,
-  //         ),
-  //       ),
-  //       (route) => false,
-  //     );
-  //   }
-  // }
-
   void skipAdditionalInfo() {
     UserRequest().userAdditionalInfoUpdate();
     Navigator.of(context).pushAndRemoveUntil(

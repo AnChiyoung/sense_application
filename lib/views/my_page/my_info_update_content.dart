@@ -13,7 +13,6 @@ import 'package:sense_flutter_application/public_widget/empty_user_profile.dart'
 import 'package:sense_flutter_application/utils/utility.dart';
 import 'package:sense_flutter_application/views/my_page/my_info_update_moreinfo.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
-import 'package:toast/toast.dart';
 
 class MyInfoUpdateContent extends StatefulWidget {
   final int page;
@@ -49,13 +48,22 @@ class _MyInfoUpdateContentState extends State<MyInfoUpdateContent> with TickerPr
                 TabBar(
                   controller: controller,
                   labelColor: StaticColor.mainSoft,
-                  labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
+                  labelStyle: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
                   unselectedLabelColor: StaticColor.grey70055,
                   indicatorWeight: 2,
                   indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(color: StaticColor.mainSoft, width: 3.0),
+                    borderSide: BorderSide(
+                      color: StaticColor.mainSoft,
+                      width: 3.0,
+                    ),
                   ),
-                  unselectedLabelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                  unselectedLabelStyle: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                   tabs: [
                     SizedBox(
                       height: 37.0.h,
@@ -109,8 +117,8 @@ class _ProfileImageFieldState extends State<ProfileImageField> {
 
   @override
   void initState() {
-    profileImageString = widget.profileImageString ?? '';
     super.initState();
+    profileImageString = widget.profileImageString ?? '';
   }
 
   @override
@@ -127,7 +135,6 @@ class _ProfileImageFieldState extends State<ProfileImageField> {
               if (image == null) return;
               if (!context.mounted) return;
               context.read<MyPageProvider>().xfileStateChange(image);
-              context.read<MyPageProvider>().doesActiveBasicButton();
             },
             child: UserProfileImage(
                 profileImageUrl: profileImageString, selectImage: data.selectImage),
@@ -349,7 +356,7 @@ class _BasicInfoNameState extends State<BasicInfoName> {
         nameFocus.unfocus();
       },
       onChanged: (value) {
-        context.read<MyPageProvider>().onChangeUsername(value, false);
+        context.read<MyPageProvider>().onChangeUsername(value, true);
       },
       onTapOutside: (event) => nameFocus.unfocus(),
     );
@@ -366,7 +373,6 @@ class BasicInfoPhoneNumber extends StatefulWidget {
 class _BasicInfoPhoneNumberState extends State<BasicInfoPhoneNumber> {
   late TextEditingController phoneNumberController;
   late FocusNode phoneNumberFocus;
-  MyPageProvider? _provider; // Provider에 대한 참조를 저장하기 위한 변수
 
   @override
   void initState() {
@@ -741,16 +747,6 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
   late FocusNode monthFocus;
   late FocusNode dayFocus;
 
-  String year = '-';
-  String month = '-';
-  String day = '-';
-
-  String selectDate = '';
-  int yearValue = 0;
-  int monthValue = 0;
-  int dayValue = 0;
-  DateTime initdate = DateTime.now();
-
   @override
   void initState() {
     super.initState();
@@ -760,15 +756,17 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
     yearFocus = FocusNode();
     monthFocus = FocusNode();
     dayFocus = FocusNode();
-    String initBirthday = '2020-01-01';
-    List<String> result = initBirthday.split('-');
-    yearValue = int.parse(result.elementAt(0));
-    monthValue = int.parse(result.elementAt(1));
-    dayValue = int.parse(result.elementAt(2));
-    yearController.text = yearValue.toString();
-    monthController.text = monthValue.toString();
-    dayController.text = dayValue.toString();
-    context.read<MyPageProvider>().birthdayInit(initBirthday);
+
+    MyPageProvider myPageProvider = context.read<MyPageProvider>();
+    if (myPageProvider.year != null) {
+      yearController.text = myPageProvider.year.toString();
+    }
+    if (myPageProvider.month != null) {
+      monthController.text = myPageProvider.month.toString();
+    }
+    if (myPageProvider.day != null) {
+      dayController.text = myPageProvider.day.toString();
+    }
   }
 
   @override
@@ -784,273 +782,98 @@ class _BasicInfoBirthdayState extends State<BasicInfoBirthday> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Flexible(
-        flex: 1,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
-          width: double.infinity,
-          // height: 50,
-          decoration: BoxDecoration(
-            color: StaticColor.grey100F6,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: TextFormField(
-            controller: yearController,
-            autofocus: false,
-            focusNode: yearFocus,
-            textInputAction: TextInputAction.next,
-            maxLines: 1,
-            maxLength: 4,
-            textAlignVertical: TextAlignVertical.center,
-            keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.black, fontSize: 14.sp),
-            cursorHeight: 15.h,
-            decoration: InputDecoration(
-                counterText: '',
-                filled: true,
-                fillColor: StaticColor.loginInputBoxColor,
-                // fillColor: Colors.black,
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 1.0.h),
-                alignLabelWithHint: false,
-                labelStyle: TextStyle(
-                    fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                hintText: '연도',
-                hintStyle: TextStyle(
-                    fontSize: 14.sp,
-                    color: StaticColor.loginHintTextColor,
-                    fontWeight: FontWeight.w400),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                  borderSide: BorderSide.none,
-                )),
-            onEditingComplete: () {
-              context.read<MyPageProvider>().birthdayStateChange(
-                  '${yearController.text.toString()}-${context.read<MyPageProvider>().month}-${context.read<MyPageProvider>().day}');
-            },
-            onTap: () {
-              // showModalBottomSheet(context: context, backgroundColor: Colors.transparent, builder: (context) {
-              //   return Wrap(children: [dateSelect(context)]);
-              // });
-              // showDialog(
-              //   context: context,
-              //   builder: (BuildContext context) {
-              //     return AlertDialog(
-              //       title: Text("연도를 선택해주세요"),
-              //       content: Container( // Need to use container to add size constraint.
-              //         width: 300,
-              //         height: 300,
-              //         child: YearPicker(
-              //           firstDate: DateTime(DateTime.now().year - 100, 1),
-              //           lastDate: DateTime(DateTime.now().year, 1),
-              //           initialDate: DateTime.now(),
-              //           // save the selected date to _selectedDate DateTime variable.
-              //           // It's used to set the previous selected date when
-              //           // re-showing the dialog.
-              //           selectedDate: DateTime.now(),
-              //           onChanged: (DateTime dateTime) {
-              //             // close the dialog when year is selected.
-              //             Navigator.pop(context);
-              //
-              //             // Do something with the dateTime selected.
-              //             // Remember that you need to use dateTime.year to get the year
-              //           },
-              //         ),
-              //       ),
-              //     );
-              //   },
-              // );
-            },
-          ),
-          // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
+    return Row(
+      children: [
+        renderBirthdayInput(
+          context: context,
+          controller: yearController,
+          focusNode: yearFocus,
+          hintText: '연도',
+          maxLength: 4,
+          onTapOutside: (event) => yearFocus.unfocus(),
+          onChanged: (value) => context.read<MyPageProvider>().onChangeYear(value, true),
         ),
-      ),
-      SizedBox(width: 12.0.w),
-      Flexible(
-        flex: 1,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
-          width: double.infinity,
-          // height: 50,
-          decoration: BoxDecoration(
-            color: StaticColor.grey100F6,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: TextFormField(
-            controller: monthController,
-            autofocus: false,
-            focusNode: monthFocus,
-            textInputAction: TextInputAction.next,
-            maxLines: 1,
-            maxLength: 2,
-            textAlignVertical: TextAlignVertical.center,
-            keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.black, fontSize: 14.sp),
-            cursorHeight: 15.h,
-            decoration: InputDecoration(
-                counterText: '',
-                filled: true,
-                fillColor: StaticColor.loginInputBoxColor,
-                // fillColor: Colors.black,
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 1.0.h),
-                alignLabelWithHint: false,
-                labelStyle: TextStyle(
-                    fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                hintText: '월',
-                hintStyle: TextStyle(
-                    fontSize: 14.sp,
-                    color: StaticColor.loginHintTextColor,
-                    fontWeight: FontWeight.w400),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                  borderSide: BorderSide.none,
-                )),
-            onEditingComplete: () {
-              context.read<MyPageProvider>().birthdayStateChange(
-                  '${context.read<MyPageProvider>().year}-${monthController.text.toString()}-${context.read<MyPageProvider>().day}');
-            },
-            onTap: () {
-              //   showDialog(
-              //     context: context,
-              //     builder: (BuildContext context) {
-              //       return AlertDialog(
-              //         title: Text("월을 선택해주세요"),
-              //         content: Container( // Need to use container to add size constraint.
-              //           width: 300,
-              //           height: 300,
-              //           child: YearPicker(
-              //             firstDate: DateTime(DateTime.now().year, 1),
-              //             lastDate: DateTime(DateTime.now().year + 12, 1),
-              //             initialDate: DateTime.now(),
-              //             // save the selected date to _selectedDate DateTime variable.
-              //             // It's used to set the previous selected date when
-              //             // re-showing the dialog.
-              //             selectedDate: DateTime.now(),
-              //             onChanged: (DateTime dateTime) {
-              //               // close the dialog when year is selected.
-              //               Navigator.pop(context);
-              //
-              //               // Do something with the dateTime selected.
-              //               // Remember that you need to use dateTime.year to get the year
-              //             },
-              //           ),
-              //         ),
-              //       );
-              //     },
-              //   );
-            },
-          ),
-          // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
+        SizedBox(width: 12.0.w),
+        renderBirthdayInput(
+          context: context,
+          controller: monthController,
+          focusNode: monthFocus,
+          hintText: '월',
+          maxLength: 2,
+          onTapOutside: (event) => monthFocus.unfocus(),
+          onChanged: (value) => context.read<MyPageProvider>().onChangeMonth(value, true),
         ),
-      ),
-      SizedBox(width: 12.0.w),
-      Flexible(
-        flex: 1,
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
-          width: double.infinity,
-          // height: 50,
-          decoration: BoxDecoration(
-            color: StaticColor.grey100F6,
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: TextFormField(
-            controller: dayController,
-            autofocus: false,
-            focusNode: dayFocus,
-            textInputAction: TextInputAction.next,
-            maxLines: 1,
-            maxLength: 2,
-            textAlignVertical: TextAlignVertical.center,
-            keyboardType: TextInputType.number,
-            style: TextStyle(color: Colors.black, fontSize: 14.sp),
-            cursorHeight: 15.h,
-            decoration: InputDecoration(
-                counterText: '',
-                filled: true,
-                fillColor: StaticColor.loginInputBoxColor,
-                // fillColor: Colors.black,
-                isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 1.0.h),
-                alignLabelWithHint: false,
-                labelStyle: TextStyle(
-                    fontSize: 14.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500),
-                hintText: '일',
-                hintStyle: TextStyle(
-                    fontSize: 14.sp,
-                    color: StaticColor.loginHintTextColor,
-                    fontWeight: FontWeight.w400),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                  borderSide: BorderSide.none,
-                )),
-            onEditingComplete: () {
-              context.read<MyPageProvider>().birthdayStateChange(
-                  '${context.read<MyPageProvider>().year}-${context.read<MyPageProvider>().month}-${dayController.text.toString()}');
-            },
-          ),
-          // child: Text(title, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w500)),
+        SizedBox(width: 12.0.w),
+        renderBirthdayInput(
+          context: context,
+          controller: dayController,
+          focusNode: dayFocus,
+          hintText: '월',
+          maxLength: 2,
+          onTapOutside: (event) => dayFocus.unfocus(),
+          onChanged: (value) => context.read<MyPageProvider>().onChangeDay(value, true),
         ),
-      )
-    ]);
+      ],
+    );
   }
 
-  Widget dateSelect(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius:
-            BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  if (selectDate == '') {
-                    initdate = DateTime.now();
-                    yearController.text = DateTime.utc(DateTime.now().year).toString();
-                    monthController.text = DateTime.utc(DateTime.now().month).toString();
-                    dayController.text = DateTime.utc(DateTime.now().day).toString();
-                  } else {
-                    yearController.text = selectDate.substring(0, 4);
-                    monthController.text = selectDate.substring(4, 2);
-                    dayController.text = selectDate.substring(6, 2);
-                    initdate = DateTime.utc(int.parse(selectDate.substring(0, 4)),
-                        int.parse(selectDate.substring(5, 7)), int.parse(selectDate.substring(8)));
-                  }
-                  Navigator.of(context).pop();
-                },
-                child: const Text('확인'),
-              ),
-            ),
-            SizedBox(
-                width: double.infinity,
-                height: 250,
-                child: CupertinoTheme(
-                  data: const CupertinoThemeData(
-                    textTheme: CupertinoTextThemeData(
-                      dateTimePickerTextStyle: TextStyle(fontSize: 22, color: Colors.black),
-                    ),
-                  ),
-                  child: CupertinoDatePicker(
-                    minimumYear: 1900,
-                    maximumYear: DateTime.now().year,
-                    initialDateTime: DateTime.now(),
-                    onDateTimeChanged: (date) {
-                      // selectDate = date.toString().substring(0, 10);
-                    },
-                    mode: CupertinoDatePickerMode.date,
-                  ),
-                )),
-          ],
+  Widget renderBirthdayInput({
+    BuildContext? context,
+    TextEditingController? controller,
+    FocusNode? focusNode,
+    String? hintText,
+    int? maxLength,
+    List<TextInputFormatter>? inputFormatters,
+    void Function(PointerDownEvent)? onTapOutside,
+    void Function(String)? onChanged,
+    void Function()? onEditingComplete,
+  }) {
+    return Flexible(
+      flex: 1,
+      child: TextFormField(
+        controller: controller,
+        autofocus: false,
+        focusNode: focusNode,
+        textInputAction: TextInputAction.next,
+        maxLines: 1,
+        maxLength: maxLength,
+        textAlignVertical: TextAlignVertical.center,
+        keyboardType: TextInputType.number,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 14.sp,
         ),
+        decoration: InputDecoration(
+          counterText: '',
+          filled: true,
+          fillColor: StaticColor.grey100F6,
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 16.0.w,
+            vertical: 10.0.h,
+          ),
+          labelStyle: TextStyle(
+            fontSize: 14.sp,
+            color: StaticColor.mainSoft,
+            fontWeight: FontWeight.w500,
+          ),
+          hintText: hintText,
+          hintStyle: TextStyle(
+            fontSize: 14.sp,
+            color: StaticColor.loginHintTextColor,
+            fontWeight: FontWeight.w400,
+          ),
+          border: const OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.all(
+              Radius.circular(4.0),
+            ),
+          ),
+        ),
+        inputFormatters: inputFormatters,
+        onTapOutside: onTapOutside,
+        onChanged: onChanged,
+        onEditingComplete: onEditingComplete,
       ),
     );
   }
@@ -1150,24 +973,25 @@ class _MyInfoUpdateButtonState extends State<MyInfoUpdateButton> {
   @override
   Widget build(BuildContext context) {
     return Consumer<MyPageProvider>(builder: (context, data, child) {
-      bool state = data.basicButton;
+      bool disabled = data.saveButtonDisabled();
 
       return SizedBox(
         width: double.infinity,
         height: 76.0.h,
         child: ElevatedButton(
           onPressed: () async {
-            if (state == true) {
-              bool updateResult = await UserRequest().userBasicInfoUpdate(context);
-              if (updateResult == true) {
-                context.read<MyPageProvider>().updateInfoInit();
+            context.read<MyPageProvider>().updateUserMe().then((value) {
+              if (value) {
                 Navigator.of(context).pop();
-              } else {}
-            } else {}
+              }
+            });
           },
           style: ElevatedButton.styleFrom(
-              backgroundColor: state == true ? StaticColor.mainSoft : StaticColor.grey400BB,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
+            backgroundColor: disabled == true ? StaticColor.grey400BB : StaticColor.mainSoft,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0.0),
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
