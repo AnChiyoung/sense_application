@@ -168,6 +168,8 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 
   @override
   Widget build(BuildContext context) {
+    double viewInsetsBottom = MediaQuery.of(context).viewInsets.bottom;
+
     return FutureBuilder(
         future: loadFuture,
         builder: (context, snapshot) {
@@ -175,96 +177,67 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
             if (snapshot.connectionState == ConnectionState.done) {
               UserModel userModel = snapshot.data ?? UserModel();
               context.read<MyPageProvider>().initUserMe(userModel, false);
-              return Stack(
-                fit: StackFit.expand,
+              return Column(
                 children: [
-                  SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                      child: Column(
-                        children: [
-                          ProfileImageField(profileImageString: userModel.profileImageString),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '이름',
-                              style: TextStyle(
-                                fontSize: 16.0.sp,
-                                color: StaticColor.grey70055,
-                                fontWeight: FontWeight.w700,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 20.0.w,
+                          right: 20.0.w,
+                          bottom: 16.0.h,
+                        ),
+                        child: Column(
+                          children: [
+                            ProfileImageField(profileImageString: userModel.profileImageString),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '이름',
+                                style: TextStyle(
+                                  fontSize: 16.0.sp,
+                                  color: StaticColor.grey70055,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 8.0.h),
-                          const BasicInfoName(),
-                          SizedBox(height: 24.0.h),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '연락처',
-                              style: TextStyle(
-                                fontSize: 16.0.sp,
-                                color: StaticColor.grey70055,
-                                fontWeight: FontWeight.w700,
+                            SizedBox(height: 8.0.h),
+                            const BasicInfoName(),
+                            SizedBox(height: 24.0.h),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '연락처',
+                                style: TextStyle(
+                                  fontSize: 16.0.sp,
+                                  color: StaticColor.grey70055,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 8.0.h),
-                          const BasicInfoPhoneNumber(),
-                          SizedBox(height: 24.0.h),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              '생년월일',
-                              style: TextStyle(
-                                fontSize: 16.0.sp,
-                                color: StaticColor.grey70055,
-                                fontWeight: FontWeight.w700,
+                            SizedBox(height: 8.0.h),
+                            const BasicInfoPhoneNumber(),
+                            SizedBox(height: 24.0.h),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                '생년월일',
+                                style: TextStyle(
+                                  fontSize: 16.0.sp,
+                                  color: StaticColor.grey70055,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 8.0.h),
-                          const BasicInfoBirthday(),
-                          // SizedBox(height: 24.0.h),
-                          // Align(
-                          //   alignment: Alignment.centerLeft,
-                          //   child: Text(
-                          //     '소개',
-                          //     style: TextStyle(
-                          //       fontSize: 16.0.sp,
-                          //       color: StaticColor.grey70055,
-                          //       fontWeight: FontWeight.w700,
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(height: 8.0.h),
-                          // Container(
-                          //   width: double.infinity,
-                          //   padding: EdgeInsets.symmetric(vertical: 8.0.h),
-                          //   decoration: BoxDecoration(
-                          //     color: StaticColor.grey100F6,
-                          //     borderRadius: BorderRadius.circular(4.0),
-                          //   ),
-                          //   child: Center(
-                          //     child: Text(
-                          //       '소개 글이 없습니다.',
-                          //       style: TextStyle(
-                          //         fontSize: 14.0.sp,
-                          //         color: StaticColor.grey70055,
-                          //         fontWeight: FontWeight.w400,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          SizedBox(height: 48.0.h),
-                        ],
+                            SizedBox(height: 8.0.h),
+                            const BasicInfoBirthday(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: MyInfoUpdateButton(),
-                  ),
+                  const MyInfoUpdateButton(),
+                  SizedBox(height: viewInsetsBottom),
                 ],
               );
             }
@@ -893,10 +866,16 @@ class _GenderFieldState extends State<GenderField> {
       padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 24.0.h),
       child: Column(children: [
         Align(
-            alignment: Alignment.centerLeft,
-            child: Text('성별',
-                style: TextStyle(
-                    fontSize: 16.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700))),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            '성별',
+            style: TextStyle(
+              fontSize: 16.0.sp,
+              color: StaticColor.grey70055,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
         SizedBox(height: 8.0.h),
         Consumer<MyPageProvider>(builder: (context, data, child) {
           List<bool> genderState = data.updateGenderState;
@@ -970,48 +949,65 @@ class MyInfoUpdateButton extends StatefulWidget {
 }
 
 class _MyInfoUpdateButtonState extends State<MyInfoUpdateButton> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyPageProvider>(builder: (context, data, child) {
-      bool disabled = data.saveButtonDisabled();
+    return Consumer<MyPageProvider>(
+      builder: (context, data, child) {
+        bool disabled = data.saveButtonDisabled();
 
-      return SizedBox(
-        width: double.infinity,
-        height: 76.0.h,
-        child: ElevatedButton(
-          onPressed: () async {
-            context.read<MyPageProvider>().updateUserMe().then((value) {
-              if (value) {
-                Navigator.of(context).pop();
+        return SizedBox(
+          width: double.infinity,
+          height: 76.0.h,
+          child: ElevatedButton(
+            onPressed: () async {
+              if (disabled || isLoading) return;
+              setState(() {
+                isLoading = true;
+              });
+
+              await Future.delayed(const Duration(milliseconds: 300));
+              bool isSuccess = await data.updateUserMe();
+              if (isSuccess) {
+                UserModel user = await UserRequest().userInfoRequest();
+                data.resetState();
+                data.initUserMe(user, true);
               }
-            });
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: disabled == true ? StaticColor.grey400BB : StaticColor.mainSoft,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
+
+              setState(() {
+                isLoading = false;
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: disabled == true ? StaticColor.grey400BB : StaticColor.mainSoft,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 56,
-                child: Center(
-                  child: Text(
-                    '저장',
-                    style: TextStyle(
-                      fontSize: 16.0.sp,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 56,
+                  child: Center(
+                    child: isLoading
+                        ? CircularProgressIndicator(color: StaticColor.grey300E0)
+                        : Text(
+                            '저장',
+                            style: TextStyle(
+                              fontSize: 16.0.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

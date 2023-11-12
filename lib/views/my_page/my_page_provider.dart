@@ -57,7 +57,7 @@ class NewMyPageProvider with ChangeNotifier {
   }
 
   void resetState() {
-    _userMe = UserModel();
+    // _userMe = UserModel();
     _username = '';
     _phone = '';
     _isSended = false;
@@ -189,9 +189,6 @@ class NewMyPageProvider with ChangeNotifier {
 
   bool saveButtonDisabled() {
     // 변동 여부 있는지 & validation 통과 했는지
-
-    if (userMe.username != _username) {}
-
     if (_username == '') return true;
     if (_phone == '') return true;
     if (_phone != userMe.phone && _isValidAuthCode == false) return true;

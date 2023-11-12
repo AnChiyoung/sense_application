@@ -16,6 +16,8 @@ class _MyInfoUpdateState extends State<MyInfoUpdate> {
     /// safe area height
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     // final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
+    // print(MediaQuery.of(context).viewPadding.bottom);
+    // print(MediaQuery.of(context).viewPadding.top);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -32,6 +34,7 @@ class _MyInfoUpdateState extends State<MyInfoUpdate> {
                 topPadding: safeAreaTopPadding,
               ),
             ),
+            // SizedBox(height: bp)
           ],
         ),
       ),

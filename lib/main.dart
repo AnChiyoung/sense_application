@@ -13,7 +13,6 @@ import 'package:sense_flutter_application/views/add_event/add_event_provider.dar
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
-// import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
 import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
@@ -23,8 +22,6 @@ import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
-// import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
-// import 'package:sense_flutter_application/views/new_create_event/new_create_event_provider.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -130,4 +127,13 @@ class MyApp extends StatelessWidget {
 // class CandyGlobalVariable {
 //   static final GlobalKey<NavigatorState> naviagatorState =
 //   GlobalKey<NavigatorState>();
+// }
+
+// class ResponsiveApp {
+//   static late MediaQueryData _mediaQueryData;
+//   static MediaQueryData get mediaQuery => _mediaQueryData;
+
+//   static void setMediaQuery(BuildContext context) {
+//     _mediaQueryData = MediaQuery.of(context);
+//   }
 // }

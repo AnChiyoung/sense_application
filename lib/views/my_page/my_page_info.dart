@@ -54,8 +54,8 @@ class MyPageProfile extends StatefulWidget {
 }
 
 class _MyPageProfileState extends State<MyPageProfile> {
-  final ImagePicker _picker = ImagePicker();
-  XFile? image;
+  // final ImagePicker _picker = ImagePicker();
+  // XFile? image;
   late Future fetchUserInfo;
 
   Future<UserModel> _fetchUserInfo() async {
@@ -70,71 +70,87 @@ class _MyPageProfileState extends State<MyPageProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyPageProvider>(builder: (context, data, child) {
-      XFile? selectImage = data.selectImage;
+    // XFile? selectImage = data.selectImage;
 
-      return FutureBuilder(
-          future: fetchUserInfo,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox.shrink();
-              } else if (snapshot.connectionState == ConnectionState.done) {
-                UserModel userModel = snapshot.data ?? UserModel();
+    return FutureBuilder(
+      initialData: UserModel(),
+      future: fetchUserInfo,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox.shrink();
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            context.read<MyPageProvider>().initUserMe(snapshot.data ?? UserModel(), false);
 
-                return Padding(
-                  padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w, top: 12.0.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(children: [
-                        UserProfileImage(size: 48.0, profileImageUrl: userModel.profileImageString),
+            return Consumer<MyPageProvider>(builder: (context, data, child) {
+              return Padding(
+                padding: EdgeInsets.only(left: 16.0.w, right: 16.0.w, top: 12.0.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        UserProfileImage(
+                          size: 48.0,
+                          profileImageUrl: data.userMe.profileImageString ?? '',
+                        ),
                         SizedBox(width: 10.0.w),
-                        Text(userModel.username ?? '',
-                            style: TextStyle(
-                                fontSize: 16.0.sp,
-                                color: StaticColor.grey70055,
-                                fontWeight: FontWeight.w700)),
-                      ]),
-                      Material(
-                          color: Colors.transparent,
-                          child: SizedBox(
-                            height: 40.0,
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(25.0),
-                              onTap: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
-                              },
-                              child: Center(
-                                child: Row(
-                                  children: [
-                                    Text('편집',
-                                        style: TextStyle(
-                                            fontSize: 12.0.sp,
-                                            color: StaticColor.black90015,
-                                            fontWeight: FontWeight.w400)),
-                                    SizedBox(width: 4.0.w),
-                                    Image.asset('assets/my_page/caret_right.png',
-                                        width: 16.0, height: 16.0),
-                                  ],
-                                ),
+                        Text(
+                          data.userMe.username ?? '',
+                          style: TextStyle(
+                            fontSize: 16.0.sp,
+                            color: StaticColor.grey70055,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Material(
+                        color: Colors.transparent,
+                        child: SizedBox(
+                          height: 40.0,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(25.0),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
+                            },
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '편집',
+                                    style: TextStyle(
+                                      fontSize: 12.0.sp,
+                                      color: StaticColor.black90015,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.0.w),
+                                  Image.asset(
+                                    'assets/my_page/caret_right.png',
+                                    width: 16.0,
+                                    height: 16.0,
+                                  ),
+                                ],
                               ),
                             ),
-                          )),
-                    ],
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            } else if (snapshot.hasError) {
-              return const SizedBox.shrink();
-            } else {
-              return const SizedBox.shrink();
-            }
-          });
-    });
+                          ),
+                        )),
+                  ],
+                ),
+              );
+            });
+          } else {
+            return const SizedBox.shrink();
+          }
+        } else if (snapshot.hasError) {
+          return const SizedBox.shrink();
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 }
 
