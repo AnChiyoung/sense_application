@@ -4,7 +4,6 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class CategoryHeaderMenu extends StatefulWidget {
   const CategoryHeaderMenu({Key? key}) : super(key: key);

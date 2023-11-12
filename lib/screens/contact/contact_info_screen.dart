@@ -31,7 +31,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
             children: [
               Column(
                 children: [
-                  ContactInfoHeader(),
+                  const ContactInfoHeader(),
                   Container(
                     height: 1.0,
                     color: StaticColor.grey300E0,

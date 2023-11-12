@@ -95,12 +95,12 @@ class _FoodStep02State extends State<FoodStep02> {
           Stack(
             children: [
               /// image
-              Container(
+              SizedBox(
                   width: profileWidth,
                   height: profileWidth,
                   child: image == null ? const SizedBox.shrink() : FittedBox(
                     fit: BoxFit.fill,
-                    child: Image.asset(image!),
+                    child: Image.asset(image),
                   )
               ),
               /// border

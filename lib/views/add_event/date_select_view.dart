@@ -7,7 +7,6 @@ import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/recommended_event/recommended_event_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
-import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -182,7 +181,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
           headerVisible: true,
           headerStyle: HeaderStyle(
             titleCentered: true,
-            titleTextStyle: TextStyle(color: Colors.black),
+            titleTextStyle: const TextStyle(color: Colors.black),
             headerPadding: const EdgeInsets.only(left: 20, right: 20),
             formatButtonVisible: false,
             leftChevronIcon: ImageIcon(const AssetImage('assets/create_event/calendar_arrow_left.png'),
@@ -205,7 +204,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
               color: StaticColor.selectDayColor,
               shape: BoxShape.circle,
             ),
-            defaultTextStyle: TextStyle(color: Colors.black),
+            defaultTextStyle: const TextStyle(color: Colors.black),
           ),
           calendarBuilders: CalendarBuilders(defaultBuilder: (context, dateTime, _) {
             return CalendarCellBuilder(context, dateTime, _);
@@ -231,9 +230,9 @@ class _DateSelectSectionState extends State<DateSelectSection> {
     bool compareResult = now.isAfter(selectDayConvert);
 
     return Container(
-      padding: EdgeInsets.all(3),
+      padding: const EdgeInsets.all(3),
       child: Container(
-        padding: EdgeInsets.only(top: 3, bottom: 3),
+        padding: const EdgeInsets.only(top: 3, bottom: 3),
         // width: MediaQuery.of(context).size.width,
         color: Colors.white,
         child: Align(
@@ -324,7 +323,7 @@ class _DateSelectNextButtonState extends State<DateSelectNextButton> {
                     ? StaticColor.categorySelectedColor
                     : StaticColor.unSelectedColor,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: const [
+            child: const Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               SizedBox(
                   height: 56,
                   child: Center(

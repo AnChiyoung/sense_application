@@ -48,7 +48,7 @@ class _ContactDataExistState extends State<ContactDataExist> {
                   List<List<ContactModel>> contactCollector = [loadContactModel, loadContactModelFamily, loadContactModelFriend, loadContactModelCouple, loadContactModelCoworker];
 
                   if(loadContactModel.isEmpty) {
-                    return Center(child: ContactLoadRequestView());
+                    return const Center(child: ContactLoadRequestView());
                   } else {
                     return ContactDataDone(contactCollector: contactCollector);
                   }

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -21,7 +20,7 @@ class _FeedScreenState extends State<FeedScreen> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         body: SafeArea(
           bottom: false,
           child: Column(

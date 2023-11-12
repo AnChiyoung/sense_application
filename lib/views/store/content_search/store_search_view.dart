@@ -130,7 +130,7 @@ class _StoreLiveProductsState extends State<StoreLiveProducts> {
             alignment: Alignment.centerLeft,
             child: Text('실시간 인기', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.black90015, fontWeight: FontWeight.w700))),
         ),
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 300.0.h,
           child: Center(

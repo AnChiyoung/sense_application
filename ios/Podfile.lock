@@ -13,14 +13,14 @@ PODS:
   - FMDB/standard (2.7.5)
   - image_picker_ios (0.0.1):
     - Flutter
-  - kakao_flutter_sdk_common (1.4.3):
+  - kakao_flutter_sdk_common (1.6.1):
     - Flutter
   - open_settings (0.0.1):
     - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - permission_handler_apple (9.0.4):
+  - permission_handler_apple (9.1.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -91,13 +91,13 @@ SPEC CHECKSUMS:
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
-  kakao_flutter_sdk_common: 31d55af8ed73538126d26d42bf9e8049a2f76da4
+  kakao_flutter_sdk_common: 7167cfbf5725acf75252af46bb045b9ad99ed6ce
   open_settings: 9628e736cb2738fd1dc84159565755c214478158
-  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
-  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
-  shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
+  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
-  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
+  url_launcher_ios: 68d46cc9766d0c41dbdc884310529557e3cd7a86
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: e657cb72f0221aaf021d49a461effa6a7938efa4

@@ -15,7 +15,7 @@ class RecommendRequestProvider with ChangeNotifier {
   List<bool> _recommendCategory = [false, false, false, false, false, false];
   List<bool> get recommendCategory => _recommendCategory;
 
-  List<int> _recommendCategoryNumber = [];
+  final List<int> _recommendCategoryNumber = [];
   List<int> get recommendCategoryNumber => _recommendCategoryNumber;
 
   void recommendCategoryValueChange(bool state, int index) {
@@ -46,10 +46,10 @@ class RecommendRequestProvider with ChangeNotifier {
   int _totalCost = 0;
   int get totalCost => _totalCost;
 
-  List<int> _costs = [];
+  final List<int> _costs = [];
   List<int> get costs => _costs;
 
-  List<List<bool>> _costBool = [];
+  final List<List<bool>> _costBool = [];
   List<List<bool>> get costBool => _costBool;
 
   String _recommendMemo = '';

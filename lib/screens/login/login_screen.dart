@@ -4,6 +4,8 @@ import 'package:sense_flutter_application/views/login/login_view.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -40,12 +42,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Expanded(child: LogoView()),
-                  LoginFormView(),
+                  const Expanded(child: LogoView()),
+                  const LoginFormView(),
                   // isAndroid == true ? KakaoLoginButton() : Container(height: 163.0.h, color: Colors.white),
-                  KakaoLoginButton(),
+                  const KakaoLoginButton(),
                   SizedBox(height: 8.0.h),
-                  SigninView(),
+                  const SigninView(),
                 ],
               ),
             ),

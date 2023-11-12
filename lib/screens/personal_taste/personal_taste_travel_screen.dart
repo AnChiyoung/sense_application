@@ -34,11 +34,11 @@ class _PersonalTasteTravelScreenState extends State<PersonalTasteTravelScreen> {
                 children: [
                   Column(
                     children: [
-                      TravelHeader(),
+                      const TravelHeader(),
                       TravelContent(deviceWidth: deviceWidth),
                     ],
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.bottomCenter,
                     child: TravelButton(),
                   )

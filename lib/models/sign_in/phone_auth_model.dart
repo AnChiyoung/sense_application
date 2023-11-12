@@ -1,51 +1,59 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:sense_flutter_application/constants/api_path.dart';
 
 class PhoneAuthModel {
   Future<bool> phoneAuthRequest(String phoneNumber) async {
-
-    Map<String, dynamic> sendNumberModel = SendNumberModel(phoneNumber: phoneNumber.toString()).toJson();
+    Map<String, dynamic> sendNumberModel =
+        SendNumberModel(phoneNumber: phoneNumber.toString()).toJson();
 
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/user/phone/send'),
-      body: sendNumberModel,
-    );
-
-    if(response.statusCode == 200 || response.statusCode == 201) {
-      return true;
-    } else {
-      return false;
-      if (kDebugMode) {
-        print('error : $response');
-      }
-    }
-  }
-
-  Future<bool> authNumberCheck(String phoneNumber, int authNumber) async {
-
-    Map<String, dynamic> authNumberModel = AuthNumberCheckModel(phoneNumber: phoneNumber.toString(), code: authNumber).toJson();
-
-    print(authNumberModel);
-
-    final response = await http.post(
-      Uri.parse('${ApiUrl.releaseUrl}/user/phone/auth'),
-      body: json.encode(authNumberModel),
+      body: json.encode(sendNumberModel),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
-      print('인증번호 발송 성공');
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
-      print('인증번호 발송에 실패했습니다');
       return false;
-      if (kDebugMode) {
-        print('error : $response');
-      }
     }
+  }
+
+  Future<dynamic> authNumberCheck(String phoneNumber, int authNumber) async {
+    Map<String, dynamic> authNumberModel =
+        AuthNumberCheckModel(phoneNumber: phoneNumber.toString(), code: authNumber).toJson();
+
+    final response = await http.post(Uri.parse('${ApiUrl.releaseUrl}/user/phone/auth'),
+        body: json.encode(authNumberModel),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        encoding: const Utf8Codec(
+          allowMalformed: true,
+        ));
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    }
+
+    try {
+      String errorMessage =
+          json.decode(utf8.decode(response.bodyBytes))['errors']['non_field_errors'][0];
+
+      switch (errorMessage) {
+        case '잘못된 인증 코드입니다.':
+          return '인증번호가 다릅니다.';
+        case '인증 시간이 만료되었습니다.':
+          return '유효시간이 만료되었어요.';
+        default:
+      }
+    } catch (e) {
+      return false;
+    }
+
+    return false;
   }
 }
 
@@ -59,9 +67,9 @@ class AuthNumberCheckModel {
   });
 
   Map<String, dynamic> toJson() => {
-    'phone': phoneNumber,
-    'code': code,
-  };
+        'phone': phoneNumber,
+        'code': code,
+      };
 }
 
 class SendNumberModel {
@@ -72,8 +80,8 @@ class SendNumberModel {
   });
 
   Map<String, dynamic> toJson() => {
-    'phone': phoneNumber,
-  };
+        'phone': phoneNumber,
+      };
 }
 
 class AuthModel {

@@ -20,7 +20,7 @@ class _ContactScreenState extends State<ContactScreen> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         // backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: Column(

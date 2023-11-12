@@ -64,7 +64,7 @@ class _LogoutDialog extends State<LogoutDialog> {
                     widget.action!.call();
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, elevation: 0.0),
-                  child: Text('로그아웃', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
+                  child: const Text('로그아웃', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w400)),
                 ),
               ),
             ),

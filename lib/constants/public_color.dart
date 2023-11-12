@@ -36,8 +36,10 @@ class StaticColor {
   static Color candyColor = const Color(0xFFFF7B8B);
   static Color saltyColor = const Color(0xFFA479FF);
 
-
-  //////
+  static Color successColor = const Color(0xFF009A63);
+  static Color successHoverColor = const Color(0xFFC1F4E2);
+  static Color successDefaultColor = const Color(0xFF4FD0A2);
+  static Color successActiveColor = const Color(0xFF008354);
 
   // calendar sub color
   static Color subFamily = const Color(0xFFFFB45B);
@@ -108,7 +110,8 @@ class StaticColor {
   static Color drawerDividerColor = const Color(0xFFEEEEEE);
   static Color drawerEventDeleteTextColor = const Color(0xFFD82020);
   static Color drawerInviteBackgroundColor = const Color(0xFFF6F6F6);
-  static LinearGradient drawerUserSupervisorColor = const LinearGradient(colors: [Color(0xFF3E97FF), Color(0xFF2288FF)]);
+  static LinearGradient drawerUserSupervisorColor =
+      const LinearGradient(colors: [Color(0xFF3E97FF), Color(0xFF2288FF)]);
   static Color drawerNameColor = const Color(0xFF333333);
   // event info color
   static Color editModeInputBorderColor = const Color(0xFFEEEEEE);

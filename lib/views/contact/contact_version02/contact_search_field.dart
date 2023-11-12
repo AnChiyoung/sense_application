@@ -215,7 +215,7 @@ class _SearchResultSectionState extends State<SearchResultSection> {
                 future: onceRunFuture,
                 builder: (context, snapshot) {
                   if(snapshot.hasError) {
-                    return Text('fetching error..');
+                    return const Text('fetching error..');
                   } else if(snapshot.hasData) {
 
                     if(snapshot.connectionState == ConnectionState.waiting) {

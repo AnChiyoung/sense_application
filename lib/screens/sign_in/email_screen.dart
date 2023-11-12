@@ -34,8 +34,8 @@ class _EmailScreenState extends State<EmailScreen> {
                 children: [
                   Column(
                     children: [
-                      EmailHeader(),
-                      EmailDescription(),
+                      const EmailHeader(),
+                      const EmailDescription(),
                       EmailPasswordInputField(presetInfo: widget.kakaoUserModel),
                     ]
                   ),

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -261,7 +260,7 @@ class _ProductWidgetsState extends State<ProductWidgets> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        imageUrl!.isEmpty ? Expanded(child: StoreEmptyImage()) : Expanded(child: ProductImage(imageUrl: imageUrl!)),
+                        imageUrl!.isEmpty ? const Expanded(child: StoreEmptyImage()) : Expanded(child: ProductImage(imageUrl: imageUrl!)),
                         SizedBox(height: 8.0.h),
                         Row(
                           children: [
@@ -356,7 +355,7 @@ class _ProductImageState extends State<ProductImage> {
         imageUrl: widget.imageUrl,
         fit: BoxFit.fitHeight,
         placeholder: (context, url) => Center(child: Image.asset('assets/public/loading_logo_image.png', width: 70.0.w)),
-        errorWidget: (context, url, error) => Center(child: Container(width: double.infinity, height: double.infinity, child: const Text("상품 이미지가 없습니다."))), // 디자인 필요
+        errorWidget: (context, url, error) => const Center(child: SizedBox(width: double.infinity, height: double.infinity, child: Text("상품 이미지가 없습니다."))), // 디자인 필요
       ),
     );
   }
@@ -367,7 +366,7 @@ class StoreEmptyImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return const SizedBox(
       width: double.infinity,
       child: Center(
         child: Text('상품 이미지가 없습니다'),

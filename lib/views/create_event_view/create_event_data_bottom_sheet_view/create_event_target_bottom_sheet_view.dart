@@ -29,13 +29,13 @@ class _TargetBottomSheetState extends State<TargetBottomSheet> {
             children: [
               Column(
                 children: [
-                  TargetHeaderBar(),
-                  TargetTitle(),
+                  const TargetHeaderBar(),
+                  const TargetTitle(),
                   SizedBox(height: 24.0.h),
-                  TargetSelect(),
+                  const TargetSelect(),
                 ],
               ),
-              Align(
+              const Align(
                 alignment: Alignment.bottomCenter,
                 child: TargetSubmitButton(),
               )
@@ -165,7 +165,7 @@ class _TargetSubmitButtonState extends State<TargetSubmitButton> {
             targetListener();
           },
           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-          child: Column(
+          child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),

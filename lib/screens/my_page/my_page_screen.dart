@@ -14,28 +14,22 @@ class MyPageScreen extends StatefulWidget {
 class _MyPageScreenState extends State<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
-
     /// safe area height
-    final safeAreaTopPadding = MediaQuery.of(context).padding.top;
-    final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
+    // final safeAreaTopPadding = MediaQuery.of(context).padding.top;
+    // final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
-   return GestureDetector(
-      onTap: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          top: true,
-          bottom: false,
-          child: Column(
-            children: [
-              const MyPageHeader(),
-              const MyPageInfo(),
-              SizedBox(height: 23.0.h),
-              const Expanded(child: MyPageTab()),
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: Column(
+          children: [
+            const MyPageHeader(),
+            const MyPageInfo(),
+            SizedBox(height: 23.0.h),
+            const Expanded(child: MyPageTab()),
+          ],
         ),
       ),
     );

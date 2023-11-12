@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_advanced_networkimage_2/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 import 'package:sense_flutter_application/public_widget/icon_ripple_button.dart';
 import 'package:sense_flutter_application/views/feed/feed_post_detail_view.dart';

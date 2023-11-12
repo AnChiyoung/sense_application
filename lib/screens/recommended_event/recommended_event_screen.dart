@@ -11,7 +11,7 @@ class RecommendedEventScreen extends StatefulWidget {
 class _RecommendedEventScreenState extends State<RecommendedEventScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         bottom: false,
@@ -19,13 +19,13 @@ class _RecommendedEventScreenState extends State<RecommendedEventScreen> {
           children: [
             // 버튼 제외 상단
             Column(
-              children: const [
+              children: [
                 RecommendedEventHeaderMenu(),
                 RecommendedEventTitle(),
                 RecommendedEventCategory(),
               ],
             ),
-            const Align(
+            Align(
                 alignment: Alignment.bottomCenter,
                 child: RecommendedEventNextButton(),
             ),

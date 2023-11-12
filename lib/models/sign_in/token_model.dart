@@ -17,7 +17,7 @@ class SigninCheckModel {
     if(response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       // print(jsonResult);
-      print('kkkkk: ${jsonResult}');
+      print('kkkkk: $jsonResult');
       AccessTokenResponseModel joinTokenModel = AccessTokenResponseModel.fromJson(jsonResult);
       return joinTokenModel;
     } else {

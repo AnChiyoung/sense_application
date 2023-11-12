@@ -26,14 +26,14 @@ class _PolicyScreenState extends State<PolicyScreen> {
           bottom: false,
           child: Column(
             children: [
-              PolicyHeader(),
+              const PolicyHeader(),
               Container(
                 width: double.infinity,
                 height: 1.0.h,
                 color: StaticColor.grey300E0,
               ),
               // Text('aa')
-              PolicyContent(),
+              const PolicyContent(),
               // WithdrawalDescription(),
               // WithdrawalLoginView(),
               // SettingContent(),

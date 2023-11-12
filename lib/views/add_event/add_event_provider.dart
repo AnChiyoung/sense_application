@@ -33,7 +33,7 @@ class AddEventProvider with ChangeNotifier {
   }
 
   void contactListAllCheckState(bool state) {
-    _allCheckState = state!;
+    _allCheckState = state;
     notifyListeners();
   }
 

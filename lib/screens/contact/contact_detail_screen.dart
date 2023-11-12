@@ -152,12 +152,12 @@ class _ContactDetailScreenState extends State<ContactDetailScreen> {
                   // aa(model.phone!),
                   Column(
                     children: [
-                      ContactDetailHeader(contactModel: model!),
+                      ContactDetailHeader(contactModel: model),
                       Container(height: 1.0, color: StaticColor.grey200EE),
-                      ContactDetailFriendInfoView(contactModel: model!),
+                      ContactDetailFriendInfoView(contactModel: model),
                       const AiAnalyticsView(),
                       const CombineEventView(),
-                      FavoriteListView(contactModel: model!),
+                      FavoriteListView(contactModel: model),
                     ]
                   ),
                   const Align(

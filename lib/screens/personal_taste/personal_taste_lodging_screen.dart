@@ -34,11 +34,11 @@ class _PersonalTasteLodgingScreenState extends State<PersonalTasteLodgingScreen>
                 children: [
                   Column(
                     children: [
-                      LodgingHeader(),
+                      const LodgingHeader(),
                       LodgingContent(deviceWidth: deviceWidth),
                     ],
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.bottomCenter,
                     child: LodgingButton(),
                   )

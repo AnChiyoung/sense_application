@@ -29,8 +29,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
               height: MediaQuery.of(context).size.height - safeAreaTopPadding,
               child: Column(
                 children: [
-                  PhoneAuthHeader(),
-                  PhoneAuthDescription(),
+                  const PhoneAuthHeader(),
+                  const PhoneAuthDescription(),
                   PhoneAuthInputField(phoneNumber: widget.phoneNumber),
                 ],
               ),

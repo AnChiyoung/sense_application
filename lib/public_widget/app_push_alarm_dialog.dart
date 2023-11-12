@@ -33,9 +33,9 @@ class _AppPushAlarmDialogState extends State<AppPushAlarmDialog> {
               text: TextSpan(
                   style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400),
                   children: [
-                    TextSpan(text: '앱 푸시 알림 수신을 위해 휴대폰 '),
+                    const TextSpan(text: '앱 푸시 알림 수신을 위해 휴대폰 '),
                     TextSpan(text: '설정>알림', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700)),
-                    TextSpan(text: '에서\n센스 알림을 허용해주세요.'),
+                    const TextSpan(text: '에서\n센스 알림을 허용해주세요.'),
                   ]
               )
             ),

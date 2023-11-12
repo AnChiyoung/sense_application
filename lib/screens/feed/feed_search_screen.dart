@@ -15,12 +15,12 @@ class _FeedSearchScreenState extends State<FeedSearchScreen> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: const Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const [
+            children: [
               FeedSearchHeader(),
               FeedSearchTab(),
             ],

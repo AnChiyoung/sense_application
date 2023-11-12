@@ -30,14 +30,14 @@ class _DateBottomSheetState extends State<DateBottomSheet> {
             children: [
               Column(
                 children: [
-                  DateHeader(),
-                  DateTitle(),
+                  const DateHeader(),
+                  const DateTitle(),
                   SizedBox(height: 24.0.h),
-                  DateViewSection(),
-                  DateSelectSection(),
+                  const DateViewSection(),
+                  const DateSelectSection(),
                 ],
               ),
-              Align(
+              const Align(
                 alignment: Alignment.bottomCenter,
                 child: DateSubmitButton(),
               )
@@ -85,7 +85,7 @@ class _DateSubmitButtonState extends State<DateSubmitButton> {
             dateListener();
           },
           style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categorySelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-          child: Column(
+          child: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: 56, child: Center(child: Text('저장', style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w700)))),

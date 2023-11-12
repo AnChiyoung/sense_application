@@ -5,19 +5,17 @@ import 'package:sense_flutter_application/screens/calendar/calendar_screen.dart'
 import 'package:sense_flutter_application/screens/event_feed/event_feed_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_screen.dart';
 import 'package:sense_flutter_application/screens/store/store_screen.dart';
-import 'package:sense_flutter_application/screens/test_screen/test_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
 import 'package:sense_flutter_application/views/store/store_provider.dart';
-import '../../public_widget/login_dialog.dart';
 
 class MovePageList {
   static List<Widget> pageList = [
-    FeedScreen(),
+    const FeedScreen(),
     // ContactScreen(),
-    StoreScreen(),
+    const StoreScreen(),
     // TestScreen(),
-    EventFeedScreen(),
-    CalendarScreen(),
+    const EventFeedScreen(),
+    const CalendarScreen(),
   ];
 }
 

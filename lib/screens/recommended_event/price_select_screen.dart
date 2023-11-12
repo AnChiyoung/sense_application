@@ -11,7 +11,7 @@ class PriceSelectScreen extends StatefulWidget {
 class _PriceSelectScreenState extends State<PriceSelectScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         bottom: false,
@@ -19,13 +19,13 @@ class _PriceSelectScreenState extends State<PriceSelectScreen> {
           children: [
             // 버튼 제외 상단
             Column(
-              children: const [
+              children: [
                 PriceSelectHeaderMenu(),
                 PriceSelectTitle(),
                 PriceSelectCategory(),
               ],
             ),
-            const Align(
+            Align(
               alignment: Alignment.bottomCenter,
               child: PriceSelectNextButton(),
             ),

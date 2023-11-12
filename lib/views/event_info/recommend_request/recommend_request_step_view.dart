@@ -3,9 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/event_info_recommend_request_dialog.dart';
-import 'package:sense_flutter_application/views/event_info/event_recommend_step_category.dart';
-import 'package:sense_flutter_application/views/event_info/event_recommend_step_cost.dart';
-import 'package:sense_flutter_application/views/event_info/event_recommend_step_memo.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
 
 class RecommendRequestStep extends StatefulWidget {

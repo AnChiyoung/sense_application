@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/calendar/calendar_event_list.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -55,7 +54,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
             child: child,
           );
         },
-        child: Column(
+        child: const Column(
           children: [
             /// event header + event header menu => event list area
             // EventList(),

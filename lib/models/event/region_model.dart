@@ -25,7 +25,7 @@ class RegionRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('city 불러오기 성공');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      List<City> models = body.isEmpty || body == null ? [] : body.map((e) => City.fromJson(e)).toList();
+      List<City> models = body.isEmpty ? [] : body.map((e) => City.fromJson(e)).toList();
       return models;
     } else {
       logger.v('city 불러오기 실패');
@@ -45,7 +45,7 @@ class RegionRequest {
     if(response.statusCode == 200 || response.statusCode == 201) {
       logger.v('subcity 불러오기 성공');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      List<SubCity> models = body.isEmpty || body == null ? [] : body.map((e) => SubCity.fromJson(e)).toList();
+      List<SubCity> models = body.isEmpty ? [] : body.map((e) => SubCity.fromJson(e)).toList();
       return models;
     } else {
       logger.v('subcity 불러오기 실패');

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/models/event/event_model.dart';
-import 'package:sense_flutter_application/screens/home/home_screen.dart';
 // import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
 
 class EventDeleteDialog extends StatefulWidget {

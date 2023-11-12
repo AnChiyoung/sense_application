@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
-import 'package:sense_flutter_application/models/recommended_event/recommended_model.dart';
 
 class RecommendedEventProvider with ChangeNotifier {
   bool _buttonState = false;
@@ -16,13 +14,13 @@ class RecommendedEventProvider with ChangeNotifier {
   int _regionSelectState = -1;
   int get regionSelectState => _regionSelectState;
 
-  List<bool> _subRegionList = [];
+  final List<bool> _subRegionList = [];
   List<bool> get subRegionList => _subRegionList;
 
   bool _memoNextButton = false;
   bool get memoNextButton => _memoNextButton;
 
-  bool _recommendedButton = false;
+  final bool _recommendedButton = false;
   bool get recommendedButton => _recommendedButton;
 
   bool _editMode = false;
@@ -46,10 +44,10 @@ class RecommendedEventProvider with ChangeNotifier {
   // List<RecommendedModel> _selectCategory = [];
   // List<RecommendedModel> get selectCategory => _selectCategory;
 
-  int _index = 0;
+  final int _index = 0;
   int get index => _index;
 
-  List<bool> _likeStateModel = [];
+  final List<bool> _likeStateModel = [];
   List<bool> get likeStateModel => _likeStateModel;
 
   bool _select = false;
@@ -132,7 +130,7 @@ class RecommendedEventProvider with ChangeNotifier {
     _editDate = AddEventModel.dateModel;
     _editMemo = AddEventModel.memoModel;
 
-    print(_editTitle + '/' + _editName);
+    print('$_editTitle/$_editName');
     notifyListeners();
   }
 

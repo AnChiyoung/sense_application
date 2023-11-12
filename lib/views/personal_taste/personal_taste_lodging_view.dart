@@ -117,7 +117,7 @@ class _LodgingContentState extends State<LodgingContent> {
           int step = data.lodgingPresentStep;
 
           if(step == 1) {
-            return LodgingStep01();
+            return const LodgingStep01();
           } else if(step == 2) {
             return LodgingStep02(deviceWidth: widget.deviceWidth);
           } else if(step == 3) {
@@ -125,9 +125,9 @@ class _LodgingContentState extends State<LodgingContent> {
           } else if(step == 4) {
             return LodgingStep04(deviceWidth: widget.deviceWidth);
           } else if(step == 5) {
-            return LodgingStep05();
+            return const LodgingStep05();
           } else if(step == 6) {
-            return LodgingStep06();
+            return const LodgingStep06();
           } else {
             return const SizedBox.shrink();
           }
@@ -180,7 +180,7 @@ class _LodgingButtonState extends State<LodgingButton> {
                 onPressed: () {
                   if(buttonState == true) {
                     if(step == 6) {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => PersonalTasteTravelScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const PersonalTasteTravelScreen()));
                     } else {
                       context.read<TasteProvider>().lodgingPresentStepChange(step + 1);
                     }

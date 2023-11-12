@@ -9,13 +9,10 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 import 'package:sense_flutter_application/views/event_info/recommend_request/recommend_request_provider.dart';
-// import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/home/home_provider.dart';
 import 'package:sense_flutter_application/views/animation/animation_provider.dart';
 import 'package:sense_flutter_application/views/event_feed/event_feed_provider.dart';
@@ -25,8 +22,6 @@ import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
-// import 'package:sense_flutter_application/views/new_create_event_view/new_create_event_provider.dart';
-// import 'package:sense_flutter_application/views/new_create_event/new_create_event_provider.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -38,18 +33,21 @@ import 'package:intl/date_symbol_data_local.dart';
 /// 375 * 812 (include safe area..)
 
 void main() async {
-  await Hive.initFlutter();
-
-  WidgetsFlutterBinding.ensureInitialized();
   // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
-  await initializeDateFormatting();
+
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // splash screen 설정. remove하기 전까지 남아있음
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // hive(=저장소) init
+  await Hive.initFlutter();
+  await initializeDateFormatting();
+
   /// android status bar set
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark
-      ),
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
   );
 
   KakaoSdk.init(
@@ -57,37 +55,33 @@ void main() async {
     javaScriptAppKey: '90dd5b3346fbc9c76d27afbd3b2fc068',
     loggingEnabled: true,
   );
-  // // 앱 화면방향 세로 고정
-  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
-  //     .then((_) => runApp(const MyApp()));
 
-  runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => LoginProvider()),
-          ChangeNotifierProvider(create: (_) => SigninProvider()),
-          ChangeNotifierProvider(create: (_) => HomeProvider()),
-          ChangeNotifierProvider(create: (_) => CalendarProvider()),
-          ChangeNotifierProvider(create: (_) => TermProvider()),
-          ChangeNotifierProvider(create: (_) => StepProvider()),
-          ChangeNotifierProvider(create: (_) => AddEventProvider()),
-          ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
-          ChangeNotifierProvider(create: (_) => FeedProvider()),
-          ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
-          ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
-          ChangeNotifierProvider(create: (_) => ContactProvider()),
-          ChangeNotifierProvider(create: (_) => MyPageProvider()),
-          ChangeNotifierProvider(create: (_) => TasteProvider()),
-          ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
-          ChangeNotifierProvider(create: (_) => EventFeedProvider()),
-          ChangeNotifierProvider(create: (_) => AnimationProvider()),
-          ChangeNotifierProvider(create: (_) => StoreProvider()),
-          ChangeNotifierProvider(create: (_) => CEProvider()),
-          ChangeNotifierProvider(create: (_) => EDProvider()),
-          // ChangeNotifierProvider(create: (_) => CEProvider()),
-          // 여기에 추가하시면 되여
-        ],
-        child: const MyApp(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => LoginProvider()),
+      ChangeNotifierProvider(create: (_) => SigninProvider()),
+      ChangeNotifierProvider(create: (_) => HomeProvider()),
+      ChangeNotifierProvider(create: (_) => CalendarProvider()),
+      ChangeNotifierProvider(create: (_) => TermProvider()),
+      ChangeNotifierProvider(create: (_) => StepProvider()),
+      ChangeNotifierProvider(create: (_) => AddEventProvider()),
+      ChangeNotifierProvider(create: (_) => RecommendedEventProvider()),
+      ChangeNotifierProvider(create: (_) => FeedProvider()),
+      ChangeNotifierProvider(create: (_) => FeedSearchProvider()),
+      ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
+      ChangeNotifierProvider(create: (_) => ContactProvider()),
+      ChangeNotifierProvider(create: (_) => MyPageProvider()),
+      ChangeNotifierProvider(create: (_) => TasteProvider()),
+      ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
+      ChangeNotifierProvider(create: (_) => EventFeedProvider()),
+      ChangeNotifierProvider(create: (_) => AnimationProvider()),
+      ChangeNotifierProvider(create: (_) => StoreProvider()),
+      ChangeNotifierProvider(create: (_) => CEProvider()),
+      ChangeNotifierProvider(create: (_) => EDProvider()),
+      // ChangeNotifierProvider(create: (_) => CEProvider()),
+      // 여기에 추가하시면 되여
+    ],
+    child: const MyApp(),
   ));
 }
 
@@ -97,7 +91,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
@@ -134,4 +127,13 @@ class MyApp extends StatelessWidget {
 // class CandyGlobalVariable {
 //   static final GlobalKey<NavigatorState> naviagatorState =
 //   GlobalKey<NavigatorState>();
+// }
+
+// class ResponsiveApp {
+//   static late MediaQueryData _mediaQueryData;
+//   static MediaQueryData get mediaQuery => _mediaQueryData;
+
+//   static void setMediaQuery(BuildContext context) {
+//     _mediaQueryData = MediaQuery.of(context);
+//   }
 // }

@@ -219,7 +219,7 @@ class _ReportDialogState extends State<ReportDialog> {
                                     // Navigator.of(context).pop();
                                   },
                                   style: ElevatedButton.styleFrom(backgroundColor: selectType.contains(true) == true ? StaticColor.mainSoft : StaticColor.grey400BB, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)), elevation: 0.0),
-                                  child: Column(
+                                  child: const Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         SizedBox(height: 40, child: Center(child: Text('신고하기', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700)))),

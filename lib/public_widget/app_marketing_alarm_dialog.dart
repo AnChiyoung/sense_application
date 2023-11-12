@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 
 class AppMarketingAlarmDialog extends StatefulWidget {
   Function? action;
@@ -46,7 +44,7 @@ class _AppMarketingAlarmDialogState extends State<AppMarketingAlarmDialog> {
                     style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400),
                     children: [
                       TextSpan(text: marketingRecieveDate),
-                      TextSpan(text: "센스 '마케팅 정보 수신'에 "),
+                      const TextSpan(text: "센스 '마케팅 정보 수신'에 "),
                       TextSpan(text: widget.isAgree == true ? '동의하셨습니다.' : '거부하셨습니다.'),
                     ]
                 )

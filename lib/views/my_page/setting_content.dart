@@ -29,7 +29,7 @@ class _SettingContentState extends State<SettingContent> {
         children: [
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingEditProfile(),
                 SettingMoreInfo(),
@@ -39,7 +39,7 @@ class _SettingContentState extends State<SettingContent> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingContactReload(),
               ],
@@ -47,7 +47,7 @@ class _SettingContentState extends State<SettingContent> {
           ),
           Padding(
             padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
+            child: const Column(
               children: [
                 SettingPolicy(),
                 SettingAppVersion(),
@@ -56,15 +56,15 @@ class _SettingContentState extends State<SettingContent> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 8.0.h),
-            child: Column(
-              children: [
-                SettingLogout(),
-                SettingWithdrawal(),
-              ],
-            )),
+              padding: EdgeInsets.only(top: 8.0.h),
+              child: const Column(
+                children: [
+                  SettingLogout(),
+                  SettingWithdrawal(),
+                ],
+              )),
         ],
-      ) ,
+      ),
     );
   }
 }
@@ -81,7 +81,7 @@ class _SettingEditProfileState extends State<SettingEditProfile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => MyInfoUpdate(page: 0)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -89,7 +89,9 @@ class _SettingEditProfileState extends State<SettingEditProfile> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('프로필 편집', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('프로필 편집',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
           ],
         ),
@@ -110,7 +112,7 @@ class _SettingMoreInfoState extends State<SettingMoreInfo> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => MyInfoUpdate(page: 1)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 1)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -118,7 +120,9 @@ class _SettingMoreInfoState extends State<SettingMoreInfo> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('추가정보', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('추가정보',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
           ],
         ),
@@ -126,7 +130,6 @@ class _SettingMoreInfoState extends State<SettingMoreInfo> {
     );
   }
 }
-
 
 class SettingAlarm extends StatefulWidget {
   const SettingAlarm({super.key});
@@ -140,7 +143,7 @@ class _SettingAlarmState extends State<SettingAlarm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => SettingAlarmScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingAlarmScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -148,7 +151,9 @@ class _SettingAlarmState extends State<SettingAlarm> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('알림', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('알림',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
           ],
         ),
@@ -164,8 +169,7 @@ class SettingContactReload extends StatefulWidget {
   State<SettingContactReload> createState() => _SettingContactReloadState();
 }
 
-class _SettingContactReloadState extends State<SettingContactReload> with TickerProviderStateMixin{
-
+class _SettingContactReloadState extends State<SettingContactReload> with TickerProviderStateMixin {
   late AnimationController animationController;
   bool forwardDirection = false;
   double rotationAngle = 0.0;
@@ -173,8 +177,8 @@ class _SettingContactReloadState extends State<SettingContactReload> with Ticker
 
   @override
   void initState() {
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+    animationController =
+        AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
     animationController.value = 0.0;
     super.initState();
   }
@@ -220,24 +224,24 @@ class _SettingContactReloadState extends State<SettingContactReload> with Ticker
         if (isStopAnimation()) {
           startRotateAnimation(true);
           Future.delayed(const Duration(seconds: 3)).then((value) => {
-            stopRotateAnimation(),
-            updateCheck = DateTime.now(),
-            month = updateCheck.month.toString(),
-            day = updateCheck.day.toString(),
-            hour = updateCheck.hour.toString(),
-            int.parse(hour) < 12 && int.parse(hour) >= 0 ? periodic = '오전' : {periodic = '오후', hour = (int.parse(hour) - 12).toString()},
-            if(updateCheck.minute.toInt() >= 0 && updateCheck.minute.toInt() < 10) {
-              minute = '0${updateCheck.minute.toString()}'
-            } else {
-              minute = updateCheck.minute.toString()
-            },
-            updateDate = '$month월 $day일 $periodic$hour:$minute',
-          });
+                stopRotateAnimation(),
+                updateCheck = DateTime.now(),
+                month = updateCheck.month.toString(),
+                day = updateCheck.day.toString(),
+                hour = updateCheck.hour.toString(),
+                int.parse(hour) < 12 && int.parse(hour) >= 0
+                    ? periodic = '오전'
+                    : {periodic = '오후', hour = (int.parse(hour) - 12).toString()},
+                if (updateCheck.minute.toInt() >= 0 && updateCheck.minute.toInt() < 10)
+                  {minute = '0${updateCheck.minute.toString()}'}
+                else
+                  {minute = updateCheck.minute.toString()},
+                updateDate = '$month월 $day일 $periodic$hour:$minute',
+              });
         } else {
           /// 다 불러왔을 때 정지
           stopRotateAnimation();
         }
-
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -245,10 +249,16 @@ class _SettingContactReloadState extends State<SettingContactReload> with Ticker
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('연락처 새로고침', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('연락처 새로고침',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Row(
               children: [
-                Text(updateDate, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                Text(updateDate,
+                    style: TextStyle(
+                        fontSize: 14.0.sp,
+                        color: StaticColor.grey70055,
+                        fontWeight: FontWeight.w400)),
                 SizedBox(width: 20.0.w),
                 AnimatedBuilder(
                   animation: animationController,
@@ -304,7 +314,7 @@ class SettingPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const PolicyScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -312,7 +322,9 @@ class SettingPolicy extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('약관 및 개인정보의 처리동의', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('약관 및 개인정보의 처리동의',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
           ],
         ),
@@ -327,16 +339,16 @@ class SettingAppVersion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-
-      },
+      onTap: () {},
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('버전 1.2.5(최신)', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('버전 1.2.5(최신)',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
           ],
         ),
       ),
@@ -351,7 +363,8 @@ class SettingAppVersionTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        launchUrl(Uri.parse('https://play.google.com/store/apps/details?id=com.runners.sense.sense_flutter_application'));
+        launchUrl(Uri.parse(
+            'https://play.google.com/store/apps/details?id=com.runners.sense.sense_flutter_application'));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -359,14 +372,18 @@ class SettingAppVersionTest extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('TEST : 버전 1.1.0', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text('TEST : 버전 1.1.0',
+                style: TextStyle(
+                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
               decoration: BoxDecoration(
                 color: StaticColor.grey100F6,
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              child: Text('업데이트', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w400)),
+              child: Text('업데이트',
+                  style: TextStyle(
+                      fontSize: 12.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w400)),
             )
           ],
         ),
@@ -389,13 +406,12 @@ class _SettingLogoutState extends State<SettingLogout> {
       onTap: () {
         /// logout
         showDialog(
-          context: context,
-          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return LogoutDialog(action: logoutAction);
-          }
-        );
+            context: context,
+            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return LogoutDialog(action: logoutAction);
+            });
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -403,7 +419,11 @@ class _SettingLogoutState extends State<SettingLogout> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('로그아웃', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.textErrorColor, fontWeight: FontWeight.w400)),
+            Text('로그아웃',
+                style: TextStyle(
+                    fontSize: 14.0.sp,
+                    color: StaticColor.textErrorColor,
+                    fontWeight: FontWeight.w400)),
           ],
         ),
       ),
@@ -411,15 +431,15 @@ class _SettingLogoutState extends State<SettingLogout> {
   }
 
   void logoutAction() {
-    LoginRequest.storage.delete(key: 'id');
-    LoginRequest.storage.delete(key: 'username');
-    LoginRequest.storage.delete(key: 'profileImage');
+    LoginRequest.storage.delete(key: 'loginToken');
     PresentUserInfo.id = -1;
     PresentUserInfo.username = '';
     PresentUserInfo.profileImage = '';
+    PresentUserInfo.loginToken = '';
     // Navigator.popUntil(context, (route) => route.isFirst);
     // Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => LoginScreen()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (_) => const LoginScreen()), (route) => false);
   }
 }
 
@@ -435,7 +455,7 @@ class _SettingWithdrawalState extends State<SettingWithdrawal> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => WithdrawalScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const WithdrawalScreen()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -443,7 +463,11 @@ class _SettingWithdrawalState extends State<SettingWithdrawal> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('회원탈퇴', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.textErrorColor, fontWeight: FontWeight.w400)),
+            Text('회원탈퇴',
+                style: TextStyle(
+                    fontSize: 14.0.sp,
+                    color: StaticColor.textErrorColor,
+                    fontWeight: FontWeight.w400)),
           ],
         ),
       ),

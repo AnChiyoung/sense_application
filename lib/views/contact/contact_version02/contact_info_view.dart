@@ -250,7 +250,7 @@ class _ContactInfoBasicState extends State<ContactInfoBasic> {
 
                   Navigator.of(context).pop();
                 },
-                child: Text('확인'),
+                child: const Text('확인'),
               ),
             ),
             SizedBox(

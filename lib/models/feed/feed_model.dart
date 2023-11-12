@@ -8,7 +8,6 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedRequest {
   Future<List<FeedPreviewModel>> feedPreviewRequestByLabelId(int labelId) async {
-    // print('select label id: ${labelId.toString()}');
     String query;
     String pageSize;
     labelId == -1 ? query = '' : query = '?label_id=${labelId.toString()}';
@@ -18,10 +17,9 @@ class FeedRequest {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
-      // print(modelList);
       return modelList;
     } else {
       return [];
@@ -33,12 +31,13 @@ class FeedRequest {
       Uri.parse('${ApiUrl.releaseUrl}/post/${postId.toString()}/like'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-        'Content-Type': 'application/json; charset=UTF-8'},
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
-      print('post detail like button call success');
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+
       /// logger setting
       var logger = Logger(
         printer: PrettyPrinter(
@@ -51,7 +50,6 @@ class FeedRequest {
       FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
       return feedDetailModel;
     } else {
-      print('post detail like button call fail');
       throw Exception;
     }
   }
@@ -61,12 +59,13 @@ class FeedRequest {
       Uri.parse('${ApiUrl.releaseUrl}/post/${postId.toString()}/unlike'),
       headers: {
         'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-        'Content-Type': 'application/json; charset=UTF-8'},
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
-      print('post detail like button call success');
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
+
       /// logger setting
       var logger = Logger(
         printer: PrettyPrinter(
@@ -79,7 +78,6 @@ class FeedRequest {
       FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
       return feedDetailModel;
     } else {
-      print('post detail like button call fail');
       throw Exception;
     }
   }
@@ -94,7 +92,7 @@ class FeedRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<FeedPreviewModel> modelList = body.map((e) => FeedPreviewModel.fromJson(e)).toList();
       return modelList;
@@ -144,7 +142,7 @@ class LikedRequest {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
       return false;
@@ -157,7 +155,7 @@ class LikedRequest {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return true;
     } else {
       return false;
@@ -171,8 +169,6 @@ class LikedModel {
   LikedModel({
     this.isLiked,
   });
-
-
 }
 
 ///
@@ -198,7 +194,7 @@ class ResponseModel {
 ///
 ///
 /// 유져 모델
-class UserModel {
+class FeedUserModel {
   final int id;
   final String username;
   final String? email;
@@ -207,7 +203,7 @@ class UserModel {
   final String? birthday;
   final String? imageProfileUrl;
 
-  UserModel({
+  FeedUserModel({
     required this.id,
     required this.username,
     this.email,
@@ -217,7 +213,7 @@ class UserModel {
     this.imageProfileUrl,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json)
+  FeedUserModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
         email = json['email'],
@@ -325,7 +321,7 @@ enum FeedProductType { GIFT, BOOKING }
 class FeedPostDetailModel {
   final int id;
   final int? userId;
-  final UserModel? userData;
+  final FeedUserModel? userData;
   final String? title;
   final String? originPrice;
   final String? salePrice;
@@ -354,7 +350,7 @@ class FeedPostDetailModel {
   FeedPostDetailModel.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         userId = json['user'],
-        userData = json['user_data'] != null ? UserModel.fromJson(json['user_data']) : null,
+        userData = json['user_data'] != null ? FeedUserModel.fromJson(json['user_data']) : null,
         title = json['title'],
         originPrice = json['origin_price'],
         salePrice = json['sale_price'],
@@ -421,7 +417,6 @@ class ApiService {
   // static const String today = "today";
 
   static Future<List<FeedPostModel>> getRecommendPostsByTagId(int tagId) async {
-    debugPrint('API call getRecommendPostsByTagId');
     List<FeedPostModel> postInstances = [];
 
     // final uri = Uri.parse('$baseUrl/recommands?recommand_tag=$tagId');
@@ -441,7 +436,6 @@ class ApiService {
   }
 
   static Future<List<FeedTagModel>> getRecommendTags() async {
-    debugPrint('API call getRecommendTags');
     List<FeedTagModel> tagInstances = [];
     // final uri = Uri.parse('$baseUrl/recommand-tags');
     final uri = Uri.parse('${ApiUrl.releaseUrl}/labels');
@@ -449,7 +443,6 @@ class ApiService {
     final response = await http.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
-      print('success');
       final responseBody = ResponseModel.fromJson(jsonDecode(response.body));
       final tags = responseBody.data;
       for (var tag in tags) {
@@ -464,8 +457,6 @@ class ApiService {
 // FeedPostDetailModel
   static Future<List<FeedPostDetailModel>> getPosts(
       {String? searchTerm, String? tagTitle, String? ordering}) async {
-    debugPrint('API call getPosts');
-
     List<FeedPostDetailModel> postInstances = [];
 
     final Map<String, String> queryParams = {};
@@ -496,8 +487,6 @@ class ApiService {
   }
 
   static Future<FeedPostDetailModel> getPostById(int postId) async {
-    debugPrint('API call getPostById');
-
     FeedPostDetailModel post;
 
     // 임시
@@ -506,18 +495,11 @@ class ApiService {
       tempId = postId;
     }
     final uri = Uri.parse('${ApiUrl.releaseUrl}/post/$tempId');
-    // debugPrint('uri: $uri');
     final response = await http.get(uri);
-    // debugPrint('response: $response');
-    // debugPrint('jsonDecode(response.body): ${jsonDecode(response.body)}');
-    // debugPrint('jsonDecode(response.body)["data"]: ${jsonDecode(response.body)['data']}');
 
     if (response.statusCode == 200) {
       final responseBody = ResponseModel.fromJson(jsonDecode(response.body));
-      // debugPrint('responseBody: $responseBody');
-      // debugPrint('responseBody.data: ${responseBody.data}');
       post = FeedPostDetailModel.fromJson(responseBody.data);
-      // debugPrint('post: $post');
       return post;
     }
     throw Error();

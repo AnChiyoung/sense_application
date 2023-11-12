@@ -31,7 +31,7 @@ class _CreateEventRegionViewState extends State<CreateEventRegionView> {
                   enableDrag: true,
                   backgroundColor: Colors.transparent,
                   builder: (context) {
-                    return RegionBottomSheet();
+                    return const RegionBottomSheet();
                   }
               );
             },
@@ -83,11 +83,11 @@ class _CityDropdownState extends State<CityDropdown> {
   @override
   void initState() {
     cityName = widget.cityName;
-    for(int i = 0; i < cityName!.length; i++) {
+    for(int i = 0; i < cityName.length; i++) {
       dropdownItem.add(
           DropdownMenuItem(
-            value: cityName!.elementAt(i).toString(),
-            child: Text(cityName!.elementAt(i).toString(), style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w100)),
+            value: cityName.elementAt(i).toString(),
+            child: Text(cityName.elementAt(i).toString(), style: TextStyle(fontSize: 14, color: StaticColor.grey70055, fontWeight: FontWeight.w100)),
           )
       );
     }
@@ -96,9 +96,9 @@ class _CityDropdownState extends State<CityDropdown> {
     /// 그 다음은 tempcity index에 따라
     if(context.read<CEProvider>().tempCity == -1) {
       context.read<CEProvider>().tempCityChange(0, false);
-      initItem = cityName!.elementAt(0).toString();
+      initItem = cityName.elementAt(0).toString();
     } else {
-      initItem = cityName!.elementAt(context.read<CEProvider>().tempCity).toString();
+      initItem = cityName.elementAt(context.read<CEProvider>().tempCity).toString();
     }
     super.initState();
   }
@@ -201,7 +201,7 @@ class _SubCityFieldState extends State<SubCityField> {
         RegionBox(
           state: fieldState.elementAt(i),
           enabled: true,
-          name: subCityList!.elementAt(i),
+          name: subCityList.elementAt(i),
           cityIndex: cityIndex,
           index: i,
         ),

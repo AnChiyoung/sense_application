@@ -170,7 +170,7 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _lodgingSelector = [false, false, false, false, false, false];
+  final List<bool> _lodgingSelector = [false, false, false, false, false, false];
   List<bool> get lodgingSelector => _lodgingSelector;
 
   void lodgingSelectorChange(int index, bool state) {
@@ -178,7 +178,7 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _lodgingEnvSelector = [false, false, false, false, false, false];
+  final List<bool> _lodgingEnvSelector = [false, false, false, false, false, false];
   List<bool> get lodgingEnvSelector => _lodgingEnvSelector;
 
   void lodgingEnvSelectorChange(int index, bool state) {
@@ -186,7 +186,7 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _lodgingToolSelector = [false, false, false, false, false, false, false, false, false];
+  final List<bool> _lodgingToolSelector = [false, false, false, false, false, false, false, false, false];
   List<bool> get lodgingToolSelector => _lodgingToolSelector;
 
   void lodgingToolSelectorChange(int index, bool state) {
@@ -235,7 +235,7 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _distanceSelector = [false, false, false, false, false];
+  final List<bool> _distanceSelector = [false, false, false, false, false];
   List<bool> get distanceSelector => _distanceSelector;
 
   void distanceSelectorChange(int index, bool state) {
@@ -243,7 +243,7 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _themeSelector = [false, false, false, false, false, false];
+  final List<bool> _themeSelector = [false, false, false, false, false, false];
   List<bool> get themeSelector => _themeSelector;
 
   void themeSelectorChange(int index, bool state) {
@@ -251,7 +251,7 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<bool> _peopleSelector = [false, false, false, false, false, false, false, false, false];
+  final List<bool> _peopleSelector = [false, false, false, false, false, false, false, false, false];
   List<bool> get peopleSelector => _peopleSelector;
 
   void peopleSelectorChange(int index, bool state) {

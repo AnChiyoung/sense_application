@@ -22,13 +22,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
         bottom: false,
           child: Column(
             children: [
-              CalendarAppBar(),
+              const CalendarAppBar(),
               Container(
                 width: double.infinity,
                 height: 1,
                 color: StaticColor.headerDevider,
               ),
-              Expanded(
+              const Expanded(
                 child: CalendarBody()),
             ],
           ),

@@ -22,16 +22,16 @@ class _CreateEventDataSectionState extends State<CreateEventDataSection> {
       child: Column(
         // mainAxisSize: MainAxisSize.min,
         children: [
-          CreateEventTitleView(),
+          const CreateEventTitleView(),
           SizedBox(height: 16.0.h),
           Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Expanded(
+                const Expanded(
                     flex: 1,
                     child: CreateEventCategoryView()),
                 SizedBox(width: 26.0.w),
-                Expanded(
+                const Expanded(
                     flex: 1,
                     child: CreateEventTargetView()),
               ]
@@ -40,17 +40,17 @@ class _CreateEventDataSectionState extends State<CreateEventDataSection> {
           Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Expanded(
+                const Expanded(
                     flex: 1,
                     child: CreateEventDateView()),
                 SizedBox(width: 26.0.w),
-                Expanded(
+                const Expanded(
                     flex: 1,
                     child: CreateEventRegionView()),
               ]
           ),
           SizedBox(height: 16.0.h),
-          CreateEventMemoView(),
+          const CreateEventMemoView(),
           // Expanded(child: Container(width: double.infinity, color: Colors.red))
         ],
       ),

@@ -14,7 +14,7 @@ class RegeditContactHeader extends StatefulWidget {
 class _RegeditContactHeaderState extends State<RegeditContactHeader> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 60,
       child: Stack(
         children: [

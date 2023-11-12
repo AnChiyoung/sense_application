@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/taste/taste_model.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
-import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 
 class FoodResultHeader extends StatefulWidget {
   const FoodResultHeader({super.key});
@@ -205,7 +202,7 @@ class _FoodWidgetState extends State<FoodWidget> {
       children: [
         Column(
           children: [
-            Container(
+            SizedBox(
               width: 70.0.w,
               height: 70.0.h,
               child: Image.asset(foodPath),

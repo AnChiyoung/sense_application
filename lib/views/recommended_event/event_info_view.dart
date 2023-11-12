@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/event/add_event_model.dart';
-import 'package:sense_flutter_application/models/event/event_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
 import 'package:sense_flutter_application/public_widget/event_delete_dialog.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/recommended_event/present_memo_screen.dart';
-import 'package:sense_flutter_application/screens/recommended_event/recommended_screen.dart';
-import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:toast/toast.dart';
 
@@ -36,7 +31,7 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
     final eventTitle = context.watch<RecommendedEventProvider>().editTitle;
 
-    return HeaderMenu(backCallback: backCallback, title: eventTitle.isEmpty ? '미지정(1)' : eventTitle + '(1)', rightMenu: menu());
+    return HeaderMenu(backCallback: backCallback, title: eventTitle.isEmpty ? '미지정(1)' : '$eventTitle(1)', rightMenu: menu());
   }
 
   void backCallback() {
@@ -430,7 +425,7 @@ class _DrawerEventDeleteState extends State<DrawerEventDelete> {
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return EventDeleteDialog();
+                  return const EventDeleteDialog();
                 }
               );
             },
@@ -585,7 +580,7 @@ class _EventInfoPersonSectionState extends State<EventInfoPersonSection> {
                   children: [
                     Stack(
                       children: [
-                        Container(
+                        const SizedBox(
                           width: 65,
                           height: 65,
                         ),
@@ -681,7 +676,7 @@ class _EventInfoPersonSectionState extends State<EventInfoPersonSection> {
                               alignment: Alignment.centerLeft,
                               child: Column(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: 62,
                                       height: 62,
                                       child: Center(
@@ -722,12 +717,12 @@ class _EventInfoPersonSectionState extends State<EventInfoPersonSection> {
                             ),
                           ),
 
-                          Container(width: 62, height: 62,
+                          SizedBox(width: 62, height: 62,
                             child: Center(
                               child: Stack(
                                 children: [
                                   Image.asset('assets/recommended_event/profile_image.png', width: 56, height: 56),
-                                  Container(width: 56, height: 56,
+                                  SizedBox(width: 56, height: 56,
                                     child: Center(
                                         child: Image.asset('assets/recommended_event/empty_user.png', width: 24, height: 24)
                                     ),
@@ -867,7 +862,7 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
                   children: [
                     Text('메모', style: TextStyle(fontSize: 14, color: StaticColor.editModeInfoTitleColor, fontWeight: FontWeight.w700)),
                     const SizedBox(width: 12),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width - 110,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -876,7 +871,7 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
                               child: RichText(
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
-                                strutStyle: StrutStyle(fontSize: 14.0),
+                                strutStyle: const StrutStyle(fontSize: 14.0),
                                 text: TextSpan(
                                     text: AddEventModel.memoModel.isEmpty ? '이벤트에 대한 내용을 기록해보세요.' : AddEventModel.memoModel, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)
                                 )

@@ -5,9 +5,6 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/taste/taste_model.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
-import 'package:sense_flutter_application/screens/my_page/setting_screen.dart';
-import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_result_screen.dart';
-import 'package:sense_flutter_application/screens/personal_taste/personal_taste_lodging_screen.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step01.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step02.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step03.dart';
@@ -15,7 +12,6 @@ import 'package:sense_flutter_application/views/personal_taste/food/food_step04.
 import 'package:sense_flutter_application/views/personal_taste/food/food_step05.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step06.dart';
 import 'package:sense_flutter_application/views/personal_taste/food/food_step07.dart';
-import 'package:sense_flutter_application/views/personal_taste/personal_taste_food_result_view.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 
 class FoodHeader extends StatefulWidget {
@@ -143,19 +139,19 @@ class _FoodContentState extends State<FoodContent> {
         int step = data.presentStep;
 
         if(step == 1) {
-          return FoodStep01();
+          return const FoodStep01();
         } else if(step == 2) {
           return FoodStep02(deviceWidth: widget.deviceWidth);
         } else if(step == 3) {
-          return FoodStep03();
+          return const FoodStep03();
         } else if(step == 4) {
-          return FoodStep04();
+          return const FoodStep04();
         } else if(step == 5) {
-          return FoodStep05();
+          return const FoodStep05();
         } else if(step == 6) {
-          return FoodStep06();
+          return const FoodStep06();
         } else if(step == 7) {
-          return FoodStep07();
+          return const FoodStep07();
         } else {
           return const SizedBox.shrink();
         }

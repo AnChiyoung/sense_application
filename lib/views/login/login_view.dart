@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
@@ -14,13 +12,13 @@ import 'package:sense_flutter_application/models/sign_in/signin_info_model.dart'
 import 'package:sense_flutter_application/models/sign_in/token_model.dart';
 import 'package:sense_flutter_application/public_widget/password_search_guide_dialog.dart';
 import 'package:sense_flutter_application/screens/home/home_screen.dart';
-import 'package:sense_flutter_application/screens/login/password_search_screen.dart';
 import 'package:sense_flutter_application/screens/sign_in/policy_screen.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 class LogoView extends StatefulWidget {
-  const LogoView({Key? key}) : super(key: key);
+  const LogoView({super.key});
 
   @override
   State<LogoView> createState() => _LogoViewState();
@@ -32,36 +30,33 @@ class _LogoViewState extends State<LogoView> {
   @override
   Widget build(BuildContext context) {
     ToastContext().init(context);
-    
+
     return Container(
       color: Colors.white,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
-          onTap: () {
-            count++;
-            if (count > 20) {
-              count = 0;
-              ApiUrl.setEnvironmentState().then((value) => 
-                Toast.show('$value 환경설정 변경')
-              );
-            }
-          },
-          child: Image.asset('assets/login/logo_title.png', width: 200, height: 80)),
+            onTap: () {
+              count++;
+              if (count > 20) {
+                count = 0;
+                ApiUrl.setEnvironmentState().then((value) => Toast.show('$value 환경설정 변경'));
+              }
+            },
+            child: Image.asset('assets/login/logo_title.png', width: 200, height: 80)),
       ),
     );
   }
 }
 
 class LoginFormView extends StatefulWidget {
-  const LoginFormView({Key? key}) : super(key: key);
+  const LoginFormView({super.key});
 
   @override
   State<LoginFormView> createState() => _LoginFormViewState();
 }
 
 class _LoginFormViewState extends State<LoginFormView> {
-
   TextEditingController emailFieldController = TextEditingController();
   TextEditingController passwordFieldController = TextEditingController();
   UserInfoModel userInfoModel = UserInfoModel();
@@ -69,29 +64,10 @@ class _LoginFormViewState extends State<LoginFormView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _isAutoLogin();
-    });
-  }
-
-  _isAutoLogin() async {
-    String? a = await LoginRequest.storage.read(key: 'id');
-    if(a != null) {
-      PresentUserInfo.id = int.parse(a!);
-      PresentUserInfo.username = (await LoginRequest.storage.read(key: 'username'))!;
-      PresentUserInfo.profileImage = (await LoginRequest.storage.read(key: 'profileImage'))!;
-      PresentUserInfo.loginToken = (await LoginRequest.storage.read(key: 'loginToken'))!;
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)));
-    } else {
-      if (kDebugMode) {
-        print('auto login disabled. when login, set plz.');
-      }
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     String autoLoginImage = 'check_empty.png';
     final autoLoginState = context.watch<LoginProvider>().autoLoginState;
     autoLoginState == true ? autoLoginImage = 'check_done.png' : autoLoginImage = 'check_empty.png';
@@ -118,13 +94,17 @@ class _LoginFormViewState extends State<LoginFormView> {
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: '이메일 주소',
-                  hintStyle: TextStyle(fontSize: 14.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                  hintStyle: TextStyle(
+                      fontSize: 14.0.sp,
+                      color: StaticColor.loginHintTextColor,
+                      fontWeight: FontWeight.w400),
                   border: InputBorder.none,
                 ),
                 onTap: () {},
               ),
             ),
             SizedBox(height: 8.0.h),
+
             /// password input field
             Container(
               height: 48.0.h,
@@ -139,7 +119,10 @@ class _LoginFormViewState extends State<LoginFormView> {
                 style: const TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   hintText: '비밀번호',
-                  hintStyle: TextStyle(fontSize: 14.0.sp, color: StaticColor.loginHintTextColor, fontWeight: FontWeight.w400),
+                  hintStyle: TextStyle(
+                      fontSize: 14.0.sp,
+                      color: StaticColor.loginHintTextColor,
+                      fontWeight: FontWeight.w400),
                   border: InputBorder.none,
                 ),
                 onTap: () {},
@@ -151,15 +134,16 @@ class _LoginFormViewState extends State<LoginFormView> {
               borderRadius: BorderRadius.circular(4.0),
               child: InkWell(
                 onTap: () async {
-
                   /// when state of keyboard focus,
                   /// according to next process.
                   FocusManager.instance.primaryFocus!.unfocus();
 
                   UserInfoModel? userInfoModel;
-                  userInfoModel = await LoginRequest().emailLoginReqeust(emailFieldController.text.toString(), passwordFieldController.text.toString());
-                  if(userInfoModel == null) {
-
+                  userInfoModel = await LoginRequest().emailLoginRequest(
+                    emailFieldController.text.toString(),
+                    passwordFieldController.text.toString(),
+                  );
+                  if (userInfoModel == null) {
                     /// snackbar version
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -168,7 +152,10 @@ class _LoginFormViewState extends State<LoginFormView> {
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
                         margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height - safeAreaTopPadding - safeAreaBottomPadding - 150,
+                          bottom: MediaQuery.of(context).size.height -
+                              safeAreaTopPadding -
+                              safeAreaBottomPadding -
+                              150,
                         ),
                         content: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -179,13 +166,17 @@ class _LoginFormViewState extends State<LoginFormView> {
                           ),
                           child: Row(
                             children: [
-                              Image.asset('assets/signin/snackbar_error_icon.png', width: 24.0.w, height: 24.0.h),
+                              Image.asset('assets/signin/snackbar_error_icon.png',
+                                  width: 24.0.w, height: 24.0.h),
                               const SizedBox(width: 8),
                               Expanded(
-                                child: Text('이메일 또는 비밀번호가 일치하지 않아요.',
+                                child: Text(
+                                  '이메일 또는 비밀번호가 일치하지 않아요.',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: 14.0.sp, color: StaticColor.textErrorColor, fontWeight: FontWeight.w500),
+                                      fontSize: 14.0.sp,
+                                      color: StaticColor.textErrorColor,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ],
@@ -194,29 +185,49 @@ class _LoginFormViewState extends State<LoginFormView> {
                       ),
                     );
                   } else {
-                    autoLoginState == true ? {
-                      await LoginRequest.storage.write(key: 'id', value: userInfoModel.id.toString()),
-                      await LoginRequest.storage.write(key: 'username', value: userInfoModel.username ?? '${userInfoModel.id}user'),
-                      await LoginRequest.storage.write(key: 'profileImage', value: userInfoModel.profileImageUrl.toString()),
-                      await LoginRequest.storage.write(key: 'loginToken', value: userInfoModel.joinToken!.accessToken.toString()),
-                    } : {};
+                    SharedPreferences.getInstance().then(
+                      (sharedPref) => sharedPref.setBool(
+                        'is_auto_login',
+                        context.read<LoginProvider>().autoLoginState,
+                      ),
+                    );
+                    await LoginRequest.storage.write(
+                      key: 'loginToken',
+                      value: userInfoModel.joinToken!.accessToken.toString(),
+                    );
                     PresentUserInfo.id = userInfoModel.id!;
-                    PresentUserInfo.username = userInfoModel.username ?? '${userInfoModel.id}user';
+                    PresentUserInfo.username = userInfoModel.username ?? '';
                     PresentUserInfo.profileImage = userInfoModel.profileImageUrl!;
                     PresentUserInfo.loginToken = userInfoModel.joinToken!.accessToken!;
+
                     /// text form field clear
                     emailFieldController.clear();
                     passwordFieldController.clear();
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => HomeScreen(initPage: 0),
+                      ),
+                    );
                   }
                 },
                 borderRadius: BorderRadius.circular(4.0),
                 child: SizedBox(
                   height: 50.0.h,
-                  child: Center(child: Text('로그인', style: TextStyle(fontSize: 14.0.sp, color: Colors.white, letterSpacing: -0.22, fontWeight: FontWeight.w600))),
+                  child: Center(
+                    child: Text(
+                      '로그인',
+                      style: TextStyle(
+                        fontSize: 14.0.sp,
+                        color: Colors.white,
+                        letterSpacing: -0.22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
+
             /// 자동 로그인 및 비밀번호 찾기 터치 범위 개선을 위해 margin대신 content padding 사용
             // const SizedBox(height: 16),
             Row(
@@ -227,7 +238,7 @@ class _LoginFormViewState extends State<LoginFormView> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(10.0),
                     onTap: () {
-                      context.read<LoginProvider>().autoLoginBoxState(!autoLoginState);
+                      context.read<LoginProvider>().autoLoginBoxState(!autoLoginState, true);
                     },
                     child: SizedBox(
                       height: 35.0.h,
@@ -236,7 +247,14 @@ class _LoginFormViewState extends State<LoginFormView> {
                         children: [
                           Image.asset('assets/login/$autoLoginImage', width: 20, height: 20),
                           const SizedBox(width: 8),
-                          Text('자동로그인', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.loginTextColor03, fontWeight: FontWeight.w500)),
+                          Text(
+                            '자동로그인',
+                            style: TextStyle(
+                              fontSize: 12.0.sp,
+                              color: StaticColor.loginTextColor03,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -245,24 +263,31 @@ class _LoginFormViewState extends State<LoginFormView> {
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(10.0),
-                    onTap: () {
-                      // Navigator.push(context, MaterialPageRoute(builder: (_) => PasswordSearchScreen()));
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) {
-                          return const PasswordSearchGuideDialog();
-                        }
-                      );
-                    },
-                    child: SizedBox(
-                      height: 35,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text('비밀번호 찾기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500))),
-                    )
-                  ),
+                      borderRadius: BorderRadius.circular(10.0),
+                      onTap: () {
+                        // Navigator.push(context, MaterialPageRoute(builder: (_) => PasswordSearchScreen()));
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return const PasswordSearchGuideDialog();
+                          },
+                        );
+                      },
+                      child: SizedBox(
+                        height: 35,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '비밀번호 찾기',
+                            style: TextStyle(
+                              fontSize: 12.0.sp,
+                              color: StaticColor.loginTextColor01,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      )),
                 )
               ],
             ),
@@ -274,7 +299,7 @@ class _LoginFormViewState extends State<LoginFormView> {
 }
 
 class KakaoLoginButton extends StatefulWidget {
-  const KakaoLoginButton({Key? key}) : super(key: key);
+  const KakaoLoginButton({super.key});
 
   @override
   State<KakaoLoginButton> createState() => _KakaoLoginButtonState();
@@ -286,7 +311,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w,top: 40.0.h, bottom: 72.0.h),
+        padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 40.0.h, bottom: 72.0.h),
         child: Material(
           color: StaticColor.loginKakaoColor,
           borderRadius: BorderRadius.circular(4.0),
@@ -307,14 +332,13 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
                     padding: EdgeInsets.only(bottom: 3.0.h),
                     child: Text(
                       '카카오로 로그인',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                        fontSize: 14.0.sp,
-                        // textBaseline: TextBaseline.alphabetic,
-                        color: StaticColor.loginTextColor02,
-                        fontWeight: FontWeight.w600,
-                        height: 1.5
-                      ),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.0.sp,
+                          // textBaseline: TextBaseline.alphabetic,
+                          color: StaticColor.loginTextColor02,
+                          fontWeight: FontWeight.w600,
+                          height: 1.5),
                     ),
                   ),
                 ],
@@ -327,68 +351,64 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
   }
 
   void kakaoLoginTry(BuildContext context) async {
-
     /// 카카오톡 설치 유무 확인
     bool isInstalled = await isKakaoTalkInstalled();
     KakaoUserModel? userModel = KakaoUserModel();
     AccessTokenResponseModel tokenModel = AccessTokenResponseModel();
-    UserInfoModel? userInfoModel = UserInfoModel();
+    // UserInfoModel? userInfoModel = UserInfoModel();
 
     /// auth code get
     OAuthToken? token;
 
     /// get key hash 20230812 bug fix
-    print('release key : ${await KakaoSdk.origin}');
+    // print('release key : ${await KakaoSdk.origin}');
+    token = isInstalled
+        ? await UserApi.instance.loginWithKakaoTalk()
+        : await UserApi.instance.loginWithKakaoAccount();
 
-    if(isInstalled == true) {
-      try {
-        token = await UserApi.instance.loginWithKakaoTalk();
-        // token = await UserApi.instance.loginWithKakaoAccount();
-        token == null ? print('kakao token is empty') : {
-          userModel = await KakaoUserInfoModel().getUserInfo(token),
-          tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-          if(tokenModel.isSignUp == false) {
-            KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
-            Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
-          } else {
-            if(tokenModel.isSignUp == true) {
-              SenseLogger().debug('login success'),
-              PresentUserInfo.id = tokenModel.id!,
-              PresentUserInfo.username = tokenModel.username!,
-              PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
-              PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
+    try {
+      userModel = await KakaoUserInfoModel().getUserInfo(token);
+      tokenModel = await SigninCheckModel().tokenLoginRequest(token);
+      if (tokenModel.isSignUp == true) {
+        SharedPreferences.getInstance().then(
+          (sharedPref) => sharedPref.setBool(
+            'is_auto_login',
+            context.read<LoginProvider>().autoLoginState,
+          ),
+        );
+        await LoginRequest.storage.write(
+          key: 'loginToken',
+          value: tokenModel.joinToken!.accessToken.toString(),
+        );
 
-              // move to home
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0)), (route) => false),
-            }
-          }
-        };
-      } catch (error) {
-        rethrow;
+        PresentUserInfo.id = tokenModel.id!;
+        PresentUserInfo.username = tokenModel.username ?? '';
+        PresentUserInfo.profileImage = tokenModel.profileImageUrl ?? '';
+        PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken ?? '';
+
+        // move to home
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (_) => HomeScreen(initPage: 0),
+          ),
+          (route) => false,
+        );
+      } else {
+        KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken;
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => PolicyScreen(kakaoUserModel: userModel),
+          ),
+        );
       }
-    } else if(isInstalled == false) {
-      token = await UserApi.instance.loginWithKakaoAccount();
-      token == null ? print('kakao token is empty') : {
-        userModel = await KakaoUserInfoModel().getUserInfo(token),
-        tokenModel = await SigninCheckModel().tokenLoginRequest(token),
-        if(tokenModel.isSignUp == false) {
-          KakaoUserInfoModel.userAccessToken = tokenModel.joinToken!.accessToken,
-          Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen(kakaoUserModel: userModel))),
-        } else if(tokenModel.isSignUp == true) {
-            SenseLogger().debug('login success'),
-            PresentUserInfo.id = tokenModel.id!,
-            PresentUserInfo.username = tokenModel.username ?? '${userInfoModel.id}user',
-            PresentUserInfo.profileImage = tokenModel.profileImageUrl!,
-            PresentUserInfo.loginToken = tokenModel.joinToken!.accessToken!,
-            Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 0))),
-          }
-      };
+    } catch (error) {
+      rethrow;
     }
   }
 }
 
 class SigninView extends StatefulWidget {
-  const SigninView({Key? key}) : super(key: key);
+  const SigninView({super.key});
 
   @override
   State<SigninView> createState() => _SigninViewState();
@@ -411,17 +431,27 @@ class _SigninViewState extends State<SigninView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     RichText(
                       text: TextSpan(
-                        style: TextStyle(fontSize: 14.0.sp, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                          fontSize: 14.0.sp,
+                          color: StaticColor.loginTextColor01,
+                          fontWeight: FontWeight.w500,
+                        ),
                         children: [
                           const TextSpan(text: '아직 '),
-                          TextSpan(text: 'SENSE', style: TextStyle(fontSize: 16.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500)),
+                          TextSpan(
+                            text: 'SENSE',
+                            style: TextStyle(
+                              fontSize: 16.0.sp,
+                              color: StaticColor.mainSoft,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const TextSpan(text: ' 회원이 아니신가요?')
-                        ]
-                      )
-                    )
+                        ],
+                      ),
+                    ),
 
                     // Text('아직 ', style: TextStyle(fontSize: 16, color: StaticColor.loginTextColor01, fontWeight: FontWeight.w500)),
                     // Align(
@@ -432,6 +462,7 @@ class _SigninViewState extends State<SigninView> {
                 ),
               ),
             ),
+
             /// sign in button
             Padding(
               padding: const EdgeInsets.only(bottom: 51),
@@ -440,7 +471,8 @@ class _SigninViewState extends State<SigninView> {
                 child: InkWell(
                   onTap: () {
                     SigninModel.signinType = 1;
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => PolicyScreen()));
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => const PolicyScreen()));
                   },
                   borderRadius: BorderRadius.circular(4.0),
                   child: Container(
@@ -450,8 +482,15 @@ class _SigninViewState extends State<SigninView> {
                       borderRadius: BorderRadius.circular(4.0),
                     ),
                     child: Center(
-                      child: Text('회원가입', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w500)),
-                    )
+                      child: Text(
+                        '회원가입',
+                        style: TextStyle(
+                          fontSize: 14.0.sp,
+                          color: StaticColor.mainSoft,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),

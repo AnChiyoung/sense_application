@@ -377,12 +377,12 @@ class _PriceSelectNextButtonState extends State<PriceSelectNextButton> {
         height: 76,
         child: ElevatedButton(
             onPressed: () {
-              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => RegionSelectScreen())) : (){};
+              buttonEnabled == true ? Navigator.push(context, MaterialPageRoute(builder: (context) => const RegionSelectScreen())) : (){};
             },
             style: ElevatedButton.styleFrom(backgroundColor: buttonEnabled == true ? StaticColor.categorySelectedColor : StaticColor.unSelectedColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0))),
-            child: Column(
+            child: const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   SizedBox(height: 56, child: Center(child: Text('다음', style: TextStyle(fontSize: 13, color: Colors.white, fontWeight: FontWeight.w700)))),
                 ]
             )
