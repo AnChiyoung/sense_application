@@ -78,6 +78,7 @@ dependencies:
   async_textformfield: ^3.0.1
   shared_preferences: ^2.2.2
   colorful_safe_area: ^1.0.0
+  shimmer: ^3.0.0
 #  editorjs_flutter:
 
 dev_dependencies:
