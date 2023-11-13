@@ -191,10 +191,12 @@ class _LoginFormViewState extends State<LoginFormView> {
                         context.read<LoginProvider>().autoLoginState,
                       ),
                     );
+
                     await LoginRequest.storage.write(
                       key: 'loginToken',
                       value: userInfoModel.joinToken!.accessToken.toString(),
                     );
+
                     PresentUserInfo.id = userInfoModel.id!;
                     PresentUserInfo.username = userInfoModel.username ?? '';
                     PresentUserInfo.profileImage = userInfoModel.profileImageUrl!;
@@ -376,6 +378,7 @@ class _KakaoLoginButtonState extends State<KakaoLoginButton> {
             context.read<LoginProvider>().autoLoginState,
           ),
         );
+
         await LoginRequest.storage.write(
           key: 'loginToken',
           value: tokenModel.joinToken!.accessToken.toString(),

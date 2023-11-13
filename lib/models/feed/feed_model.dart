@@ -471,7 +471,7 @@ class ApiService {
     }
 
     String queryString = Uri(queryParameters: queryParams).query;
-    final uri = Uri.parse('${ApiUrl.devUrl}posts?$queryString');
+    final uri = Uri.parse('${ApiUrl.releaseUrl}posts?$queryString');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {

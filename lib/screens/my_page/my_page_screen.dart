@@ -22,13 +22,15 @@ class _MyPageScreenState extends State<MyPageScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         top: true,
-        bottom: false,
+        bottom: true,
         child: Column(
           children: [
             const MyPageHeader(),
             const MyPageInfo(),
-            SizedBox(height: 23.0.h),
-            const Expanded(child: MyPageTab()),
+            SizedBox(height: 24.0.h),
+            const Expanded(
+              child: MyPageTab(),
+            ),
           ],
         ),
       ),

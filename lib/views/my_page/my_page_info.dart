@@ -106,37 +106,38 @@ class _MyPageProfileState extends State<MyPageProfile> {
                       ],
                     ),
                     Material(
-                        color: Colors.transparent,
-                        child: SizedBox(
-                          height: 40.0,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(25.0),
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
-                            },
-                            child: Center(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '편집',
-                                    style: TextStyle(
-                                      fontSize: 12.0.sp,
-                                      color: StaticColor.black90015,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                      color: Colors.transparent,
+                      child: SizedBox(
+                        height: 40.0,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(25.0),
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
+                          },
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Text(
+                                  '편집',
+                                  style: TextStyle(
+                                    fontSize: 12.0.sp,
+                                    color: StaticColor.black90015,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                  SizedBox(width: 4.0.w),
-                                  Image.asset(
-                                    'assets/my_page/caret_right.png',
-                                    width: 16.0,
-                                    height: 16.0,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(width: 4.0.w),
+                                Image.asset(
+                                  'assets/my_page/caret_right.png',
+                                  width: 16.0,
+                                  height: 16.0,
+                                ),
+                              ],
                             ),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               );

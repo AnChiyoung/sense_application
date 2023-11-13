@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class Utility {
+// singleton
+class Utils {
+  static final Utils _instance = Utils._internal();
+  Utils._internal();
+  factory Utils() => _instance;
+
   // static void formatPhoneNumber(TextEditingController controller, String value) {
   //   String numericString = value.replaceAll(RegExp(r'[^0-9]'), '');
 
@@ -18,6 +23,59 @@ class Utility {
   //     text: formattedString,
   //     selection: TextSelection.collapsed(offset: formattedString.length),
   //   );
+  // }
+
+  String toQueryString(Map<String, dynamic>? params) {
+    if (params == null || params.isEmpty) return '';
+
+    var queryString = StringBuffer();
+
+    // 첫 번째 쿼리 파라미터 앞에 '?'를 붙이기 위한 플래그
+    bool isFirstParameter = true;
+
+    params.forEach((key, value) {
+      // 리스트는 'key=value1&key=value2'의 형식으로 변환
+      if (value is List) {
+        for (var listItem in value) {
+          queryString.write(isFirstParameter ? '?' : '&');
+          queryString.write('$key=${Uri.encodeComponent(listItem.toString())}');
+          isFirstParameter = false;
+        }
+      } else {
+        // 단일 값은 'key=value'의 형식으로 변환
+        queryString.write(isFirstParameter ? '?' : '&');
+        queryString.write('$key=${Uri.encodeComponent(value.toString())}');
+        isFirstParameter = false;
+      }
+    });
+
+    return queryString.toString();
+  }
+
+  // dynamic httpRequest(
+  //   String url, {
+  //   Map<String, dynamic>? params,
+  //   Map<String, String>? headers,
+  //   String? method,
+  //   dynamic body,
+  // }) async {
+  //   final response = await http.request(
+  //     url,
+  //     method: method ?? 'GET',
+  //     headers: headers ?? {},
+  //     body: body,
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     try {
+  //       final dynamic body = jsonDecode(utf8.decode(response.bodyBytes));
+  //       return body;
+  //     } catch (e) {
+  //       return null;
+  //     }
+  //   } else {
+  //     throw Exception('Failed to load preference taste spicy list');
+  //   }
   // }
 }
 

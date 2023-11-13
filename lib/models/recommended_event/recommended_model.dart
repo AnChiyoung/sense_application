@@ -5,19 +5,12 @@ import 'package:http/http.dart' as http;
 
 class RecommendedApi {
   Future<List<RecommendedModel>> getRecommendList(String recommendType) async {
-
-    String aa = '';
-
-    var url = Uri.parse('${ApiUrl.recommendListPath}$recommendType');
+    var url = Uri.parse('${ApiUrl.releaseUrl}/suggestions?recommend_type=$recommendType');
     var headers = {'Content-Type': 'application/json; charset=UTF-8'};
     var response = await http.get(url, headers: headers);
-    if(response.statusCode == 200 || response.statusCode == 201) {
-
+    if (response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = json.decode(response.body)['data'];
-      print(body);
-      List<RecommendedModel> allInfo =
-          body.map((e) => RecommendedModel.fromJson(e)).toList();
-      print(allInfo.elementAt(0).recommendType);
+      List<RecommendedModel> allInfo = body.map((e) => RecommendedModel.fromJson(e)).toList();
       return allInfo;
     } else {
       throw Exception('fail');

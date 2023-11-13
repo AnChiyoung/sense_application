@@ -5,73 +5,55 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// api url은 하위 슬래시까지 표기 x : base url + /login/kakao
 
 class ApiUrl {
-  static String devUrl = 'https://server.dev.sens.im/api/v1';
-  static String liveUrl = 'https://server.sens.im/api/v1';
-  static String stagingUrl = 'https://server.stg.sens.im/api/v1';
-  static String releaseUrl = devUrl;
+  static const String _devDomain = 'server.dev.sens.im';
+  static const String _stgDomain = 'server.stg.sens.im';
+  static const String _liveDomain = 'server.sens.im';
 
-// post create event model
-  static String createEventPath = '$devUrl/event';
-  static String recommendListPath = '$devUrl/suggestions?recommend_type=';
+  static const String _devUrl = 'https://server.dev.sens.im/api/v1';
+  static const String _stagingUrl = 'https://server.stg.sens.im/api/v1';
+  static const String _liveUrl = 'https://server.sens.im/api/v1';
 
+  static String releaseUrl = _devUrl;
+  static String releaseDomain = _devDomain;
 
-  static setDevUrl() {
-    releaseUrl = devUrl;
-    createEventPath = '$devUrl/event';
-    recommendListPath = '$devUrl/suggestions?recommend_type=';
+  static setDevUrl(SharedPreferences pref) async {
+    pref.setString('env_mode', 'dev');
+    releaseUrl = _devUrl;
+    releaseDomain = _devDomain;
   }
 
-  static setStagingUrl() {
-    releaseUrl = stagingUrl;
-    createEventPath = '$stagingUrl/event';
-    recommendListPath = '$stagingUrl/suggestions?recommend_type=';
+  static setStagingUrl(SharedPreferences pref) async {
+    pref.setString('env_mode', 'stg');
+    releaseUrl = _stagingUrl;
+    releaseDomain = _stgDomain;
   }
 
-  static setLiveUrl() {
-    releaseUrl = liveUrl;
-    createEventPath = '$liveUrl/event';
-    recommendListPath = '$liveUrl/suggestions?recommend_type=';
+  static setLiveUrl(SharedPreferences pref) async {
+    pref.setString('env_mode', 'live');
+    releaseUrl = _liveUrl;
+    releaseDomain = _liveDomain;
   }
 
-  static Future<String> initEnvironment() async {
+  static Future initEnvironment() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     String? env = pref.getString('env_mode');
-    if (env == 'stg') {
-      setStagingUrl();
-      pref.setString('env_mode', 'stg');
-      return 'stg';
-    } 
-    
-    if (env == 'live') {
-      setLiveUrl();
-      pref.setString('env_mode', 'live');
-      return 'live';
-    } 
-    
-    setDevUrl();
-    pref.setString('env_mode', 'dev');
-    return 'dev';
+    if (env == null) setDevUrl(pref);
   }
 
   static Future<String> setEnvironmentState() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     String? env = pref.getString('env_mode');
     if (env == 'dev') {
-      setStagingUrl();
-      pref.setString('env_mode', 'stg');
+      await setStagingUrl(pref);
       return 'stg';
-    } 
-    
-    if (env == 'stg') {
-      setLiveUrl();
-      pref.setString('env_mode', 'live');
-      return 'live';
-    } 
+    }
 
-    setDevUrl();
-    pref.setString('env_mode', 'dev');
+    if (env == 'stg') {
+      await setLiveUrl(pref);
+      return 'live';
+    }
+
+    await setDevUrl(pref);
     return 'dev';
   }
-
-
 }

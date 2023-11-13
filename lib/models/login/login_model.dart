@@ -88,20 +88,19 @@ class UserInfoModel {
 
 class LoginRequest {
   /// logger setting
-  var logger = Logger(
-    printer: PrettyPrinter(
-      lineLength: 120,
-      colors: true,
-      printTime: true,
-    ),
-  );
+  // var logger = Logger(
+  //   printer: PrettyPrinter(
+  //     lineLength: 120,
+  //     colors: true,
+  //     printTime: true,
+  //   ),
+  // );
 
   /// auto login resource
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   Future<UserInfoModel?> emailLoginRequest(String email, String password) async {
-    logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
-
+    // logger.d('preloading api relese url : ${ApiUrl.releaseUrl}');
     Map<String, dynamic> loginBody = LoginRequestModel(id: email, password: password).toJson();
 
     final response = await http.post(
@@ -113,7 +112,7 @@ class LoginRequest {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = json.decode(response.body)['data'];
 
-      print("nnnnnnnnnn: $jsonResult");
+      // print("nnnnnnnnnn: $jsonResult");
       UserInfoModel userInfoModel = UserInfoModel.fromJson(jsonResult);
       return userInfoModel;
     } else {
