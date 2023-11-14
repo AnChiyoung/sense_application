@@ -10,14 +10,14 @@ import 'package:sense_flutter_application/views/preference/widgets/preference_el
 import 'package:sense_flutter_application/views/preference/widgets/preference_result_bottom_button.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_result_header.dart';
 
-class LodgingPreferenceResultScreen extends StatefulWidget {
-  const LodgingPreferenceResultScreen({super.key});
+class TravelPreferenceResultScreen extends StatefulWidget {
+  const TravelPreferenceResultScreen({super.key});
 
   @override
-  State<LodgingPreferenceResultScreen> createState() => _LodgingPreferenceResultScreenState();
+  State<TravelPreferenceResultScreen> createState() => _TravelPreferenceResultScreenState();
 }
 
-class _LodgingPreferenceResultScreenState extends State<LodgingPreferenceResultScreen> {
+class _TravelPreferenceResultScreenState extends State<TravelPreferenceResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,8 +27,8 @@ class _LodgingPreferenceResultScreenState extends State<LodgingPreferenceResultS
         bottom: false,
         child: Column(
           children: [
-            const PreferenceResultHeader(title: '숙소 취향'),
-            const LodgingResultView(),
+            const PreferenceResultHeader(title: '여행 취향'),
+            const TravelResultView(),
             PreferenceResultBottomButton(
               title: '다시하기',
               onTap: () {},
@@ -40,29 +40,29 @@ class _LodgingPreferenceResultScreenState extends State<LodgingPreferenceResultS
   }
 }
 
-class LodgingResultView extends StatefulWidget {
-  const LodgingResultView({super.key});
+class TravelResultView extends StatefulWidget {
+  const TravelResultView({super.key});
 
   @override
-  State<LodgingResultView> createState() => _LodgingResultViewState();
+  State<TravelResultView> createState() => _TravelResultViewState();
 }
 
-class _LodgingResultViewState extends State<LodgingResultView> {
-  late Future<UserLodgingPreferenceResultModel?> loadLodgingPreference;
+class _TravelResultViewState extends State<TravelResultView> {
+  late Future<UserTravelPreferenceResultModel?> loadTravelPreference;
 
   @override
   void initState() {
     super.initState();
 
-    loadLodgingPreference =
-        PreferenceRepository().getUserLodgingPreferenceByUserId(id: PresentUserInfo.id);
+    loadTravelPreference =
+        PreferenceRepository().getUserTravelPreferenceByUserId(id: PresentUserInfo.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: FutureBuilder(
-        future: loadLodgingPreference,
+        future: loadTravelPreference,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
@@ -78,8 +78,8 @@ class _LodgingResultViewState extends State<LodgingResultView> {
           }
 
           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            context.read<PreferenceProvider>().initLodgingPreference(preference: snapshot.data!);
-            final lodgingPreference = context.read<PreferenceProvider>().lodgingPreference!;
+            context.read<PreferenceProvider>().initTravelPreference(preference: snapshot.data!);
+            final travelPreference = context.read<PreferenceProvider>().travelPreference!;
 
             return SingleChildScrollView(
               child: Padding(
@@ -88,7 +88,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${PresentUserInfo.username}님의 숙소 취향',
+                      '${PresentUserInfo.username}님의 여행 취향',
                       style: TextStyle(
                         fontSize: 18.0.sp,
                         fontWeight: FontWeight.w700,
@@ -98,7 +98,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                     ),
                     SizedBox(height: 8.0.h),
                     Text(
-                      lodgingPreference.title,
+                      travelPreference.title,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -107,7 +107,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                     ),
                     SizedBox(height: 8.0.h),
                     Text(
-                      lodgingPreference.content,
+                      travelPreference.content,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -116,20 +116,20 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                     ),
                     SizedBox(height: 24.0.h),
                     PreferenceElementSection(
-                      title: '선호하는 숙소 종류 순위',
-                      list: lodgingPreference.types,
+                      title: '선호하는 여행 거리',
+                      list: travelPreference.distances,
                     ),
                     PreferenceElementSection(
-                      title: '선호하는 숙소 취향 순위',
-                      list: lodgingPreference.environments,
+                      title: '함께하고 싶은 지인 순위',
+                      list: travelPreference.mates,
                     ),
                     PreferenceElementSection(
-                      title: '선호하는 숙소 편의 순위',
-                      list: lodgingPreference.options,
+                      title: '선호하는 여행지 유형 순위',
+                      list: travelPreference.environments,
                     ),
-                    if (lodgingPreference.likeMemo != '') ...[
+                    if (travelPreference.likeMemo != '') ...[
                       Text(
-                        '좋아하는 숙소',
+                        '좋아하는 여행지',
                         style: TextStyle(
                           fontSize: 16.0.sp,
                           fontWeight: FontWeight.w700,
@@ -138,12 +138,12 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(lodgingPreference.likeMemo),
+                      Text(travelPreference.likeMemo),
                       SizedBox(height: 24.0.h),
                     ],
-                    if (lodgingPreference.dislikeMemo != '') ...[
+                    if (travelPreference.dislikeMemo != '') ...[
                       Text(
-                        '싫어하는 숙소',
+                        '싫어하는 여행지',
                         style: TextStyle(
                           fontSize: 16.0.sp,
                           fontWeight: FontWeight.w700,
@@ -152,7 +152,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(lodgingPreference.dislikeMemo),
+                      Text(travelPreference.dislikeMemo),
                       SizedBox(height: 24.0.h),
                     ],
                   ],

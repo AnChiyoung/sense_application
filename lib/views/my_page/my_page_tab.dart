@@ -7,7 +7,9 @@ import 'package:sense_flutter_application/models/preference/preference_model.dar
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_liked_post_list.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
+import 'package:sense_flutter_application/views/preference/food_preference_result_screen.dart';
 import 'package:sense_flutter_application/views/preference/lodging_preference_result_screen.dart';
+import 'package:sense_flutter_application/views/preference/travel_preference_result_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyPageTab extends StatefulWidget {
@@ -86,7 +88,7 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin {
               // Container(
               //     child: Center(child: Text('아직 상품이 없습니다', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey50099, fontWeight: FontWeight.w400)))
               // ),
-              PreferenceList(),
+              MyPagePreferenceBannerList(),
             ],
           ),
         ),
@@ -95,14 +97,14 @@ class _MyPageTabState extends State<MyPageTab> with TickerProviderStateMixin {
   }
 }
 
-class PreferenceList extends StatefulWidget {
-  const PreferenceList({super.key});
+class MyPagePreferenceBannerList extends StatefulWidget {
+  const MyPagePreferenceBannerList({super.key});
 
   @override
-  State<PreferenceList> createState() => PreferenceListState();
+  State<MyPagePreferenceBannerList> createState() => MyPagePreferenceBannerListState();
 }
 
-class PreferenceListState extends State<PreferenceList> {
+class MyPagePreferenceBannerListState extends State<MyPagePreferenceBannerList> {
   late Future<List<UserPreferenceListItemModel>> loadPreferenceList;
 
   @override
@@ -283,10 +285,25 @@ class PreferenceListState extends State<PreferenceList> {
 
   Widget _preferenceCard({required UserPreferenceListItemModel item}) {
     void onTapCard(EnumPreferenceType preferenceType) {
+      late Widget widgetToPush;
+
+      switch (preferenceType) {
+        case EnumPreferenceType.food:
+          widgetToPush = const FoodPreferenceResultScreen();
+          break;
+        case EnumPreferenceType.lodging:
+          widgetToPush = const LodgingPreferenceResultScreen();
+          break;
+        case EnumPreferenceType.travel:
+          widgetToPush = const TravelPreferenceResultScreen();
+          break;
+        default:
+      }
+
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const LodgingPreferenceResultScreen(),
+          builder: (context) => widgetToPush,
         ),
       );
     }

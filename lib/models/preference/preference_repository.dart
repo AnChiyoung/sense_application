@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/utils/api.dart';
 
@@ -16,6 +17,7 @@ class PreferenceRepository {
 
       return response.data;
     } catch (e) {
+      debugPrint('getPreferenceFoodList(): ${e.toString()}');
       return [];
     }
   }
@@ -33,6 +35,7 @@ class PreferenceRepository {
 
       return response.data;
     } catch (e) {
+      debugPrint('_getPreferenceTasteList(): ${e.toString()}');
       return [];
     }
   }
@@ -53,6 +56,7 @@ class PreferenceRepository {
 
       return response.data;
     } catch (e) {
+      debugPrint('_getPreferenceLodgingList: ${e.toString()}');
       return [];
     }
   }
@@ -73,6 +77,7 @@ class PreferenceRepository {
 
       return response.data;
     } catch (e) {
+      debugPrint('_getPreferenceTravelList: ${e.toString()}');
       return [];
     }
   }
@@ -107,6 +112,7 @@ class PreferenceRepository {
       );
       return response.data;
     } catch (e) {
+      debugPrint('getUserPreferenceListByUserId: ${e.toString()}');
       return [];
     }
   }
@@ -120,6 +126,7 @@ class PreferenceRepository {
       );
       return response.data;
     } catch (e) {
+      debugPrint('getUserFoodPreferenceByUserId: ${e.toString()}');
       return null;
     }
   }
@@ -134,6 +141,7 @@ class PreferenceRepository {
       );
       return response.data;
     } catch (e) {
+      debugPrint('getUserLodgingPreferenceByUserId: ${e.toString()}');
       return null;
     }
   }
@@ -148,6 +156,7 @@ class PreferenceRepository {
       );
       return response.data;
     } catch (e) {
+      debugPrint('getUserTravelPreferenceByUserId: ${e.toString()}');
       return null;
     }
   }

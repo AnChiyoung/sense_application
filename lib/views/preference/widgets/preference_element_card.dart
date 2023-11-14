@@ -20,34 +20,36 @@ class PreferenceElementCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
           ),
           clipBehavior: Clip.hardEdge,
-          child: CachedNetworkImage(imageUrl: imageUrl),
-        ),
-        SizedBox(height: 8.0.h),
-        // SizedBox(
-        //   width: 75.0.w,
-        //   child: Center(
-        //     child: Text(
-        //       title,
-        //       overflow: TextOverflow.ellipsis,
-        //       style: TextStyle(
-        //         fontSize: 14.0.sp,
-        //         fontWeight: FontWeight.w500,
-        //         height: 20 / 14,
-        //         color: StaticColor.grey80033,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        Text(
-          title,
-          // overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 14.0.sp,
-            fontWeight: FontWeight.w500,
-            height: 20 / 14,
-            color: StaticColor.grey80033,
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
           ),
         ),
+        SizedBox(height: 8.0.h),
+        SizedBox(
+          width: 75.0.w,
+          child: Center(
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                fontWeight: FontWeight.w500,
+                height: 20 / 14,
+                color: StaticColor.grey80033,
+              ),
+            ),
+          ),
+        ),
+        // Text(
+        //   title,
+        //   style: TextStyle(
+        //     fontSize: 14.0.sp,
+        //     fontWeight: FontWeight.w500,
+        //     height: 20 / 14,
+        //     color: StaticColor.grey80033,
+        //   ),
+        // ),
       ],
     );
   }

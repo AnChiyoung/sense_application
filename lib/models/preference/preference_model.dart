@@ -317,34 +317,20 @@ class UserFoodPreferenceResultModel {
       'UserFoodPreferenceResultModel(id: $id, user: $user, type: $type, title: $title, content: $content, likeMemo: $likeMemo, dislikeMemo: $dislikeMemo, foods: $foods, spicyTastes: $spicyTastes, sweetTastes: $sweetTastes, saltyTastes: $saltyTastes)';
 }
 
-class UserFoodPreferenceFood {
-  final int id;
-  final String title;
-  final String foodImageUrl;
-
+class UserFoodPreferenceFood extends PreferenceElement {
   UserFoodPreferenceFood({
-    required this.id,
-    required this.title,
-    required this.foodImageUrl,
+    required super.id,
+    required super.title,
+    required super.imageUrl,
   });
 
   factory UserFoodPreferenceFood.fromJson(Map<String, dynamic> json) {
     return UserFoodPreferenceFood(
       id: json['id'] ?? -1,
       title: json['title'] ?? '',
-      foodImageUrl: json['food_image_url'] ?? '',
+      imageUrl: json['image_url'] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'food_image_url': foodImageUrl,
-      };
-
-  @override
-  String toString() =>
-      'UserFoodPreferenceFood(id: $id, title: $title, foodImageUrl: $foodImageUrl)';
 }
 
 class UserFoodPreferenceTaste {
@@ -460,7 +446,6 @@ class LodgingPreferenceElements extends PreferenceElement {
 ///
 /// 유저 여행 취향
 ///
-
 class UserTravelPreferenceResultModel {
   final int id;
   final int user;
@@ -494,11 +479,11 @@ class UserTravelPreferenceResultModel {
       likeMemo: json['like_memo'] ?? '',
       dislikeMemo: json['dislike_memo'] ?? '',
       distances: List<TravelPreferenceElement>.from(
-          json['spicy_tastes'].map((x) => TravelPreferenceElement.fromJson(x))),
+          json['distances'].map((x) => TravelPreferenceElement.fromJson(x))),
       environments: List<TravelPreferenceElement>.from(
-          json['sweet_tastes'].map((x) => TravelPreferenceElement.fromJson(x))),
+          json['environments'].map((x) => TravelPreferenceElement.fromJson(x))),
       mates: List<TravelPreferenceElement>.from(
-          json['salty_tastes'].map((x) => TravelPreferenceElement.fromJson(x))),
+          json['mates'].map((x) => TravelPreferenceElement.fromJson(x))),
     );
   }
 
