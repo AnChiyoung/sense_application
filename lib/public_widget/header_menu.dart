@@ -5,7 +5,6 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 class HeaderMenu extends StatefulWidget {
   final Function? backCallback;
   final bool? isBackClose;
-  final bool? isThin;
   final String? title;
   final Function? closeCallback;
   final Widget? rightMenu;
@@ -15,7 +14,6 @@ class HeaderMenu extends StatefulWidget {
     super.key,
     this.backCallback,
     this.isBackClose,
-    this.isThin,
     this.title,
     this.closeCallback,
     this.rightMenu,
@@ -29,13 +27,11 @@ class HeaderMenu extends StatefulWidget {
 
 class _HeaderMenuState extends State<HeaderMenu> {
   bool isBackClose = false;
-  bool isThin = false;
 
   @override
   void initState() {
     super.initState();
     isBackClose = widget.isBackClose ?? false;
-    isThin = widget.isThin ?? false;
   }
 
   @override
@@ -49,11 +45,11 @@ class _HeaderMenuState extends State<HeaderMenu> {
               : Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(left: widget.backPadding ?? 20.w),
+                    padding: EdgeInsets.only(left: widget.backPadding ?? 12.w),
                     child: Material(
                       color: Colors.transparent,
                       child: SizedBox(
-                        width: 40.w,
+                        width: 40.h,
                         height: 40.h,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(25.0),
@@ -64,10 +60,8 @@ class _HeaderMenuState extends State<HeaderMenu> {
                             child: Image.asset(
                               isBackClose == true
                                   ? 'assets/signin/button_close.png'
-                                  : (isThin == true
-                                      ? 'assets/store/back_arrow_thin.png'
-                                      : 'assets/create_event/button_back.png'),
-                              width: 24.w,
+                                  : 'assets/store/back_arrow_thin.png',
+                              width: 24.h,
                               height: 24.h,
                             ),
                           ),

@@ -15,7 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class FeedPostDetail extends StatefulWidget {
   final int postId;
-  const FeedPostDetail({Key? key, required this.postId}) : super(key: key);
+  const FeedPostDetail({super.key, required this.postId});
 
   @override
   State<FeedPostDetail> createState() => _FeedPostDetailState();
@@ -33,15 +33,12 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
 
   @override
   void initState() {
-    activeFuture = fetchData();
     super.initState();
+    activeFuture = fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    print('get post id : ${widget.postId.toString()}');
-
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
 
@@ -56,16 +53,17 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
           child: FutureBuilder(
             future: activeFuture,
             builder: (context, snapshot) {
-              if(snapshot.hasError) {
+              if (snapshot.hasError) {
                 return const SizedBox.shrink();
-              } else if(snapshot.hasData) {
-                if(snapshot.connectionState == ConnectionState.waiting) {
+              } else if (snapshot.hasData) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
-                } else if(snapshot.connectionState == ConnectionState.done) {
-
+                } else if (snapshot.connectionState == ConnectionState.done) {
                   FeedDetailModel feedDetailModel = snapshot.data!;
-                  return PostDetail(postModel: feedDetailModel, topPadding: safeAreaTopPadding, bottomPadding: safeAreaBottomPadding);
-
+                  return PostDetail(
+                      postModel: feedDetailModel,
+                      topPadding: safeAreaTopPadding,
+                      bottomPadding: safeAreaBottomPadding);
                 } else {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -73,26 +71,25 @@ class _FeedPostDetailState extends State<FeedPostDetail> {
                 // return const Center(child: Text('data loading..'));
                 return const Center(child: CircularProgressIndicator());
               }
-            }
-          )
-        )
+            },
+          ),
+        ),
       ),
     );
   }
 }
 
 class PostDetail extends StatefulWidget {
-  FeedDetailModel? postModel;
-  double? topPadding;
-  double? bottomPadding;
-  PostDetail({Key? key, this.postModel, this.topPadding, this.bottomPadding}) : super(key: key);
+  final FeedDetailModel? postModel;
+  final double? topPadding;
+  final double? bottomPadding;
+  const PostDetail({super.key, this.postModel, this.topPadding, this.bottomPadding});
 
   @override
   State<PostDetail> createState() => _PostDetailState();
 }
 
 class _PostDetailState extends State<PostDetail> {
-
   FeedDetailModel? model;
   List<Widget> contentsWidget = [];
   List<Widget> tagsWidget = [];
@@ -101,9 +98,9 @@ class _PostDetailState extends State<PostDetail> {
 
   bool stringToBoolean(String value) {
     bool convertResult = false;
-    if(value.toLowerCase() == 'true') {
+    if (value.toLowerCase() == 'true') {
       convertResult = true;
-    } else if(value.toLowerCase() == 'false') {
+    } else if (value.toLowerCase() == 'false') {
       convertResult = false;
     }
     return convertResult;
@@ -130,50 +127,50 @@ class _PostDetailState extends State<PostDetail> {
     model = widget.postModel;
     // makeContentsWidget(model!);
     List<String> tags = [];
-    for(var e in model!.tags!) {
+    for (var e in model!.tags!) {
       tags.add(e.title!);
     }
     makeLabels(tags);
-    if(model!.createdTime == null) {
+    if (model!.createdTime == null) {
       created = '';
     } else {
       created = '작성일 ${model!.createdTime!.toString().substring(0, 10).replaceAll('-', '.')}';
     }
     // contentEncoding(model!.content.toString());
 
-    if(model!.id == 22) {
+    if (model!.id == 22) {
       detailWidget = const FeedFlexibleID22();
-    } else if(model!.id == 21) {
+    } else if (model!.id == 21) {
       detailWidget = const FeedFlexibleID21();
-    } else if(model!.id == 20) {
+    } else if (model!.id == 20) {
       detailWidget = const FeedFlexibleID20();
-    } else if(model!.id == 19) {
+    } else if (model!.id == 19) {
       detailWidget = const FeedFlexibleID19();
-    } else if(model!.id == 18) {
+    } else if (model!.id == 18) {
       detailWidget = const FeedFlexibleID18();
-    } else if(model!.id == 17) {
+    } else if (model!.id == 17) {
       detailWidget = const FeedFlexibleID17();
-    } else if(model!.id == 16) {
+    } else if (model!.id == 16) {
       detailWidget = const FeedFlexibleID16();
-    } else if(model!.id == 15) {
+    } else if (model!.id == 15) {
       detailWidget = const FeedFlexibleID15();
-    } else if(model!.id == 14) {
+    } else if (model!.id == 14) {
       detailWidget = const FeedFlexibleID14();
-    } else if(model!.id == 13) {
+    } else if (model!.id == 13) {
       detailWidget = const FeedFlexibleID13();
-    } else if(model!.id == 12) {
+    } else if (model!.id == 12) {
       detailWidget = const FeedFlexibleID12();
-    } else if(model!.id == 11) {
+    } else if (model!.id == 11) {
       detailWidget = const FeedFlexibleID11();
-    } else if(model!.id == 10) {
+    } else if (model!.id == 10) {
       detailWidget = const FeedFlexibleID10();
-    } else if(model!.id == 9) {
+    } else if (model!.id == 9) {
       detailWidget = const FeedFlexibleID09();
-    } else if(model!.id == 8) {
+    } else if (model!.id == 8) {
       detailWidget = const FeedFlexibleID08();
-    } else if(model!.id == 7) {
+    } else if (model!.id == 7) {
       detailWidget = const FeedFlexibleID07();
-    } else if(model!.id == 6) {
+    } else if (model!.id == 6) {
       detailWidget = const FeedFlexibleID06();
     }
 
@@ -181,13 +178,13 @@ class _PostDetailState extends State<PostDetail> {
   }
 
   void makeLabels(List<String> labels) {
-    for(var e in labels) {
+    for (var e in labels) {
       tagsWidget.add(tagWidgets(e));
     }
   }
 
   void contentEncoding(String jsonString) {
-    Map<String,dynamic> jsonData = jsonDecode(jsonString);
+    Map<String, dynamic> jsonData = jsonDecode(jsonString);
     print(jsonData);
   }
 
@@ -196,15 +193,18 @@ class _PostDetailState extends State<PostDetail> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
-          decoration: BoxDecoration(
-            color: StaticColor.grey100F6,
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: Center(
-            child: Text('#$labelName', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w600)),
-          )
-        ),
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 4.0.h),
+            decoration: BoxDecoration(
+              color: StaticColor.grey100F6,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Center(
+              child: Text('#$labelName',
+                  style: TextStyle(
+                      fontSize: 14.0.sp,
+                      color: StaticColor.grey60077,
+                      fontWeight: FontWeight.w600)),
+            )),
         SizedBox(width: 4.0.w),
       ],
     );
@@ -212,7 +212,6 @@ class _PostDetailState extends State<PostDetail> {
 
   @override
   Widget build(BuildContext context) {
-
     /// 디테일 화면 구성 변경 2023 06 23
     return Stack(
       children: [
@@ -221,36 +220,39 @@ class _PostDetailState extends State<PostDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Consumer<FeedProvider>(
-                  builder: (context, data, child) {
-                    int likeCount = 0;
-                    if(data.commentCount == -1) {
-                      likeCount = model!.likeCount!;
-                    } else if(data.commentCount != -1) {
-                      likeCount = data.likeCount;
-                    }
-                    return PostDetailBanner(
-                        imageUrl: model!.thumbnail!,
-                        title: model!.title!,
-                        desc: model!.subTitle!,
-                        // created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
-                        startDate: model!.startDate!,
-                        endDate: model!.endDate!,
-                        likeCount: likeCount.toString(),
-                        isLiked: model!.isLiked!
-                    );
+                builder: (context, data, child) {
+                  int likeCount = 0;
+                  if (data.commentCount == -1) {
+                    likeCount = model!.likeCount!;
+                  } else if (data.commentCount != -1) {
+                    likeCount = data.likeCount;
                   }
+                  return PostDetailBanner(
+                    imageUrl: model!.thumbnail!,
+                    title: model!.title!,
+                    desc: model!.subTitle!,
+                    // created: model!.createdTime!.substring(0, 10).replaceAll('-', '.'),
+                    startDate: model!.startDate!,
+                    endDate: model!.endDate!,
+                    likeCount: likeCount.toString(),
+                    isLiked: model!.isLiked!,
+                  );
+                },
               ),
-              model!.contentTitle == '' ? const SizedBox.shrink()
+              model!.contentTitle == ''
+                  ? const SizedBox.shrink()
                   : PostDetailTitle(
-                title: model!.contentTitle!,
-                eventPeriodLabel: '',
-                eventPeriod: '',),
-              model!.content!.isEmpty ? const SizedBox.shrink()
+                      title: model!.contentTitle!,
+                      eventPeriodLabel: '',
+                      eventPeriod: '',
+                    ),
+              model!.content!.isEmpty
+                  ? const SizedBox.shrink()
                   : const Column(
                       // children: contentsWidget
                       children: [
                         // Text(model!.content.toString()),
-                      ]
+                      ],
                     ),
               SizedBox(height: 16.0.h),
               detailWidget,
@@ -263,7 +265,11 @@ class _PostDetailState extends State<PostDetail> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 20.0.h),
-                child: Text(created!, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+                child: Text(created!,
+                    style: TextStyle(
+                        fontSize: 12.0.sp,
+                        color: StaticColor.grey70055,
+                        fontWeight: FontWeight.w400)),
               ),
               const SizedBox(height: 80.0),
               // ContentTextTypeParagraph(text: model.contents!.elementAt(0).contentUrl.toString()),
@@ -271,28 +277,30 @@ class _PostDetailState extends State<PostDetail> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 38.0, left: 20.0),
+          padding: EdgeInsets.only(top: 20.0.h, left: 20.0.w),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              borderRadius: BorderRadius.circular(25.0),
+              borderRadius: BorderRadius.circular(25.0.r),
               onTap: () {
                 context.read<FeedProvider>().feedInfoInit();
                 Navigator.of(context).pop();
               },
-              child: SizedBox(
-                width: 50.0.w,
-                height: 50.0.h,
-                child: Stack(
-                  children: [
-                    Image.asset('assets/feed/back_button.png', width: 50, height: 50),
-                    Positioned.fill(
-                      top: 10.0,
-                      bottom: 12.0,
-                      left: 5.0,
-                      right: 10.0,
-                      child: Image.asset('assets/feed/arrow_in_back_button.png', width: 24, height: 24)),
-                  ],
+              child: Container(
+                width: 40.0.h,
+                height: 40.0.h,
+                padding: EdgeInsets.only(right: 2.0.w),
+                decoration: BoxDecoration(
+                  color: StaticColor.black90015.withOpacity(0.35),
+                  borderRadius: BorderRadius.circular(25.0.r),
+                ),
+                child: Center(
+                  child: Image.asset(
+                    'assets/feed/arrow_in_back_button.png',
+                    width: 24.0.h,
+                    height: 24.0.h,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -385,34 +393,32 @@ class _PostDetailState extends State<PostDetail> {
     //   ],
     // );
   }
-
-
 }
 
 class ContentTextTypeParagraph extends StatelessWidget {
   String text;
-  ContentTextTypeParagraph({Key? key, required this.text}) : super(key: key);
+  ContentTextTypeParagraph({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
-
     const lineHeight = 26.0 / 16.0;
 
     return Padding(
       padding: const EdgeInsets.only(top: 24.0, left: 20.0, right: 20.0),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 16, color: StaticColor.grey80033, fontWeight: FontWeight.w400, height: lineHeight,
-        )
-      ),
+      child: Text(text,
+          style: TextStyle(
+            fontSize: 16,
+            color: StaticColor.grey80033,
+            fontWeight: FontWeight.w400,
+            height: lineHeight,
+          )),
     );
   }
 }
 
 class ContentImageTypeParagraph extends StatelessWidget {
   String imageUrl;
-  ContentImageTypeParagraph({Key? key, required this.imageUrl}) : super(key: key);
+  ContentImageTypeParagraph({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -430,22 +436,26 @@ class ContentImageTypeParagraph extends StatelessWidget {
 
 class ContentURLTypeParagraph extends StatelessWidget {
   String text;
-  ContentURLTypeParagraph({Key? key, required this.text}) : super(key: key);
+  ContentURLTypeParagraph({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
-
     const lineHeight = 26.0 / 16.0;
 
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
       child: GestureDetector(
-        onTap: () async {_launchUrl(text);},
+        onTap: () async {
+          _launchUrl(text);
+        },
         child: Text(
           '위 상품 보러가기',
           // text,
           style: TextStyle(
-            fontSize: 16, color: StaticColor.mainSoft, fontWeight: FontWeight.w400, height: lineHeight,
+            fontSize: 16,
+            color: StaticColor.mainSoft,
+            fontWeight: FontWeight.w400,
+            height: lineHeight,
           ),
         ),
       ),
@@ -1040,21 +1050,25 @@ class PostDetailTitle extends StatelessWidget {
                 color: Color(0xFF333333),
               )),
           eventPeriodLabel == '' ? const SizedBox.shrink() : const SizedBox(height: 32),
-          eventPeriodLabel == '' ? const SizedBox.shrink() : Text(eventPeriodLabel,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF555555),
-              )),
+          eventPeriodLabel == ''
+              ? const SizedBox.shrink()
+              : Text(eventPeriodLabel,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF555555),
+                  )),
           eventPeriodLabel == '' ? const SizedBox.shrink() : const SizedBox(height: 4),
-          eventPeriod == '' ? const SizedBox.shrink() : Text(
-            eventPeriod,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: Color(0xFF777777),
-            ),
-          ),
+          eventPeriod == ''
+              ? const SizedBox.shrink()
+              : Text(
+                  eventPeriod,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xFF777777),
+                  ),
+                ),
           const SizedBox(height: 24),
           Container(height: 1, color: StaticColor.grey200EE),
         ],
@@ -1108,7 +1122,8 @@ class LikeButton extends StatefulWidget {
   final int likeCount;
   final int feedId;
 
-  const LikeButton({Key? key, required this.isLiked, required this.likeCount, required this.feedId}) : super(key: key);
+  const LikeButton(
+      {super.key, required this.isLiked, required this.likeCount, required this.feedId});
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
@@ -1128,14 +1143,15 @@ class _LikeButtonState extends State<LikeButton> {
       isLiked = !isLiked;
     });
 
-    if(isLiked == true) {
+    if (isLiked == true) {
       FeedDetailModel responseModel = await FeedRequest().postDetailLiked(widget.feedId);
-      context.read<FeedProvider>().feedDetailModelInitialize(responseModel.isCommented, responseModel.commentCount, responseModel.isLiked, responseModel.likeCount);
-    } else if(isLiked == false) {
+      context.read<FeedProvider>().feedDetailModelInitialize(responseModel.isCommented,
+          responseModel.commentCount, responseModel.isLiked, responseModel.likeCount);
+    } else if (isLiked == false) {
       FeedDetailModel responseModel = await FeedRequest().postDetailUnliked(widget.feedId);
-      context.read<FeedProvider>().feedDetailModelInitialize(responseModel.isCommented, responseModel.commentCount, responseModel.isLiked, responseModel.likeCount);
+      context.read<FeedProvider>().feedDetailModelInitialize(responseModel.isCommented,
+          responseModel.commentCount, responseModel.isLiked, responseModel.likeCount);
     }
-
   }
 
   @override

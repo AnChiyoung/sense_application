@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sense_flutter_application/constants/logger.dart';
-import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/feed/feed_view.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+  const FeedScreen({super.key});
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();
@@ -13,8 +11,8 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
-
-    SenseLogger().debug('[login info]\naccess token : ${PresentUserInfo.loginToken}\nuser id : ${PresentUserInfo.id}\nuser name : ${PresentUserInfo.username}');
+    // SenseLogger().debug(
+    //     '[login info]\naccess token : ${PresentUserInfo.loginToken}\nuser id : ${PresentUserInfo.id}\nuser name : ${PresentUserInfo.username}');
 
     return GestureDetector(
       onTap: () {

@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import '../../views/home/home_view.dart';
 
 class HomeScreen extends StatefulWidget {
-  int initPage;
-  HomeScreen({Key? key, required this.initPage}) : super(key: key);
+  final int initPage;
+  const HomeScreen({super.key, required this.initPage});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   int pageIndex = 0;
 
   void movePage(int index) {
@@ -22,16 +21,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    movePage(widget.initPage);
     super.initState();
+    movePage(widget.initPage);
   }
 
   @override
   Widget build(BuildContext context) {
-
-    /// safe area height
-    final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
-
     return WillPopScope(
       /// onWillPop: null은 android back button에만 대응된다. 하단의 방법으로 처리
       onWillPop: () async => false,
@@ -40,8 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
           child: MovePageList.pageList.elementAt(pageIndex),
         ),
-        bottomNavigationBar: BottomMenu(selectCallback: movePage, safeAreaBottomPadding: safeAreaBottomPadding, initPage: pageIndex),
-        // bottomNavigationBar: Container(height: 100),
+        bottomNavigationBar: BottomMenu(
+          selectCallback: movePage,
+          initPage: pageIndex,
+        ),
       ),
     );
   }

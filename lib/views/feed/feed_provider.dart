@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/feed/comment_model.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
 
 class FeedProvider with ChangeNotifier {
-
   int _currentCommentListIndex = 0;
   int get currentCommentListIndex => _currentCommentListIndex;
 
@@ -81,13 +79,17 @@ class FeedProvider with ChangeNotifier {
   int _likeCount = -1;
   int get likeCount => _likeCount;
 
-  void feedDetailModelInitialize(bool? isCommented, int? commentCount, bool? isLiked, int? likeCount) {
+  void feedDetailModelInitialize(
+      bool? isCommented, int? commentCount, bool? isLiked, int? likeCount) {
     // print('notify!!');
     // model == null ? {} : _feedDetailModel = model;
     // model == null
     //     ? {_isCommented = isCommented!, _commentCount = commentCount!, _isLiked = isLiked!, _likeCount = likeCount!}
     //     : {_isCommented = _feedDetailModel.myComment!, _commentCount = _feedDetailModel.commentCount!, _isLiked = _feedDetailModel.isLiked!, _likeCount = _feedDetailModel.likeCount!};
-    _isCommented = isCommented!; _commentCount = commentCount!; _isLiked = isLiked!; _likeCount = likeCount!;
+    _isCommented = isCommented!;
+    _commentCount = commentCount!;
+    _isLiked = isLiked!;
+    _likeCount = likeCount!;
     notifyListeners();
   }
 
@@ -112,7 +114,7 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void recommentModeToCommentMode(int postId, String sort) async {
+  void recommendModeToCommentMode(int postId, String sort) async {
     _recommentMode = false;
     _commentModels = await CommentRequest().commentRequest(postId, sort);
     _sortState = sort;
@@ -148,7 +150,8 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void commentInputResult(int postId, String sort, bool isCommented, int commentCount, bool isLiked, int likeCount) async {
+  void commentInputResult(int postId, String sort, bool isCommented, int commentCount, bool isLiked,
+      int likeCount) async {
     _inputButton = false;
     _isCommented = isCommented;
     _commentCount = commentCount;
@@ -158,7 +161,8 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void commentDeleteResult(int postId, String sort, bool isCommented, int commentCount, bool isLiked, int likeCount) async {
+  void commentDeleteResult(int postId, String sort, bool isCommented, int commentCount,
+      bool isLiked, int likeCount) async {
     _inputButton = false;
     _isCommented = isCommented;
     _commentCount = commentCount;
@@ -173,21 +177,10 @@ class FeedProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-
-
-
-
-
-
-
   void feedCommentCountUpdate(int? commentCount) {
     _commentCount = commentCount!;
     notifyListeners();
   }
-
 
   final List<FeedTagModel> _feedTags = [];
   List<FeedTagModel> get feedTags => _feedTags;
@@ -217,7 +210,6 @@ class FeedProvider with ChangeNotifier {
   // }
 
   void searchFeed(String searchTerm) {}
-
 
   /// 2023.05.08.
   String _sortState = '-created';
@@ -306,7 +298,6 @@ class FeedProvider with ChangeNotifier {
     _commentCount = state;
     notifyListeners();
   }
-
 
   /// inputMode change => 0: comment, 1: recomment, 2: comment update
   // int _inputMode = 0;

@@ -20,11 +20,10 @@ class _StoreDetailHeaderState extends State<StoreDetailHeader> {
   @override
   Widget build(BuildContext context) {
     return HeaderMenu(
-        backPadding: 5.0.w,
-        backCallback: backCallback,
-        isThin: true,
-        title: "",
-        rightMenu: shareMenu());
+      backCallback: backCallback,
+      title: "",
+      rightMenu: shareMenu(),
+    );
   }
 
   void backCallback() {
@@ -40,11 +39,11 @@ class _StoreDetailHeaderState extends State<StoreDetailHeader> {
         child: InkWell(
           borderRadius: BorderRadius.circular(24),
           onTap: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen()));
+            // Navigator.push(context, MaterialPageRoute(builder: (_) => MyPageScreen(),));
           },
           child: Center(
-              child: Image.asset('assets/store/share_button.png',
-                  width: 24.0.w, height: 24.0.h)),
+            child: Image.asset('assets/store/share_button.png', width: 24.0.w, height: 24.0.h),
+          ),
         ),
       ),
     );
@@ -52,8 +51,8 @@ class _StoreDetailHeaderState extends State<StoreDetailHeader> {
 }
 
 class StoreDetailContent extends StatefulWidget {
-  int productId;
-  StoreDetailContent({super.key, required this.productId});
+  final int productId;
+  const StoreDetailContent({super.key, required this.productId});
 
   @override
   State<StoreDetailContent> createState() => _StoreDetailContentState();
@@ -67,47 +66,58 @@ class _StoreDetailContentState extends State<StoreDetailContent> {
       child: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: FutureBuilder(
-            future: StoreRequest().productRequest(widget.productId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  ProductModel loadProductModel = snapshot.data ?? ProductModel();
-                  SenseLogger().debug(loadProductModel.toString());
+          future: StoreRequest().productRequest(widget.productId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                ProductModel loadProductModel = snapshot.data ?? ProductModel();
+                SenseLogger().debug(
+                  loadProductModel.toString(),
+                );
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ProductImage(imageUrl: loadProductModel.imageUrl!),
-                      SizedBox(height: 20.0.h),
-                      ProductMetaInfo(model: loadProductModel),
-                      Container(
-                        width: double.infinity,
-                        height: 8.0.h,
-                        color: StaticColor.grey100F6,
-                      ),
-                      const ProductBasicInfo(),
-                    ],
-                  );
-                  // return ProductWidgets(models: loadProductModels);
-                } else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              } else if (snapshot.hasError) {
-                return const Center(child: CircularProgressIndicator());
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProductImage(imageUrl: loadProductModel.imageUrl!),
+                    SizedBox(height: 20.0.h),
+                    ProductMetaInfo(model: loadProductModel),
+                    Container(
+                      width: double.infinity,
+                      height: 8.0.h,
+                      color: StaticColor.grey100F6,
+                    ),
+                    const ProductBasicInfo(),
+                  ],
+                );
+                // return ProductWidgets(models: loadProductModels);
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               } else {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
-            }),
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
     );
   }
 }
 
 class ProductImage extends StatefulWidget {
-  String imageUrl;
-  ProductImage({super.key, required this.imageUrl});
+  final String imageUrl;
+  const ProductImage({super.key, required this.imageUrl});
 
   @override
   State<ProductImage> createState() => _ProductImageState();
@@ -128,18 +138,23 @@ class _ProductImageState extends State<ProductImage> {
             //   ),
             // ),
             // placeholder: (context, url) => Container(width: 30, height: 30, color: Colors.green),
-            // errorWidget: (context, url, error) => const Center(child: Text("상품 이미지가 없습니다.")), // 디자인 필요
+            // errorWidget: (context, url, error) => const Center(child: Text("상품 이미지가 없습니다."),), // 디자인 필요
           )
         : SizedBox(
             width: double.infinity,
             height: 300.0.h,
-            child: const Center(child: Text("상품 이미지가 없습니다")));
+            child: const Center(
+              child: Text(
+                "상품 이미지가 없습니다",
+              ),
+            ),
+          );
   }
 }
 
 class ProductMetaInfo extends StatefulWidget {
-  ProductModel model;
-  ProductMetaInfo({super.key, required this.model});
+  final ProductModel model;
+  const ProductMetaInfo({super.key, required this.model});
 
   @override
   State<ProductMetaInfo> createState() => _ProductMetaInfoState();
@@ -155,9 +170,9 @@ class _ProductMetaInfoState extends State<ProductMetaInfo> {
 
   @override
   void initState() {
+    super.initState();
     model = widget.model;
     dataInit();
-    super.initState();
   }
 
   void dataInit() {
@@ -195,8 +210,6 @@ class _ProductMetaInfoState extends State<ProductMetaInfo> {
       originalPrice = '${f.format(parseNumber)}원';
     }
 
-    print(discountPrice);
-
     discountPrice == "123원" ? discountRate = "70%" : {};
   }
 
@@ -207,48 +220,60 @@ class _ProductMetaInfoState extends State<ProductMetaInfo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(brandTitle,
-              style: TextStyle(
-                  fontSize: 12.0.sp,
-                  color: StaticColor.grey60077,
-                  fontWeight: FontWeight.w400)),
+          Text(
+            brandTitle,
+            style: TextStyle(
+                fontSize: 12.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400),
+          ),
           SizedBox(height: 2.0.h),
-          Text(title,
-              style: TextStyle(
-                  fontSize: 16.0.sp,
-                  color: StaticColor.grey80033,
-                  fontWeight: FontWeight.w700)),
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w700),
+          ),
           SizedBox(height: 4.0.h),
           discountRate.isNotEmpty
-              ? Text(originalPrice,
+              ? Text(
+                  originalPrice,
                   style: TextStyle(
-                      fontSize: 12.0.sp,
-                      color: StaticColor.grey60077,
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.lineThrough))
+                    fontSize: 12.0.sp,
+                    color: StaticColor.grey60077,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                )
               : const SizedBox.shrink(),
           SizedBox(height: 4.0.h),
           discountRate.isNotEmpty
               ? Row(
                   children: [
-                    Text(discountRate,
-                        style: TextStyle(
-                            fontSize: 16.0.sp,
-                            color: StaticColor.dateLabelColor,
-                            fontWeight: FontWeight.w500)),
+                    Text(
+                      discountRate,
+                      style: TextStyle(
+                        fontSize: 16.0.sp,
+                        color: StaticColor.dateLabelColor,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                     SizedBox(width: 8.0.w),
-                    Text(discountPrice,
-                        style: TextStyle(
-                            fontSize: 16.0.sp,
-                            color: StaticColor.grey80033,
-                            fontWeight: FontWeight.w500)),
+                    Text(
+                      discountPrice,
+                      style: TextStyle(
+                        fontSize: 16.0.sp,
+                        color: StaticColor.grey80033,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 )
-              : Text(originalPrice,
+              : Text(
+                  originalPrice,
                   style: TextStyle(
-                      fontSize: 16.0.sp,
-                      color: StaticColor.grey80033,
-                      fontWeight: FontWeight.w500)),
+                    fontSize: 16.0.sp,
+                    color: StaticColor.grey80033,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
         ],
       ),
     );
@@ -270,49 +295,62 @@ class _ProductBasicInfoState extends State<ProductBasicInfo> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.symmetric(vertical: 10.0.h),
-            color: Colors.white,
-            child: Center(
-              child: Text("기본정보",
-                  style: TextStyle(
-                      fontSize: 14.0.sp,
-                      color: StaticColor.grey70055,
-                      fontWeight: FontWeight.w500)),
-            )),
-        Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.black.withOpacity(0.7), Colors.white],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+          padding: EdgeInsets.symmetric(vertical: 10.0.h),
+          color: Colors.white,
+          child: Center(
+            child: Text(
+              "기본정보",
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                color: StaticColor.grey70055,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            child: Center(
-                child: Text('상품 설명 영역',
-                    style: TextStyle(fontSize: 12.0.sp, color: Colors.white)))),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          height: 200,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.black.withOpacity(0.7), Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Center(
+              child: Text(
+            '상품 설명 영역',
+            style: TextStyle(
+              fontSize: 12.0.sp,
+              color: Colors.white,
+            ),
+          )),
+        ),
         Consumer<StoreProvider>(builder: (context, data, child) {
-
           moreView = data.productMoreView;
 
-          return moreView ? SizedBox(
-            width: double.infinity,
-            height: 500.0.h,
-            child: Center(
-              child: Text('상품 설명 추가 영역',
-                  style: TextStyle(
-                      fontSize: 12.0.sp, color: StaticColor.grey70055)),
-            ),
-          ) : const SizedBox.shrink();
+          return moreView
+              ? SizedBox(
+                  width: double.infinity,
+                  height: 500.0.h,
+                  child: Center(
+                    child: Text(
+                      '상품 설명 추가 영역',
+                      style: TextStyle(
+                        fontSize: 12.0.sp,
+                        color: StaticColor.grey70055,
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink();
         }),
         Consumer<StoreProvider>(builder: (context, data, child) {
-
           moreView = data.productMoreView;
 
           return Padding(
-            padding: EdgeInsets.only(
-                left: 20.0.w, right: 20.0.w, top: 10.0.h, bottom: 10.0.h),
+            padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 10.0.h, bottom: 10.0.h),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
@@ -326,17 +364,22 @@ class _ProductBasicInfoState extends State<ProductBasicInfo> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(moreView ? '상품 접기' : '상품 펼쳐보기',
-                            style: TextStyle(
-                                fontSize: 14.0.sp,
-                                color: StaticColor.black90015,
-                                fontWeight: FontWeight.w500)),
+                        Text(
+                          moreView ? '상품 접기' : '상품 펼쳐보기',
+                          style: TextStyle(
+                              fontSize: 14.0.sp,
+                              color: StaticColor.black90015,
+                              fontWeight: FontWeight.w500),
+                        ),
                         SizedBox(width: 4.0.w),
                         moreView
                             ? RotatedBox(
                                 quarterTurns: 2,
-                                child: Image.asset('assets/store/moreview_down_button.png', width: 20.0.w, height: 20.0.h))
-                            : Image.asset('assets/store/moreview_down_button.png', width: 20.0.w, height: 20.0.h),
+                                child: Image.asset('assets/store/moreview_down_button.png',
+                                    width: 20.0.w, height: 20.0.h),
+                              )
+                            : Image.asset('assets/store/moreview_down_button.png',
+                                width: 20.0.w, height: 20.0.h),
                       ],
                     ),
                   ),

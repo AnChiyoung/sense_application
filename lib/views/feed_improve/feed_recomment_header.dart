@@ -3,15 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
-class RecommentHeader extends StatefulWidget {
-  int postId;
-  RecommentHeader({super.key, required this.postId});
+class RecommendHeader extends StatefulWidget {
+  final int postId;
+  const RecommendHeader({super.key, required this.postId});
 
   @override
-  State<RecommentHeader> createState() => _RecommentHeaderState();
+  State<RecommendHeader> createState() => _RecommendHeaderState();
 }
 
-class _RecommentHeaderState extends State<RecommentHeader> {
+class _RecommendHeaderState extends State<RecommendHeader> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,7 +19,11 @@ class _RecommentHeaderState extends State<RecommentHeader> {
         Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 12),
           child: Center(
-            child: Image.asset('assets/feed/comment_header_bar.png', width: 75, height: 4),
+            child: Image.asset(
+              'assets/feed/comment_header_bar.png',
+              width: 75,
+              height: 4,
+            ),
           ),
         ),
         Padding(
@@ -31,7 +35,8 @@ class _RecommentHeaderState extends State<RecommentHeader> {
               borderRadius: BorderRadius.circular(25.0),
               onTap: () {
                 /// 댓글로 전환
-                context.read<FeedProvider>().recommentModeToCommentMode(widget.postId, context.read<FeedProvider>().sortState);
+                context.read<FeedProvider>().recommendModeToCommentMode(
+                    widget.postId, context.read<FeedProvider>().sortState);
               },
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -40,7 +45,14 @@ class _RecommentHeaderState extends State<RecommentHeader> {
                   children: [
                     Image.asset('assets/feed/back_arrow.png', width: 22, height: 22),
                     const SizedBox(width: 4.0),
-                    Text('답글', style: TextStyle(fontSize: 18, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
+                    Text(
+                      '답글',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: StaticColor.grey80033,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ],
                 ),
               ),

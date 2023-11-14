@@ -132,12 +132,12 @@ class _CommentDeleteDialog extends State<CommentDeleteDialog> {
 
                       if (deleteResponseModel.parentCommentId == -1) {
                         /// 댓글일 때,
-                        context.read<FeedProvider>().recommentModeToCommentMode(
+                        context.read<FeedProvider>().recommendModeToCommentMode(
                             widget.postId!, context.read<FeedProvider>().sortState);
 
                         // if(deleteResponseModel.isDelete == false) {
                         //   print('is deleted => false');
-                        //   context.read<FeedProvider>().recommentModeToCommentMode(widget.postId!, context.read<FeedProvider>().sortState);
+                        //   context.read<FeedProvider>().recommendModeToCommentMode(widget.postId!, context.read<FeedProvider>().sortState);
                         // } else {
                         //   print('etc');
                         // }
