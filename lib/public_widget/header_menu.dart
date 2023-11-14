@@ -3,30 +3,39 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
 class HeaderMenu extends StatefulWidget {
-  Function? backCallback;
-  bool? isBackClose;
-  bool? isThin;
-  String? title;
-  Function? closeCallback;
-  Widget? rightMenu;
-  TextStyle? titleStyle;
-  double? backPadding;
-  HeaderMenu({Key? key, this.backCallback, this.isBackClose, this.isThin, this.title, this.closeCallback, this.rightMenu, this.titleStyle, this.backPadding}) : super(key: key);
+  final Function? backCallback;
+  final bool? isBackClose;
+  final bool? isThin;
+  final String? title;
+  final Function? closeCallback;
+  final Widget? rightMenu;
+  final TextStyle? titleStyle;
+  final double? backPadding;
+  const HeaderMenu({
+    super.key,
+    this.backCallback,
+    this.isBackClose,
+    this.isThin,
+    this.title,
+    this.closeCallback,
+    this.rightMenu,
+    this.titleStyle,
+    this.backPadding,
+  });
 
   @override
   State<HeaderMenu> createState() => _HeaderMenuState();
 }
 
 class _HeaderMenuState extends State<HeaderMenu> {
-
   bool isBackClose = false;
   bool isThin = false;
 
   @override
   void initState() {
+    super.initState();
     isBackClose = widget.isBackClose ?? false;
     isThin = widget.isThin ?? false;
-    super.initState();
   }
 
   @override
@@ -35,46 +44,81 @@ class _HeaderMenuState extends State<HeaderMenu> {
       height: 60.h,
       child: Stack(
         children: [
-          widget.backCallback == null ? Container() : Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: widget.backPadding ?? 20.w),
-              child: Material(
-                color: Colors.transparent,
-                child: SizedBox(
-                  width: 40.w,
-                  height: 40.h,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(25.0),
-                    onTap: () {
-                      widget.backCallback?.call();
-                    },
-                    child: Center(child: Image.asset(isBackClose == true ? 'assets/signin/button_close.png' : (isThin == true ? 'assets/store/back_arrow_thin.png' : 'assets/create_event/button_back.png'), width: 24.w, height: 24.h)),
+          widget.backCallback == null
+              ? Container()
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: widget.backPadding ?? 20.w),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: SizedBox(
+                        width: 40.w,
+                        height: 40.h,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(25.0),
+                          onTap: () {
+                            widget.backCallback?.call();
+                          },
+                          child: Center(
+                            child: Image.asset(
+                              isBackClose == true
+                                  ? 'assets/signin/button_close.png'
+                                  : (isThin == true
+                                      ? 'assets/store/back_arrow_thin.png'
+                                      : 'assets/create_event/button_back.png'),
+                              width: 24.w,
+                              height: 24.h,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 70.0.w),
             child: Align(
               alignment: Alignment.center,
-              child: Text(widget.title ?? '', style: widget.titleStyle ?? TextStyle(fontSize: 16.sp, color: StaticColor.contactTextColor, fontWeight: FontWeight.w500), overflow: TextOverflow.ellipsis,),
-            ),
-          ),
-          widget.rightMenu == null ? Container() : Align(alignment: Alignment.centerRight, child: Padding(padding: EdgeInsets.only(right: 18.w), child: widget.rightMenu!)),
-          widget.closeCallback == null  ? Container() : Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
-              padding: EdgeInsets.only(right: 18.w),
-              child: GestureDetector(
-                  onTap: () {
-                    widget.closeCallback?.call();
-                  },
-                  child: Image.asset('assets/add_event/button_close.png', width: 15.01, height: 14.96)
+              child: Text(
+                widget.title ?? '',
+                style: widget.titleStyle ??
+                    TextStyle(
+                      fontSize: 16.sp,
+                      color: StaticColor.contactTextColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
+          widget.rightMenu == null
+              ? Container()
+              : Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 18.w),
+                    child: widget.rightMenu!,
+                  ),
+                ),
+          widget.closeCallback == null
+              ? Container()
+              : Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 18.w),
+                    child: GestureDetector(
+                      onTap: () {
+                        widget.closeCallback?.call();
+                      },
+                      child: Image.asset(
+                        'assets/add_event/button_close.png',
+                        width: 15.0.w,
+                        height: 15.0.w,
+                      ),
+                    ),
+                  ),
+                ),
         ],
       ),
     );

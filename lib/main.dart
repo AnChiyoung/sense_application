@@ -23,6 +23,7 @@ import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
+import 'package:sense_flutter_application/views/preference/preference_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 import 'package:sense_flutter_application/views/store/store_provider.dart';
@@ -78,6 +79,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => StoreProvider()),
       ChangeNotifierProvider(create: (_) => CEProvider()),
       ChangeNotifierProvider(create: (_) => EDProvider()),
+      ChangeNotifierProvider(create: (_) => PreferenceProvider()),
       // ChangeNotifierProvider(create: (_) => CEProvider()),
       // 여기에 추가하시면 되여
     ],

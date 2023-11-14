@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sense_flutter_application/models/feed/feed_model.dart';
+import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
 import 'dart:io' as Io;
 
@@ -14,7 +15,28 @@ enum MyPagePrevRouteEnum {
   fromFirstLogin,
 }
 
-class NewMyPageProvider with ChangeNotifier {
+mixin MyPagePreference on ChangeNotifier {
+  UserPreferenceListItemModel? _foodPreference;
+  UserPreferenceListItemModel? get foodPreference => _foodPreference;
+  UserPreferenceListItemModel? _lodgingPreference;
+  UserPreferenceListItemModel? get lodgingPreference => _lodgingPreference;
+  UserPreferenceListItemModel? _travelPreference;
+  UserPreferenceListItemModel? get travelPreference => _travelPreference;
+
+  void initUserPreferenceList(
+      {required List<UserPreferenceListItemModel> preferenceList, bool notify = false}) {
+    _foodPreference =
+        preferenceList.where((item) => item.type == EnumPreferenceType.food).firstOrNull;
+    _lodgingPreference =
+        preferenceList.where((item) => item.type == EnumPreferenceType.lodging).firstOrNull;
+    _travelPreference =
+        preferenceList.where((item) => item.type == EnumPreferenceType.travel).firstOrNull;
+
+    if (notify) notifyListeners();
+  }
+}
+
+class NewMyPageProvider with ChangeNotifier, MyPagePreference {
   UserModel _userMe = UserModel();
   UserModel get userMe => _userMe;
   String _username = '';

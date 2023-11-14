@@ -7,6 +7,35 @@ enum EnumPreferenceType {
   const EnumPreferenceType(this.value);
 }
 
+class PreferenceElement {
+  final int id;
+  final String title;
+  final String imageUrl;
+
+  PreferenceElement({
+    required this.id,
+    required this.title,
+    required this.imageUrl,
+  });
+
+  factory PreferenceElement.fromJson(Map<String, dynamic> json) {
+    return PreferenceElement(
+      id: json['id'] ?? -1,
+      title: json['title'] ?? '',
+      imageUrl: json['image_url'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'image_url': imageUrl,
+      };
+
+  @override
+  String toString() => 'PreferenceElement(id: $id, title: $title, imageUrl: $imageUrl)';
+}
+
 ///
 /// 음식 취향 어드민 리스트
 ///
@@ -24,8 +53,8 @@ class PreferenceFoodModel {
   factory PreferenceFoodModel.fromJson(Map<String, dynamic> json) {
     return PreferenceFoodModel(
       id: json['id'] ?? -1,
-      title: json['title'],
-      imageUrl: json['image_url'],
+      title: json['title'] ?? '',
+      imageUrl: json['image_url'] ?? '',
     );
   }
 
@@ -224,23 +253,25 @@ class UserPreferenceListItemModel {
 ///
 /// 유저 음식 취향
 ///
-class UserFoodPreferenceModel {
+class UserFoodPreferenceResultModel {
   final int id;
   final int user;
   final EnumPreferenceType type = EnumPreferenceType.food;
   final String title;
   final String content;
+  final String likeMemo;
   final String dislikeMemo;
   List<UserFoodPreferenceFood> foods;
   List<UserFoodPreferenceTaste> spicyTastes;
   List<UserFoodPreferenceTaste> sweetTastes;
   List<UserFoodPreferenceTaste> saltyTastes;
 
-  UserFoodPreferenceModel({
+  UserFoodPreferenceResultModel({
     required this.id,
     required this.user,
     required this.title,
     required this.content,
+    required this.likeMemo,
     required this.dislikeMemo,
     this.foods = const [],
     this.spicyTastes = const [],
@@ -248,12 +279,13 @@ class UserFoodPreferenceModel {
     this.saltyTastes = const [],
   });
 
-  factory UserFoodPreferenceModel.fromJson(Map<String, dynamic> json) {
-    return UserFoodPreferenceModel(
+  factory UserFoodPreferenceResultModel.fromJson(Map<String, dynamic> json) {
+    return UserFoodPreferenceResultModel(
       id: json['id'] ?? -1,
       user: json['user'] ?? -1,
       title: json['title'] ?? '',
       content: json['content'] ?? '',
+      likeMemo: json['like_memo'] ?? '',
       dislikeMemo: json['dislike_memo'] ?? '',
       foods: List<UserFoodPreferenceFood>.from(
           json['foods'].map((x) => UserFoodPreferenceFood.fromJson(x))),
@@ -272,6 +304,7 @@ class UserFoodPreferenceModel {
         'type': type.value,
         'title': title,
         'content': content,
+        'like_memo': likeMemo,
         'dislike_memo': dislikeMemo,
         'foods': foods.map((x) => x.toJson()).toList(),
         'spicy_tastes': spicyTastes.map((x) => x.toJson()).toList(),
@@ -281,7 +314,7 @@ class UserFoodPreferenceModel {
 
   @override
   String toString() =>
-      'UserFoodPreferenceModel(id: $id, user: $user, type: $type, title: $title, content: $content, dislikeMemo: $dislikeMemo, foods: $foods, spicyTastes: $spicyTastes, sweetTastes: $sweetTastes, saltyTastes: $saltyTastes)';
+      'UserFoodPreferenceResultModel(id: $id, user: $user, type: $type, title: $title, content: $content, likeMemo: $likeMemo, dislikeMemo: $dislikeMemo, foods: $foods, spicyTastes: $spicyTastes, sweetTastes: $sweetTastes, saltyTastes: $saltyTastes)';
 }
 
 class UserFoodPreferenceFood {
@@ -349,41 +382,44 @@ class UserFoodPreferenceTaste {
 ///
 /// 유저 숙소 취향
 ///
-class UserLodgingPreferenceModel {
+class UserLodgingPreferenceResultModel {
   final int id;
   final int user;
   final EnumPreferenceType type = EnumPreferenceType.lodging;
   final String title;
   final String content;
+  final String likeMemo;
   final String dislikeMemo;
-  List<LodgingPreferenceItem> environments;
-  List<LodgingPreferenceItem> options;
-  List<LodgingPreferenceItem> types;
+  List<LodgingPreferenceElements> environments;
+  List<LodgingPreferenceElements> options;
+  List<LodgingPreferenceElements> types;
 
-  UserLodgingPreferenceModel({
+  UserLodgingPreferenceResultModel({
     required this.id,
     required this.user,
     required this.title,
     required this.content,
+    required this.likeMemo,
     required this.dislikeMemo,
     this.environments = const [],
     this.options = const [],
     this.types = const [],
   });
 
-  factory UserLodgingPreferenceModel.fromJson(Map<String, dynamic> json) {
-    return UserLodgingPreferenceModel(
+  factory UserLodgingPreferenceResultModel.fromJson(Map<String, dynamic> json) {
+    return UserLodgingPreferenceResultModel(
       id: json['id'] ?? -1,
       user: json['user'] ?? -1,
       title: json['title'] ?? '',
       content: json['content'] ?? '',
+      likeMemo: json['like_memo'] ?? '',
       dislikeMemo: json['dislike_memo'] ?? '',
-      environments: List<LodgingPreferenceItem>.from(
-          json['environments'].map((x) => LodgingPreferenceItem.fromJson(x))),
-      options: List<LodgingPreferenceItem>.from(
-          json['options'].map((x) => LodgingPreferenceItem.fromJson(x))),
-      types: List<LodgingPreferenceItem>.from(
-          json['types'].map((x) => LodgingPreferenceItem.fromJson(x))),
+      environments: List<LodgingPreferenceElements>.from(
+          json['environments'].map((x) => LodgingPreferenceElements.fromJson(x))),
+      options: List<LodgingPreferenceElements>.from(
+          json['options'].map((x) => LodgingPreferenceElements.fromJson(x))),
+      types: List<LodgingPreferenceElements>.from(
+          json['types'].map((x) => LodgingPreferenceElements.fromJson(x))),
     );
   }
 
@@ -393,6 +429,7 @@ class UserLodgingPreferenceModel {
         'type': type.value,
         'title': title,
         'content': content,
+        'like_memo': likeMemo,
         'dislike_memo': dislikeMemo,
         'environments': environments.map((x) => x.toJson()).toList(),
         'options': options.map((x) => x.toJson()).toList(),
@@ -401,76 +438,67 @@ class UserLodgingPreferenceModel {
 
   @override
   String toString() =>
-      'UserLodgingPreferenceModel(id: $id, user: $user, type: $type, title: $title, content: $content, dislikeMemo: $dislikeMemo, environments: $environments, options: $options, types: $types)';
+      'UserLodgingPreferenceResultModel(id: $id, user: $user, type: $type, title: $title, content: $content, likeMemo: $likeMemo, dislikeMemo: $dislikeMemo, environments: $environments, options: $options, types: $types)';
 }
 
-class LodgingPreferenceItem {
-  final int id;
-  final String title;
-  final String imageUrl;
-
-  LodgingPreferenceItem({
-    required this.id,
-    required this.title,
-    required this.imageUrl,
+class LodgingPreferenceElements extends PreferenceElement {
+  LodgingPreferenceElements({
+    required super.id,
+    required super.title,
+    required super.imageUrl,
   });
 
-  factory LodgingPreferenceItem.fromJson(Map<String, dynamic> json) {
-    return LodgingPreferenceItem(
+  factory LodgingPreferenceElements.fromJson(Map<String, dynamic> json) {
+    return LodgingPreferenceElements(
       id: json['id'] ?? -1,
       title: json['title'] ?? '',
       imageUrl: json['image_url'] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'image_url': imageUrl,
-      };
-
-  @override
-  String toString() => 'LodgingPreferenceItem(id: $id, title: $title, imageUrl: $imageUrl)';
 }
 
 ///
 /// 유저 여행 취향
 ///
-class UserTravelPreferenceModel {
+
+class UserTravelPreferenceResultModel {
   final int id;
   final int user;
   final EnumPreferenceType type = EnumPreferenceType.travel;
   final String title;
   final String content;
+  final String likeMemo;
   final String dislikeMemo;
-  List<UserTravelPreferenceItem> distances;
-  List<UserTravelPreferenceItem> environments;
-  List<UserTravelPreferenceItem> mates;
+  List<TravelPreferenceElement> distances;
+  List<TravelPreferenceElement> environments;
+  List<TravelPreferenceElement> mates;
 
-  UserTravelPreferenceModel({
+  UserTravelPreferenceResultModel({
     required this.id,
     required this.user,
     required this.title,
     required this.content,
+    required this.likeMemo,
     required this.dislikeMemo,
     this.distances = const [],
     this.environments = const [],
     this.mates = const [],
   });
 
-  factory UserTravelPreferenceModel.fromJson(Map<String, dynamic> json) {
-    return UserTravelPreferenceModel(
+  factory UserTravelPreferenceResultModel.fromJson(Map<String, dynamic> json) {
+    return UserTravelPreferenceResultModel(
       id: json['id'] ?? -1,
       user: json['user'] ?? '',
       title: json['title'] ?? '',
       content: json['content'] ?? '',
+      likeMemo: json['like_memo'] ?? '',
       dislikeMemo: json['dislike_memo'] ?? '',
-      distances: List<UserTravelPreferenceItem>.from(
-          json['spicy_tastes'].map((x) => UserTravelPreferenceItem.fromJson(x))),
-      environments: List<UserTravelPreferenceItem>.from(
-          json['sweet_tastes'].map((x) => UserTravelPreferenceItem.fromJson(x))),
-      mates: List<UserTravelPreferenceItem>.from(
-          json['salty_tastes'].map((x) => UserTravelPreferenceItem.fromJson(x))),
+      distances: List<TravelPreferenceElement>.from(
+          json['spicy_tastes'].map((x) => TravelPreferenceElement.fromJson(x))),
+      environments: List<TravelPreferenceElement>.from(
+          json['sweet_tastes'].map((x) => TravelPreferenceElement.fromJson(x))),
+      mates: List<TravelPreferenceElement>.from(
+          json['salty_tastes'].map((x) => TravelPreferenceElement.fromJson(x))),
     );
   }
 
@@ -480,6 +508,7 @@ class UserTravelPreferenceModel {
         'type': type.value,
         'title': title,
         'content': content,
+        'like_memo': likeMemo,
         'dislike_memo': dislikeMemo,
         'distances': distances.map((x) => x.toJson()).toList(),
         'environments': environments.map((x) => x.toJson()).toList(),
@@ -488,34 +517,21 @@ class UserTravelPreferenceModel {
 
   @override
   String toString() =>
-      'UserTravelPreferenceModel(id: $id, user: $user, type: $type, title: $title, content: $content, dislikeMemo: $dislikeMemo, distances: $distances, environments: $environments, mates: $mates)';
+      'UserTravelPreferenceResultModel(id: $id, user: $user, type: $type, title: $title, content: $content, likeMemo: $likeMemo, dislikeMemo: $dislikeMemo, distances: $distances, environments: $environments, mates: $mates)';
 }
 
-class UserTravelPreferenceItem {
-  final int id;
-  final String title;
-  final String imageUrl;
-
-  UserTravelPreferenceItem({
-    required this.id,
-    required this.title,
-    required this.imageUrl,
+class TravelPreferenceElement extends PreferenceElement {
+  TravelPreferenceElement({
+    required super.id,
+    required super.title,
+    required super.imageUrl,
   });
 
-  factory UserTravelPreferenceItem.fromJson(Map<String, dynamic> json) {
-    return UserTravelPreferenceItem(
+  factory TravelPreferenceElement.fromJson(Map<String, dynamic> json) {
+    return TravelPreferenceElement(
       id: json['id'] ?? -1,
       title: json['title'] ?? '',
       imageUrl: json['image_url'] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'image_url': imageUrl,
-      };
-
-  @override
-  String toString() => 'UserTravelPreferenceItem(id: $id, title: $title, imageUrl: $imageUrl)';
 }

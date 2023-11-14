@@ -111,11 +111,11 @@ class PreferenceRepository {
     }
   }
 
-  Future<UserFoodPreferenceModel?> getUserFoodPreferenceByUserId({required int id}) async {
+  Future<UserFoodPreferenceResultModel?> getUserFoodPreferenceByUserId({required int id}) async {
     try {
       final response = await ApiRequest().get(
         url: '/user/$id/food-preference',
-        fromJson: UserFoodPreferenceModel.fromJson,
+        fromJson: UserFoodPreferenceResultModel.fromJson,
         withToken: true,
       );
       return response.data;
@@ -124,11 +124,12 @@ class PreferenceRepository {
     }
   }
 
-  Future<UserLodgingPreferenceModel?> getUserLodgingPreferenceByUserId({required int id}) async {
+  Future<UserLodgingPreferenceResultModel?> getUserLodgingPreferenceByUserId(
+      {required int id}) async {
     try {
       final response = await ApiRequest().get(
         url: '/user/$id/lodging-preference',
-        fromJson: UserLodgingPreferenceModel.fromJson,
+        fromJson: UserLodgingPreferenceResultModel.fromJson,
         withToken: true,
       );
       return response.data;
@@ -137,11 +138,12 @@ class PreferenceRepository {
     }
   }
 
-  Future<UserTravelPreferenceModel?> getUserTravelPreferenceByUserId({required int id}) async {
+  Future<UserTravelPreferenceResultModel?> getUserTravelPreferenceByUserId(
+      {required int id}) async {
     try {
       final response = await ApiRequest().get(
         url: '/user/$id/travel-preference',
-        fromJson: UserTravelPreferenceModel.fromJson,
+        fromJson: UserTravelPreferenceResultModel.fromJson,
         withToken: true,
       );
       return response.data;

@@ -466,12 +466,12 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
 
   @override
   void initState() {
+    super.initState();
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
     _controller.value = 0.0;
-    super.initState();
   }
 
   @override
