@@ -20,7 +20,6 @@ import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
-import 'package:sense_flutter_application/views/personal_taste/taste_provider.dart';
 import 'package:sense_flutter_application/views/preference/preference_provider.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
@@ -70,7 +69,6 @@ void main() async {
       ChangeNotifierProvider(create: (_) => CalendarBodyProvider()),
       ChangeNotifierProvider(create: (_) => ContactProvider()),
       ChangeNotifierProvider(create: (_) => MyPageProvider()),
-      ChangeNotifierProvider(create: (_) => TasteProvider()),
       ChangeNotifierProvider(create: (_) => RecommendRequestProvider()),
       ChangeNotifierProvider(create: (_) => EventFeedProvider()),
       ChangeNotifierProvider(create: (_) => AnimationProvider()),
