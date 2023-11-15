@@ -78,8 +78,11 @@ class _LodgingResultViewState extends State<LodgingResultView> {
           }
 
           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            context.read<PreferenceProvider>().initLodgingPreference(preference: snapshot.data!);
-            final lodgingPreference = context.read<PreferenceProvider>().lodgingPreference!;
+            context
+                .read<PreferenceProvider>()
+                .initLodgingPreferenceResult(preferenceResult: snapshot.data!);
+            final lodgingPreferenceResult =
+                context.read<PreferenceProvider>().lodgingPreferenceResult!;
 
             return SingleChildScrollView(
               child: Padding(
@@ -98,7 +101,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                     ),
                     SizedBox(height: 8.0.h),
                     Text(
-                      lodgingPreference.title,
+                      lodgingPreferenceResult.title,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -107,7 +110,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                     ),
                     SizedBox(height: 8.0.h),
                     Text(
-                      lodgingPreference.content,
+                      lodgingPreferenceResult.content,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -117,17 +120,17 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                     SizedBox(height: 24.0.h),
                     PreferenceElementSection(
                       title: '선호하는 숙소 종류 순위',
-                      list: lodgingPreference.types,
+                      list: lodgingPreferenceResult.types,
                     ),
                     PreferenceElementSection(
                       title: '선호하는 숙소 취향 순위',
-                      list: lodgingPreference.environments,
+                      list: lodgingPreferenceResult.environments,
                     ),
                     PreferenceElementSection(
                       title: '선호하는 숙소 편의 순위',
-                      list: lodgingPreference.options,
+                      list: lodgingPreferenceResult.options,
                     ),
-                    if (lodgingPreference.likeMemo != '') ...[
+                    if (lodgingPreferenceResult.likeMemo != '') ...[
                       Text(
                         '좋아하는 숙소',
                         style: TextStyle(
@@ -138,10 +141,10 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(lodgingPreference.likeMemo),
+                      Text(lodgingPreferenceResult.likeMemo),
                       SizedBox(height: 24.0.h),
                     ],
-                    if (lodgingPreference.dislikeMemo != '') ...[
+                    if (lodgingPreferenceResult.dislikeMemo != '') ...[
                       Text(
                         '싫어하는 숙소',
                         style: TextStyle(
@@ -152,7 +155,7 @@ class _LodgingResultViewState extends State<LodgingResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(lodgingPreference.dislikeMemo),
+                      Text(lodgingPreferenceResult.dislikeMemo),
                       SizedBox(height: 24.0.h),
                     ],
                   ],

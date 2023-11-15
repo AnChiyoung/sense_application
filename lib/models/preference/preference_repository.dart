@@ -160,4 +160,19 @@ class PreferenceRepository {
       return null;
     }
   }
+
+  Future<dynamic> postFoodPreference(dynamic data) async {
+    try {
+      final response = await ApiRequest().post(
+        url: '/food-preference',
+        withToken: true,
+        data: data,
+      );
+      print(response);
+      return response.data;
+    } catch (e) {
+      debugPrint('postFoodPreference: ${e.toString()}');
+      return null;
+    }
+  }
 }

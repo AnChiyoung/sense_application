@@ -90,8 +90,8 @@ class _HeaderMenuState extends State<HeaderMenu> {
               ? Container()
               : Align(
                   alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 18.w),
+                  child: Container(
+                    padding: EdgeInsets.only(right: 12.w),
                     child: widget.rightMenu!,
                   ),
                 ),

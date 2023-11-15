@@ -78,8 +78,11 @@ class _TravelResultViewState extends State<TravelResultView> {
           }
 
           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            context.read<PreferenceProvider>().initTravelPreference(preference: snapshot.data!);
-            final travelPreference = context.read<PreferenceProvider>().travelPreference!;
+            context
+                .read<PreferenceProvider>()
+                .initTravelPreferenceResult(preferenceResult: snapshot.data!);
+            final travelPreferenceResult =
+                context.read<PreferenceProvider>().travelPreferenceResult!;
 
             return SingleChildScrollView(
               child: Padding(
@@ -98,7 +101,7 @@ class _TravelResultViewState extends State<TravelResultView> {
                     ),
                     SizedBox(height: 8.0.h),
                     Text(
-                      travelPreference.title,
+                      travelPreferenceResult.title,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -107,7 +110,7 @@ class _TravelResultViewState extends State<TravelResultView> {
                     ),
                     SizedBox(height: 8.0.h),
                     Text(
-                      travelPreference.content,
+                      travelPreferenceResult.content,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -117,17 +120,17 @@ class _TravelResultViewState extends State<TravelResultView> {
                     SizedBox(height: 24.0.h),
                     PreferenceElementSection(
                       title: '선호하는 여행 거리',
-                      list: travelPreference.distances,
+                      list: travelPreferenceResult.distances,
                     ),
                     PreferenceElementSection(
                       title: '함께하고 싶은 지인 순위',
-                      list: travelPreference.mates,
+                      list: travelPreferenceResult.mates,
                     ),
                     PreferenceElementSection(
                       title: '선호하는 여행지 유형 순위',
-                      list: travelPreference.environments,
+                      list: travelPreferenceResult.environments,
                     ),
-                    if (travelPreference.likeMemo != '') ...[
+                    if (travelPreferenceResult.likeMemo != '') ...[
                       Text(
                         '좋아하는 여행지',
                         style: TextStyle(
@@ -138,10 +141,10 @@ class _TravelResultViewState extends State<TravelResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(travelPreference.likeMemo),
+                      Text(travelPreferenceResult.likeMemo),
                       SizedBox(height: 24.0.h),
                     ],
-                    if (travelPreference.dislikeMemo != '') ...[
+                    if (travelPreferenceResult.dislikeMemo != '') ...[
                       Text(
                         '싫어하는 여행지',
                         style: TextStyle(
@@ -152,7 +155,7 @@ class _TravelResultViewState extends State<TravelResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(travelPreference.dislikeMemo),
+                      Text(travelPreferenceResult.dislikeMemo),
                       SizedBox(height: 24.0.h),
                     ],
                   ],

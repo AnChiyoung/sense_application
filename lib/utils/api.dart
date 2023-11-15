@@ -153,4 +153,38 @@ class ApiRequest {
       throw Exception(e);
     }
   }
+
+  Future<dynamic> post({
+    required String url,
+    Map<String, String> extraHeaders = const {},
+    bool withToken = false,
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      Map<String, String> headers = {
+        ..._headers,
+        ...extraHeaders,
+      };
+      if (withToken) {
+        headers['Authorization'] = 'Bearer ${PresentUserInfo.loginToken}';
+      }
+
+      final response = await http.post(
+        Uri.parse('${ApiUrl.releaseUrl}$url'),
+        headers: headers,
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode >= 200 || response.statusCode < 300) {
+        // return DjangoResponse.fromJson(
+        //   jsonDecode(utf8.decode(response.bodyBytes)),
+        //   fromJson,
+        // );
+      } else {
+        throw Exception('Failed to fetch $url');
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

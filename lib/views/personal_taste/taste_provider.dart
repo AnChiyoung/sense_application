@@ -1,14 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 class TasteProvider with ChangeNotifier {
-  /// food area
-  bool _atLeastOnceTest = false;
-  bool get atLeastOnceText => _atLeastOnceTest;
-
-  void atLeastOnceTestChange(bool state) {
-    _atLeastOnceTest = state;
-  }
-
   int _presentStep = 1;
   int get presentStep => _presentStep;
 
@@ -34,8 +26,10 @@ class TasteProvider with ChangeNotifier {
     _beforePrice = state;
     _foodPrice = state;
     notifyListeners();
+
     /// non notify!!!
   }
+
   void foodPriceChange(int state) {
     _foodPrice = state;
     notifyListeners();
@@ -44,7 +38,7 @@ class TasteProvider with ChangeNotifier {
   List<bool> _foodSelector = [false, false, false, false, false, false, false, false, false];
   List<bool> get foodSelector => _foodSelector;
 
-  List<int> _selectorDirection = [0,0,0,0,0,0,0,0,0];
+  List<int> _selectorDirection = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   List<int> get selectorDirection => _selectorDirection;
 
   void foodSelectorChange(int index, bool state) {
@@ -55,21 +49,21 @@ class TasteProvider with ChangeNotifier {
 
     int originalNumber = _selectorDirection.elementAt(index);
 
-    if(state == false) {
+    if (state == false) {
       _selectorDirection[index] = 0;
-      for(int i = 0; i < _selectorDirection.length; i++) {
-        if(_selectorDirection.elementAt(i) > originalNumber) {
+      for (int i = 0; i < _selectorDirection.length; i++) {
+        if (_selectorDirection.elementAt(i) > originalNumber) {
           _selectorDirection[i] = _selectorDirection.elementAt(i) - 1;
         } else {}
       }
       print(_selectorDirection);
     } else {
       for (var elements in _selectorDirection) {
-        if(elements != 0) {
+        if (elements != 0) {
           counting++;
         }
       }
-      if(counting == 0) {
+      if (counting == 0) {
         counting = 1;
       } else {
         counting++;
@@ -77,7 +71,6 @@ class TasteProvider with ChangeNotifier {
 
       _selectorDirection[index] = counting;
       // _selectorDirection
-
     }
     print(_selectorDirection);
     print(counting);
@@ -135,13 +128,12 @@ class TasteProvider with ChangeNotifier {
     _beforePrice = 0;
     _foodPrice = 0;
     _foodSelector = [false, false, false, false, false, false, false, false, false];
-    _selectorDirection = [0,0,0,0,0,0,0,0,0];
+    _selectorDirection = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     _spicySelector = [false, false, false, false, false];
     _candySelector = [false, false, false, false, false];
     _saltySelector = [false, false, false, false, false];
     _foodStep06 = '';
     _foodStep07 = '';
-    _atLeastOnceTest = false;
     notifyListeners();
   }
 
@@ -163,8 +155,10 @@ class TasteProvider with ChangeNotifier {
     _lodgingBeforePrice = state;
     _lodgingPrice = state;
     notifyListeners();
+
     /// non notify!!!
   }
+
   void lodgingPriceChange(int state) {
     _lodgingPrice = state;
     notifyListeners();
@@ -186,7 +180,17 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  final List<bool> _lodgingToolSelector = [false, false, false, false, false, false, false, false, false];
+  final List<bool> _lodgingToolSelector = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   List<bool> get lodgingToolSelector => _lodgingToolSelector;
 
   void lodgingToolSelectorChange(int index, bool state) {
@@ -228,8 +232,10 @@ class TasteProvider with ChangeNotifier {
     _travelBeforePrice = state;
     _travelPrice = state;
     notifyListeners();
+
     /// non notify!!!
   }
+
   void travelPriceChange(int state) {
     _travelPrice = state;
     notifyListeners();
@@ -251,7 +257,17 @@ class TasteProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  final List<bool> _peopleSelector = [false, false, false, false, false, false, false, false, false];
+  final List<bool> _peopleSelector = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   List<bool> get peopleSelector => _peopleSelector;
 
   void peopleSelectorChange(int index, bool state) {

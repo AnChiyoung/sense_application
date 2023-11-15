@@ -2,23 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
-class ContentDescription extends StatefulWidget {
-  int? presentPage;
-  int? totalPage;
-  String? description;
+class ContentDescription extends StatelessWidget {
+  final int? presentPage;
+  final int? totalPage;
+  final String? description;
 
-  ContentDescription({Key? key, this.presentPage, this.totalPage, this.description}) : super(key: key);
+  const ContentDescription({
+    super.key,
+    this.presentPage,
+    this.totalPage,
+    this.description,
+  });
 
-  @override
-  State<ContentDescription> createState() => _ContentDescriptionState();
-}
-
-class _ContentDescriptionState extends State<ContentDescription> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,14 +21,34 @@ class _ContentDescriptionState extends State<ContentDescription> {
       children: [
         Row(
           children: [
-            Text(widget.presentPage == null ? '' : widget.presentPage.toString(), style: TextStyle(fontSize: 14.0.sp, color: StaticColor.mainSoft, fontWeight: FontWeight.w600)),
-            Text(widget.totalPage == null ? '' : ' /${widget.totalPage.toString()}', style: TextStyle(fontSize: 14.0.sp, color: StaticColor.signinTotalPageColor, fontWeight: FontWeight.w400)),
+            Text(
+              presentPage == null ? '' : presentPage.toString(),
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                color: StaticColor.mainSoft,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Text(
+              totalPage == null ? '' : ' / ${totalPage.toString()}',
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                color: StaticColor.signinTotalPageColor,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ],
         ),
         SizedBox(height: 16.0.h),
-        Text(widget.description == null ? '' : widget.description.toString(),
+        Text(
+          description == null ? '' : description.toString(),
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 20.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w700)),
+          style: TextStyle(
+            fontSize: 20.0.sp,
+            color: StaticColor.grey80033,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ],
     );
   }

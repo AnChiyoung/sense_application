@@ -11,11 +11,9 @@ class PersonalTasteFoodScreen extends StatefulWidget {
 class _PersonalTasteFoodScreenState extends State<PersonalTasteFoodScreen> {
   @override
   Widget build(BuildContext context) {
-
     /// safe area height
     final safeAreaTopPadding = MediaQuery.of(context).padding.top;
     final safeAreaBottomPadding = MediaQuery.of(context).padding.bottom;
-    final deviceWidth = MediaQuery.of(context).size.width;
 
     return GestureDetector(
       onTap: () {
@@ -28,16 +26,15 @@ class _PersonalTasteFoodScreenState extends State<PersonalTasteFoodScreen> {
           bottom: false,
           child: SizedBox(
             height: MediaQuery.of(context).size.height - safeAreaTopPadding,
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
-                    const FoodHeader(),
-                    FoodContent(deviceWidth: deviceWidth),
+                    FoodContent(),
                   ],
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.bottomCenter,
                   child: FoodButton(),
                 )

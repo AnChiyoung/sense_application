@@ -81,12 +81,14 @@ class PreferenceTasteModel {
   final int id;
   final EnumPreferenceTasteType type;
   final String title;
+  final String subtitle;
   final String imageUrl;
 
   PreferenceTasteModel({
     required this.id,
     required this.type,
     required this.title,
+    required this.subtitle,
     required this.imageUrl,
   });
 
@@ -98,6 +100,7 @@ class PreferenceTasteModel {
         orElse: () => EnumPreferenceTasteType.sweet,
       ),
       title: json['title'] ?? '',
+      subtitle: json['sub_title'] ?? '',
       imageUrl: json['image_url'] ?? '',
     );
   }
@@ -106,12 +109,13 @@ class PreferenceTasteModel {
         'id': id,
         'type': type.value,
         'title': title,
+        'subtitle': subtitle,
         'image_url': imageUrl,
       };
 
   @override
   String toString() =>
-      'PreferenceTasteModel(id: $id, type: $type, title: $title, imageUrl: $imageUrl)';
+      'PreferenceTasteModel(id: $id, type: $type, title: $title, subtitle: $subtitle, imageUrl: $imageUrl)';
 }
 
 ///

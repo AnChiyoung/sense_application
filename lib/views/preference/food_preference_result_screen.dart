@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
+import 'package:sense_flutter_application/views/preference/food_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/preference_provider.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_element_card.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_result_bottom_button.dart';
@@ -31,7 +32,14 @@ class _FoodPreferenceResultScreenState extends State<FoodPreferenceResultScreen>
             const FoodResultView(),
             PreferenceResultBottomButton(
               title: '다시하기',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).replace(
+                  oldRoute: ModalRoute.of(context)!,
+                  newRoute: MaterialPageRoute(
+                    builder: (context) => const FoodPreferenceScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -78,15 +86,17 @@ class _FoodResultViewState extends State<FoodResultView> {
           }
 
           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-            context.read<PreferenceProvider>().initFoodPreference(preference: snapshot.data!);
-            final foodPreference = context.read<PreferenceProvider>().foodPreference!;
+            context
+                .read<PreferenceProvider>()
+                .initFoodPreferenceResult(preferenceResult: snapshot.data!);
+            final foodPreferenceResult = context.read<PreferenceProvider>().foodPreferenceResult!;
 
             int getMaxLevel({required List<UserFoodPreferenceTaste> list}) =>
                 list.map((item) => (item.id - 1) % 5).reduce((a, b) => a > b ? a : b);
 
-            int spicyMaxLevel = getMaxLevel(list: foodPreference.spicyTastes);
-            int sweetMaxLevel = getMaxLevel(list: foodPreference.sweetTastes);
-            int saltyMaxLevel = getMaxLevel(list: foodPreference.saltyTastes);
+            int spicyMaxLevel = getMaxLevel(list: foodPreferenceResult.spicyTastes);
+            int sweetMaxLevel = getMaxLevel(list: foodPreferenceResult.sweetTastes);
+            int saltyMaxLevel = getMaxLevel(list: foodPreferenceResult.saltyTastes);
 
             return SingleChildScrollView(
               child: Padding(
@@ -108,7 +118,7 @@ class _FoodResultViewState extends State<FoodResultView> {
 
                     // title
                     Text(
-                      foodPreference.title,
+                      foodPreferenceResult.title,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -119,7 +129,7 @@ class _FoodResultViewState extends State<FoodResultView> {
 
                     // content
                     Text(
-                      foodPreference.content,
+                      foodPreferenceResult.content,
                       style: TextStyle(
                         fontSize: 14.0.sp,
                         height: 20 / 14,
@@ -156,9 +166,9 @@ class _FoodResultViewState extends State<FoodResultView> {
                     SizedBox(height: 24.0.h),
                     PreferenceElementSection(
                       title: '선호하는 음식 순위',
-                      list: foodPreference.foods,
+                      list: foodPreferenceResult.foods,
                     ),
-                    if (foodPreference.likeMemo != '') ...[
+                    if (foodPreferenceResult.likeMemo != '') ...[
                       Text(
                         '좋아하는 음식',
                         style: TextStyle(
@@ -169,10 +179,10 @@ class _FoodResultViewState extends State<FoodResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(foodPreference.likeMemo),
+                      Text(foodPreferenceResult.likeMemo),
                       SizedBox(height: 24.0.h),
                     ],
-                    if (foodPreference.dislikeMemo != '') ...[
+                    if (foodPreferenceResult.dislikeMemo != '') ...[
                       Text(
                         '싫어하는 음식',
                         style: TextStyle(
@@ -183,7 +193,7 @@ class _FoodResultViewState extends State<FoodResultView> {
                         ),
                       ),
                       SizedBox(height: 8.0.h),
-                      Text(foodPreference.dislikeMemo),
+                      Text(foodPreferenceResult.dislikeMemo),
                       SizedBox(height: 24.0.h),
                     ],
                   ],
@@ -232,7 +242,7 @@ class _FoodResultViewState extends State<FoodResultView> {
               (step) {
                 List<Widget> ret = [];
 
-                String imageSource = step <= maxLevel ? onImage : offImage;
+                String imageSource = step < maxLevel ? offImage : onImage;
                 ret.add(
                   Image.asset(
                     imageSource,
