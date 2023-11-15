@@ -264,7 +264,7 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
                           style: TextStyle(
                             fontSize: 16.0.sp,
                             fontWeight: FontWeight.w700,
-                            height: 24 / 16,
+                            // height: 24 / 16,
                             color: Colors.white,
                           ),
                         ),

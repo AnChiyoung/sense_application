@@ -83,7 +83,7 @@ class _FoodStep07State extends State<FoodStep07> {
                     borderSide: BorderSide.none,
                   )),
               onChanged: (v) {
-                context.read<PreferenceProvider>().changeDislikeMemo(v, notify: true);
+                context.read<PreferenceProvider>().changeFoodDislikeMemo(v, notify: true);
               },
               onTapOutside: (v) {
                 FocusScope.of(context).unfocus();

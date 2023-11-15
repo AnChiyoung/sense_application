@@ -5,14 +5,12 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
-import 'package:sense_flutter_application/screens/personal_taste/personal_taste_food_screen.dart';
 import 'package:sense_flutter_application/screens/personal_taste/personal_taste_travel_screen.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_liked_post_list.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 import 'package:sense_flutter_application/views/preference/food_preference_result_screen.dart';
 import 'package:sense_flutter_application/views/preference/food_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/lodging_preference_result_screen.dart';
-import 'package:sense_flutter_application/views/preference/preference_provider.dart';
 import 'package:sense_flutter_application/views/preference/travel_preference_result_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -225,12 +223,12 @@ class MyPagePreferenceBannerListState extends State<MyPagePreferenceBannerList> 
     void onTapEmptyCard(EnumPreferenceType preferenceType) {
       switch (preferenceType) {
         case EnumPreferenceType.food:
-          final hello = context.read<MyPageProvider>().foodPreference;
-          if (hello != null && hello.id < 1) {
-            // 팝업 띄우고 !!
-          } else {}
+          // final hello = context.read<MyPageProvider>().foodPreference;
+          // if (hello != null && hello.id < 1) {
+          //   // 팝업 띄우고 !!
+          // } else {}
 
-          // 하러 간다! 그러면 ~
+          // // 하러 간다! 그러면 ~
           Navigator.push(
             context,
             MaterialPageRoute(

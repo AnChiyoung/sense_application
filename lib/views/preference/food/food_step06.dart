@@ -81,7 +81,7 @@ class _FoodStep06State extends State<FoodStep06> {
                 ),
               ),
               onChanged: (v) {
-                context.read<PreferenceProvider>().changeLikeMemo(v, notify: true);
+                context.read<PreferenceProvider>().changeFoodLikeMemo(v, notify: true);
               },
               //
               onTapOutside: (v) {

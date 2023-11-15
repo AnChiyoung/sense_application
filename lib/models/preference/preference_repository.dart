@@ -161,7 +161,7 @@ class PreferenceRepository {
     }
   }
 
-  Future<dynamic> postFoodPreference(dynamic data) async {
+  Future<dynamic> postFoodPreference(Map<String, dynamic> data) async {
     try {
       final response = await ApiRequest().post(
         url: '/food-preference',
@@ -172,6 +172,21 @@ class PreferenceRepository {
       return response;
     } catch (e) {
       debugPrint('postFoodPreference: ${e.toString()}');
+      return null;
+    }
+  }
+
+  Future<dynamic> postLodgingPreference(Map<String, dynamic> data) async {
+    try {
+      final response = await ApiRequest().post(
+        url: '/lodging-preference',
+        withToken: true,
+        data: data,
+      );
+      // return response.data;
+      return response;
+    } catch (e) {
+      debugPrint('postLodgingPreference: ${e.toString()}');
       return null;
     }
   }

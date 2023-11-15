@@ -35,10 +35,7 @@ mixin PreferenceResultProvider on ChangeNotifier {
   }
 }
 
-class PreferenceProvider with ChangeNotifier, PreferenceResultProvider {
-  int _step = 1;
-  int get step => _step;
-
+mixin FoodPreferenceProvider on ChangeNotifier {
   int _foodPrice = 0;
   int get foodPrice => _foodPrice;
   bool _limitFoodPrice = false;
@@ -56,23 +53,7 @@ class PreferenceProvider with ChangeNotifier, PreferenceResultProvider {
   String _foodDislikeMemo = '';
   String get foodDislikeMemo => _foodDislikeMemo;
 
-  void stepChange({required int value, bool notify = false}) {
-    _step = value;
-    if (notify) notifyListeners();
-  }
-
-  void nextStep({bool notify = false}) {
-    _step++;
-    if (notify) notifyListeners();
-  }
-
-  void prevStep({bool notify = false}) {
-    _step--;
-    if (notify) notifyListeners();
-  }
-
   void resetFoodPreference({bool notify = false}) {
-    _step = 1;
     _foodPrice = 0;
     _limitFoodPrice = false;
     _foodList = [];
@@ -125,12 +106,12 @@ class PreferenceProvider with ChangeNotifier, PreferenceResultProvider {
     if (notify) notifyListeners();
   }
 
-  void changeLikeMemo(String state, {bool notify = false}) {
+  void changeFoodLikeMemo(String state, {bool notify = false}) {
     _foodLikeMemo = state;
     if (notify) notifyListeners();
   }
 
-  void changeDislikeMemo(String state, {bool notify = false}) {
+  void changeFoodDislikeMemo(String state, {bool notify = false}) {
     _foodDislikeMemo = state;
     if (notify) notifyListeners();
   }
@@ -148,5 +129,147 @@ class PreferenceProvider with ChangeNotifier, PreferenceResultProvider {
 
     if (notify) notifyListeners();
     return result;
+  }
+}
+
+mixin LodgingPreferenceProvider on ChangeNotifier {
+  int _lodgingPrice = 0;
+  int get lodgingPrice => _lodgingPrice;
+
+  bool _limitLodgingPrice = false;
+  bool get limitLodgingPrice => _limitLodgingPrice;
+
+  List<int> _lodgingTypeList = [];
+  List<int> get lodgingTypeList => _lodgingTypeList;
+
+  List<int> _lodgingEnvironmentList = [];
+  List<int> get lodgingEnvironmentList => _lodgingEnvironmentList;
+
+  List<int> _lodgingOptionList = [];
+  List<int> get lodgingOptionList => _lodgingOptionList;
+
+  String _lodgingLikeMemo = '';
+  String get lodgingLikeMemo => _lodgingLikeMemo;
+
+  String _lodgingDislikeMemo = '';
+  String get lodgingDislikeMemo => _lodgingDislikeMemo;
+
+  void resetLodgingPreference({bool notify = false}) {
+    _lodgingPrice = 0;
+    _limitLodgingPrice = false;
+    _lodgingTypeList = [];
+    _lodgingEnvironmentList = [];
+    _lodgingOptionList = [];
+    _lodgingLikeMemo = '';
+    _lodgingDislikeMemo = '';
+
+    if (notify) notifyListeners();
+  }
+
+  void changeLodgingPrice(int state, {bool notify = false}) {
+    _lodgingPrice = state;
+    if (notify) notifyListeners();
+  }
+
+  void changeLimitLodgingPrice(bool state, {bool notify = false}) {
+    _limitLodgingPrice = state;
+    if (notify) notifyListeners();
+  }
+
+  void onTapLodgingType(int elementId, {bool notify = false}) {
+    final nextValue = [..._lodgingTypeList];
+    if (_lodgingTypeList.contains(elementId)) {
+      nextValue.remove(elementId);
+    } else {
+      nextValue.add(elementId);
+    }
+    _lodgingTypeList = nextValue;
+
+    if (notify) notifyListeners();
+  }
+
+  void onTapLodgingEnvironment(int elementId, {bool notify = false}) {
+    final nextValue = [..._lodgingEnvironmentList];
+    if (_lodgingEnvironmentList.contains(elementId)) {
+      nextValue.remove(elementId);
+    } else {
+      nextValue.add(elementId);
+    }
+    _lodgingEnvironmentList = nextValue;
+
+    if (notify) notifyListeners();
+  }
+
+  void onTapLodgingOption(int elementId, {bool notify = false}) {
+    final nextValue = [..._lodgingOptionList];
+    if (_lodgingOptionList.contains(elementId)) {
+      nextValue.remove(elementId);
+    } else {
+      nextValue.add(elementId);
+    }
+    _lodgingOptionList = nextValue;
+
+    if (notify) notifyListeners();
+  }
+
+  void changeLodgingLikeMemo(String state, {bool notify = false}) {
+    _lodgingLikeMemo = state;
+    if (notify) notifyListeners();
+  }
+
+  void changeLodgingDislikeMemo(String state, {bool notify = false}) {
+    _lodgingDislikeMemo = state;
+    if (notify) notifyListeners();
+  }
+
+  Future<dynamic> saveLodgingPreference({bool notify = false}) async {
+    dynamic result = await PreferenceRepository().postLodgingPreference({
+      'price': _limitLodgingPrice ? -1 : _lodgingPrice,
+      'like_memo': _lodgingLikeMemo,
+      'dislike_memo': _lodgingDislikeMemo,
+      'types': _lodgingTypeList,
+      'environments': _lodgingEnvironmentList,
+      'options': _lodgingOptionList,
+    });
+
+    if (notify) notifyListeners();
+    return result;
+  }
+}
+
+class PreferenceProvider
+    with
+        ChangeNotifier,
+        PreferenceResultProvider,
+        FoodPreferenceProvider,
+        LodgingPreferenceProvider {
+  int _step = 1;
+  int get step => _step;
+
+  void stepChange({required int value, bool notify = false}) {
+    _step = value;
+    if (notify) notifyListeners();
+  }
+
+  void nextStep({bool notify = false}) {
+    _step++;
+    if (notify) notifyListeners();
+  }
+
+  void prevStep({bool notify = false}) {
+    _step--;
+    if (notify) notifyListeners();
+  }
+
+  @override
+  void resetFoodPreference({bool notify = false}) {
+    _step = 1;
+    super.resetFoodPreference(notify: notify);
+  }
+
+  @override
+  void resetLodgingPreference({bool notify = false}) {
+    _step = 1;
+    super.resetLodgingPreference(notify: notify);
   }
 }

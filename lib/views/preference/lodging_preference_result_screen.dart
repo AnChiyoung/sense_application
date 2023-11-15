@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
+import 'package:sense_flutter_application/views/preference/lodging_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/preference_provider.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_element_card.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_result_bottom_button.dart';
@@ -31,7 +32,14 @@ class _LodgingPreferenceResultScreenState extends State<LodgingPreferenceResultS
             const LodgingResultView(),
             PreferenceResultBottomButton(
               title: '다시하기',
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).replace(
+                  oldRoute: ModalRoute.of(context)!,
+                  newRoute: MaterialPageRoute(
+                    builder: (context) => const LodgingPreferenceScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),
