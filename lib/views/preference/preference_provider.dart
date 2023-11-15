@@ -107,38 +107,20 @@ class PreferenceProvider with ChangeNotifier, PreferenceResultProvider {
     if (notify) notifyListeners();
   }
 
-  void onTapSpicy(int id, {bool notify = false}) {
-    final nextValue = [..._spicyList];
-    if (_spicyList.contains(id)) {
-      nextValue.remove(id);
-    } else {
-      nextValue.add(id);
-    }
-    _spicyList = nextValue;
+  void onTapSpicy(int level, {bool notify = false}) {
+    _spicyList = List.generate(level, (index) => index + 1);
 
     if (notify) notifyListeners();
   }
 
-  void onTapSweet(int id, {bool notify = false}) {
-    final nextValue = [..._sweetList];
-    if (_sweetList.contains(id)) {
-      nextValue.remove(id);
-    } else {
-      nextValue.add(id);
-    }
-    _sweetList = nextValue;
+  void onTapSweet(int level, {bool notify = false}) {
+    _sweetList = List.generate(level, (index) => index + 1);
 
     if (notify) notifyListeners();
   }
 
-  void onTapSalty(int id, {bool notify = false}) {
-    final nextValue = [..._saltyList];
-    if (_saltyList.contains(id)) {
-      nextValue.remove(id);
-    } else {
-      nextValue.add(id);
-    }
-    _saltyList = nextValue;
+  void onTapSalty(int level, {bool notify = false}) {
+    _saltyList = List.generate(level, (index) => index + 1);
 
     if (notify) notifyListeners();
   }
@@ -159,13 +141,12 @@ class PreferenceProvider with ChangeNotifier, PreferenceResultProvider {
       'like_memo': _foodLikeMemo,
       'dislike_memo': _foodDislikeMemo,
       'foods': _foodList,
-      'spicy_tastes': _spicyList,
-      'sweet_tastes': _sweetList,
-      'salty_tastes': saltyList,
+      'spicy_tastes': _spicyList.map((e) => 5 - e + 1).toList(),
+      'sweet_tastes': _sweetList.map((e) => 10 - e + 1).toList(),
+      'salty_tastes': _saltyList.map((e) => 15 - e + 1).toList(),
     });
 
     if (notify) notifyListeners();
-
     return result;
   }
 }

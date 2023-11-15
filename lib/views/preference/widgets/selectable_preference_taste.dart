@@ -32,7 +32,7 @@ class SelectablePreferenceTaste extends StatelessWidget {
           assetPath,
           width: 24.0.h,
           height: 24.0.h,
-          color: isSelected && 5 - level <= i ? null : StaticColor.grey400BB,
+          color: isSelected && level > i ? null : StaticColor.grey400BB,
         ),
       );
     }
@@ -143,7 +143,7 @@ class SelectablePreferenceTaste extends StatelessWidget {
                           children: image,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

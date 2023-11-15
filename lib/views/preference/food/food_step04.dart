@@ -51,26 +51,25 @@ class _FoodStep04State extends State<FoodStep04> {
                 Selector<PreferenceProvider, List<int>>(
                   selector: (context, value) => value.sweetList,
                   builder: (context, data, child) {
-                    void onTap(int id) {
-                      context.read<PreferenceProvider>().onTapSweet(id, notify: true);
-                    }
-
                     return Expanded(
                       child: SingleChildScrollView(
                         child: Column(
-                          children: snapshot.data!.reversed
-                              .map(
-                                (e) => SelectablePreferenceTaste(
-                                  onTap: () => onTap(e.id),
-                                  title: e.title,
-                                  subtitle: e.subtitle,
-                                  level: ((5 - e.id) % 5) + 1,
-                                  imageUrl: e.imageUrl,
-                                  assetPath: 'assets/preference/sweet_on.png',
-                                  isSelected: data.contains(e.id),
-                                ),
-                              )
-                              .toList(),
+                          children: snapshot.data!.reversed.map(
+                            (tasteItem) {
+                              int level = ((5 - tasteItem.id) % 5) + 1;
+                              return SelectablePreferenceTaste(
+                                onTap: () => context
+                                    .read<PreferenceProvider>()
+                                    .onTapSweet(level, notify: true),
+                                title: tasteItem.title,
+                                subtitle: tasteItem.subtitle,
+                                level: level,
+                                imageUrl: tasteItem.imageUrl,
+                                assetPath: 'assets/preference/sweet_on.png',
+                                isSelected: data.contains(level),
+                              );
+                            },
+                          ).toList(),
                         ),
                       ),
                     );
