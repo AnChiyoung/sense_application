@@ -14,8 +14,8 @@ class PreferenceElementCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 75.0.w,
-          height: 75.0.h,
+          width: 100.0.h,
+          height: 100.0.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -27,7 +27,7 @@ class PreferenceElementCard extends StatelessWidget {
         ),
         SizedBox(height: 8.0.h),
         SizedBox(
-          width: 75.0.w,
+          width: 100.0.h,
           child: Center(
             child: Text(
               title,
