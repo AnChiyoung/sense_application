@@ -5,13 +5,14 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
-import 'package:sense_flutter_application/screens/personal_taste/personal_taste_travel_screen.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_liked_post_list.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 import 'package:sense_flutter_application/views/preference/food_preference_result_screen.dart';
 import 'package:sense_flutter_application/views/preference/food_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/lodging_preference_result_screen.dart';
+import 'package:sense_flutter_application/views/preference/lodging_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/travel_preference_result_screen.dart';
+import 'package:sense_flutter_application/views/preference/travel_preference_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyPageTab extends StatefulWidget {
@@ -240,7 +241,7 @@ class MyPagePreferenceBannerListState extends State<MyPagePreferenceBannerList> 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PersonalTasteTravelScreen(),
+              builder: (context) => const LodgingPreferenceScreen(),
             ),
           );
           break;
@@ -248,7 +249,7 @@ class MyPagePreferenceBannerListState extends State<MyPagePreferenceBannerList> 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PersonalTasteTravelScreen(),
+              builder: (context) => const TravelPreferenceScreen(),
             ),
           );
           break;

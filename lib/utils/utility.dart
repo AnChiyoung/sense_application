@@ -77,6 +77,16 @@ class Utils {
   //     throw Exception('Failed to load preference taste spicy list');
   //   }
   // }
+
+  List<T> addOrRemoveList<T>(List<T> list, T item) {
+    List<T> ret = [...list];
+    if (list.contains(item)) {
+      ret.remove(item);
+    } else {
+      ret.add(item);
+    }
+    return ret;
+  }
 }
 
 class KoreanPhoneNumberTextInputFormatter extends TextInputFormatter {

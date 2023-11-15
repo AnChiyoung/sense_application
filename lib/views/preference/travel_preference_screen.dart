@@ -6,28 +6,27 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step01.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step02.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step03.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step04.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step05.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step06.dart';
-import 'package:sense_flutter_application/views/preference/food/food_step07.dart';
 import 'package:sense_flutter_application/views/preference/preference_provider.dart';
+import 'package:sense_flutter_application/views/preference/travel/travel_step01.dart';
+import 'package:sense_flutter_application/views/preference/travel/travel_step02.dart';
+import 'package:sense_flutter_application/views/preference/travel/travel_step03.dart';
+import 'package:sense_flutter_application/views/preference/travel/travel_step04.dart';
+import 'package:sense_flutter_application/views/preference/travel/travel_step05.dart';
+import 'package:sense_flutter_application/views/preference/travel/travel_step06.dart';
 
-class FoodPreferenceScreen extends StatefulWidget {
-  const FoodPreferenceScreen({super.key});
+class TravelPreferenceScreen extends StatefulWidget {
+  const TravelPreferenceScreen({super.key});
 
   @override
-  State<FoodPreferenceScreen> createState() => _FoodPreferenceScreenState();
+  State<TravelPreferenceScreen> createState() => _TravelPreferenceScreenState();
 }
 
-class _FoodPreferenceScreenState extends State<FoodPreferenceScreen> {
+class _TravelPreferenceScreenState extends State<TravelPreferenceScreen> {
   @override
   void initState() {
     super.initState();
 
-    context.read<PreferenceProvider>().resetFoodPreference();
+    context.read<PreferenceProvider>().resetTravelPreference();
   }
 
   @override
@@ -40,9 +39,9 @@ class _FoodPreferenceScreenState extends State<FoodPreferenceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FoodPreferenceHeader(),
-            FoodPreferenceContent(),
-            FoodPreferenceBottomButton(),
+            TravelPreferenceHeader(),
+            TravelPreferenceContent(),
+            TravelPreferenceBottomButton(),
           ],
         ),
       ),
@@ -50,17 +49,17 @@ class _FoodPreferenceScreenState extends State<FoodPreferenceScreen> {
   }
 }
 
-class FoodPreferenceHeader extends StatefulWidget {
-  const FoodPreferenceHeader({super.key});
+class TravelPreferenceHeader extends StatefulWidget {
+  const TravelPreferenceHeader({super.key});
 
   @override
-  State<FoodPreferenceHeader> createState() => _FoodPreferenceHeader();
+  State<TravelPreferenceHeader> createState() => _TravelPreferenceHeader();
 }
 
-class _FoodPreferenceHeader extends State<FoodPreferenceHeader> {
+class _TravelPreferenceHeader extends State<TravelPreferenceHeader> {
   @override
   Widget build(BuildContext context) {
-    List<bool> stepGuide = [false, false, false, false, false, false, false];
+    List<bool> stepGuide = List.generate(6, (index) => false);
 
     int step = context.select<PreferenceProvider, int>((value) => value.step);
     for (int i = 0; i < step; i++) {
@@ -71,7 +70,7 @@ class _FoodPreferenceHeader extends State<FoodPreferenceHeader> {
       children: [
         HeaderMenu(
           backCallback: stepController,
-          title: '음식 취향',
+          title: '여행 취향',
           rightMenu: temperatureSave(),
         ),
         Container(
@@ -99,7 +98,7 @@ class _FoodPreferenceHeader extends State<FoodPreferenceHeader> {
   void stepController() {
     int step = context.read<PreferenceProvider>().step;
     if (step == 1) {
-      context.read<PreferenceProvider>().resetFoodPreference();
+      context.read<PreferenceProvider>().resetTravelPreference();
       Navigator.of(context).pop();
     } else {
       context.read<PreferenceProvider>().prevStep(notify: true);
@@ -132,41 +131,40 @@ class _FoodPreferenceHeader extends State<FoodPreferenceHeader> {
   }
 }
 
-class FoodPreferenceContent extends StatefulWidget {
-  const FoodPreferenceContent({super.key});
+class TravelPreferenceContent extends StatefulWidget {
+  const TravelPreferenceContent({super.key});
 
   @override
-  State<FoodPreferenceContent> createState() => _FoodPreferenceContent();
+  State<TravelPreferenceContent> createState() => _TravelPreferenceContent();
 }
 
-class _FoodPreferenceContent extends State<FoodPreferenceContent> {
+class _TravelPreferenceContent extends State<TravelPreferenceContent> {
   @override
   Widget build(BuildContext context) {
     int step = context.select<PreferenceProvider, int>((value) => value.step);
 
     return Expanded(
       child: switch (step) {
-        1 => const FoodStep01(),
-        2 => const FoodStep02(),
-        3 => const FoodStep03(),
-        4 => const FoodStep04(),
-        5 => const FoodStep05(),
-        6 => const FoodStep06(),
-        7 => const FoodStep07(),
+        1 => const TravelStep01(),
+        2 => const TravelStep02(),
+        3 => const TravelStep03(),
+        4 => const TravelStep04(),
+        5 => const TravelStep05(),
+        6 => const TravelStep06(),
         _ => const SizedBox.shrink(),
       },
     );
   }
 }
 
-class FoodPreferenceBottomButton extends StatefulWidget {
-  const FoodPreferenceBottomButton({super.key});
+class TravelPreferenceBottomButton extends StatefulWidget {
+  const TravelPreferenceBottomButton({super.key});
 
   @override
-  State<FoodPreferenceBottomButton> createState() => _FoodPreferenceBottomButton();
+  State<TravelPreferenceBottomButton> createState() => _TravelPreferenceBottomButton();
 }
 
-class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
+class _TravelPreferenceBottomButton extends State<TravelPreferenceBottomButton> {
   bool isLoading = false;
 
   @override
@@ -176,36 +174,32 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
     return Consumer<PreferenceProvider>(
       builder: (context, data, child) {
         int step = data.step;
-        int price = data.foodPrice;
-        bool limitFoodPrice = data.limitFoodPrice;
-        List<int> foodList = data.foodList;
-        List<int> spicyList = data.spicyList;
-        List<int> sweetList = data.sweetList;
-        List<int> saltyList = data.saltyList;
-        String foodLikeMemo = data.foodLikeMemo;
+        int price = data.travelPrice;
+        bool limitTravelPrice = data.limitTravelPrice;
+        List<int> travelDistanceList = data.travelDistanceList;
+        List<int> travelEnvironmentList = data.travelEnvironmentList;
+        List<int> travelMateList = data.travelMateList;
+        String travelLikeMemo = data.travelLikeMemo;
 
         bool buttonDisabled = false;
 
         switch (step) {
           case 1:
-            (!limitFoodPrice && price == 0) ? buttonDisabled = true : buttonDisabled = false;
+            (!limitTravelPrice && price == 0) ? buttonDisabled = true : buttonDisabled = false;
             break;
           case 2:
-            foodList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
+            travelDistanceList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
             break;
           case 3:
-            spicyList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
+            travelEnvironmentList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
             break;
           case 4:
-            sweetList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
+            travelMateList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
             break;
           case 5:
-            saltyList.isEmpty ? buttonDisabled = true : buttonDisabled = false;
-            break;
-          case 6:
             buttonDisabled = false;
             break;
-          case 7:
+          case 6:
             buttonDisabled = false;
             break;
           default:
@@ -214,20 +208,21 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
         void onTap() {
           if (buttonDisabled) return;
 
-          if (step == 7) {
+          if (step == 6) {
             if (isLoading) return;
 
             setState(() {
               isLoading = true;
             });
 
-            context.read<PreferenceProvider>().saveFoodPreference().then((value1) {
+            context.read<PreferenceProvider>().saveTravelPreference().then((_) {
               PreferenceRepository()
                   .getUserPreferenceListByUserId(id: PresentUserInfo.id)
-                  .then((value2) {
-                context.read<MyPageProvider>().initUserPreferenceList(preferenceList: value2);
-
-                context.read<PreferenceProvider>().resetFoodPreference();
+                  .then((preferenceList) {
+                context
+                    .read<MyPageProvider>()
+                    .initUserPreferenceList(preferenceList: preferenceList);
+                context.read<PreferenceProvider>().resetTravelPreference();
                 setState(() {
                   isLoading = false;
                 });
@@ -240,8 +235,8 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
         }
 
         getButtonLabel() {
-          if (step == 7) return '완료';
-          if (step == 6 && foodLikeMemo == '') return '건너뛰기';
+          if (step == 6) return '완료';
+          if (step == 5 && travelLikeMemo == '') return '건너뛰기';
           return '다음';
         }
 
@@ -264,7 +259,7 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
                           style: TextStyle(
                             fontSize: 16.0.sp,
                             fontWeight: FontWeight.w700,
-                            height: 24 / 16,
+                            // height: 24 / 16,
                             color: Colors.white,
                           ),
                         ),

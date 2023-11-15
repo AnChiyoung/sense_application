@@ -21,7 +21,7 @@ class _LodgingStep03State extends State<LodgingStep03> {
   void initState() {
     super.initState();
 
-    loadLodgingElementList = PreferenceRepository().getPreferenceLodgingEnvironmentsList();
+    loadLodgingElementList = PreferenceRepository().getPreferenceLodgingEnvironmentList();
   }
 
   @override

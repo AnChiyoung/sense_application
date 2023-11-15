@@ -37,7 +37,7 @@ class PreferenceElement {
 }
 
 ///
-/// 음식 취향 어드민 리스트
+/// 음식 취향 요소 리스트
 ///
 class PreferenceFoodModel {
   final int id;
@@ -119,7 +119,7 @@ class PreferenceTasteModel {
 }
 
 ///
-/// 숙소 취향 어드민 리스트
+/// 숙소 취향 요소 리스트
 ///
 enum EnumPreferenceLodgingType {
   environments('환경'),
@@ -165,7 +165,7 @@ class PreferenceLodgingModel {
 }
 
 ///
-/// 여행 취향 어드민 리스트
+/// 여행 취향 요소 리스트
 ///
 enum EnumPreferenceTravelType {
   distance('옵션'),
@@ -255,7 +255,7 @@ class UserPreferenceListItemModel {
 }
 
 ///
-/// 유저 음식 취향
+/// 유저 음식 취향 결과
 ///
 class UserFoodPreferenceResultModel {
   final int id;
@@ -370,7 +370,7 @@ class UserFoodPreferenceTaste {
 }
 
 ///
-/// 유저 숙소 취향
+/// 유저 숙소 취향 결과
 ///
 class UserLodgingPreferenceResultModel {
   final int id;
@@ -448,7 +448,7 @@ class LodgingPreferenceElements extends PreferenceElement {
 }
 
 ///
-/// 유저 여행 취향
+/// 유저 여행 취향 결과
 ///
 class UserTravelPreferenceResultModel {
   final int id;

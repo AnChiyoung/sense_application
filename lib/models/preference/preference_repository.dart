@@ -64,7 +64,7 @@ class PreferenceRepository {
   Future<List<PreferenceTravelModel>> _getPreferenceTravelList(
       {required EnumPreferenceTravelType travelType}) async {
     String endPoint = switch (travelType) {
-      EnumPreferenceTravelType.distance => '/travel-distance',
+      EnumPreferenceTravelType.distance => '/travel-distances',
       EnumPreferenceTravelType.environments => '/travel-environments',
       EnumPreferenceTravelType.mates => '/travel-mates',
     };
@@ -89,18 +89,18 @@ class PreferenceRepository {
   Future<List<PreferenceTasteModel>> getPreferenceTasteSaltyList() =>
       _getPreferenceTasteList(tasteType: EnumPreferenceTasteType.salty);
 
-  Future<List<PreferenceLodgingModel>> getPreferenceLodgingEnvironmentsList() =>
+  Future<List<PreferenceLodgingModel>> getPreferenceLodgingEnvironmentList() =>
       _getPreferenceLodgingList(lodgingType: EnumPreferenceLodgingType.environments);
   Future<List<PreferenceLodgingModel>> getPreferenceLodgingOptionList() =>
       _getPreferenceLodgingList(lodgingType: EnumPreferenceLodgingType.options);
   Future<List<PreferenceLodgingModel>> getPreferenceLodgingTypeList() =>
       _getPreferenceLodgingList(lodgingType: EnumPreferenceLodgingType.types);
 
-  Future<List<PreferenceTravelModel>> getPreferenceTravelOptionList() =>
+  Future<List<PreferenceTravelModel>> getPreferenceTravelDistanceList() =>
       _getPreferenceTravelList(travelType: EnumPreferenceTravelType.distance);
-  Future<List<PreferenceTravelModel>> getPreferenceTravelEnvironmentsList() =>
+  Future<List<PreferenceTravelModel>> getPreferenceTravelEnvironmentList() =>
       _getPreferenceTravelList(travelType: EnumPreferenceTravelType.environments);
-  Future<List<PreferenceTravelModel>> getPreferenceTravelTypeList() =>
+  Future<List<PreferenceTravelModel>> getPreferenceTravelMateList() =>
       _getPreferenceTravelList(travelType: EnumPreferenceTravelType.mates);
 
   Future<List<UserPreferenceListItemModel>> getUserPreferenceListByUserId({required int id}) async {
@@ -187,6 +187,21 @@ class PreferenceRepository {
       return response;
     } catch (e) {
       debugPrint('postLodgingPreference: ${e.toString()}');
+      return null;
+    }
+  }
+
+  Future<dynamic> postTravelPreference(Map<String, dynamic> data) async {
+    try {
+      final response = await ApiRequest().post(
+        url: '/travel-preference',
+        withToken: true,
+        data: data,
+      );
+      // return response.data;
+      return response;
+    } catch (e) {
+      debugPrint('travelLodgingPreference: ${e.toString()}');
       return null;
     }
   }

@@ -6,6 +6,7 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
 import 'package:sense_flutter_application/views/preference/preference_provider.dart';
+import 'package:sense_flutter_application/views/preference/travel_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_element_card.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_result_bottom_button.dart';
 import 'package:sense_flutter_application/views/preference/widgets/preference_result_header.dart';
@@ -31,7 +32,14 @@ class _TravelPreferenceResultScreenState extends State<TravelPreferenceResultScr
             const TravelResultView(),
             PreferenceResultBottomButton(
               title: '다시하기',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TravelPreferenceScreen(),
+                  ),
+                );
+              },
             ),
           ],
         ),

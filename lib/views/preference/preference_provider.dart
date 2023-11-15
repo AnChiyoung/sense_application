@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
+import 'package:sense_flutter_application/utils/utility.dart';
 
 mixin PreferenceResultProvider on ChangeNotifier {
   UserFoodPreferenceResultModel? _foodPreferenceResult;
@@ -177,38 +178,17 @@ mixin LodgingPreferenceProvider on ChangeNotifier {
   }
 
   void onTapLodgingType(int elementId, {bool notify = false}) {
-    final nextValue = [..._lodgingTypeList];
-    if (_lodgingTypeList.contains(elementId)) {
-      nextValue.remove(elementId);
-    } else {
-      nextValue.add(elementId);
-    }
-    _lodgingTypeList = nextValue;
-
+    _lodgingTypeList = Utils().addOrRemoveList(_lodgingTypeList, elementId);
     if (notify) notifyListeners();
   }
 
   void onTapLodgingEnvironment(int elementId, {bool notify = false}) {
-    final nextValue = [..._lodgingEnvironmentList];
-    if (_lodgingEnvironmentList.contains(elementId)) {
-      nextValue.remove(elementId);
-    } else {
-      nextValue.add(elementId);
-    }
-    _lodgingEnvironmentList = nextValue;
-
+    _lodgingEnvironmentList = Utils().addOrRemoveList(_lodgingEnvironmentList, elementId);
     if (notify) notifyListeners();
   }
 
   void onTapLodgingOption(int elementId, {bool notify = false}) {
-    final nextValue = [..._lodgingOptionList];
-    if (_lodgingOptionList.contains(elementId)) {
-      nextValue.remove(elementId);
-    } else {
-      nextValue.add(elementId);
-    }
-    _lodgingOptionList = nextValue;
-
+    _lodgingOptionList = Utils().addOrRemoveList(_lodgingOptionList, elementId);
     if (notify) notifyListeners();
   }
 
@@ -237,12 +217,97 @@ mixin LodgingPreferenceProvider on ChangeNotifier {
   }
 }
 
+mixin TravelPreferenceProvider on ChangeNotifier {
+  int _travelPrice = 0;
+  int get travelPrice => _travelPrice;
+
+  bool _limitTravelPrice = false;
+  bool get limitTravelPrice => _limitTravelPrice;
+
+  List<int> _travelDistanceList = [];
+  List<int> get travelDistanceList => _travelDistanceList;
+
+  List<int> _travelEnvironmentList = [];
+  List<int> get travelEnvironmentList => _travelEnvironmentList;
+
+  List<int> _travelMateList = [];
+  List<int> get travelMateList => _travelMateList;
+
+  String _travelLikeMemo = '';
+  String get travelLikeMemo => _travelLikeMemo;
+
+  String _travelDislikeMemo = '';
+  String get travelDislikeMemo => _travelDislikeMemo;
+
+  void resetTravelPreference({bool notify = false}) {
+    _travelPrice = 0;
+    _limitTravelPrice = false;
+    _travelDistanceList = [];
+    _travelEnvironmentList = [];
+    _travelMateList = [];
+    _travelLikeMemo = '';
+    _travelDislikeMemo = '';
+
+    if (notify) notifyListeners();
+  }
+
+  void changeTravelPrice(int state, {bool notify = false}) {
+    _travelPrice = state;
+    if (notify) notifyListeners();
+  }
+
+  void changeLimitTravelPrice(bool state, {bool notify = false}) {
+    _limitTravelPrice = state;
+    if (notify) notifyListeners();
+  }
+
+  void onTapTravelDistance(int elementId, {bool notify = false}) {
+    _travelDistanceList = Utils().addOrRemoveList(_travelDistanceList, elementId);
+    if (notify) notifyListeners();
+  }
+
+  void onTapTravelEnvironment(int elementId, {bool notify = false}) {
+    _travelEnvironmentList = Utils().addOrRemoveList(_travelEnvironmentList, elementId);
+    if (notify) notifyListeners();
+  }
+
+  void onTapTravelMate(int elementId, {bool notify = false}) {
+    _travelMateList = Utils().addOrRemoveList(_travelMateList, elementId);
+    if (notify) notifyListeners();
+  }
+
+  void changeTravelLikeMemo(String state, {bool notify = false}) {
+    _travelLikeMemo = state;
+    if (notify) notifyListeners();
+  }
+
+  void changeTravelDislikeMemo(String state, {bool notify = false}) {
+    _travelDislikeMemo = state;
+    if (notify) notifyListeners();
+  }
+
+  Future<dynamic> saveTravelPreference({bool notify = false}) async {
+    dynamic result = await PreferenceRepository().postTravelPreference({
+      'price': _limitTravelPrice ? -1 : _travelPrice,
+      'like_memo': _travelLikeMemo,
+      'dislike_memo': _travelDislikeMemo,
+      'distances': _travelDistanceList,
+      'environments': _travelEnvironmentList,
+      'mates': _travelMateList,
+    });
+
+    if (notify) notifyListeners();
+    return result;
+  }
+}
+
 class PreferenceProvider
     with
         ChangeNotifier,
         PreferenceResultProvider,
         FoodPreferenceProvider,
-        LodgingPreferenceProvider {
+        LodgingPreferenceProvider,
+        TravelPreferenceProvider {
   int _step = 1;
   int get step => _step;
 
@@ -271,5 +336,11 @@ class PreferenceProvider
   void resetLodgingPreference({bool notify = false}) {
     _step = 1;
     super.resetLodgingPreference(notify: notify);
+  }
+
+  @override
+  void resetTravelPreference({bool notify = false}) {
+    _step = 1;
+    super.resetTravelPreference(notify: notify);
   }
 }

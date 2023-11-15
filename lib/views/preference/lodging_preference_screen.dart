@@ -59,7 +59,7 @@ class LodgingPreferenceHeader extends StatefulWidget {
 class _LodgingPreferenceHeader extends State<LodgingPreferenceHeader> {
   @override
   Widget build(BuildContext context) {
-    List<bool> stepGuide = [false, false, false, false, false, false, false];
+    List<bool> stepGuide = List.generate(6, (index) => false);
 
     int step = context.select<PreferenceProvider, int>((value) => value.step);
     for (int i = 0; i < step; i++) {
