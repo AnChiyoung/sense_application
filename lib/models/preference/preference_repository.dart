@@ -168,8 +168,8 @@ class PreferenceRepository {
         withToken: true,
         data: data,
       );
-      print(response);
-      return response.data;
+      // return response.data;
+      return response;
     } catch (e) {
       debugPrint('postFoodPreference: ${e.toString()}');
       return null;

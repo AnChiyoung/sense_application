@@ -91,8 +91,14 @@ class _FoodResultViewState extends State<FoodResultView> {
                 .initFoodPreferenceResult(preferenceResult: snapshot.data!);
             final foodPreferenceResult = context.read<PreferenceProvider>().foodPreferenceResult!;
 
-            int getMaxLevel({required List<UserFoodPreferenceTaste> list}) =>
-                list.map((item) => (item.id - 1) % 5).reduce((a, b) => a > b ? a : b);
+            int getMaxLevel({required List<UserFoodPreferenceTaste> list}) {
+              final v1 = list.map((item) => (item.id - 1) % 5);
+
+              if (v1.isNotEmpty) {
+                return v1.reduce((a, b) => a > b ? a : b);
+              }
+              return 0;
+            }
 
             int spicyMaxLevel = getMaxLevel(list: foodPreferenceResult.spicyTastes);
             int sweetMaxLevel = getMaxLevel(list: foodPreferenceResult.sweetTastes);
@@ -237,26 +243,28 @@ class _FoodResultViewState extends State<FoodResultView> {
               color: StaticColor.grey70055,
             ),
           ),
-          Row(children: [
-            ...fiveLengthList.expand(
-              (step) {
-                List<Widget> ret = [];
+          Row(
+            children: [
+              ...fiveLengthList.expand(
+                (step) {
+                  List<Widget> ret = [];
 
-                String imageSource = step < maxLevel ? offImage : onImage;
-                ret.add(
-                  Image.asset(
-                    imageSource,
-                    width: 20.0.h,
-                    height: 20.0.h,
-                  ),
-                );
+                  String imageSource = step < maxLevel ? offImage : onImage;
+                  ret.add(
+                    Image.asset(
+                      imageSource,
+                      width: 20.0.h,
+                      height: 20.0.h,
+                    ),
+                  );
 
-                if (step < fiveLengthList.length - 1) ret.add(SizedBox(width: 8.0.w));
+                  if (step < fiveLengthList.length - 1) ret.add(SizedBox(width: 8.0.w));
 
-                return ret;
-              },
-            ),
-          ]),
+                  return ret;
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

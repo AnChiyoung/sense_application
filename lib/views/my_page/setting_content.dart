@@ -346,9 +346,14 @@ class SettingAppVersion extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('버전 1.2.5(최신)',
-                style: TextStyle(
-                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+            Text(
+              '버전 1.2.12(최신)',
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                color: StaticColor.grey70055,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ],
         ),
       ),

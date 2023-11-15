@@ -167,6 +167,8 @@ class FoodPreferenceBottomButton extends StatefulWidget {
 }
 
 class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     double safeBottomPadding = MediaQuery.of(context).padding.bottom;
@@ -181,7 +183,6 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
         List<int> sweetList = data.sweetList;
         List<int> saltyList = data.saltyList;
         String foodLikeMemo = data.foodLikeMemo;
-        String foodDislikeMemo = data.foodDislikeMemo;
 
         bool buttonDisabled = false;
 
@@ -214,14 +215,24 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
           if (buttonDisabled) return;
 
           if (step == 7) {
+            if (isLoading) return;
+
+            setState(() {
+              isLoading = true;
+            });
+
             context.read<PreferenceProvider>().saveFoodPreference().then((value1) {
-              PreferenceRepository().getUserPreferenceListByUserId(id: PresentUserInfo.id).then(
-                    (value2) => context
-                        .read<MyPageProvider>()
-                        .initUserPreferenceList(preferenceList: value2),
-                  );
-              context.read<PreferenceProvider>().resetFoodPreference();
-              Navigator.of(context).pop();
+              PreferenceRepository()
+                  .getUserPreferenceListByUserId(id: PresentUserInfo.id)
+                  .then((value2) {
+                context.read<MyPageProvider>().initUserPreferenceList(preferenceList: value2);
+
+                context.read<PreferenceProvider>().resetFoodPreference();
+                setState(() {
+                  isLoading = false;
+                });
+                Navigator.of(context).pop();
+              });
             });
           } else {
             context.read<PreferenceProvider>().nextStep(notify: true);
@@ -244,15 +255,19 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
               child: Padding(
                 padding: EdgeInsets.only(bottom: safeBottomPadding),
                 child: Center(
-                  child: Text(
-                    getButtonLabel(),
-                    style: TextStyle(
-                      fontSize: 16.0.sp,
-                      fontWeight: FontWeight.w700,
-                      height: 24 / 16,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: isLoading
+                      ? CircularProgressIndicator(
+                          color: StaticColor.grey300E0,
+                        )
+                      : Text(
+                          getButtonLabel(),
+                          style: TextStyle(
+                            fontSize: 16.0.sp,
+                            fontWeight: FontWeight.w700,
+                            height: 24 / 16,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
             ),
