@@ -10,7 +10,6 @@ import 'package:sense_flutter_application/models/feed/feed_tag_model.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/screens/create_event/create_event_screen.dart';
 import 'package:sense_flutter_application/screens/feed/feed_search_screen.dart';
-import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 // import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 // import 'package:sense_flutter_application/screens/new_create_event/new_create_event_screen.dart';
 import 'package:sense_flutter_application/views/animation/animation_provider.dart';
@@ -96,8 +95,7 @@ class _FeedHeaderState extends State<FeedHeader> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(24),
                     onTap: () {
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => const MyPageScreen()));
+                      Navigator.of(context).pushNamed('/my-page');
                     },
                     child: Center(
                         child: Image.asset('assets/home/home_userprofile.png',
@@ -613,7 +611,7 @@ class _FeedPostListState extends State<FeedPostList> with SingleTickerProviderSt
           /// function plus button
           Consumer<AnimationProvider>(
             builder: (context, data, child) {
-              bool buttonState = data.homeAddButton;
+              // bool buttonState = data.homeAddButton;
 
               return AnimatedBuilder(
                 animation: _controller,

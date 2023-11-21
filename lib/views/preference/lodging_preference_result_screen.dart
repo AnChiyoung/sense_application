@@ -33,9 +33,9 @@ class _LodgingPreferenceResultScreenState extends State<LodgingPreferenceResultS
             PreferenceResultBottomButton(
               title: '다시하기',
               onTap: () {
-                Navigator.of(context).replace(
-                  oldRoute: ModalRoute.of(context)!,
-                  newRoute: MaterialPageRoute(
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
                     builder: (context) => const LodgingPreferenceScreen(),
                   ),
                 );

@@ -347,7 +347,7 @@ class SettingAppVersion extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '버전 1.2.12(최신)',
+              '버전 1.2.14(최신)',
               style: TextStyle(
                 fontSize: 14.0.sp,
                 color: StaticColor.grey70055,

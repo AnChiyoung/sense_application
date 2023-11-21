@@ -226,7 +226,11 @@ class _TravelPreferenceBottomButton extends State<TravelPreferenceBottomButton> 
                 setState(() {
                   isLoading = false;
                 });
-                Navigator.of(context).pop();
+
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/travel-preference-result',
+                  ModalRoute.withName('/my-page'),
+                );
               });
             });
           } else {

@@ -229,29 +229,13 @@ class MyPagePreferenceBannerListState extends State<MyPagePreferenceBannerList> 
           //   // 팝업 띄우고 !!
           // } else {}
 
-          // // 하러 간다! 그러면 ~
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const FoodPreferenceScreen(),
-            ),
-          );
+          Navigator.of(context).pushNamed('/food-preference');
           break;
         case EnumPreferenceType.lodging:
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LodgingPreferenceScreen(),
-            ),
-          );
+          Navigator.of(context).pushNamed('/lodging-preference');
           break;
         case EnumPreferenceType.travel:
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const TravelPreferenceScreen(),
-            ),
-          );
+          Navigator.of(context).pushNamed('/travel-preference');
           break;
         default:
       }
@@ -340,27 +324,22 @@ class MyPagePreferenceBannerListState extends State<MyPagePreferenceBannerList> 
     required UserPreferenceListItemModel item,
   }) {
     void onTapCard(EnumPreferenceType preferenceType) {
-      late Widget widgetToPush;
+      String routeName = '';
 
       switch (preferenceType) {
         case EnumPreferenceType.food:
-          widgetToPush = const FoodPreferenceResultScreen();
+          routeName = '/food-preference-result';
           break;
         case EnumPreferenceType.lodging:
-          widgetToPush = const LodgingPreferenceResultScreen();
+          routeName = '/lodging-preference-result';
           break;
         case EnumPreferenceType.travel:
-          widgetToPush = const TravelPreferenceResultScreen();
+          routeName = '/travel-preference-result';
           break;
         default:
       }
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => widgetToPush,
-        ),
-      );
+      Navigator.of(context).pushNamed(routeName);
     }
 
     return _preferenceCardContainer(

@@ -226,7 +226,11 @@ class _LodgingPreferenceBottomButton extends State<LodgingPreferenceBottomButton
                 setState(() {
                   isLoading = false;
                 });
-                Navigator.of(context).pop();
+
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/lodging-preference-result',
+                  ModalRoute.withName('/my-page'),
+                );
               });
             });
           } else {

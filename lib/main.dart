@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
@@ -20,7 +21,13 @@ import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 import 'package:sense_flutter_application/views/login/login_provider.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
+import 'package:sense_flutter_application/views/preference/food_preference_result_screen.dart';
+import 'package:sense_flutter_application/views/preference/food_preference_screen.dart';
+import 'package:sense_flutter_application/views/preference/lodging_preference_result_screen.dart';
+import 'package:sense_flutter_application/views/preference/lodging_preference_screen.dart';
 import 'package:sense_flutter_application/views/preference/preference_provider.dart';
+import 'package:sense_flutter_application/views/preference/travel_preference_result_screen.dart';
+import 'package:sense_flutter_application/views/preference/travel_preference_screen.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 import 'package:sense_flutter_application/views/sign_in/sign_in_provider.dart';
 import 'package:sense_flutter_application/views/store/store_provider.dart';
@@ -92,29 +99,34 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (BuildContext context, Widget? child) {
-        return const MaterialApp(
+        return MaterialApp(
           // color: Colors.white,
           /// 현재 context를 가져오기 위한 global key state set
           // navigatorKey: CandyGlobalVariable.naviagatorState,
           /// 모든 기능 페이지에서 home으로 이동 시, route stack을 제거하기 위해 home만 router name을 사용
-          // initialRoute: '/',
-          // routes: {
-          //   '/': (context) => LoginScreen(),
-          //   '/home': (context) => HomeScreen(initPage: 0),
-          //   // '/create_event': (context) => CreateEventScreen02(),
-          // },
+          initialRoute: '/',
+          routes: {
+            '/my-page': (context) => const MyPageScreen(),
+            '/food-preference': (context) => const FoodPreferenceScreen(),
+            '/food-preference-result': (context) => const FoodPreferenceResultScreen(),
+            '/lodging-preference': (context) => const LodgingPreferenceScreen(),
+            '/lodging-preference-result': (context) => const LodgingPreferenceResultScreen(),
+            '/travel-preference': (context) => const TravelPreferenceScreen(),
+            '/travel-preference-result': (context) => const TravelPreferenceResultScreen(),
+          },
+
           /// picker localization
-          localizationsDelegates: [
+          localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: [
+          supportedLocales: const [
             Locale('ko', ''),
             Locale('en', ''),
           ],
           debugShowCheckedModeBanner: false,
           title: 'Sense flutter application',
-          home: NativeSplash(),
+          home: const NativeSplash(),
         );
       },
     );

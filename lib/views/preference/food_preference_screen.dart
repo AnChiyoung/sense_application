@@ -221,17 +221,22 @@ class _FoodPreferenceBottomButton extends State<FoodPreferenceBottomButton> {
               isLoading = true;
             });
 
-            context.read<PreferenceProvider>().saveFoodPreference().then((value1) {
+            context.read<PreferenceProvider>().saveFoodPreference().then((_) {
               PreferenceRepository()
                   .getUserPreferenceListByUserId(id: PresentUserInfo.id)
-                  .then((value2) {
-                context.read<MyPageProvider>().initUserPreferenceList(preferenceList: value2);
-
+                  .then((preferenceList) {
+                context
+                    .read<MyPageProvider>()
+                    .initUserPreferenceList(preferenceList: preferenceList);
                 context.read<PreferenceProvider>().resetFoodPreference();
                 setState(() {
                   isLoading = false;
                 });
-                Navigator.of(context).pop();
+
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/food-preference-result',
+                  ModalRoute.withName('/my-page'),
+                );
               });
             });
           } else {

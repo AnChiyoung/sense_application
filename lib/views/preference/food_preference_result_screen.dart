@@ -33,9 +33,9 @@ class _FoodPreferenceResultScreenState extends State<FoodPreferenceResultScreen>
             PreferenceResultBottomButton(
               title: '다시하기',
               onTap: () {
-                Navigator.of(context).replace(
-                  oldRoute: ModalRoute.of(context)!,
-                  newRoute: MaterialPageRoute(
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
                     builder: (context) => const FoodPreferenceScreen(),
                   ),
                 );
@@ -95,7 +95,7 @@ class _FoodResultViewState extends State<FoodResultView> {
               final v1 = list.map((item) => (item.id - 1) % 5);
 
               if (v1.isNotEmpty) {
-                return v1.reduce((a, b) => a > b ? a : b);
+                return v1.reduce((a, b) => a < b ? a : b);
               }
               return 0;
             }
