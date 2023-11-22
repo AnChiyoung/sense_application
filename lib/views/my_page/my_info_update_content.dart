@@ -168,78 +168,12 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 
   @override
   Widget build(BuildContext context) {
-    double viewInsetsBottom = MediaQuery.of(context).viewInsets.bottom;
-
     return FutureBuilder(
         future: loadFuture,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.connectionState == ConnectionState.done) {
-              UserModel userModel = snapshot.data ?? UserModel();
-              context.read<MyPageProvider>().initUserMe(userModel, false);
-              return Column(
-                children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 20.0.w,
-                          right: 20.0.w,
-                          bottom: 16.0.h,
-                        ),
-                        child: Column(
-                          children: [
-                            ProfileImageField(profileImageString: userModel.profileImageString),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '이름',
-                                style: TextStyle(
-                                  fontSize: 16.0.sp,
-                                  color: StaticColor.grey70055,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 8.0.h),
-                            const BasicInfoName(),
-                            SizedBox(height: 24.0.h),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '연락처',
-                                style: TextStyle(
-                                  fontSize: 16.0.sp,
-                                  color: StaticColor.grey70055,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 8.0.h),
-                            const BasicInfoPhoneNumber(),
-                            SizedBox(height: 24.0.h),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '생년월일',
-                                style: TextStyle(
-                                  fontSize: 16.0.sp,
-                                  color: StaticColor.grey70055,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 8.0.h),
-                            const BasicInfoBirthday(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const MyInfoUpdateButton(),
-                  SizedBox(height: viewInsetsBottom),
-                ],
-              );
+              return BasicInfoFieldPresenter(userModel: snapshot.data ?? UserModel());
             }
 
             // if (snapshot.connectionState == ConnectionState.waiting) {
@@ -258,6 +192,91 @@ class _BasicInfoFieldState extends State<BasicInfoField> {
 
           return const SizedBox.shrink();
         });
+  }
+}
+
+class BasicInfoFieldPresenter extends StatefulWidget {
+  final UserModel userModel;
+  const BasicInfoFieldPresenter({super.key, required this.userModel});
+
+  @override
+  State<BasicInfoFieldPresenter> createState() => _BasicInfoFieldPresenterState();
+}
+
+class _BasicInfoFieldPresenterState extends State<BasicInfoFieldPresenter> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MyPageProvider>().initUserMe(widget.userModel, false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double viewInsetsBottom = MediaQuery.of(context).viewInsets.bottom;
+
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 20.0.w,
+                right: 20.0.w,
+                bottom: 16.0.h,
+              ),
+              child: Column(
+                children: [
+                  ProfileImageField(profileImageString: widget.userModel.profileImageString),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '이름',
+                      style: TextStyle(
+                        fontSize: 16.0.sp,
+                        color: StaticColor.grey70055,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.0.h),
+                  const BasicInfoName(),
+                  SizedBox(height: 24.0.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '연락처',
+                      style: TextStyle(
+                        fontSize: 16.0.sp,
+                        color: StaticColor.grey70055,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.0.h),
+                  const BasicInfoPhoneNumber(),
+                  SizedBox(height: 24.0.h),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '생년월일',
+                      style: TextStyle(
+                        fontSize: 16.0.sp,
+                        color: StaticColor.grey70055,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 8.0.h),
+                  const BasicInfoBirthday(),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const MyInfoUpdateButton(),
+        SizedBox(height: viewInsetsBottom),
+      ],
+    );
   }
 }
 
