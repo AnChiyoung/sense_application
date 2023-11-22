@@ -54,7 +54,7 @@ class _TravelStep02State extends State<TravelStep02> {
                     return Expanded(
                       child: SingleChildScrollView(
                         child: Column(
-                          children: snapshot.data!.reversed.map(
+                          children: snapshot.data!.map(
                             (travelDistance) {
                               return PreferenceElementBanner(
                                 onTap: () => context

@@ -8,10 +8,9 @@ import 'package:sense_flutter_application/models/login/login_model.dart';
 class StoreRequest {
   // 상품 모델 리스트 불러옴
   Future<List<ProductModel>> productListRequest(String searchTitle) async {
-
     String searchQuery = "";
 
-    if(searchTitle.isEmpty) {
+    if (searchTitle.isEmpty) {
       searchQuery = "";
     } else {
       searchQuery = "?search=$searchTitle";
@@ -27,11 +26,11 @@ class StoreRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('상품 리스트 조회 성공');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      List<ProductModel> models = body.isEmpty ? [] : body.map((e) => ProductModel.fromJsonForList(e)).toList();
-      print('aa : models');
+      List<ProductModel> models =
+          body.isEmpty ? [] : body.map((e) => ProductModel.fromJsonForList(e)).toList();
       return models;
     } else {
       SenseLogger().error('상품 리스트 조회 실패');
@@ -41,7 +40,6 @@ class StoreRequest {
 
   // 상품 모델 불러옴
   Future<ProductModel> productRequest(int id) async {
-
     SenseLogger().debug('${ApiUrl.releaseUrl}/product/${id.toString()}');
 
     final response = await http.get(
@@ -52,7 +50,7 @@ class StoreRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('상품 조회 성공');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       ProductModel model = ProductModel.fromJsonForPersonal(jsonResult);
@@ -94,9 +92,14 @@ class ProductModel {
     brandTitle = json["brand_title"] ?? '';
     title = json["title"] ?? '';
     // @todo 데이터 형 변환 해줄것!
-    originPrice = json["origin_price"] == null || json["origin_price"] == 0 ? '' : '${json["origin_price"]}';
-    discountPrice = json["discount_price"] == null || json["discount_price"] == 0 ? '' : '${json["discount_price"]}';
-    discountRate = json["discount_rate"] == null || json["discount_rate"] == 0 ? '' : '${json["discount_rate"]}';
+    originPrice =
+        json["origin_price"] == null || json["origin_price"] == 0 ? '' : '${json["origin_price"]}';
+    discountPrice = json["discount_price"] == null || json["discount_price"] == 0
+        ? ''
+        : '${json["discount_price"]}';
+    discountRate = json["discount_rate"] == null || json["discount_rate"] == 0
+        ? ''
+        : '${json["discount_rate"]}';
   }
 
   ProductModel.fromJsonForPersonal(dynamic json) {

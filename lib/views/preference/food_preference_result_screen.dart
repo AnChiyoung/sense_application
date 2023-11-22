@@ -92,10 +92,10 @@ class _FoodResultViewState extends State<FoodResultView> {
             final foodPreferenceResult = context.read<PreferenceProvider>().foodPreferenceResult!;
 
             int getMaxLevel({required List<UserFoodPreferenceTaste> list}) {
-              final v1 = list.map((item) => (item.id - 1) % 5);
+              final v1 = list.map((item) => ((5 - item.id) % 5) + 1);
 
               if (v1.isNotEmpty) {
-                return v1.reduce((a, b) => a < b ? a : b);
+                return v1.reduce((a, b) => a < b ? b : a);
               }
               return 0;
             }
@@ -249,7 +249,7 @@ class _FoodResultViewState extends State<FoodResultView> {
                 (step) {
                   List<Widget> ret = [];
 
-                  String imageSource = step < maxLevel ? offImage : onImage;
+                  String imageSource = step < maxLevel ? onImage : offImage;
                   ret.add(
                     Image.asset(
                       imageSource,

@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:hive/hive.dart';
+// import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -68,7 +68,7 @@ class _NativeSplash extends State<NativeSplash> {
   void navigateToHomeScreen() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => HomeScreen(initPage: 0),
+        builder: (context) => const HomeScreen(initPage: 0),
       ),
     );
   }

@@ -54,7 +54,7 @@ class _FoodStep03State extends State<FoodStep03> {
                     return Expanded(
                       child: SingleChildScrollView(
                         child: Column(
-                          children: snapshot.data!.reversed.map(
+                          children: snapshot.data!.map(
                             (tasteItem) {
                               int level = ((5 - tasteItem.id) % 5) + 1;
                               return SelectablePreferenceTaste(
