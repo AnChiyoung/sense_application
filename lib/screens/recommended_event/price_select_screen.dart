@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/recommended_event/price_select_view.dart';
 
 class PriceSelectScreen extends StatefulWidget {
-  const PriceSelectScreen({Key? key}) : super(key: key);
+  const PriceSelectScreen({super.key});
 
   @override
   State<PriceSelectScreen> createState() => _PriceSelectScreenState();

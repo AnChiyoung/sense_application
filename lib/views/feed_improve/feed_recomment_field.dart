@@ -12,7 +12,7 @@ import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 
 class ParentCommentField extends StatefulWidget {
   int? postId;
-  ParentCommentField({Key? key, this.postId}) : super(key: key);
+  ParentCommentField({super.key, this.postId});
 
   @override
   State<ParentCommentField> createState() => _ParentCommentFieldState();

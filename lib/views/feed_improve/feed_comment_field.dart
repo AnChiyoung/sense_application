@@ -17,7 +17,7 @@ import 'package:sense_flutter_application/views/feed_improve/feed_recomment_head
 class CommentView extends StatefulWidget {
   int? postId;
   double? bottomPadding;
-  CommentView({Key? key, this.postId, this.bottomPadding}) : super(key: key);
+  CommentView({super.key, this.postId, this.bottomPadding});
 
   @override
   State<CommentView> createState() => _CommentViewState();

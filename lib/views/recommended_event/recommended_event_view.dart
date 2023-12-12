@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/screens/recommended_event/price_select
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class RecommendedEventHeaderMenu extends StatefulWidget {
-  const RecommendedEventHeaderMenu({Key? key}) : super(key: key);
+  const RecommendedEventHeaderMenu({super.key});
 
   @override
   State<RecommendedEventHeaderMenu> createState() => _RecommendedEventHeaderMenuState();
@@ -32,7 +32,7 @@ class _RecommendedEventHeaderMenuState extends State<RecommendedEventHeaderMenu>
 }
 
 class RecommendedEventTitle extends StatelessWidget {
-  const RecommendedEventTitle({Key? key}) : super(key: key);
+  const RecommendedEventTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class RecommendedEventTitle extends StatelessWidget {
 }
 
 class RecommendedEventCategory extends StatefulWidget {
-  const RecommendedEventCategory({Key? key}) : super(key: key);
+  const RecommendedEventCategory({super.key});
 
   @override
   State<RecommendedEventCategory> createState() => _RecommendedEventCategoryState();
@@ -326,7 +326,7 @@ class _RecommendedEventCategoryState extends State<RecommendedEventCategory> {
 }
 
 class RecommendedEventNextButton extends StatefulWidget {
-  const RecommendedEventNextButton({Key? key}) : super(key: key);
+  const RecommendedEventNextButton({super.key});
 
   @override
   State<RecommendedEventNextButton> createState() => _RecommendedEventNextButtonState();

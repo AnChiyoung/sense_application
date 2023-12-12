@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CommentButton extends StatefulWidget {
   bool? state;
-  CommentButton({Key? key, this.state}) : super(key: key);
+  CommentButton({super.key, this.state});
 
   @override
   State<CommentButton> createState() => _CommentButton();

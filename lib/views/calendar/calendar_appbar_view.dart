@@ -6,7 +6,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 
 class CalendarAppBar extends StatefulWidget {
-  const CalendarAppBar({Key? key}) : super(key: key);
+  const CalendarAppBar({super.key});
 
   @override
   State<CalendarAppBar> createState() => _CalendarAppBarState();

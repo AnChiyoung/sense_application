@@ -14,7 +14,7 @@ import 'package:sense_flutter_application/views/feed_improve/feed_comment_field.
 class FeedBottomField extends StatefulWidget {
   FeedDetailModel? feedModel;
   double? bottomPadding;
-  FeedBottomField({Key? key, this.feedModel, this.bottomPadding}) : super(key: key);
+  FeedBottomField({super.key, this.feedModel, this.bottomPadding});
 
   @override
   State<FeedBottomField> createState() => _FeedBottomFieldState();
@@ -141,7 +141,7 @@ class _FeedBottomFieldState extends State<FeedBottomField> {
 
 class CommentInputField extends StatefulWidget {
   int postId;
-  CommentInputField({Key? key, required this.postId}) : super(key: key);
+  CommentInputField({super.key, required this.postId});
 
   @override
   State<CommentInputField> createState() => _CommentInputFieldState();

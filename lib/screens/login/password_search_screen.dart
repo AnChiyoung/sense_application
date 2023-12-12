@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/login/password_search_view.dart';
 
 class PasswordSearchScreen extends StatefulWidget {
-  const PasswordSearchScreen({Key? key}) : super(key: key);
+  const PasswordSearchScreen({super.key});
 
   @override
   State<PasswordSearchScreen> createState() => _PasswordSearchScreenState();

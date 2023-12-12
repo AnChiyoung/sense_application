@@ -4,7 +4,7 @@ import 'package:sense_flutter_application/views/sign_in/email_view.dart';
 
 class EmailScreen extends StatefulWidget {
   KakaoUserModel? kakaoUserModel;
-  EmailScreen({Key? key, this.kakaoUserModel}) : super(key: key);
+  EmailScreen({super.key, this.kakaoUserModel});
 
   @override
   State<EmailScreen> createState() => _EmailScreenState();

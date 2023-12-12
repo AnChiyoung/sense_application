@@ -8,13 +8,13 @@ class IconRippleButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const IconRippleButton({
-    Key? key,
+    super.key,
     required this.icon,
     this.color,
     this.size = 16,
     this.padding = 4,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

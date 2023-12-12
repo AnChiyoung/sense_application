@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/screens/contact/contact_detail_screen.
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
 class ContactSearchField extends StatefulWidget {
-  const ContactSearchField({Key? key}) : super(key: key);
+  const ContactSearchField({super.key});
 
   @override
   State<ContactSearchField> createState() => _ContactSearchFieldState();
@@ -180,7 +180,7 @@ class _ContactSearchFieldState extends State<ContactSearchField> {
 }
 
 class SearchResultSection extends StatefulWidget {
-  const SearchResultSection({Key? key}) : super(key: key);
+  const SearchResultSection({super.key});
 
   @override
   State<SearchResultSection> createState() => _SearchResultSectionState();

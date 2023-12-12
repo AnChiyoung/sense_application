@@ -4,7 +4,7 @@ import '../../constants/public_color.dart';
 import '../../views/calendar/calendar_month_select_view.dart';
 
 class CalendarMonthSelect extends StatefulWidget {
-  const CalendarMonthSelect({Key? key}) : super(key: key);
+  const CalendarMonthSelect({super.key});
 
   @override
   State<CalendarMonthSelect> createState() => _CalendarMonthSelectState();

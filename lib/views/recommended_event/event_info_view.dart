@@ -13,7 +13,7 @@ import 'package:toast/toast.dart';
 
 class EventInfoHeaderMenu extends StatefulWidget {
   Key drawerKey;
-  EventInfoHeaderMenu({Key? key, required this.drawerKey}) : super(key: key);
+  EventInfoHeaderMenu({super.key, required this.drawerKey});
 
   @override
   State<EventInfoHeaderMenu> createState() => _EventInfoHeaderMenuState();
@@ -93,7 +93,7 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 // }
 
 class DrawerEventAction extends StatefulWidget {
-  const DrawerEventAction({Key? key}) : super(key: key);
+  const DrawerEventAction({super.key});
 
   @override
   State<DrawerEventAction> createState() => _DrawerEventActionState();
@@ -270,7 +270,7 @@ class _DrawerEventActionState extends State<DrawerEventAction> {
 }
 
 class DrawerJoinUser extends StatefulWidget {
-  const DrawerJoinUser({Key? key}) : super(key: key);
+  const DrawerJoinUser({super.key});
 
   @override
   State<DrawerJoinUser> createState() => _DrawerJoinUserState();
@@ -357,7 +357,7 @@ class _DrawerJoinUserState extends State<DrawerJoinUser> {
 }
 
 class JoinUserList extends StatefulWidget {
-  const JoinUserList({Key? key}) : super(key: key);
+  const JoinUserList({super.key});
 
   @override
   State<JoinUserList> createState() => _JoinUserListState();
@@ -399,7 +399,7 @@ class _JoinUserListState extends State<JoinUserList> {
 }
 
 class DrawerEventDelete extends StatefulWidget {
-  const DrawerEventDelete({Key? key}) : super(key: key);
+  const DrawerEventDelete({super.key});
 
   @override
   State<DrawerEventDelete> createState() => _DrawerEventDeleteState();
@@ -442,7 +442,7 @@ drawer section end
  */
 
 class EventInfoTitle extends StatefulWidget {
-  const EventInfoTitle({Key? key}) : super(key: key);
+  const EventInfoTitle({super.key});
 
   @override
   State<EventInfoTitle> createState() => _EventInfoTitleState();
@@ -485,7 +485,7 @@ class _EventInfoTitleState extends State<EventInfoTitle> {
 }
 
 class EventInfoNameSection extends StatefulWidget {
-  const EventInfoNameSection({Key? key}) : super(key: key);
+  const EventInfoNameSection({super.key});
 
   @override
   State<EventInfoNameSection> createState() => _EventInfoNameSectionState();
@@ -556,7 +556,7 @@ class _EventInfoNameSectionState extends State<EventInfoNameSection> {
 }
 
 class EventInfoPersonSection extends StatefulWidget {
-  const EventInfoPersonSection({Key? key}) : super(key: key);
+  const EventInfoPersonSection({super.key});
 
   @override
   State<EventInfoPersonSection> createState() => _EventInfoPersonSectionState();
@@ -759,7 +759,7 @@ class _EventInfoPersonSectionState extends State<EventInfoPersonSection> {
 }
 
 class EventInfoEtcSection extends StatefulWidget {
-  const EventInfoEtcSection({Key? key}) : super(key: key);
+  const EventInfoEtcSection({super.key});
 
   @override
   State<EventInfoEtcSection> createState() => _EventInfoEtcSectionState();
@@ -892,7 +892,7 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
 }
 
 class EventInfoRecommendedSection extends StatefulWidget {
-  const EventInfoRecommendedSection({Key? key}) : super(key: key);
+  const EventInfoRecommendedSection({super.key});
 
   @override
   State<EventInfoRecommendedSection> createState() => _EventInfoRecommendedSectionState();

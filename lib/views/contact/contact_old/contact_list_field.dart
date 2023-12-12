@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/screens/contact/contact_detail_screen.
 import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
 class ContactListField extends StatefulWidget {
-  const ContactListField({Key? key}) : super(key: key);
+  const ContactListField({super.key});
 
   @override
   State<ContactListField> createState() => _ContactListFieldState();

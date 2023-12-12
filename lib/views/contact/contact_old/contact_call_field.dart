@@ -6,7 +6,7 @@ import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 class ContactCallField extends StatefulWidget {
-  const ContactCallField({Key? key}) : super(key: key);
+  const ContactCallField({super.key});
 
   @override
   State<ContactCallField> createState() => _ContactCallFieldState();

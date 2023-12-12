@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/views/feed/feed_search_provider.dart';
 ///
 /// 피드 검색 헤더
 class FeedSearchHeader extends StatefulWidget {
-  const FeedSearchHeader({Key? key}) : super(key: key);
+  const FeedSearchHeader({super.key});
 
   @override
   State<FeedSearchHeader> createState() => _FeedSearchHeaderState();
@@ -113,7 +113,7 @@ class _FeedSearchHeaderState extends State<FeedSearchHeader> {
 ///
 /// 피드 검색 탭
 class FeedSearchTab extends StatefulWidget {
-  const FeedSearchTab({Key? key}) : super(key: key);
+  const FeedSearchTab({super.key});
 
   @override
   State<FeedSearchTab> createState() => _FeedSearchTabState();

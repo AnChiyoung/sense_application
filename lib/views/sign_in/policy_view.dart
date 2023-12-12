@@ -36,7 +36,7 @@ class PolicyDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(left: 20.0.w, right: 20.0.w, top: 41.0.h, bottom: 25.0.h),
-        child: ContentDescription(presentPage: 1, totalPage: 3, description: '서비스 약관에\n동의해 주세요'));
+        child: const ContentDescription(presentPage: 1, totalPage: 3, description: '서비스 약관에\n동의해 주세요'));
   }
 }
 

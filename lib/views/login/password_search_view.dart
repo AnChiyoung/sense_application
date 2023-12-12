@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/views/sign_in/sign_in_header_view.dart
 import 'package:sense_flutter_application/views/sign_in/sign_in_validate.dart';
 
 class PasswordSearchInfoInputHeader extends StatefulWidget {
-  const PasswordSearchInfoInputHeader({Key? key}) : super(key: key);
+  const PasswordSearchInfoInputHeader({super.key});
 
   @override
   State<PasswordSearchInfoInputHeader> createState() => _PasswordSearchInfoInputHeaderState();
@@ -26,12 +26,12 @@ class _PasswordSearchInfoInputHeaderState extends State<PasswordSearchInfoInputH
 }
 
 class PasswordSearchInfoInputDescription extends StatelessWidget {
-  const PasswordSearchInfoInputDescription({Key? key}) : super(key: key);
+  const PasswordSearchInfoInputDescription({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
+    return const Padding(
+        padding: EdgeInsets.only(left: 20, right: 20, top: 41, bottom: 25),
         child: ContentDescription(description: '비밀번호를\n잊으셨나요?')
     );
   }
@@ -39,7 +39,7 @@ class PasswordSearchInfoInputDescription extends StatelessWidget {
 
 
 class PasswordSearchInfoInputField extends StatefulWidget {
-  const PasswordSearchInfoInputField({Key? key}) : super(key: key);
+  const PasswordSearchInfoInputField({super.key});
 
   @override
   State<PasswordSearchInfoInputField> createState() => _PasswordSearchInfoInputFieldState();
@@ -155,7 +155,7 @@ class _PasswordSearchInfoInputFieldState extends State<PasswordSearchInfoInputFi
 
 
 class PasswordSearchInfoInputButton extends StatefulWidget {
-  const PasswordSearchInfoInputButton({Key? key}) : super(key: key);
+  const PasswordSearchInfoInputButton({super.key});
 
   @override
   State<PasswordSearchInfoInputButton> createState() => _PasswordSearchInfoInputButtonState();

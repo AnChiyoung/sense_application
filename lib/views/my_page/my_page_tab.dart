@@ -7,12 +7,6 @@ import 'package:sense_flutter_application/models/preference/preference_model.dar
 import 'package:sense_flutter_application/models/preference/preference_repository.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_liked_post_list.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
-import 'package:sense_flutter_application/views/preference/food_preference_result_screen.dart';
-import 'package:sense_flutter_application/views/preference/food_preference_screen.dart';
-import 'package:sense_flutter_application/views/preference/lodging_preference_result_screen.dart';
-import 'package:sense_flutter_application/views/preference/lodging_preference_screen.dart';
-import 'package:sense_flutter_application/views/preference/travel_preference_result_screen.dart';
-import 'package:sense_flutter_application/views/preference/travel_preference_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyPageTab extends StatefulWidget {

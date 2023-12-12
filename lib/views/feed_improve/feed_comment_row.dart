@@ -15,7 +15,7 @@ class CommentPersonalRow extends StatefulWidget {
   CommentResponseModel model;
   int index;
 
-  CommentPersonalRow({Key? key, required this.model, required this.index}) : super(key: key);
+  CommentPersonalRow({super.key, required this.model, required this.index});
 
   @override
   State<CommentPersonalRow> createState() => _CommentPersonalRowState();

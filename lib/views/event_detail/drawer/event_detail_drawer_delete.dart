@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/event_detail/drawer/event_detail_drawer_delete_dialog.dart';
 
 class EventDetailDrawerDelete extends StatefulWidget {
-  const EventDetailDrawerDelete({Key? key}) : super(key: key);
+  const EventDetailDrawerDelete({super.key});
 
   @override
   State<EventDetailDrawerDelete> createState() => _EventDetailDrawerDeleteState();

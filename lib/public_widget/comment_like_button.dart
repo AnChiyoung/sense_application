@@ -8,7 +8,7 @@ class CommentLikeButton extends StatefulWidget {
   bool state;
   int? postId;
   int id;
-  CommentLikeButton({Key? key, required this.active, required this.state, this.postId, required this.id}) : super(key: key);
+  CommentLikeButton({super.key, required this.active, required this.state, this.postId, required this.id});
 
   @override
   State<CommentLikeButton> createState() => _CommentLikeButtonState();

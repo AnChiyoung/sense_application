@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class OverflowText extends StatefulWidget {
   const OverflowText({
-    Key? key,
+    super.key,
     required this.text,
     required this.maxLength,
-  }) : super(key: key);
+  });
 
   final String text;
   final int maxLength;

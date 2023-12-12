@@ -8,7 +8,7 @@ class UserProfileImage extends StatelessWidget {
   String? profileImageUrl = '';
   XFile? selectImage;
   double? size;
-  UserProfileImage({Key? key, this.profileImageUrl, this.selectImage, this.size}) : super(key: key);
+  UserProfileImage({super.key, this.profileImageUrl, this.selectImage, this.size});
 
   @override
   Widget build(BuildContext context) {

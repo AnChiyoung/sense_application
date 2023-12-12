@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
 class ServiceGuideDialog extends StatefulWidget {
-  const ServiceGuideDialog({Key? key}) : super(key: key);
+  const ServiceGuideDialog({super.key});
 
   @override
   State<ServiceGuideDialog> createState() => _ServiceGuideDialogState();

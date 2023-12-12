@@ -6,7 +6,7 @@ import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 
 class CategoryHeaderMenu extends StatefulWidget {
-  const CategoryHeaderMenu({Key? key}) : super(key: key);
+  const CategoryHeaderMenu({super.key});
 
   @override
   State<CategoryHeaderMenu> createState() => _CategoryHeaderMenuState();
@@ -26,7 +26,7 @@ class _CategoryHeaderMenuState extends State<CategoryHeaderMenu> {
 
 
 class CategorySelectTitle extends StatefulWidget {
-  const CategorySelectTitle({Key? key}) : super(key: key);
+  const CategorySelectTitle({super.key});
 
   @override
   State<CategorySelectTitle> createState() => _CategorySelectTitleState();
@@ -65,7 +65,7 @@ class _CategorySelectTitleState extends State<CategorySelectTitle> {
 }
 
 class CategorySelect extends StatefulWidget {
-  const CategorySelect({Key? key}) : super(key: key);
+  const CategorySelect({super.key});
 
   @override
   State<CategorySelect> createState() => _CategorySelectState();

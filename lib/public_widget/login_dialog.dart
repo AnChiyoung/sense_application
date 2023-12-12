@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoginDialog extends StatefulWidget {
-  const LoginDialog({Key? key}) : super(key: key);
+  const LoginDialog({super.key});
 
   @override
   State<LoginDialog> createState() => _LoginDialog();

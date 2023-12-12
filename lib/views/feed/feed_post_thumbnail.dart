@@ -17,13 +17,13 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
   final bool like;
 
   _BasePostCard({
-    Key? key,
+    super.key,
     required this.id,
     required this.imageUrl,
     required this.title,
     this.subTitle,
     required this.like
-  }) : super(key: key);
+  });
 
   @protected
   Widget buildImage(BuildContext context);
@@ -63,14 +63,14 @@ abstract class _BasePostCard extends StatelessWidget { // 여기가 카드관련
 
 class FeedPostCarouselCard extends _BasePostCard {
   FeedPostCarouselCard({
-    Key? key,
-    required int id,
-    required String imageUrl,
-    required String title,
-    String? subTitle,
-    required bool like,
+    super.key,
+    required super.id,
+    required super.imageUrl,
+    required super.title,
+    super.subTitle,
+    required super.like,
 
-  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle, like: like);
+  });
 
   @override
   Widget buildImage(BuildContext context) {
@@ -179,13 +179,13 @@ class FeedPostCarouselCard extends _BasePostCard {
 
 class FeedPostGridCard extends _BasePostCard {
   FeedPostGridCard({
-    Key? key,
-    required int id,
-    required String imageUrl,
-    required String title,
-    String? subTitle,
-    required bool like,
-  }) : super(key: key, id: id, imageUrl: imageUrl, title: title, subTitle: subTitle, like: like);
+    super.key,
+    required super.id,
+    required super.imageUrl,
+    required super.title,
+    super.subTitle,
+    required super.like,
+  });
 
   @override
   Widget buildImage(BuildContext context) {
@@ -251,7 +251,7 @@ class FeedPostGridCard extends _BasePostCard {
 /// 피드에서 포스트 리스트를 보여주는 위젯
 class FeedPostListPresenter extends StatefulWidget {
   final List<FeedPreviewModel> feedPosts;
-  const FeedPostListPresenter({Key? key, required this.feedPosts}) : super(key: key);
+  const FeedPostListPresenter({super.key, required this.feedPosts});
 
   @override
   State<FeedPostListPresenter> createState() => _FeedPostListPresenterState();

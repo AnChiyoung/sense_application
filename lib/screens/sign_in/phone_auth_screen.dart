@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/views/sign_in/phone_auth_view.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   String phoneNumber;
-  PhoneAuthScreen({Key? key, required this.phoneNumber}) : super(key: key);
+  PhoneAuthScreen({super.key, required this.phoneNumber});
 
   @override
   State<PhoneAuthScreen> createState() => _PhoneAuthScreenState();

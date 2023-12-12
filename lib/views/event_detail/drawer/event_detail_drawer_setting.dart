@@ -6,7 +6,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/event_detail/event_detail_provider.dart';
 
 class EventDetailDrawerSetting extends StatefulWidget {
-  const EventDetailDrawerSetting({Key? key}) : super(key: key);
+  const EventDetailDrawerSetting({super.key});
 
   @override
   State<EventDetailDrawerSetting> createState() => _EventDetailDrawerSettingState();

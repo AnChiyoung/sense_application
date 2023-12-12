@@ -54,7 +54,7 @@ class _EventDateBottomSheetState extends State<EventDateBottomSheet> {
 
 
 class DateViewSection extends StatefulWidget {
-  const DateViewSection({Key? key}) : super(key: key);
+  const DateViewSection({super.key});
 
   @override
   State<DateViewSection> createState() => _DateViewSectionState();
@@ -85,7 +85,7 @@ class _DateViewSectionState extends State<DateViewSection> {
 }
 
 class DateSelectSection extends StatefulWidget {
-  const DateSelectSection({Key? key}) : super(key: key);
+  const DateSelectSection({super.key});
 
   @override
   State<DateSelectSection> createState() => _DateSelectSectionState();

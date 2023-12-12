@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 
 class AddEventCancelDialog extends StatefulWidget {
-  const AddEventCancelDialog({Key? key}) : super(key: key);
+  const AddEventCancelDialog({super.key});
 
   @override
   State<AddEventCancelDialog> createState() => _AddEventCancelDialogState();

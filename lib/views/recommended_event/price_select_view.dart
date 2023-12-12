@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/screens/recommended_event/region_selec
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class PriceSelectHeaderMenu extends StatefulWidget {
-  const PriceSelectHeaderMenu({Key? key}) : super(key: key);
+  const PriceSelectHeaderMenu({super.key});
 
   @override
   State<PriceSelectHeaderMenu> createState() => _PriceSelectHeaderMenuState();
@@ -37,7 +37,7 @@ class _PriceSelectHeaderMenuState extends State<PriceSelectHeaderMenu> {
 }
 
 class PriceSelectTitle extends StatelessWidget {
-  const PriceSelectTitle({Key? key}) : super(key: key);
+  const PriceSelectTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class PriceSelectTitle extends StatelessWidget {
 }
 
 class PriceSelectCategory extends StatefulWidget {
-  const PriceSelectCategory({Key? key}) : super(key: key);
+  const PriceSelectCategory({super.key});
 
   @override
   State<PriceSelectCategory> createState() => _PriceSelectCategoryState();
@@ -350,7 +350,7 @@ class _PriceSelectCategoryState extends State<PriceSelectCategory> {
 }
 
 class PriceSelectNextButton extends StatefulWidget {
-  const PriceSelectNextButton({Key? key}) : super(key: key);
+  const PriceSelectNextButton({super.key});
 
   @override
   State<PriceSelectNextButton> createState() => _PriceSelectNextButtonState();

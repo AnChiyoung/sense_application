@@ -17,7 +17,7 @@ class _WithdrawalAgreeDescriptionState extends State<WithdrawalAgreeDescription>
       padding: EdgeInsets.symmetric(horizontal: 20.0.w),
       child: Column(
         children: [
-          ContentDescription(description: '아래 내용을\n확인해 주세요'),
+          const ContentDescription(description: '아래 내용을\n확인해 주세요'),
           SizedBox(height: 16.0.h),
           const WithdrawalGuideDescription(),
           SizedBox(height: 48.0.h),

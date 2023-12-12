@@ -17,7 +17,7 @@ class EventDetailHeader extends StatefulWidget {
 class _EventDetailHeaderState extends State<EventDetailHeader> {
 
   void backCallback() {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
+    Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeScreen(initPage: 3)));
   }
 
   /// 분기처리

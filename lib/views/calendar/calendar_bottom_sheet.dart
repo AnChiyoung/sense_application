@@ -6,7 +6,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   double? bodyHeight;
-  ScheduleBottomSheet({Key? key, this.bodyHeight}) : super(key: key);
+  ScheduleBottomSheet({super.key, this.bodyHeight});
 
   @override
   State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();

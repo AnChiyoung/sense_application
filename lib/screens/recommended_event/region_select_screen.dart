@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/views/recommended_event/region_select_view.dart';
 
 class RegionSelectScreen extends StatefulWidget {
-  const RegionSelectScreen({Key? key}) : super(key: key);
+  const RegionSelectScreen({super.key});
 
   @override
   State<RegionSelectScreen> createState() => _RegionSelectScreenState();

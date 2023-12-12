@@ -14,6 +14,6 @@ class _WithdrawalDescriptionState extends State<WithdrawalDescription> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-      child: ContentDescription(description: '탈퇴를 위해\n본인인증을 해주세요'));
+      child: const ContentDescription(description: '탈퇴를 위해\n본인인증을 해주세요'));
   }
 }

@@ -5,7 +5,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/public_widget/add_event_cancel_dialog.dart';
 
 class RegeditContactHeader extends StatefulWidget {
-  const RegeditContactHeader({Key? key}) : super(key: key);
+  const RegeditContactHeader({super.key});
 
   @override
   State<RegeditContactHeader> createState() => _RegeditContactHeaderState();
@@ -58,7 +58,7 @@ class _RegeditContactHeaderState extends State<RegeditContactHeader> {
 }
 
 class RegeditContactImage extends StatefulWidget {
-  const RegeditContactImage({Key? key}) : super(key: key);
+  const RegeditContactImage({super.key});
 
   @override
   State<RegeditContactImage> createState() => _RegeditContactImageState();
@@ -90,7 +90,7 @@ class _RegeditContactImageState extends State<RegeditContactImage> {
 }
 
 class RegeditContactBaseInfo extends StatefulWidget {
-  const RegeditContactBaseInfo({Key? key}) : super(key: key);
+  const RegeditContactBaseInfo({super.key});
 
   @override
   State<RegeditContactBaseInfo> createState() => _RegeditContactBaseInfoState();

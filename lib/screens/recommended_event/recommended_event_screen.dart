@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_view.dart';
 
 class RecommendedEventScreen extends StatefulWidget {
-  const RecommendedEventScreen({Key? key}) : super(key: key);
+  const RecommendedEventScreen({super.key});
 
   @override
   State<RecommendedEventScreen> createState() => _RecommendedEventScreenState();

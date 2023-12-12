@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 
 class LogoutDialog extends StatefulWidget {
   Function? action;
-  LogoutDialog({Key? key, this.action}) : super(key: key);
+  LogoutDialog({super.key, this.action});
 
   @override
   State<LogoutDialog> createState() => _LogoutDialog();

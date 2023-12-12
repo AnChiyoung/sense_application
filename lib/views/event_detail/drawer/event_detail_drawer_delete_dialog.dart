@@ -71,7 +71,7 @@ class _EventDetailDrawerDeleteDialogState extends State<EventDetailDrawerDeleteD
                     if (context.mounted && result) {
                       context.read<EDProvider>().clearEventModal(false);
                       Navigator.of(context).pop();
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => HomeScreen(initPage: 3)));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeScreen(initPage: 3)));
                     }
 
                   },

@@ -7,7 +7,7 @@ import 'package:sense_flutter_application/views/feed/feed_provider.dart';
 class CommentHeader extends StatefulWidget {
   int commentCount;
   int postId;
-  CommentHeader({Key? key, required this.commentCount, required this.postId}) : super(key: key);
+  CommentHeader({super.key, required this.commentCount, required this.postId});
 
   @override
   State<CommentHeader> createState() => _CommentHeaderState();

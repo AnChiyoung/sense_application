@@ -12,7 +12,7 @@ import 'package:sense_flutter_application/views/contact/contacts_provider.dart';
 
 class ContactDetailScreen extends StatefulWidget {
   ContactModel contactModel;
-  ContactDetailScreen({Key? key, required this.contactModel}) : super(key: key);
+  ContactDetailScreen({super.key, required this.contactModel});
 
   @override
   State<ContactDetailScreen> createState() => _ContactDetailScreenState();

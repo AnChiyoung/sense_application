@@ -497,7 +497,7 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
     UserRequest().userAdditionalInfoUpdate();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
-        builder: (context) => HomeScreen(
+        builder: (context) => const HomeScreen(
           initPage: 0,
         ),
       ),
@@ -521,7 +521,7 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
         context.read<MyPageProvider>().updateInfoInit();
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(
+            builder: (context) => const HomeScreen(
               initPage: 0,
             ),
           ),
@@ -599,7 +599,7 @@ class _MyMoreInfoButtonState extends State<MyMoreInfoButton> {
       } else {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(
+            builder: (context) => const HomeScreen(
               initPage: 0,
             ),
           ),

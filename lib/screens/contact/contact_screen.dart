@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/views/contact/contact_version02/contac
 import 'package:sense_flutter_application/views/contact/contact_version02/contact_view.dart';
 
 class ContactScreen extends StatefulWidget {
-  const ContactScreen({Key? key}) : super(key: key);
+  const ContactScreen({super.key});
 
   @override
   State<ContactScreen> createState() => _ContactScreenState();

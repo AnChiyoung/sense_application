@@ -11,7 +11,7 @@ import 'package:sense_flutter_application/views/recommended_event/recommended_ev
 import 'package:table_calendar/table_calendar.dart';
 
 class DateSelectHeader extends StatefulWidget {
-  const DateSelectHeader({Key? key}) : super(key: key);
+  const DateSelectHeader({super.key});
 
   @override
   State<DateSelectHeader> createState() => _DateSelectHeaderState();
@@ -51,7 +51,7 @@ class _DateSelectHeaderState extends State<DateSelectHeader> {
 }
 
 class DateSelectTitle extends StatefulWidget {
-  const DateSelectTitle({Key? key}) : super(key: key);
+  const DateSelectTitle({super.key});
 
   @override
   State<DateSelectTitle> createState() => _DateSelectTitleState();
@@ -103,7 +103,7 @@ class _DateSelectTitleState extends State<DateSelectTitle> {
 }
 
 class DateViewSection extends StatefulWidget {
-  const DateViewSection({Key? key}) : super(key: key);
+  const DateViewSection({super.key});
 
   @override
   State<DateViewSection> createState() => _DateViewSectionState();
@@ -141,7 +141,7 @@ class _DateViewSectionState extends State<DateViewSection> {
 }
 
 class DateSelectSection extends StatefulWidget {
-  const DateSelectSection({Key? key}) : super(key: key);
+  const DateSelectSection({super.key});
 
   @override
   State<DateSelectSection> createState() => _DateSelectSectionState();
@@ -278,7 +278,7 @@ class _DateSelectSectionState extends State<DateSelectSection> {
 }
 
 class DateSelectNextButton extends StatefulWidget {
-  const DateSelectNextButton({Key? key}) : super(key: key);
+  const DateSelectNextButton({super.key});
 
   @override
   State<DateSelectNextButton> createState() => _DateSelectNextButtonState();

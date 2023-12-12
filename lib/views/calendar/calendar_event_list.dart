@@ -10,7 +10,7 @@ import 'package:sense_flutter_application/screens/event_detail/event_detail_scre
 import 'package:sense_flutter_application/views/calendar/calendar_provider.dart';
 
 class EventList extends StatefulWidget {
-  const EventList({Key? key}) : super(key: key);
+  const EventList({super.key});
 
   @override
   State<EventList> createState() => _EventListState();

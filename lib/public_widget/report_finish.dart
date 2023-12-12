@@ -3,7 +3,7 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 
 class ReportFinish extends StatefulWidget {
   bool reportRequest;
-  ReportFinish({Key? key, required this.reportRequest}) : super(key: key);
+  ReportFinish({super.key, required this.reportRequest});
 
   @override
   State<ReportFinish> createState() => _ReportFinishState();

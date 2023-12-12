@@ -8,7 +8,7 @@ import 'package:sense_flutter_application/public_widget/header_menu.dart';
 import 'package:sense_flutter_application/views/recommended_event/recommended_event_provider.dart';
 
 class RegionSelectHeaderMenu extends StatefulWidget {
-  const RegionSelectHeaderMenu({Key? key}) : super(key: key);
+  const RegionSelectHeaderMenu({super.key});
 
   @override
   State<RegionSelectHeaderMenu> createState() => _RegionSelectHeaderMenuState();
@@ -37,7 +37,7 @@ class _RegionSelectHeaderMenuState extends State<RegionSelectHeaderMenu> {
 }
 
 class RegionSelectTitle extends StatelessWidget {
-  const RegionSelectTitle({Key? key}) : super(key: key);
+  const RegionSelectTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class RegionSelectTitle extends StatelessWidget {
 }
 
 class RegionSelectCategory extends StatefulWidget {
-  const RegionSelectCategory({Key? key}) : super(key: key);
+  const RegionSelectCategory({super.key});
 
   @override
   State<RegionSelectCategory> createState() => _RegionSelectCategoryState();
@@ -132,7 +132,7 @@ class _RegionSelectCategoryState extends State<RegionSelectCategory> {
 }
 
 class RegionSelectSubCategory extends StatefulWidget {
-  const RegionSelectSubCategory({Key? key}) : super(key: key);
+  const RegionSelectSubCategory({super.key});
 
   @override
   State<RegionSelectSubCategory> createState() => _RegionSelectSubCategoryState();
@@ -278,7 +278,7 @@ class _RegionSelectSubCategoryState extends State<RegionSelectSubCategory> {
 }
 
 class RegionSelectNextButton extends StatefulWidget {
-  const RegionSelectNextButton({Key? key}) : super(key: key);
+  const RegionSelectNextButton({super.key});
 
   @override
   State<RegionSelectNextButton> createState() => _RegionSelectNextButtonState();

@@ -566,13 +566,12 @@ class CustomSnackbar extends SnackBar {
   final bool positive;
 
   CustomSnackbar({
-    Key? key,
+    super.key,
     required this.message,
     required this.context,
     required this.topPadding,
     required this.positive,
   }) : super(
-    key: key,
     behavior: SnackBarBehavior.floating,
     backgroundColor: Colors.transparent,
     elevation: 0.0,

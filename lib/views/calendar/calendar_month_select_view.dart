@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constants/public_color.dart';
 
 class MonthSelectHeader extends StatefulWidget {
-  const MonthSelectHeader({Key? key}) : super(key: key);
+  const MonthSelectHeader({super.key});
 
   @override
   State<MonthSelectHeader> createState() => _MonthSelectHeaderState();
@@ -61,7 +61,7 @@ class _MonthSelectHeaderState extends State<MonthSelectHeader> {
 }
 
 class MonthSelect extends StatefulWidget {
-  const MonthSelect({Key? key}) : super(key: key);
+  const MonthSelect({super.key});
 
   @override
   State<MonthSelect> createState() => _MonthSelectState();
@@ -75,7 +75,7 @@ class _MonthSelectState extends State<MonthSelect> {
 }
 
 class SemiMonthWidget extends StatelessWidget {
-  const SemiMonthWidget({Key? key}) : super(key: key);
+  const SemiMonthWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:sense_flutter_application/public_widget/report_finish.dart';
 
 class ReportDialog extends StatefulWidget {
   int? index;
-  ReportDialog({Key? key, this.index}) : super(key: key);
+  ReportDialog({super.key, this.index});
 
   @override
   State<ReportDialog> createState() => _ReportDialogState();

@@ -4,7 +4,7 @@ import 'package:sense_flutter_application/views/event_detail/drawer/event_detail
 import 'package:sense_flutter_application/views/event_detail/drawer/event_detail_drawer_setting.dart';
 
 class EventDetailDrawer extends StatefulWidget {
-  const EventDetailDrawer({Key? key}) : super(key: key);
+  const EventDetailDrawer({super.key});
 
   @override
   State<EventDetailDrawer> createState() => _EventDetailDrawerState();
