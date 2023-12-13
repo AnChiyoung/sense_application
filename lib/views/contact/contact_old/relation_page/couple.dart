@@ -16,22 +16,20 @@ class _CoupleViewState extends State<CoupleView> {
     return FutureBuilder(
         future: ContactRequest().contactListRequest(3),
         builder: (context, snapshot) {
-          if(snapshot.hasError) {
+          if (snapshot.hasError) {
             return const SizedBox.shrink();
-          } else if(snapshot.hasData) {
-
+          } else if (snapshot.hasData) {
             /// data get!!
-            if(snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const SizedBox.shrink();
-            } else if(snapshot.connectionState == ConnectionState.done) {
-
+            } else if (snapshot.connectionState == ConnectionState.done) {
               List<ContactModel> familyModelList = snapshot.data!;
               // ContactTabModel? resultModel = snapshot.data;
               // List<ContactModel>? familyModelList = resultModel!.contactModelList;
 
-              if(familyModelList.isEmpty) {
+              if (familyModelList.isEmpty) {
                 return const Center(child: Text('목록이 없습니다.\n친구와의 관계를 설정해주세요.'));
-              } else if(familyModelList.isNotEmpty) {
+              } else if (familyModelList.isNotEmpty) {
                 return CoupleList(contactListModel: familyModelList);
               }
 
@@ -39,12 +37,10 @@ class _CoupleViewState extends State<CoupleView> {
             } else {
               return const SizedBox.shrink();
             }
-
           } else {
             return const SizedBox.shrink();
           }
-        }
-    );
+        });
   }
 }
 
@@ -68,9 +64,11 @@ class _CoupleListState extends State<CoupleList> {
             return GestureDetector(
               onTap: () {
                 // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
-                Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                    ContactDetailScreen(contactModel: widget.contactListModel.elementAt(index))));
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ContactDetailScreen(
+                            contactModel: widget.contactListModel.elementAt(index))));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -84,17 +82,19 @@ class _CoupleListState extends State<CoupleList> {
                     children: [
                       widget.contactListModel.elementAt(index).profileImage! == ''
                           ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                          : UserProfileImage(profileImageUrl: widget.contactListModel.elementAt(index).profileImage!),
+                          : UserProfileImage(
+                              profileImageUrl:
+                                  widget.contactListModel.elementAt(index).profileImage!),
                       const SizedBox(width: 8),
                       Text(widget.contactListModel.elementAt(index).name!,
-                          style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
               ),
             );
-          }
-      ),
+          }),
     );
   }
 }

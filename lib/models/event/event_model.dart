@@ -3,24 +3,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
 
 class EventRequest {
-
   /// event list load
   Future<List<EventModel>> eventListRequest([int? selectMonth, int? selectYear]) async {
-
     String monthQuery = '';
     String yearQuery = '';
 
-    if(selectMonth != null) {
+    if (selectMonth != null) {
       monthQuery = '?month=${selectMonth.toString()}';
     }
 
-    if(selectYear != null) {
+    if (selectYear != null) {
       yearQuery = '&year=${selectYear.toString()}';
     }
 
@@ -34,10 +32,11 @@ class EventRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to event list load');
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      List<EventModel> models = body.isEmpty ? [] : body.map((e) => EventModel.fromJson(e)).toList();
+      List<EventModel> models =
+          body.isEmpty ? [] : body.map((e) => EventModel.fromJson(e)).toList();
       return models;
     } else {
       SenseLogger().debug('fail to event list load');
@@ -47,7 +46,6 @@ class EventRequest {
 
   /// personal event load
   Future<EventModel> eventRequest(int eventId) async {
-
     // print('event id : ${eventId.toString()}');
 
     final response = await http.get(
@@ -58,7 +56,7 @@ class EventRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to personal event load');
       // print('logger');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
@@ -72,7 +70,6 @@ class EventRequest {
   }
 
   Future<EventModel> eventRecommendRequest(int eventId) async {
-
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
       headers: {
@@ -81,7 +78,7 @@ class EventRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to personal event recommend info load');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel model = EventModel.fromPersonalJson(jsonResult);
@@ -94,27 +91,35 @@ class EventRequest {
 
   /// event create
   Future<bool> eventCreateRequest(BuildContext context) async {
-
     Map<String, dynamic> createModel = {};
     createModel.clear();
-    context.read<CEProvider>().title == '' ? {} : createModel['title'] = context.read<CEProvider>().title;
-    context.read<CEProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CEProvider>().category + 1;
-    context.read<CEProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CEProvider>().target + 1;
-    context.read<CEProvider>().date == '' ? {} : createModel['date'] = context.read<CEProvider>().date;
-    context.read<CEProvider>().city == -1 ? {} : createModel['city'] = context.read<CEProvider>().city + 1;
+    context.read<CEProvider>().title == ''
+        ? {}
+        : createModel['title'] = context.read<CEProvider>().title;
+    context.read<CEProvider>().category == -1
+        ? {}
+        : createModel['event_category'] = context.read<CEProvider>().category + 1;
+    context.read<CEProvider>().target == -1
+        ? {}
+        : createModel['contact_category'] = context.read<CEProvider>().target + 1;
+    context.read<CEProvider>().date == ''
+        ? {}
+        : createModel['date'] = context.read<CEProvider>().date;
+    context.read<CEProvider>().city == -1
+        ? {}
+        : createModel['city'] = context.read<CEProvider>().city + 1;
     // context.read<CEProvider>().saveSubCity.isEmpty ? {} : createModel['sub_city'] = context.read<CEProvider>().saveSubCity;
-    context.read<CEProvider>().memo == '' ? {} : createModel['description'] = context.read<CEProvider>().memo;
+    context.read<CEProvider>().memo == ''
+        ? {}
+        : createModel['description'] = context.read<CEProvider>().memo;
 
-    final response = await http.post(
-      Uri.parse('${ApiUrl.releaseUrl}/event'),
-      body: jsonEncode(createModel),
-      headers: {
-        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    );
+    final response = await http
+        .post(Uri.parse('${ApiUrl.releaseUrl}/event'), body: jsonEncode(createModel), headers: {
+      'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+      'Content-Type': 'application/json; charset=UTF-8'
+    });
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('이벤트 생성 성공');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel createEventResponse = EventModel.fromJsonForId(jsonResult);
@@ -129,24 +134,30 @@ class EventRequest {
 
   /// event update
   Future<bool> updateEvent(BuildContext context) async {
-
     Map<String, dynamic> createModel = {};
-    context.read<CEProvider>().title == '' ? {} : createModel['title'] = context.read<CEProvider>().title;
-    context.read<CEProvider>().category == -1 ? {} : createModel['event_category'] = context.read<CEProvider>().category;
-    context.read<CEProvider>().target == -1 ? {} : createModel['contact_category'] = context.read<CEProvider>().target;
-    context.read<CEProvider>().date == '' ? {} : createModel['date'] = context.read<CEProvider>().date;
-    context.read<CEProvider>().memo == '' ? {} : createModel['description'] = context.read<CEProvider>().memo;
+    context.read<CEProvider>().title == ''
+        ? {}
+        : createModel['title'] = context.read<CEProvider>().title;
+    context.read<CEProvider>().category == -1
+        ? {}
+        : createModel['event_category'] = context.read<CEProvider>().category;
+    context.read<CEProvider>().target == -1
+        ? {}
+        : createModel['contact_category'] = context.read<CEProvider>().target;
+    context.read<CEProvider>().date == ''
+        ? {}
+        : createModel['date'] = context.read<CEProvider>().date;
+    context.read<CEProvider>().memo == ''
+        ? {}
+        : createModel['description'] = context.read<CEProvider>().memo;
 
-    final response = await http.post(
-        Uri.parse('${ApiUrl.releaseUrl}/event'),
-        body: jsonEncode(createModel),
-        headers: {
-          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
-    );
+    final response = await http
+        .post(Uri.parse('${ApiUrl.releaseUrl}/event'), body: jsonEncode(createModel), headers: {
+      'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+      'Content-Type': 'application/json; charset=UTF-8'
+    });
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to event update');
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       EventModel createEventResponse = EventModel.fromJson(jsonResult);
@@ -160,20 +171,19 @@ class EventRequest {
 
   /// personal field event update
   Future<bool> personalFieldUpdateEvent(BuildContext context, int eventId, int fieldNumber) async {
-
     Map<String, dynamic> fieldModel = {};
     fieldModel.clear();
 
     print('change category : ${context.read<CEProvider>().category + 1}');
-    if(fieldNumber == 0) {
+    if (fieldNumber == 0) {
       fieldModel['title'] = context.read<CEProvider>().title;
-    } else if(fieldNumber == 1) {
+    } else if (fieldNumber == 1) {
       fieldModel['event_category'] = context.read<CEProvider>().category + 1;
-    } else if(fieldNumber == 2) {
+    } else if (fieldNumber == 2) {
       fieldModel['contact_category'] = context.read<CEProvider>().target + 1;
-    } else if(fieldNumber == 3) {
+    } else if (fieldNumber == 3) {
       fieldModel['date'] = context.read<CEProvider>().date;
-    } else if(fieldNumber == 4) {
+    } else if (fieldNumber == 4) {
       fieldModel['memo'] = context.read<CEProvider>().memo;
     }
     // else if(fieldNumber == 5) {
@@ -184,16 +194,14 @@ class EventRequest {
 
     SenseLogger().debug(fieldModel.toString());
 
-    final response = await http.patch(
-        Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
+    final response = await http.patch(Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}'),
         body: jsonEncode(fieldModel),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'
-        }
-    );
+        });
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to event update');
       return true;
     } else {
@@ -204,16 +212,14 @@ class EventRequest {
 
   /// personal field event update
   Future<bool> personalFieldUpdateEvent2(int eventId, Map<String, dynamic> fieldModel) async {
-    final response = await http.patch(
-      Uri.parse('${ApiUrl.releaseUrl}/event/$eventId'),
-      body: jsonEncode(fieldModel),
-      headers: {
-        'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-        'Content-Type': 'application/json; charset=UTF-8'
-      }
-    );
+    final response = await http.patch(Uri.parse('${ApiUrl.releaseUrl}/event/$eventId'),
+        body: jsonEncode(fieldModel),
+        headers: {
+          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('success to event update');
       return true;
     } else {
@@ -224,16 +230,13 @@ class EventRequest {
 
   /// event delete
   Future<bool> deleteEvent(int eventUniqueId) async {
+    final response = await http
+        .delete(Uri.parse('${ApiUrl.releaseUrl}/event/${eventUniqueId.toString()}'), headers: {
+      'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
+      'Content-Type': 'application/json; charset=UTF-8'
+    });
 
-    final response = await http.delete(
-        Uri.parse('${ApiUrl.releaseUrl}/event/${eventUniqueId.toString()}'),
-        headers: {
-          'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
-          'Content-Type': 'application/json; charset=UTF-8'
-        }
-    );
-
-    if(response.statusCode == 204) {
+    if (response.statusCode == 204) {
       SenseLogger().debug('success to event delete');
       return true;
     } else {
@@ -306,12 +309,17 @@ class EventModel {
   EventModel.fromJson(dynamic json) {
     id = json['id'] ?? -1;
     eventTitle = json['title'] ?? '';
-    eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null; /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
+    eventHost = json['host'] != null ? EventHost.fromJson(json['host']) : null;
+
+    /// 그냥 정의했을 때는 null이 배치되지 않기 때문에 null을 집어넣기 위한 명시적 정의
     eventDate = json['date'] ?? '';
     city = json['city'] != null ? City.fromJson(json['city']) : null;
     subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city']) : null;
-    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
-    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : null;
+    eventCategoryObject =
+        json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : null;
+    targetCategoryObject = json['contact_category'] != null
+        ? ContactCategory.fromJson(json['contact_category'])
+        : null;
     created = json['created'] ?? '';
     // json['event_users'] == [] || json['event_users'] == null
     //     ? eventUser = []
@@ -337,37 +345,45 @@ class EventModel {
     recommendCount = json['recommend_count'] ?? 0;
     isAlarm = json['is_alarm'] ?? false;
     publicType = json['public_type'] ?? 'PUBLIC';
-    eventCategoryObject = json['event_category'] != null ? EventCategory.fromJson(json['event_category']) : EventCategory(id: -1, title: '');
-    targetCategoryObject = json['contact_category'] != null ? ContactCategory.fromJson(json['contact_category']) : ContactCategory(id: -1, title: '');
-    recommendModel = (json['recommend_request'] != null ? RecommendRequestModel.fromJson(json['recommend_request']) : RecommendRequestModel.initModel);
+    eventCategoryObject = json['event_category'] != null
+        ? EventCategory.fromJson(json['event_category'])
+        : EventCategory(id: -1, title: '');
+    targetCategoryObject = json['contact_category'] != null
+        ? ContactCategory.fromJson(json['contact_category'])
+        : ContactCategory(id: -1, title: '');
+    recommendModel = (json['recommend_request'] != null
+        ? RecommendRequestModel.fromJson(json['recommend_request'])
+        : RecommendRequestModel.initModel);
     city = json['city'] != null ? City.fromJson(json['city'] ?? City()) : City(id: -1, title: '');
-    subCity = json['sub_city'] != null ? SubCity.fromJson(json['sub_city'] ?? SubCity()) : SubCity(id: -1, title: '');
+    subCity = json['sub_city'] != null
+        ? SubCity.fromJson(json['sub_city'] ?? SubCity())
+        : SubCity(id: -1, title: '');
 
     // recommendCategory = json['recommend_category'] ?? '';
     // totalCost = json['total_cost'] ?? -1;
   }
 
   EventModel.fromJsonForRecommend(dynamic json) {
-    recommendModel = json['recommend_request'] ?? RecommendRequestModel(
-      id: -1,
-      userId: -1,
-      memo: '',
-      isPresent: false,
-      isHotel: false,
-      isLunch: false,
-      isDinner: false,
-      isActivity: false,
-      isPub: false,
-      totalBudget: -1,
-      pubBudget: -1,
-      presentBudget: -1,
-      hotelBudget: -1,
-      lunchBudget: -1,
-      dinnerBudget: -1,
-      activityBudget: -1,
-      created: '',
-      modified: ''
-    );
+    recommendModel = json['recommend_request'] ??
+        RecommendRequestModel(
+            id: -1,
+            userId: -1,
+            memo: '',
+            isPresent: false,
+            isHotel: false,
+            isLunch: false,
+            isDinner: false,
+            isActivity: false,
+            isPub: false,
+            totalBudget: -1,
+            pubBudget: -1,
+            presentBudget: -1,
+            hotelBudget: -1,
+            lunchBudget: -1,
+            dinnerBudget: -1,
+            activityBudget: -1,
+            created: '',
+            modified: '');
   }
 
   // Map<String, dynamic> toJson() => {
@@ -591,6 +607,5 @@ class RecommendRequestModel {
       dinnerBudget: -1,
       activityBudget: -1,
       created: '',
-      modified: ''
-  );
+      modified: '');
 }

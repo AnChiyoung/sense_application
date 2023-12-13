@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/preference/preference_model.dart';
-import 'package:sense_flutter_application/utils/api.dart';
+import 'package:sense_flutter_application/api/api.dart';
 
 class PreferenceRepository {
   Map<String, String> headers = {

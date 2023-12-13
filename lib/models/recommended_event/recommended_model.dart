@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:http/http.dart' as http;
 
 class RecommendedApi {

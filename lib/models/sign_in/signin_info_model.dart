@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/models/sign_in/kakao_user_info_model.dart';
 
 class SigninModel {
@@ -16,7 +16,6 @@ class SigninModel {
   static String? phone;
 
   Future<bool> kakaoSigninRequest() async {
-
     Map<String, dynamic> signinJson = SigninRequestModel(
       email: SigninModel.email.toString(),
       password: SigninModel.password.toString(),
@@ -30,15 +29,14 @@ class SigninModel {
 
     print('sign in token : ${KakaoUserInfoModel.userAccessToken}');
 
-    final response = await http.patch(
-        Uri.parse('${ApiUrl.releaseUrl}/user/signup'),
+    final response = await http.patch(Uri.parse('${ApiUrl.releaseUrl}/user/signup'),
         body: json.encode(signinJson),
         headers: {
           'Authorization': 'Bearer ${KakaoUserInfoModel.userAccessToken!}',
           'Content-Type': 'application/json; charset=UTF-8'
         });
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('가입 성공했음');
       print(response.body);
       return true;
@@ -50,7 +48,6 @@ class SigninModel {
   }
 
   Future<bool> emailSigninRequest() async {
-
     Map<String, dynamic> signinJson = SigninRequestModel(
       email: SigninModel.email.toString(),
       password: SigninModel.password.toString(),
@@ -62,14 +59,11 @@ class SigninModel {
 
     print(signinJson);
 
-    final response = await http.post(
-        Uri.parse('${ApiUrl.releaseUrl}/user/signup'),
+    final response = await http.post(Uri.parse('${ApiUrl.releaseUrl}/user/signup'),
         body: json.encode(signinJson),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8'
-        });
+        headers: {'Content-Type': 'application/json; charset=UTF-8'});
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('가입 성공했음');
       print(response.body);
       return true;
@@ -99,11 +93,11 @@ class SigninRequestModel {
   });
 
   Map<String, dynamic> toJson() => {
-    'email': email,
-    'password': password,
-    'name': name,
-    'birthday': birthday,
-    'gender': gender,
-    'phone': phone,
-  };
+        'email': email,
+        'password': password,
+        'name': name,
+        'birthday': birthday,
+        'gender': gender,
+        'phone': phone,
+      };
 }

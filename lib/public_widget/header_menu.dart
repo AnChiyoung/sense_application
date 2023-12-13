@@ -10,6 +10,7 @@ class HeaderMenu extends StatefulWidget {
   final Widget? rightMenu;
   final TextStyle? titleStyle;
   final double? backPadding;
+  final bool hasBorderBottom;
   const HeaderMenu({
     super.key,
     this.backCallback,
@@ -19,6 +20,7 @@ class HeaderMenu extends StatefulWidget {
     this.rightMenu,
     this.titleStyle,
     this.backPadding,
+    this.hasBorderBottom = false,
   });
 
   @override
@@ -36,8 +38,18 @@ class _HeaderMenuState extends State<HeaderMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 60.h,
+      decoration: BoxDecoration(
+        border: widget.hasBorderBottom
+            ? Border(
+                bottom: BorderSide(
+                  color: StaticColor.grey200EE,
+                  width: 1.0.w,
+                ),
+              )
+            : null,
+      ),
       child: Stack(
         children: [
           widget.backCallback == null

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/user/user_model.dart';
 import 'package:sense_flutter_application/public_widget/empty_user_profile.dart';
-import 'package:sense_flutter_application/screens/my_page/my_info_update_screen.dart';
+import 'package:sense_flutter_application/routes/edit_profile/edit_profile_screen.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 
 class MyPageInfo extends StatefulWidget {
@@ -106,14 +106,17 @@ class _MyPageProfileState extends State<MyPageProfile> {
                     ),
                     Material(
                       color: Colors.transparent,
-                      child: SizedBox(
-                        height: 40.0,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(25.0),
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
-                          },
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(25.0),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+                          );
+                        },
+                        child: Container(
+                          height: 40.0.h,
+                          padding: EdgeInsets.symmetric(horizontal: 6.0.w),
                           child: Center(
                             child: Row(
                               children: [

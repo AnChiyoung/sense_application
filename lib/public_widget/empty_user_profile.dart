@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserProfileImage extends StatelessWidget {
-  String? profileImageUrl = '';
-  XFile? selectImage;
-  double? size;
-  UserProfileImage({super.key, this.profileImageUrl, this.selectImage, this.size});
+  final String? profileImageUrl;
+  final XFile? selectImage;
+  final double? size;
+  const UserProfileImage({super.key, this.profileImageUrl = '', this.selectImage, this.size});
 
   @override
   Widget build(BuildContext context) {
-
-    if(profileImageUrl == null || profileImageUrl == '') {
-      if(selectImage == null) {
+    if (profileImageUrl == '') {
+      if (selectImage == null) {
         return Image.asset('assets/feed/empty_user_profile.png', width: 32, height: 32);
       } else {
         return ClipRRect(
@@ -23,7 +22,7 @@ class UserProfileImage extends StatelessWidget {
         );
       }
     } else {
-      if(selectImage == null) {
+      if (selectImage == null) {
         // return Container();
         return CachedNetworkImage(
           imageUrl: profileImageUrl.toString(),

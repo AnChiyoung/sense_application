@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/constants/constants.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
@@ -60,10 +60,10 @@ class UserRequest {
     int relation = context.read<MyPageProvider>().relationState;
     int mbti = context.read<MyPageProvider>().saveMbti;
     int ownCar = context.read<MyPageProvider>().ownCar;
-    String? genderString;
-    String? relationString;
-    String? mbtiString;
-    bool? ownCarBoolean;
+    // String? genderString;
+    // String? relationString;
+    // String? mbtiString;
+    // bool? ownCarBoolean;
     if (gender == -1) {
     } else if (gender == 0) {
       updateModel['gender'] = 'MALE';
@@ -171,6 +171,25 @@ class UserRequest {
       return false;
     }
   }
+}
+
+enum EnumUserGender {
+  male('남자', 'MALE'),
+  female('여자', 'FEMALE');
+
+  final String label;
+  final String value;
+  const EnumUserGender(this.label, this.value);
+}
+
+enum EnumUserRelationshipStatus {
+  solo('솔로', '솔로'),
+  couple('연애중', '연애중'),
+  married('기혼', '기혼');
+
+  final String label;
+  final String value;
+  const EnumUserRelationshipStatus(this.label, this.value);
 }
 
 class UserModel {

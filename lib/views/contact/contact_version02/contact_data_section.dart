@@ -14,8 +14,7 @@ class ContactDataSection extends StatefulWidget {
   State<ContactDataSection> createState() => _ContactDataSectionState();
 }
 
-class _ContactDataSectionState extends State<ContactDataSection> with TickerProviderStateMixin{
-
+class _ContactDataSectionState extends State<ContactDataSection> with TickerProviderStateMixin {
   late TabController contactTabController;
 
   @override
@@ -45,33 +44,23 @@ class _ContactDataSectionState extends State<ContactDataSection> with TickerProv
             tabs: [
               SizedBox(
                 height: 37.0.h,
-                child: Tab(
-                  text: '전체(${widget.contactCollector.elementAt(0).length.toString()})'
-                ),
+                child: Tab(text: '전체(${widget.contactCollector.elementAt(0).length.toString()})'),
               ),
               SizedBox(
                 height: 37.0.h,
-                child: Tab(
-                    text: '친구(${widget.contactCollector.elementAt(1).length.toString()})'
-                ),
+                child: Tab(text: '친구(${widget.contactCollector.elementAt(1).length.toString()})'),
               ),
               SizedBox(
                 height: 37.0.h,
-                child: Tab(
-                    text: '가족(${widget.contactCollector.elementAt(2).length.toString()})'
-                ),
+                child: Tab(text: '가족(${widget.contactCollector.elementAt(2).length.toString()})'),
               ),
               SizedBox(
                 height: 37.0.h,
-                child: Tab(
-                    text: '연인(${widget.contactCollector.elementAt(3).length.toString()})'
-                ),
+                child: Tab(text: '연인(${widget.contactCollector.elementAt(3).length.toString()})'),
               ),
               SizedBox(
                 height: 37.0.h,
-                child: Tab(
-                    text: '직장(${widget.contactCollector.elementAt(4).length.toString()})'
-                ),
+                child: Tab(text: '직장(${widget.contactCollector.elementAt(4).length.toString()})'),
               ),
             ],
           ),
@@ -107,7 +96,6 @@ class ContactTotal extends StatefulWidget {
 }
 
 class _ContactTotalState extends State<ContactTotal> {
-
   List<ContactModel> favoriteList = [];
   List<ContactModel> birthdayList = [];
 
@@ -119,7 +107,9 @@ class _ContactTotalState extends State<ContactTotal> {
     }
     birthdayList.clear();
     for (var element in widget.contactList) {
-      element.birthday == DateFormat('yyyy-MM-dd').format(DateTime.now()) ? birthdayList.add(element) : {};
+      element.birthday == DateFormat('yyyy-MM-dd').format(DateTime.now())
+          ? birthdayList.add(element)
+          : {};
     }
 
     super.initState();
@@ -129,115 +119,143 @@ class _ContactTotalState extends State<ContactTotal> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        favoriteList.isEmpty ? const SizedBox.shrink() :
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    alignment: Alignment.centerLeft,
-                    height: 32,
-                    color: StaticColor.grey100F6,
-                    child: Text('즐겨찾기', style: TextStyle(fontSize: 14, color: StaticColor.black90015, fontWeight: FontWeight.w500))),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: favoriteList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            print(favoriteList.elementAt(index).id);
-                            Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                                ContactDetailScreen(contactModel: favoriteList.elementAt(index))));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+        favoriteList.isEmpty
+            ? const SizedBox.shrink()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      alignment: Alignment.centerLeft,
+                      height: 32,
+                      color: StaticColor.grey100F6,
+                      child: Text('즐겨찾기',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: StaticColor.black90015,
+                              fontWeight: FontWeight.w500))),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: favoriteList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              print(favoriteList.elementAt(index).id);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ContactDetailScreen(
+                                          contactModel: favoriteList.elementAt(index))));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
 
-                            /// gesture detector press용 color bug 해소를 위한 container
-                            child: Container(
-                              width: double.infinity,
-                              height: 50.0.h,
-                              color: Colors.transparent,
-                              child: Row(
-                                children: [
-                                  favoriteList.elementAt(index).profileImage! == ''
-                                      ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                                      : UserProfileImage(profileImageUrl: favoriteList.elementAt(index).profileImage!),
-                                  const SizedBox(width: 8),
-                                  Text(favoriteList.elementAt(index).name!,
-                                      style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
-                                ],
+                              /// gesture detector press용 color bug 해소를 위한 container
+                              child: Container(
+                                width: double.infinity,
+                                height: 50.0.h,
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    favoriteList.elementAt(index).profileImage! == ''
+                                        ? Image.asset('assets/feed/empty_user_profile.png',
+                                            width: 40, height: 40)
+                                        : UserProfileImage(
+                                            profileImageUrl:
+                                                favoriteList.elementAt(index).profileImage!),
+                                    const SizedBox(width: 8),
+                                    Text(favoriteList.elementAt(index).name!,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }
+                          );
+                        }),
                   ),
-                ),
-              ],
-            ),
-        birthdayList.isEmpty ? const SizedBox.shrink() :
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-                padding: const EdgeInsets.only(left: 20.0),
-                alignment: Alignment.centerLeft,
-                height: 32,
-                color: StaticColor.grey100F6,
-                child: Text('생일인 친구', style: TextStyle(fontSize: 14, color: StaticColor.black90015, fontWeight: FontWeight.w500))),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: birthdayList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        print(birthdayList.elementAt(index).id);
-                        Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                            ContactDetailScreen(contactModel: birthdayList.elementAt(index))));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-
-                        /// gesture detector press용 color bug 해소를 위한 container
-                        child: Container(
-                          width: double.infinity,
-                          height: 50.0.h,
-                          color: Colors.transparent,
-                          child: Row(
-                            children: [
-                              birthdayList.elementAt(index).profileImage! == ''
-                                  ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                                  : UserProfileImage(profileImageUrl: birthdayList.elementAt(index).profileImage!),
-                              const SizedBox(width: 8),
-                              Text(birthdayList.elementAt(index).name!,
-                                  style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
+                ],
               ),
-            ),
-          ],
-        ),
+        birthdayList.isEmpty
+            ? const SizedBox.shrink()
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      alignment: Alignment.centerLeft,
+                      height: 32,
+                      color: StaticColor.grey100F6,
+                      child: Text('생일인 친구',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: StaticColor.black90015,
+                              fontWeight: FontWeight.w500))),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: birthdayList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              print(birthdayList.elementAt(index).id);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ContactDetailScreen(
+                                          contactModel: birthdayList.elementAt(index))));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+
+                              /// gesture detector press용 color bug 해소를 위한 container
+                              child: Container(
+                                width: double.infinity,
+                                height: 50.0.h,
+                                color: Colors.transparent,
+                                child: Row(
+                                  children: [
+                                    birthdayList.elementAt(index).profileImage! == ''
+                                        ? Image.asset('assets/feed/empty_user_profile.png',
+                                            width: 40, height: 40)
+                                        : UserProfileImage(
+                                            profileImageUrl:
+                                                birthdayList.elementAt(index).profileImage!),
+                                    const SizedBox(width: 8),
+                                    Text(birthdayList.elementAt(index).name!,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w400)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
         Container(
             padding: const EdgeInsets.only(left: 20.0),
             alignment: Alignment.centerLeft,
             height: 32,
             color: StaticColor.grey100F6,
-            child: Text('친구', style: TextStyle(fontSize: 14, color: StaticColor.black90015, fontWeight: FontWeight.w500))),
+            child: Text('친구',
+                style: TextStyle(
+                    fontSize: 14, color: StaticColor.black90015, fontWeight: FontWeight.w500))),
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0.w),
             child: ListView.builder(
-              shrinkWrap: true,
+                shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
                 itemCount: widget.contactList.length,
                 itemBuilder: (context, index) {
@@ -245,8 +263,11 @@ class _ContactTotalState extends State<ContactTotal> {
                     onTap: () {
                       print(widget.contactList.elementAt(index).id);
                       // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                          ContactDetailScreen(contactModel: widget.contactList.elementAt(index))));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ContactDetailScreen(
+                                  contactModel: widget.contactList.elementAt(index))));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -259,18 +280,23 @@ class _ContactTotalState extends State<ContactTotal> {
                         child: Row(
                           children: [
                             widget.contactList.elementAt(index).profileImage! == ''
-                                ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                                : UserProfileImage(profileImageUrl: widget.contactList.elementAt(index).profileImage!),
+                                ? Image.asset('assets/feed/empty_user_profile.png',
+                                    width: 40, height: 40)
+                                : UserProfileImage(
+                                    profileImageUrl:
+                                        widget.contactList.elementAt(index).profileImage!),
                             const SizedBox(width: 8),
                             Text(widget.contactList.elementAt(index).name!,
-                                style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400)),
                           ],
                         ),
                       ),
                     ),
                   );
-                }
-            ),
+                }),
           ),
         ),
       ],
@@ -299,9 +325,11 @@ class _ContactFamilyState extends State<ContactFamily> {
               onTap: () {
                 // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
                 // print(widget.contactList.elementAt(index).id);
-                Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                    ContactDetailScreen(contactModel: widget.contactList.elementAt(index))));
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ContactDetailScreen(
+                            contactModel: widget.contactList.elementAt(index))));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -315,17 +343,18 @@ class _ContactFamilyState extends State<ContactFamily> {
                     children: [
                       widget.contactList.elementAt(index).profileImage! == ''
                           ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                          : UserProfileImage(profileImageUrl: widget.contactList.elementAt(index).profileImage!),
+                          : UserProfileImage(
+                              profileImageUrl: widget.contactList.elementAt(index).profileImage!),
                       const SizedBox(width: 8),
                       Text(widget.contactList.elementAt(index).name!,
-                          style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
               ),
             );
-          }
-      ),
+          }),
     );
   }
 }
@@ -350,9 +379,11 @@ class _ContactFriendState extends State<ContactFriend> {
             return GestureDetector(
               onTap: () {
                 // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
-                Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                    ContactDetailScreen(contactModel: widget.contactList.elementAt(index))));
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ContactDetailScreen(
+                            contactModel: widget.contactList.elementAt(index))));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -366,17 +397,18 @@ class _ContactFriendState extends State<ContactFriend> {
                     children: [
                       widget.contactList.elementAt(index).profileImage! == ''
                           ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                          : UserProfileImage(profileImageUrl: widget.contactList.elementAt(index).profileImage!),
+                          : UserProfileImage(
+                              profileImageUrl: widget.contactList.elementAt(index).profileImage!),
                       const SizedBox(width: 8),
                       Text(widget.contactList.elementAt(index).name!,
-                          style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
               ),
             );
-          }
-      ),
+          }),
     );
   }
 }
@@ -401,9 +433,11 @@ class _ContactCoupleState extends State<ContactCouple> {
             return GestureDetector(
               onTap: () {
                 // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
-                Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                    ContactDetailScreen(contactModel: widget.contactList.elementAt(index))));
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ContactDetailScreen(
+                            contactModel: widget.contactList.elementAt(index))));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -417,17 +451,18 @@ class _ContactCoupleState extends State<ContactCouple> {
                     children: [
                       widget.contactList.elementAt(index).profileImage! == ''
                           ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                          : UserProfileImage(profileImageUrl: widget.contactList.elementAt(index).profileImage!),
+                          : UserProfileImage(
+                              profileImageUrl: widget.contactList.elementAt(index).profileImage!),
                       const SizedBox(width: 8),
                       Text(widget.contactList.elementAt(index).name!,
-                          style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
               ),
             );
-          }
-      ),
+          }),
     );
   }
 }
@@ -452,9 +487,11 @@ class _ContactCoworkerState extends State<ContactCoworker> {
             return GestureDetector(
               onTap: () {
                 // context.read<ContactProvider>().contactModelLoad(widget.contactListModel.elementAt(index).id!);
-                Navigator.push(context, MaterialPageRoute(builder: (_) =>
-                    ContactDetailScreen(contactModel: widget.contactList.elementAt(index))));
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ContactDetailScreen(
+                            contactModel: widget.contactList.elementAt(index))));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -468,17 +505,18 @@ class _ContactCoworkerState extends State<ContactCoworker> {
                     children: [
                       widget.contactList.elementAt(index).profileImage! == ''
                           ? Image.asset('assets/feed/empty_user_profile.png', width: 40, height: 40)
-                          : UserProfileImage(profileImageUrl: widget.contactList.elementAt(index).profileImage!),
+                          : UserProfileImage(
+                              profileImageUrl: widget.contactList.elementAt(index).profileImage!),
                       const SizedBox(width: 8),
                       Text(widget.contactList.elementAt(index).name!,
-                          style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.black, fontWeight: FontWeight.w400)),
                     ],
                   ),
                 ),
               ),
             );
-          }
-      ),
+          }),
     );
   }
 }

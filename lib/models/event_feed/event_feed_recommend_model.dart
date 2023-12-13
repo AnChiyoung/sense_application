@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/constants/logger.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
@@ -71,15 +71,17 @@ class RecommendUser {
 }
 
 class RecommendsRequest {
-  Future<List<EventFeedRecommendModel>> eventFeedDetailRecommends(int eventId, String ordering) async {
+  Future<List<EventFeedRecommendModel>> eventFeedDetailRecommends(
+      int eventId, String ordering) async {
     final response = await http.get(
       Uri.parse('${ApiUrl.releaseUrl}/event/${eventId.toString()}/recommends?ordering=$ordering'),
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
-      List<EventFeedRecommendModel> list = body.map((e) => EventFeedRecommendModel.fromJson(e)).toList();
+      List<EventFeedRecommendModel> list =
+          body.map((e) => EventFeedRecommendModel.fromJson(e)).toList();
       return list;
     } else {
       throw Exception;
@@ -87,7 +89,6 @@ class RecommendsRequest {
   }
 
   Future<bool> eventFeedRecommendComment(int eventId, BuildContext context) async {
-
     Map<String, dynamic> contentModel = {};
     contentModel.clear();
     // contentModel['content'] = context.read<CreateEventImproveProvider>().recommendCommentString;
@@ -101,7 +102,7 @@ class RecommendsRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       SenseLogger().debug('추천 생성 성공');
       return true;
     } else {
@@ -111,7 +112,6 @@ class RecommendsRequest {
   }
 
   Future<bool> deleteReCommendComment(int eventId) async {
-
     final response = await http.delete(
       Uri.parse('${ApiUrl.releaseUrl}/event-recommend/${eventId.toString()}'),
       headers: {
@@ -120,7 +120,7 @@ class RecommendsRequest {
       },
     );
 
-    if(response.statusCode == 204) {
+    if (response.statusCode == 204) {
       SenseLogger().debug('추천 삭제 성공');
       return true;
     } else {

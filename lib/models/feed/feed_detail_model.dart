@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class FeedContentModel {
-
   /// logger setting
   var logger = Logger(
     printer: PrettyPrinter(
@@ -18,13 +17,13 @@ class FeedContentModel {
   Future<FeedDetailModel> feedDetailLoad(int feedId) async {
     print('feedId: ${feedId.toString()}');
     final response = await http.get(
-      // Uri.parse('https://dev.server.sens.im/api/v1/post/54'),
+        // Uri.parse('https://dev.server.sens.im/api/v1/post/54'),
         Uri.parse('${ApiUrl.releaseUrl}/post/${feedId.toString()}'),
         headers: {
           'Authorization': 'Bearer ${PresentUserInfo.loginToken}',
           'Content-Type': 'application/json; charset=UTF-8'
         });
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       logger.d(jsonResult);
       FeedDetailModel feedDetailModel = FeedDetailModel.fromJson(jsonResult);
@@ -87,19 +86,22 @@ class FeedDetailModel {
     startDate = json['start_date'] ?? '';
     endDate = json['end_date'] ?? '';
     json['content'].forEach((v) {
-      content!.add(v);
-    }) ?? [];
+          content!.add(v);
+        }) ??
+        [];
     contentTitle = json['content_title'] ?? '';
     notice = json['notice'] ?? '';
     likeCount = json['like_count'] ?? -1;
     commentCount = json['comment_count'] ?? -1;
     shareCount = json['share_count'] ?? -1;
     json['labels'].forEach((v) {
-      labels!.add(Label.fromJson(v));
-    }) ?? [];
+          labels!.add(Label.fromJson(v));
+        }) ??
+        [];
     json['tags'].forEach((v) {
-      tags!.add(Tag.fromJson(v));
-    }) ?? [];
+          tags!.add(Tag.fromJson(v));
+        }) ??
+        [];
     isLiked = json['is_liked'] ?? false;
     isCommented = json['is_commented'] ?? false;
     createdTime = json['created'] ?? '';
@@ -161,7 +163,6 @@ class Tag {
 //     return data;
 //   }
 // }
-
 
 // class Content {
 //   String? id;

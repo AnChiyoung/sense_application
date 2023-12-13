@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/models/user/user_model.dart';
 import 'package:sense_flutter_application/routes/additional_info/additional_info_screen.dart';

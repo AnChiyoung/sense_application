@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
+import 'package:sense_flutter_application/routes/edit_profile/edit_profile_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
-import 'package:sense_flutter_application/screens/my_page/my_info_update_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/policy/policy_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/setting_alarm_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/withdrawal_screen.dart';
@@ -27,140 +27,112 @@ class _SettingContentState extends State<SettingContent> {
       color: StaticColor.grey200EE,
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: 8.0.h),
-            child: const Column(
-              children: [
-                SettingEditProfile(),
-                SettingMoreInfo(),
-                SettingAlarm(),
-              ],
-            ),
+          SizedBox(height: 8.0.h),
+          SettingItem(
+            title: '프로필 편집',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+              );
+            },
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 8.0.h),
-            child: const Column(
-              children: [
-                SettingContactReload(),
-              ],
-            ),
+
+          SettingItem(
+            title: '알림',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingAlarmScreen()),
+              );
+            },
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 8.0.h),
-            child: const Column(
-              children: [
-                SettingPolicy(),
-                SettingAppVersion(),
-                // SettingAppVersionTest(),
-              ],
-            ),
+
+          SettingItem(
+            title: '약관 및 개인정보의 처리동의',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PolicyScreen()),
+              );
+            },
           ),
-          Padding(
-              padding: EdgeInsets.only(top: 8.0.h),
-              child: const Column(
-                children: [
-                  SettingLogout(),
-                  SettingWithdrawal(),
-                ],
-              )),
+          // const SettingAppVersion(),
+          // const SettingAppVersionTest(),
+          // const SettingContactReload(),
+
+          SizedBox(height: 8.0.h),
+          const SettingLogout(),
+          const SettingWithdrawal(),
         ],
       ),
     );
   }
 }
 
-class SettingEditProfile extends StatefulWidget {
-  const SettingEditProfile({super.key});
+class SettingItem extends StatelessWidget {
+  final String title;
+  final void Function() onTap;
+  const SettingItem({super.key, required this.title, required this.onTap});
 
-  @override
-  State<SettingEditProfile> createState() => _SettingEditProfileState();
-}
-
-class _SettingEditProfileState extends State<SettingEditProfile> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 0)));
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('프로필 편집',
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
                 style: TextStyle(
-                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-            Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
-          ],
+                  fontSize: 14.0.sp,
+                  color: StaticColor.grey70055,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              Image.asset('assets/my_page/caret_right.png', width: 24.h, height: 24.h),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class SettingMoreInfo extends StatefulWidget {
-  const SettingMoreInfo({super.key});
+// class SettingMoreInfo extends StatefulWidget {
+//   const SettingMoreInfo({super.key});
 
-  @override
-  State<SettingMoreInfo> createState() => _SettingMoreInfoState();
-}
+//   @override
+//   State<SettingMoreInfo> createState() => _SettingMoreInfoState();
+// }
 
-class _SettingMoreInfoState extends State<SettingMoreInfo> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 1)));
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('추가정보',
-                style: TextStyle(
-                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-            Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SettingAlarm extends StatefulWidget {
-  const SettingAlarm({super.key});
-
-  @override
-  State<SettingAlarm> createState() => _SettingAlarmState();
-}
-
-class _SettingAlarmState extends State<SettingAlarm> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingAlarmScreen()));
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('알림',
-                style: TextStyle(
-                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-            Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class _SettingMoreInfoState extends State<SettingMoreInfo> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.push(context, MaterialPageRoute(builder: (_) => const MyInfoUpdate(page: 1)));
+//       },
+//       child: Container(
+//         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
+//         color: Colors.white,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Text('추가정보',
+//                 style: TextStyle(
+//                     fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
+//             Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class SettingContactReload extends StatefulWidget {
   const SettingContactReload({super.key});
@@ -307,32 +279,6 @@ class _SettingContactReloadState extends State<SettingContactReload> with Ticker
   }
 }
 
-class SettingPolicy extends StatelessWidget {
-  const SettingPolicy({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const PolicyScreen()));
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('약관 및 개인정보의 처리동의',
-                style: TextStyle(
-                    fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-            Image.asset('assets/my_page/caret_right.png', width: 24, height: 24),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class SettingAppVersion extends StatelessWidget {
   const SettingAppVersion({super.key});
 
@@ -411,12 +357,13 @@ class _SettingLogoutState extends State<SettingLogout> {
       onTap: () {
         /// logout
         showDialog(
-            context: context,
-            //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return LogoutDialog(action: logoutAction);
-            });
+          context: context,
+          //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return LogoutDialog(action: logoutAction);
+          },
+        );
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 14.0.h),
@@ -424,11 +371,14 @@ class _SettingLogoutState extends State<SettingLogout> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('로그아웃',
-                style: TextStyle(
-                    fontSize: 14.0.sp,
-                    color: StaticColor.textErrorColor,
-                    fontWeight: FontWeight.w400)),
+            Text(
+              '로그아웃',
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                color: StaticColor.textErrorColor,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ],
         ),
       ),
@@ -468,11 +418,14 @@ class _SettingWithdrawalState extends State<SettingWithdrawal> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('회원탈퇴',
-                style: TextStyle(
-                    fontSize: 14.0.sp,
-                    color: StaticColor.textErrorColor,
-                    fontWeight: FontWeight.w400)),
+            Text(
+              '회원탈퇴',
+              style: TextStyle(
+                fontSize: 14.0.sp,
+                color: StaticColor.textErrorColor,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ],
         ),
       ),

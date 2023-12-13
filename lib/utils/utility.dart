@@ -170,3 +170,9 @@ class DatePicker extends StatelessWidget {
     );
   }
 }
+
+class console {
+  static void log(dynamic message) {
+    print('oozy $message');
+  }
+}

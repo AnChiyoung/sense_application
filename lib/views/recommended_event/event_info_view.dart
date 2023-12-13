@@ -20,7 +20,6 @@ class EventInfoHeaderMenu extends StatefulWidget {
 }
 
 class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
-
   @override
   void initState() {
     super.initState();
@@ -28,10 +27,12 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
   @override
   Widget build(BuildContext context) {
-
     final eventTitle = context.watch<RecommendedEventProvider>().editTitle;
 
-    return HeaderMenu(backCallback: backCallback, title: eventTitle.isEmpty ? '미지정(1)' : '$eventTitle(1)', rightMenu: menu());
+    return HeaderMenu(
+        backCallback: backCallback,
+        title: eventTitle.isEmpty ? '미지정(1)' : '$eventTitle(1)',
+        rightMenu: menu());
   }
 
   void backCallback() {
@@ -40,11 +41,10 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 
   Widget menu() {
     return GestureDetector(
-      onTap: () {
-        Scaffold.of(context).openEndDrawer();
-      },
-      child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24)
-    );
+        onTap: () {
+          Scaffold.of(context).openEndDrawer();
+        },
+        child: Image.asset('assets/recommended_event/menu.png', width: 24, height: 24));
   }
 }
 
@@ -87,8 +87,6 @@ class _EventInfoHeaderMenuState extends State<EventInfoHeaderMenu> {
 //       }
 //     );
 
-
-
 //   }
 // }
 
@@ -100,7 +98,6 @@ class DrawerEventAction extends StatefulWidget {
 }
 
 class _DrawerEventActionState extends State<DrawerEventAction> {
-
   @override
   Widget build(BuildContext context) {
     return Container();
@@ -279,7 +276,6 @@ class DrawerJoinUser extends StatefulWidget {
 class _DrawerJoinUserState extends State<DrawerJoinUser> {
   @override
   Widget build(BuildContext context) {
-
     ToastContext().init(context);
 
     return Padding(
@@ -288,11 +284,23 @@ class _DrawerJoinUserState extends State<DrawerJoinUser> {
         children: [
           Row(
             children: [
-              Align(alignment: Alignment.centerLeft, child: Text('참여자', style: TextStyle(fontSize: 18.sp, color: StaticColor.drawerTextColor, fontWeight: FontWeight.w700), textDirection: TextDirection.ltr,)),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '참여자',
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        color: StaticColor.drawerTextColor,
+                        fontWeight: FontWeight.w700),
+                    textDirection: TextDirection.ltr,
+                  )),
               SizedBox(width: 8.0.w),
-              Image.asset('assets/feed/comment_dot.png', width: 4.0.w, height: 4.0.h, color: StaticColor.grey400BB),
+              Image.asset('assets/feed/comment_dot.png',
+                  width: 4.0.w, height: 4.0.h, color: StaticColor.grey400BB),
               SizedBox(width: 8.0.w),
-              Text('1명', style: TextStyle(fontSize: 16.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
+              Text('1명',
+                  style: TextStyle(
+                      fontSize: 16.sp, color: StaticColor.grey400BB, fontWeight: FontWeight.w500)),
               // Container(
               //   padding: const EdgeInsets.only(left: 0, right: 0),
               //   width: 53,
@@ -368,32 +376,42 @@ class _JoinUserListState extends State<JoinUserList> {
   Widget build(BuildContext context) {
     return Container(
       child: Align(
-        alignment: Alignment.topLeft,
-        child: ListView.builder(
-          padding: const EdgeInsets.all(0.0),
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: 1,
-          itemBuilder: (BuildContext context, int index) {
+          alignment: Alignment.topLeft,
+          child: ListView.builder(
+              padding: const EdgeInsets.all(0.0),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                bool creator = true;
 
-            bool creator = true;
+                return Row(
+                  children: [
+                    /// profile image
+                    UserProfileImage(profileImageUrl: PresentUserInfo.profileImage),
 
-            return Row(
-              children: [
-                /// profile image
-                UserProfileImage(profileImageUrl: PresentUserInfo.profileImage),
-                /// event creator widget == true
-                creator == true ? const SizedBox(width: 9) : const SizedBox(width: 12),
-                Container(
-                  padding: const EdgeInsets.only(bottom: 4),
-                    child: Center(child: Text(PresentUserInfo.username.isEmpty ? 'User${PresentUserInfo.id}' : PresentUserInfo.username, style: TextStyle(height: 1.4, fontSize: 16, color: StaticColor.drawerNameColor, fontWeight: FontWeight.w400)))),
-                const SizedBox(width: 6),
-                creator == true ? Image.asset('assets/recommended_event/event_creator_auth_mark.png', width: 20, height: 20) : Container(),
-              ],
-            );
-          }
-        )
-      ),
+                    /// event creator widget == true
+                    creator == true ? const SizedBox(width: 9) : const SizedBox(width: 12),
+                    Container(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: Center(
+                            child: Text(
+                                PresentUserInfo.username.isEmpty
+                                    ? 'User${PresentUserInfo.id}'
+                                    : PresentUserInfo.username,
+                                style: TextStyle(
+                                    height: 1.4,
+                                    fontSize: 16,
+                                    color: StaticColor.drawerNameColor,
+                                    fontWeight: FontWeight.w400)))),
+                    const SizedBox(width: 6),
+                    creator == true
+                        ? Image.asset('assets/recommended_event/event_creator_auth_mark.png',
+                            width: 20, height: 20)
+                        : Container(),
+                  ],
+                );
+              })),
     );
   }
 }
@@ -422,15 +440,19 @@ class _DrawerEventDeleteState extends State<DrawerEventDelete> {
           child: ElevatedButton(
             onPressed: () {
               showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return const EventDeleteDialog();
-                }
-              );
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return const EventDeleteDialog();
+                  });
             },
-            style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-            child: Text('이벤트 삭제하기', style: TextStyle(fontSize: 13, color: StaticColor.drawerEventDeleteTextColor, fontWeight: FontWeight.w400)),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+            child: Text('이벤트 삭제하기',
+                style: TextStyle(
+                    fontSize: 13,
+                    color: StaticColor.drawerEventDeleteTextColor,
+                    fontWeight: FontWeight.w400)),
           ),
         ),
       ),
@@ -451,7 +473,6 @@ class EventInfoTitle extends StatefulWidget {
 class _EventInfoTitleState extends State<EventInfoTitle> {
   @override
   Widget build(BuildContext context) {
-
     final editMode = context.watch<RecommendedEventProvider>().editMode;
 
     return Padding(
@@ -460,7 +481,11 @@ class _EventInfoTitleState extends State<EventInfoTitle> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('이벤트 정보', style: TextStyle(fontSize: 24, color: StaticColor.addEventTitleColor, fontWeight: FontWeight.w500)),
+            Text('이벤트 정보',
+                style: TextStyle(
+                    fontSize: 24,
+                    color: StaticColor.addEventTitleColor,
+                    fontWeight: FontWeight.w500)),
             Container(
               width: 57,
               height: 32,
@@ -470,17 +495,24 @@ class _EventInfoTitleState extends State<EventInfoTitle> {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  context.read<RecommendedEventProvider>().editMode == false ?
-                    context.read<RecommendedEventProvider>().isEditMode(true) :
-                    {context.read<RecommendedEventProvider>().isEditMode(false), context.read<RecommendedEventProvider>().titleChange()};
+                  context.read<RecommendedEventProvider>().editMode == false
+                      ? context.read<RecommendedEventProvider>().isEditMode(true)
+                      : {
+                          context.read<RecommendedEventProvider>().isEditMode(false),
+                          context.read<RecommendedEventProvider>().titleChange()
+                        };
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
-                child: Text(editMode == true ? '완료' : '편집', style: TextStyle(fontSize: 13, color: StaticColor.addEventFontColor, fontWeight: FontWeight.w400)),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: StaticColor.categoryUnselectedColor, elevation: 0.0),
+                child: Text(editMode == true ? '완료' : '편집',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: StaticColor.addEventFontColor,
+                        fontWeight: FontWeight.w400)),
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }
 
@@ -492,7 +524,8 @@ class EventInfoNameSection extends StatefulWidget {
 }
 
 class _EventInfoNameSectionState extends State<EventInfoNameSection> {
-  TextEditingController teController = TextEditingController(text: AddEventModel.eventInfoName == '' ? '미지정' : AddEventModel.eventInfoName);
+  TextEditingController teController = TextEditingController(
+      text: AddEventModel.eventInfoName == '' ? '미지정' : AddEventModel.eventInfoName);
 
   @override
   void initState() {
@@ -502,56 +535,63 @@ class _EventInfoNameSectionState extends State<EventInfoNameSection> {
 
   @override
   Widget build(BuildContext context) {
-
     final editMode = context.watch<RecommendedEventProvider>().editMode;
     final editName = context.watch<RecommendedEventProvider>().editName;
 
-    return editMode == false ?
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 32, bottom: 12),
-        child: Column(
-          children: [
-            Align(alignment: Alignment.centerLeft, child: Text(AddEventModel.eventInfoName == '' ? '미지정' : editName, style: TextStyle(fontSize: 16, color: StaticColor.eventInfoNameColor, fontWeight: FontWeight.w700))),
-            const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: StaticColor.eventInfoPersonSectionDividerColor,
+    return editMode == false
+        ? Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 32, bottom: 12),
+            child: Column(
+              children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(AddEventModel.eventInfoName == '' ? '미지정' : editName,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: StaticColor.eventInfoNameColor,
+                            fontWeight: FontWeight.w700))),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: StaticColor.eventInfoPersonSectionDividerColor,
+                ),
+              ],
+            ))
+        : Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 8),
+            child: TextField(
+              controller: teController,
+              style: TextStyle(
+                  fontSize: 20,
+                  color: StaticColor.editModeInfoNameColor,
+                  fontWeight: FontWeight.w700),
+              maxLength: 50,
+              textAlign: TextAlign.start,
+              keyboardType: TextInputType.text,
+              maxLines: null,
+              onChanged: (text) {
+                AddEventModel.eventInfoTitle = teController.text;
+                AddEventModel.eventInfoName = teController.text;
+              },
+              cursorHeight: 22,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                  // contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                  border: InputBorder.none,
+                  counterText: '',
+                  filled: true,
+                  fillColor: StaticColor.textFormFieldFillColor,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1.0, color: StaticColor.editModeInputBorderColor),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1.0, color: StaticColor.editModeInputBorderColor),
+                    borderRadius: BorderRadius.circular(4.0),
+                  )),
             ),
-          ],
-        )) :
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 8),
-        child: TextField(
-          controller: teController,
-          style: TextStyle(fontSize: 20, color: StaticColor.editModeInfoNameColor, fontWeight: FontWeight.w700),
-          maxLength: 50,
-          textAlign: TextAlign.start,
-          keyboardType: TextInputType.text,
-          maxLines: null,
-          onChanged: (text) {
-            AddEventModel.eventInfoTitle = teController.text;
-            AddEventModel.eventInfoName = teController.text;
-          },
-          cursorHeight: 22,
-          cursorColor: Colors.black,
-          decoration: InputDecoration(
-            // contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
-            border: InputBorder.none,
-            counterText: '',
-            filled: true,
-            fillColor: StaticColor.textFormFieldFillColor,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: StaticColor.editModeInputBorderColor),
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: StaticColor.editModeInputBorderColor),
-              borderRadius: BorderRadius.circular(4.0),
-            )
-          ),
-        ),
-      );
+          );
   }
 }
 
@@ -565,117 +605,136 @@ class EventInfoPersonSection extends StatefulWidget {
 class _EventInfoPersonSectionState extends State<EventInfoPersonSection> {
   @override
   Widget build(BuildContext context) {
-
     final editMode = context.watch<RecommendedEventProvider>().editMode;
     ToastContext().init(context);
 
-    return editMode == false ?
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
-        child: Column(
-          children: [
-            Row(
+    return editMode == false
+        ? Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+            child: Column(
               children: [
-                Column(
+                Row(
                   children: [
-                    Stack(
+                    Column(
                       children: [
-                        const SizedBox(
-                          width: 65,
-                          height: 65,
-                        ),
                         Stack(
-                            children: [
-                              Image.asset('assets/recommended_event/profile_image.png', width: 56, height: 56),
-                              Positioned(top: 16, left: 16, child: Image.asset('assets/recommended_event/empty_user.png', width: 24, height: 24)),
-                            ]
-                        ),
-                        Positioned(top: 39, left: 39,
-                            child: Stack(
-                                children: [
-                                  Image.asset('assets/recommended_event/who.png', width: 20, height: 20),
-                                  const Positioned(top: 0, left: 4, child: Text('나', style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-                                ]
+                          children: [
+                            const SizedBox(
+                              width: 65,
+                              height: 65,
                             ),
+                            Stack(children: [
+                              Image.asset('assets/recommended_event/profile_image.png',
+                                  width: 56, height: 56),
+                              Positioned(
+                                  top: 16,
+                                  left: 16,
+                                  child: Image.asset('assets/recommended_event/empty_user.png',
+                                      width: 24, height: 24)),
+                            ]),
+                            Positioned(
+                              top: 39,
+                              left: 39,
+                              child: Stack(children: [
+                                Image.asset('assets/recommended_event/who.png',
+                                    width: 20, height: 20),
+                                const Positioned(
+                                    top: 0,
+                                    left: 4,
+                                    child: Text('나',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w400))),
+                              ]),
+                            ),
+                          ],
                         ),
+                        const SizedBox(height: 0),
+                        Text('안치영  ',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: StaticColor.eventInfoPersonNameColor,
+                                fontWeight: FontWeight.w400)),
                       ],
                     ),
-                    const SizedBox(height: 0),
-                    Text('안치영  ', style: TextStyle(fontSize: 12, color: StaticColor.eventInfoPersonNameColor, fontWeight: FontWeight.w400)),
                   ],
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: StaticColor.eventInfoPersonSectionDividerColor,
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: StaticColor.eventInfoPersonSectionDividerColor,
-            ),
-          ],
-        ),
-      ) :
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 12),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              width: double.infinity,
-              height: 40,
-              decoration: BoxDecoration(
-                color: StaticColor.editModeInviteBackgroundColor,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: Row(
-                children: [
-                  Text('대상', style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w700)),
-                  const SizedBox(width: 6),
-                  Image.asset('assets/recommended_event/dot.png', width: 4, height: 4),
-                  const SizedBox(width: 6),
-                  Text('1명', style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
-                ]
-              )
-            ),
-            const SizedBox(height: 16),
-            /// user list
-            Padding(
-              padding: const EdgeInsets.only(left: 6, right: 6),
-              child: Row(
-                children: [
-                  // Material(
-                  //   color: Colors.transparent,
-                  //   child: InkWell(
-                  //     child: Column(
-                  //       children: [
-                  //         Container(
-                  //           width: 56,
-                  //           height: 56,
-                  //           decoration: BoxDecoration(
-                  //             color: StaticColor.drawerInviteBackgroundColor,
-                  //             shape: BoxShape.circle,
-                  //           ),
-                  //           child: Center(child: Image.asset('assets/recommended_event/invite_icon.png', width: 24, height: 24, color: StaticColor.editModeInviteIconColor)),
-                  //         ),
-                  //         const SizedBox(height: 9),
-                  //         Text('초대하기', style: TextStyle(fontSize: 13, color: StaticColor.editModeInviteIconColor, fontWeight: FontWeight.w500)),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  Material(
-                    color: Colors.white,
-                    child: InkWell(
-                      onTap: () {
-                        showToast('현재는 등록가능한 친구 목록이 없습니다', Toast.lengthLong, Toast.bottom);
-                      },
-                      child: Container(
-                          padding: const EdgeInsets.only(left: 0, right: 0),
-                          color: Colors.transparent,
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                  children: [
+          )
+        : Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 12),
+            child: Column(
+              children: [
+                Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: StaticColor.editModeInviteBackgroundColor,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                    child: Row(children: [
+                      Text('대상',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: StaticColor.eventInfoEventModelTextColor,
+                              fontWeight: FontWeight.w700)),
+                      const SizedBox(width: 6),
+                      Image.asset('assets/recommended_event/dot.png', width: 4, height: 4),
+                      const SizedBox(width: 6),
+                      Text('1명',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: StaticColor.editModeTextColor,
+                              fontWeight: FontWeight.w500)),
+                    ])),
+                const SizedBox(height: 16),
+
+                /// user list
+                Padding(
+                  padding: const EdgeInsets.only(left: 6, right: 6),
+                  child: Row(
+                    children: [
+                      // Material(
+                      //   color: Colors.transparent,
+                      //   child: InkWell(
+                      //     child: Column(
+                      //       children: [
+                      //         Container(
+                      //           width: 56,
+                      //           height: 56,
+                      //           decoration: BoxDecoration(
+                      //             color: StaticColor.drawerInviteBackgroundColor,
+                      //             shape: BoxShape.circle,
+                      //           ),
+                      //           child: Center(child: Image.asset('assets/recommended_event/invite_icon.png', width: 24, height: 24, color: StaticColor.editModeInviteIconColor)),
+                      //         ),
+                      //         const SizedBox(height: 9),
+                      //         Text('초대하기', style: TextStyle(fontSize: 13, color: StaticColor.editModeInviteIconColor, fontWeight: FontWeight.w500)),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      Material(
+                        color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+                            showToast('현재는 등록가능한 친구 목록이 없습니다', Toast.lengthLong, Toast.bottom);
+                          },
+                          child: Container(
+                              padding: const EdgeInsets.only(left: 0, right: 0),
+                              color: Colors.transparent,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(children: [
                                     SizedBox(
                                       width: 62,
                                       height: 62,
@@ -687,70 +746,98 @@ class _EventInfoPersonSectionState extends State<EventInfoPersonSection> {
                                             color: StaticColor.drawerInviteBackgroundColor,
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Center(child: Image.asset('assets/recommended_event/invite_icon.png', width: 24, height: 24, color: StaticColor.editModeInviteIconColor)),
+                                          child: Center(
+                                              child: Image.asset(
+                                                  'assets/recommended_event/invite_icon.png',
+                                                  width: 24,
+                                                  height: 24,
+                                                  color: StaticColor.editModeInviteIconColor)),
                                         ),
                                       ),
                                     ),
                                     const SizedBox(height: 9),
-                                    Text('초대하기', style: TextStyle(fontSize: 13, color: StaticColor.editModeInviteIconColor, fontWeight: FontWeight.w500)),
-                                  ]
-                              ))
+                                    Text('초대하기',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: StaticColor.editModeInviteIconColor,
+                                            fontWeight: FontWeight.w500)),
+                                  ]))),
+                        ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  Column(
-                    children: [
-                      // Container(width: 56, height: 56, color: Colors.red),
-
-                      Stack(
+                      const SizedBox(width: 15),
+                      Column(
                         children: [
-                          /// event creater widget
-                          Container(width: 62, height: 62,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: GradientBoxBorder(
-                                gradient: StaticColor.drawerUserSupervisorColor,
-                                width: 2,
-                              ),
-                            ),
-                          ),
+                          // Container(width: 56, height: 56, color: Colors.red),
 
-                          SizedBox(width: 62, height: 62,
-                            child: Center(
-                              child: Stack(
-                                children: [
-                                  Image.asset('assets/recommended_event/profile_image.png', width: 56, height: 56),
-                                  SizedBox(width: 56, height: 56,
-                                    child: Center(
-                                        child: Image.asset('assets/recommended_event/empty_user.png', width: 24, height: 24)
-                                    ),
+                          Stack(
+                            children: [
+                              /// event creater widget
+                              Container(
+                                width: 62,
+                                height: 62,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  border: GradientBoxBorder(
+                                    gradient: StaticColor.drawerUserSupervisorColor,
+                                    width: 2,
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
+
+                              SizedBox(
+                                width: 62,
+                                height: 62,
+                                child: Center(
+                                  child: Stack(
+                                    children: [
+                                      Image.asset('assets/recommended_event/profile_image.png',
+                                          width: 56, height: 56),
+                                      SizedBox(
+                                        width: 56,
+                                        height: 56,
+                                        child: Center(
+                                            child: Image.asset(
+                                                'assets/recommended_event/empty_user.png',
+                                                width: 24,
+                                                height: 24)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                top: 40,
+                                left: 40,
+                                child: Stack(children: [
+                                  Image.asset('assets/recommended_event/who.png',
+                                      width: 20, height: 20),
+                                  const Positioned(
+                                      top: 0,
+                                      left: 4,
+                                      child: Text('나',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400))),
+                                ]),
+                              ),
+                            ],
                           ),
-                          Positioned(top: 40, left: 40,
-                            child: Stack(
-                                children: [
-                                  Image.asset('assets/recommended_event/who.png', width: 20, height: 20),
-                                  const Positioned(top: 0, left: 4, child: Text('나', style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w400))),
-                                ]
-                            ),
-                          ),
+                          const SizedBox(height: 9),
+                          Text('안치영',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  color: StaticColor.editModeInfoNameColor,
+                                  fontWeight: FontWeight.w500)),
                         ],
                       ),
-                      const SizedBox(height: 9),
-                      Text('안치영', style: TextStyle(fontSize: 13, color: StaticColor.editModeInfoNameColor, fontWeight: FontWeight.w500)),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          );
   }
 
   void showToast(String msg, int? duration, int? gravity) {
@@ -768,7 +855,6 @@ class EventInfoEtcSection extends StatefulWidget {
 class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
   @override
   Widget build(BuildContext context) {
-
     final editMode = context.watch<RecommendedEventProvider>().editMode;
     final editCategory = context.watch<RecommendedEventProvider>().editCategory;
     final editMemo = context.watch<RecommendedEventProvider>().editMemo;
@@ -777,114 +863,164 @@ class _EventInfoEtcSectionState extends State<EventInfoEtcSection> {
       padding: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 48),
       child: Column(
         children: [
-          editMode == false ?
-            Row(
-              children: [
-                Text('유형', style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTitleColor, fontWeight: FontWeight.w700)),
-                const SizedBox(width: 12),
-                Text(AddEventModel.eventTypeModel.isEmpty ? '미지정' : AddEventModel.eventTypeModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500)),
-                const SizedBox(width: 28),
-                Text('날짜', style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTitleColor, fontWeight: FontWeight.w700)),
-                const SizedBox(width: 12),
-                Text(AddEventModel.dateModel.isEmpty ? '미지정' : AddEventModel.dateModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500)),
-              ],
-            ) :
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.0),
-                      color: StaticColor.editModeInviteBackgroundColor,
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        AddEventModel.editorMode = true;
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddEventScreen()));
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
-                      child: Row(
-                        children: [
-                          Text('유형', style: TextStyle(fontSize: 14, color: StaticColor.editModeInfoTitleColor, fontWeight: FontWeight.w700)),
-                          const SizedBox(width: 12),
-                          Text(editCategory.isEmpty ? '미지정' : editCategory, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.0),
-                      color: StaticColor.editModeInviteBackgroundColor,
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        AddEventModel.editorMode = true;
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (_) => DateSelectScreen()));
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
-                      child: Row(
-                        children: [
-                          Text('날짜', style: TextStyle(fontSize: 14, color: StaticColor.editModeInfoTitleColor, fontWeight: FontWeight.w700)),
-                          const SizedBox(width: 12),
-                          Text(AddEventModel.dateModel.isEmpty ? '미지정' : AddEventModel.dateModel, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          editMode == false ? const SizedBox(height: 16) : const SizedBox(height: 12),
-          editMode == false ?
-            Align(alignment: Alignment.centerLeft, child: Text(AddEventModel.memoModel.isEmpty ? '메모 없음' : AddEventModel.memoModel, style: TextStyle(fontSize: 14, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w500))) :
-            ElevatedButton(
-              onPressed: () {
-                AddEventModel.editorMode = true;
-                // Navigator.of(context).push(MaterialPageRoute(builder: (_) => PresentMemoScreen()));
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  color: StaticColor.editModeInviteBackgroundColor,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          editMode == false
+              ? Row(
                   children: [
-                    Text('메모', style: TextStyle(fontSize: 14, color: StaticColor.editModeInfoTitleColor, fontWeight: FontWeight.w700)),
+                    Text('유형',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: StaticColor.eventInfoEventModelTitleColor,
+                            fontWeight: FontWeight.w700)),
                     const SizedBox(width: 12),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 110,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 3,
-                                strutStyle: const StrutStyle(fontSize: 14.0),
-                                text: TextSpan(
-                                    text: AddEventModel.memoModel.isEmpty ? '이벤트에 대한 내용을 기록해보세요.' : AddEventModel.memoModel, style: TextStyle(fontSize: 14, color: StaticColor.editModeTextColor, fontWeight: FontWeight.w500)
-                                )
-                              )
-                            )
-                          ],
-                      )
-                    )
+                    Text(
+                        AddEventModel.eventTypeModel.isEmpty ? '미지정' : AddEventModel.eventTypeModel,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: StaticColor.eventInfoEventModelTextColor,
+                            fontWeight: FontWeight.w500)),
+                    const SizedBox(width: 28),
+                    Text('날짜',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: StaticColor.eventInfoEventModelTitleColor,
+                            fontWeight: FontWeight.w700)),
+                    const SizedBox(width: 12),
+                    Text(AddEventModel.dateModel.isEmpty ? '미지정' : AddEventModel.dateModel,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: StaticColor.eventInfoEventModelTextColor,
+                            fontWeight: FontWeight.w500)),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: StaticColor.editModeInviteBackgroundColor,
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            AddEventModel.editorMode = true;
+                            // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddEventScreen()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: StaticColor.editModeInviteBackgroundColor,
+                              elevation: 0.0),
+                          child: Row(
+                            children: [
+                              Text('유형',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: StaticColor.editModeInfoTitleColor,
+                                      fontWeight: FontWeight.w700)),
+                              const SizedBox(width: 12),
+                              Text(editCategory.isEmpty ? '미지정' : editCategory,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: StaticColor.editModeTextColor,
+                                      fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4.0),
+                          color: StaticColor.editModeInviteBackgroundColor,
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            AddEventModel.editorMode = true;
+                            // Navigator.of(context).push(MaterialPageRoute(builder: (_) => DateSelectScreen()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: StaticColor.editModeInviteBackgroundColor,
+                              elevation: 0.0),
+                          child: Row(
+                            children: [
+                              Text('날짜',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: StaticColor.editModeInfoTitleColor,
+                                      fontWeight: FontWeight.w700)),
+                              const SizedBox(width: 12),
+                              Text(
+                                  AddEventModel.dateModel.isEmpty ? '미지정' : AddEventModel.dateModel,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: StaticColor.editModeTextColor,
+                                      fontWeight: FontWeight.w500)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ),
-
+          editMode == false ? const SizedBox(height: 16) : const SizedBox(height: 12),
+          editMode == false
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(AddEventModel.memoModel.isEmpty ? '메모 없음' : AddEventModel.memoModel,
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: StaticColor.eventInfoEventModelTextColor,
+                          fontWeight: FontWeight.w500)))
+              : ElevatedButton(
+                  onPressed: () {
+                    AddEventModel.editorMode = true;
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (_) => PresentMemoScreen()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: StaticColor.editModeInviteBackgroundColor, elevation: 0.0),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      color: StaticColor.editModeInviteBackgroundColor,
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('메모',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: StaticColor.editModeInfoTitleColor,
+                                fontWeight: FontWeight.w700)),
+                        const SizedBox(width: 12),
+                        SizedBox(
+                            width: MediaQuery.of(context).size.width - 110,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Flexible(
+                                    child: RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                        strutStyle: const StrutStyle(fontSize: 14.0),
+                                        text: TextSpan(
+                                            text: AddEventModel.memoModel.isEmpty
+                                                ? '이벤트에 대한 내용을 기록해보세요.'
+                                                : AddEventModel.memoModel,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: StaticColor.editModeTextColor,
+                                                fontWeight: FontWeight.w500))))
+                              ],
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -901,49 +1037,64 @@ class EventInfoRecommendedSection extends StatefulWidget {
 class _EventInfoRecommendedSectionState extends State<EventInfoRecommendedSection> {
   @override
   Widget build(BuildContext context) {
-
     final editMode = context.watch<RecommendedEventProvider>().editMode;
 
-    return editMode == false ?
-      Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Container(
-          width: double.infinity,
-          height: 62,
-          decoration: BoxDecoration(
-            color: StaticColor.eventInfoRecommendedBoxColor,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: ElevatedButton(
-              onPressed: () {
-                print(AddEventModel.recommendedModel);
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedScreen()));
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: StaticColor.eventInfoRecommendedBoxColor, elevation: 0.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      // const SizedBox(width: 12),
-                      Text('추천', style: TextStyle(fontSize: 16, color: StaticColor.eventInfoPersonNameColor, fontWeight: FontWeight.w500)),
-                      const SizedBox(width: 8),
-                      Text('미추천', style: TextStyle(fontSize: 12, color: StaticColor.eventInfoEventModelTextColor, fontWeight: FontWeight.w400)),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text('더보기', style: TextStyle(fontSize: 12, color: StaticColor.eventInfoPersonNameColor, fontWeight: FontWeight.w500)),
-                      const SizedBox(width: 2),
-                      Image.asset('assets/recommended_event/recommended_arrow.png', width: 20, height: 20, color: StaticColor.eventInfoRecommendedBoxArrowColor),
-                      // const SizedBox(width: 12),
-                    ],
-                  ),
-                ],
+    return editMode == false
+        ? Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Container(
+              width: double.infinity,
+              height: 62,
+              decoration: BoxDecoration(
+                color: StaticColor.eventInfoRecommendedBoxColor,
+                borderRadius: BorderRadius.circular(8.0),
               ),
-          ),
-        ),
-      ) :
-      Container();
+              child: ElevatedButton(
+                onPressed: () {
+                  print(AddEventModel.recommendedModel);
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => const RecommendedScreen()));
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: StaticColor.eventInfoRecommendedBoxColor, elevation: 0.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        // const SizedBox(width: 12),
+                        Text('추천',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: StaticColor.eventInfoPersonNameColor,
+                                fontWeight: FontWeight.w500)),
+                        const SizedBox(width: 8),
+                        Text('미추천',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: StaticColor.eventInfoEventModelTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text('더보기',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: StaticColor.eventInfoPersonNameColor,
+                                fontWeight: FontWeight.w500)),
+                        const SizedBox(width: 2),
+                        Image.asset('assets/recommended_event/recommended_arrow.png',
+                            width: 20,
+                            height: 20,
+                            color: StaticColor.eventInfoRecommendedBoxArrowColor),
+                        // const SizedBox(width: 12),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Container();
   }
 }

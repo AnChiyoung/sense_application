@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/public_widget/header_menu.dart';
-import 'package:sense_flutter_application/screens/my_page/setting_screen.dart';
+import 'package:sense_flutter_application/routes/setting/setting_screen.dart';
 
 class MyPageHeader extends StatefulWidget {
   const MyPageHeader({super.key});

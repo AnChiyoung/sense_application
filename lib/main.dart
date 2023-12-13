@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
+import 'package:sense_flutter_application/routes/edit_profile/edit_profile_provider.dart';
 import 'package:sense_flutter_application/screens/my_page/my_page_screen.dart';
 import 'package:sense_flutter_application/views/add_event/add_event_provider.dart';
 import 'package:sense_flutter_application/views/create_event_view/create_event_provider.dart';
@@ -82,6 +83,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => CEProvider()),
       ChangeNotifierProvider(create: (_) => EDProvider()),
       ChangeNotifierProvider(create: (_) => PreferenceProvider()),
+      ChangeNotifierProvider(create: (_) => EditProfileProvider()),
       // ChangeNotifierProvider(create: (_) => CEProvider()),
       // 여기에 추가하시면 되여
     ],

@@ -16,17 +16,15 @@ class AdditionalInfoScreen extends StatefulWidget {
 class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
   @override
   void initState() {
+    super.initState();
     context.read<MyPageProvider>().setPrevRoute(
           MyPagePrevRouteEnum.fromFirstLogin,
           false,
         );
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final safeAreaTopPadding = MediaQuery.paddingOf(context).top;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -61,10 +59,8 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                 ],
               ),
             ),
-            Expanded(
-              child: MyMoreInfo(
-                topPadding: safeAreaTopPadding,
-              ),
+            const Expanded(
+              child: MyMoreInfo(),
             )
           ],
         ),

@@ -1,9 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// url 및 params 정책은 백엔드 개발자와 상의한다.
-/// server base url은 하위 슬래시까지 표기 x : sense/api
-/// api url은 하위 슬래시까지 표기 x : base url + /login/kakao
-
 class ApiUrl {
   static const String _devDomain = 'server.dev.sens.im';
   static const String _stgDomain = 'server.stg.sens.im';

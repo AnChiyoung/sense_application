@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 
 class FeedTagLoad {
   Future<List<TagModel>> tagRequest() async {
@@ -9,7 +9,7 @@ class FeedTagLoad {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       List<dynamic> body = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       List<TagModel> tagModelList = body.map((e) => TagModel.fromJson(e)).toList();
       return tagModelList;

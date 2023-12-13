@@ -1,9 +1,8 @@
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 
 class EmailCheckRequest {
   Future<bool> emailCheckRequest(String checkEmail) async {
-
     Map<String, dynamic> emailCheckModel = {
       "email": checkEmail,
     };
@@ -13,7 +12,7 @@ class EmailCheckRequest {
       body: emailCheckModel,
     );
 
-    if(response.statusCode == 400) {
+    if (response.statusCode == 400) {
       print('code 400');
       return true;
     } else {

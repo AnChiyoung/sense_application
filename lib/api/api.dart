@@ -1,21 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/utils/utility.dart';
-
-class DefaultModel {
-  DefaultModel();
-
-  factory DefaultModel.fromJson(Map<String, dynamic> json) {
-    return DefaultModel();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
 
 class DjangoResponse<T> {
   final int code;
@@ -77,6 +65,7 @@ class DjangoListResponse<T> {
 }
 
 class ApiRequest {
+  // singleton
   static final ApiRequest _instance = ApiRequest._internal();
   ApiRequest._internal();
   factory ApiRequest() => _instance;
@@ -155,8 +144,9 @@ class ApiRequest {
   }
 
   // 좀 더 고도화 하기
-  Future<dynamic> post({
+  Future<DjangoResponse<T>> post<T>({
     required String url,
+    T Function(Map<String, dynamic>)? fromJson,
     Map<String, String> extraHeaders = const {},
     bool withToken = false,
     Map<String, dynamic>? data,
@@ -177,10 +167,20 @@ class ApiRequest {
       );
 
       if (response.statusCode >= 200 || response.statusCode < 300) {
-        // return DjangoResponse.fromJson(
-        //   jsonDecode(utf8.decode(response.bodyBytes)),
-        //   fromJson,
-        // );
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
+
+        if (fromJson != null) {
+          return DjangoResponse.fromJson(
+            json,
+            fromJson,
+          );
+        }
+
+        return DjangoResponse(
+          code: json['code'] as int,
+          message: json['message'] as String,
+          data: json['data'] as dynamic,
+        );
       } else {
         throw Exception('Failed to fetch $url');
       }

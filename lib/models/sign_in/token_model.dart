@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 
 class SigninCheckModel {
   Future<AccessTokenResponseModel> tokenLoginRequest(OAuthToken token) async {
-    Map<String, dynamic> tokenRequestBody = AccessTokenModel(accessToken: token.accessToken).toJson();
+    Map<String, dynamic> tokenRequestBody =
+        AccessTokenModel(accessToken: token.accessToken).toJson();
 
     final response = await http.post(
       Uri.parse('${ApiUrl.releaseUrl}/kakao/login'),
@@ -14,7 +15,7 @@ class SigninCheckModel {
       headers: {'Content-Type': 'application/json; charset=UTF-8'},
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final jsonResult = jsonDecode(utf8.decode(response.bodyBytes))['data'];
       // print(jsonResult);
       print('kkkkk: $jsonResult');
@@ -29,13 +30,9 @@ class SigninCheckModel {
 class AccessTokenModel {
   String accessToken;
 
-  AccessTokenModel({
-    required this.accessToken
-  });
+  AccessTokenModel({required this.accessToken});
 
-  Map<String, dynamic> toJson() => {
-    'access_token': accessToken
-  };
+  Map<String, dynamic> toJson() => {'access_token': accessToken};
 }
 
 class AccessTokenResponseModel {
@@ -57,7 +54,6 @@ class AccessTokenResponseModel {
     this.id,
     this.isSignUp,
     this.joinToken,
-
     this.username,
     this.email,
     this.phone,

@@ -9,8 +9,7 @@ import 'package:sense_flutter_application/screens/home/home_screen.dart';
 import 'package:sense_flutter_application/views/my_page/my_page_provider.dart';
 
 class MyMoreInfo extends StatefulWidget {
-  final double? topPadding;
-  const MyMoreInfo({super.key, this.topPadding});
+  const MyMoreInfo({super.key});
 
   @override
   State<MyMoreInfo> createState() => _MyMoreInfoState();
@@ -76,7 +75,9 @@ class _MyMoreInfoState extends State<MyMoreInfo> {
                                   color: StaticColor.grey70055,
                                   fontWeight: FontWeight.w700))),
                       SizedBox(height: 8.0.h),
-                      MoreInfoMBTI(initializeMBTI: userModel.mbti, topPadding: widget.topPadding),
+                      MoreInfoMBTI(
+                        initializeMBTI: userModel.mbti,
+                      ),
                       SizedBox(height: 24.0.h),
                       Align(
                           alignment: Alignment.centerLeft,
@@ -312,8 +313,10 @@ class _MoreInfoPresentStateState extends State<MoreInfoPresentState> {
 
 class MoreInfoMBTI extends StatefulWidget {
   final String? initializeMBTI;
-  final double? topPadding;
-  const MoreInfoMBTI({super.key, this.initializeMBTI, this.topPadding});
+  const MoreInfoMBTI({
+    super.key,
+    this.initializeMBTI,
+  });
 
   @override
   State<MoreInfoMBTI> createState() => _MoreInfoMBTIState();
@@ -325,6 +328,7 @@ class _MoreInfoMBTIState extends State<MoreInfoMBTI> {
 
   @override
   void initState() {
+    super.initState();
     String temp = widget.initializeMBTI ?? '';
     if (temp.isEmpty) {
       mbtiOrder = -1;
@@ -336,7 +340,6 @@ class _MoreInfoMBTIState extends State<MoreInfoMBTI> {
       }
       context.read<MyPageProvider>().mbtiInit(mbtiOrder);
     }
-    super.initState();
   }
 
   @override

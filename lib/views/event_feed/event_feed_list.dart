@@ -16,7 +16,6 @@ class EventFeedList extends StatefulWidget {
 }
 
 class _EventFeedListState extends State<EventFeedList> {
-
   late List<EventModel> modelList;
 
   @override
@@ -31,58 +30,60 @@ class _EventFeedListState extends State<EventFeedList> {
       padding: EdgeInsets.symmetric(horizontal: 20.0.w),
       child: Column(
         children: [
-          Consumer<EventFeedProvider>(
-            builder: (context, data, child) {
-
-              String state = '-created';
-              if(widget.type == 0) {
-                state = data.totalButton;
-              } else if(widget.type == 1) {
-                state = data.recommendButton;
-              }
-
-              return Padding(
-                padding: EdgeInsets.only(top: 16.0.h, bottom: 16.0.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // data.sortState[0] == false ? const SizedBox.shrink() : Image.asset('assets/feed/comment_sort_check_icon.png', width: 16, height: 16),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                        onTap: () {
-                          if(widget.type == 0) {
-                            context.read<EventFeedProvider>().totalButtonChange('-visit_count');
-                          } else if(widget.type == 1) {
-                            context.read<EventFeedProvider>().recommendButtonChange('-visit_count');
-                          }
-
-                        },
-                        child: Text('인기순',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: state == '-visit_count' ? StaticColor.mainSoft : StaticColor.grey400BB,
-                                fontWeight: state == '-visit_count' ? FontWeight.w700 : FontWeight.w400))),
-                    const SizedBox(width: 8),
-                    Image.asset('assets/feed/bar.png', height: 10),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                        onTap: () {
-                          if(widget.type == 0) {
-                            context.read<EventFeedProvider>().totalButtonChange('-created');
-                          } else if(widget.type == 1) {
-                            context.read<EventFeedProvider>().recommendButtonChange('-created');
-                          }
-                        },
-                        child: Text('최신순',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: state == '-created' ? StaticColor.mainSoft : StaticColor.grey400BB,
-                                fontWeight: state == '-created' ? FontWeight.w700 : FontWeight.w400))),
-                  ],
-                ),
-              );
+          Consumer<EventFeedProvider>(builder: (context, data, child) {
+            String state = '-created';
+            if (widget.type == 0) {
+              state = data.totalButton;
+            } else if (widget.type == 1) {
+              state = data.recommendButton;
             }
-          ),
+
+            return Padding(
+              padding: EdgeInsets.only(top: 16.0.h, bottom: 16.0.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // data.sortState[0] == false ? const SizedBox.shrink() : Image.asset('assets/feed/comment_sort_check_icon.png', width: 16, height: 16),
+                  const SizedBox(width: 4),
+                  GestureDetector(
+                      onTap: () {
+                        if (widget.type == 0) {
+                          context.read<EventFeedProvider>().totalButtonChange('-visit_count');
+                        } else if (widget.type == 1) {
+                          context.read<EventFeedProvider>().recommendButtonChange('-visit_count');
+                        }
+                      },
+                      child: Text('인기순',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: state == '-visit_count'
+                                  ? StaticColor.mainSoft
+                                  : StaticColor.grey400BB,
+                              fontWeight:
+                                  state == '-visit_count' ? FontWeight.w700 : FontWeight.w400))),
+                  const SizedBox(width: 8),
+                  Image.asset('assets/feed/bar.png', height: 10),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                      onTap: () {
+                        if (widget.type == 0) {
+                          context.read<EventFeedProvider>().totalButtonChange('-created');
+                        } else if (widget.type == 1) {
+                          context.read<EventFeedProvider>().recommendButtonChange('-created');
+                        }
+                      },
+                      child: Text('최신순',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: state == '-created'
+                                  ? StaticColor.mainSoft
+                                  : StaticColor.grey400BB,
+                              fontWeight:
+                                  state == '-created' ? FontWeight.w700 : FontWeight.w400))),
+                ],
+              ),
+            );
+          }),
           Expanded(
             child: ScrollConfiguration(
               behavior: const ScrollBehavior().copyWith(overscroll: false),
@@ -126,7 +127,6 @@ class EventFeedRow extends StatefulWidget {
 }
 
 class _EventFeedRowState extends State<EventFeedRow> {
-
   late EventModel eventModel;
   String profileImage = '';
   String name = '';
@@ -145,15 +145,15 @@ class _EventFeedRowState extends State<EventFeedRow> {
     description = eventModel.recommendModel!.memo!;
     profileImage = eventModel.eventHost!.profileImage ?? '';
     title = eventModel.eventTitle ?? '';
-    if(eventModel.eventHost!.username!.isEmpty) {
-      if(eventModel.eventHost!.name!.isEmpty) {
+    if (eventModel.eventHost!.username!.isEmpty) {
+      if (eventModel.eventHost!.name!.isEmpty) {
         name = 'Unknown User';
-      } else if(eventModel.eventHost!.name!.length < 3) {
+      } else if (eventModel.eventHost!.name!.length < 3) {
         name = eventModel.eventHost!.name!;
       } else {
         name = nameObscureFunction(eventModel.eventHost!.name!);
       }
-    } else if(eventModel.eventHost!.username!.length < 3) {
+    } else if (eventModel.eventHost!.username!.length < 3) {
       name = eventModel.eventHost!.username!;
     } else {
       name = nameObscureFunction(eventModel.eventHost!.username!);
@@ -163,12 +163,12 @@ class _EventFeedRowState extends State<EventFeedRow> {
     isRequest = eventCreateGap(eventCreateTime);
     visitCount = eventModel.visitCount!;
     recommendCount = eventModel.recommendCount!;
-    if(eventModel.eventDate!.isEmpty) {
+    if (eventModel.eventDate!.isEmpty) {
       remainDayCount = '이벤트 일자 미정';
     } else {
-      if(makeRemainDayCountView(eventModel.eventDate!) > 0) {
+      if (makeRemainDayCountView(eventModel.eventDate!) > 0) {
         remainDayCount = 'D-${makeRemainDayCountView(eventModel.eventDate!).toString()}';
-      } else if(makeRemainDayCountView(eventModel.eventDate!) == 0) {
+      } else if (makeRemainDayCountView(eventModel.eventDate!) == 0) {
         remainDayCount = 'D-DAY';
       } else {
         remainDayCount = '이벤트 일자 경과';
@@ -181,7 +181,7 @@ class _EventFeedRowState extends State<EventFeedRow> {
   String nameObscureFunction(String name) {
     String temperatureObscureName = '';
     int nameMiddleLength = name.length - 2;
-    for(int i = 0; i < nameMiddleLength; i++) {
+    for (int i = 0; i < nameMiddleLength; i++) {
       temperatureObscureName = '$temperatureObscureName*';
     }
     return name.replaceRange(1, name.length - 1, temperatureObscureName);
@@ -195,15 +195,14 @@ class _EventFeedRowState extends State<EventFeedRow> {
 
     int baseInteger = 0;
     String commentGap = '';
-    if(duration.inHours == 0) {
-      if(duration.inMinutes == 0) {
+    if (duration.inHours == 0) {
+      if (duration.inMinutes == 0) {
         commentGap = '지금';
-      } else if(duration.inMinutes <= 59 && duration.inMinutes > 0) {
+      } else if (duration.inMinutes <= 59 && duration.inMinutes > 0) {
         baseInteger = duration.inMinutes % 60;
         commentGap = '$baseInteger분 전';
       }
-
-    } else if(duration.inHours <= 23 && duration.inHours > 0) {
+    } else if (duration.inHours <= 23 && duration.inHours > 0) {
       baseInteger = duration.inHours % 24;
       commentGap = '$baseInteger시간 전';
     } else {
@@ -243,19 +242,24 @@ class _EventFeedRowState extends State<EventFeedRow> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    UserProfileImage(profileImageUrl: profileImage, size: 32),
-                    SizedBox(width: 8.0.w),
-                    Text(name, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                    SizedBox(width: 8.0.w),
-                    Image.asset('assets/feed/comment_dot.png', width: 3.0, height: 3.0),
-                    SizedBox(width: 8.0.w),
-                    Text(createTime, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400)),
-                  ]
-                ),
+                Row(children: [
+                  UserProfileImage(profileImageUrl: profileImage, size: 32),
+                  SizedBox(width: 8.0.w),
+                  Text(name,
+                      style: TextStyle(
+                          fontSize: 14.0.sp,
+                          color: StaticColor.grey70055,
+                          fontWeight: FontWeight.w400)),
+                  SizedBox(width: 8.0.w),
+                  Image.asset('assets/feed/comment_dot.png', width: 3.0, height: 3.0),
+                  SizedBox(width: 8.0.w),
+                  Text(createTime,
+                      style: TextStyle(
+                          fontSize: 14.0.sp,
+                          color: StaticColor.grey70055,
+                          fontWeight: FontWeight.w400)),
+                ]),
                 isRequest == true ? requestWidget() : reviewWidget(),
-
               ],
             ),
             SizedBox(height: 16.0.h),
@@ -282,16 +286,40 @@ class _EventFeedRowState extends State<EventFeedRow> {
               children: [
                 Row(
                   children: [
-                    Text('조회', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400, height: 1.0)),
+                    Text('조회',
+                        style: TextStyle(
+                            fontSize: 12.0.sp,
+                            color: StaticColor.grey70055,
+                            fontWeight: FontWeight.w400,
+                            height: 1.0)),
                     SizedBox(width: 8.0.w),
-                    Text(visitCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.1)),
+                    Text(visitCount.toString(),
+                        style: TextStyle(
+                            fontSize: 12.0.sp,
+                            color: StaticColor.grey70055,
+                            fontWeight: FontWeight.w700,
+                            height: 1.1)),
                     SizedBox(width: 16.0.w),
-                    Text('추천', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400, height: 1.0)),
+                    Text('추천',
+                        style: TextStyle(
+                            fontSize: 12.0.sp,
+                            color: StaticColor.grey70055,
+                            fontWeight: FontWeight.w400,
+                            height: 1.0)),
                     SizedBox(width: 8.0.w),
-                    Text(recommendCount.toString(), style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w700, height: 1.1)),
+                    Text(recommendCount.toString(),
+                        style: TextStyle(
+                            fontSize: 12.0.sp,
+                            color: StaticColor.grey70055,
+                            fontWeight: FontWeight.w700,
+                            height: 1.1)),
                   ],
                 ),
-                Text(remainDayCount, style: TextStyle(fontSize: 12.0.sp, color: StaticColor.errorColor, fontWeight: FontWeight.w400)),
+                Text(remainDayCount,
+                    style: TextStyle(
+                        fontSize: 12.0.sp,
+                        color: StaticColor.errorColor,
+                        fontWeight: FontWeight.w400)),
               ],
             ),
           ],
@@ -301,11 +329,20 @@ class _EventFeedRowState extends State<EventFeedRow> {
   }
 
   Widget titleWidget(String title) {
-    return Text(title, style: TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w700), softWrap: false, overflow: TextOverflow.ellipsis, maxLines: 1);
+    return Text(title,
+        style:
+            TextStyle(fontSize: 16.0.sp, color: StaticColor.grey80033, fontWeight: FontWeight.w700),
+        softWrap: false,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1);
   }
 
   Widget descriptionWidget(String description) {
-    return Text(description, style: TextStyle(fontSize: 14.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis, maxLines: 2);
+    return Text(description,
+        style:
+            TextStyle(fontSize: 14.0.sp, color: StaticColor.grey60077, fontWeight: FontWeight.w400),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2);
   }
 
   Widget eventImageWidget() {
@@ -330,7 +367,12 @@ class _EventFeedRowState extends State<EventFeedRow> {
         color: StaticColor.grey100F6,
         borderRadius: BorderRadius.circular(14.0),
       ),
-      child: Text('후기', style: TextStyle(fontSize: 12.0.sp, color: StaticColor.grey70055, fontWeight: FontWeight.w400, height: 1.5)),
+      child: Text('후기',
+          style: TextStyle(
+              fontSize: 12.0.sp,
+              color: StaticColor.grey70055,
+              fontWeight: FontWeight.w400,
+              height: 1.5)),
     );
   }
 
@@ -341,7 +383,9 @@ class _EventFeedRowState extends State<EventFeedRow> {
         color: StaticColor.grey70055,
         borderRadius: BorderRadius.circular(14.0),
       ),
-      child: Text('요청', style: TextStyle(fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400, height: 1.2)),
+      child: Text('요청',
+          style: TextStyle(
+              fontSize: 12.0.sp, color: Colors.white, fontWeight: FontWeight.w400, height: 1.2)),
     );
   }
 }

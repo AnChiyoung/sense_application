@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:sense_flutter_application/constants/api_path.dart';
+import 'package:sense_flutter_application/api/api_path.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 
 class ReportRequest {
   Future<bool> reportRequest(List<int> selectReportIndex, String description, int commentId) async {
-
-    Map<String, dynamic> sendReport = ReportModel(reportChoiceId: selectReportIndex, description: description).toJson();
+    Map<String, dynamic> sendReport =
+        ReportModel(reportChoiceId: selectReportIndex, description: description).toJson();
 
     print('${ApiUrl.releaseUrl}/comment/${commentId.toString()}/report');
     print(jsonEncode(sendReport));
@@ -20,7 +20,7 @@ class ReportRequest {
       },
     );
 
-    if(response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       print('신고가 완료되었습니다.');
       return true;
     } else {
@@ -40,7 +40,7 @@ class ReportModel {
   });
 
   Map<String, dynamic> toJson() => {
-    'report_choice_ids': reportChoiceId,
-    'description': description,
-  };
+        'report_choice_ids': reportChoiceId,
+        'description': description,
+      };
 }
