@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/models/sign_in/phone_auth_model.dart';
 import 'package:sense_flutter_application/models/user/user_model.dart';
-import 'package:sense_flutter_application/utils/utility.dart';
 
 class EditProfileProvider with ChangeNotifier {
   UserModel _userMe = UserModel();

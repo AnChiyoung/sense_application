@@ -11,7 +11,11 @@ class WithdrawalHeader extends StatefulWidget {
 class _WithdrawalHeaderState extends State<WithdrawalHeader> {
   @override
   Widget build(BuildContext context) {
-    return HeaderMenu(backCallback: backCallback);
+    return HeaderMenu(
+      title: '회원 탈퇴',
+      backCallback: backCallback,
+      hasBorderBottom: true,
+    );
   }
 
   void backCallback() {

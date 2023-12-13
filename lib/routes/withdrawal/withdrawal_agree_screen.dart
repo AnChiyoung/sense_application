@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sense_flutter_application/constants/public_color.dart';
-import 'package:sense_flutter_application/views/my_page/withddrawal_agree_description.dart';
-import 'package:sense_flutter_application/views/my_page/withdrawal_agree_button.dart';
-import 'package:sense_flutter_application/views/my_page/withdrawal_agree_checkbox.dart';
-import 'package:sense_flutter_application/views/my_page/withdrawal_agree_header.dart';
+import 'package:sense_flutter_application/routes/withdrawal/withddrawal_agree_description.dart';
+import 'package:sense_flutter_application/routes/withdrawal/withdrawal_agree_button.dart';
+import 'package:sense_flutter_application/routes/withdrawal/withdrawal_agree_checkbox.dart';
+import 'package:sense_flutter_application/routes/withdrawal/withdrawal_agree_header.dart';
 
 class WithdrawalAgreeScreen extends StatefulWidget {
   const WithdrawalAgreeScreen({super.key});

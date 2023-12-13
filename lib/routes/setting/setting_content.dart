@@ -7,10 +7,10 @@ import 'package:sense_flutter_application/constants/public_color.dart';
 import 'package:sense_flutter_application/models/login/login_model.dart';
 import 'package:sense_flutter_application/public_widget/logout_dialog.dart';
 import 'package:sense_flutter_application/routes/edit_profile/edit_profile_screen.dart';
+import 'package:sense_flutter_application/routes/withdrawal/withdrawal_screen.dart';
 import 'package:sense_flutter_application/screens/login/login_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/policy/policy_screen.dart';
 import 'package:sense_flutter_application/screens/my_page/setting_alarm_screen.dart';
-import 'package:sense_flutter_application/screens/my_page/withdrawal_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingContent extends StatefulWidget {
