@@ -5,6 +5,7 @@ import 'package:sense_flutter_application/screens/widgets/common/custom_button.d
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 import '../common/input_text_field.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -124,8 +125,10 @@ class _LoginFormState extends State<LoginForm> {
             height: 16
           ),
           Center(
-
-            child: ClickableText(text: '이메일로 회원가입', onTap: () {},)
+            child: ClickableText(text: '이메일로 회원가입', onTap: () {
+              GoRouter.of(context).push('/auth/signup/step1');
+              // print('Can ho no');
+            },)
           )
         ],
       ),
