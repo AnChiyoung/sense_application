@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomCheckbox extends StatefulWidget {
-  final String label;
+  final String ?label;
   final String checkedIconPath;
   final String uncheckedIconPath;
   final bool isChecked;
   final VoidCallback? onChanged;
+  final Widget ?child;
 
   const CustomCheckbox({
     super.key,
-    required this.label,
+    this.label = '',
     required this.isChecked,
     required this.onChanged,
+    this.child,
     this.checkedIconPath = 'lib/assets/images/svg/circle-checked_filled.svg',
     this.uncheckedIconPath = 'lib/assets/images/svg/circle_checked.svg',
   });
@@ -33,10 +35,11 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset(widget.isChecked ? widget.checkedIconPath : widget.uncheckedIconPath, width: 20, height: 20),
+              SvgPicture.asset(widget.isChecked ? widget.checkedIconPath : widget.uncheckedIconPath, width: 24, height: 24),
               const SizedBox(width: 8),
-              Text(
-                widget.label,
+              
+              widget.child != null ? widget.child! : Text(
+                widget.label!,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Color(0XFF555555),
