@@ -7,7 +7,7 @@ class InputTextField extends StatelessWidget {
   final bool isObscure;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  final TextEditingController controller;
+  final TextEditingController ?controller;
   final String placeholder;
   final String ?errorMessage;
   final double height;
@@ -17,7 +17,7 @@ class InputTextField extends StatelessWidget {
     super.key, 
     required this.label,
     required this.onChanged,
-    required this.controller,
+    this.controller,
     this.placeholder = '',
     this.isObscure = false,
     this.prefixIcon,
@@ -70,6 +70,7 @@ class InputTextField extends StatelessWidget {
                     floatingLabelBehavior: FloatingLabelBehavior.never,
                     hintText: placeholder,
                     filled: false,
+                    hintStyle: const TextStyle(color: Color(0XFFBBBBBB))
                     
                   ),
                 )
