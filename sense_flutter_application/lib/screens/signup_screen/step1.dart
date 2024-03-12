@@ -23,6 +23,59 @@ class Step1 extends ConsumerWidget {
         body: SafeArea(
           child: Column(
           children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
+              margin: const EdgeInsets.only(bottom: 24),
+              child: 
+                const Text(
+                  '회원가입',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  )
+                )
+            ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(top: 0, bottom: 8),
+              margin: const EdgeInsets.only(bottom: 24, left: 20, right: 20,),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(0XFFE0E0E0),
+                    width: 1
+                  )
+                )
+              ),
+              child: 
+                const Row(
+                  children: [
+                    Text(
+                      '01  약관동의',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0XFF777777)
+                      )
+                    ),
+                    SizedBox(width: 16),
+                    Text(
+                      '02 개인정보 입력',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0XFFE0E0E0)
+                      )
+                    )
+                  ],
+                )
+            ),
+
             const Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(left: 20, right: 20),
