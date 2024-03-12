@@ -14,36 +14,38 @@ class Step1 extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final all = ref.watch(policyAgreementProvider).toList();
     bool canProceed() {
-      return all.every((element) => !element.isRequired || (element.isRequired && element.isSelected));
+      return all.every((element) => 
+        !element.isRequired || (element.isRequired && element.isSelected)
+      );
     }
 
     return LoginLayout(
         body: SafeArea(
-          child: Stack(
+          child: Column(
           children: [
-            const Positioned.fill(
+            const Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(20),
-                child: SignupPolicyAgreement(),),
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: SignupPolicyAgreement(),
+              ),
             ),
 
             // Bottom button
-            Positioned(
-              bottom: 8.0,
-              left: 20,
-              right: 20,
-              child: CustomButton(
-                height: 48,
-                onPressed: () {
-                  if(canProceed()) {
-                    GoRouter.of(context).go('/auth/signup/step2');
-                  }
-                },
-                backgroundColor: canProceed() ? Colors.blue : Colors.grey,
-                labelText: "동의하기",
-                textColor: Colors.white,
-              ),
-            ),
+            Container(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+              child: 
+                CustomButton(
+                  height: 48,
+                  onPressed: () {
+                    if(canProceed()) {
+                      GoRouter.of(context).go('/auth/signup/step2');
+                    }
+                  },
+                  backgroundColor: canProceed() ? Colors.blue : Colors.grey,
+                  labelText: "동의하기",
+                  textColor: Colors.white,
+                )
+            )
           ],
         ),
         )
