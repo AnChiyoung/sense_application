@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/auth/sign_up_provider.dart';
+import '../../../providers/auth/policy_provider.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
 
 
@@ -12,57 +12,76 @@ class SignupPolicyAgreement extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final expandedPolicy = ref.watch(policyAgreementProvider).where((element) => element.content != null).toList();
-    final noExpandPolicy = ref.watch(policyAgreementProvider).where((element) => element.content == null).toList().map((e) => Padding(padding: EdgeInsets.only(bottom: 10), child: CustomCheckbox(
-                            isChecked: e.isSelected,
-                            onChanged: () {
-                              ref.read(policyAgreementProvider.notifier).toggle(e);
-                            },
-                            child: RichText(
-                              text: TextSpan(style: TextStyle(color: Colors.grey.shade400),
-                              children: [ 
-                                const TextSpan(text: '14세 이상입니다.'),
-                                TextSpan(
-                                  text: '(필수)',
-                                  style: TextStyle(color: Colors.blue.shade200)
-                                ) 
-                              ] 
-                            ),
-                          )
-                        ),) ).toList();
     final int ?expandId = ref.watch(expandIdProvider); 
+    final expandedPolicy = ref.watch(policyAgreementProvider)
+      .where((element) => element.content != null)
+      .toList();
+    final noExpandPolicy = ref.watch(policyAgreementProvider)
+      .where((element) 
+        => element.content == null)
+        .toList()
+        .map((e) 
+          => Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: 
+                CustomCheckbox(
+                  isChecked: e.isSelected,
+                  onChanged: () {
+                    ref.read(policyAgreementProvider.notifier).toggle(e);
+                  },
+                  child: RichText(
+                    text:
+                      TextSpan(
+                        style: TextStyle(color: Colors.grey.shade400),
+                        children: [
+                          const TextSpan(text: '14세 이상입니다.'),
+                          TextSpan(
+                            text: '(필수)',
+                            style: TextStyle(color: Colors.blue.shade200)
+                          ) 
+                        ]
+                      ),
+                  )
+                ),
+            )
+          ).toList();
 
     return Column(
       children: [
         ...noExpandPolicy,
         ExpansionPanelList(
-      elevation: 0,
-      dividerColor: Colors.transparent,
-      materialGapSize: 0,
-      expandedHeaderPadding: EdgeInsets.zero,
-      expansionCallback: (int index, bool value) {
-        ref.read(expandIdProvider.notifier).state = value ? index : null;
-      },
-      children: expandedPolicy.map((policy) {
-        return ExpansionPanel(
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return CustomCheckbox(
-                            isChecked: policy.isSelected,
-                            onChanged: () {
-                              ref.read(policyAgreementProvider.notifier).toggle(policy);
-                            },
-                            child: RichText(
-                              text: TextSpan(style: TextStyle(color: Colors.grey.shade400),
-                              children: [ 
+          elevation: 0,
+          dividerColor: Colors.transparent,
+          materialGapSize: 0,
+          expandedHeaderPadding: EdgeInsets.zero,
+          expansionCallback: (int index, bool value) {
+            ref.read(expandIdProvider.notifier).state = value ? index : null;
+          },
+          children: expandedPolicy.map((policy) {
+            return 
+              ExpansionPanel(
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return 
+                    CustomCheckbox(
+                      isChecked: policy.isSelected,
+                      onChanged: () {
+                        ref.read(policyAgreementProvider.notifier).toggle(policy);
+                      },
+                      child: RichText(
+                        text: 
+                          TextSpan(
+                            style: TextStyle(color: Colors.grey.shade400),
+                            children: 
+                              [ 
                                 const TextSpan(text: '14세 이상입니다.'),
                                 TextSpan(
                                   text: '(필수)',
                                   style: TextStyle(color: Colors.blue.shade200)
-                                ) 
-                              ] 
+                                ),
+                              ]
                             ),
-                          )
-                        );
+                        )
+                    );
           },
           body: ListTile(
             title: policy.content,
@@ -74,6 +93,7 @@ class SignupPolicyAgreement extends ConsumerWidget {
       ],
     );
   }
+
 }
 
 
