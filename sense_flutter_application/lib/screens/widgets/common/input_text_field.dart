@@ -13,6 +13,7 @@ class InputTextField extends StatelessWidget {
   final double height;
   final FormFieldValidator<String>? validator;
   final TextStyle labelStyle;
+  final Widget ?append;
 
   const InputTextField({
     super.key, 
@@ -22,14 +23,16 @@ class InputTextField extends StatelessWidget {
       const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w700,
+        color: Color(0XFF555555),
       ),
     this.controller,
     this.placeholder = '',
     this.isObscure = false,
     this.prefixIcon,
     this.suffixIcon,
-    this.errorMessage,
+    this.errorMessage = '',
     this.validator,
+    this.append,
     this.height = 40,
   });
 
@@ -50,34 +53,42 @@ class InputTextField extends StatelessWidget {
           child: Column(
             children: [
               // TextFormField Container
-              Container(
-                height: height,
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(246, 246, 246, 1),
-                  borderRadius: BorderRadius.circular(0),
-                  border: Border.all(
-                    color: (errorMessage != null ? errorColor[10]! : Colors.transparent),
-                    width: 1,
+              Row(
+                children: [
+                  Expanded(
+                    child: 
+                      Container(
+                        height: height,
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: const Color(0XFFF6F6F6),
+                          borderRadius: BorderRadius.circular(0),
+                          border: Border.all(
+                            color: (errorMessage != null && !(errorMessage ?? '').isEmpty ? errorColor[10]! : Colors.transparent),
+                            width: 1,
+                          ),
+                        ),
+                        // Input Text Field
+                        child: TextFormField(
+                          controller: controller,
+                          obscureText: isObscure,
+                          obscuringCharacter: '●',
+                          onChanged: onChanged,
+                          validator: validator,
+                          decoration: InputDecoration.collapsed(
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            hintText: placeholder,
+                            filled: false,
+                            hintStyle: const TextStyle(color: Color(0XFFBBBBBB))
+                          ),
+                        )
+                      ),
                   ),
-                ),
-                // Input Text Field
-                child: TextFormField(
-                  controller: controller,
-                  obscureText: isObscure,
-                  obscuringCharacter: '●',
-                  onChanged: onChanged,
-                  validator: validator,
-                  decoration: InputDecoration.collapsed(
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    hintText: placeholder,
-                    filled: false,
-                    hintStyle: const TextStyle(color: Color(0XFFBBBBBB))
-                    
-                  ),
-                )
-              ),
+                  if (append != null) const SizedBox(width: 8), 
+                  if (append != null) append!,
+                ],
+              )
             ],
           ),
         ),
