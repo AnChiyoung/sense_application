@@ -4,6 +4,7 @@ import 'package:sense_flutter_application/screens/widgets/common/clickable_text.
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
+import 'package:sense_flutter_application/utils/regex.dart';
 import '../common/input_text_field.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,17 +23,6 @@ class _LoginFormState extends State<LoginForm> {
   String password = "";
   bool isAutoLogin = false;
 
-
-// Check for the email format
-  String? emailValidator(String? email) {
-    if (email == null || email.isEmpty) {
-      return null;
-    }
-
-    final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$');
-    
-    return emailRegex.hasMatch(email) ? null : '올바른 이메일 주소를 입력해 주세요';
-  }
 
 // Check if email and password are valid or filled
   bool isButtonEnabled() {
@@ -126,7 +116,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           Center(
             child: ClickableText(text: '이메일로 회원가입', onTap: () {
-              GoRouter.of(context).push('/auth/signup/step1');
+              GoRouter.of(context).push('/signup/step1');
               // print('Can ho no');
             },)
           )
