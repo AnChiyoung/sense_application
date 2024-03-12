@@ -12,11 +12,17 @@ class InputTextField extends StatelessWidget {
   final String ?errorMessage;
   final double height;
   final FormFieldValidator<String>? validator;
+  final TextStyle labelStyle;
 
   const InputTextField({
     super.key, 
     required this.label,
     required this.onChanged,
+    this.labelStyle = 
+      const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+      ),
     this.controller,
     this.placeholder = '',
     this.isObscure = false,
@@ -37,10 +43,7 @@ class InputTextField extends StatelessWidget {
           child: Text(
             label,
             textAlign: TextAlign.start,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
+            style: labelStyle,
           ),
         ),
         SizedBox(
