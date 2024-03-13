@@ -4,7 +4,7 @@ import 'package:sense_flutter_application/screens/widgets/common/clickable_text.
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
-import 'package:sense_flutter_application/utils/regex.dart';
+import 'package:sense_flutter_application/utils/utils.dart';
 import '../common/input_text_field.dart';
 import 'package:go_router/go_router.dart';
 
