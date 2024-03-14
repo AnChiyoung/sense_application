@@ -17,7 +17,6 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
 
-  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String email = "";
   String password = "";
@@ -47,7 +46,6 @@ class _LoginFormState extends State<LoginForm> {
                 email = value;
               });
             },
-            controller: emailController,
             placeholder: '이메일을 입력해 주세요텍스트',
             errorMessage: emailValidator(email),
           ),
@@ -61,7 +59,6 @@ class _LoginFormState extends State<LoginForm> {
                 password = value;
               });
             },
-            controller: passwordController,
             placeholder: '비밀번호를 입력해 주세요텍스트',
             isObscure: true,
           ),
