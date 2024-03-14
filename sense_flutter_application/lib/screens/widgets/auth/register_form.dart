@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sense_flutter_application/screens/widgets/common/count_down_timer.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
+import 'package:sense_flutter_application/screens/widgets/common/date_input_group.dart';
 import 'package:sense_flutter_application/screens/widgets/common/input_text_field.dart';
 import 'package:sense_flutter_application/providers/auth/register_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
@@ -8,10 +10,10 @@ import 'package:sense_flutter_application/utils/utils.dart';
 
 class RegisterForm extends ConsumerWidget {
 
-  final TextEditingController emailController = TextEditingController();
   final String emailError = "";
 
   RegisterForm({super.key});
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,13 +21,35 @@ class RegisterForm extends ConsumerWidget {
     String email = ref.watch(emailInputProvider);
     String ?emailError = ref.watch(emailErrorProvider);
     bool ?isEmailAvailable = ref.watch(isEmailAvailableProvider);
+    String phone = ref.watch(phoneInputProvider);
     Gender ?gender = ref.watch(genderProvider);
+    bool isCodeVerified = ref.watch(isCodeVerifiedProvider);
 
     // Debouncer
-    var onChange = debounce<String>((String value) {
+    var onEmailChange = debounce<String>((String value) {
       ref.read(emailInputProvider.notifier).state = value;
       ref.read(emailErrorProvider.notifier).state = '';
       ref.read(isEmailAvailableProvider.notifier).state = null;
+    }, const Duration(milliseconds: 500));
+
+    var onBirthDateChange = debounce<String>((String value) {
+      ref.read(dateOfBirthProvider.notifier).state = value;
+    }, const Duration(milliseconds: 500));
+
+    var onPhoneNumberChange = debounce<String>((String value) {
+      ref.read(phoneInputProvider.notifier).state = value;
+      ref.read(isCodeVerifiedProvider.notifier).state = false;
+      ref.read(expirationTimeProvider.notifier).state = '';
+      ref.read(codeInputProvider.notifier).state = '';
+    }, const Duration(milliseconds: 500));
+
+    var onCodeInputChange = debounce<String>((String value) {
+      ref.read(codeInputProvider.notifier).state = value;
+      ref.read(codeInputError.notifier).state = '';
+    }, const Duration(milliseconds: 500));
+
+    var onNameInputChange = debounce<String>((String value) {
+      ref.read(nameInputProvider.notifier).state = value;
     }, const Duration(milliseconds: 500));
     
     return 
@@ -46,10 +70,10 @@ class RegisterForm extends ConsumerWidget {
                     InputTextField(
                       height: 40,
                       label: '이메일 주소',
-                      controller: emailController,
                       onChanged: (String value) {
-                        onChange(value);
+                        onEmailChange(value);
                       },
+                      initialValue: 'adem@gmail.coms',
                       placeholder: 'sens@runners.im',
                       errorMessage: emailValidator(email) ?? emailError,
                       suffixIcon: IconButton(
@@ -69,7 +93,7 @@ class RegisterForm extends ConsumerWidget {
                           backgroundColor: email.isNotEmpty && emailValidator(email)?.isEmpty != false && emailError?.isEmpty != false ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
                           textColor: Colors.white,
                           onPressed: () async {
-                            var mailResponse = await ref.read(checkMailRepositoryProvider).checkEmail(email);
+                            var mailResponse = await ref.read(authRepositoryProvider).checkEmail(email);
 
                             if (mailResponse['status']) {
                               ref.read(emailErrorProvider.notifier).state = '';
@@ -126,47 +150,21 @@ class RegisterForm extends ConsumerWidget {
               height: 40,
               label: '이름',
               onChanged: (String value) {
-
+                onNameInputChange(value);
               },
               isObscure: false,
               placeholder: '김센스',
+              errorMessage: ref.watch(errorNameProvider),
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: InputTextField(
-                    label: '생년월일',
-                    onChanged: (String value) {
-
-                    },
-                    placeholder: 'YYYY',
-                    mask: [yearMask],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: InputTextField(
-                    label: '',
-                    onChanged: (String value) {
-
-                    },
-                    placeholder: 'MM',
-                    mask: [monthMask],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: InputTextField(
-                    label: '',
-                    onChanged: (String value) {
-
-                    },
-                    placeholder: 'DD',
-                    mask: [dayMask],
-                  ),
-                )
-              ],
+            DateInputGroup(
+              label: '생년월일',
+              onChanged: (String value) {
+                if (value != '--') {
+                  onBirthDateChange(value);
+                }
+              },
+              errorMessage: dateValidator(ref.watch(dateOfBirthProvider)),
             ),
             const SizedBox(height: 16),
             Container(
@@ -204,38 +202,70 @@ class RegisterForm extends ConsumerWidget {
               height: 40,
               label: '연락처',
               onChanged: (String value) {
-
+                onPhoneNumberChange(value);
               },
               placeholder: '010-1234-5678',
               mask: [phoneMask],
+              errorMessage: phoneValidator(phone),
               append: SizedBox(
                 width: 97,
                 child: CustomButton(
                   labelText: '인증받기',
-                  backgroundColor: const Color(0XFF555555),
+                  backgroundColor: (phoneValidator(phone)?.isEmpty ?? true && (phone.isNotEmpty) && !isCodeVerified) ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
                   textColor: Colors.white,
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (isCodeVerified) return;
+                    ref.read(expirationTimeProvider.notifier).state = '';
+                    var response = await ref.watch(authRepositoryProvider)
+                                    .sendCode(phone);
+                    if (response['code'] == 200) {
+                      ref.read(expirationTimeProvider.notifier).state = response['data']['expired'];
+                    }
+                  },
                 )
               ),
             ),
-            const SizedBox(height: 24),
-            InputTextField(
-              height: 40,
-              label: '인증번호',
-              onChanged: (String value) {
+            if (ref.watch(expirationTimeProvider).isNotEmpty || isCodeVerified)
+                Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    InputTextField(
+                      height: 40,
+                      label: '인증번호',
+                      onChanged: (String value) {
+                        onCodeInputChange(value);
+                      },
+                      suffixIcon: isCodeVerified 
+                        ? const Icon(Icons.done, color: Colors.green, size: 20,) 
+                        : CountDownTimer(endTime: ref.watch(expirationTimeProvider)),
+                      placeholder: '',
+                      errorMessage: ref.watch(codeInputError),
+                      append: SizedBox(
+                        width: 97,
+                        child: CustomButton(
+                          labelText: '확인',
+                          backgroundColor: ref.watch(codeInputProvider).isNotEmpty ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            if (isCodeVerified) return;
 
-              },
-              placeholder: '',
-              append: SizedBox(
-                width: 97,
-                child: CustomButton(
-                  labelText: '확인',
-                  backgroundColor: const Color(0XFF555555),
-                  textColor: Colors.white,
-                  onPressed: () {},
+                             var response = await ref.watch(authRepositoryProvider)
+                              .verifyCode(phone, ref.watch(codeInputProvider));
+                            
+                            bool isValid = response['code'] == 200;
+
+                            if (isValid) {
+                              ref.read(isCodeVerifiedProvider.notifier).state = isValid;
+                              ref.read(expirationTimeProvider.notifier).state = '';
+                            } else {
+                              ref.read(codeInputError.notifier).state = '인증번호가 일치하지 않습니다.';
+                            }
+                          },
+                        )
+                      ),
+                    )
+                  ],
                 )
-              ),
-            )
           ],
         )
       );
