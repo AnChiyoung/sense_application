@@ -16,27 +16,29 @@ class InputTextField extends StatelessWidget {
   final TextStyle labelStyle;
   final Widget ?append;
   final List<TextInputFormatter> ?mask;
+  final String ?initialValue;
 
   const InputTextField({
     super.key, 
     required this.label,
     required this.onChanged,
-    this.labelStyle = 
-      const TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w700,
-        color: Color(0XFF555555),
-      ),
     this.controller,
     this.placeholder = '',
     this.isObscure = false,
     this.prefixIcon,
     this.suffixIcon,
     this.errorMessage = '',
+    this.initialValue,
     this.mask,
     this.validator,
     this.append,
     this.height = 40,
+    this.labelStyle = 
+      const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+        color: Color(0XFF555555),
+      ),
   });
 
   @override
@@ -78,6 +80,7 @@ class InputTextField extends StatelessWidget {
                             Expanded(
                               child:
                                 TextFormField(
+                                  initialValue: initialValue,
                                   controller: controller,
                                   obscureText: isObscure,
                                   obscuringCharacter: '●',
