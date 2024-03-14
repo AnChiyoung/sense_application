@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sense_flutter_application/models/user.dart';
 
 class AuthApi {
   Future<Map<String, dynamic>> checkEmail(String email) async {
@@ -55,6 +56,31 @@ class AuthApi {
       body: jsonEncode(<String, dynamic>{
         'phone': phone.replaceAll(RegExp(r'[^0-9]'), ''),
         'code': int.parse(code),
+      }),
+    );
+
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+
+    if (response.statusCode == 200) {
+      return parse;
+    } else {
+      var nonFieldError = parse['errors']['non_field_errors'];
+      return { 'code': response.statusCode, 'status': false, 'message': nonFieldError?.isNotEmpty ? nonFieldError[0] : parse['message'] };
+    }
+  }
+
+  Future<Map<String, dynamic>> register(User payload, String password) async {
+    final response = await http.post(
+      Uri.parse('https://server.dev.sens.im/api/v1/user/signup'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': payload.email,
+        'phone': payload.phone.replaceAll(RegExp(r'[^0-9]'), ''),
+        'birthday': payload.birthday,
+        'gender': payload,
+        'password': password,
       }),
     );
 
