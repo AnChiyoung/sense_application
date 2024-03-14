@@ -23,4 +23,48 @@ class AuthApi {
     }
   }
 
+  Future<Map<String, dynamic>> sendCode(String phone) async {
+    final response = await http.post(
+      Uri.parse('https://server.dev.sens.im/api/v1/user/phone/send'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'phone': phone.replaceAll(RegExp(r'[^0-9]'), ''),
+      }),
+    );
+
+
+      var parse = json.decode(utf8.decode(response.bodyBytes));
+
+    if (response.statusCode == 200) {
+      return parse;
+    } else {
+      var nonFieldError = parse['errors']['non_field_errors'];
+      print(nonFieldError);
+      return { 'code': response.statusCode, 'status': false, 'message': nonFieldError?.isNotEmpty ? nonFieldError[0] : parse['message'] };
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyCode(String phone, String code) async {
+    final response = await http.post(
+      Uri.parse('https://server.dev.sens.im/api/v1/user/phone/auth'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'phone': phone.replaceAll(RegExp(r'[^0-9]'), ''),
+        'code': int.parse(code),
+      }),
+    );
+
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+
+    if (response.statusCode == 200) {
+      return parse;
+    } else {
+      var nonFieldError = parse['errors']['non_field_errors'];
+      return { 'code': response.statusCode, 'status': false, 'message': nonFieldError?.isNotEmpty ? nonFieldError[0] : parse['message'] };
+    }
+  }
 }
