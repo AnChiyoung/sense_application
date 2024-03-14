@@ -28,6 +28,56 @@ String? emailValidator(String? email) {
   return emailRegex.hasMatch(email) ? null : '올바른 이메일 주소를 입력해 주세요';
 }
 
+String? dateValidator(String? date) {
+  if (date == null || date.isEmpty) {
+    return '';
+  }
+
+  final dateRegex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+  if (!dateRegex.hasMatch(date)) {
+    return '올바른 날짜 형식을 입력해 주세요 (YYYY-MM-DD)';
+  }
+
+  final parts = date.split('-');
+  final year = int.tryParse(parts[0]);
+  final month = int.tryParse(parts[1]);
+  final day = int.tryParse(parts[2]);
+
+  if (year == null || month == null || day == null) {
+    return '올바른 날짜 형식을 입력해 주세요 (YYYY-MM-DD)';
+  }
+
+  final now = DateTime.now();
+  if (year > now.year) {
+    return '년도는 현재 년도보다 클 수 없습니다';
+  }
+
+  if (month < 1 || month > 12) {
+    return '월은 1부터 12 사이여야 합니다';
+  }
+
+  if (day < 1 || day > 31) {
+    return '일은 1부터 31 사이여야 합니다';
+  }
+
+  // Check the number of days in the month
+  final daysInMonth = DateTime(year, month + 1, 0).day;
+  if (day > daysInMonth) {
+    return '올바른 날짜 형식을 입력해 주세요';
+  }
+
+  return null;
+}
+
+String? phoneValidator(String? phone) {
+  if (phone == null || phone.isEmpty) {
+    return null;
+  }
+
+  final phoneRegex = RegExp(r'^\d{3}-\d{4}-\d{4}$');
+  return phoneRegex.hasMatch(phone) ? null : '올바른 전화번호 형식을 입력해 주세요 (010-1234-5678)';
+}
+
 void showSnackBar(BuildContext context, String message, {IconData icon = Icons.done, Color ?iconColor}) {
   final snackBar = SnackBar(
     backgroundColor: Colors.white,
