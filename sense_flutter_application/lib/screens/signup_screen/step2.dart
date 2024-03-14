@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/screens/layouts/login_layout.dart';
-import 'package:sense_flutter_application/screens/widgets/auth/register_form.dart';
+import 'package:sense_flutter_application/screens/widgets/auth/signup_form.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
-import 'package:sense_flutter_application/providers/auth/policy_provider.dart';
+import 'package:sense_flutter_application/providers/auth/register_provider.dart';
 
 class Step2 extends ConsumerWidget {
   const Step2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final all = ref.watch(policyAgreementProvider).toList();
     bool canProceed() {
-      return all.every((element) => 
-        !element.isRequired || (element.isRequired && element.isSelected)
-      );
+      print('withNoErrorsMessagesProvider');
+      print(ref.watch(withNoErrorsMessagesProvider));
+      return ref.watch(isSignupProvider) && ref.watch(withNoErrorsMessagesProvider);
     }
 
     return LoginLayout(
@@ -76,10 +75,10 @@ class Step2 extends ConsumerWidget {
                 )
             ),
 
-            Expanded(
+            const Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(left: 20, right: 20),
-                child: RegisterForm(),
+                child: SignupForm(),
               ),
             ),
 
@@ -91,7 +90,7 @@ class Step2 extends ConsumerWidget {
                   height: 48,
                   onPressed: () {
                     if(canProceed()) {
-                      // GoRouter.of(context).go('/auth/signup/step2');
+                      GoRouter.of(context).go('/auth/signup/step2');
                     }
                   },
                   backgroundColor: canProceed() ? Colors.blue : Colors.grey,
