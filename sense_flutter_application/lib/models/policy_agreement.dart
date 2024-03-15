@@ -13,5 +13,5 @@ class PolicyAgreement {
     this.content,
     this.isSelected = false,
     this.isRequired = false,
-  }) : id = Uuid().v4();
+  }) : id = const Uuid().v4();
 }
