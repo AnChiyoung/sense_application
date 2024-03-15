@@ -26,7 +26,6 @@ class MainLayout extends ConsumerWidget {
         onTap: (index) {
           ref.read(screenIndexProvider.notifier).state = index;
           int r = index + 1;
-          print('screen$r');
           context.goNamed('screen$r');
         },
         type: BottomNavigationBarType.fixed,
