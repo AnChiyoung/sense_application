@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
 import '../../../providers/auth/policy_provider.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
 
@@ -32,12 +33,12 @@ class SignupPolicyAgreement extends ConsumerWidget {
                   child: RichText(
                     text:
                       TextSpan(
-                        style: TextStyle(color: Colors.grey.shade400),
+                        style: const TextStyle(color: Color(0XFF555555)),
                         children: [
-                          const TextSpan(text: '14세 이상입니다.'),
-                          TextSpan(
+                          TextSpan(text: e.title),
+                          if(e.isRequired) TextSpan(
                             text: '(필수)',
-                            style: TextStyle(color: Colors.blue.shade200)
+                            style: TextStyle(color: primaryColor[50], fontWeight: FontWeight.w500),
                           ) 
                         ]
                       ),
@@ -70,13 +71,13 @@ class SignupPolicyAgreement extends ConsumerWidget {
                       child: RichText(
                         text: 
                           TextSpan(
-                            style: TextStyle(color: Colors.grey.shade400),
+                            style: const TextStyle(color: Color(0XFF555555)),
                             children: 
                               [ 
-                                const TextSpan(text: '14세 이상입니다.'),
-                                TextSpan(
+                                TextSpan(text: policy.title),
+                                if (policy.isRequired) TextSpan(
                                   text: '(필수)',
-                                  style: TextStyle(color: Colors.blue.shade200)
+                                  style: TextStyle(color: primaryColor[50], fontWeight: FontWeight.w500),
                                 ),
                               ]
                             ),
