@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
   const TopNavBar({super.key});
@@ -15,9 +16,9 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 SizedBox.fromSize(size: const Size.square(40), child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: const Image(image: NetworkImage('https://randomuser.me/api/portraits/men/2.jpg'))
+                  child: SvgPicture.asset('lib/assets/images/icons/logo.svg', width: 40)
                 )),
-                const Padding(padding: EdgeInsets.only(left: 20), child: Text('Hello User!'))
+                // const Padding(padding: EdgeInsets.only(left: 20), child: Text('Hello User!'))
               ]
             ),
             IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
