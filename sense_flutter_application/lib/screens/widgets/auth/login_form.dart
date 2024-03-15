@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sense_flutter_application/apis/auth/auth_api.dart';
 import 'package:sense_flutter_application/screens/widgets/common/clickable_text.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
@@ -21,6 +24,7 @@ class _LoginFormState extends State<LoginForm> {
   String email = "";
   String password = "";
   bool isAutoLogin = false;
+  AuthApi authApi = AuthApi();
 
 
 // Check if email and password are valid or filled
@@ -96,6 +100,15 @@ class _LoginFormState extends State<LoginForm> {
             labelText: '로그인',
             textColor: Colors.white,
             fontSize: 14,
+            onPressed: () async {
+              var response =  await authApi.loginUser(email, password);
+              if (response['code'] ==200) {
+                GoRouter.of(context).go('/home');
+              } else {
+                var nonFieldError = response['errors']['non_field_errors'];
+                showSnackBar(context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message'], icon: Icons.error, iconColor: Colors.red);
+              }
+            },
           ),
           const SizedBox(
             height: 16
