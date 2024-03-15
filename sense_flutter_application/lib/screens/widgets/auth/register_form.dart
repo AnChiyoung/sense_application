@@ -34,6 +34,7 @@ class RegisterForm extends ConsumerWidget {
 
     var onBirthDateChange = debounce<String>((String value) {
       ref.read(dateOfBirthProvider.notifier).state = value;
+      ref.read(dateOfBirthErrorProvider.notifier).state = dateValidator(value);
     }, const Duration(milliseconds: 500));
 
     var onPhoneNumberChange = debounce<String>((String value) {
@@ -45,7 +46,7 @@ class RegisterForm extends ConsumerWidget {
 
     var onCodeInputChange = debounce<String>((String value) {
       ref.read(codeInputProvider.notifier).state = value;
-      ref.read(codeInputError.notifier).state = '';
+      ref.read(codeInputErrorProvider.notifier).state = '';
     }, const Duration(milliseconds: 500));
 
     var onNameInputChange = debounce<String>((String value) {
@@ -73,7 +74,6 @@ class RegisterForm extends ConsumerWidget {
                       onChanged: (String value) {
                         onEmailChange(value);
                       },
-                      initialValue: 'adem@gmail.coms',
                       placeholder: 'sens@runners.im',
                       errorMessage: emailValidator(email) ?? emailError,
                       suffixIcon: IconButton(
@@ -115,7 +115,7 @@ class RegisterForm extends ConsumerWidget {
                 ref.read(passwordInputProvider.notifier).state = value;
               },
               isObscure: ref.watch(isObscureProvider1),
-              placeholder: '비밀번호를 입력해주세요텍스트',
+              placeholder: '비밀번호를 입력해주세요',
               suffixIcon: IconButton(
                 icon: ref.watch(isObscureProvider1) ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined),
                 color: const Color(0XFFBBBBBB),
@@ -124,7 +124,7 @@ class RegisterForm extends ConsumerWidget {
                 },
                 padding: EdgeInsets.zero,
               ),
-              errorMessage: ref.watch(errorPasswordProvider),
+              errorMessage: ref.watch(passwordErrorProvider),
             ),
             const SizedBox(height: 16),
             InputTextField(
@@ -134,7 +134,7 @@ class RegisterForm extends ConsumerWidget {
                 ref.read(confirmPasswordInputProvider.notifier).state = value;
               },
               isObscure: ref.watch(isObscureProvider2),
-              placeholder: '비밀번호를 입력해주세요텍스트',
+              placeholder: '비밀번호를 확인해 주세요',
               suffixIcon: IconButton(
                 icon: ref.watch(isObscureProvider2) ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined),
                 color: const Color(0XFFBBBBBB),
@@ -154,7 +154,7 @@ class RegisterForm extends ConsumerWidget {
               },
               isObscure: false,
               placeholder: '김센스',
-              errorMessage: ref.watch(errorNameProvider),
+              errorMessage: ref.watch(nameErrorProvider),
             ),
             const SizedBox(height: 16),
             DateInputGroup(
@@ -164,7 +164,7 @@ class RegisterForm extends ConsumerWidget {
                   onBirthDateChange(value);
                 }
               },
-              errorMessage: dateValidator(ref.watch(dateOfBirthProvider)),
+              errorMessage: ref.watch(dateOfBirthErrorProvider),
             ),
             const SizedBox(height: 16),
             Container(
@@ -181,6 +181,7 @@ class RegisterForm extends ConsumerWidget {
                     textColor: const Color(0XFFFFFFFF),
                     onPressed: () {
                       ref.read(genderProvider.notifier).state = Gender.male;
+                      ref.read(genderErrorProvider.notifier).state = '';
                     },
                   ),
                 ),
@@ -192,10 +193,20 @@ class RegisterForm extends ConsumerWidget {
                     textColor: const Color(0XFFFFFFFF),
                     onPressed: () {
                       ref.read(genderProvider.notifier).state = Gender.female;
+                      ref.read(genderErrorProvider.notifier).state = '';
                     },
                   ),
                 )
               ],
+            ),
+            // Gender Error Message
+            Container(
+              padding: const EdgeInsets.only(top: 8),
+              alignment: Alignment.centerLeft,
+              child: Text(ref.watch(genderErrorProvider) ?? '', style: TextStyle(
+              color: errorColor[10],
+              fontSize: 12,
+            ),),
             ),
             const SizedBox(height: 16),
             InputTextField(
@@ -206,12 +217,12 @@ class RegisterForm extends ConsumerWidget {
               },
               placeholder: '010-1234-5678',
               mask: [phoneMask],
-              errorMessage: phoneValidator(phone),
+              errorMessage: ref.watch(phoneErrorProvider),
               append: SizedBox(
                 width: 97,
                 child: CustomButton(
                   labelText: '인증받기',
-                  backgroundColor: (phoneValidator(phone)?.isEmpty ?? true && (phone.isNotEmpty) && !isCodeVerified) ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
+                  backgroundColor: (ref.watch(phoneErrorProvider)?.isEmpty ?? true && (phone.isNotEmpty) && !isCodeVerified) ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
                   textColor: Colors.white,
                   onPressed: () async {
                     if (isCodeVerified) return;
@@ -239,7 +250,7 @@ class RegisterForm extends ConsumerWidget {
                         ? const Icon(Icons.done, color: Colors.green, size: 20,) 
                         : CountDownTimer(endTime: ref.watch(expirationTimeProvider)),
                       placeholder: '',
-                      errorMessage: ref.watch(codeInputError),
+                      errorMessage: ref.watch(codeInputErrorProvider),
                       append: SizedBox(
                         width: 97,
                         child: CustomButton(
@@ -258,7 +269,10 @@ class RegisterForm extends ConsumerWidget {
                               ref.read(isCodeVerifiedProvider.notifier).state = isValid;
                               ref.read(expirationTimeProvider.notifier).state = '';
                             } else {
-                              ref.read(codeInputError.notifier).state = '인증번호가 일치하지 않습니다.';
+                              ref.read(isCodeVerifiedProvider.notifier).state = false;
+                              ref.read(codeInputErrorProvider.notifier).state = '인증번호가 일치하지 않습니다.';
+                              // ref.read(isCodeVerifiedProvider.notifier).state = true;
+                              // ref.read(codeInputErrorProvider.notifier).state = '';
                             }
                           },
                         )
