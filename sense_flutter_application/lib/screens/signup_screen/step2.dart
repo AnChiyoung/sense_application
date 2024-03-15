@@ -2,20 +2,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sense_flutter_application/models/user.dart';
 import 'package:sense_flutter_application/screens/layouts/login_layout.dart';
-import 'package:sense_flutter_application/screens/widgets/auth/signup_form.dart';
+import 'package:sense_flutter_application/screens/widgets/auth/register_form.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/providers/auth/register_provider.dart';
+import 'package:sense_flutter_application/utils/utils.dart';
 
 class Step2 extends ConsumerWidget {
   const Step2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     bool canProceed() {
-      print('withNoErrorsMessagesProvider');
-      print(ref.watch(withNoErrorsMessagesProvider));
       return ref.watch(isSignupProvider) && ref.watch(withNoErrorsMessagesProvider);
+    }
+
+    void fillErrors() {
+      if (ref.watch(emailInputProvider) == '') {
+        ref.read(emailErrorProvider.notifier).state = '이메일은 필수입니다';
+      } 
+      
+      if(ref.watch(isEmailAvailableProvider) == null || ref.watch(isEmailAvailableProvider) == false) {
+        ref.read(emailErrorProvider.notifier).state = '이메일이 확인되지 않았습니다.';
+      }
+
+      if (ref.watch(selectedGender).isEmpty) {
+        ref.read(genderErrorProvider.notifier).state = '성별을 선택해 주세요';
+      }
+
+      if(ref.watch(passwordInputProvider) == '') {
+        ref.read(passwordErrorProvider.notifier).state = '비밀번호는 필수입니다';
+      }
+
+      if (ref.watch(nameInputProvider) == '') {
+        ref.read(nameErrorProvider.notifier).state = '이름은 필수입니다';
+      }
+
+      if (ref.watch(dateOfBirthProvider) == '') {
+        ref.read(dateOfBirthErrorProvider.notifier).state = '생년월일은 필수입니다';
+      }
+
+      if (ref.watch(phoneInputProvider) == '') {
+        ref.read(phoneErrorProvider.notifier).state = '휴대폰 번호는 필수입니다';
+      }
+
+      if(ref.watch(isCodeVerifiedProvider) == false) {
+        ref.read(codeInputErrorProvider.notifier).state = '코드가 확인되지 않았습니다.';
+      }
     }
 
     return LoginLayout(
@@ -75,10 +110,10 @@ class Step2 extends ConsumerWidget {
                 )
             ),
 
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: SignupForm(),
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: RegisterForm(),
               ),
             ),
 
@@ -88,9 +123,26 @@ class Step2 extends ConsumerWidget {
               child: 
                 CustomButton(
                   height: 48,
-                  onPressed: () {
+                  onPressed: () async {
                     if(canProceed()) {
-                      GoRouter.of(context).go('/auth/signup/step2');
+                        var response = await ref.watch(authRepositoryProvider).register(
+                          User(
+                            email: ref.watch(emailInputProvider) ?? '', 
+                            birthday: ref.watch(dateOfBirthProvider) ?? '',
+                            phone: ref.watch(phoneInputProvider) ?? '',
+                            gender: ref.watch(selectedGender) ?? '',
+                            password: ref.watch(passwordInputProvider) ?? '',
+                          )
+                        );
+
+                        if (response['code'] == 200) {
+                          showSnackBar(context, '성공적으로 등록되었습니다!', onDismissed: () {
+                            GoRouter.of(context).go('/login');
+                          
+                          });
+                        }
+                    } else {
+                      fillErrors();
                     }
                   },
                   backgroundColor: canProceed() ? Colors.blue : Colors.grey,
