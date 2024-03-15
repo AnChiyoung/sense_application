@@ -1,6 +1,6 @@
 class User {
-  final int id;
-  final String username;
+  final int ?id;
+  final String ?username;
   final String email;
   final String birthday;
   final String phone;
@@ -15,14 +15,16 @@ class User {
   final bool isPushAlarm;
   final bool isMarketingAlarm;
   final String ?stores;
+  final String ?password;
 
   User({
-    required this.id,
-    required this.username,
+    this.id,
+    this.username,
     required this.email,
     required this.birthday,
     required this.phone,
     required this.gender,
+    this.password,
     this.profileImage,
     this.isSignup,
     this.isAddProfile,
