@@ -69,7 +69,7 @@ class AuthApi {
     }
   }
 
-  Future<Map<String, dynamic>> register(User payload, String password) async {
+  Future<Map<String, dynamic>> register(User payload) async {
     final response = await http.post(
       Uri.parse('https://server.dev.sens.im/api/v1/user/signup'),
       headers: <String, String>{
@@ -77,10 +77,10 @@ class AuthApi {
       },
       body: jsonEncode(<String, dynamic>{
         'email': payload.email,
-        'phone': payload.phone.replaceAll(RegExp(r'[^0-9]'), ''),
+        'password': payload.password,
         'birthday': payload.birthday,
-        'gender': payload,
-        'password': password,
+        'gender': payload.gender,
+        'phone': payload.phone,
       }),
     );
 
@@ -92,5 +92,22 @@ class AuthApi {
       var nonFieldError = parse['errors']['non_field_errors'];
       return { 'code': response.statusCode, 'status': false, 'message': nonFieldError?.isNotEmpty ? nonFieldError[0] : parse['message'] };
     }
+  }
+
+  Future loginUser(String email, String password) async {
+    final response = await http.post(
+      Uri.parse('https://server.dev.sens.im/api/v1/user/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': email,
+        'password': password,
+      }),
+    );
+
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+
+    return parse;
   }
 }
