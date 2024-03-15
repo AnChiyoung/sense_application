@@ -78,35 +78,44 @@ String? phoneValidator(String? phone) {
   return phoneRegex.hasMatch(phone) ? null : '올바른 전화번호 형식을 입력해 주세요 (010-1234-5678)';
 }
 
-void showSnackBar(BuildContext context, String message, {IconData icon = Icons.done, Color ?iconColor}) {
+void showSnackBar(BuildContext context, String message, {IconData icon = Icons.done, Color? iconColor, Function? onDismissed}) {
   final snackBar = SnackBar(
     backgroundColor: Colors.white,
-    content: Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: iconColor ?? primaryColor[50],
-            size: 20
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          color: iconColor ?? primaryColor[50], // Assuming primaryColor[50] is similar
+          size: 20,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          message,
+          style: TextStyle(
+            color: primaryColor[50], // Assuming primaryColor[50] is similar
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
           ),
-          const SizedBox(width: 8),
-          Text(
-            message,
-            style: TextStyle(
-              color: primaryColor[50],
-              fontSize: 14,
-              fontWeight: FontWeight.w700
-            )
-          )
-        ],
-      ),
+        ),
+      ],
     ),
     duration: const Duration(seconds: 3),
   );
 
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((reason) {
+    if (reason == SnackBarClosedReason.action) {
+      // 
+    } else {
+      // 
+    }
+
+    if (onDismissed != null) {
+      onDismissed();
+    }
+  });
 }
+
 
 final phoneMask = MaskTextInputFormatter(
   mask: '###-####-####', 
