@@ -1,3 +1,4 @@
+import 'package:iconify_flutter/icons/fa.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sense_flutter_application/apis/auth/auth_api.dart';
 import 'package:sense_flutter_application/models/user.dart';
@@ -8,17 +9,21 @@ final authRepositoryProvider = StateProvider<AuthApi>((ref) {
   return AuthApi();
 });
 
+enum Gender {male, female}
+
+// Input Providers
 
 final emailInputProvider = StateProvider<String>((ref) {
   return '';
 });
 
-final emailErrorProvider = StateProvider<String?>((ref) {
-  return null;
-});
 
 final isEmailAvailableProvider = StateProvider<bool?>((ref) {
   return null;
+});
+
+final passwordInputProvider = StateProvider<String>((ref) {
+  return '';
 });
 
 final isObscureProvider1 = StateProvider<bool>((ref) {
@@ -29,25 +34,64 @@ final isObscureProvider2 = StateProvider<bool>((ref) {
   return true;
 });
 
-final passwordInputProvider = StateProvider<String>((ref) {
-  return '';
-});
 
 final confirmPasswordInputProvider = StateProvider<String>((ref) {
   return '';
 });
 
-final errorPasswordProvider = StateProvider<String?>((ref) {
+
+final nameInputProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+final selectedGender = StateProvider<String>((ref) {
+  switch (ref.watch(genderProvider)) {
+    case  Gender.male:
+      return 'MALE';
+    case Gender.female:
+      return 'FEMALE';
+    default:
+      return '';
+  }
+});
+
+
+final expirationTimeProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+final codeInputProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+
+final genderProvider = StateProvider<Gender?>((ref) {
+  return;
+});
+
+
+final dateOfBirthProvider = StateProvider<String>((ref) {
+  return '';
+});
+
+
+// Error Providers
+
+final emailErrorProvider = StateProvider<String?>((ref) {
+  return null;
+});
+
+final passwordErrorProvider = StateProvider<String?>((ref) {
   String pwd = ref.watch(passwordInputProvider);
   RegExp passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
   
   if (pwd.isEmpty) {
     return null;
   } else if (!passwordRegex.hasMatch(pwd)) {
-    return 'Please enter at least 8 characters with a combination of letters and numbers.';
+    return '문자와 숫자를 조합하여 8자 이상 입력해주세요.';
   }
   else if (pwd.length < 8) {
-    return 'Password must be at least 8 characters long';
+    return '비밀번호는 8자 이상이어야 합니다.';
   }
   
   return null;
@@ -67,11 +111,8 @@ final confirmPasswordErrorProvider = StateProvider<String?>((ref) {
 
 });
 
-final nameInputProvider = StateProvider<String>((ref) {
-  return '';
-});
 
-final errorNameProvider = StateProvider<String?>((ref) {
+final nameErrorProvider = StateProvider<String?>((ref) {
   String name = ref.watch(nameInputProvider);
   RegExp regex = RegExp(r'^[\uAC00-\uD7AF]+$');
   
@@ -89,24 +130,14 @@ final errorNameProvider = StateProvider<String?>((ref) {
   return null;
 });
 
-enum Gender {male, female}
 
-final genderProvider = StateProvider<Gender?>((ref) {
-  return;
+
+final genderErrorProvider = StateProvider<String?>((ref) {
+  return '';
 });
 
-final selectedGender = StateProvider<String?>((ref) {
-  switch (ref.watch(genderProvider)) {
-    case  Gender.male:
-      return 'MALE';
-    case Gender.female:
-      return 'FEMALE';
-    default:
-      return '';
-  }
-});
 
-final dateOfBirthProvider = StateProvider<String>((ref) {
+final dateOfBirthErrorProvider = StateProvider<String?>((ref) {
   return '';
 });
 
@@ -119,35 +150,31 @@ bool isSendCodeProvider(ref) {
   return ref.watch(expirationTimeProvider).state.isNotEmpty;
 }
 
-final expirationTimeProvider = StateProvider<String>((ref) {
-  return '';
+final phoneErrorProvider = StateProvider<String?>((ref) {
+  String phone = ref.watch(phoneInputProvider);
+  return phoneValidator(phone);
 });
 
-final codeInputProvider = StateProvider<String>((ref) {
-  return '';
-});
+final codeInputErrorProvider = StateProvider<String>((ref) => '');
+
+
+// Conditions Provider
 
 final isCodeVerifiedProvider = StateProvider<bool>((ref) {
   return false;
 });
 
-final codeInputError = StateProvider<String>((ref) => '');
-
 final withNoErrorsMessagesProvider = StateProvider<bool>((ref) {
   var errors = [
     ref.watch(emailErrorProvider),
-    ref.watch(errorPasswordProvider),
+    ref.watch(passwordErrorProvider),
     ref.watch(confirmPasswordErrorProvider),
-    ref.watch(codeInputError),
-    ref.watch(dateOfBirthProvider),
-    ref.watch(errorNameProvider),
-    dateValidator(ref.watch(dateOfBirthProvider)),
+    ref.watch(codeInputErrorProvider),
+    ref.watch(dateOfBirthErrorProvider),
+    ref.watch(nameErrorProvider),
   ];
-
-
   return errors.every((element) {
-    print('element => $element');
-    return element?.isEmpty ?? false;
+    return element?.isEmpty ?? element == null;
   });
 });
 
@@ -160,5 +187,7 @@ final isSignupProvider = StateProvider<bool>((ref) {
     ref.watch(dateOfBirthProvider),
     ref.watch(phoneInputProvider),
     ref.watch(codeInputProvider),
+    ref.watch(isCodeVerifiedProvider) ? 'true' : '',
+    ref.watch(selectedGender),
   ].every((element) => element.isNotEmpty);
 });
