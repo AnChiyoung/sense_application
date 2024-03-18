@@ -21,7 +21,7 @@ class Step2 extends ConsumerWidget {
 
     void fillErrors() {
       if (ref.watch(emailInputProvider) == '') {
-        ref.read(emailErrorProvider.notifier).state = '이메일은 필수입니다';
+        ref.read(emailErrorProvider.notifier).state = '이메일을 입력해주세요';
       } 
       
       if(ref.watch(isEmailAvailableProvider) == null || ref.watch(isEmailAvailableProvider) == false) {

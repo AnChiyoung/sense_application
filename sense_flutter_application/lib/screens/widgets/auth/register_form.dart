@@ -28,8 +28,8 @@ class RegisterForm extends ConsumerWidget {
     // Debouncer
     var onEmailChange = debounce<String>((String value) {
       ref.read(emailInputProvider.notifier).state = value;
-      ref.read(emailErrorProvider.notifier).state = '';
-      ref.read(isEmailAvailableProvider.notifier).state = null;
+      ref.read(emailErrorProvider.notifier).state = emailValidator(value);
+      ref.read(isEmailAvailableProvider.notifier).state = false;
     }, const Duration(milliseconds: 500));
 
     var onBirthDateChange = debounce<String>((String value) {
@@ -75,7 +75,7 @@ class RegisterForm extends ConsumerWidget {
                         onEmailChange(value);
                       },
                       placeholder: 'sens@runners.im',
-                      errorMessage: emailValidator(email) ?? emailError,
+                      errorMessage: emailError,
                       suffixIcon: IconButton(
                         onPressed: () {
                           if((isEmailAvailable ?? false) == false) return;
@@ -90,7 +90,7 @@ class RegisterForm extends ConsumerWidget {
                       append:
                         CustomButton(
                           labelText: '중복확인',
-                          backgroundColor: email.isNotEmpty && emailValidator(email)?.isEmpty != false && emailError?.isEmpty != false ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
+                          backgroundColor: email.isNotEmpty && emailError?.isEmpty != false ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
                           textColor: Colors.white,
                           onPressed: () async {
                             var mailResponse = await ref.read(authRepositoryProvider).checkEmail(email);

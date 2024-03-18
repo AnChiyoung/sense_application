@@ -25,7 +25,7 @@ String? emailValidator(String? email) {
 
   final emailRegex = RegExp(r'^(?!.*\.\.)(?!^\.)[a-zA-Z0-9._%+-]+(?<!-)(?<!\.)\@[a-zA-Z0-9.-]+(?<!\.)\.[a-zA-Z]{2,}$');
   
-  return emailRegex.hasMatch(email) ? null : '올바른 이메일 주소를 입력해 주세요';
+  return emailRegex.hasMatch(email) ? null : '올바른 양식의 이메일 주소를 입력해주세요';
 }
 
 String? dateValidator(String? date) {

@@ -18,8 +18,8 @@ final emailInputProvider = StateProvider<String>((ref) {
 });
 
 
-final isEmailAvailableProvider = StateProvider<bool?>((ref) {
-  return null;
+final isEmailAvailableProvider = StateProvider<bool>((ref) {
+  return false;
 });
 
 final passwordInputProvider = StateProvider<String>((ref) {
@@ -181,6 +181,7 @@ final withNoErrorsMessagesProvider = StateProvider<bool>((ref) {
 final isSignupProvider = StateProvider<bool>((ref) {
   return [
     ref.watch(emailInputProvider),
+    ref.watch(isEmailAvailableProvider) ? 'true' : '',
     ref.watch(passwordInputProvider),
     ref.watch(confirmPasswordInputProvider),
     ref.watch(nameInputProvider),
