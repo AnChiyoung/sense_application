@@ -55,103 +55,108 @@ class Step2 extends ConsumerWidget {
 
     return LoginLayout(
         body: SafeArea(
-          child: Column(
-          children: [
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 24),
-              margin: const EdgeInsets.only(bottom: 24),
+          child:
+            Container (
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
               child: 
-                const Text(
-                  '회원가입',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                  )
-                )
-            ),
-
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(top: 0, bottom: 8),
-              margin: const EdgeInsets.only(bottom: 24, left: 20, right: 20,),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(0XFFE0E0E0),
-                    width: 1
-                  )
-                )
-              ),
-              child: 
-                const Row(
+                Column(
                   children: [
-                    Text(
-                      '01  약관동의',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0XFFE0E0E0)
-                      )
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                      margin: const EdgeInsets.only(bottom: 24),
+                      child: 
+                        const Text(
+                          '회원가입',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          )
+                        )
                     ),
-                    SizedBox(width: 16),
-                    Text(
-                      '02 개인정보 입력',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0XFF777777)
-                      )
+
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(top: 0, bottom: 8),
+                      margin: const EdgeInsets.only(bottom: 24, left: 0, right: 0,),
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Color(0XFFE0E0E0),
+                            width: 1
+                          )
+                        )
+                      ),
+                      child: 
+                        const Row(
+                          children: [
+                            Text(
+                              '01  약관동의',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0XFFE0E0E0)
+                              )
+                            ),
+                            SizedBox(width: 16),
+                            Text(
+                              '02 개인정보 입력',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0XFF777777)
+                              )
+                            )
+                          ],
+                        )
+                    ),
+
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.only(left: 0, right: 0),
+                        child: RegisterForm(),
+                      ),
+                    ),
+
+                    // Bottom button
+                    Container(
+                      padding: const EdgeInsets.only(left: 0, right: 0, bottom: 0),
+                      child: 
+                        CustomButton(
+                          height: 48,
+                          onPressed: () async {
+                            if(canProceed()) {
+                                var response = await ref.watch(authRepositoryProvider).register(
+                                  User(
+                                    email: ref.watch(emailInputProvider) ?? '', 
+                                    birthday: ref.watch(dateOfBirthProvider) ?? '',
+                                    phone: ref.watch(phoneInputProvider) ?? '',
+                                    gender: ref.watch(selectedGender) ?? '',
+                                    password: ref.watch(passwordInputProvider) ?? '',
+                                  )
+                                );
+
+                                if (response['code'] == 200) {
+                                  showSnackBar(context, '성공적으로 등록되었습니다!', onDismissed: () {
+                                    GoRouter.of(context).go('/login');
+                                  
+                                  });
+                                }
+                            } else {
+                              fillErrors();
+                            }
+                          },
+                          backgroundColor: canProceed() ? Colors.blue : Colors.grey,
+                          labelText: "동의하기",
+                          textColor: Colors.white,
+                        )
                     )
                   ],
                 )
-            ),
-
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: RegisterForm(),
-              ),
-            ),
-
-            // Bottom button
-            Container(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
-              child: 
-                CustomButton(
-                  height: 48,
-                  onPressed: () async {
-                    if(canProceed()) {
-                        var response = await ref.watch(authRepositoryProvider).register(
-                          User(
-                            email: ref.watch(emailInputProvider) ?? '', 
-                            birthday: ref.watch(dateOfBirthProvider) ?? '',
-                            phone: ref.watch(phoneInputProvider) ?? '',
-                            gender: ref.watch(selectedGender) ?? '',
-                            password: ref.watch(passwordInputProvider) ?? '',
-                          )
-                        );
-
-                        if (response['code'] == 200) {
-                          showSnackBar(context, '성공적으로 등록되었습니다!', onDismissed: () {
-                            GoRouter.of(context).go('/login');
-                          
-                          });
-                        }
-                    } else {
-                      fillErrors();
-                    }
-                  },
-                  backgroundColor: canProceed() ? Colors.blue : Colors.grey,
-                  labelText: "동의하기",
-                  textColor: Colors.white,
-                )
             )
-          ],
-        ),
         )
     );
   }

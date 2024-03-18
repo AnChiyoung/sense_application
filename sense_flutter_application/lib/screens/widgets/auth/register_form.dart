@@ -55,9 +55,9 @@ class RegisterForm extends ConsumerWidget {
     
     return 
       Container(
-        padding: const EdgeInsets.only(bottom: 48),
+        padding: const EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 0),
         constraints: BoxConstraints(
-          maxWidth: screenWidth > 780 ? 500 : 375,
+          // maxWidth: screenWidth > 780 ? 500 : 375,
         ),
         alignment: Alignment.center,
         child: Column(
