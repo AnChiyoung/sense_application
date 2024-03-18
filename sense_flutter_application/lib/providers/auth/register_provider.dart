@@ -83,7 +83,7 @@ final emailErrorProvider = StateProvider<String?>((ref) {
 
 final passwordErrorProvider = StateProvider<String?>((ref) {
   String pwd = ref.watch(passwordInputProvider);
-  RegExp passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+  RegExp passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$');
   
   if (pwd.isEmpty) {
     return null;
