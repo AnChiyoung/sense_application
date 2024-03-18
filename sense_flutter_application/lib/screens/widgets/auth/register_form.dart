@@ -221,7 +221,7 @@ class RegisterForm extends ConsumerWidget {
               append: SizedBox(
                 width: 97,
                 child: CustomButton(
-                  labelText: '인증받기',
+                  labelText: ref.watch(expirationTimeProvider).isNotEmpty ? '재발송' : '인증받기',
                   backgroundColor: (ref.watch(phoneErrorProvider)?.isEmpty ?? true && (phone.isNotEmpty) && !isCodeVerified) ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
                   textColor: Colors.white,
                   onPressed: () async {
