@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
@@ -9,12 +11,14 @@ class DateInputGroup extends StatefulWidget {
   final TextStyle labelStyle;
   final String ?errorMessage;
   final double height;
+  final String ?initialValue;
 
   const DateInputGroup({
     super.key,
     required this.label,
     required this.onChanged,
     this.errorMessage,
+    this.initialValue,
     this.labelStyle = const TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w700,
@@ -31,10 +35,23 @@ class _DateInputGroupState extends State<DateInputGroup> {
   late String year = '';
   late String month = '';
   late String day = '';
+  late String dateOfBirth = '';
+  
   // late String ?date = null;
 
   @override
   Widget build(BuildContext context) {
+    if (mounted) {
+      dateOfBirth = widget.initialValue ?? '';
+    }
+
+    List dateOfBirthSplit = (dateOfBirth.isEmpty ? '---' : dateOfBirth).split('-');
+    String _year = dateOfBirthSplit.elementAt(0);
+    String _month = dateOfBirthSplit.elementAt(1);
+    String _day = dateOfBirthSplit.elementAt(2);
+
+
+    
 
     widget.onChanged('$year-$month-$day');
 
@@ -59,6 +76,7 @@ class _DateInputGroupState extends State<DateInputGroup> {
                     child: 
                       DateInput(
                         label: 'YYYY',
+                        initialValue: _year,
                         onChanged: (String value) {
                           setState(() {
                             year = value;
@@ -73,6 +91,7 @@ class _DateInputGroupState extends State<DateInputGroup> {
                     child: 
                       DateInput(
                         label: 'MM',
+                        initialValue: _month,
                         onChanged: (String value) {
                           setState(() {
                             month = value;
@@ -87,6 +106,7 @@ class _DateInputGroupState extends State<DateInputGroup> {
                     child: 
                       DateInput(
                         label: 'DD',
+                        initialValue: _day,
                         onChanged: (String value) {
                           setState(() {
                             day = value;
@@ -118,12 +138,13 @@ class _DateInputGroupState extends State<DateInputGroup> {
   }
 }
 
-class DateInput extends StatelessWidget {
+class DateInput extends StatefulWidget {
 
   final List<TextInputFormatter> mask;
   final String label;
   final ValueChanged<String> onChanged;
   final bool hasError;
+  final String ?initialValue;
   
 
   const DateInput({
@@ -131,8 +152,22 @@ class DateInput extends StatelessWidget {
     required this.label,
     required this.onChanged,
     required this.mask,
+    this.initialValue,
     this.hasError = false
   });
+
+  @override
+  State<DateInput> createState() => _DateInput();
+}
+
+class _DateInput extends State<DateInput> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    print(widget.initialValue);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,20 +180,21 @@ class DateInput extends StatelessWidget {
           color: const Color(0XFFF6F6F6),
           borderRadius: BorderRadius.circular(0),
           border: Border.all(
-            color: (hasError ? errorColor[10]! : Colors.transparent),
+            color: (widget.hasError ? errorColor[10]! : Colors.transparent),
             width: 1,
           ),
         ),
         child: 
           TextFormField(
-            inputFormatters: mask,
+            inputFormatters: widget.mask,
+            initialValue: widget.initialValue,
             decoration: InputDecoration.collapsed(
               floatingLabelBehavior: FloatingLabelBehavior.never,
-              hintText: label,
+              hintText: widget.label,
               filled: false,
               hintStyle: const TextStyle(color: Color(0XFFBBBBBB)),
             ),
-            onChanged: onChanged,
+            onChanged: widget.onChanged,
           ),
       );
   }
