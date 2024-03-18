@@ -11,6 +11,7 @@ import 'package:sense_flutter_application/utils/utils.dart';
 class RegisterForm extends ConsumerWidget {
 
   final String emailError = "";
+  late String phone;
 
   RegisterForm({super.key});
 
@@ -21,9 +22,10 @@ class RegisterForm extends ConsumerWidget {
     String email = ref.watch(emailInputProvider);
     String ?emailError = ref.watch(emailErrorProvider);
     bool ?isEmailAvailable = ref.watch(isEmailAvailableProvider);
-    String phone = ref.watch(phoneInputProvider);
     Gender ?gender = ref.watch(genderProvider);
     bool isCodeVerified = ref.watch(isCodeVerifiedProvider);
+    phone = ref.watch(phoneInputProvider);
+    
 
     // Debouncer
     var onEmailChange = debounce<String>((String value) {
@@ -68,6 +70,8 @@ class RegisterForm extends ConsumerWidget {
               children: [
                 Expanded(
                   child: 
+
+                  // Email Field
                     InputTextField(
                       height: 40,
                       label: '이메일 주소',
@@ -76,6 +80,7 @@ class RegisterForm extends ConsumerWidget {
                       },
                       placeholder: 'sens@runners.im',
                       errorMessage: emailError,
+                      initialValue: email,
                       suffixIcon: IconButton(
                         onPressed: () {
                           if((isEmailAvailable ?? false) == false) return;
@@ -108,12 +113,15 @@ class RegisterForm extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
+
+            // Password Field
             InputTextField(
               height: 40,
               label: '비밀번호',
               onChanged: (String value) {
                 ref.read(passwordInputProvider.notifier).state = value;
               },
+              initialValue: ref.watch(passwordInputProvider),
               isObscure: ref.watch(isObscureProvider1),
               placeholder: '비밀번호를 입력해주세요',
               suffixIcon: IconButton(
@@ -127,12 +135,15 @@ class RegisterForm extends ConsumerWidget {
               errorMessage: ref.watch(passwordErrorProvider),
             ),
             const SizedBox(height: 16),
+
+            // Confirm Password Field
             InputTextField(
               height: 40,
               label: '비밀번호 확인',
               onChanged: (String value) {
                 ref.read(confirmPasswordInputProvider.notifier).state = value;
               },
+              initialValue: ref.watch(confirmPasswordInputProvider),
               isObscure: ref.watch(isObscureProvider2),
               placeholder: '비밀번호를 확인해 주세요',
               suffixIcon: IconButton(
@@ -146,20 +157,27 @@ class RegisterForm extends ConsumerWidget {
               errorMessage: ref.watch(confirmPasswordErrorProvider),
             ),
             const SizedBox(height: 16),
+
+            // Name Field
             InputTextField(
               height: 40,
               label: '이름',
               onChanged: (String value) {
                 onNameInputChange(value);
               },
+              initialValue: ref.watch(nameInputProvider),
               isObscure: false,
               placeholder: '김센스',
               errorMessage: ref.watch(nameErrorProvider),
             ),
             const SizedBox(height: 16),
+
+            // Date Of Birth Field
             DateInputGroup(
               label: '생년월일',
+              initialValue: ref.watch(dateOfBirthProvider),
               onChanged: (String value) {
+                print(value);
                 if (value != '--') {
                   onBirthDateChange(value);
                 }
@@ -172,6 +190,8 @@ class RegisterForm extends ConsumerWidget {
               padding: const EdgeInsets.only(top: 16, bottom: 8),
               child: const Text('성별'),
             ),
+
+            // Gender Selector
             Row(
               children: [
                 Expanded(
@@ -209,12 +229,15 @@ class RegisterForm extends ConsumerWidget {
             ),),
             ),
             const SizedBox(height: 16),
+
+            // Phone Number Field
             InputTextField(
               height: 40,
               label: '연락처',
               onChanged: (String value) {
                 onPhoneNumberChange(value);
               },
+              initialValue: phone,
               placeholder: '010-1234-5678',
               mask: [phoneMask],
               errorMessage: ref.watch(phoneErrorProvider),
@@ -236,6 +259,8 @@ class RegisterForm extends ConsumerWidget {
                 )
               ),
             ),
+
+            // SMS Authentication Code Field
             if (ref.watch(expirationTimeProvider).isNotEmpty || isCodeVerified)
                 Column(
                   children: [
