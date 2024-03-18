@@ -12,6 +12,10 @@ class SignupPolicyAgreement extends ConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+      
+    bool hasAllAgreed() {
+      return ref.watch(hasAllAgreedProvider);
+    }
 
     final int ?expandId = ref.watch(expandIdProvider); 
     final expandedPolicy = ref.watch(policyAgreementProvider)
@@ -49,6 +53,21 @@ class SignupPolicyAgreement extends ConsumerWidget {
 
     return Column(
       children: [
+        // Select All
+        Container(
+          padding: const EdgeInsets.only(bottom: 10),
+          child:
+            CustomCheckbox(
+              isChecked: hasAllAgreed(),
+              onChanged: () {
+                ref.read(policyAgreementProvider.notifier).toggleAll(
+                  expandedPolicy.where((element) => element.isRequired).every((element) => element.isSelected)
+                );
+              },
+              child: const Text('전체동의', style: TextStyle(color: Color(0XFF555555)))
+            )
+        ),
+
         ...noExpandPolicy,
         ExpansionPanelList(
           elevation: 0,

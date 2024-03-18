@@ -66,10 +66,32 @@ class PolicyNotifier extends StateNotifier<List<PolicyAgreement>> {
       return e;
     }).toList();
   }
+
+  void toggleAll(bool toggle) {
+    // Check if all items are selected
+    // final bool areAllSelected = value.every((e) => e.isSelected);
+
+    // print(areAllSelected);
+
+    // Map over the items and set isSelected based on the condition above
+    state = state.map((e) {
+      // print('is_selected: ${e.isSelected}');
+      // If all items are selected, we deselect them, and vice versa.
+      if (e.isRequired) {
+        // print('is_selected: ${!areAllSelected}');
+        e.isSelected = !toggle;
+      }
+      return e;
+    }).toList();
+  }
 }
 
 final policyAgreementProvider = StateNotifierProvider<PolicyNotifier, List<PolicyAgreement>>((ref) {
   return PolicyNotifier();
+});
+
+final hasAllAgreedProvider = Provider<bool>((ref) {
+  return ref.watch(policyAgreementProvider).where((element) => element.isRequired).toList().every((element) => element.isSelected);
 });
 
 
