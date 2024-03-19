@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../utils/global_extentions.dart';
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -11,8 +12,14 @@ class HomeScreen extends ConsumerWidget {
 
     return MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.white,
+        // brightness: Brightness.light,
+        // primaryColor: primaryColor[50],
+        colorScheme: ColorScheme.light(
+          primary: const Color.fromARGB(255, 34, 115, 236),
+          secondary: Colors.blue.shade500,
+          onPrimary: Colors.blue.shade900,
+          // onSecondary: Colors.blue.shade900,
+        ),
       ),
       home: const MainLayout(
       title: '',
