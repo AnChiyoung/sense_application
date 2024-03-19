@@ -1,0 +1,313 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sense_flutter_application/screens/widgets/common/count_down_timer.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
+import 'package:sense_flutter_application/screens/widgets/common/date_input_group.dart';
+import 'package:sense_flutter_application/screens/widgets/common/input_text_field.dart';
+import 'package:sense_flutter_application/providers/auth/register_provider.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
+import 'package:sense_flutter_application/utils/utils.dart';
+
+class RegisterForm extends ConsumerWidget {
+
+  final String emailError = "";
+  late String phone;
+
+  RegisterForm({super.key});
+
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    int screenWidth =  MediaQuery.of(context).size.width.toInt();
+    String email = ref.watch(emailInputProvider);
+    String ?emailError = ref.watch(emailErrorProvider);
+    bool ?isEmailAvailable = ref.watch(isEmailAvailableProvider);
+    Gender ?gender = ref.watch(genderProvider);
+    bool isCodeVerified = ref.watch(isCodeVerifiedProvider);
+    phone = ref.watch(phoneInputProvider);
+    
+
+    // Debouncer
+    var onEmailChange = debounce<String>((String value) {
+      ref.read(emailInputProvider.notifier).state = value;
+      ref.read(emailErrorProvider.notifier).state = emailValidator(value);
+      ref.read(isEmailAvailableProvider.notifier).state = false;
+    }, const Duration(milliseconds: 500));
+
+    var onBirthDateChange = debounce<String>((String value) {
+      ref.read(dateOfBirthProvider.notifier).state = value;
+      ref.read(dateOfBirthErrorProvider.notifier).state = dateValidator(value);
+    }, const Duration(milliseconds: 500));
+
+    var onPhoneNumberChange = debounce<String>((String value) {
+      ref.read(phoneInputProvider.notifier).state = value;
+      ref.read(isCodeVerifiedProvider.notifier).state = false;
+      ref.read(expirationTimeProvider.notifier).state = '';
+      ref.read(codeInputProvider.notifier).state = '';
+    }, const Duration(milliseconds: 500));
+
+    var onCodeInputChange = debounce<String>((String value) {
+      ref.read(codeInputProvider.notifier).state = value;
+      ref.read(codeInputErrorProvider.notifier).state = '';
+    }, const Duration(milliseconds: 500));
+
+    var onNameInputChange = debounce<String>((String value) {
+      ref.read(nameInputProvider.notifier).state = value;
+    }, const Duration(milliseconds: 500));
+    
+    return 
+      Container(
+        padding: const EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 0),
+        constraints: BoxConstraints(
+          maxWidth: screenWidth > 768 ?  500 : double.infinity,
+        ),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: 
+
+                  // Email Field
+                    InputTextField(
+                      height: 40,
+                      label: '이메일 주소',
+                      onChanged: (String value) {
+                        onEmailChange(value);
+                      },
+                      placeholder: 'sens@runners.im',
+                      errorMessage: emailError,
+                      initialValue: email,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          if((isEmailAvailable ?? false) == false) return;
+                          showSnackBar(context, '이미 사용중인 이메일입니다.');
+                        },
+                        icon: Icon(
+                          Icons.done,
+                          color: (isEmailAvailable ?? false ? Colors.green : Colors.transparent),
+                          size: 20
+                        )
+                      ),
+                      append:
+                        CustomButton(
+                          labelText: '중복확인',
+                          backgroundColor: email.isNotEmpty && emailError?.isEmpty != false ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            var mailResponse = await ref.read(authRepositoryProvider).checkEmail(email);
+
+                            if (mailResponse['status']) {
+                              ref.read(emailErrorProvider.notifier).state = '';
+                              ref.read(isEmailAvailableProvider.notifier).state = true;
+                            } else {
+                              ref.read(emailErrorProvider.notifier).state = mailResponse['message'];
+                            }
+                          },
+                        )
+                    )
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // Password Field
+            InputTextField(
+              height: 40,
+              label: '비밀번호',
+              onChanged: (String value) {
+                ref.read(passwordInputProvider.notifier).state = value;
+              },
+              initialValue: ref.watch(passwordInputProvider),
+              isObscure: ref.watch(isObscureProvider1),
+              placeholder: '비밀번호를 입력해주세요',
+              suffixIcon: IconButton(
+                icon: ref.watch(isObscureProvider1) ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined),
+                color: const Color(0XFFBBBBBB),
+                onPressed: () {
+                  ref.read(isObscureProvider1.notifier).state = !ref.read(isObscureProvider1);
+                },
+                padding: EdgeInsets.zero,
+              ),
+              errorMessage: ref.watch(passwordErrorProvider),
+            ),
+            const SizedBox(height: 16),
+
+            // Confirm Password Field
+            InputTextField(
+              height: 40,
+              label: '비밀번호 확인',
+              onChanged: (String value) {
+                ref.read(confirmPasswordInputProvider.notifier).state = value;
+              },
+              initialValue: ref.watch(confirmPasswordInputProvider),
+              isObscure: ref.watch(isObscureProvider2),
+              placeholder: '비밀번호를 확인해 주세요',
+              suffixIcon: IconButton(
+                icon: ref.watch(isObscureProvider2) ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined),
+                color: const Color(0XFFBBBBBB),
+                onPressed: () {
+                  ref.read(isObscureProvider2.notifier).state = !ref.read(isObscureProvider2);
+                },
+                padding: EdgeInsets.zero,
+              ),
+              errorMessage: ref.watch(confirmPasswordErrorProvider),
+            ),
+            const SizedBox(height: 16),
+
+            // Name Field
+            InputTextField(
+              height: 40,
+              label: '이름',
+              onChanged: (String value) {
+                onNameInputChange(value);
+              },
+              initialValue: ref.watch(nameInputProvider),
+              isObscure: false,
+              placeholder: '김센스',
+              errorMessage: ref.watch(nameErrorProvider),
+            ),
+            const SizedBox(height: 16),
+
+            // Date Of Birth Field
+            DateInputGroup(
+              label: '생년월일',
+              initialValue: ref.watch(dateOfBirthProvider),
+              onChanged: (String value) {
+                print(value);
+                if (value != '--') {
+                  onBirthDateChange(value);
+                }
+              },
+              errorMessage: ref.watch(dateOfBirthErrorProvider),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(top: 16, bottom: 8),
+              child: const Text('성별'),
+            ),
+
+            // Gender Selector
+            Row(
+              children: [
+                Expanded(
+                  child: CustomButton(
+                    labelText: '여성',
+                    backgroundColor: gender == Gender.male ? primaryColor[50]! : const Color(0XFFBBBBBB),
+                    textColor: const Color(0XFFFFFFFF),
+                    onPressed: () {
+                      ref.read(genderProvider.notifier).state = Gender.male;
+                      ref.read(genderErrorProvider.notifier).state = '';
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: CustomButton(
+                    labelText: '남성',
+                    backgroundColor: gender == Gender.female ? primaryColor[50]! : const Color(0XFFBBBBBB),
+                    textColor: const Color(0XFFFFFFFF),
+                    onPressed: () {
+                      ref.read(genderProvider.notifier).state = Gender.female;
+                      ref.read(genderErrorProvider.notifier).state = '';
+                    },
+                  ),
+                )
+              ],
+            ),
+            // Gender Error Message
+            Container(
+              padding: const EdgeInsets.only(top: 8),
+              alignment: Alignment.centerLeft,
+              child: Text(ref.watch(genderErrorProvider) ?? '', style: TextStyle(
+              color: errorColor[10],
+              fontSize: 12,
+            ),),
+            ),
+            const SizedBox(height: 16),
+
+            // Phone Number Field
+            InputTextField(
+              height: 40,
+              label: '연락처',
+              onChanged: (String value) {
+                onPhoneNumberChange(value);
+              },
+              initialValue: phone,
+              placeholder: '010-1234-5678',
+              mask: [phoneMask],
+              errorMessage: ref.watch(phoneErrorProvider),
+              append: SizedBox(
+                width: 97,
+                child: CustomButton(
+                  labelText: ref.watch(expirationTimeProvider).isNotEmpty ? '재발송' : '인증받기',
+                  backgroundColor: (ref.watch(phoneErrorProvider)?.isEmpty ?? true && (phone.isNotEmpty) && !isCodeVerified) ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
+                  textColor: Colors.white,
+                  onPressed: () async {
+                    if (isCodeVerified) return;
+                    ref.read(expirationTimeProvider.notifier).state = '';
+                    var response = await ref.watch(authRepositoryProvider)
+                                    .sendCode(phone);
+                    if (response['code'] == 200) {
+                      ref.read(expirationTimeProvider.notifier).state = response['data']['expired'];
+                    }
+                  },
+                )
+              ),
+            ),
+
+            // SMS Authentication Code Field
+            if (ref.watch(expirationTimeProvider).isNotEmpty || isCodeVerified)
+                Column(
+                  children: [
+                    const SizedBox(height: 24),
+                    InputTextField(
+                      height: 40,
+                      label: '인증번호',
+                      onChanged: (String value) {
+                        onCodeInputChange(value);
+                      },
+                      suffixIcon: isCodeVerified 
+                        ? const Icon(Icons.done, color: Colors.green, size: 20,) 
+                        : CountDownTimer(endTime: ref.watch(expirationTimeProvider)),
+                      placeholder: '',
+                      errorMessage: ref.watch(codeInputErrorProvider),
+                      append: SizedBox(
+                        width: 97,
+                        child: CustomButton(
+                          labelText: '확인',
+                          backgroundColor: ref.watch(codeInputProvider).isNotEmpty ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            if (isCodeVerified) return;
+
+                             var response = await ref.watch(authRepositoryProvider)
+                              .verifyCode(phone, ref.watch(codeInputProvider));
+                            
+                            bool isValid = response['code'] == 200;
+
+                            if (isValid) {
+                              ref.read(isCodeVerifiedProvider.notifier).state = isValid;
+                              ref.read(expirationTimeProvider.notifier).state = '';
+                            } else {
+                              ref.read(isCodeVerifiedProvider.notifier).state = false;
+                              ref.read(codeInputErrorProvider.notifier).state = '인증번호가 일치하지 않습니다.';
+                              // ref.read(isCodeVerifiedProvider.notifier).state = true;
+                              // ref.read(codeInputErrorProvider.notifier).state = '';
+                            }
+                          },
+                        )
+                      ),
+                    )
+                  ],
+                )
+          ],
+        )
+      );
+  }
+}
+

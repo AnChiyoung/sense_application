@@ -1,9 +1,8 @@
 name: sense_flutter_application
-description: sense flutter version application ( android, iOS)
-
+description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -17,10 +16,10 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.2.16+43
+version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: '>=3.3.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,75 +30,34 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
+  go_router: ^13.2.0
+  flutter_riverpod: ^2.4.10
+  riverpod_annotation: ^2.3.4
+  cupertino_icons: ^1.0.6
+  http: ^1.2.1
+  iconify_flutter: ^0.0.5
+  # fluttertoast: ^8.2.4
+  flutter_native_splash: ^2.3.13
+  flutter_svg: ^1.1.5
+  mask_text_input_formatter: ^2.9.0
+  uuid: ^4.3.3
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  flutter_native_splash: ^2.2.17
-  provider: ^6.0.5
-  http: ^0.13.5
-  mask_text_input_formatter: ^2.4.0
-  eosdart: ^0.4.8
-  email_validator: ^2.1.17
-  kakao_flutter_sdk: ^1.4.1
-  flutter_secure_storage: ^9.0.0
-  simple_gesture_detector: ^0.2.0
-  intl: ^0.18.0
-  draggable_bottom_sheet: ^1.0.2
-  card_swiper: ^3.0.1
-  stacked_card_carousel: ^0.0.4
-  image_picker: ^1.0.0
-  flutter_switch: ^0.3.2
-  table_calendar: ^3.0.9
-  gradient_borders: ^1.0.0
-  toast: ^0.3.0
-  lottie: ^2.3.2
-  cached_network_image: ^3.2.3
-  async: ^2.10.0
-  flutter_swipe_detector: ^2.0.0
-  calendar_date_picker2: ^0.5.2
-  multi_masked_formatter: ^1.0.0
-  quiver: ^3.2.1
-  logger: ^2.0.2+1
-  permission_handler: ^11.0.1
-  contacts_service: ^0.6.3
-  fast_contacts: ^3.0.3
-  url_launcher: ^6.1.11
-  flutter_screenutil: ^5.8.4
-  open_settings: ^2.0.2
-  webview_flutter: ^4.2.4
-  flutter_markdown: ^0.6.17+3
-  flutter_advanced_networkimage_2: ^2.0.1
-  month_picker_dialog: ^2.0.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-  async_textformfield: ^3.0.1
-  shared_preferences: ^2.2.2
-  colorful_safe_area: ^1.0.0
-  shimmer: ^3.0.0
-  tuple: ^2.0.2
-#  editorjs_flutter:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^3.0.0
-  build_runner: ^2.4.6
-  json_serializable: ^6.7.1
+  build_runner:
+  custom_lint:
+  riverpod_generator: ^2.3.11
+  riverpod_lint: ^2.3.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -107,27 +65,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/home/
-    - assets/splash/
-    - assets/calendar/
-    - assets/login/
-    - assets/create_event/
-    - assets/recommended_event/
-    - assets/feed/
-    - assets/lottie/
-    - assets/signin/
-    - assets/contact/
-    - assets/my_page/
-    - assets/taste/
-    - assets/taste/food/
-    - assets/taste/food/spicy/
-    - assets/taste/food/salty/
-    - assets/taste/food/candy/
-    - assets/policy/
-    - assets/public/
-    - assets/store/
-    - assets/icons/
-    - assets/preference/
+    - lib/images/logo.png
+    - lib/assets/images/icons/logo.svg
+    - lib/assets/images/svg/circle_checked.svg
+    - lib/assets/images/svg/circle-checked_filled.svg
+    - lib/assets/images/svg/kakaotalk.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,6 +1,6 @@
 # sense_flutter_application
 
-sense flutter version application ( android, iOS)
+A new Flutter project.
 
 ## Getting Started
 
