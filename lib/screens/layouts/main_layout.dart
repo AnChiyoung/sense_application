@@ -22,21 +22,37 @@ class MainLayout extends ConsumerWidget {
     return Scaffold(
       appBar: const TopNavBar(),
       body: body,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          ref.read(screenIndexProvider.notifier).state = index;
-          int r = index + 1;
-          context.goNamed('screen$r');
-        },
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _screenIndex,
-        items: const [
-            BottomNavigationBarItem(
-              icon:  Icon(Icons.home),
-              label: 'Home'
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile')
-      ],),
+      bottomNavigationBar: 
+        BottomNavigationBar(
+          onTap: (index) {
+            // ref.read(screenIndexProvider.notifier).state = index;
+            // int r = index + 1;
+            // context.goNamed('screen$r');
+          },
+          elevation: 20,
+          iconSize: 30,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _screenIndex,
+          items: 
+            const [
+              BottomNavigationBarItem(
+                icon:  Icon(Icons.home),
+                label: '홈',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                label: '스토리'
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_today_outlined),
+                label: '일정'
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.store_mall_directory_outlined),
+                label: '일정'
+              )
+            ],
+        ),
       floatingActionButton: floating,
     );
   }

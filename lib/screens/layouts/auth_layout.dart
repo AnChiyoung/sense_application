@@ -21,7 +21,7 @@ class AuthLayout extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: primaryColor[50],
-        highlightColor: primaryColor[95],
+        highlightColor: const Color.fromRGBO(200, 200, 200, 1),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: primaryColor[50]
         ),
@@ -37,7 +37,7 @@ class AuthLayout extends StatelessWidget {
             AppBar(
               leading: GoRouter.of(context).canPop() ? 
                 IconButton(
-                  icon: SvgPicture.asset('lib/assets/images/svg/caret-left.svg', color: Colors.blue,),
+                  icon: SvgPicture.asset('lib/assets/images/svg/caret-left.svg'),
                   onPressed: () => GoRouter.of(context).pop()
                 ) : null,
               shape: const Border(
