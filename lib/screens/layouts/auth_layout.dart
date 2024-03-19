@@ -5,14 +5,14 @@ import 'package:iconify_flutter/icons/ic.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginLayout extends StatelessWidget {
+class AuthLayout extends StatelessWidget {
 
   final String ?title;
   final Widget body;
   final Widget ?floating;
   final Widget ?bottomNavigationBar;
   
-  const LoginLayout({super.key, required this.body, this.title, this.floating, this.bottomNavigationBar});
+  const AuthLayout({super.key, required this.body, this.title, this.floating, this.bottomNavigationBar});
   
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,9 @@ class LoginLayout extends StatelessWidget {
             AppBar(
               leading: GoRouter.of(context).canPop() ? 
                 IconButton(
-                  icon: SvgPicture.asset('lib/assets/images/svg/caret-left.svg'),
+                  icon: SvgPicture.asset('lib/assets/images/svg/caret-left.svg', color: Colors.blue,),
                   onPressed: () => GoRouter.of(context).pop()
                 ) : null,
-              
               shape: const Border(
                 bottom: BorderSide(
                   width:1,

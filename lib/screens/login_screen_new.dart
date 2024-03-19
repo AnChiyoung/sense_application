@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/color_scheme.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ri.dart';
-import './layouts/login_layout.dart';
+import 'layouts/auth_layout.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           )
         ),
-        home: LoginLayout(
+        home: AuthLayout(
           body: 
             SingleChildScrollView(
               controller: pageControl,

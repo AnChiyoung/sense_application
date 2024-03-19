@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import '../utils/color_scheme.dart';
-import './layouts/login_layout.dart';
+import 'layouts/auth_layout.dart';
 import './widgets/auth/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
 
     return 
-      LoginLayout(
+      AuthLayout(
         body:
           SingleChildScrollView(
             controller: pageControl,

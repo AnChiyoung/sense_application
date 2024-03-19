@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/models/user.dart';
-import 'package:sense_flutter_application/screens/layouts/login_layout.dart';
+import 'package:sense_flutter_application/screens/layouts/auth_layout.dart';
 import 'package:sense_flutter_application/screens/widgets/auth/register_form.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/providers/auth/register_provider.dart';
@@ -53,7 +53,7 @@ class Step2 extends ConsumerWidget {
       }
     }
 
-    return LoginLayout(
+    return AuthLayout(
         body: SafeArea(
           child:
             Container (
