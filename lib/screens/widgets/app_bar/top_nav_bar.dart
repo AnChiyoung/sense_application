@@ -7,23 +7,31 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
   const TopNavBar({super.key});
   @override
   Widget build(BuildContext context) =>
-    Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-      child: SafeArea(child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+    Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: Color(0xFFEEEEEE)
+          )
+        )
+      
+      ),
+      child: 
+        Padding(
+          padding: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
+          child: SafeArea(child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox.fromSize(size: const Size.square(40), child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SvgPicture.asset('lib/assets/images/icons/logo.svg', width: 40)
-                )),
-                // const Padding(padding: EdgeInsets.only(left: 20), child: Text('Hello User!'))
-              ]
-            ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.notifications))
-          ],
-        )),
+                SvgPicture.asset('lib/assets/images/icons/logo.svg', height: 32),
+                Row(children: [
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.search_outlined)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.verified_user_outlined))
+                ],)
+              ],
+            )),
+        ),
     );
       
         @override
