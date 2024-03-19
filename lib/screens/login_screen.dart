@@ -19,45 +19,32 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: primaryColor[50],
-        highlightColor: primaryColor[50],
-        textSelectionTheme: TextSelectionThemeData(
-          cursorColor: primaryColor[50]
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          labelStyle: TextStyle(
-            color: Color.fromRGBO(187, 187, 187, 1),
-          ),
-
-        )
-      ),
-      home: LoginLayout(body:
-              SingleChildScrollView(
-                controller: pageControl,
-                scrollDirection: Axis.vertical,
-                child: const Column(
-                  children: [
-                    SizedBox(height: 40),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 48),
-                        child: Text(
-                          '로그인',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700
-                          )
-                        ),
-                      ),
+    return 
+      LoginLayout(
+        body:
+          SingleChildScrollView(
+            controller: pageControl,
+            scrollDirection: Axis.vertical,
+            child: const Column(
+              children: [
+                SizedBox(height: 40),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 48),
+                    child: Text(
+                      '로그인',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700
+                      )
                     ),
-                    LoginForm()
-                  ],
-              )
-            )
-      ),
+                  ),
+                ),
+                LoginForm()
+              ],
+          )
+        )
     );
   }
 }
