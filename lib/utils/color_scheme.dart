@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-Map<int, Color> primaryColor = {
-  0: const Color(0xFF001E42),
-  10: const Color(0xFF093A75),
-  20: const Color(0xFF0D55AA),
-  30: const Color(0xFF0E68D2),
-  40: const Color(0xFF2288FF),
-  50: const Color(0xFF3E97FF),
-  60: const Color(0xFF56A4FF),
-  70: const Color(0xFF7AB7FF),
-  80: const Color(0xFF95C6FF),
-  90: const Color(0xFFBBDAFF),
-  95: const Color(0xFFD1E6FF),
-  99: const Color(0xFFEBF4FF),
+const Map<int, Color> primaryColor = {
+  0: Color(0xFF001E42),
+  10: Color(0xFF093A75),
+  20: Color(0xFF0D55AA),
+  30: Color(0xFF0E68D2),
+  40: Color(0xFF2288FF),
+  50: Color(0xFF3E97FF),
+  60: Color(0xFF56A4FF),
+  70: Color(0xFF7AB7FF),
+  80: Color(0xFF95C6FF),
+  90: Color(0xFFBBDAFF),
+  95: Color(0xFFD1E6FF),
+  99: Color(0xFFEBF4FF),
 };
 
 // fromARGB
