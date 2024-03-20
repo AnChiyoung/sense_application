@@ -35,11 +35,17 @@ class AuthLayout extends StatelessWidget {
         Scaffold(
           appBar:
             AppBar(
-              leading: GoRouter.of(context).canPop() ? 
+              leading:
                 IconButton(
                   icon: SvgPicture.asset('lib/assets/images/svg/caret-left.svg'),
-                  onPressed: () => GoRouter.of(context).pop()
-                ) : null,
+                  onPressed: () {
+                    if (GoRouter.of(context).canPop()) {
+                      GoRouter.of(context).pop();
+                    } else {
+                      GoRouter.of(context).go('/home');
+                    }
+                  }
+                ),
               shape: const Border(
                 bottom: BorderSide(
                   width:1,
