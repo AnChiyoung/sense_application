@@ -1,7 +1,9 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sense_flutter_application/screens/layouts/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
 import '../utils/global_extentions.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -12,18 +14,16 @@ class HomeScreen extends ConsumerWidget {
 
     return MaterialApp(
       theme: ThemeData(
-        // brightness: Brightness.light,
-        // primaryColor: primaryColor[50],
+        fontFamily: 'Pretendard',
         colorScheme: ColorScheme.light(
-          primary: const Color.fromARGB(255, 34, 115, 236),
-          secondary: Colors.blue.shade500,
-          onPrimary: Colors.blue.shade900,
-          // onSecondary: Colors.blue.shade900,
+          primary: primaryColor[50] ?? Colors.white,
+          secondary: secondary1Color[50] ?? Colors.white,
+          onPrimary: primaryColor[50] ??  Colors.white,
         ),
       ),
-      home: const MainLayout(
+      home: MainLayout(
       title: '',
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         padding: EdgeInsets.only(left: 35, right: 35),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -32,6 +32,22 @@ class HomeScreen extends ConsumerWidget {
           ],
         )
       ),
+      floating: 
+        FloatingActionButton(
+          onPressed: () {
+            // 
+          },
+          shape: const CircleBorder(),
+          child: 
+            SvgPicture
+              .asset(
+                'lib/assets/images/icons/svg/plus.svg',
+                color: Colors.white,
+                width: 24,
+                height: 24,
+                fit: BoxFit.cover,
+              ),
+        ),
     ),
     );
   }
