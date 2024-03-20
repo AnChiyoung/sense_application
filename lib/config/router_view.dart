@@ -1,4 +1,4 @@
-import 'package:sense_flutter_application/screens/home_screen.dart';
+import 'package:sense_flutter_application/screens/home_screen/index.dart';
 import 'package:sense_flutter_application/screens/login_screen.dart';
 import 'package:sense_flutter_application/screens/signup_screen/index.dart';
 import 'package:flutter/material.dart';
