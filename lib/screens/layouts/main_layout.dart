@@ -1,4 +1,5 @@
 
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sense_flutter_application/providers/global_provider.dart';
 import 'package:sense_flutter_application/screens/widgets/app_bar/top_nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -24,31 +25,46 @@ class MainLayout extends ConsumerWidget {
       body: body,
       bottomNavigationBar: 
         BottomNavigationBar(
-          onTap: (index) {
-            // ref.read(screenIndexProvider.notifier).state = index;
-            // int r = index + 1;
-            // context.goNamed('screen$r');
+          onTap: (index) async {
+            ref.read(screenIndexProvider.notifier).state = index;
+            await Future.delayed(const Duration(milliseconds: 200), () {
+              switch(index) {
+                case 0:
+                  GoRouter.of(context).go('/home');
+                  break;
+                case 1:
+                  GoRouter.of(context).go('/login');
+                  break;
+                case 2:
+                  GoRouter.of(context).go('/schedule');
+                  break;
+                case 3:
+                  GoRouter.of(context).go('/store');
+                  break;
+              }
+            });
           },
-          elevation: 20,
-          iconSize: 30,
+          iconSize: 24,
           type: BottomNavigationBarType.fixed,
           currentIndex: _screenIndex,
+          unselectedFontSize: 12,
+          selectedFontSize: 12,
           items: 
-            const [
+            [
               BottomNavigationBarItem(
-                icon:  Icon(Icons.home),
+                icon:  SvgPicture.asset('lib/assets/images/icons/svg/bottom_bar/home.svg', width: 24, height: 24),
                 label: '홈',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.list),
+                icon:  SvgPicture.asset('lib/assets/images/icons/svg/bottom_bar/list.svg', width: 24, height: 24),
                 label: '스토리'
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today_outlined),
+                icon:  SvgPicture.asset('lib/assets/images/icons/svg/bottom_bar/calendar_blank.svg', width: 24, height: 24),
                 label: '일정'
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.store_mall_directory_outlined),
+                icon:  SvgPicture.asset('lib/assets/images/icons/svg/bottom_bar/storefront.svg', width: 24, height: 24),
                 label: '일정'
               )
             ],
