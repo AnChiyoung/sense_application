@@ -1,3 +1,4 @@
+import 'package:sense_flutter_application/screens/forgot_password_screen/index.dart';
 import 'package:sense_flutter_application/screens/home_screen/index.dart';
 import 'package:sense_flutter_application/screens/login_screen.dart';
 import 'package:sense_flutter_application/screens/signup_screen/index.dart';
@@ -30,6 +31,23 @@ class RouterView extends StatelessWidget {
             path: 'step2',
             builder: (context, state) => const Step2(),
           ),
+        ]
+      ),
+      GoRoute(
+        name: 'forgot-password',
+        path: '/forgot-password',
+        redirect: (context, state) {
+          return null;
+        },
+        routes: [
+          GoRoute(
+            path: 'step1',
+            builder: (context, state) => const PasswordChangeStep1(),
+          ),
+          // GoRoute(
+          //   path: 'step2',
+          //   builder: (context, state) => const Step2(),
+          // ),
         ]
       ),
       GoRoute(
