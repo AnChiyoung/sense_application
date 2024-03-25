@@ -2,6 +2,7 @@ import 'package:sense_flutter_application/screens/forgot_password_screen/index.d
 import 'package:sense_flutter_application/screens/home_screen/index.dart';
 import 'package:sense_flutter_application/screens/login_screen.dart';
 import 'package:sense_flutter_application/screens/signup_screen/index.dart';
+import 'package:sense_flutter_application/screens/list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 class RouterView extends StatelessWidget {
@@ -53,6 +54,10 @@ class RouterView extends StatelessWidget {
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/list',
+        builder: (context, state) => const ListScreen(),
       ),
     ]
   );
