@@ -22,9 +22,9 @@ class HomeScreen extends ConsumerWidget {
           onPrimary: primaryColor[50] ??  Colors.white,
         ),
       ),
-      home: MainLayout(
+      home: const MainLayout(
       title: '',
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -33,22 +33,22 @@ class HomeScreen extends ConsumerWidget {
           ],
         )
       ),
-      floating: 
-        FloatingActionButton(
-          onPressed: () {
-            // 
-          },
-          shape: const CircleBorder(),
-          child: 
-            SvgPicture
-              .asset(
-                'lib/assets/images/icons/svg/plus.svg',
-                color: Colors.white,
-                width: 24,
-                height: 24,
-                fit: BoxFit.cover,
-              ),
-        ),
+      // floating: 
+        // FloatingActionButton(
+        //   onPressed: () {
+        //     // 
+        //   },
+        //   shape: const CircleBorder(),
+        //   child: 
+        //     SvgPicture
+        //       .asset(
+        //         'lib/assets/images/icons/svg/plus.svg',
+        //         color: Colors.white,
+        //         width: 24,
+        //         height: 24,
+        //         fit: BoxFit.cover,
+        //       ),
+        // ),
     ),
     );
   }
