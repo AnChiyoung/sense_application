@@ -24,7 +24,7 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SvgPicture.asset('lib/assets/images/icons/logo.svg', height: 32),
+                SvgPicture.asset('lib/assets/images/logo.svg', height: 32),
                 Row(children: [
                   IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/search.svg', color: const Color(0XFF333333),)),
                   IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/bell.svg', color: const Color(0XFF333333),)),
