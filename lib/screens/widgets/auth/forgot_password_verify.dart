@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sense_flutter_application/apis/auth/auth_api.dart';
 import 'package:sense_flutter_application/screens/widgets/common/count_down_timer.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_toast.dart';
 import 'package:sense_flutter_application/screens/widgets/common/date_input_group.dart';
 import 'package:sense_flutter_application/screens/widgets/common/input_text_field.dart';
 import 'package:sense_flutter_application/providers/auth/register_provider.dart';
@@ -10,23 +11,34 @@ import 'package:sense_flutter_application/utils/color_scheme.dart';
 import 'package:sense_flutter_application/utils/utils.dart';
 import './validator/index.dart';
 
-class ForgotPasswordForm extends StatefulWidget {
 
-  final Function(bool) setValue;
+class VerifiCationFields  {
+  final String phone;
+  final String code;
+  final bool isCodeVerified;
+
+  VerifiCationFields({required this.phone, required this.code, required this.isCodeVerified});
+
+  factory VerifiCationFields.fromJson(Map<String, dynamic> json) {
+    return VerifiCationFields(
+      phone: json['phone'],
+      code: json['code'],
+      isCodeVerified: json['isCodeVerified']
+    );
+  }
+}
+class ForgotPasswordVerify extends StatefulWidget {
+
+  final Function(VerifiCationFields) onChanged;
+
   
-  const ForgotPasswordForm({super.key, required this.setValue});
-
-  static const Map <String, dynamic> Fi = {
-    'mask': '000-0000-0000',
-    'separator': '-'
-  };
-
+  const ForgotPasswordVerify({super.key, required this.onChanged});
   
   @override
-  State<ForgotPasswordForm> createState() => _ForgotPasswordFormState();
+  State<ForgotPasswordVerify> createState() => _ForgotPasswordVerifyState();
 }
 
-class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
+class _ForgotPasswordVerifyState extends State<ForgotPasswordVerify> {
 
   
   String code = '';
@@ -40,7 +52,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   void setState(VoidCallback fn) {
     // TODO: implement setState
      super.setState(fn);
-  //  widget.callback(isCodeVerified = false);
+     widget.onChanged(VerifiCationFields(phone: phone, code: code, isCodeVerified: isCodeVerified));
   }
 
   @override
@@ -89,6 +101,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                               print(value['data']['expired']);
                               expirationTime = value['data']['expired'];
                               isVerification = true;
+                              setState(() { 
+                                isCodeVerified = true;
+                              });
                             });
                           }).catchError((error) {
                             print(error);
@@ -133,7 +148,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                                 // widget.callback(true);
                               });
                               } else {
-                                showSnackBar(context, value['message'], icon: Icons.error, iconColor: Colors.red);
+                                CustomToast.errorToast(context, value['message'], top: MediaQuery.of(context).padding.bottom + 95);
                               }
                               
                             }).catchError((error) {
