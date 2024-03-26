@@ -45,10 +45,10 @@ class RouterView extends StatelessWidget {
             path: 'step1',
             builder: (context, state) => const PasswordChangeStep1(),
           ),
-          // GoRoute(
-          //   path: 'step2',
-          //   builder: (context, state) => const Step2(),
-          // ),
+          GoRoute(
+            path: 'step2',
+            builder: (context, state) => const PasswordChangeStep2(),
+          ),
         ]
       ),
       GoRoute(
