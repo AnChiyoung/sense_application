@@ -5,7 +5,8 @@ class CustomToast {
   static const  _toastDuration = Duration(seconds: 3);
   static OverlayEntry? _overlayEntry;
 
-  static errorToast(BuildContext context, String message, { double ?top}) {
+  static errorToast(BuildContext context, String message, { double ?bottom}) {
+    print(bottom);
     showToast(
       context,
       Row(
@@ -18,7 +19,7 @@ class CustomToast {
           ),
         ],
       ),
-      top: top,
+      bottom: bottom,
       backgroundColor: Colors.white,
       border: Border.all(color: errorColor[0] ?? Colors.red),
     );
@@ -42,7 +43,7 @@ class CustomToast {
     );
   }
 
-  static successToast(BuildContext context, String message) {
+  static successToast(BuildContext context, String message, { double ?bottom}) {
     showToast(
       context,
       Row(
@@ -57,6 +58,7 @@ class CustomToast {
       ),
       backgroundColor: Colors.white,
       border: Border.all(color: primaryColor[50] ?? Colors.white),
+      bottom: bottom,
     );
   }
 
