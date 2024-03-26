@@ -102,7 +102,7 @@ class MainLayout extends ConsumerWidget {
                     height: 24,
                     color: _screenIndex == 4 ? primaryColor[50] : const Color.fromRGBO(119, 119, 119, 1)
                   ),
-                  label: '내 정보',
+                  label: 'MY',
               )
             ],
         ),
