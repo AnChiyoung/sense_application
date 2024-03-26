@@ -2,29 +2,29 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/screens/layouts/auth_layout.dart';
-import 'package:sense_flutter_application/screens/widgets/auth/forgot_password_verify.dart';
+import 'package:sense_flutter_application/screens/widgets/auth/forgot_password_form.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_modal.dart';
 
-class PasswordChangeStep1 extends StatefulWidget {
-  const PasswordChangeStep1({super.key});
+class PasswordChangeStep2 extends StatefulWidget {
+  const PasswordChangeStep2({super.key});
   
   @override
-  State<PasswordChangeStep1> createState() => _PasswordChangeStep1State();
+  State<PasswordChangeStep2> createState() => _PasswordChangeStep2State();
 
   
 }
 
-class _PasswordChangeStep1State extends State<PasswordChangeStep1> {
+class _PasswordChangeStep2State extends State<PasswordChangeStep2> {
 
-  bool isCodeVerified = false;
-  String phone = '';
-  String code = '';
+  String password = '';
+  String passwordConfirm = '';
 
   @override
   Widget build(BuildContext context) {
 
     bool canProceed() {
-      return isCodeVerified && phone.isNotEmpty && code.isNotEmpty;
+      return password.isNotEmpty && passwordConfirm.isNotEmpty && password == passwordConfirm;
     }
 
     return 
@@ -71,7 +71,7 @@ class _PasswordChangeStep1State extends State<PasswordChangeStep1> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Color(0XFF777777)
+                              color: Color(0XFFE0E0E0)
                             )
                           ),
                           SizedBox(width: 16),
@@ -81,7 +81,7 @@ class _PasswordChangeStep1State extends State<PasswordChangeStep1> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: Color(0XFFE0E0E0)
+                              color: Color(0XFF777777)
                             )
                           )
                         ],
@@ -91,12 +91,11 @@ class _PasswordChangeStep1State extends State<PasswordChangeStep1> {
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.only(left: 0, right: 0),
-                      child: ForgotPasswordVerify(
+                      child: ForgotPasswordForm(
                         onChanged: (VerifiCationFields value) { 
                           setState(() {
-                            isCodeVerified = value.isCodeVerified;
-                            phone = value.phone;
-                            code = value.code;
+                            password = value.password;
+                            passwordConfirm = value.passwordConfirm;
                           });
                        },),
                     ),
@@ -110,11 +109,11 @@ class _PasswordChangeStep1State extends State<PasswordChangeStep1> {
                         height: 48,
                         onPressed: () {
                           if(canProceed()) {
-                            GoRouter.of(context).push('/forgot-password/step2');
+                            CustomModal.showModal(context);
                           }
                         },
                         backgroundColor: canProceed() ? Colors.blue : Colors.grey,
-                        labelText: "다음",
+                        labelText: "비밀번호 재설정",
                         textColor: Colors.white,
                       )
                   ),
