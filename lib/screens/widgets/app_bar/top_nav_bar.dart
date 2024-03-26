@@ -20,7 +20,8 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
       child: 
         Padding(
           padding: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-          child: SafeArea(child: Row(
+          child: SafeArea(child: 
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -28,7 +29,6 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
                 Row(children: [
                   IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/search.svg', color: const Color(0XFF333333),)),
                   IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/bell.svg', color: const Color(0XFF333333),)),
-                  IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/user.svg', color: const Color(0XFF333333),))
                 ],)
               ],
             )),
