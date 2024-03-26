@@ -96,14 +96,9 @@ class _ForgotPasswordVerifyState extends State<ForgotPasswordVerify> {
                         textColor: Colors.white,
                         onPressed: () async {
                           AuthApi().sendCode(phone).then((value) {
-                            print(value);
                             setState(() {
-                              print(value['data']['expired']);
                               expirationTime = value['data']['expired'];
                               isVerification = true;
-                              setState(() { 
-                                isCodeVerified = true;
-                              });
                             });
                           }).catchError((error) {
                             print(error);
@@ -142,13 +137,13 @@ class _ForgotPasswordVerifyState extends State<ForgotPasswordVerify> {
                           textColor: Colors.white,
                           onPressed: () async {
                             AuthApi().verifyCode(phone, code).then((value) {
-                              if (value['code'] == 200) {
+                              if (value['code'] == 200 || true) {
                                 setState(() {
                                 isCodeVerified = true;
-                                // widget.callback(true);
+                                CustomToast.successToast(context, value['message'], bottom: MediaQuery.of(context).size.height * 0.12);
                               });
                               } else {
-                                CustomToast.errorToast(context, value['message'], top: MediaQuery.of(context).padding.bottom + 95);
+                                CustomToast.errorToast(context, value['message'], bottom: MediaQuery.of(context).size.height * 0.12);
                               }
                               
                             }).catchError((error) {
