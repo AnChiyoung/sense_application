@@ -42,6 +42,9 @@ dependencies:
   mask_text_input_formatter: ^2.9.0
   uuid: ^4.3.3
   flutter_secure_storage: ^9.0.0
+  kakao_flutter_sdk_auth: ^1.9.0
+  kakao_flutter_sdk_user: ^1.9.0
+  kakao_flutter_sdk_common: ^1.9.0
 
 
 dev_dependencies:
@@ -77,9 +80,10 @@ flutter:
     - lib/assets/images/icons/svg/bottom_bar/list.svg
     - lib/assets/images/icons/svg/bottom_bar/calendar_blank.svg
     - lib/assets/images/icons/svg/bottom_bar/storefront.svg
+    - lib/assets/images/icons/svg/bottom_bar/user.svg
     - lib/assets/images/icons/svg/top_bar/search.svg
+    - lib/assets/images/banner_1.png
     - lib/assets/images/icons/svg/top_bar/bell.svg
-    - lib/assets/images/icons/svg/top_bar/user.svg
     - lib/assets/images/card_image.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

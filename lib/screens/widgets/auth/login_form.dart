@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:kakao_flutter_sdk_auth/kakao_flutter_sdk_auth.dart' as KakaoApi;
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart' as KakaoApi;
 import 'package:sense_flutter_application/apis/auth/auth_api.dart';
 import 'package:sense_flutter_application/screens/widgets/common/clickable_text.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
@@ -84,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
               ClickableText(
                 text: '비밀번호 찾기',
                 onTap: () {
-                  print('FORGOT PASSWORD CLICKED');
+                  GoRouter.of(context).push('/forgot-password/step1');
                 }
               ),
             ],
@@ -113,13 +115,42 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(
             height: 16
           ),
+
+          // Kakao Login
           CustomButton(
             height: 48,
             backgroundColor: const Color.fromRGBO(254, 229, 0, 1),
             labelText: '카카오로 시작하기',
-            prefixIcon: SvgPicture.asset('lib/assets/images/svg/kakaotalk.svg', width: 20, height: 20),
+            prefixIcon: SvgPicture.asset('lib/assets/images/icons/svg/kakaotalk.svg', width: 20, height: 20),
             textColor: Colors.black,
             fontSize: 14,
+            onPressed: () async {
+                bool talkInstalled = await KakaoApi.isKakaoTalkInstalled().catchError((message) {
+                  print('KAKAO ERROR!');
+                  print(message);
+                  // showSnackBar(context, '카카오톡이 설치되어 있지 않습니다.', icon: Icons.error, iconColor: Colors.red);
+                });
+
+                print('talkInstalled $talkInstalled');
+
+                if(talkInstalled) {
+                  print('Web redirect');  
+                  try {
+                    KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoAccount();
+                    print('LOGIN! $token');
+                  } catch(e) {
+                    print('KAKAO ERROR $e');
+                  }
+                } else {
+                  try {
+                    KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoTalk();
+                    print('Login succeeds. ${token.accessToken}');
+                  } catch (e) {
+                    print('Login fails. $e');
+                  }
+                }
+             
+            },
           ),
           const SizedBox(
             height: 16
