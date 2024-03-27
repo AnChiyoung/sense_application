@@ -1,4 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class GridCards extends StatelessWidget {
   const GridCards({super.key});
@@ -14,13 +18,27 @@ class GridCards extends StatelessWidget {
       columns = 6;
     }
 
-    return GridView.count(
-      crossAxisCount: columns,
-      children: List.generate(20, (index) => GridCard(
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: columns, // Number of columns
+        childAspectRatio: 162/212, // Aspect ratio of each item
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 16,
+      ),
+
+      // addAutomaticKeepAlives: false,
+      // crossAxisSpacing: 12,
+      // mainAxisSpacing: 16,
+      itemCount: 20,
+      itemBuilder: ((context, index) {
+        return GridCard(
           image: 'lib/assets/images/card_image.png',
           title: 'Title',
           description: 'Description',
-        ),),
+        );
+      }),
     );
   }
 }
@@ -38,12 +56,25 @@ class GridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
+    //  Text('향기 가득한 입생로랑 리브르 르 퍼퓸 5종류의 선물')
+    return 
+
+    Column(
         children: [
-          Expanded(child: Image.asset('lib/assets/images/card_image.png')),
+         Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: AssetImage('lib/assets/images/card_image.png'),
+                fit: BoxFit.cover
+              ),
+            ),
+          ),
+         ),
+          SizedBox(height: 10),
+          Text('향기 가득한 입생로랑 리브르 르 퍼퓸 5종류의 선물')
         ],
-      ),
-    );
+      );
   }
 }
