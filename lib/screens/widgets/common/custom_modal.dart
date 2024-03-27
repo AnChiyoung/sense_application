@@ -141,7 +141,6 @@ class ModalFrame extends StatelessWidget {
                     labelText: 'Close Modal',
                     onPressed: () {
                       callback();
-                    
                     },
                   )
               ),
