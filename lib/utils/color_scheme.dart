@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-Map<int, Color> primaryColor = {
-  0: const Color(0xFF001E42),
-  10: const Color(0xFF093A75),
-  20: const Color(0xFF0D55AA),
-  30: const Color(0xFF0E68D2),
-  40: const Color(0xFF2288FF),
-  50: const Color(0xFF3E97FF),
-  60: const Color(0xFF56A4FF),
-  70: const Color(0xFF7AB7FF),
-  80: const Color(0xFF95C6FF),
-  90: const Color(0xFFBBDAFF),
-  95: const Color(0xFFD1E6FF),
-  99: const Color(0xFFEBF4FF),
+const Map<int, Color> primaryColor = {
+  0: Color(0xFF001E42),
+  10: Color(0xFF093A75),
+  20: Color(0xFF0D55AA),
+  30: Color(0xFF0E68D2),
+  40: Color(0xFF2288FF),
+  50: Color(0xFF3E97FF),
+  60: Color(0xFF56A4FF),
+  70: Color(0xFF7AB7FF),
+  80: Color(0xFF95C6FF),
+  90: Color(0xFFBBDAFF),
+  95: Color(0xFFD1E6FF),
+  99: Color(0xFFEBF4FF),
 };
 
 // fromARGB
@@ -47,11 +47,11 @@ Map<int, Color> secondary2Color = {
   99: const Color.fromRGBO(233, 252, 255, 1),
 };
 
-Map<int, Color> errorColor = {
-  0: const Color.fromRGBO(195, 20, 20, 1),
-  10: const Color.fromRGBO(216, 32, 32, 1),
-  20: const Color.fromRGBO(255, 197, 197, 1),
-  30: const Color.fromRGBO(255, 216, 216, 1),
+const Map<int, Color> errorColor = {
+  0: Color.fromRGBO(195, 20, 20, 1),
+  10: Color.fromRGBO(216, 32, 32, 1),
+  20: Color.fromRGBO(255, 197, 197, 1),
+  30: Color.fromRGBO(255, 216, 216, 1),
 };
 
 Map<int, Color> successColor = {
@@ -61,11 +61,11 @@ Map<int, Color> successColor = {
   30: const Color.fromRGBO(185, 255, 204, 1),
 };
 
-Map<int, Color> warningColor = {
-  0: const Color.fromRGBO(220, 158, 0, 1),
-  10: const Color.fromRGBO(255, 189, 20, 1),
-  20: const Color.fromRGBO(255, 215, 114, 1),
-  30: const Color.fromRGBO(255, 243, 212, 1),
+const Map<int, Color> warningColor = {
+  0: Color.fromRGBO(220, 158, 0, 1),
+  10: Color.fromRGBO(255, 189, 20, 1),
+  20: Color.fromRGBO(255, 215, 114, 1),
+  30: Color.fromRGBO(255, 243, 212, 1),
 };
 
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/models/policy_agreement.dart';
-import 'package:sense_flutter_application/screens/layouts/login_layout.dart';
+import 'package:sense_flutter_application/screens/layouts/auth_layout.dart';
 import 'package:sense_flutter_application/screens/widgets/auth/signup_policy_agreement.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/providers/auth/policy_provider.dart';
@@ -24,7 +24,7 @@ class Step1 extends ConsumerWidget {
     }
 
     return 
-      LoginLayout(
+      AuthLayout(
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),

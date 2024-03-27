@@ -15,8 +15,8 @@ class CustomCheckbox extends StatefulWidget {
     required this.isChecked,
     required this.onChanged,
     this.child,
-    this.checkedIconPath = 'lib/assets/images/svg/circle-checked_filled.svg',
-    this.uncheckedIconPath = 'lib/assets/images/svg/circle_checked.svg',
+    this.checkedIconPath = 'lib/assets/images/icons/svg/circle-checked_filled.svg',
+    this.uncheckedIconPath = 'lib/assets/images/icons/svg/circle_checked.svg',
   });
 
   @override
