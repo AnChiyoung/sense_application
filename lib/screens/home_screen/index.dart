@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sense_flutter_application/screens/home_screen/partials/chip_list_tab.dart';
+import 'package:sense_flutter_application/screens/home_screen/partials/grid_cards.dart';
+import 'package:sense_flutter_application/screens/home_screen/partials/single_cards.dart';
 import 'package:sense_flutter_application/screens/layouts/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sense_flutter_application/screens/widgets/banner_area.dart';
-import 'package:sense_flutter_application/screens/widgets/common/post_card.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,40 +20,68 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  final overlayEntry = OverlayEntry(
-    builder: (context) => Positioned(
-    bottom: 110,
-    left: 0,
-    right: 0,
-    child: Center(
-      child: ElevatedButton.icon(
-      onPressed: () {
-        // Add your button action here
-      },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(85, 85, 85, 1)),
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-      ),
-      icon: SvgPicture.asset('lib/assets/images/icons/svg/grid_view.svg', width: 20, height: 20, color: Colors.white,),
-      label: Text('모아보기', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),)
-      ),
-    ),
-    ),
-  );
+  bool toggleView = false;
+
+  void toggleViewAction() {
+    setState(() {
+      toggleView = !toggleView;
+    });
+    overlayEntry?.remove();
+  }
+
+  OverlayEntry ?overlayEntry;
 
   @override
   dispose() {
     super.dispose();
-    overlayEntry.remove();
+    overlayEntry?.remove();
   }
   
   @override
   Widget build(BuildContext context) {
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+      bottom: 110,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: ElevatedButton.icon(
+        onPressed: toggleViewAction,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Color.fromRGBO(85, 85, 85, 1)),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+        icon: 
+          SvgPicture.asset(
+            toggleView 
+              ? 'lib/assets/images/icons/svg/single_view.svg' 
+              : 'lib/assets/images/icons/svg/grid_view.svg',
+            width: 20,
+            height: 20,
+            color: Colors.white
+          ),
+        label: 
+          Text(
+            toggleView 
+              ? '크게보기' 
+              :'모아보기',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight:
+              FontWeight.w500,
+              color: Colors.white
+            )
+          )
+        ),
+      ),
+      ),
+    );
 
     Future<void> showButtonFormat() async {
       await Future.delayed(Duration(seconds: 2));
@@ -136,26 +167,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ]
                       ),
                   ),
-
-                  // Content
-                  Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    margin: EdgeInsets.only(top: 16),
-                    constraints: BoxConstraints(
-                      maxWidth: 500
-                    ),
-                    child: Column(
-                      children: [
-                      ...List.generate(10, 
-                        (index) => Padding(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: PostCard(
-                            subject: '향기 가득한 입생로랑 리브르 르 퍼퓸 - ${index + 1}',
-                            subtext: '향기 가득한 입생로랑 리브르 르 퍼퓸 외 5종',)
-                          ),
-                        )
-                    ],),
+                  toggleView ? Padding(
+                    padding: EdgeInsets.only(top:20, left: 20, right: 20), 
+                    child: GridCards()
                   )
+                  // Content
+                  : SingleCards(),
                 ],
               )
             ),
@@ -168,6 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void floatingButtonAction(BuildContext context) {
-    Overlay.of(context).insert(overlayEntry);
+    Overlay.of(context).insert(overlayEntry!);
   }
 }
