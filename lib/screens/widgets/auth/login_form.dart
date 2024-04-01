@@ -143,15 +143,17 @@ class _LoginFormState extends State<LoginForm> {
                 print(token.accessToken);
                }
 
-               AuthApi().loginWithKakao(accessToken).then((response) {
-                 if (response['code'] == 200) {
-                   GoRouter.of(context).go('/home');
-                 } else {
-                   CustomToast.errorToast(context, response['message']);
-                 }
-               }).catchError((error) {
-                  CustomToast.errorToast(context, error['message']);
-               });
+               print('accessToken = $accessToken');
+
+              //  AuthApi().loginWithKakao(accessToken).then((response) {
+              //    if (response['code'] == 200) {
+              //      GoRouter.of(context).go('/home');
+              //    } else {
+              //      CustomToast.errorToast(context, response['message']);
+              //    }
+              //  }).catchError((error) {
+              //     CustomToast.errorToast(context, error['message']);
+              //  });
              
             },
           ),
