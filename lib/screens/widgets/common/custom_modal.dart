@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class CustomModal extends StatefulWidget{
   static OverlayEntry? _overlayEntry;
-
+  
   const CustomModal({super.key});
 
   
@@ -17,6 +16,9 @@ class CustomModal extends StatefulWidget{
     {
       // Background color of the toast
       Color backgroundColor = Colors.black,
+      title,
+      message,
+      buttonLabel,
       // Parameters for positioning the toast
       double ?top,
       double ?bottom =0,
@@ -53,6 +55,9 @@ class CustomModal extends StatefulWidget{
               border: border
             ),
             child: ModalFrame(
+              modalTitle: title,
+              modalMessage: message,
+              modalButtonLabel: buttonLabel ?? '',
               callback: () {
                 _overlayEntry?.remove();
                 _overlayEntry = null;
@@ -79,6 +84,9 @@ class ModalFrame extends StatelessWidget {
   final Border border;
   final double radius;
   final Function callback;
+  final String modalTitle;
+  final String modalMessage;
+  final String modalButtonLabel;
 
 
   const ModalFrame({
@@ -86,6 +94,9 @@ class ModalFrame extends StatelessWidget {
     this.backgroundColor = Colors.white,
     this.border = const Border(),
     this.radius = 0,
+    required this.modalTitle,
+    required this.modalMessage,
+    this.modalButtonLabel = '확인',
     required this.callback
   });
 
@@ -115,18 +126,19 @@ class ModalFrame extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const Text(
-                'Modal',
-                style: TextStyle(
+              Text(
+                // Modal Title
+                modalTitle,
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                '비밀번호가 정상적으로 변경되었어요.'
-                '변경된 비밀번호로 로그인을 시도해 주세요!',
-                style: TextStyle(
+              Text(
+                // Modal Message
+                modalMessage,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),
@@ -135,10 +147,11 @@ class ModalFrame extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: 
+                  // Modal Button Label
                   CustomButton(
                     backgroundColor: primaryColor[50] ?? Colors.transparent,
                     textColor: Colors.white,
-                    labelText: 'Close Modal',
+                    labelText: modalButtonLabel,
                     onPressed: () {
                       callback();
                     },
