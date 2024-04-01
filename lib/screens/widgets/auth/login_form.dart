@@ -8,6 +8,7 @@ import 'package:sense_flutter_application/apis/auth/auth_api.dart';
 import 'package:sense_flutter_application/screens/widgets/common/clickable_text.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_toast.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 import 'package:sense_flutter_application/utils/utils.dart';
 import '../common/input_text_field.dart';
@@ -125,30 +126,32 @@ class _LoginFormState extends State<LoginForm> {
             textColor: Colors.black,
             fontSize: 14,
             onPressed: () async {
-                bool talkInstalled = await KakaoApi.isKakaoTalkInstalled().catchError((message) {
-                  print('KAKAO ERROR!');
-                  print(message);
-                  // showSnackBar(context, '카카오톡이 설치되어 있지 않습니다.', icon: Icons.error, iconColor: Colors.red);
-                });
+                bool talkInstalled = await KakaoApi.isKakaoTalkInstalled();
+                String accessToken = '';
 
-                print('talkInstalled $talkInstalled');
-
-                if(talkInstalled) {
-                  print('Web redirect');  
-                  try {
-                    KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoAccount();
-                    print('LOGIN! $token');
-                  } catch(e) {
-                    print('KAKAO ERROR $e');
-                  }
-                } else {
-                  try {
+               if (talkInstalled) {
+                 try {
                     KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoTalk();
-                    print('Login succeeds. ${token.accessToken}');
+                    accessToken = token.accessToken;
+                    print(token.accessToken);
                   } catch (e) {
-                    print('Login fails. $e');
+                    print('ERRROR');
                   }
-                }
+               } else {
+                KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoAccount();
+                accessToken = token.accessToken;
+                print(token.accessToken);
+               }
+
+               AuthApi().loginWithKakao(accessToken).then((response) {
+                 if (response['code'] == 200) {
+                   GoRouter.of(context).go('/home');
+                 } else {
+                   CustomToast.errorToast(context, response['message']);
+                 }
+               }).catchError((error) {
+                  CustomToast.errorToast(context, error['message']);
+               });
              
             },
           ),
