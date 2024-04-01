@@ -12,8 +12,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="f1489d23cb70cd99057f97d645b8ae03" />
-                <data android:host="kauth.kakao.com" />
+                <!-- Setting for the shipping address picker -->
+                <data android:scheme="1fc38e74f272a85e46bc10b37fdbebcd" />
+                <data android:host="https://server.dev.sens.im/api/v1/kakao/oauth" />
             </intent-filter>
         </activity>
         <activity
