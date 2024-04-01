@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sense_flutter_application/apis/auth/auth_api.dart';
 import 'package:sense_flutter_application/screens/widgets/common/count_down_timer.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_toast.dart';
-import 'package:sense_flutter_application/screens/widgets/common/date_input_group.dart';
 import 'package:sense_flutter_application/screens/widgets/common/input_text_field.dart';
-import 'package:sense_flutter_application/providers/auth/register_provider.dart';
-import 'package:sense_flutter_application/utils/color_scheme.dart';
 import 'package:sense_flutter_application/utils/utils.dart';
 import './validator/index.dart';
 
@@ -91,7 +87,7 @@ class _ForgotPasswordVerifyState extends State<ForgotPasswordVerify> {
                     append: SizedBox(
                       width: 97,
                       child: CustomButton(
-                        labelText: phone.isNotEmpty && errorMessages.isEmpty ? '재발송' : '인증받기',
+                        labelText: phone.isNotEmpty && errorMessages.isEmpty && isVerification ? '재발송' : '인증받기',
                         backgroundColor: phone.isNotEmpty && errorMessages.isEmpty ? const Color(0XFF555555) : const Color(0XFFBBBBBB),
                         textColor: Colors.white,
                         onPressed: () async {
@@ -100,8 +96,14 @@ class _ForgotPasswordVerifyState extends State<ForgotPasswordVerify> {
                               expirationTime = value['data']['expired'];
                               isVerification = true;
                             });
+
+                            // Message
+                            String message = phone.isNotEmpty && errorMessages.isEmpty ? '인증번호를 재발송 했어요' :'인증번호가 발송되었습니다';
+                            // Toast
+                            CustomToast.successToast(context, message, bottom: MediaQuery.of(context).size.height * 0.12);
                           }).catchError((error) {
-                            print(error);
+                            CustomToast.errorToast(context, error['message'], bottom: MediaQuery.of(context).size.height * 0.12);
+                            isVerification = false;
                           });
                         },
                       )
@@ -137,16 +139,15 @@ class _ForgotPasswordVerifyState extends State<ForgotPasswordVerify> {
                           textColor: Colors.white,
                           onPressed: () async {
                             AuthApi().verifyCode(phone, code).then((value) {
-                              if (value['code'] == 200 || true) {
+                              if (value['code'] == 200) {
                                 setState(() {
                                 isCodeVerified = true;
-                                CustomToast.successToast(context, value['message'], bottom: MediaQuery.of(context).size.height * 0.12);
+                                CustomToast.successToast(context, '인증코드가 확인되었습니다', bottom: MediaQuery.of(context).size.height * 0.12);
                               });
-                              } else {
-                                CustomToast.errorToast(context, value['message'], bottom: MediaQuery.of(context).size.height * 0.12);
                               }
                               
                             }).catchError((error) {
+                              CustomToast.errorToast(context, error['message'], bottom: MediaQuery.of(context).size.height * 0.12);
                               print(error);
                             });
                           },
