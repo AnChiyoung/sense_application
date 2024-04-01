@@ -40,9 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
+    int bottomSum = MediaQuery.of(context).padding.bottom > 0 ? 150 : 120;
+
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-      bottom: 110,
+      top: MediaQuery.of(context).size.height - bottomSum,
       left: 0,
       right: 0,
       child: Center(
