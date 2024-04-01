@@ -109,7 +109,13 @@ class _PasswordChangeStep2State extends State<PasswordChangeStep2> {
                         height: 48,
                         onPressed: () {
                           if(canProceed()) {
-                            CustomModal.showModal(context);
+                            CustomModal.showModal(
+                              context,
+                              title: '비밀번호가 변경되었어요',
+                              message: '비밀번호가 정상적으로 변경되었어요.'
+                              '변경된 비밀번호로 로그인을 시도해 주세요!',
+                              buttonLabel: '확인',
+                            );
                           }
                         },
                         backgroundColor: canProceed() ? Colors.blue : Colors.grey,
