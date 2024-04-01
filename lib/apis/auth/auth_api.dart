@@ -110,4 +110,20 @@ class AuthApi {
 
     return parse;
   }
+
+  Future loginWithKakao(String accessToken) async {
+    final response = await http.post(
+      Uri.parse('https://server.dev.sens.im/api/v1/user/kakao/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'access_token': accessToken,
+      }),
+    );
+
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+
+    return parse;
+  }
 }
