@@ -98,7 +98,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               onChanged: (String value) {
                 onChangedPassword(value);
               },
-              // isObscure: isPasswordObscure,
+              isObscure: isPasswordObscure,
               placeholder: '비밀번호를 입력해주세요',
               suffixIcon: IconButton(
                 icon: isPasswordObscure ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined),
@@ -119,7 +119,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               onChanged: (String value) {
                 onChangedConfirmPassword(value);
               },
-              // isObscure: isPassworConfirmdObscure,
+              isObscure: isPassworConfirmdObscure,
               placeholder: '비밀번호를 확인해 주세요',
               suffixIcon: IconButton(
                 icon: isPassworConfirmdObscure ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined),
