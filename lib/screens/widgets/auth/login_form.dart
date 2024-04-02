@@ -9,6 +9,7 @@ import 'package:sense_flutter_application/screens/widgets/common/clickable_text.
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_checkbox.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_toast.dart';
+import 'package:sense_flutter_application/service/auth_service.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 import 'package:sense_flutter_application/utils/utils.dart';
 import '../common/input_text_field.dart';
@@ -105,11 +106,14 @@ class _LoginFormState extends State<LoginForm> {
             fontSize: 14,
             onPressed: () async {
               var response =  await authApi.loginUser(email, password);
-              if (response['code'] ==200) {
-                GoRouter.of(context).go('/home');
-              } else {
-                var nonFieldError = response['errors']['non_field_errors'];
-                showSnackBar(context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message'], icon: Icons.error, iconColor: Colors.red);
+              if (context.mounted) {
+                if (response['code'] ==200) {
+                  GoRouter.of(context).go('/home');
+                } else {
+                  var nonFieldError = response['errors']['non_field_errors'];
+                  CustomToast.errorToast(context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message']);
+                  
+                }
               }
             },
           ),
@@ -143,18 +147,24 @@ class _LoginFormState extends State<LoginForm> {
                 print(token.accessToken);
                }
 
-               print('accessToken = $accessToken');
-
-              //  AuthApi().loginWithKakao(accessToken).then((response) {
-              //    if (response['code'] == 200) {
-              //      GoRouter.of(context).go('/home');
-              //    } else {
-              //      CustomToast.errorToast(context, response['message']);
-              //    }
-              //  }).catchError((error) {
-              //     CustomToast.errorToast(context, error['message']);
-              //  });
-             
+               AuthApi()
+                .loginWithKakao(accessToken)
+                .then((response) async {
+                  if (response['code'] == 200) {
+                    GoRouter.of(context).go('/home');
+                    await AuthService()
+                      .setAccessToken(response['data']['token']['access_token'] ?? '');
+                    await AuthService()
+                      .setRefreshToken(response['data']['token']['refresh_token'] ?? '');
+                  } else {
+                    var nonFieldError = response['errors']['non_field_errors'];
+                  CustomToast.errorToast(context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message']);
+                  }
+               }).catchError((error) {
+                print('errror!!');
+                print(error);
+                  // CustomToast.errorToast(context, error['message']);
+               });
             },
           ),
           const SizedBox(
@@ -163,7 +173,6 @@ class _LoginFormState extends State<LoginForm> {
           Center(
             child: ClickableText(text: '이메일로 회원가입', onTap: () {
               GoRouter.of(context).push('/signup/step1');
-              // print('Can ho no');
             },)
           )
         ],
