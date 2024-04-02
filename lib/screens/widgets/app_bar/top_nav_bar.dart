@@ -2,12 +2,34 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sense_flutter_application/service/auth_service.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
 
-class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
+class TopNavBar extends StatefulWidget implements PreferredSizeWidget {
   const TopNavBar({super.key});
+  
+  State<TopNavBar> createState() => _TopNavBarState(); 
+  
   @override
-  Widget build(BuildContext context) =>
-    Container(
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(60);
+}
+
+class _TopNavBarState extends State<TopNavBar> {
+
+  bool isAuthenticated = false;
+
+ @override
+  Widget build(BuildContext context) {
+    AuthService authService = AuthService();
+    authService.removeTokens();
+    authService.getAccessToken().then((value) {
+      setState(() {
+        isAuthenticated = value != null;
+      });
+    });
+
+    return Container(
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -26,16 +48,14 @@ class TopNavBar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SvgPicture.asset('lib/assets/images/logo.svg', height: 32),
-                Row(children: [
+                isAuthenticated ? Row(children: [
                   IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/search.svg', color: const Color(0XFF333333),)),
                   IconButton(onPressed: () {}, icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/bell.svg', color: const Color(0XFF333333),)),
                 ],)
+                : Text('로그인', style: TextStyle(color: primaryColor[50]),),
               ],
             )),
         ),
     );
-      
-        @override
-        // TODO: implement preferredSize
-        Size get preferredSize => const Size.fromHeight(60);
+  }
 }
