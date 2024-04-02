@@ -19,7 +19,6 @@ class AuthApi {
     } else {
       var parse = json.decode(utf8.decode(response.bodyBytes));
       var nonFieldError = parse['errors']['non_field_errors'];
-      print(nonFieldError);
       return {'status': false, 'message': nonFieldError?.isNotEmpty ? nonFieldError[0] : parse['message'] };
     }
   }
@@ -42,7 +41,6 @@ class AuthApi {
       return parse;
     } else {
       var nonFieldError = parse['errors']['non_field_errors'];
-      print(nonFieldError);
       return { 'code': response.statusCode, 'status': false, 'message': nonFieldError?.isNotEmpty ? nonFieldError[0] : parse['message'] };
     }
   }
@@ -113,7 +111,7 @@ class AuthApi {
 
   Future loginWithKakao(String accessToken) async {
     final response = await http.post(
-      Uri.parse('https://server.dev.sens.im/api/v1/user/kakao/login'),
+      Uri.parse('https://server.dev.sens.im/api/v1/kakao/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
