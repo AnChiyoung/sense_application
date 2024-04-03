@@ -23,13 +23,10 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
   TextEditingController passwordController = TextEditingController();
   String email = "";
   String password = "";
   bool isAutoLogin = false;
-  AuthApi authApi = AuthApi();
-
 
 // Check if email and password are valid or filled
   bool isButtonEnabled() {
@@ -38,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    int screenWidth =  MediaQuery.of(context).size.width.toInt();
+    int screenWidth = MediaQuery.of(context).size.width.toInt();
 
     return Container(
       constraints: BoxConstraints(
@@ -55,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
               });
             },
             placeholder: '이메일을 입력해 주세요텍스트',
-            errorMessage: emailValidator(email),
+            // errorMessage: emailValidator(email),
           ),
 
           const SizedBox(height: 24),
@@ -77,104 +74,114 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomCheckbox(
-                label: '자동로그인',
-                isChecked: isAutoLogin,
-                onChanged: () {
-                  setState(() {
-                    isAutoLogin = !isAutoLogin;
-                  });
-                }
-              ),
+                  label: '자동로그인',
+                  isChecked: isAutoLogin,
+                  onChanged: () {
+                    setState(() {
+                      isAutoLogin = !isAutoLogin;
+                    });
+                  }),
               ClickableText(
-                text: '비밀번호 찾기',
-                onTap: () {
-                  GoRouter.of(context).push('/forgot-password/step1');
-                }
-              ),
+                  text: '비밀번호 찾기',
+                  onTap: () {
+                    GoRouter.of(context).push('/forgot-password/step1');
+                  }),
             ],
           ),
 
           // Buttons
-          const SizedBox(
-            height: 48
-          ),
+          const SizedBox(height: 48),
           CustomButton(
             height: 48,
-            backgroundColor: isButtonEnabled() ? primaryColor[50]! : const Color.fromRGBO(187, 187, 187, 1),
+            backgroundColor:
+                isButtonEnabled() ? primaryColor[50]! : const Color.fromRGBO(187, 187, 187, 1),
             labelText: '로그인',
             textColor: Colors.white,
             fontSize: 14,
-            onPressed: () async {
-              var response =  await authApi.loginUser(email, password);
-              if (context.mounted) {
-                if (response['code'] ==200) {
+            onPressed: () {
+              AuthApi().loginUser(email, password).then((response) async {
+                if (response['code'] == 200) {
                   GoRouter.of(context).go('/home');
+                  await AuthService()
+                      .setAccessToken(response['data']['token']['access_token'] ?? '');
+                  await AuthService()
+                      .setRefreshToken(response['data']['token']['refresh_token'] ?? '');
                 } else {
                   var nonFieldError = response['errors']['non_field_errors'];
-                  CustomToast.errorToast(context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message']);
-                  
+                  CustomToast.errorToast(
+                      context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message'],
+                      bottom: MediaQuery.of(context).size.height * 0.12);
                 }
-              }
+              }).catchError((error) {
+                print('errror!!');
+                print(error);
+                // CustomToast.errorToast(context, error['message']);
+              });
             },
           ),
-          const SizedBox(
-            height: 16
-          ),
+          const SizedBox(height: 16),
 
           // Kakao Login
           CustomButton(
             height: 48,
             backgroundColor: const Color.fromRGBO(254, 229, 0, 1),
             labelText: '카카오로 시작하기',
-            prefixIcon: SvgPicture.asset('lib/assets/images/icons/svg/kakaotalk.svg', width: 20, height: 20),
+            prefixIcon: SvgPicture.asset('lib/assets/images/icons/svg/kakaotalk.svg',
+                width: 20, height: 20),
             textColor: Colors.black,
             fontSize: 14,
             onPressed: () async {
-                bool talkInstalled = await KakaoApi.isKakaoTalkInstalled();
-                String accessToken = '';
+              bool talkInstalled = await KakaoApi.isKakaoTalkInstalled();
+              String accessToken = '';
 
-               if (talkInstalled) {
-                 try {
-                    KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoTalk();
-                    accessToken = token.accessToken;
-                    print(token.accessToken);
-                  } catch (e) {
-                    print('ERRROR');
-                  }
-               } else {
-                KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoAccount();
-                accessToken = token.accessToken;
-                print(token.accessToken);
-               }
+              if (talkInstalled) {
+                try {
+                  KakaoApi.OAuthToken token = await KakaoApi.UserApi.instance.loginWithKakaoTalk();
+                  accessToken = token.accessToken;
+                  print(token.accessToken);
+                } catch (e) {
+                  print('error $e');
+                }
+              } else {
+                try {
+                  KakaoApi.OAuthToken token =
+                      await KakaoApi.UserApi.instance.loginWithKakaoAccount();
+                  accessToken = token.accessToken;
+                  print(token.accessToken);
+                } catch (e) {
+                  print('error $e');
+                }
+              }
 
-               AuthApi()
-                .loginWithKakao(accessToken)
-                .then((response) async {
+              if (accessToken.isNotEmpty) {
+                AuthApi().loginWithKakao(accessToken).then((response) async {
                   if (response['code'] == 200) {
                     GoRouter.of(context).go('/home');
                     await AuthService()
-                      .setAccessToken(response['data']['token']['access_token'] ?? '');
+                        .setAccessToken(response['data']['token']['access_token'] ?? '');
                     await AuthService()
-                      .setRefreshToken(response['data']['token']['refresh_token'] ?? '');
+                        .setRefreshToken(response['data']['token']['refresh_token'] ?? '');
                   } else {
                     var nonFieldError = response['errors']['non_field_errors'];
-                  CustomToast.errorToast(context, nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message']);
+                    CustomToast.errorToast(context,
+                        nonFieldError?.isNotEmpty ? nonFieldError[0] : response['message']);
                   }
-               }).catchError((error) {
-                print('errror!!');
-                print(error);
+                }).catchError((error) {
+                  print('errror!!');
+                  print(error);
                   // CustomToast.errorToast(context, error['message']);
-               });
+                });
+              }
             },
           ),
-          const SizedBox(
-            height: 16
-          ),
+          const SizedBox(height: 16),
           Center(
-            child: ClickableText(text: '이메일로 회원가입', onTap: () {
+              child: ClickableText(
+            text: '이메일로 회원가입',
+            onTap: () {
               GoRouter.of(context).push('/signup/step1');
-            },)
-          )
+            },
+          ))
         ],
       ),
     );
