@@ -1,0 +1,22 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[dart]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
+    },
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [100],
+    "editor.selectionHighlight": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": true,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "matchingDocuments"
+  },
+  "dart.previewFlutterUiGuides": false,
+  "dart.openDevTools": "flutter",
+  "dart.lineLength": 100
+}
