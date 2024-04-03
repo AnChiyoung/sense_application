@@ -34,13 +34,17 @@ class MainLayout extends ConsumerWidget {
                   GoRouter.of(context).go('/home');
                   break;
                 case 1:
-                  GoRouter.of(context).go('/login');
+                  // GoRouter.of(context).go('/login');
                   break;
                 case 2:
                   GoRouter.of(context).go('/list');
                   break;
                 case 3:
                   GoRouter.of(context).go('/store');
+                  break;
+
+                case 4:
+                  GoRouter.of(context).go('/my-page');
                   break;
               }
             });
