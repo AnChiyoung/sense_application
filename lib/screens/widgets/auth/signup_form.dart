@@ -16,89 +16,66 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
-  
   TextEditingController emailController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
-        padding: const EdgeInsets.only(bottom: 48),
-        constraints: BoxConstraints(
-          maxWidth: screenWidth > 780 ? 500 : 375,
-        ),
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            InputTextField(
+      padding: const EdgeInsets.only(bottom: 48),
+      constraints: BoxConstraints(
+        maxWidth: screenWidth > 780 ? 500 : 375,
+      ),
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          InputTextField(
               height: 40,
               label: '이메일 주소',
               controller: emailController,
-              onChanged: (String value) {
-                
-              },
+              onChanged: (String value) {},
               placeholder: 'sens@runners.im',
               suffixIcon: IconButton(
-                onPressed: () {
-                  // 
-                },
-                icon: const Icon(
-                  Icons.done,
-                  color: Colors.green,
-                  size: 20
-                )
-              ),
-              append:
-                CustomButton(
-                  labelText: '중복확인',
-                  backgroundColor: const Color(0XFFBBBBBB),
-                  textColor: Colors.white,
-                  onPressed: () async {
-
+                  onPressed: () {
+                    //
                   },
-                )
+                  icon: const Icon(Icons.done, color: Colors.green, size: 20)),
+              append: CustomButton(
+                labelText: '중복확인',
+                backgroundColor: const Color(0XFFBBBBBB),
+                textColor: Colors.white,
+                onPressed: () async {},
+              )),
+          const SizedBox(height: 16),
+          InputTextField(
+            height: 40,
+            label: '비밀번호',
+            onChanged: (String value) {},
+            isObscure: true,
+            placeholder: '비밀번호를 입력해주세요',
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.visibility_outlined),
+              color: const Color(0XFFBBBBBB),
+              onPressed: () {},
+              padding: EdgeInsets.zero,
             ),
-            const SizedBox(height: 16),
-            InputTextField(
-              height: 40,
-              label: '비밀번호',
-              onChanged: (String value) {
-                
-              },
-              isObscure: true,
-              placeholder: '비밀번호를 입력해주세요텍스트',
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.visibility_outlined),
-                color: const Color(0XFFBBBBBB),
-                onPressed: () {
-                  
-                },
-                padding: EdgeInsets.zero,
-              ),
+          ),
+          const SizedBox(height: 16),
+          InputTextField(
+            height: 40,
+            label: '비밀번호 확인',
+            onChanged: (String value) {},
+            isObscure: true,
+            placeholder: '비밀번호를 입력해주세요',
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.visibility_outlined),
+              color: const Color(0XFFBBBBBB),
+              onPressed: () {},
+              padding: EdgeInsets.zero,
             ),
-            const SizedBox(height: 16),
-            InputTextField(
-              height: 40,
-              label: '비밀번호 확인',
-              onChanged: (String value) {
-
-              },
-              isObscure: true,
-              placeholder: '비밀번호를 입력해주세요텍스트',
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.visibility_outlined),
-                color: const Color(0XFFBBBBBB),
-                onPressed: () {
-
-                },
-                padding: EdgeInsets.zero,
-              ),
-            ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 }
-
