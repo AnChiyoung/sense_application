@@ -2,7 +2,7 @@ name: sense_flutter_application
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -46,7 +46,6 @@ dependencies:
   kakao_flutter_sdk_user: ^1.9.0
   kakao_flutter_sdk_common: ^1.9.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -61,7 +60,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -86,7 +84,9 @@ flutter:
     - lib/assets/images/icons/svg/top_bar/bell.svg
     - lib/assets/images/icons/svg/grid_view.svg
     - lib/assets/images/icons/svg/single_view.svg
+    - lib/assets/images/icons/svg/heart.svg
     - lib/assets/images/card_image.png
+    - lib/assets/images/cover.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
