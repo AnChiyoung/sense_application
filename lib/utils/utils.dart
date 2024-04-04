@@ -1,4 +1,3 @@
-
 // Check for the email format
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -23,8 +22,9 @@ String? emailValidator(String? email) {
     return null;
   }
 
-  final emailRegex = RegExp(r'^(?!.*\.\.)(?!^\.)[a-zA-Z0-9._%+-]+(?<!-)(?<!\.)\@[a-zA-Z0-9.-]+(?<!\.)\.[a-zA-Z]{2,}$');
-  
+  final emailRegex = RegExp(
+      r'^(?!.*\.\.)(?!^\.)[a-zA-Z0-9._%+-]+(?<!-)(?<!\.)\@[a-zA-Z0-9.-]+(?<!\.)\.[a-zA-Z]{2,}$');
+
   return emailRegex.hasMatch(email) ? null : '올바른 양식의 이메일 주소를 입력해주세요';
 }
 
@@ -78,7 +78,8 @@ String? phoneValidator(String? phone) {
   return phoneRegex.hasMatch(phone) ? null : '올바른 전화번호 형식을 입력해 주세요 (010-1234-5678)';
 }
 
-void showSnackBar(BuildContext context, String message, {IconData icon = Icons.done, Color? iconColor, Function? onDismissed}) {
+void showSnackBar(BuildContext context, String message,
+    {IconData icon = Icons.done, Color? iconColor, Function? onDismissed}) {
   final snackBar = SnackBar(
     backgroundColor: Colors.white,
     content: Row(
@@ -105,9 +106,9 @@ void showSnackBar(BuildContext context, String message, {IconData icon = Icons.d
 
   ScaffoldMessenger.of(context).showSnackBar(snackBar).closed.then((reason) {
     if (reason == SnackBarClosedReason.action) {
-      // 
+      //
     } else {
-      // 
+      //
     }
 
     if (onDismissed != null) {
@@ -116,27 +117,14 @@ void showSnackBar(BuildContext context, String message, {IconData icon = Icons.d
   });
 }
 
-
 final phoneMask = MaskTextInputFormatter(
-  mask: '###-####-####', 
-  filter: { "#": RegExp(r'[0-9]') },
-  type: MaskAutoCompletionType.lazy
-); 
+    mask: '###-####-####', filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
 
 final yearMask = MaskTextInputFormatter(
-  mask: '####', 
-  filter: { "#": RegExp(r'[0-9]') },
-  type: MaskAutoCompletionType.lazy
-); 
+    mask: '####', filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
 
 final monthMask = MaskTextInputFormatter(
-  mask: '##', 
-  filter: { "#": RegExp(r'[0-9]') },
-  type: MaskAutoCompletionType.lazy
-); 
+    mask: '##', filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
 
 final dayMask = MaskTextInputFormatter(
-  mask: '##', 
-  filter: { "#": RegExp(r'[0-9]') },
-  type: MaskAutoCompletionType.lazy
-); 
+    mask: '##', filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
