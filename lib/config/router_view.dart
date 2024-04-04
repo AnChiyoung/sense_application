@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/screens/signup_screen/index.dart';
 import 'package:sense_flutter_application/screens/list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sense_flutter_application/screens/single_post_screen/index.dart';
 import 'package:sense_flutter_application/service/auth_service.dart';
 
 class RouterView extends StatelessWidget {
@@ -76,6 +77,13 @@ class RouterView extends StatelessWidget {
                 GoRoute(
                   path: '/home',
                   builder: (context, state) => const HomeScreen(),
+                  routes: [
+                    GoRoute(
+                        path: 'post/:id',
+                        builder: (context, state) {
+                          return SinglePostScreen(id: int.parse(state.pathParameters['id'] ?? ''));
+                        }),
+                  ],
                 ),
                 GoRoute(
                   path: '/list',
