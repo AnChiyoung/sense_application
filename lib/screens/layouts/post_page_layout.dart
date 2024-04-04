@@ -39,6 +39,10 @@ class PostPageLayout extends StatelessWidget {
                 }
               }),
           shape: const Border(bottom: BorderSide(width: 1, color: Color(0xFFEEEEEE))),
+          title: const Text(
+            '여자친구의 추억을 담아줄 카메라 BEST 5',
+            style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+          ),
         ),
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
