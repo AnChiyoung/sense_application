@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class CustomToast {
-  static const  _toastDuration = Duration(seconds: 3);
+  static const _toastDuration = Duration(seconds: 3);
   static OverlayEntry? _overlayEntry;
 
-  static errorToast(BuildContext context, String message, { double ?bottom}) {
-    print(bottom);
+  static errorToast(BuildContext context, String message, {double? bottom}) {
+    print('toast errorr');
     showToast(
       context,
       Row(
@@ -43,16 +43,16 @@ class CustomToast {
     );
   }
 
-  static successToast(BuildContext context, String message, { double ?bottom}) {
+  static successToast(BuildContext context, String message, {double? bottom}) {
     showToast(
       context,
       Row(
         children: [
-          Icon(Icons.error, color: primaryColor[50]),
+          const Icon(Icons.check_circle, color: Color(0XFF56EBFF)),
           const SizedBox(width: 10),
           Text(
             message,
-            style: TextStyle(color: primaryColor[50]),
+            style: const TextStyle(color: Color(0XFF56EBFF)),
           ),
         ],
       ),
@@ -62,21 +62,17 @@ class CustomToast {
     );
   }
 
-  static void showToast(
-    BuildContext context,
-    Widget child,
-    {
+  static void showToast(BuildContext context, Widget child,
+      {
       // Background color of the toast
       Color backgroundColor = Colors.black,
       // Parameters for positioning the toast
-      double ?top,
-      double ?bottom = 50.0,
-      double ?right = 20.0,
-      double ?left = 20.0,
+      double? top,
+      double? bottom = 50.0,
+      double? right = 20.0,
+      double? left = 20.0,
       Border border = const Border(),
-      double radius = 0
-    }
-  ) {
+      double radius = 0}) {
     if (_overlayEntry != null) return;
 
     _overlayEntry = OverlayEntry(
@@ -89,18 +85,17 @@ class CustomToast {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             decoration: BoxDecoration(
-              boxShadow: List.of([
-                const BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.14),
-                  spreadRadius: 2,
-                  blurRadius: 8,
-                  offset: Offset(0, 2),
-                )
-              ]),
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(radius),
-              border: border
-            ),
+                boxShadow: List.of([
+                  const BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.14),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  )
+                ]),
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(radius),
+                border: border),
             child: child,
           ),
         ),
@@ -111,6 +106,7 @@ class CustomToast {
     Overlay.of(context).insert(_overlayEntry!);
     Future.delayed(_toastDuration).then((value) {
       _overlayEntry?.remove();
+      _overlayEntry?.dispose();
       _overlayEntry = null;
     });
   }
