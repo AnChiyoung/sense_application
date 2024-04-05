@@ -45,6 +45,7 @@ dependencies:
   kakao_flutter_sdk_auth: ^1.9.0
   kakao_flutter_sdk_user: ^1.9.0
   kakao_flutter_sdk_common: ^1.9.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,10 @@ flutter:
     - lib/images/logo.png
     - lib/assets/images/icons/svg/top_bar/caret-left.svg
     - lib/assets/images/logo.svg
+    - lib/assets/images/icons/svg/heart_fill.svg
+    - lib/assets/images/icons/svg/star.svg
+    - lib/assets/images/icons/svg/pin.svg
+    - lib/assets/images/icons/svg/cart.svg
     - lib/assets/images/icons/svg/circle_checked.svg
     - lib/assets/images/icons/svg/circle-checked_filled.svg
     - lib/assets/images/icons/svg/kakaotalk.svg
