@@ -12,4 +12,15 @@ class PostApi {
     var parse = json.decode(utf8.decode(response.bodyBytes));
     return parse;
   }
+
+  Future<Map<String, dynamic>> getPost(String id) async {
+    final response = await http.get(
+      Uri.parse('https://server.dev.sens.im/api/v1/post/$id'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
 }
