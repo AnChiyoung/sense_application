@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:sense_flutter_application/apis/post/post_api.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class CommentTextArea extends StatefulWidget {
-  const CommentTextArea({super.key});
+  final int postId;
+  const CommentTextArea({super.key, required this.postId});
 
   @override
-  _CommentTextAreaState createState() => _CommentTextAreaState();
+  State<CommentTextArea> createState() => _CommentTextAreaState();
 }
 
 class _CommentTextAreaState extends State<CommentTextArea> {
@@ -28,13 +29,11 @@ class _CommentTextAreaState extends State<CommentTextArea> {
   }
 
   void _sendComment() {
-    // Implement your logic to send the comment here
     String comment = _textEditingController.text;
-    // Reset the text field and character count
-    _textEditingController.clear();
-    setState(() {
-      _characterCount = 0;
-    });
+    PostApi().writeComment(widget.postId.toString(), comment).then((value) => setState(() {
+          _textEditingController.clear();
+          _characterCount = 0;
+        }));
   }
 
   @override
@@ -71,6 +70,9 @@ class _CommentTextAreaState extends State<CommentTextArea> {
                 width: 8,
               ),
               CustomButton(
+                  onPressed: () {
+                    _sendComment();
+                  },
                   height: 32,
                   backgroundColor: _characterCount > 0
                       ? primaryColor[50] ?? Colors.black

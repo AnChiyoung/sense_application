@@ -70,7 +70,9 @@ class CommentSection extends ConsumerWidget {
           const SizedBox(
             height: 16,
           ),
-          const CommentTextArea(),
+          CommentTextArea(
+            postId: postId,
+          ),
           const SizedBox(
             height: 16,
           ),
