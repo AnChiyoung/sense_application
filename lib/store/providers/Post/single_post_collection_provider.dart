@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sense_flutter_application/apis/post/post_api.dart';
 import 'package:sense_flutter_application/apis/product/product_api.dart';
@@ -26,10 +25,10 @@ class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
     }
   }
 
-  void like(int productId) {
+  void likeToggle(int productId) {
     List<dynamic> products = state['data']['store_products'].map((element) {
       if (element['id'] == productId) {
-        element['is_liked'] = false;
+        element['is_liked'] = !element['is_liked'];
       }
       return element;
     }).toList();
@@ -47,12 +46,12 @@ class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
 
   Future<void> likeProduct(int productId) async {
     ProductApi().likeProduct(productId.toString()).then((value) {});
-    like(productId);
+    likeToggle(productId);
   }
 
   Future<void> dislikeProduct(int productId) async {
     ProductApi().unlikeProduct(productId.toString()).then((value) {});
-    like(productId);
+    likeToggle(productId);
   }
 
   set setPost(Map<String, dynamic> post) {
