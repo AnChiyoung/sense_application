@@ -3,22 +3,30 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class StoreProducts extends StatelessWidget {
-  const StoreProducts({super.key});
+  final List<dynamic> storeProducts;
+  final Null Function(int productId)? likedProduct;
+  const StoreProducts({super.key, required this.storeProducts, this.likedProduct});
 
   @override
   Widget build(BuildContext context) {
-    int size = 4;
+    int size = storeProducts.length;
     return Column(
         children: List.generate(size, (index) {
       return Column(
         children: [
-          const ProductCard(
-            imageUrl: '',
-            title: 'Vatos Urban Tacos',
-            subTitle: '경기 성남시 삼평동 우림W시티 3층 302호',
-            price: '1',
+          ProductCard(
+            id: storeProducts[index]['id'],
+            imageUrl: storeProducts[index]['product_thumbnail_image_url'] ?? '',
+            title: storeProducts[index]['title'] ?? '',
+            subTitle: storeProducts[index]['sub_title'] ?? '',
+            price: storeProducts[index]['price'].toString(),
             discount: '1',
-            rating: '1',
+            rating: storeProducts[index]['grade'].toString(),
+            isLike: storeProducts[index]['is_liked'] ?? false,
+            actionEvent: (event, value) => {
+              print('event: $event, value: $value'),
+              if (event == 'like') {likedProduct!(value['id'])}
+            },
           ),
           if (size - 1 != index) const SizedBox(height: 16)
         ],
@@ -28,23 +36,27 @@ class StoreProducts extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
+  final int id;
   final String imageUrl;
   final String title;
   final String subTitle;
   final String price;
-  final String discount;
-  final String rating;
-  final bool? isLike;
+  final String? discount;
+  final String? rating;
+  final bool isLike;
+  final Set<void> Function(String event, dynamic value) actionEvent;
 
   const ProductCard(
       {super.key,
-      required this.imageUrl,
+      required this.id,
+      this.imageUrl = '',
       required this.title,
       required this.subTitle,
       required this.price,
-      required this.discount,
+      this.discount,
       required this.rating,
-      this.isLike});
+      this.isLike = false,
+      required this.actionEvent});
 
   @override
   Widget build(BuildContext context) {
@@ -101,21 +113,31 @@ class ProductCard extends StatelessWidget {
                       const SizedBox(
                         width: 8,
                       ),
-                      SvgPicture.asset(
-                        'lib/assets/images/icons/svg/heart_fill.svg',
-                        // color: primaryColor[50],
-                        width: 18,
-                      )
+                      InkWell(
+                          onTap: () => {
+                                actionEvent('like', {"id": id, "value": !isLike}),
+                              },
+                          child: SvgPicture.asset(
+                            isLike
+                                ? 'lib/assets/images/icons/svg/heart_fill.svg'
+                                : 'lib/assets/images/icons/svg/heart.svg',
+                            color: primaryColor[50],
+                            width: 18,
+                          ))
                     ],
                   )
                 ],
               ),
-              const Text('1. Vatos Urban Tacos',
-                  style: TextStyle(
-                      color: Color(0xFF151515), fontSize: 16, fontWeight: FontWeight.w700)),
-              const SizedBox(
-                height: 4,
-              ),
+              Text(title,
+                  style: const TextStyle(
+                      color: Color(0xFF151515),
+                      fontSize: 16,
+                      height: 1.8,
+                      fontWeight: FontWeight.w700,
+                      overflow: TextOverflow.ellipsis)),
+              // const SizedBox(
+              //   height: 4,
+              // ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -131,7 +153,7 @@ class ProductCard extends StatelessWidget {
                   ))
                 ],
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 4),
               Row(
                 children: [
                   SvgPicture.asset(
