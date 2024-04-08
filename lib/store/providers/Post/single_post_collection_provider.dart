@@ -26,13 +26,10 @@ class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
     }
   }
 
-  Future<void> likeProduct(int productId) async {
-    ProductApi().likeProduct(productId.toString()).then((value) {
-      print(value);
-    });
+  void like(int productId) {
     List<dynamic> products = state['data']['store_products'].map((element) {
       if (element['id'] == productId) {
-        element['is_liked'] = !(element['is_liked'] ?? false);
+        element['is_liked'] = false;
       }
       return element;
     }).toList();
@@ -46,6 +43,20 @@ class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
       ...state,
       ...{'data': data}
     };
+  }
+
+  Future<void> likeProduct(int productId) async {
+    ProductApi().likeProduct(productId.toString()).then((value) {
+      print(value);
+    });
+    like(productId);
+  }
+
+  Future<void> dislikeProduct(int productId) async {
+    ProductApi().unlikeProduct(productId.toString()).then((value) {
+      print(value);
+    });
+    like(productId);
   }
 
   set setPost(Map<String, dynamic> post) {
