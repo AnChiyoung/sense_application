@@ -120,7 +120,7 @@ class ProductCard extends StatelessWidget {
                             isLike
                                 ? 'lib/assets/images/icons/svg/heart_fill.svg'
                                 : 'lib/assets/images/icons/svg/heart.svg',
-                            color: primaryColor[50],
+                            color: isLike ? const Color(0xFFF23B3B) : const Color(0xFF555555),
                             width: 18,
                           ))
                     ],
