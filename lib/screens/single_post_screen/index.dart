@@ -126,7 +126,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                               Tags(tags: tags),
                               const SizedBox(height: 40),
                               CommentSection(
-                                post_id: post['data']['id'] as int,
+                                postId: post['data']['id'] as int,
                                 commentCount: commentsCount,
                               ),
                             ],
