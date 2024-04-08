@@ -12,7 +12,7 @@ import 'package:sense_flutter_application/screens/single_post_screen/partials/st
 import 'package:sense_flutter_application/screens/single_post_screen/partials/tags.dart';
 import 'package:sense_flutter_application/screens/widgets/common/TextIcon.dart';
 import 'package:sense_flutter_application/screens/widgets/common/comment_text_area.dart';
-import 'package:sense_flutter_application/store/providers/Post/post_collection_provider.dart';
+import 'package:sense_flutter_application/store/providers/Post/single_post_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class SinglePostScreen extends StatefulWidget {
@@ -46,134 +46,132 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
       ),
       home: Consumer(
         builder: ((context, ref, child) {
-          return FutureBuilder(
-              future: getPost(widget.id.toString()),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: Container(
-                      color: Colors.white,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(primaryColor[50] ?? Colors.white),
+          print('fetching post ID = ${widget.id.toString()}');
+          final fetcher = ref.watch(postFutureProvider(widget.id.toString()));
+          final post = ref.watch(singlePostProvider);
+
+          if (fetcher.isLoading || post.isEmpty) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Container(
+                color: Colors.white,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(primaryColor[50] ?? Colors.white),
+                  ),
+                ),
+              ),
+            );
+          }
+          List<dynamic> tagDynamics = post['data']['tags'];
+          List<String> tags = tagDynamics.map((e) => e['title'] as String).toList();
+          final int commentsCount = post['data']['comment_count'] as int;
+          final int likesCount = post['data']['like_count'] as int;
+
+          return PostPageLayout(
+            title: '',
+            body: RefreshIndicator(
+                onRefresh: () async {
+                  //
+                },
+                child: SingleChildScrollView(
+                    // controller: scrollController,
+                    padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PostThumbnail(
+                          imageUrl: post['data']['thumbnail_media_url'],
+                          title: post['data']['title'],
+                          subTitle: post['data']['sub_title'],
+                          date: DateTime.parse(post['data']['created'])
+                              .toString()
+                              .substring(0, 10)
+                              .replaceAll('-', '.'),
+                          likeCount: post['data']['like_count'].toString(),
                         ),
-                      ),
-                    ),
-                  );
-                }
-
-                Map<String, dynamic> post = snapshot.data as Map<String, dynamic>;
-                List<dynamic> tagDynamics = post['data']['tags'];
-                List<String> tags = tagDynamics.map((e) => e['title'] as String).toList();
-
-                final int commentsCount = post['data']['comment_count'] as int;
-                final int likesCount = post['data']['like_count'] as int;
-
-                return PostPageLayout(
-                  title: '',
-                  body: RefreshIndicator(
-                      onRefresh: () async {
-                        //
-                      },
-                      child: SingleChildScrollView(
-                          // controller: scrollController,
-                          padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              PostThumbnail(
-                                imageUrl: post['data']['thumbnail_media_url'],
-                                title: post['data']['title'],
-                                subTitle: post['data']['sub_title'],
-                                date: DateTime.parse(post['data']['created'])
-                                    .toString()
-                                    .substring(0, 10)
-                                    .replaceAll('-', '.'),
-                                likeCount: post['data']['like_count'].toString(),
+                              ContentHeader(
+                                title: post['data']['content_title'] ?? '',
+                                startDate: post['data']['start_date'],
+                                endDate: post['data']['end_date'],
                               ),
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    ContentHeader(
-                                      title: post['data']['content_title'] ?? '',
-                                      startDate: post['data']['start_date'],
-                                      endDate: post['data']['end_date'],
-                                    ),
-                                    ContentBody(body: post['data']['content'] ?? []),
-                                    StoreProducts(
-                                        storeProducts: post['data']['store_products'],
-                                        likedProduct: (int productId) {
-                                          print('product id $productId');
-
-                                          ref
-                                              .read(postCollectionProvider.notifier)
-                                              .likeProduct(post['data'], productId);
-                                        }),
-                                    const SizedBox(height: 40),
-                                    const Notice(
-                                      bulletList: [
-                                        '로그인 상태에서 구매를 진행하셔야 구매가 가능합니다.',
-                                        '기한 내 사용하지 않은 이용권은 자동 소멸됩니다',
-                                        '본 이벤트는 당사 사정에 따라 사전예고 없이 변경 되거나 취소 될 수 있습니다.'
-                                      ],
-                                    ),
-                                    const SizedBox(height: 40),
-                                    Tags(tags: tags),
-                                    const SizedBox(height: 40),
-                                    CommentSection(
-                                      post_id: post['data']['id'] as int,
-                                      commentCount: commentsCount,
-                                    ),
-                                  ],
-                                ),
+                              ContentBody(body: post['data']['content'] ?? []),
+                              StoreProducts(
+                                  storeProducts: post['data']['store_products'],
+                                  likedProduct: (int productId, bool value) {
+                                    if (value) {
+                                      ref.read(singlePostProvider.notifier).likeProduct(productId);
+                                    } else {
+                                      ref
+                                          .read(singlePostProvider.notifier)
+                                          .dislikeProduct(productId);
+                                    }
+                                  }),
+                              const SizedBox(height: 40),
+                              const Notice(
+                                bulletList: [
+                                  '로그인 상태에서 구매를 진행하셔야 구매가 가능합니다.',
+                                  '기한 내 사용하지 않은 이용권은 자동 소멸됩니다',
+                                  '본 이벤트는 당사 사정에 따라 사전예고 없이 변경 되거나 취소 될 수 있습니다.'
+                                ],
+                              ),
+                              const SizedBox(height: 40),
+                              Tags(tags: tags),
+                              const SizedBox(height: 40),
+                              CommentSection(
+                                postId: post['data']['id'] as int,
+                                commentCount: commentsCount,
                               ),
                             ],
-                          ))),
-                  bottomNavigationBar: Container(
-                    height: 56,
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextIcon(
-                          iconPath: 'lib/assets/images/icons/svg/chat.svg',
-                          text: '$commentsCount',
-                          spacing: 4,
-                          textStyle: const TextStyle(
-                              color: Color(0xFF555555), fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            TextIcon(
-                              iconPath: 'lib/assets/images/icons/svg/heart.svg',
-                              text: '$likesCount',
-                              spacing: 4,
-                              textStyle: const TextStyle(
-                                  color: Color(0xFF555555),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            InkWell(
-                              onTap: () => {},
-                              child: SvgPicture.asset('lib/assets/images/icons/svg/share.svg'),
-                            )
-                          ],
-                        )
                       ],
-                    ),
+                    ))),
+            bottomNavigationBar: Container(
+              height: 56,
+              decoration: const BoxDecoration(
+                  border: Border(top: BorderSide(width: 1, color: Color(0xFFE0E0E0)))),
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextIcon(
+                    iconPath: 'lib/assets/images/icons/svg/chat.svg',
+                    text: '$commentsCount',
+                    spacing: 4,
+                    textStyle: const TextStyle(
+                        color: Color(0xFF555555), fontSize: 14, fontWeight: FontWeight.w500),
                   ),
-                );
-              });
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextIcon(
+                        iconPath: 'lib/assets/images/icons/svg/heart.svg',
+                        text: '$likesCount',
+                        spacing: 4,
+                        textStyle: const TextStyle(
+                            color: Color(0xFF555555), fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      InkWell(
+                        onTap: () => {},
+                        child: SvgPicture.asset('lib/assets/images/icons/svg/share.svg'),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
         }),
       ),
     );

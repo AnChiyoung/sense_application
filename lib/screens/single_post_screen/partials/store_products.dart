@@ -4,7 +4,7 @@ import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class StoreProducts extends StatelessWidget {
   final List<dynamic> storeProducts;
-  final Null Function(int productId)? likedProduct;
+  final Null Function(int productId, bool value)? likedProduct;
   const StoreProducts({super.key, required this.storeProducts, this.likedProduct});
 
   @override
@@ -24,8 +24,7 @@ class StoreProducts extends StatelessWidget {
             rating: storeProducts[index]['grade'].toString(),
             isLike: storeProducts[index]['is_liked'] ?? false,
             actionEvent: (event, value) => {
-              print('event: $event, value: $value'),
-              if (event == 'like') {likedProduct!(value['id'])}
+              if (event == 'like') {likedProduct!(value['id'], value['value'])}
             },
           ),
           if (size - 1 != index) const SizedBox(height: 16)
@@ -121,7 +120,7 @@ class ProductCard extends StatelessWidget {
                             isLike
                                 ? 'lib/assets/images/icons/svg/heart_fill.svg'
                                 : 'lib/assets/images/icons/svg/heart.svg',
-                            color: primaryColor[50],
+                            color: isLike ? const Color(0xFFF23B3B) : const Color(0xFF555555),
                             width: 18,
                           ))
                     ],

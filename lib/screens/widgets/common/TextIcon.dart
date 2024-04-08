@@ -7,13 +7,14 @@ class TextIcon extends StatelessWidget {
   final double iconSize;
   final double spacing;
   final TextStyle? textStyle;
-  final Color iconColor = const Color(0xFFBBBBBB);
+  final Color? iconColor;
 
   const TextIcon(
       {super.key,
       required this.text,
       this.iconSize = 24.0,
       this.spacing = 8.0,
+      this.iconColor = const Color(0xFFBBBBBB),
       required this.iconPath,
       this.textStyle});
 

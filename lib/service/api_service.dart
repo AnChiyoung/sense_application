@@ -8,7 +8,7 @@ class ApiService {
   }
 
   static const String baseUrl = 'https://server.dev.sens.im/api/v1/';
-  static const String authToken = 'YOUR_AUTH_TOKEN';
+  // static const String authToken = 'YOUR_AUTH_TOKEN';
   static final Map<String, String> headers = {
     'Content-Type': 'application/json; charset=UTF-8',
   };
@@ -22,7 +22,8 @@ class ApiService {
     }
 
     final url = Uri.parse('$baseUrl$path');
-    final response = await http.post(url, headers: headers, body: body);
+
+    final response = await http.post(url, headers: headers, body: body.isEmpty ? null : body);
     return response;
   }
 
