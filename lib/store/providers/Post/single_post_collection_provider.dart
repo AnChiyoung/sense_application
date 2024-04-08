@@ -46,16 +46,12 @@ class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
   }
 
   Future<void> likeProduct(int productId) async {
-    ProductApi().likeProduct(productId.toString()).then((value) {
-      print(value);
-    });
+    ProductApi().likeProduct(productId.toString()).then((value) {});
     like(productId);
   }
 
   Future<void> dislikeProduct(int productId) async {
-    ProductApi().unlikeProduct(productId.toString()).then((value) {
-      print(value);
-    });
+    ProductApi().unlikeProduct(productId.toString()).then((value) {});
     like(productId);
   }
 
