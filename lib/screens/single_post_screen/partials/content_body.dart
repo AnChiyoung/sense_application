@@ -1,8 +1,27 @@
+// import 'dart:convert';
+
 import 'package:flutter/material.dart';
+// import 'package:editorjs_flutter/editorjs_flutter.dart';
 
 class ContentBody extends StatelessWidget {
   final List<dynamic> body;
-  const ContentBody({super.key, required this.body});
+  ContentBody({super.key, required this.body});
+
+  final Map? style = {
+    "cssTags": [
+      {"tag": "code", "backgroundColor": "#33ff0000", "color": "#ffff0000", "padding": 5.0},
+      {"tag": "mark", "backgroundColor": "#ffffff00", "padding": 5.0}
+    ],
+    "defaultFont": "Roboto"
+  };
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return EditorJSView(
+  //     editorJSData: jsonEncode(body),
+  //     styles: jsonEncode(style),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
