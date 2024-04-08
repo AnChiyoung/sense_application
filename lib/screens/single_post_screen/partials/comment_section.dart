@@ -85,6 +85,7 @@ class CommentSection extends ConsumerWidget {
                       .map((comment) => CommentTile(
                             content: comment['content'],
                             user: comment['user'],
+                            replies: comment['child_comments'],
                           ))
                       .toList(),
                 );
@@ -100,62 +101,72 @@ class CommentSection extends ConsumerWidget {
 class CommentTile extends StatelessWidget {
   final Map<String, dynamic> user;
   final String content;
+  final List<dynamic> replies;
 
-  const CommentTile({super.key, required this.content, required this.user});
+  const CommentTile(
+      {super.key, required this.content, required this.user, this.replies = const []});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Color(0xFFEEEEEE),
-            width: 1,
+    List<Widget> childComment =
+        replies.map((e) => ReplyTile(content: e['content'], user: e['user'])).toList();
+
+    return Column(children: [
+      Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Color(0xFFEEEEEE),
+              width: 1,
+            ),
           ),
         ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    ProfileAvatar(
+                      size: 32,
+                      imageUrl: user['profile_image_url'] ?? '',
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    RichText(
+                        text: TextSpan(
+                            text: '${user['username']}',
+                            children: const [
+                              TextSpan(text: ' • 5시간', style: TextStyle(color: Color(0xFFBBBBBB)))
+                            ],
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF555555))))
+                  ],
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.more_horiz_outlined,
+                      color: Color(0xFF555555),
+                    ))
+              ],
+            ),
+            const SizedBox(
+              height: 6,
+            ),
+            Text(content, style: const TextStyle(color: Color(0xFF151515), fontSize: 14)),
+            const ActionButtons()
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  ProfileAvatar(
-                    size: 32,
-                    imageUrl: user['profile_image_url'] ?? '',
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  RichText(
-                      text: TextSpan(
-                          text: '${user['username']}',
-                          children: const [
-                            TextSpan(text: ' • 5시간', style: TextStyle(color: Color(0xFFBBBBBB)))
-                          ],
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF555555))))
-                ],
-              ),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.more_horiz_outlined,
-                    color: Color(0xFF555555),
-                  ))
-            ],
-          ),
-          const SizedBox(
-            height: 6,
-          ),
-          Text(content, style: const TextStyle(color: Color(0xFF151515), fontSize: 14)),
-          const ActionButtons()
-        ],
-      ),
-    );
+      ...childComment
+    ]);
   }
 }
 
@@ -220,16 +231,27 @@ class ProfileAvatar extends StatelessWidget {
   }
 }
 
-class ReplyTile extends StatelessWidget {
-  final Comment reply;
-
-  const ReplyTile({super.key, required this.reply});
+class ReplyTile extends CommentTile {
+  const ReplyTile({super.key, required super.content, required super.user});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(reply.text),
-      leading: const Icon(Icons.reply),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(top: 12, left: 8),
+            child: SvgPicture.asset(
+              'lib/assets/images/icons/svg/comment_reply.svg',
+              width: 24,
+              height: 24,
+              color: const Color(0xFFBBBBBB),
+            )),
+        Expanded(
+          child: CommentTile(content: content, user: user),
+        ),
+      ],
     );
   }
 }
