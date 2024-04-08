@@ -29,7 +29,7 @@ class ContentHeader extends StatelessWidget {
               style: const TextStyle(
                   fontSize: 20, fontWeight: FontWeight.w700, color: Color(0xFF333333)),
             ),
-            const SizedBox(height: 32),
+            // const SizedBox(height: 32),
             const Text(
               '이벤트 기간',
               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF555555)),

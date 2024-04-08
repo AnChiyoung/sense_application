@@ -32,7 +32,6 @@ class PostPageLayout extends StatelessWidget {
               icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/caret-left.svg'),
               onPressed: () {
                 if (GoRouter.of(context).canPop()) {
-                  print('canpoop');
                   GoRouter.of(context).pop();
                 } else {
                   GoRouter.of(context).go('/home');
