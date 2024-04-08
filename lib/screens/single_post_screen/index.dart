@@ -137,6 +137,8 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                           ))),
                   bottomNavigationBar: Container(
                     height: 56,
+                    decoration: const BoxDecoration(
+                        border: Border(top: BorderSide(width: 1, color: Color(0xFFE0E0E0)))),
                     padding: const EdgeInsets.all(20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
