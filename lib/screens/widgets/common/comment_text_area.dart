@@ -5,7 +5,8 @@ import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class CommentTextArea extends StatefulWidget {
   final int postId;
-  const CommentTextArea({super.key, required this.postId});
+  final Null Function(Map<String, dynamic> comment) onSend;
+  const CommentTextArea({super.key, required this.postId, required this.onSend});
 
   @override
   State<CommentTextArea> createState() => _CommentTextAreaState();
@@ -30,10 +31,13 @@ class _CommentTextAreaState extends State<CommentTextArea> {
 
   void _sendComment() {
     String comment = _textEditingController.text;
-    PostApi().writeComment(widget.postId.toString(), comment).then((value) => setState(() {
-          _textEditingController.clear();
-          _characterCount = 0;
-        }));
+    PostApi().writeComment(widget.postId.toString(), comment).then((value) {
+      setState(() {
+        _textEditingController.clear();
+        _characterCount = 0;
+      });
+      widget.onSend(value);
+    });
   }
 
   @override

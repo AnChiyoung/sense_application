@@ -71,8 +71,10 @@ class CommentSection extends ConsumerWidget {
             height: 16,
           ),
           CommentTextArea(
-            postId: postId,
-          ),
+              postId: postId,
+              onSend: (Map<String, dynamic> comment) {
+                ref.read(commentProvider.notifier).addComment(comment);
+              }),
           const SizedBox(
             height: 16,
           ),

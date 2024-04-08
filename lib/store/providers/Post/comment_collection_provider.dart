@@ -25,11 +25,11 @@ class CommentCollection extends StateNotifier<Map<String, dynamic>> {
   }
 
   void addComment(Map<String, dynamic> comment) {
-    List<dynamic> comments = state['comments'];
-    comments.add(comment);
+    List<dynamic> comments = state['data'];
+    comments.insert(0, comment['data']);
     setComments = {
       ...state,
-      ...{'comments': comments}
+      ...{'data': comments}
     };
   }
 
