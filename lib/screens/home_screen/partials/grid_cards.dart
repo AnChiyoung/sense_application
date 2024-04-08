@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/store/providers/Post/post_collection_provider.dart';
 
 class GridCards extends ConsumerWidget {
@@ -41,6 +42,9 @@ class GridCards extends ConsumerWidget {
       itemBuilder: ((context, index) {
         var post = data[index];
         return GridCard(
+          onTap: () {
+            GoRouter.of(context).go('/home/post/${post['id']}');
+          },
           image: post['thumbnail_media_url'],
           title: post['title'],
           description: post['sub_title'],
@@ -54,31 +58,35 @@ class GridCard extends StatelessWidget {
   final String image;
   final String title;
   final String description;
+  final VoidCallback onTap;
 
-  const GridCard({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.description,
-  });
+  const GridCard(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.description,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     //  Text('향기 가득한 입생로랑 리브르 르 퍼퓸 5종류의 선물')
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 10),
-        Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-      ],
+          SizedBox(height: 10),
+          Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+        ],
+      ),
     );
   }
 }
