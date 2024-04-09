@@ -70,11 +70,11 @@ class CommentSection extends ConsumerWidget {
           const SizedBox(
             height: 16,
           ),
-          CommentTextArea(
-              postId: postId,
-              onSend: (Map<String, dynamic> comment) {
-                ref.read(commentProvider.notifier).addComment(comment);
-              }),
+          CommentTextArea(onSend: (String comment) {
+            PostApi()
+                .writeComment(postId.toString(), comment)
+                .then((value) => ref.read(commentProvider.notifier).addComment(value));
+          }),
           const SizedBox(
             height: 16,
           ),
@@ -83,6 +83,7 @@ class CommentSection extends ConsumerWidget {
                 return Column(
                   children: comments
                       .map((comment) => CommentTile(
+                            commentId: comment['id'],
                             content: comment['content'],
                             user: comment['user'],
                             replies: comment['child_comments'],
@@ -98,18 +99,33 @@ class CommentSection extends ConsumerWidget {
   }
 }
 
-class CommentTile extends StatelessWidget {
+class CommentTile extends StatefulWidget {
   final Map<String, dynamic> user;
   final String content;
   final List<dynamic> replies;
+  final int commentId;
 
   const CommentTile(
-      {super.key, required this.content, required this.user, this.replies = const []});
+      {super.key,
+      required this.commentId,
+      required this.content,
+      required this.user,
+      this.replies = const []});
+
+  @override
+  State<CommentTile> createState() => _CommentTileState();
+}
+
+class _CommentTileState extends State<CommentTile> {
+  bool isReplying = false;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> childComment =
-        replies.map((e) => ReplyTile(content: e['content'], user: e['user'])).toList();
+    List<Widget> childComment = widget.replies
+        .map((e) => ReplyTile(
+              child: CommentTile(commentId: e['id'], content: e['content'], user: e['user']),
+            ))
+        .toList();
 
     return Column(children: [
       Container(
@@ -132,14 +148,14 @@ class CommentTile extends StatelessWidget {
                   children: [
                     ProfileAvatar(
                       size: 32,
-                      imageUrl: user['profile_image_url'] ?? '',
+                      imageUrl: widget.user['profile_image_url'] ?? '',
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     RichText(
                         text: TextSpan(
-                            text: '${user['username']}',
+                            text: '${widget.user['username']}',
                             children: const [
                               TextSpan(text: ' • 5시간', style: TextStyle(color: Color(0xFFBBBBBB)))
                             ],
@@ -160,18 +176,58 @@ class CommentTile extends StatelessWidget {
             const SizedBox(
               height: 6,
             ),
-            Text(content, style: const TextStyle(color: Color(0xFF151515), fontSize: 14)),
-            const ActionButtons()
+            Text(widget.content, style: const TextStyle(color: Color(0xFF151515), fontSize: 14)),
+            ActionButtons(onTapReply: () {
+              setState(() {
+                isReplying = !isReplying;
+              });
+            })
           ],
         ),
       ),
+
+      // When clicking reply button, show the reply text area
+      if (isReplying)
+        Padding(
+            padding: const EdgeInsets.only(top: 12, bottom: 12),
+            child: ReplyTile(
+                child: CommentTextArea(
+              cancelButton: true,
+              onCancel: () {
+                setState(() {
+                  isReplying = false;
+                });
+              },
+              onSend: (String comment) {
+                // Send Api post request reply comment using Parent Comment ID
+                PostApi().replyToAComment(widget.commentId.toString(), comment).then((value) {
+                  setState(() {
+                    // Close the reply text area
+                    isReplying = false;
+
+                    // Append replied comment to parent comment
+                    childComment.insert(
+                        0,
+                        ReplyTile(
+                          child: CommentTile(
+                              commentId: value['id'],
+                              content: value['content'],
+                              user: value['user']),
+                        ));
+                  });
+                });
+              },
+            ))),
+
+      // Show all replies
       ...childComment
     ]);
   }
 }
 
 class ActionButtons extends StatelessWidget {
-  const ActionButtons({super.key});
+  final Null Function() onTapReply;
+  const ActionButtons({super.key, required this.onTapReply});
 
   @override
   Widget build(BuildContext context) {
@@ -203,9 +259,7 @@ class ActionButtons extends StatelessWidget {
               width: 20,
             ),
             InkWell(
-              onTap: () {
-                print('reply comment');
-              },
+              onTap: onTapReply,
               child: const Text('답글 달기'),
             )
           ],
@@ -231,8 +285,9 @@ class ProfileAvatar extends StatelessWidget {
   }
 }
 
-class ReplyTile extends CommentTile {
-  const ReplyTile({super.key, required super.content, required super.user});
+class ReplyTile extends StatelessWidget {
+  final Widget child;
+  const ReplyTile({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +296,7 @@ class ReplyTile extends CommentTile {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: const EdgeInsets.only(top: 12, left: 8),
+            padding: const EdgeInsets.only(top: 12, right: 8),
             child: SvgPicture.asset(
               'lib/assets/images/icons/svg/comment_reply.svg',
               width: 24,
@@ -249,7 +304,7 @@ class ReplyTile extends CommentTile {
               color: const Color(0xFFBBBBBB),
             )),
         Expanded(
-          child: CommentTile(content: content, user: user),
+          child: child,
         ),
       ],
     );
