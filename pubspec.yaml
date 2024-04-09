@@ -78,6 +78,7 @@ flutter:
     - lib/assets/images/icons/svg/pin.svg
     - lib/assets/images/icons/svg/share.svg
     - lib/assets/images/icons/svg/like.svg
+    - lib/assets/images/icons/svg/comment_reply.svg
     - lib/assets/images/icons/svg/chat.svg
     - lib/assets/images/icons/svg/cart.svg
     - lib/assets/images/icons/svg/circle_checked.svg
