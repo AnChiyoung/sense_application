@@ -29,4 +29,14 @@ class PostApi {
     var parse = json.decode(utf8.decode(response.bodyBytes));
     return parse;
   }
+
+  Future<Map<String, dynamic>> replyToAComment(String commentId, String content) async {
+    final response = await ApiService.post(
+        'comment/$commentId/comment',
+        jsonEncode(<String, dynamic>{
+          'content': content,
+        }));
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
 }
