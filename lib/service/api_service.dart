@@ -27,7 +27,7 @@ class ApiService {
     return response;
   }
 
-  static Future<http.Response> get(String path, {String? fullUrl}) async {
+  static Future<http.Response> get(String? path, {String? fullUrl}) async {
     String authToken = await AuthService.getAccessToken() ?? '';
     if (authToken.isNotEmpty) {
       headers['Authorization'] = 'Bearer $authToken';
