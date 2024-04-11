@@ -259,6 +259,11 @@ class _CommentTileState extends State<CommentTile> {
               onSend: (String comment) {
                 // Send Api post request reply comment using Parent Comment ID
                 widget.onReplied?.call(widget.commentId, comment);
+
+                // Close the reply text area after sending the comment
+                setState(() {
+                  isReplying = false;
+                });
               },
             ))),
 
