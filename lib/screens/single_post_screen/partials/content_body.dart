@@ -1,6 +1,8 @@
 // import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
 // import 'package:editorjs_flutter/editorjs_flutter.dart';
 
 class ContentBody extends StatelessWidget {
@@ -49,7 +51,13 @@ class ContentBody extends StatelessWidget {
           } else if (e?['type'] == 'image') {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: Image.network(e?['data']['file']['url']),
+              child: CachedNetworkImage(
+                  imageUrl: e?['data']['file']['url'],
+                  placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor[50],
+                        ),
+                      )),
             );
           }
           return Text('${e?['type']} is not supported.');

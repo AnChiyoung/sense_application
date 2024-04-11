@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/store/providers/Post/post_collection_provider.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class GridCards extends ConsumerWidget {
   const GridCards({super.key});
@@ -76,10 +78,17 @@ class GridCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
+            child: CachedNetworkImage(
+              imageUrl: image,
+              placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                color: primaryColor[50],
+              )),
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
+                ),
               ),
             ),
           ),
