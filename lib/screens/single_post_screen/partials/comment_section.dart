@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:sense_flutter_application/apis/post/post_api.dart';
 import 'package:sense_flutter_application/models/comment.dart';
 import 'package:sense_flutter_application/screens/widgets/common/TextIcon.dart';
 import 'package:sense_flutter_application/screens/widgets/common/comment_text_area.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/store/providers/Post/comment_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
@@ -83,16 +85,36 @@ class CommentSection extends ConsumerWidget {
                 return Column(
                   children: comments
                       .map((comment) => CommentTile(
-                            commentId: comment['id'],
-                            content: comment['content'],
-                            user: comment['user'],
-                            replies: comment['child_comments'],
-                          ))
+                          isParent: true,
+                          commentId: comment['id'],
+                          content: comment['content'],
+                          user: comment['user'],
+                          replies: comment['child_comments'],
+                          likesCount: comment['like_count'],
+                          onReplied: (int parentId, String comment) {
+                            PostApi().replyToAComment(parentId.toString(), comment).then((value) {
+                              ref.read(commentProvider.notifier).addChildComment(value['data']);
+                            });
+                            // ref.read(commentProvider.notifier).addChildComment();
+                          }))
                       .toList(),
                 );
               },
               loading: () => const CircularProgressIndicator(),
               error: (error, stack) => Text('Error: $error')),
+          const SizedBox(height: 32),
+          if (commentProviders['next'] != null)
+            CustomButton(
+              onPressed: () {
+                ref.read(commentProvider.notifier).loadMoreComments();
+              },
+              height: 40,
+              backgroundColor: const Color(0xFFF6F6F6),
+              textColor: const Color(0xFF555555),
+              labelText: '이전 댓글 보기',
+              suffixIcon: SvgPicture.asset('lib/assets/images/icons/svg/caret_down.svg',
+                  width: 18, height: 18),
+            )
         ],
       ),
     );
@@ -104,13 +126,19 @@ class CommentTile extends StatefulWidget {
   final String content;
   final List<dynamic> replies;
   final int commentId;
+  final bool isParent;
+  final int likesCount;
+  final Null Function(int parentId, String content)? onReplied;
 
   const CommentTile(
       {super.key,
       required this.commentId,
       required this.content,
       required this.user,
-      this.replies = const []});
+      this.replies = const [],
+      this.onReplied,
+      this.likesCount = 0,
+      required this.isParent});
 
   @override
   State<CommentTile> createState() => _CommentTileState();
@@ -118,14 +146,40 @@ class CommentTile extends StatefulWidget {
 
 class _CommentTileState extends State<CommentTile> {
   bool isReplying = false;
+  bool isShowAll = false;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> childComment = widget.replies
         .map((e) => ReplyTile(
-              child: CommentTile(commentId: e['id'], content: e['content'], user: e['user']),
+              child: CommentTile(
+                  isParent: false, commentId: e['id'], content: e['content'], user: e['user']),
             ))
         .toList();
+    List<Widget> filtiredComments = [];
+
+    // Filter child replies
+    filtiredComments = childComment.take(1).toList();
+    if (childComment.length > 1) {
+      filtiredComments = [
+        ...filtiredComments,
+        TextButton(
+          onPressed: () {
+            // Handle button click
+            setState(() {
+              isShowAll = true;
+            });
+          },
+          child: Text(
+            '답글 ${childComment.length - 1}개',
+            style: const TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ];
+    }
 
     return Column(children: [
       Container(
@@ -177,11 +231,15 @@ class _CommentTileState extends State<CommentTile> {
               height: 6,
             ),
             Text(widget.content, style: const TextStyle(color: Color(0xFF151515), fontSize: 14)),
-            ActionButtons(onTapReply: () {
-              setState(() {
-                isReplying = !isReplying;
-              });
-            })
+            ActionButtons(
+                isReply: widget.isParent,
+                likeCount: widget.likesCount,
+                commentCount: widget.replies.length,
+                onTapReply: () {
+                  setState(() {
+                    isReplying = !isReplying;
+                  });
+                })
           ],
         ),
       ),
@@ -200,34 +258,32 @@ class _CommentTileState extends State<CommentTile> {
               },
               onSend: (String comment) {
                 // Send Api post request reply comment using Parent Comment ID
-                PostApi().replyToAComment(widget.commentId.toString(), comment).then((value) {
-                  setState(() {
-                    // Close the reply text area
-                    isReplying = false;
-
-                    // Append replied comment to parent comment
-                    childComment.insert(
-                        0,
-                        ReplyTile(
-                          child: CommentTile(
-                              commentId: value['id'],
-                              content: value['content'],
-                              user: value['user']),
-                        ));
-                  });
-                });
+                widget.onReplied?.call(widget.commentId, comment);
               },
             ))),
 
       // Show all replies
-      ...childComment
+      Column(
+        children: isShowAll ? childComment : filtiredComments,
+      )
     ]);
   }
 }
 
 class ActionButtons extends StatelessWidget {
   final Null Function() onTapReply;
-  const ActionButtons({super.key, required this.onTapReply});
+  final bool isReply;
+  final bool isLike;
+  final int likeCount;
+  final int commentCount;
+
+  const ActionButtons(
+      {super.key,
+      required this.onTapReply,
+      this.isReply = true,
+      this.isLike = true,
+      this.likeCount = 0,
+      this.commentCount = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -236,32 +292,36 @@ class ActionButtons extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            const TextIcon(
-              text: '12.5K',
-              iconPath: 'lib/assets/images/icons/svg/like.svg',
-              iconColor: Color(0xFFBBBBBB),
-              iconSize: 16,
-              spacing: 8,
-              textStyle: TextStyle(color: Color(0xFF555555), fontSize: 12),
-            ),
-            const SizedBox(width: 12),
-            const TextIcon(
-              text: '1',
-              iconPath: 'lib/assets/images/icons/svg/chat.svg',
-              iconColor: Color(0xFFBBBBBB),
-              iconSize: 16,
-              spacing: 8,
-              textStyle: TextStyle(color: Color(0xFF555555), fontSize: 12),
-            ),
-            const VerticalDivider(
-              color: Color(0xFFEEEEEE),
-              thickness: 1,
-              width: 20,
-            ),
             InkWell(
-              onTap: onTapReply,
-              child: const Text('답글 달기'),
-            )
+                onTap: () {},
+                child: TextIcon(
+                  text: '$likeCount',
+                  iconPath: 'lib/assets/images/icons/svg/like.svg',
+                  iconColor: const Color(0xFFBBBBBB),
+                  iconSize: 16,
+                  spacing: 8,
+                  textStyle: const TextStyle(color: Color(0xFF555555), fontSize: 12),
+                )),
+            if (isReply) ...[
+              const SizedBox(width: 12),
+              TextIcon(
+                text: '$commentCount',
+                iconPath: 'lib/assets/images/icons/svg/chat.svg',
+                iconColor: const Color(0xFFBBBBBB),
+                iconSize: 16,
+                spacing: 8,
+                textStyle: const TextStyle(color: Color(0xFF555555), fontSize: 12),
+              ),
+              const VerticalDivider(
+                color: Color(0xFFEEEEEE),
+                thickness: 1,
+                width: 20,
+              ),
+              InkWell(
+                onTap: onTapReply,
+                child: const Text('답글 달기'),
+              )
+            ]
           ],
         ),
       ),
@@ -279,7 +339,7 @@ class ProfileAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: size / 2,
       backgroundColor: const Color(0xFFEEEEEE),
-      backgroundImage: imageUrl.isNotEmpty ? NetworkImage(imageUrl) : null,
+      backgroundImage: imageUrl.isNotEmpty ? CachedNetworkImageProvider(imageUrl) : null,
       child: SvgPicture.asset('lib/assets/images/icons/svg/user.svg'),
     );
   }
