@@ -15,7 +15,7 @@ class PostApi {
   }
 
   Future<Map<String, dynamic>> getPostComments(String id) async {
-    final response = await ApiService.get('post/$id/comments');
+    final response = await ApiService.get('post/$id/comments?page_size=5');
     var parse = json.decode(utf8.decode(response.bodyBytes));
     return parse;
   }
