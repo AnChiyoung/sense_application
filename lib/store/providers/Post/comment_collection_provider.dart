@@ -66,6 +66,30 @@ class CommentCollection extends StateNotifier<Map<String, dynamic>> {
     };
   }
 
+  void likeAcomment(Map<String, dynamic> comment) {
+    // print(comment);
+    List<dynamic> comments = state['data'];
+    int parentIndex = comments.indexWhere(
+        (element) => element['id'] == (comment['parent_comment'] as int? ?? comment['id']));
+
+    if (comment['parent_comment'] != null) {
+      var children = comments[parentIndex]['child_comments'];
+      comments[parentIndex]['child_comments'] = children?.map((e) {
+        if (e['id'] == comment['id']) {
+          return comment;
+        }
+        return e;
+      }).toList();
+    } else {
+      comments[parentIndex] = comment;
+    }
+
+    setComments = {
+      ...state,
+      ...{'data': comments}
+    };
+  }
+
   void removeComment(int commentId) {
     List<dynamic> comments =
         state['comments'].where((element) => element['id'] != commentId).toList();
