@@ -57,7 +57,11 @@ class _InfiniteScrollState extends State<InfiniteScroll> {
         child: Column(
           children: [
             widget.child,
-            if (widget.isLoading) const CircularProgressIndicator(),
+            if (widget.isLoading)
+              const Padding(
+                padding: EdgeInsets.only(top: 16, bottom: 16),
+                child: CircularProgressIndicator(),
+              ),
           ],
         ));
   }
