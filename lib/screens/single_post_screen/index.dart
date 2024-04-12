@@ -32,6 +32,33 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
     return 0;
   });
   final likeCountProvider = StateProvider<int>((ref) => 0);
+  ScrollController scrollController = ScrollController();
+  bool isSticky = false;
+
+  void scrollListener() {
+    if (scrollController.offset > 300) {
+      setState(() {
+        isSticky = true;
+      });
+    } else {
+      setState(() {
+        isSticky = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(scrollListener);
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +96,13 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
           final int likesCount = post['data']['like_count'] as int;
 
           return PostPageLayout(
-            title: '',
+            title: post['data']['title'],
             body: RefreshIndicator(
                 onRefresh: () async {
                   //
                 },
                 child: SingleChildScrollView(
-                    // controller: scrollController,
+                    controller: scrollController,
                     padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,43 +161,73 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                         ),
                       ],
                     ))),
-            bottomNavigationBar: Container(
+            bottomNavigationBar: SafeArea(
+                child: Container(
               height: 56,
               decoration: const BoxDecoration(
                   border: Border(top: BorderSide(width: 1, color: Color(0xFFE0E0E0)))),
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(left: 12, top: 14, bottom: 14, right: 14),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextIcon(
+                    iconSize: 20,
                     iconPath: 'lib/assets/images/icons/svg/chat.svg',
                     text: '$commentsCount',
                     spacing: 4,
                     textStyle: const TextStyle(
-                        color: Color(0xFF555555), fontSize: 14, fontWeight: FontWeight.w500),
+                        color: Color(0xFF555555),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Pretendard'),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextIcon(
-                        iconPath: 'lib/assets/images/icons/svg/heart.svg',
-                        text: '$likesCount',
-                        spacing: 4,
-                        textStyle: const TextStyle(
-                            color: Color(0xFF555555), fontSize: 14, fontWeight: FontWeight.w500),
+                      InkWell(
+                        onTap: () => {},
+                        child: TextIcon(
+                          iconSize: 20,
+                          iconPath: 'lib/assets/images/icons/svg/heart.svg',
+                          text: '$likesCount',
+                          spacing: 4,
+                          textStyle: const TextStyle(
+                              color: Color(0xFF555555),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Pretendard'),
+                        ),
                       ),
                       const SizedBox(
                         width: 12,
                       ),
                       InkWell(
                         onTap: () => {},
-                        child: SvgPicture.asset('lib/assets/images/icons/svg/share.svg'),
+                        child: SvgPicture.asset(
+                          'lib/assets/images/icons/svg/share.svg',
+                          width: 20,
+                          height: 20,
+                        ),
                       )
                     ],
                   )
                 ],
               ),
-            ),
+            )),
+            floating: isSticky
+                ? FloatingActionButton(
+                    onPressed: () {
+                      scrollController.animateTo(0,
+                          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                    },
+                    backgroundColor: const Color(0xFFEEEEEE),
+                    shape: const CircleBorder(),
+                    elevation: 0,
+                    child: SvgPicture.asset('lib/assets/images/icons/svg/caret_up.svg',
+                        width: 24, height: 24),
+                  )
+                : null,
           );
         }),
       ),
