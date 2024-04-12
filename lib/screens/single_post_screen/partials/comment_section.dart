@@ -81,34 +81,35 @@ class CommentSection extends ConsumerWidget {
             height: 16,
           ),
           fetcher.when(
-              data: (_) {
-                return Column(
-                  children: comments
-                      .map((comment) => CommentTile(
-                            isParent: true,
-                            isLiked: comment['is_liked'] ?? false,
-                            commentId: comment['id'],
-                            content: comment['content'],
-                            user: comment['user'],
-                            replies: comment['child_comments'],
-                            likesCount: comment['like_count'],
-                            onReplied: (int parentId, String comment) {
-                              PostApi().replyToAComment(parentId.toString(), comment).then((value) {
-                                ref.read(commentProvider.notifier).addChildComment(value['data']);
-                              });
-                              // ref.read(commentProvider.notifier).addChildComment();
-                            },
-                            onLiked: (value) {
-                              ref.read(commentProvider.notifier).likeAcomment(value['data']);
-                            },
-                          ))
-                      .toList(),
-                );
-              },
-              loading: () => const CircularProgressIndicator(),
-              error: (error, stack) => Text('Error: $error')),
-          const SizedBox(height: 32),
-          if (commentProviders['next'] != null)
+            data: (_) {
+              return Column(
+                children: comments
+                    .map((comment) => CommentTile(
+                          isParent: true,
+                          isLiked: comment['is_liked'] ?? false,
+                          commentId: comment['id'],
+                          content: comment['content'],
+                          user: comment['user'],
+                          replies: comment['child_comments'],
+                          likesCount: comment['like_count'],
+                          onReplied: (int parentId, String comment) {
+                            PostApi().replyToAComment(parentId.toString(), comment).then((value) {
+                              ref.read(commentProvider.notifier).addChildComment(value['data']);
+                            });
+                            // ref.read(commentProvider.notifier).addChildComment();
+                          },
+                          onLiked: (value) {
+                            ref.read(commentProvider.notifier).likeAcomment(value['data']);
+                          },
+                        ))
+                    .toList(),
+              );
+            },
+            loading: () => const CircularProgressIndicator(),
+            error: (error, stack) => Text('Error: $error'),
+          ),
+          if (commentProviders['next'] != null) ...[
+            const SizedBox(height: 32),
             CustomButton(
               onPressed: () {
                 ref.read(commentProvider.notifier).loadMoreComments();
@@ -120,6 +121,7 @@ class CommentSection extends ConsumerWidget {
               suffixIcon: SvgPicture.asset('lib/assets/images/icons/svg/caret_down.svg',
                   width: 18, height: 18),
             )
+          ]
         ],
       ),
     );
