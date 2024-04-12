@@ -24,7 +24,6 @@ class _InfiniteScrollState extends State<InfiniteScroll> {
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
-    // _fetchData();
   }
 
   @override
@@ -34,8 +33,9 @@ class _InfiniteScrollState extends State<InfiniteScroll> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.outOfRange &&
-        _scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+    if (_scrollController.position.outOfRange ||
+        _scrollController.position.pixels >= _scrollController.position.maxScrollExtent &&
+            _scrollController.position.userScrollDirection == ScrollDirection.reverse) {
       _fetchData();
     }
 
