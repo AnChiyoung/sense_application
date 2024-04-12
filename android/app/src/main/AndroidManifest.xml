@@ -3,20 +3,20 @@
         android:label="sense_flutter_application"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <activity
-            android:name="com.kakao.sdk.flutter.AppsHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+            <!-- Setting for Kakao Login Custom URI Scheme -->
+    <activity 
+        android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
+        android:exported="true">
+        <intent-filter android:label="flutter_web_auth">
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <!-- Setting for the shipping address picker -->
-                <data android:scheme="1fc38e74f272a85e46bc10b37fdbebcd" />
-                <data android:host="https://server.dev.sens.im/api/v1/kakao/oauth" />
-            </intent-filter>
-        </activity>
+            <!-- Setting for "kakao${YOUR_NATIVE_APP_KEY}://oauth" type app execution scheme -->
+            <!-- Kakao Login Redirect URI -->
+            <data android:scheme="kakao1fc38e74f272a85e46bc10b37fdbebcd" android:host="oauth"/>
+        </intent-filter>
+    </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
