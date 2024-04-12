@@ -8,10 +8,10 @@ import 'package:sense_flutter_application/screens/single_post_screen/partials/co
 import 'package:sense_flutter_application/screens/single_post_screen/partials/content_header.dart';
 import 'package:sense_flutter_application/screens/single_post_screen/partials/notice.dart';
 import 'package:sense_flutter_application/screens/single_post_screen/partials/post_thumbnail.dart';
+import 'package:sense_flutter_application/screens/single_post_screen/partials/related_post.dart';
 import 'package:sense_flutter_application/screens/single_post_screen/partials/store_products.dart';
 import 'package:sense_flutter_application/screens/single_post_screen/partials/tags.dart';
 import 'package:sense_flutter_application/screens/widgets/common/TextIcon.dart';
-import 'package:sense_flutter_application/screens/widgets/common/comment_text_area.dart';
 import 'package:sense_flutter_application/store/providers/Post/single_post_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
@@ -73,7 +73,6 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
       ),
       home: Consumer(
         builder: ((context, ref, child) {
-          print('fetching post ID = ${widget.id.toString()}');
           final fetcher = ref.watch(postFutureProvider(widget.id.toString()));
           final post = ref.watch(singlePostProvider);
 
@@ -159,6 +158,8 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                             ],
                           ),
                         ),
+                        const SizedBox(height: 40),
+                        RelatedPost(relatedPosts: post['data']['related_posts'] ?? []),
                       ],
                     ))),
             bottomNavigationBar: SafeArea(
