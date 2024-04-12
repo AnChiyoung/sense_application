@@ -39,4 +39,18 @@ class PostApi {
     var parse = json.decode(utf8.decode(response.bodyBytes));
     return parse;
   }
+
+  Future<Map<String, dynamic>> likeToAComment(String commentId) async {
+    final response =
+        await ApiService.post('comment/$commentId/like', jsonEncode(<String, dynamic>{}));
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
+
+  Future<Map<String, dynamic>> dislikeToAComment(String commentId) async {
+    final response =
+        await ApiService.post('comment/$commentId/unlike', jsonEncode(<String, dynamic>{}));
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
 }
