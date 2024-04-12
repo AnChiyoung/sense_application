@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sense_flutter_application/apis/post/post_api.dart';
-import 'package:sense_flutter_application/models/comment.dart';
 import 'package:sense_flutter_application/screens/widgets/common/TextIcon.dart';
 import 'package:sense_flutter_application/screens/widgets/common/comment_text_area.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_modal.dart';
 import 'package:sense_flutter_application/store/providers/Post/comment_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
@@ -85,18 +85,23 @@ class CommentSection extends ConsumerWidget {
                 return Column(
                   children: comments
                       .map((comment) => CommentTile(
-                          isParent: true,
-                          commentId: comment['id'],
-                          content: comment['content'],
-                          user: comment['user'],
-                          replies: comment['child_comments'],
-                          likesCount: comment['like_count'],
-                          onReplied: (int parentId, String comment) {
-                            PostApi().replyToAComment(parentId.toString(), comment).then((value) {
-                              ref.read(commentProvider.notifier).addChildComment(value['data']);
-                            });
-                            // ref.read(commentProvider.notifier).addChildComment();
-                          }))
+                            isParent: true,
+                            isLiked: comment['is_liked'] ?? false,
+                            commentId: comment['id'],
+                            content: comment['content'],
+                            user: comment['user'],
+                            replies: comment['child_comments'],
+                            likesCount: comment['like_count'],
+                            onReplied: (int parentId, String comment) {
+                              PostApi().replyToAComment(parentId.toString(), comment).then((value) {
+                                ref.read(commentProvider.notifier).addChildComment(value['data']);
+                              });
+                              // ref.read(commentProvider.notifier).addChildComment();
+                            },
+                            onLiked: (value) {
+                              ref.read(commentProvider.notifier).likeAcomment(value['data']);
+                            },
+                          ))
                       .toList(),
                 );
               },
@@ -127,16 +132,20 @@ class CommentTile extends StatefulWidget {
   final List<dynamic> replies;
   final int commentId;
   final bool isParent;
+  final bool isLiked;
   final int likesCount;
   final Null Function(int parentId, String content)? onReplied;
+  final Function(Map<String, dynamic>)? onLiked;
 
   const CommentTile(
       {super.key,
       required this.commentId,
       required this.content,
       required this.user,
+      this.isLiked = false,
       this.replies = const [],
       this.onReplied,
+      this.onLiked,
       this.likesCount = 0,
       required this.isParent});
 
@@ -153,7 +162,13 @@ class _CommentTileState extends State<CommentTile> {
     List<Widget> childComment = widget.replies
         .map((e) => ReplyTile(
               child: CommentTile(
-                  isParent: false, commentId: e['id'], content: e['content'], user: e['user']),
+                  onLiked: widget.onLiked,
+                  isLiked: e['is_liked'] ?? false,
+                  likesCount: e['like_count'],
+                  isParent: false,
+                  commentId: e['id'],
+                  content: e['content'],
+                  user: e['user']),
             ))
         .toList();
     List<Widget> filtiredComments = [];
@@ -209,7 +224,7 @@ class _CommentTileState extends State<CommentTile> {
                     ),
                     RichText(
                         text: TextSpan(
-                            text: '${widget.user['username']}',
+                            text: '${widget.user['username'] ?? widget.user['email']}',
                             children: const [
                               TextSpan(text: ' • 5시간', style: TextStyle(color: Color(0xFFBBBBBB)))
                             ],
@@ -220,7 +235,36 @@ class _CommentTileState extends State<CommentTile> {
                   ],
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // CustomModal.showModal(context,
+                      //     title: 'Confirm',
+                      //     message: 'Are you sure to delete this comment?',
+                      //     buttonLabel: 'Ok'
+                      //     // onConfirm: () {}
+                      //     );
+                      CustomModal.showBottomSheet(context, [
+                        Expanded(
+                            child: SizedBox(
+                                width: double.infinity,
+                                child: CustomButton(
+                                  onPressed: () {},
+                                  textColor: errorColor[0] ?? Colors.red,
+                                  backgroundColor: Colors.transparent,
+                                  labelText: 'Delete',
+                                ))),
+                        const SizedBox(height: 16),
+                        Expanded(
+                            child: SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            onPressed: () {},
+                            labelText: 'Cancel',
+                            backgroundColor: Colors.white,
+                            textColor: const Color(0xFF555555),
+                          ),
+                        ))
+                      ]);
+                    },
                     icon: const Icon(
                       Icons.more_horiz_outlined,
                       color: Color(0xFF555555),
@@ -232,9 +276,21 @@ class _CommentTileState extends State<CommentTile> {
             ),
             Text(widget.content, style: const TextStyle(color: Color(0xFF151515), fontSize: 14)),
             ActionButtons(
+                isLike: widget.isLiked,
                 isReply: widget.isParent,
                 likeCount: widget.likesCount,
                 commentCount: widget.replies.length,
+                onTapLike: () {
+                  if (!widget.isLiked) {
+                    PostApi().likeToAComment(widget.commentId.toString()).then((value) {
+                      widget.onLiked?.call(value);
+                    });
+                  } else {
+                    PostApi().dislikeToAComment(widget.commentId.toString()).then((value) {
+                      widget.onLiked?.call(value);
+                    });
+                  }
+                },
                 onTapReply: () {
                   setState(() {
                     isReplying = !isReplying;
@@ -277,6 +333,7 @@ class _CommentTileState extends State<CommentTile> {
 
 class ActionButtons extends StatelessWidget {
   final Null Function() onTapReply;
+  final Null Function() onTapLike;
   final bool isReply;
   final bool isLike;
   final int likeCount;
@@ -286,9 +343,10 @@ class ActionButtons extends StatelessWidget {
       {super.key,
       required this.onTapReply,
       this.isReply = true,
-      this.isLike = true,
+      this.isLike = false,
       this.likeCount = 0,
-      this.commentCount = 0});
+      this.commentCount = 0,
+      required this.onTapLike});
 
   @override
   Widget build(BuildContext context) {
@@ -298,11 +356,13 @@ class ActionButtons extends StatelessWidget {
         child: Row(
           children: [
             InkWell(
-                onTap: () {},
+                onTap: onTapLike,
                 child: TextIcon(
                   text: '$likeCount',
-                  iconPath: 'lib/assets/images/icons/svg/like.svg',
-                  iconColor: const Color(0xFFBBBBBB),
+                  iconPath: isLike
+                      ? 'lib/assets/images/icons/svg/like_fill.svg'
+                      : 'lib/assets/images/icons/svg/like.svg',
+                  iconColor: isLike ? primaryColor[50] : const Color(0xFFBBBBBB),
                   iconSize: 16,
                   spacing: 8,
                   textStyle: const TextStyle(color: Color(0xFF555555), fontSize: 12),
