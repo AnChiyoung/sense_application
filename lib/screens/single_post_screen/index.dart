@@ -187,11 +187,22 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () => {},
+                        onTap: () {
+                          ref.read(singlePostProvider.notifier).likeApost(
+                                widget.id.toString(),
+                              );
+                          PostApi().likeApost(widget.id.toString(),
+                              !post['data']['is_liked'] ? LikeStatus.like : LikeStatus.unlike);
+                        },
                         child: TextIcon(
                           iconSize: 20,
-                          iconPath: 'lib/assets/images/icons/svg/heart.svg',
+                          iconPath: post['data']['is_liked']
+                              ? 'lib/assets/images/icons/svg/heart_fill.svg'
+                              : 'lib/assets/images/icons/svg/heart.svg',
                           text: '$likesCount',
+                          iconColor: post['data']['is_liked']
+                              ? const Color(0xFFF23B3B)
+                              : const Color(0xFF555555),
                           spacing: 4,
                           textStyle: const TextStyle(
                               color: Color(0xFF555555),

@@ -49,6 +49,20 @@ class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
     likeToggle(productId);
   }
 
+  void likeApost(String id) {
+    Map<String, dynamic> data = {
+      ...state['data'],
+      'is_liked': !state['data']['is_liked'],
+      'like_count': state['data']['is_liked']
+          ? state['data']['like_count'] - 1
+          : state['data']['like_count'] + 1
+    };
+    setPost = {
+      ...state,
+      ...{'data': data}
+    };
+  }
+
   Future<void> dislikeProduct(int productId) async {
     ProductApi().unlikeProduct(productId.toString()).then((value) {});
     likeToggle(productId);
