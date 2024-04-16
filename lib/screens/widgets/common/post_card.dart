@@ -65,6 +65,8 @@ class PostCard extends StatelessWidget {
               children: [
                 Text(
                   subject,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: Color(0xFF151515),
                       overflow: TextOverflow.ellipsis,
