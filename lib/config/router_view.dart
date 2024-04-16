@@ -8,6 +8,7 @@ import 'package:sense_flutter_application/screens/list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/screens/single_post_screen/index.dart';
+import 'package:sense_flutter_application/screens/splash_screen.dart';
 import 'package:sense_flutter_application/service/auth_service.dart';
 
 class RouterView extends StatelessWidget {
@@ -22,78 +23,81 @@ class RouterView extends StatelessWidget {
           builder: (context, snapshot) {
             bool isLogin = snapshot.data?.isNotEmpty ?? false;
 
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: GoRouter(routes: [
-                GoRoute(
-                    path: '/',
-                    redirect: (context, state) {
-                      return Future.value('/home');
-                    }),
-                GoRoute(
-                  path: '/login',
+            final router = GoRouter(routes: [
+              GoRoute(
+                  path: '/',
+                  builder: (context, state) {
+                    return const SplashScreen();
+                  }),
+              GoRoute(
+                path: '/login',
+                redirect: (context, state) {
+                  print('states $isLogin');
+                  if (isLogin) {
+                    return '/home';
+                  } else {
+                    return null;
+                  }
+                },
+                builder: (context, state) => const LoginScreen(),
+              ),
+              GoRoute(
+                  name: 'signup',
+                  path: '/signup',
                   redirect: (context, state) {
-                    print('states $isLogin');
-                    if (isLogin) {
-                      return '/home';
-                    } else {
-                      return null;
-                    }
+                    return null;
                   },
-                  builder: (context, state) => const LoginScreen(),
-                ),
-                GoRoute(
-                    name: 'signup',
-                    path: '/signup',
-                    redirect: (context, state) {
-                      return null;
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'step1',
-                        builder: (context, state) => const Step1(),
-                      ),
-                      GoRoute(
-                        path: 'step2',
-                        builder: (context, state) => const Step2(),
-                      ),
-                    ]),
-                GoRoute(
-                    name: 'forgot-password',
-                    path: '/forgot-password',
-                    redirect: (context, state) {
-                      return null;
-                    },
-                    routes: [
-                      GoRoute(
-                        path: 'step1',
-                        builder: (context, state) => const PasswordChangeStep1(),
-                      ),
-                      GoRoute(
-                        path: 'step2',
-                        builder: (context, state) => const PasswordChangeStep2(),
-                      ),
-                    ]),
-                GoRoute(
-                  path: '/home',
-                  builder: (context, state) => const HomeScreen(),
                   routes: [
                     GoRoute(
-                        path: 'post/:id',
-                        builder: (context, state) {
-                          return SinglePostScreen(id: int.parse(state.pathParameters['id'] ?? ''));
-                        }),
-                  ],
-                ),
-                GoRoute(
-                  path: '/list',
-                  builder: (context, state) => const ListScreen(),
-                ),
-                GoRoute(
-                  path: '/my-page',
-                  builder: (context, state) => const MyPage(),
-                ),
-              ]),
+                      path: 'step1',
+                      builder: (context, state) => const Step1(),
+                    ),
+                    GoRoute(
+                      path: 'step2',
+                      builder: (context, state) => const Step2(),
+                    ),
+                  ]),
+              GoRoute(
+                  name: 'forgot-password',
+                  path: '/forgot-password',
+                  redirect: (context, state) {
+                    return null;
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'step1',
+                      builder: (context, state) => const PasswordChangeStep1(),
+                    ),
+                    GoRoute(
+                      path: 'step2',
+                      builder: (context, state) => const PasswordChangeStep2(),
+                    ),
+                  ]),
+              GoRoute(
+                path: '/home',
+                builder: (context, state) => const HomeScreen(),
+              ),
+              GoRoute(
+                  path: '/post/:id',
+                  builder: (context, state) {
+                    return SinglePostScreen(id: int.parse(state.pathParameters['id'] ?? ''));
+                  }),
+              GoRoute(
+                path: '/list',
+                builder: (context, state) => const ListScreen(),
+              ),
+              GoRoute(
+                path: '/my-page',
+                builder: (context, state) => const MyPage(),
+              ),
+            ]);
+
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: router,
+              // routeInformationParser: router.routeInRformationParser,
+              // routerDelegate: router.routerDelegate,
+              title: 'GoRouter Example',
             );
           },
         );
