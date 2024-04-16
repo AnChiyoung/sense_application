@@ -124,7 +124,7 @@ class CustomModal extends StatefulWidget {
     Overlay.of(context).insert(_overlayEntry!);
   }
 
-  static showBottomSheet(BuildContext context, List<Widget> actions) {
+  static showBottomSheet(BuildContext context, List<Widget> Function(Function callback) callback) {
     showModalBottomSheet(
       constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width, maxHeight: 192),
       context: context,
@@ -141,7 +141,9 @@ class CustomModal extends StatefulWidget {
           padding: const EdgeInsets.only(top: 24, bottom: 35, left: 12, right: 12),
           child: Flex(
             direction: Axis.vertical,
-            children: actions,
+            children: callback(() {
+              Navigator.of(context).pop();
+            }),
           ),
         );
       },
