@@ -6,23 +6,27 @@ final postFutureProvider = FutureProvider.autoDispose.family<void, String>((ref,
   return ref.read(singlePostProvider.notifier).fetchPost(postId);
 });
 
+final postNavigationHistoryProvider = StateProvider<List<String>>((ref) {
+  return [];
+});
+
 final singlePostProvider =
     StateNotifierProvider.autoDispose<SinglePostCollection, Map<String, dynamic>>((ref) {
-  ref.onDispose(() {
-    print('disposed provider');
-  });
+  ref.onDispose(() {});
   return SinglePostCollection();
+});
+
+final postLoadingProvider = StateProvider<bool>((ref) {
+  return false;
 });
 
 class SinglePostCollection extends StateNotifier<Map<String, dynamic>> {
   SinglePostCollection() : super({});
 
   Future<void> fetchPost(String postId) async {
-    if (state.isEmpty) {
-      PostApi().getPost(postId).then((value) {
-        setPost = value;
-      });
-    }
+    PostApi().getPost(postId).then((value) {
+      setPost = value;
+    });
   }
 
   void likeToggle(int productId) {
