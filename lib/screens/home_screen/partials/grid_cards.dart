@@ -45,7 +45,7 @@ class GridCards extends ConsumerWidget {
         var post = data[index];
         return GridCard(
           onTap: () {
-            GoRouter.of(context).go('/home/post/${post['id']}');
+            GoRouter.of(context).go('/post/${post['id']}');
           },
           image: post['thumbnail_media_url'],
           title: post['title'],
