@@ -47,6 +47,7 @@ dependencies:
   kakao_flutter_sdk_common: ^1.9.0
   intl: ^0.19.0
   cached_network_image: ^3.3.1
+  shared_preferences: ^2.2.3
   # editorjs_flutter:
   #   path: ./editorjs_flutter
 
