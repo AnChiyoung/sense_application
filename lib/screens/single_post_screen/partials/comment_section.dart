@@ -7,6 +7,7 @@ import 'package:sense_flutter_application/screens/widgets/common/TextIcon.dart';
 import 'package:sense_flutter_application/screens/widgets/common/comment_text_area.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_modal.dart';
+import 'package:sense_flutter_application/service/auth_service.dart';
 import 'package:sense_flutter_application/store/providers/Post/comment_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
@@ -16,115 +17,134 @@ class CommentSection extends ConsumerWidget {
 
   const CommentSection({super.key, required this.postId, this.commentCount = 0});
 
+  Widget loading(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Container(
+        color: Colors.white,
+        child: Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(primaryColor[50] ?? Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue fetcher = ref.watch(futureCommentProvider(postId.toString()));
     final commentProviders = ref.watch(commentProvider);
     if (fetcher.isLoading || commentProviders.isEmpty) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Container(
-          color: Colors.white,
-          child: Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(primaryColor[50] ?? Colors.white),
-            ),
-          ),
-        ),
-      );
+      return loading(context);
     }
 
     List<dynamic> comments = commentProviders['data'].toList();
 
-    return Container(
-      padding: const EdgeInsets.only(top: 32),
-      decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(
-            color: Color(0xFFEEEEEE),
-            width: 2,
-          ),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text.rich(
-            TextSpan(children: [
-              const TextSpan(
-                text: '댓글 ',
-                style: TextStyle(
-                    fontFamily: 'Pretendard',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF151515)),
+    return FutureBuilder(
+        future: AuthService().getUserDetails(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loading(context);
+          }
+
+          Map<String, dynamic> currentUser = snapshot.data ?? {};
+
+          return Container(
+            padding: const EdgeInsets.only(top: 32),
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Color(0xFFEEEEEE),
+                  width: 2,
+                ),
               ),
-              TextSpan(
-                text: '$commentCount',
-                style: const TextStyle(
-                    fontFamily: 'Pretendard',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF151515)),
-              ),
-            ]),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          CommentTextArea(onSend: (String comment) {
-            PostApi()
-                .writeComment(postId.toString(), comment)
-                .then((value) => ref.read(commentProvider.notifier).addComment(value));
-          }),
-          const SizedBox(
-            height: 16,
-          ),
-          fetcher.when(
-            data: (_) {
-              return Column(
-                children: comments
-                    .map((comment) => CommentTile(
-                          isParent: true,
-                          isLiked: comment['is_liked'] ?? false,
-                          commentId: comment['id'],
-                          content: comment['content'],
-                          user: comment['user'],
-                          replies: comment['child_comments'],
-                          likesCount: comment['like_count'],
-                          onReplied: (int parentId, String comment) {
-                            PostApi().replyToAComment(parentId.toString(), comment).then((value) {
-                              ref.read(commentProvider.notifier).addChildComment(value['data']);
-                            });
-                            // ref.read(commentProvider.notifier).addChildComment();
-                          },
-                          onLiked: (value) {
-                            ref.read(commentProvider.notifier).likeAcomment(value['data']);
-                          },
-                        ))
-                    .toList(),
-              );
-            },
-            loading: () => const CircularProgressIndicator(),
-            error: (error, stack) => Text('Error: $error'),
-          ),
-          if (commentProviders['next'] != null) ...[
-            const SizedBox(height: 32),
-            CustomButton(
-              onPressed: () {
-                ref.read(commentProvider.notifier).loadMoreComments();
-              },
-              height: 40,
-              backgroundColor: const Color(0xFFF6F6F6),
-              textColor: const Color(0xFF555555),
-              labelText: '이전 댓글 보기',
-              suffixIcon: SvgPicture.asset('lib/assets/images/icons/svg/caret_down.svg',
-                  width: 18, height: 18),
-            )
-          ]
-        ],
-      ),
-    );
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text.rich(
+                  TextSpan(children: [
+                    const TextSpan(
+                      text: '댓글 ',
+                      style: TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF151515)),
+                    ),
+                    TextSpan(
+                      text: '$commentCount',
+                      style: const TextStyle(
+                          fontFamily: 'Pretendard',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF151515)),
+                    ),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                CommentTextArea(onSend: (String comment) {
+                  PostApi()
+                      .writeComment(postId.toString(), comment)
+                      .then((value) => ref.read(commentProvider.notifier).addComment(value));
+                }),
+                const SizedBox(
+                  height: 16,
+                ),
+                fetcher.when(
+                  data: (_) {
+                    return Column(
+                      children: comments
+                          .map((comment) => CommentTile(
+                                currentUser: currentUser,
+                                isParent: true,
+                                isLiked: comment['is_liked'] ?? false,
+                                commentId: comment['id'],
+                                content: comment['content'],
+                                user: comment['user'],
+                                replies: comment['child_comments'],
+                                likesCount: comment['like_count'],
+                                onReplied: (int parentId, String comment) {
+                                  PostApi()
+                                      .replyToAComment(parentId.toString(), comment)
+                                      .then((value) {
+                                    ref
+                                        .read(commentProvider.notifier)
+                                        .addChildComment(value['data']);
+                                  });
+                                  // ref.read(commentProvider.notifier).addChildComment();
+                                },
+                                onLiked: (value) {
+                                  ref.read(commentProvider.notifier).likeAcomment(value['data']);
+                                },
+                              ))
+                          .toList(),
+                    );
+                  },
+                  loading: () => const CircularProgressIndicator(),
+                  error: (error, stack) => Text('Error: $error'),
+                ),
+                if (commentProviders['next'] != null) ...[
+                  const SizedBox(height: 32),
+                  CustomButton(
+                    onPressed: () {
+                      ref.read(commentProvider.notifier).loadMoreComments();
+                    },
+                    height: 40,
+                    backgroundColor: const Color(0xFFF6F6F6),
+                    textColor: const Color(0xFF555555),
+                    labelText: '이전 댓글 보기',
+                    suffixIcon: SvgPicture.asset('lib/assets/images/icons/svg/caret_down.svg',
+                        width: 18, height: 18),
+                  )
+                ]
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -138,9 +158,11 @@ class CommentTile extends StatefulWidget {
   final int likesCount;
   final Null Function(int parentId, String content)? onReplied;
   final Function(Map<String, dynamic>)? onLiked;
+  final Map<String, dynamic> currentUser;
 
   const CommentTile(
       {super.key,
+      required this.currentUser,
       required this.commentId,
       required this.content,
       required this.user,
@@ -164,6 +186,7 @@ class _CommentTileState extends State<CommentTile> {
     List<Widget> childComment = widget.replies
         .map((e) => ReplyTile(
               child: CommentTile(
+                  currentUser: widget.currentUser,
                   onLiked: widget.onLiked,
                   isLiked: e['is_liked'] ?? false,
                   likesCount: e['like_count'],
@@ -244,28 +267,37 @@ class _CommentTileState extends State<CommentTile> {
                       //     buttonLabel: 'Ok'
                       //     // onConfirm: () {}
                       //     );
-                      CustomModal.showBottomSheet(context, [
-                        Expanded(
-                            child: SizedBox(
-                                width: double.infinity,
-                                child: CustomButton(
-                                  onPressed: () {},
-                                  textColor: errorColor[0] ?? Colors.red,
-                                  backgroundColor: Colors.transparent,
-                                  labelText: 'Delete',
-                                ))),
-                        const SizedBox(height: 16),
-                        Expanded(
-                            child: SizedBox(
-                          width: double.infinity,
-                          child: CustomButton(
-                            onPressed: () {},
-                            labelText: 'Cancel',
-                            backgroundColor: Colors.white,
-                            textColor: const Color(0xFF555555),
-                          ),
-                        ))
-                      ]);
+                      CustomModal.showBottomSheet(context, (Function callback) {
+                        return [
+                          Expanded(
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: CustomButton(
+                                    onPressed: () {
+                                      print('calling back');
+                                      callback();
+                                    },
+                                    textColor: errorColor[0] ?? Colors.red,
+                                    backgroundColor: Colors.transparent,
+                                    labelText: widget.currentUser['id'] == widget.user['id']
+                                        ? 'Delete'
+                                        : 'Report',
+                                  ))),
+                          const SizedBox(height: 16),
+                          Expanded(
+                              child: SizedBox(
+                            width: double.infinity,
+                            child: CustomButton(
+                              onPressed: () {
+                                callback();
+                              },
+                              labelText: 'Cancel',
+                              backgroundColor: Colors.white,
+                              textColor: const Color(0xFF555555),
+                            ),
+                          ))
+                        ];
+                      });
                     },
                     icon: const Icon(
                       Icons.more_horiz_outlined,
