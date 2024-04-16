@@ -48,11 +48,12 @@ class PostThumbnail extends StatelessWidget {
           ),
           Positioned(
               bottom: 20,
-              left: 20,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       title,
                       style: const TextStyle(
@@ -65,38 +66,46 @@ class PostThumbnail extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  Text(subTitle,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 24),
-                  IntrinsicHeight(
-                      child: Row(
-                    children: [
-                      Text(date,
-                          style: const TextStyle(
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(subTitle,
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500)),
+                        const SizedBox(height: 24),
+                        IntrinsicHeight(
+                            child: Row(
+                          children: [
+                            Text(date,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w500)),
+                            const VerticalDivider(
                               color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500)),
-                      const VerticalDivider(
-                        color: Colors.white,
-                        thickness: 1,
-                        width: 20,
-                      ),
-                      SvgPicture.asset('lib/assets/images/icons/svg/heart.svg',
-                          width: 16, height: 16, color: Colors.white),
-                      const SizedBox(width: 4),
-                      Text(likeCount,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500))
-                    ],
-                  ))
+                              thickness: 1,
+                              width: 20,
+                            ),
+                            SvgPicture.asset('lib/assets/images/icons/svg/heart.svg',
+                                width: 16, height: 16, color: Colors.white),
+                            const SizedBox(width: 4),
+                            Text(likeCount,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontFamily: 'Pretendard',
+                                    fontWeight: FontWeight.w500))
+                          ],
+                        ))
+                      ],
+                    ),
+                  )
                 ],
               ))
         ],
