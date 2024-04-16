@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'package:sense_flutter_application/service/api_service.dart';
 
+enum LikeStatus {
+  like,
+  unlike,
+}
+
 class PostApi {
   Future<Map<String, dynamic>> getPosts({String? url, String? filter}) async {
     final response = await ApiService.get('posts?${filter ?? ''}', fullUrl: url);
@@ -50,6 +55,15 @@ class PostApi {
   Future<Map<String, dynamic>> dislikeToAComment(String commentId) async {
     final response =
         await ApiService.post('comment/$commentId/unlike', jsonEncode(<String, dynamic>{}));
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
+
+  Future<Map<String, dynamic>> likeApost(String id, LikeStatus status) async {
+    print(status);
+    final response = await ApiService.post(
+        'post/$id/${status == LikeStatus.like ? 'like' : 'unlike'}',
+        jsonEncode(<String, dynamic>{}));
     var parse = json.decode(utf8.decode(response.bodyBytes));
     return parse;
   }
