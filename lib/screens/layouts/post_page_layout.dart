@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/ic.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sense_flutter_application/store/providers/Post/single_post_collection_provider.dart';
 
-class PostPageLayout extends StatelessWidget {
+class PostPageLayout extends ConsumerWidget {
   final String? title;
   final Widget body;
   final Widget? floating;
@@ -15,7 +15,10 @@ class PostPageLayout extends StatelessWidget {
       {super.key, required this.body, this.title, this.floating, this.bottomNavigationBar});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final history = ref.watch(postNavigationHistoryProvider);
+    print(history);
+
     return MaterialApp(
       theme: ThemeData(
           primaryColor: primaryColor[50],
@@ -31,7 +34,14 @@ class PostPageLayout extends StatelessWidget {
           leading: IconButton(
               icon: SvgPicture.asset('lib/assets/images/icons/svg/top_bar/caret-left.svg'),
               onPressed: () {
-                if (GoRouter.of(context).canPop()) {
+                if (history.isNotEmpty) {
+                  final String route = history.last;
+                  final list = history.toList();
+                  list.removeLast();
+                  ref.read(postLoadingProvider.notifier).state = true;
+                  ref.read(singlePostProvider.notifier).fetchPost(route).then((value) {
+                    ref.read(postNavigationHistoryProvider.notifier).state = list;
+                  });
                   GoRouter.of(context).pop();
                 } else {
                   GoRouter.of(context).go('/home');
@@ -40,6 +50,8 @@ class PostPageLayout extends StatelessWidget {
           shape: const Border(bottom: BorderSide(width: 1, color: Color(0xFFEEEEEE))),
           title: Text(
             title ?? '',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
           ),
         ),
