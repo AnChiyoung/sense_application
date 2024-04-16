@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class RelatedPost extends StatelessWidget {
   final List<dynamic> relatedPosts;
-  const RelatedPost({super.key, required this.relatedPosts});
+  final Function onNavigate;
+
+  const RelatedPost({super.key, required this.relatedPosts, required this.onNavigate});
 
   List<List<T>> chunk<T>(List<T> list, int chunkSize) {
     var length = list.length;
@@ -161,11 +164,17 @@ class RelatedPost extends StatelessWidget {
                   child: CircularProgressIndicator(
                 color: primaryColor[50] ?? Colors.white,
               )),
-              imageBuilder: (context, imageProvider) => Container(
-                margin: const EdgeInsets.only(left: 8 + 10, right: 8 + 10),
-                height: 161,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+              imageBuilder: (context, imageProvider) => InkWell(
+                onTap: () {
+                  onNavigate();
+                  GoRouter.of(context).push('/post/${chunkedPosts[i]['id']}');
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 8 + 10, right: 8 + 10),
+                  height: 161,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                  ),
                 ),
               ),
             ),

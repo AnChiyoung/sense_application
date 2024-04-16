@@ -36,15 +36,15 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
   bool isSticky = false;
 
   void scrollListener() {
-    if (scrollController.offset > 300) {
-      setState(() {
-        isSticky = true;
-      });
-    } else {
-      setState(() {
-        isSticky = false;
-      });
-    }
+    // if (scrollController.offset > 300) {
+    //   setState(() {
+    //     isSticky = true;
+    //   });
+    // } else {
+    //   setState(() {
+    //     isSticky = false;
+    //   });
+    // }
   }
 
   @override
@@ -75,8 +75,14 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
         builder: ((context, ref, child) {
           final fetcher = ref.watch(postFutureProvider(widget.id.toString()));
           final post = ref.watch(singlePostProvider);
+          final isPostLoading = ref.watch(postLoadingProvider);
+          Future.delayed(const Duration(milliseconds: 800), () {
+            if (mounted) {
+              ref.read(postLoadingProvider.notifier).state = false;
+            }
+          });
 
-          if (fetcher.isLoading || post.isEmpty) {
+          if (fetcher.isLoading || post.isEmpty || isPostLoading) {
             return SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Container(
@@ -89,6 +95,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
               ),
             );
           }
+
           List<dynamic> tagDynamics = post['data']['tags'];
           List<String> tags = tagDynamics.map((e) => e['title'] as String).toList();
           final int commentsCount = post['data']['comment_count'] as int;
@@ -159,7 +166,14 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                           ),
                         ),
                         const SizedBox(height: 40),
-                        RelatedPost(relatedPosts: post['data']['related_posts'] ?? []),
+                        RelatedPost(
+                            relatedPosts: post['data']['related_posts'] ?? [],
+                            onNavigate: () {
+                              ref.read(postNavigationHistoryProvider.notifier).state = [
+                                ...ref.watch(postNavigationHistoryProvider.notifier).state,
+                                '${widget.id}'
+                              ];
+                            }),
                       ],
                     ))),
             bottomNavigationBar: SafeArea(
