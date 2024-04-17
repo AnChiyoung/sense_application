@@ -7,15 +7,15 @@ import 'package:sense_flutter_application/screens/widgets/common/TextIcon.dart';
 import 'package:sense_flutter_application/screens/widgets/common/comment_text_area.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_modal.dart';
+import 'package:sense_flutter_application/screens/widgets/modals/report_modal.dart';
 import 'package:sense_flutter_application/service/auth_service.dart';
 import 'package:sense_flutter_application/store/providers/Post/comment_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class CommentSection extends ConsumerWidget {
   final int postId;
-  final int commentCount;
 
-  const CommentSection({super.key, required this.postId, this.commentCount = 0});
+  const CommentSection({super.key, required this.postId});
 
   Widget loading(BuildContext context) {
     return SizedBox(
@@ -40,6 +40,8 @@ class CommentSection extends ConsumerWidget {
     }
 
     List<dynamic> comments = commentProviders['data'].toList();
+
+    final commentCount = ref.watch(commentCountProvider);
 
     return FutureBuilder(
         future: AuthService().getUserDetails(),
@@ -117,6 +119,9 @@ class CommentSection extends ConsumerWidget {
                                   });
                                   // ref.read(commentProvider.notifier).addChildComment();
                                 },
+                                onDelete: (int commentId) {
+                                  ref.read(commentProvider.notifier).removeComment(commentId);
+                                },
                                 onLiked: (value) {
                                   ref.read(commentProvider.notifier).likeAcomment(value['data']);
                                 },
@@ -159,6 +164,7 @@ class CommentTile extends StatefulWidget {
   final Null Function(int parentId, String content)? onReplied;
   final Function(Map<String, dynamic>)? onLiked;
   final Map<String, dynamic> currentUser;
+  final Null Function(int commentId) onDelete;
 
   const CommentTile(
       {super.key,
@@ -171,7 +177,8 @@ class CommentTile extends StatefulWidget {
       this.onReplied,
       this.onLiked,
       this.likesCount = 0,
-      required this.isParent});
+      required this.isParent,
+      required this.onDelete});
 
   @override
   State<CommentTile> createState() => _CommentTileState();
@@ -186,6 +193,7 @@ class _CommentTileState extends State<CommentTile> {
     List<Widget> childComment = widget.replies
         .map((e) => ReplyTile(
               child: CommentTile(
+                  onDelete: widget.onDelete,
                   currentUser: widget.currentUser,
                   onLiked: widget.onLiked,
                   isLiked: e['is_liked'] ?? false,
@@ -261,12 +269,6 @@ class _CommentTileState extends State<CommentTile> {
                 ),
                 IconButton(
                     onPressed: () {
-                      // CustomModal.showModal(context,
-                      //     title: 'Confirm',
-                      //     message: 'Are you sure to delete this comment?',
-                      //     buttonLabel: 'Ok'
-                      //     // onConfirm: () {}
-                      //     );
                       CustomModal.showBottomSheet(context, (Function callback) {
                         return [
                           Expanded(
@@ -274,8 +276,43 @@ class _CommentTileState extends State<CommentTile> {
                                   width: double.infinity,
                                   child: CustomButton(
                                     onPressed: () {
-                                      print('calling back');
                                       callback();
+                                      if (widget.currentUser['id'] == widget.user['id']) {
+                                        CustomModal.showConfirmModal(
+                                          context,
+                                          title: '댓글을 삭제하시겠습니까?',
+                                          buttonLabel: 'Ok',
+                                          callback: (isConfirm) {
+                                            if (isConfirm) {
+                                              PostApi()
+                                                  .deleteComment(widget.commentId.toString())
+                                                  .then((value) {
+                                                widget.onDelete(widget.commentId);
+                                              });
+                                            }
+                                          },
+                                        );
+                                      } else {
+                                        CustomModal.showWidgetModal(
+                                          context,
+                                          title: '댓글을 삭제하시겠습니까?',
+                                          buttonLabel: 'Ok',
+                                          child: ReportModal(
+                                            commentId: widget.commentId.toString(),
+                                            callback: (bool isReported) {
+                                              CustomModal.closeModal();
+                                              if (isReported) {
+                                                CustomModal.showModal(
+                                                  context,
+                                                  title: '신고해 주셔서 감사합니다',
+                                                  message: '빠르게 검토한 후 조치하도록 하겠습니다.',
+                                                  buttonLabel: '확인',
+                                                );
+                                              }
+                                            },
+                                          ),
+                                        );
+                                      }
                                     },
                                     textColor: errorColor[0] ?? Colors.red,
                                     backgroundColor: Colors.transparent,
