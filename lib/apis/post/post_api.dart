@@ -45,6 +45,12 @@ class PostApi {
     return parse;
   }
 
+  Future<Map<String, dynamic>> deleteComment(String commentId) async {
+    final response = await ApiService.delete('comment/$commentId');
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
+
   Future<Map<String, dynamic>> likeToAComment(String commentId) async {
     final response =
         await ApiService.post('comment/$commentId/like', jsonEncode(<String, dynamic>{}));
