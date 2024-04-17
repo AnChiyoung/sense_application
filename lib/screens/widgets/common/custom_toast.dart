@@ -57,7 +57,7 @@ class CustomToast {
         ],
       ),
       backgroundColor: Colors.white,
-      border: Border.all(color: primaryColor[50] ?? Colors.white),
+      border: Border.all(color: const Color(0xFF56EBFF)),
       bottom: bottom,
     );
   }
