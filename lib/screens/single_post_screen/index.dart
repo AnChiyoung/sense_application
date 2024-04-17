@@ -158,10 +158,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                               const SizedBox(height: 40),
                               Tags(tags: tags),
                               const SizedBox(height: 40),
-                              CommentSection(
-                                postId: post['data']['id'] as int,
-                                commentCount: commentsCount,
-                              ),
+                              CommentSection(postId: post['data']['id'] as int),
                             ],
                           ),
                         ),
@@ -210,11 +207,11 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                         },
                         child: TextIcon(
                           iconSize: 20,
-                          iconPath: post['data']['is_liked']
+                          iconPath: post['data']['is_liked'] ?? false
                               ? 'lib/assets/images/icons/svg/heart_fill.svg'
                               : 'lib/assets/images/icons/svg/heart.svg',
                           text: '$likesCount',
-                          iconColor: post['data']['is_liked']
+                          iconColor: post['data']['is_liked'] ?? false
                               ? const Color(0xFFF23B3B)
                               : const Color(0xFF555555),
                           spacing: 4,
