@@ -7,4 +7,10 @@ class CommentApi {
     var parse = json.decode(utf8.decode(response.bodyBytes));
     return parse;
   }
+
+  Future<Map<String, dynamic>> report(String commentId, Map<String, dynamic> content) async {
+    final response = await ApiService.post('comment/$commentId/report', jsonEncode(content));
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+    return parse;
+  }
 }
