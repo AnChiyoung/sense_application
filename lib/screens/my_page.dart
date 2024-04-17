@@ -49,7 +49,7 @@ class _MyPageState extends State<MyPage> {
         child: ElevatedButton(
           onPressed: () {
             if (isLogin) {
-              AuthService().removeTokens().then(loginScreen);
+              AuthService().clear().then(loginScreen);
             } else {
               loginScreen(null);
             }
