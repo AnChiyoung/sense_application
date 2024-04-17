@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:sense_flutter_application/apis/auth/auth_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
@@ -24,5 +28,31 @@ class AuthService {
   Future<void> removeTokens() async {
     await _storage.delete(key: 'access_token');
     await _storage.delete(key: 'refresh_token');
+  }
+
+  Future<void> storeUserDetails(Map<String, dynamic> userDetails) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userDetails', json.encode(userDetails));
+  }
+
+  Future<void> clear() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    await removeTokens();
+  }
+
+  Future<Map<String, dynamic>> getUserDetails() async {
+    print('getUserDetails');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String userDetailsString = prefs.getString('userDetails') ?? '{}';
+    return json.decode(userDetailsString);
+  }
+
+  Future<void> setUserDetails() async {
+    if (await getAccessToken() != null) {
+      AuthApi().me().then((value) {
+        storeUserDetails(value['data']);
+      });
+    }
   }
 }

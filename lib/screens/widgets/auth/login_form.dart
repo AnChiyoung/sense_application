@@ -106,6 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                       .setAccessToken(response['data']['token']['access_token'] ?? '');
                   await AuthService()
                       .setRefreshToken(response['data']['token']['refresh_token'] ?? '');
+                  await AuthService().setUserDetails();
                 } else {
                   var nonFieldError = response['errors']['non_field_errors'];
                   CustomToast.errorToast(
@@ -161,6 +162,7 @@ class _LoginFormState extends State<LoginForm> {
                         .setAccessToken(response['data']['token']['access_token'] ?? '');
                     await AuthService()
                         .setRefreshToken(response['data']['token']['refresh_token'] ?? '');
+                    await AuthService().setUserDetails();
                   } else {
                     var nonFieldError = response['errors']['non_field_errors'];
                     CustomToast.errorToast(context,

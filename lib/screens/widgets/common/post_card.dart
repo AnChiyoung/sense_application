@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class PostCard extends StatelessWidget {
   final String subject;
@@ -21,18 +23,25 @@ class PostCard extends StatelessWidget {
         children: [
           AspectRatio(
             aspectRatio: 335 / 398,
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.15),
-                      offset: Offset(0, 2), // Shadow position
-                      blurRadius: 4,
-                    )
-                  ],
-                  image: DecorationImage(image: NetworkImage(thumbnail), fit: BoxFit.cover)),
+            child: CachedNetworkImage(
+              imageUrl: thumbnail,
+              placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(
+                color: primaryColor[50],
+              )),
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.15),
+                        offset: Offset(0, 2), // Shadow position
+                        blurRadius: 4,
+                      )
+                    ],
+                    image: DecorationImage(image: imageProvider, fit: BoxFit.cover)),
+              ),
             ),
           ),
           Container(
@@ -56,6 +65,8 @@ class PostCard extends StatelessWidget {
               children: [
                 Text(
                   subject,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       color: Color(0xFF151515),
                       overflow: TextOverflow.ellipsis,

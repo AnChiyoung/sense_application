@@ -120,4 +120,12 @@ class AuthApi {
 
     return parse;
   }
+
+  Future me() async {
+    final response = await ApiService.get('user/me');
+
+    var parse = json.decode(utf8.decode(response.bodyBytes));
+
+    return parse;
+  }
 }

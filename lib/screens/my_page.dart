@@ -13,13 +13,16 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   bool isLogin = false;
+  Map<String, dynamic> user = {};
 
   void loginScreen(value) {
     GoRouter.of(context).go('/login');
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     AuthService.getRefreshToken().then((value) {
       if (value != null) {
         setState(() {
@@ -28,13 +31,25 @@ class _MyPageState extends State<MyPage> {
       }
     });
 
+    AuthService().getUserDetails().then((value) {
+      setState(() {
+        user = value;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('ttt');
+    print(user);
+
     return MainLayout(
       title: 'My Page',
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             if (isLogin) {
-              AuthService().removeTokens().then(loginScreen);
+              AuthService().clear().then(loginScreen);
             } else {
               loginScreen(null);
             }

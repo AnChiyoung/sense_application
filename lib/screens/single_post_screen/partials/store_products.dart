@@ -9,6 +9,7 @@ class StoreProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(storeProducts[0]['product_review_data']);
     int size = storeProducts.length;
     return Column(
         children: List.generate(size, (index) {
@@ -20,9 +21,10 @@ class StoreProducts extends StatelessWidget {
             title: storeProducts[index]['title'] ?? '',
             subTitle: storeProducts[index]['sub_title'] ?? '',
             price: storeProducts[index]['price'].toString(),
-            discount: '1',
+            category: storeProducts[index]['product_category'] ?? '',
             rating: storeProducts[index]['grade'].toString(),
             isLike: storeProducts[index]['is_liked'] ?? false,
+            review: storeProducts[index]['product_review_data'] ?? [],
             actionEvent: (event, value) => {
               if (event == 'like') {likedProduct!(value['id'], value['value'])}
             },
@@ -40,9 +42,10 @@ class ProductCard extends StatelessWidget {
   final String title;
   final String subTitle;
   final String price;
-  final String? discount;
+  final String? category;
   final String? rating;
   final bool isLike;
+  final List<dynamic> review;
   final Set<void> Function(String event, dynamic value) actionEvent;
 
   const ProductCard(
@@ -52,13 +55,16 @@ class ProductCard extends StatelessWidget {
       required this.title,
       required this.subTitle,
       required this.price,
-      this.discount,
+      this.category,
       required this.rating,
       this.isLike = false,
+      required this.review,
       required this.actionEvent});
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> mapReview = review.firstOrNull ?? {};
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +105,7 @@ class ProductCard extends StatelessWidget {
                                 borderRadius: BorderRadius.zero,
                                 side: BorderSide(color: primaryColor[50] ?? Colors.white)),
                             side: BorderSide(color: primaryColor[50] ?? Colors.white)),
-                        child: Text('멕시코 요리',
+                        child: Text(category ?? '',
                             style: TextStyle(fontSize: 12, color: primaryColor[50]))),
                   ),
                   Row(
@@ -162,38 +168,41 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(
                     width: 4,
                   ),
-                  const Text(
-                    '4.3',
-                    style: TextStyle(color: Color(0xFF555555), fontSize: 12),
+                  Text(
+                    rating ?? '0.0',
+                    style: const TextStyle(color: Color(0xFF555555), fontSize: 12),
                   )
                 ],
               ),
               const SizedBox(
                 height: 9,
               ),
-              Container(
-                padding: const EdgeInsets.only(right: 8, left: 8, top: 4, bottom: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFFEEEEEE), width: 1),
-                ),
-                child: const Row(
-                  children: [
-                    Text('김영하',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xFF777777))),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Expanded(
-                        child: Text(
-                            '타코야끼집이여서 갔는데 타코가 더 맛있어요~! 주문팁은 왕타코맛있어요! 라고 외치시면 바니가 서비스 많이 줍니다. 소스를 좋아하는데 바니 사장님이 소스도 많이 주시기도하고 서비스로 감자튀김도 주셨는데 이것도 다른 집 감자튀김이랑 뭔가 달라요 엄청 부드럽고 맛있어요 저 지금 수정중입니다...',
-                            style: TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF999999))))
-                  ],
-                ),
-              )
+              if (mapReview.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.only(right: 8, left: 8, top: 4, bottom: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: const Color(0xFFEEEEEE), width: 1),
+                  ),
+                  child: Row(
+                    children: [
+                      // Review User Name
+                      Text(mapReview['user']?['username'] ?? mapReview['user']?['email'] ?? '',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 12, color: Color(0xFF777777))),
+                      const SizedBox(
+                        width: 4,
+                      ),
+
+                      // Review content
+                      Expanded(
+                          child: Text('${mapReview['content'] ?? ''}',
+                              style: const TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF999999))))
+                    ],
+                  ),
+                )
             ],
           ),
         )
