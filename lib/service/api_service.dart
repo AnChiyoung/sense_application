@@ -36,4 +36,14 @@ class ApiService {
     final response = await http.get(url, headers: headers);
     return response;
   }
+
+  static Future<http.Response> delete(String? path) async {
+    String authToken = await AuthService.getAccessToken() ?? '';
+    if (authToken.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $authToken';
+    }
+    final url = Uri.parse('$baseUrl$path');
+    final response = await http.delete(url, headers: headers);
+    return response;
+  }
 }
