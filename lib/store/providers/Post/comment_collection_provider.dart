@@ -21,6 +21,10 @@ final commentProvider =
   return CommentCollection();
 });
 
+final commentCountProvider = StateProvider.autoDispose((ref) {
+  return ref.watch(commentProvider)['count'];
+});
+
 class CommentCollection extends StateNotifier<Map<String, dynamic>> {
   CommentCollection() : super({});
 
@@ -51,7 +55,7 @@ class CommentCollection extends StateNotifier<Map<String, dynamic>> {
     comments.insert(0, comment['data']);
     setComments = {
       ...state,
-      ...{'data': comments}
+      ...{'data': comments, 'count': state['count'] + 1}
     };
   }
 
@@ -91,11 +95,10 @@ class CommentCollection extends StateNotifier<Map<String, dynamic>> {
   }
 
   void removeComment(int commentId) {
-    List<dynamic> comments =
-        state['comments'].where((element) => element['id'] != commentId).toList();
+    List<dynamic> comments = state['data'].where((element) => element['id'] != commentId).toList();
     setComments = {
       ...state,
-      ...{'comments': comments}
+      ...{'data': comments, 'count': state['count'] - 1}
     };
   }
 
