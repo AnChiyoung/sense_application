@@ -35,6 +35,12 @@ class AuthService {
     prefs.setString('userDetails', json.encode(userDetails));
   }
 
+  Future<void> clear() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    await removeTokens();
+  }
+
   Future<Map<String, dynamic>> getUserDetails() async {
     print('getUserDetails');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
