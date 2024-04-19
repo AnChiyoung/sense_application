@@ -27,9 +27,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
-      print('some event');
-    });
   }
 
   @override
@@ -64,40 +61,66 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           title: '',
           body: Stack(
             children: [
-              Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onVerticalDragEnd: (details) {
-                      if (details.velocity.pixelsPerSecond.dy < 0 && controller.size.round() <= 0) {
-                        print('swipe up');
-                        print(controller.size);
+              // Container(
+              //   height: 1000,
+              //   decoration: const BoxDecoration(
+              //     color: Colors.yellow,
+              //     border: Border(
+              //         top: BorderSide(
+              //       color: Color(0xFFE0E0E0),
+              //       width: 1,
+              //     )),
+              //   ),
+              // )
+
+              LayoutBuilder(builder: (context, constraints) {
+                return AnimatedBuilder(
+                    animation: controller,
+                    builder: (context, child) {
+                      if (controller.isAttached) {
                         print(controller.size.round());
-                        controller.animateTo(setSize(screenHeight - 104, screenHeight),
-                            duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
                       }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                      height: MediaQuery.of(context).size.height,
-                      width: double.infinity,
-                      color: Colors.white,
-                      child: const Calendar(),
-                    ),
-                  )),
+                      return GestureDetector(
+                        onVerticalDragEnd: (details) {
+                          if (details.velocity.pixelsPerSecond.dy < 0 &&
+                              controller.size.round() <= 0) {
+                            controller.animateTo(setSize(screenHeight - 104, screenHeight),
+                                duration: const Duration(milliseconds: 200), curve: Curves.easeIn);
+                          }
+                        },
+                        child: Container(
+                          // height: controller.isAttached
+                          //     ? (controller.size > 0.5 ? controller.size : 1) * screenHeight
+                          //     : initialRatio,
+                          padding: const EdgeInsets.only(top: 16),
+                          width: screenWidth,
+                          // color: const Color(0xFFD9D9D9),
+                          child: Calendar(
+                            height: constraints.maxHeight,
+                            widgetSize: controller.isAttached ? controller.size : initialSize,
+                          ),
+                        ),
+                      );
+                    });
+              }),
+              // const Calendar(),
+              // AnimatedBuilder(
+              //     animation: controller,
+              //     builder: (context, widget) => LayoutBuilder(builder: (context, constraints) {
+              //           print('available space ${constraints.maxHeight}');
+              //           return Container(
+              //             height: 724 - 100,
+              //             color: Colors.amber,
+              //           );
+              //         })),
               DraggableScrollableSheet(
                 controller: controller,
-                // maxChildSize: initialSize,
+                maxChildSize: initialSize,
                 initialChildSize: initialSize,
                 snapSizes: [halfSize, initialSize],
-                // minChildSize: 0,
-                expand: false,
+                minChildSize: 0,
                 snap: true,
                 builder: (BuildContext context, ScrollController scrollController) {
-                  scrollController.addListener(() {
-                    print('scroll');
-                  });
                   return Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -114,16 +137,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           alignment: Alignment.topCenter,
                           child: Column(
                             children: [
-                              GestureDetector(
-                                onVerticalDragUpdate: (e) {
-                                  print('tap');
-                                  // print(e.y);
-                                },
-                                child: Container(
-                                  width: 74,
-                                  height: 4,
-                                  color: const Color(0xFFD9D9D9),
-                                ),
+                              Container(
+                                width: 74,
+                                height: 4,
+                                color: const Color(0xFFD9D9D9),
                               )
                             ],
                           )),
@@ -141,8 +158,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               prefixIcon: SvgPicture.asset(
                 'lib/assets/images/icons/svg/plus.svg',
                 color: Colors.white,
-                width: 16,
-                height: 16,
+                width: 14,
+                height: 14,
               ),
               backgroundColor: primaryColor[50] ?? Colors.transparent,
               textColor: Colors.white,

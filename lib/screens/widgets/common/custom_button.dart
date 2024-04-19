@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final double ?height;
+  final double? height;
   final Color backgroundColor;
   final Color textColor;
   final String labelText;
-  final Widget ?prefixIcon;
-  final Widget ?suffixIcon;
-  final double ?fontSize;
-  final BorderRadius ?borderRadius;
-  final VoidCallback ?onPressed;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final double? fontSize;
+  final BorderRadius? borderRadius;
+  final VoidCallback? onPressed;
+  final FontWeight? fontWeight;
 
-  const CustomButton({
-    super.key,
-    this.height = 40,
-    required this.backgroundColor,
-    required this.textColor,
-    required this.labelText,
-    this.onPressed,
-    this.borderRadius,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.fontSize = 14
-  });
+  const CustomButton(
+      {super.key,
+      this.height = 40,
+      this.fontWeight,
+      required this.backgroundColor,
+      required this.textColor,
+      required this.labelText,
+      this.onPressed,
+      this.borderRadius,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.fontSize = 14});
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +40,15 @@ class CustomButton extends StatelessWidget {
           children: [
             if (prefixIcon != null) prefixIcon!,
             Padding(
-              padding: const EdgeInsets.only(left: 4, right: 4),
-              child: Text(
-                labelText,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  color: textColor,
-                  fontWeight: FontWeight.w700,
-              ),
-            )
-            ),
+                padding: const EdgeInsets.only(left: 4, right: 4),
+                child: Text(
+                  labelText,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    color: textColor,
+                    fontWeight: fontWeight ?? FontWeight.w700,
+                  ),
+                )),
             if (suffixIcon != null) suffixIcon!,
           ],
         ),

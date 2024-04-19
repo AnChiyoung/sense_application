@@ -3,8 +3,8 @@ import 'package:sense_flutter_application/screens/forgot_password_screen/index.d
 import 'package:sense_flutter_application/screens/home_screen/index.dart';
 import 'package:sense_flutter_application/screens/login_screen.dart';
 import 'package:sense_flutter_application/screens/my_page.dart';
+import 'package:sense_flutter_application/screens/schedule_screen/index.dart';
 import 'package:sense_flutter_application/screens/signup_screen/index.dart';
-import 'package:sense_flutter_application/screens/list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/screens/single_post_screen/index.dart';
@@ -83,8 +83,8 @@ class RouterView extends StatelessWidget {
                     return SinglePostScreen(id: int.parse(state.pathParameters['id'] ?? ''));
                   }),
               GoRoute(
-                path: '/list',
-                builder: (context, state) => const ListScreen(),
+                path: '/schedule',
+                builder: (context, state) => const ScheduleScreen(),
               ),
               GoRoute(
                 path: '/my-page',

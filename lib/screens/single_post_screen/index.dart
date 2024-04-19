@@ -102,7 +102,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
           final int likesCount = post['data']['like_count'] as int;
 
           return PostPageLayout(
-            title: post['data']['title'],
+            title: post['data']['title'].replaceAll('\n', ' '),
             body: RefreshIndicator(
                 onRefresh: () async {
                   //

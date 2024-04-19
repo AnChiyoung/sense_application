@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           }, const Duration(milliseconds: 100));
 
           return MainLayout(
+            pathName: 'home',
             title: '',
             body: RefreshIndicator(
                 onRefresh: () async {

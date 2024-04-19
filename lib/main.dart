@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   KakaoSdk.init(
@@ -16,7 +15,7 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
-    runApp(ProviderScope(child: RouterView()));
+    runApp(const ProviderScope(child: RouterView()));
   });
 
   // runApp(

@@ -96,6 +96,7 @@ flutter:
     - lib/assets/images/icons/svg/bottom_bar/storefront.svg
     - lib/assets/images/icons/svg/bottom_bar/user.svg
     - lib/assets/images/icons/svg/top_bar/search.svg
+    - lib/assets/images/icons/svg/top_bar/refresh.svg
     - lib/assets/images/banner_1.png
     - lib/assets/images/icons/svg/top_bar/bell.svg
     - lib/assets/images/icons/svg/grid_view.svg

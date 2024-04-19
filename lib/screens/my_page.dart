@@ -44,6 +44,7 @@ class _MyPageState extends State<MyPage> {
     print(user);
 
     return MainLayout(
+      pathName: 'my-page',
       title: 'My Page',
       body: Center(
         child: ElevatedButton(
