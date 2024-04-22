@@ -35,22 +35,9 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
   ScrollController scrollController = ScrollController();
   bool isSticky = false;
 
-  void scrollListener() {
-    // if (scrollController.offset > 300) {
-    //   setState(() {
-    //     isSticky = true;
-    //   });
-    // } else {
-    //   setState(() {
-    //     isSticky = false;
-    //   });
-    // }
-  }
-
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(scrollListener);
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -103,11 +90,50 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
 
           return PostPageLayout(
             title: post['data']['title'].replaceAll('\n', ' '),
-            body: RefreshIndicator(
-                onRefresh: () async {
-                  //
+            body: GestureDetector(
+                onVerticalDragStart: (event) {
+                  if (scrollController.position.pixels < 500) {
+                    setState(() {
+                      isSticky = false;
+                    });
+                  }
+                },
+                onVerticalDragUpdate: (details) {
+                  // Calculate the new position immediately in response to the drag.
+                  double scale = 2.0; // This scale factor can be adjusted to control sensitivity
+                  double newPosition =
+                      scrollController.position.pixels - details.primaryDelta! * scale;
+                  scrollController
+                      .jumpTo(newPosition.clamp(0.0, scrollController.position.maxScrollExtent));
+                },
+                onVerticalDragEnd: (details) {
+                  // When the drag ends, we apply some additional inertia
+                  double velocity = details.primaryVelocity! *
+                      0.2; // Adjust the multiplier to control the inertia effect
+                  double targetPosition = scrollController.position.pixels - velocity;
+
+                  if (targetPosition < 0 ||
+                      targetPosition > scrollController.position.maxScrollExtent) {
+                    // If the target position is out of range, use a bounce effect.
+                    targetPosition =
+                        targetPosition.clamp(0.0, scrollController.position.maxScrollExtent);
+                  }
+
+                  scrollController.animateTo(
+                    targetPosition,
+                    duration: const Duration(
+                        milliseconds: 500), // Adjust timing to simulate natural deceleration
+                    curve: Curves.decelerate, // This curve gives a natural "slow down" effect
+                  );
+
+                  if (scrollController.position.pixels > 500) {
+                    setState(() {
+                      isSticky = true;
+                    });
+                  }
                 },
                 child: SingleChildScrollView(
+                    physics: const ScrollPhysics(parent: NeverScrollableScrollPhysics()),
                     controller: scrollController,
                     padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
                     child: Column(
@@ -164,6 +190,8 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                         ),
                         const SizedBox(height: 40),
                         RelatedPost(
+                            prevPostId: post['data']?['prev_post']?['id'],
+                            nextPostId: post['data']?['next_post']?['id'],
                             relatedPosts: post['data']['related_posts'] ?? [],
                             onNavigate: () {
                               ref.read(postNavigationHistoryProvider.notifier).state = [
@@ -243,6 +271,9 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                     onPressed: () {
                       scrollController.animateTo(0,
                           duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+                      setState(() {
+                        isSticky = false;
+                      });
                     },
                     backgroundColor: const Color(0xFFEEEEEE),
                     shape: const CircleBorder(),
