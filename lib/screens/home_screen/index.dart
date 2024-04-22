@@ -156,10 +156,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     future: ref.read(postCollectionProvider.notifier).fetchPosts(),
                                     builder: (context, snapshot) {
                                       return toggleView
-                                          ? const Padding(
+                                          ? const GridCards(
                                               padding:
-                                                  EdgeInsets.only(top: 20, left: 20, right: 20),
-                                              child: GridCards())
+                                                  EdgeInsets.only(top: 20, left: 20, right: 20))
                                           // Content
                                           : const SingleCards();
                                     }),
