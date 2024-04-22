@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sense_flutter_application/apis/post/post_api.dart';
 import 'package:sense_flutter_application/service/api_service.dart';
+import 'package:sense_flutter_application/service/auth_service.dart';
 
 final futureCommentProvider = FutureProvider.autoDispose.family<void, String>((ref, postId) async {
   return ref.read(commentProvider.notifier).fetchComments(postId);
+});
+
+final futureUserDetailsProvider = FutureProvider.autoDispose((ref) async {
+  return await AuthService().getUserDetails();
 });
 
 final futureCommentNextProvider =
