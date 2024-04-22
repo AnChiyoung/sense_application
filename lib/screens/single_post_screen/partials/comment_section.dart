@@ -10,6 +10,7 @@ import 'package:sense_flutter_application/screens/widgets/common/custom_modal.da
 import 'package:sense_flutter_application/screens/widgets/modals/report_modal.dart';
 import 'package:sense_flutter_application/store/providers/Post/comment_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentSection extends ConsumerWidget {
   final int postId;
@@ -92,6 +93,7 @@ class CommentSection extends ConsumerWidget {
               return Column(
                 children: comments
                     .map((comment) => CommentTile(
+                          date_created: comment['created'],
                           currentUser: userDetails.value,
                           isParent: true,
                           isLiked: comment['is_liked'] ?? false,
@@ -141,6 +143,7 @@ class CommentSection extends ConsumerWidget {
 
 class CommentTile extends StatefulWidget {
   final Map<String, dynamic> user;
+  final String date_created;
   final String content;
   final List<dynamic> replies;
   final int commentId;
@@ -154,6 +157,7 @@ class CommentTile extends StatefulWidget {
 
   const CommentTile(
       {super.key,
+      required this.date_created,
       required this.currentUser,
       required this.commentId,
       required this.content,
@@ -174,11 +178,17 @@ class _CommentTileState extends State<CommentTile> {
   bool isReplying = false;
   bool isShowAll = false;
 
+  String getTimeStatus() {
+    timeago.setLocaleMessages('ko', timeago.KoMessages());
+    return timeago.format(DateTime.parse(widget.date_created), locale: 'ko');
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> childComment = widget.replies
         .map((e) => ReplyTile(
               child: CommentTile(
+                  date_created: widget.date_created,
                   onDelete: widget.onDelete,
                   currentUser: widget.currentUser,
                   onLiked: widget.onLiked,
@@ -244,8 +254,10 @@ class _CommentTileState extends State<CommentTile> {
                     RichText(
                         text: TextSpan(
                             text: '${widget.user['username'] ?? widget.user['email']}',
-                            children: const [
-                              TextSpan(text: ' • 5시간', style: TextStyle(color: Color(0xFFBBBBBB)))
+                            children: [
+                              TextSpan(
+                                  text: ' • ${getTimeStatus()}',
+                                  style: const TextStyle(color: Color(0xFFBBBBBB)))
                             ],
                             style: const TextStyle(
                                 fontSize: 14,
