@@ -2,13 +2,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
+import 'package:sense_flutter_application/screens/widgets/common/custom_toast.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
 class RelatedPost extends StatelessWidget {
   final List<dynamic> relatedPosts;
   final Function onNavigate;
+  final int? prevPostId;
+  final int? nextPostId;
 
-  const RelatedPost({super.key, required this.relatedPosts, required this.onNavigate});
+  const RelatedPost({
+    super.key,
+    required this.relatedPosts,
+    required this.onNavigate,
+    required this.prevPostId,
+    required this.nextPostId,
+  });
 
   List<List<T>> chunk<T>(List<T> list, int chunkSize) {
     var length = list.length;
@@ -122,8 +131,11 @@ class RelatedPost extends StatelessWidget {
               height: 40,
               textColor: const Color(0xFF555555),
               onPressed: () {
-                scrollController.previousPage(
-                    duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                if (prevPostId != null) {
+                  GoRouter.of(context).pushReplacement('/post/${prevPostId ?? ''}');
+                } else {
+                  CustomToast.warningToast(context, '이전 게시물이 없습니다.');
+                }
               },
               backgroundColor: const Color(0xFFF6F6F6),
               labelText: '이전 글',
@@ -139,8 +151,11 @@ class RelatedPost extends StatelessWidget {
               height: 40,
               textColor: const Color(0xFF555555),
               onPressed: () {
-                scrollController.nextPage(
-                    duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                if (nextPostId != null) {
+                  GoRouter.of(context).pushReplacement('/post/${nextPostId ?? ''}');
+                } else {
+                  CustomToast.warningToast(context, '다음 게시물이 없습니다.');
+                }
               },
               backgroundColor: const Color(0xFFF6F6F6),
               labelText: '다음 글',
@@ -189,7 +204,7 @@ class RelatedPost extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    chunkedPosts[i]['title'] ?? '',
+                    (chunkedPosts[i]['title'] ?? '').replaceAll('\n', ' '),
                     style: const TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 14,
