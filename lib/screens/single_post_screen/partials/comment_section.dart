@@ -8,7 +8,6 @@ import 'package:sense_flutter_application/screens/widgets/common/comment_text_ar
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_modal.dart';
 import 'package:sense_flutter_application/screens/widgets/modals/report_modal.dart';
-import 'package:sense_flutter_application/service/auth_service.dart';
 import 'package:sense_flutter_application/store/providers/Post/comment_collection_provider.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
 
@@ -34,8 +33,9 @@ class CommentSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue fetcher = ref.watch(futureCommentProvider(postId.toString()));
+    AsyncValue userDetails = ref.watch(futureUserDetailsProvider);
     final commentProviders = ref.watch(commentProvider);
-    if (fetcher.isLoading || commentProviders.isEmpty) {
+    if (fetcher.isLoading || commentProviders.isEmpty || userDetails.isLoading) {
       return loading(context);
     }
 
@@ -43,113 +43,99 @@ class CommentSection extends ConsumerWidget {
 
     final commentCount = ref.watch(commentCountProvider);
 
-    return FutureBuilder(
-        future: AuthService().getUserDetails(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return loading(context);
-          }
-
-          Map<String, dynamic> currentUser = snapshot.data ?? {};
-
-          return Container(
-            padding: const EdgeInsets.only(top: 32),
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Color(0xFFEEEEEE),
-                  width: 2,
-                ),
+    return Container(
+      padding: const EdgeInsets.only(top: 32),
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Color(0xFFEEEEEE),
+            width: 2,
+          ),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text.rich(
+            TextSpan(children: [
+              const TextSpan(
+                text: '댓글 ',
+                style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF151515)),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text.rich(
-                  TextSpan(children: [
-                    const TextSpan(
-                      text: '댓글 ',
-                      style: TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF151515)),
-                    ),
-                    TextSpan(
-                      text: '$commentCount',
-                      style: const TextStyle(
-                          fontFamily: 'Pretendard',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF151515)),
-                    ),
-                  ]),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                CommentTextArea(onSend: (String comment) {
-                  PostApi()
-                      .writeComment(postId.toString(), comment)
-                      .then((value) => ref.read(commentProvider.notifier).addComment(value));
-                }),
-                const SizedBox(
-                  height: 16,
-                ),
-                fetcher.when(
-                  data: (_) {
-                    return Column(
-                      children: comments
-                          .map((comment) => CommentTile(
-                                currentUser: currentUser,
-                                isParent: true,
-                                isLiked: comment['is_liked'] ?? false,
-                                commentId: comment['id'],
-                                content: comment['content'],
-                                user: comment['user'],
-                                replies: comment['child_comments'],
-                                likesCount: comment['like_count'],
-                                onReplied: (int parentId, String comment) {
-                                  PostApi()
-                                      .replyToAComment(parentId.toString(), comment)
-                                      .then((value) {
-                                    ref
-                                        .read(commentProvider.notifier)
-                                        .addChildComment(value['data']);
-                                  });
-                                  // ref.read(commentProvider.notifier).addChildComment();
-                                },
-                                onDelete: (int commentId) {
-                                  ref.read(commentProvider.notifier).removeComment(commentId);
-                                },
-                                onLiked: (value) {
-                                  ref.read(commentProvider.notifier).likeAcomment(value['data']);
-                                },
-                              ))
-                          .toList(),
-                    );
-                  },
-                  loading: () => const CircularProgressIndicator(),
-                  error: (error, stack) => Text('Error: $error'),
-                ),
-                if (commentProviders['next'] != null) ...[
-                  const SizedBox(height: 32),
-                  CustomButton(
-                    onPressed: () {
-                      ref.read(commentProvider.notifier).loadMoreComments();
-                    },
-                    height: 40,
-                    backgroundColor: const Color(0xFFF6F6F6),
-                    textColor: const Color(0xFF555555),
-                    labelText: '이전 댓글 보기',
-                    suffixIcon: SvgPicture.asset('lib/assets/images/icons/svg/caret_down.svg',
-                        width: 18, height: 18),
-                  )
-                ]
-              ],
-            ),
-          );
-        });
+              TextSpan(
+                text: '$commentCount',
+                style: const TextStyle(
+                    fontFamily: 'Pretendard',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF151515)),
+              ),
+            ]),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CommentTextArea(onSend: (String comment) {
+            PostApi()
+                .writeComment(postId.toString(), comment)
+                .then((value) => ref.read(commentProvider.notifier).addComment(value));
+          }),
+          const SizedBox(
+            height: 16,
+          ),
+          fetcher.when(
+            data: (_) {
+              return Column(
+                children: comments
+                    .map((comment) => CommentTile(
+                          currentUser: userDetails.value,
+                          isParent: true,
+                          isLiked: comment['is_liked'] ?? false,
+                          commentId: comment['id'],
+                          content: comment['content'],
+                          user: comment['user'],
+                          replies: comment['child_comments'],
+                          likesCount: comment['like_count'],
+                          onReplied: (int parentId, String comment) {
+                            PostApi().replyToAComment(parentId.toString(), comment).then((value) {
+                              ref.read(commentProvider.notifier).addChildComment(value['data']);
+                            });
+                            // ref.read(commentProvider.notifier).addChildComment();
+                          },
+                          onDelete: (int commentId) {
+                            ref.read(commentProvider.notifier).removeComment(commentId);
+                          },
+                          onLiked: (value) {
+                            ref.read(commentProvider.notifier).likeAcomment(value['data']);
+                          },
+                        ))
+                    .toList(),
+              );
+            },
+            loading: () => const CircularProgressIndicator(),
+            error: (error, stack) => Text('Error: $error'),
+          ),
+          if (commentProviders['next'] != null) ...[
+            const SizedBox(height: 32),
+            CustomButton(
+              onPressed: () {
+                ref.read(commentProvider.notifier).loadMoreComments();
+              },
+              height: 40,
+              backgroundColor: const Color(0xFFF6F6F6),
+              textColor: const Color(0xFF555555),
+              labelText: '이전 댓글 보기',
+              suffixIcon: SvgPicture.asset('lib/assets/images/icons/svg/caret_down.svg',
+                  width: 18, height: 18),
+            )
+          ]
+        ],
+      ),
+    );
   }
 }
 
