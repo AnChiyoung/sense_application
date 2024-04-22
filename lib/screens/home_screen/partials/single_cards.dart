@@ -16,7 +16,7 @@ class SingleCards extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 20),
           child: PostCard(
             onTap: () {
-              GoRouter.of(context).go('/post/${post['id']}');
+              GoRouter.of(context).push('/post/${post['id']}');
             },
             subject: post['title'],
             subtext: post['sub_title'],
