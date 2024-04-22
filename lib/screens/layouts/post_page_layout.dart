@@ -44,7 +44,11 @@ class PostPageLayout extends ConsumerWidget {
                   });
                   GoRouter.of(context).pop();
                 } else {
-                  GoRouter.of(context).go('/home');
+                  if (GoRouter.of(context).canPop()) {
+                    GoRouter.of(context).pop();
+                  } else {
+                    GoRouter.of(context).go('/home');
+                  }
                 }
               }),
           shape: const Border(bottom: BorderSide(width: 1, color: Color(0xFFEEEEEE))),
