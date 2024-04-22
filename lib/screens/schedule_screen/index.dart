@@ -45,7 +45,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double initialRatio = ((104 / 375) * screenWidth);
     double initialSize = setSize(screenHeight - initialRatio, screenHeight);
-    double halfSize = setSize(screenHeight / 2, screenHeight);
+    double halfSize = setSize(screenHeight - ((344 / 375) * screenWidth), screenHeight);
 
     return MaterialApp(
       theme: ThemeData(
@@ -61,25 +61,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           title: '',
           body: Stack(
             children: [
-              // Container(
-              //   height: 1000,
-              //   decoration: const BoxDecoration(
-              //     color: Colors.yellow,
-              //     border: Border(
-              //         top: BorderSide(
-              //       color: Color(0xFFE0E0E0),
-              //       width: 1,
-              //     )),
-              //   ),
-              // )
-
               LayoutBuilder(builder: (context, constraints) {
                 return AnimatedBuilder(
                     animation: controller,
                     builder: (context, child) {
-                      if (controller.isAttached) {
-                        print(controller.size.round());
-                      }
+                      double scrollSize = controller.isAttached
+                          ? (controller.size > 0.3 ? halfSize : controller.size)
+                          : initialSize;
+                      double layoutHeight = constraints.maxHeight -
+                          ((controller.isAttached ? scrollSize : initialSize) *
+                              constraints.maxHeight);
+
                       return GestureDetector(
                         onVerticalDragEnd: (details) {
                           if (details.velocity.pixelsPerSecond.dy < 0 &&
@@ -89,30 +81,25 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           }
                         },
                         child: Container(
-                          // height: controller.isAttached
-                          //     ? (controller.size > 0.5 ? controller.size : 1) * screenHeight
-                          //     : initialRatio,
-                          padding: const EdgeInsets.only(top: 16),
+                          padding: const EdgeInsets.only(
+                            top: 16,
+                            bottom: 16,
+                            left: 20,
+                            right: 20,
+                          ),
                           width: screenWidth,
-                          // color: const Color(0xFFD9D9D9),
+                          height: layoutHeight,
+                          // child: const ColoredBox(
+                          //   color: Colors.red,
+                          // ),
                           child: Calendar(
-                            height: constraints.maxHeight,
+                            height: layoutHeight,
                             widgetSize: controller.isAttached ? controller.size : initialSize,
                           ),
                         ),
                       );
                     });
               }),
-              // const Calendar(),
-              // AnimatedBuilder(
-              //     animation: controller,
-              //     builder: (context, widget) => LayoutBuilder(builder: (context, constraints) {
-              //           print('available space ${constraints.maxHeight}');
-              //           return Container(
-              //             height: 724 - 100,
-              //             color: Colors.amber,
-              //           );
-              //         })),
               DraggableScrollableSheet(
                 controller: controller,
                 maxChildSize: initialSize,
