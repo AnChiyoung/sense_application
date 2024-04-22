@@ -64,7 +64,7 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  subject,
+                  subject.replaceAll('\n', ' '),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
