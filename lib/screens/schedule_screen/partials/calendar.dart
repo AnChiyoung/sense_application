@@ -4,9 +4,11 @@ import 'package:intl/intl.dart';
 class Calendar extends StatefulWidget {
   final double widgetSize;
   final double height;
+  final DateTime presentDate;
 
   const Calendar({
     super.key,
+    required this.presentDate,
     required this.widgetSize,
     required this.height,
   });
@@ -16,8 +18,6 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
-  DateTime presentDate = DateTime.now();
-
   List<String> weeks = [
     'SUN',
     'MON',
@@ -28,9 +28,11 @@ class _CalendarState extends State<Calendar> {
     'SAT',
   ];
 
+  DateTime currentDate = DateTime.now();
+
   List<DateTime> generateDateList() {
-    int year = presentDate.year;
-    int month = presentDate.month; // April
+    int year = widget.presentDate.year;
+    int month = widget.presentDate.month; // April
     DateTime firstOfMonth = DateTime(year, month);
     DateTime startDate = firstOfMonth.subtract(Duration(days: firstOfMonth.weekday));
     List<DateTime> dateList = [];
@@ -40,10 +42,11 @@ class _CalendarState extends State<Calendar> {
     return dateList;
   }
 
-  List<DateTime> generateWeekFromDate({bool startFromMonday = false}) {
+  List<DateTime> generateWeekFromDate() {
     // Find the last Sunday (or Monday if startFromMonday is true)
-    DateTime date = DateTime.now();
-    int backToDay = startFromMonday ? (date.weekday - 1) % 7 : (date.weekday) % 7;
+    DateTime date =
+        widget.presentDate.month == currentDate.month ? currentDate : widget.presentDate;
+    int backToDay = (date.weekday) % 7;
     DateTime startDate = date.subtract(Duration(days: backToDay));
 
     // Generate the week list starting from the calculated start date
@@ -56,13 +59,13 @@ class _CalendarState extends State<Calendar> {
 
   Widget dayItem(DateTime d, double screenWidth) {
     var formatter = DateFormat('d');
-    return d.month == presentDate.month
+    return d.month == widget.presentDate.month
         ? Text(
             formatter.format(d),
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: (14 / 375 * screenWidth),
-              color: d.day == presentDate.day ? Colors.white : const Color(0xFF555555),
+              color: isDateHighlighted(d) ? Colors.white : const Color(0xFF555555),
             ),
           )
         : Text(
@@ -183,27 +186,13 @@ class _CalendarState extends State<Calendar> {
     );
   }
 
+  bool isDateHighlighted(DateTime date) {
+    return date.day == currentDate.day && date.month == currentDate.month;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // print('HEIGHT: ${}');
-    // double floatingHeight = 40;
-    // double padding = 40;
-    // double screenHeight = widget.height - (kBottomNavigationBarHeight + floatingHeight + 16);
-    // double screenWidth = MediaQuery.of(context).size.width - padding;
     List<DateTime> dates = widget.widgetSize >= 0.8 ? generateWeekFromDate() : generateDateList();
-    double totalDays = dates.length.toDouble();
-    // double itemWidth = (screenWidth) / weeks.length; // since we have 7 days a week
-    // int numRows = (totalDays / 7).ceil();
-
-    // double ceilHeight = widget.height * widget.widgetSize - 16;
-    // double itemHeight = ceilHeight / 6;
-    // double childAspectRatio = widget.widgetSize >= 0.4
-    //     ? itemWidth / (((widget.height * widget.widgetSize)) / numRows)
-    //     : itemWidth / itemHeight;
-
-    // return Container(
-    //   color: Colors.red,
-    // );
 
     return Container(
       height: widget.height,
@@ -242,11 +231,6 @@ class _CalendarState extends State<Calendar> {
                     ? itemWidth / itemHeight
                     : itemWidth / (screenHeight / numRows);
 
-                print('screen width: ${MediaQuery.of(context).size.width}');
-                print('layout width: ${constraints.maxWidth}');
-                print('layout height: ${constraints.maxHeight}');
-                print('widget.widgetSize ${widget.widgetSize}');
-
                 return SizedBox(
                   width: double.infinity,
                   height: double.infinity,
@@ -284,7 +268,7 @@ class _CalendarState extends State<Calendar> {
                                 height: 24 / 375 * screenWidth,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: dates[index].day == presentDate.day
+                                  color: isDateHighlighted(dates[index])
                                       ? const Color.fromRGBO(21, 21, 21, 0.6)
                                       : Colors.transparent,
                                 ),
@@ -293,7 +277,8 @@ class _CalendarState extends State<Calendar> {
                               SizedBox(
                                 height: 6 / 375 * screenWidth,
                               ),
-                              if (dates[index].day == presentDate.day || dates[index].day == 23)
+                              if (dates[index].day == widget.presentDate.day ||
+                                  dates[index].day == 23)
                                 widget.widgetSize > 0
                                     ? circleDotEvents(screenWidth: screenWidth)
                                     : eventTiles(screenWidth: screenWidth),
