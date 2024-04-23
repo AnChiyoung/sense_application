@@ -91,6 +91,7 @@ flutter:
     - lib/assets/images/icons/svg/circle-checked_filled.svg
     - lib/assets/images/icons/svg/kakaotalk.svg
     - lib/assets/images/icons/svg/plus.svg
+    - lib/assets/images/icons/svg/check.svg
     - lib/assets/images/icons/svg/bottom_bar/home.svg
     - lib/assets/images/icons/svg/bottom_bar/list.svg
     - lib/assets/images/icons/svg/bottom_bar/calendar_blank.svg
