@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PostThumbnail extends StatelessWidget {
   final String imageUrl;
@@ -8,9 +8,11 @@ class PostThumbnail extends StatelessWidget {
   final String subTitle;
   final String date;
   final String likeCount;
+  final String author;
 
   const PostThumbnail(
       {super.key,
+      required this.author,
       required this.imageUrl,
       required this.title,
       required this.subTitle,
@@ -78,31 +80,76 @@ class PostThumbnail extends StatelessWidget {
                                 fontFamily: 'Pretendard',
                                 fontWeight: FontWeight.w500)),
                         const SizedBox(height: 24),
-                        IntrinsicHeight(
-                            child: Row(
+                        Row(
                           children: [
-                            Text(date,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500)),
-                            const VerticalDivider(
-                              color: Colors.white,
-                              thickness: 1,
-                              width: 20,
+                            const Text(
+                              '작성자',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                            SvgPicture.asset('lib/assets/images/icons/svg/heart.svg',
-                                width: 16, height: 16, color: Colors.white),
-                            const SizedBox(width: 4),
-                            Text(likeCount,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500))
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              author,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  'lib/assets/images/icons/svg/circle_dot.svg',
+                                  color: Colors.white,
+                                  width: 2,
+                                  height: 2,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              date,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Pretendard',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
-                        ))
+                        ),
+                        // IntrinsicHeight(
+                        //     child: Row(
+                        //   children: [
+                        //     Text(date,
+                        //         style: const TextStyle(
+                        //             color: Colors.white,
+                        //             fontSize: 14,
+                        //             fontFamily: 'Pretendard',
+                        //             fontWeight: FontWeight.w500)),
+                        //     const VerticalDivider(
+                        //       color: Colors.white,
+                        //       thickness: 1,
+                        //       width: 20,
+                        //     ),
+                        //     SvgPicture.asset('lib/assets/images/icons/svg/heart.svg',
+                        //         width: 16, height: 16, color: Colors.white),
+                        //     const SizedBox(width: 4),
+                        //     Text(likeCount,
+                        //         style: const TextStyle(
+                        //             color: Colors.white,
+                        //             fontSize: 14,
+                        //             fontFamily: 'Pretendard',
+                        //             fontWeight: FontWeight.w500))
+                        //   ],
+                        // ))
                       ],
                     ),
                   )
