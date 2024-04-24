@@ -110,7 +110,7 @@ class GridCard extends StatelessWidget {
           Text(
             title.replaceAll('\n', ' '),
             style: TextStyle(
-              fontSize: (14 / 375 * screenWidth),
+              fontSize: screenWidth < 500 ? (14 / 375 * screenWidth) : 16,
               fontWeight: FontWeight.w500,
             ),
             maxLines: 2,
