@@ -24,6 +24,7 @@ class SinglePostScreen extends StatefulWidget {
 }
 
 class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBindingObserver {
+  final commentKey = GlobalKey();
   Future<Map<String, dynamic>> getPost(String id) async {
     return await PostApi().getPost(id);
   }
@@ -187,7 +188,10 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                               const SizedBox(height: 40),
                               Tags(tags: tags),
                               const SizedBox(height: 40),
-                              CommentSection(postId: post['data']['id'] as int),
+                              CommentSection(
+                                postId: post['data']['id'] as int,
+                                key: commentKey,
+                              ),
                             ],
                           ),
                         ),
@@ -214,16 +218,24 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextIcon(
-                    iconSize: 20,
-                    iconPath: 'lib/assets/images/icons/svg/chat.svg',
-                    text: '$commentsCount',
-                    spacing: 4,
-                    textStyle: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Pretendard'),
+                  InkWell(
+                    onTap: () {
+                      Scrollable.ensureVisible(
+                        commentKey.currentContext!,
+                        duration: const Duration(milliseconds: 500),
+                      );
+                    },
+                    child: TextIcon(
+                      iconSize: 20,
+                      iconPath: 'lib/assets/images/icons/svg/chat.svg',
+                      text: '$commentsCount',
+                      spacing: 4,
+                      textStyle: const TextStyle(
+                          color: Color(0xFF555555),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Pretendard'),
+                    ),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
