@@ -106,6 +106,7 @@ flutter:
     - lib/assets/images/icons/svg/top_bar/bell.svg
     - lib/assets/images/icons/svg/grid_view.svg
     - lib/assets/images/icons/svg/eye.svg
+    - lib/assets/images/icons/svg/circle_dot.svg
     - lib/assets/images/icons/svg/single_view.svg
     - lib/assets/images/icons/svg/heart.svg
     - lib/assets/images/icons/svg/user.svg
