@@ -64,16 +64,14 @@ class _CalendarState extends State<Calendar> {
             formatter.format(d),
             style: TextStyle(
               fontWeight: FontWeight.w500,
-              fontSize: (14 / 375 * screenWidth),
+              fontSize: 14,
               color: isDateHighlighted(d) ? Colors.white : const Color(0xFF555555),
             ),
           )
         : Text(
             formatter.format(d),
-            style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: (14 / 375 * screenWidth),
-                color: const Color(0xFFBBBBBB)),
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 14, color: Color(0xFFBBBBBB)),
           );
   }
 
