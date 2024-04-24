@@ -79,6 +79,7 @@ flutter:
     - lib/assets/images/icons/svg/heart_fill.svg
     - lib/assets/images/icons/svg/star.svg
     - lib/assets/images/icons/svg/pin.svg
+    - lib/assets/images/icons/svg/pin_outlined.svg
     - lib/assets/images/icons/svg/share.svg
     - lib/assets/images/icons/svg/like.svg
     - lib/assets/images/icons/svg/like_fill.svg
@@ -92,9 +93,11 @@ flutter:
     - lib/assets/images/icons/svg/kakaotalk.svg
     - lib/assets/images/icons/svg/plus.svg
     - lib/assets/images/icons/svg/check.svg
+    - lib/assets/images/icons/svg/lock_fill.svg
     - lib/assets/images/icons/svg/bottom_bar/home.svg
     - lib/assets/images/icons/svg/bottom_bar/list.svg
     - lib/assets/images/icons/svg/bottom_bar/calendar_blank.svg
+    - lib/assets/images/icons/svg/star_outlined.svg
     - lib/assets/images/icons/svg/bottom_bar/storefront.svg
     - lib/assets/images/icons/svg/bottom_bar/user.svg
     - lib/assets/images/icons/svg/top_bar/search.svg
@@ -102,6 +105,7 @@ flutter:
     - lib/assets/images/banner_1.png
     - lib/assets/images/icons/svg/top_bar/bell.svg
     - lib/assets/images/icons/svg/grid_view.svg
+    - lib/assets/images/icons/svg/eye.svg
     - lib/assets/images/icons/svg/single_view.svg
     - lib/assets/images/icons/svg/heart.svg
     - lib/assets/images/icons/svg/user.svg
