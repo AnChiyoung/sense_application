@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:sense_flutter_application/screens/layouts/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:sense_flutter_application/screens/schedule_screen/partials/calendar.dart';
+import 'package:sense_flutter_application/screens/schedule_screen/partials/event_list.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_button.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_modal.dart';
 import 'package:sense_flutter_application/screens/widgets/common/custom_toast.dart';
@@ -115,6 +116,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   minChildSize: 0,
                   snap: true,
                   builder: (BuildContext context, ScrollController scrollController) {
+                    // print();
+                    // scrollController.detach(scrollController.position);
+
                     return Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -124,20 +128,101 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           width: 1,
                         )),
                       ),
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(top: 8),
-                        controller: scrollController,
-                        child: Align(
-                            alignment: Alignment.topCenter,
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 74,
-                                  height: 4,
-                                  color: const Color(0xFFD9D9D9),
-                                )
-                              ],
-                            )),
+                      // List of Events
+                      child: Column(
+                        // Dragger Bar
+                        children: [
+                          GestureDetector(
+                            onVerticalDragUpdate: (event) {
+                              if (event.delta.dy < 0) {
+                                controller.jumpTo(controller
+                                    .pixelsToSize(controller.pixels + event.delta.distance));
+                              } else {
+                                controller.jumpTo(controller
+                                    .pixelsToSize(controller.pixels - event.delta.distance));
+                              }
+                            },
+                            onVerticalDragEnd: (event) {
+                              if (controller.size > halfSize &&
+                                  event.velocity.pixelsPerSecond.dy < 0) {
+                                controller.animateTo(initialSize,
+                                    duration: const Duration(milliseconds: 200),
+                                    curve: Curves.easeIn);
+                              } else if (controller.size <= initialSize &&
+                                  controller.size > halfSize) {
+                                controller.animateTo(halfSize,
+                                    duration: const Duration(milliseconds: 200),
+                                    curve: Curves.easeIn);
+                              } else if (controller.size < halfSize) {
+                                controller.animateTo(0,
+                                    duration: const Duration(milliseconds: 200),
+                                    curve: Curves.easeIn);
+                              }
+                            },
+                            child: Container(
+                                color: Colors.white,
+                                width: double.infinity,
+                                padding: const EdgeInsets.only(top: 8, bottom: 10),
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFD9D9D9),
+                                      borderRadius: BorderRadius.circular(2),
+                                    ),
+                                    width: 74,
+                                    height: 4,
+                                  ),
+                                )),
+                          ),
+                          // Scroll List
+                          Expanded(
+                              child: GestureDetector(
+                            onVerticalDragUpdate: (details) {
+                              // Calculate the new position immediately in response to the drag.
+                              double scale =
+                                  2.0; // This scale factor can be adjusted to control sensitivity
+                              double newPosition =
+                                  scrollController.position.pixels - details.primaryDelta! * scale;
+                              scrollController.jumpTo(newPosition.clamp(
+                                  0.0, scrollController.position.maxScrollExtent));
+                            },
+                            onVerticalDragEnd: (details) {
+                              // When the drag ends, we apply some additional inertia
+                              double velocity = details.primaryVelocity! *
+                                  0.2; // Adjust the multiplier to control the inertia effect
+                              double targetPosition = scrollController.position.pixels - velocity;
+
+                              if (targetPosition < 0 ||
+                                  targetPosition > scrollController.position.maxScrollExtent) {
+                                // If the target position is out of range, use a bounce effect.
+                                targetPosition = targetPosition.clamp(
+                                    0.0, scrollController.position.maxScrollExtent);
+                              }
+
+                              scrollController.animateTo(
+                                targetPosition,
+                                duration: const Duration(
+                                    milliseconds:
+                                        500), // Adjust timing to simulate natural deceleration
+                                curve: Curves
+                                    .decelerate, // This curve gives a natural "slow down" effect
+                              );
+                            },
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.only(top: 8),
+                              controller: scrollController,
+                              physics: const NeverScrollableScrollPhysics(),
+                              child: const Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10,
+                                    right: 20,
+                                    left: 20,
+                                  ),
+                                  child: EventList()),
+                            ),
+                          ))
+                        ],
                       ),
                     );
                   },
