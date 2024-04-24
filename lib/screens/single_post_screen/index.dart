@@ -140,6 +140,9 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         PostThumbnail(
+                          author: post['data']['user']['username'] ??
+                              post['data']['user']['email'] ??
+                              '',
                           imageUrl: post['data']['thumbnail_media_url'],
                           title: post['data']['title'],
                           subTitle: post['data']['sub_title'],
