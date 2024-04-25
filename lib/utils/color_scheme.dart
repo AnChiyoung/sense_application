@@ -67,5 +67,3 @@ const Map<int, Color> warningColor = {
   20: Color.fromRGBO(255, 215, 114, 1),
   30: Color.fromRGBO(255, 243, 212, 1),
 };
-
-
