@@ -17,7 +17,6 @@ class PostPageLayout extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final history = ref.watch(postNavigationHistoryProvider);
-    print(history);
 
     return MaterialApp(
       theme: ThemeData(
