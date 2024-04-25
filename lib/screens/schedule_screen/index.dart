@@ -26,6 +26,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   DraggableScrollableController controller = DraggableScrollableController();
+  PageController pageController = PageController(initialPage: 1000);
 
   @override
   void initState() {
@@ -34,8 +35,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
+    controller.dispose();
+    pageController.dispose();
   }
 
   @override
@@ -67,6 +69,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               children: [
                 LayoutBuilder(builder: (context, constraints) {
                   DateTime calendar = ref.watch(calendarSelectorProvider);
+                  DateTime currentDate = DateTime.now();
 
                   return AnimatedBuilder(
                       animation: controller,
@@ -96,14 +99,27 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             ),
                             width: screenWidth,
                             height: layoutHeight,
-                            // child: const ColoredBox(
-                            //   color: Colors.red,
-                            // ),
-                            child: Calendar(
-                              presentDate: calendar,
-                              height: layoutHeight,
-                              widgetSize: controller.isAttached ? controller.size : initialSize,
-                            ),
+                            child: PageView.builder(
+                                controller: pageController,
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index) {
+                                  int monthsToAdd = index - 1000;
+                                  DateTime dateToShow =
+                                      DateTime(currentDate.year, currentDate.month + monthsToAdd);
+                                  // ref.read(calendarSelectorProvider.notifier).state = dateToShow;
+                                },
+                                itemBuilder: (context, index) {
+                                  int monthsToAdd = index - 1000;
+                                  DateTime dateToShow =
+                                      DateTime(currentDate.year, currentDate.month + monthsToAdd);
+
+                                  return Calendar(
+                                    presentDate: dateToShow,
+                                    height: layoutHeight,
+                                    widgetSize:
+                                        controller.isAttached ? controller.size : initialSize,
+                                  );
+                                }),
                           ),
                         );
                       });
