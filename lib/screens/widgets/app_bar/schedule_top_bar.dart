@@ -90,8 +90,9 @@ class _ScheduleTopBarState extends State<ScheduleTopBar> {
                               DateTime(int.parse(year), int.parse(month));
                         });
                       },
-                      labelText:
-                          DateFormat('yyyy년 MM월').format(selectedDate ?? DateTime.now()).toString(),
+                      labelText: DateFormat('yyyy년 MM월')
+                          .format(ref.watch(calendarSelectorProvider))
+                          .toString(),
                       fontSize: 18,
                     ),
                     isAuthenticated
