@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:sense_flutter_application/utils/color_scheme.dart';
+import 'package:sense_flutter_application/utils/event_color.dart';
 
 class EventTile extends StatelessWidget {
-  const EventTile({super.key});
+  final int eventType;
+  final bool isPublic;
+  final DateTime date;
+  final String title;
+  final String withSomeone;
+  final String location;
+  final String eventName;
+
+  const EventTile(
+      {super.key,
+      required this.eventType,
+      required this.isPublic,
+      required this.date,
+      required this.title,
+      required this.withSomeone,
+      required this.eventName,
+      required this.location});
 
   @override
   Widget build(BuildContext context) {
+    Color eventColor = EventColor(id: eventType).getColor();
+
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -14,7 +34,7 @@ class EventTile extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: primaryColor[50],
+              color: eventColor,
               borderRadius: BorderRadius.circular(4),
             ),
             width: 4,
@@ -53,14 +73,16 @@ class EventTile extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          SvgPicture.asset(
-                            'lib/assets/images/icons/svg/lock_fill.svg',
-                            width: 16,
-                            height: 16,
-                          ),
+                          if (!isPublic) ...[
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            SvgPicture.asset(
+                              'lib/assets/images/icons/svg/lock_fill.svg',
+                              width: 16,
+                              height: 16,
+                            )
+                          ]
                         ],
                       ),
                       SizedBox(
@@ -83,9 +105,9 @@ class EventTile extends StatelessWidget {
                   ),
 
                   // Title
-                  const Text(
-                    '여행 계획 짜기',
-                    style: TextStyle(
+                  Text(
+                    title,
+                    style: const TextStyle(
                       color: Color(0xFF333333),
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -109,9 +131,9 @@ class EventTile extends StatelessWidget {
                         const SizedBox(
                           width: 4,
                         ),
-                        const Text(
-                          '연인',
-                          style: TextStyle(
+                        Text(
+                          withSomeone,
+                          style: const TextStyle(
                             color: Color(0xFF777777),
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -125,29 +147,31 @@ class EventTile extends StatelessWidget {
                         ),
 
                         // Event Location
-                        SvgPicture.asset(
-                          'lib/assets/images/icons/svg/pin_outlined.svg',
-                          color: const Color(0xFFBBBBBB),
-                          width: 16,
-                          height: 16,
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        const Text(
-                          '강남',
-                          style: TextStyle(
-                            color: Color(0xFF777777),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
 
-                        const VerticalDivider(
-                          thickness: 1,
-                          width: 16,
-                          color: Color(0xFFEEEEEE),
-                        ),
+                        if (location.isNotEmpty) ...[
+                          SvgPicture.asset(
+                            'lib/assets/images/icons/svg/pin_outlined.svg',
+                            color: const Color(0xFFBBBBBB),
+                            width: 16,
+                            height: 16,
+                          ),
+                          const SizedBox(
+                            width: 4,
+                          ),
+                          Text(
+                            location,
+                            style: const TextStyle(
+                              color: Color(0xFF777777),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          const VerticalDivider(
+                            thickness: 1,
+                            width: 16,
+                            color: Color(0xFFEEEEEE),
+                          ),
+                        ],
 
                         // Date
                         SvgPicture.asset(
@@ -159,9 +183,9 @@ class EventTile extends StatelessWidget {
                         const SizedBox(
                           width: 4,
                         ),
-                        const Text(
-                          '2024-03-13',
-                          style: TextStyle(
+                        Text(
+                          DateFormat('yyyy-MM-dd').format(date),
+                          style: const TextStyle(
                             color: Color(0xFF777777),
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -184,9 +208,9 @@ class EventTile extends StatelessWidget {
                         const SizedBox(
                           width: 4,
                         ),
-                        const Text(
-                          '데이트',
-                          style: TextStyle(
+                        Text(
+                          eventName,
+                          style: const TextStyle(
                             color: Color(0xFF777777),
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
