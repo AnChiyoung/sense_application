@@ -185,7 +185,9 @@ class _CalendarState extends State<Calendar> {
   }
 
   bool isDateHighlighted(DateTime date) {
-    return date.day == currentDate.day && date.month == currentDate.month;
+    return date.day == currentDate.day &&
+        date.month == currentDate.month &&
+        date.year == currentDate.year;
   }
 
   @override
