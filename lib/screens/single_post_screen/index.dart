@@ -177,14 +177,14 @@ class _SinglePostScreenState extends State<SinglePostScreen> with WidgetsBinding
                                           .dislikeProduct(productId);
                                     }
                                   }),
-                              const SizedBox(height: 40),
-                              const Notice(
-                                bulletList: [
-                                  '로그인 상태에서 구매를 진행하셔야 구매가 가능합니다.',
-                                  '기한 내 사용하지 않은 이용권은 자동 소멸됩니다',
-                                  '본 이벤트는 당사 사정에 따라 사전예고 없이 변경 되거나 취소 될 수 있습니다.'
-                                ],
-                              ),
+                              // const SizedBox(height: 40),
+                              // const Notice(
+                              //   bulletList: [
+                              //     '로그인 상태에서 구매를 진행하셔야 구매가 가능합니다.',
+                              //     '기한 내 사용하지 않은 이용권은 자동 소멸됩니다',
+                              //     '본 이벤트는 당사 사정에 따라 사전예고 없이 변경 되거나 취소 될 수 있습니다.'
+                              //   ],
+                              // ),
                               const SizedBox(height: 40),
                               Tags(tags: tags),
                               const SizedBox(height: 40),
