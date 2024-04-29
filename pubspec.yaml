@@ -49,6 +49,8 @@ dependencies:
   cached_network_image: ^3.3.1
   shared_preferences: ^2.2.3
   timeago: ^3.6.1
+  hooks_riverpod: ^2.5.1
+  flutter_hooks: ^0.20.5
   # editorjs_flutter:
   #   path: ./editorjs_flutter
 
@@ -102,6 +104,7 @@ flutter:
     - lib/assets/images/icons/svg/bottom_bar/user.svg
     - lib/assets/images/icons/svg/top_bar/search.svg
     - lib/assets/images/icons/svg/top_bar/refresh.svg
+    - lib/assets/images/icons/svg/warning_circle.svg
     - lib/assets/images/banner_1.png
     - lib/assets/images/icons/svg/top_bar/bell.svg
     - lib/assets/images/icons/svg/grid_view.svg

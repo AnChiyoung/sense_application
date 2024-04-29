@@ -192,6 +192,8 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    // print('build');
+    // print(widget.presentDate);
     List<DateTime> dates = widget.widgetSize >= 0.8 ? generateWeekFromDate() : generateDateList();
 
     return Container(
